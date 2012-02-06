@@ -6,5 +6,7 @@
     </head>
     <body>
         <h1>Hello world!</h1>
+        <p>${i}.</p>
+        <p>${hash}.</p>
     </body>
 </html>
