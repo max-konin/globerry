@@ -4,27 +4,27 @@ import java.util.List;
 
 import com.globerry.project.domain.Company;
 /**
- * @author Сергей Крупин
+ * @author РЎРµСЂРіРµР№ РљСЂСѓРїРёРЅ
  */
 public interface ICompanyDao
 {
     /**
-     * Добавляет компанию
+     * Р”РѕР±Р°РІР»СЏРµС‚ РєРѕРјРїР°РЅРёСЋ
      * @param company
      */
     public void addCompany(Company company);
     /**
-     * Удаляет компанию
+     * РЈРґР°Р»СЏРµС‚ РєРѕРјРїР°РЅРёСЋ
      * @param company
      */
     public void removeCompany(Company company);
     /**
-     * Возвращает список компаний
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРєРѕ РєРѕРїР°РЅРёР№
      * @return
      */
     public List<Company> getCompanyList();
     /**
-     * Заменяет oldCompany на newCompany
+     * Р—Р°РјРµРЅСЏРµС‚ oldCompany РЅР° newCompany
      * @param oldCompany
      * @param newCompany
      */

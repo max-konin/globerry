@@ -5,28 +5,28 @@ import java.util.List;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Proposals;
 /**
- * @author Сергей Крупин
+ * @author РЎРµСЂРіРµР№ РљСЂСѓРїРёРЅ
  *
  */
 public interface IProposalsDao
 {
     /**
-     * Добавляет предложение
+     * Р”РѕР±РѕРІР»СЏРµС‚ РїСЂРµРґР»РѕР¶РµРЅРёРµ
      * @param proposals
      */
     public void addProposals(Proposals proposals);
     /**
-     * Удаляет предложение
+     * РЈРґР°Р»СЏРµС‚ РїСЂРµРґР»РѕР¶РµРЅРёРµ
      * @param proposals
      */
     public void removeProposals(Proposals proposals);
     /**
-     * Возвращает список предложений для заданного города
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє РїСЂРµРґР»РѕР¶РµРЅРёР№ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРЅРѕРіРѕ РіРѕСЂРѕРґР°
      * @param city
      */
     public List<City> getPropListByCity(City city);
     /**
-     * Заменяет oldProposals на newProposals
+     * Р—Р°РјРµРЅСЏРµС‚ РїСЂРµРґР»РѕР¶РµРЅРёРµ oldProposals РЅР° newProposals
      * @param oldProposals
      * @param newProposals
      */
