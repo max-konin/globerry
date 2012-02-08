@@ -1,6 +1,6 @@
 package com.globerry.project.domain;
 
-public class RestType
+public class Tag
 {
     private int id;
     private String name;

@@ -1,5 +1,7 @@
 package com.globerry.project.domain;
 
+import java.util.List;
+
 public class Option
 {
     private Temperature temperature;
@@ -13,7 +15,7 @@ public class Option
     private boolean visa;
     private int englishSpeaking;
     private int attractionsNumber;
-    private RestType restType;
+    private List<Tag> tags;
     public Temperature getTemperature()
     {
 	return temperature;
@@ -102,12 +104,12 @@ public class Option
     {
 	this.attractionsNumber = attractionsNumber;
     }
-    public RestType getRestType()
+    public List<Tag> getTags()
     {
-	return restType;
+	return tags;
     }
-    public void setRestType(RestType restType)
+    public void setTags(List<Tag> tags)
     {
-	this.restType = restType;
+	this.tags = tags;
     } 
 }
