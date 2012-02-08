@@ -24,7 +24,7 @@ public class HomeController {
     @RequestMapping(value = "/")
     public String home(Model model) {
         System.out.println("HomeController: Passing through...");
-        staticClass st = new staticClass();
+        //staticClass st = new staticClass();
         int i = staticClass.i;
         model.addAttribute("i", i );
         model.addAttribute("hash", this.hashCode());
