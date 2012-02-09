@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
         http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
