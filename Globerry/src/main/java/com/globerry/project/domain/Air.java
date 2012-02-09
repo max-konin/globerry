@@ -1,13 +1,25 @@
 package com.globerry.project.domain;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="Air")
 public class Air
 {
+    @Id
     private int id;
+    @Column
     private float cost;
+    @Column
     private String name;
+    @Column
     private Date date;
+    
     public String getName()
     {
 	return name;

@@ -12,7 +12,7 @@ public class Tour
     private Date dateStart;
     private Date dateEnd;
 
-    // <ãåòåðû ñåòòåðû>
+    // <Ð“ÐµÑ‚ÐµÑ€Ñ‹ ÑÐµÑ‚Ñ‚ÐµÑ€Ñ‹>
     public int getId()
     {
 	return id;
@@ -83,6 +83,6 @@ public class Tour
     {
 	this.companyId = companyId;
     }
- // </ãåòåðû ñåòòåðû>
+ // </Ð“ÐµÑ‚ÐµÑ€Ñ‹ ÑÐµÑ‚Ñ‚ÐµÑ€Ñ‹>
 
 }
