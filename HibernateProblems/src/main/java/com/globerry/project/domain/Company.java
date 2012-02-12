@@ -1,12 +1,27 @@
 package com.globerry.project.domain;
 
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Copmanies")
 public class Company
 {
+    @Id
     private int id;
+    @Column
     private String name;
+    @Column
     private String email;
+    @Column
     private String login;
+    @Column
     private String password;
+    @Column
     private String description;
     public int getId()
     {

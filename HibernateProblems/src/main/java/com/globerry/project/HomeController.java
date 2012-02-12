@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * Handles requests for the application home page.
  */
-@Controller
-@Scope("session")
+//@Controller
+//@Scope("session")
 public class HomeController {
  
-    @RequestMapping(value = "/")
+    //@RequestMapping(value = "/")
     public String home(Model model) {
-        System.out.println("HomeController: Passing through...");
+        //System.out.println("HomeController: Passing through...");
         staticClass st = new staticClass();
         int i = staticClass.i;
         model.addAttribute("i", i );
