@@ -7,49 +7,27 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf8">
-	<title><spring:message code="label.title" /></title>
+	<title></title>
 </head>
 <body>
 
-<a href="<c:url value="/logout" />">
-	<spring:message code="label.logout" />
-</a>
-  
-<h2><spring:message code="label.title" /></h2>
-
-<form:form method="post" action="add" commandName="contact">
 
 	<table>
 		<tr>
-			<td><form:label path="name">
-				<spring:message code="label.name" />
-			</form:label></td>
-			<td><form:input path="name" /></td>
+		
+			<td>asdfasfasdfasdfasdf</td>
 		</tr>
 		<tr>
 			<td colspan="2"><input type="submit"
-				value="<spring:message code="label.addcontact"/>" /></td>
+				value="" /></td>
 		</tr>
 	</table>
-</form:form>
 
-<h3><spring:message code="label.contacts" /></h3>
-<c:if test="${!empty contactList}">
-	<table class="data">
-		<tr>
-			<th><spring:message code="label.firstname" /></th>
-			<th><spring:message code="label.email" /></th>
-			<th><spring:message code="label.telephone" /></th>
-			<th>&nbsp;</th>
-		</tr>
-		<c:forEach items="${companyList}" var="contact">
-			<tr>
-				<td>${contact.name}</td>
-				<td><a href="delete/${contact.id}"><spring:message code="label.delete" /></a></td>
-			</tr>
-		</c:forEach>
-	</table>
-</c:if>
+
+<h3></h3>
+
+	
+a
 
 </body>
 </html>

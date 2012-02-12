@@ -20,8 +20,8 @@ public class CompanyTest extends TestCase
 	//rangeTest.setMaxX(1);
 	//wait(2);
 	//assertEquals(1, rangeTest.getMaxX());
-	CompanyDao dao = new CompanyDao();
-	dao.addCompany(test);
+	//CompanyDao dao = new CompanyDao();
+	//dao.addCompany(test);
 	fail("Not yet implemented");
 	//failNotEquals("qqqq", 1, 2);
     }

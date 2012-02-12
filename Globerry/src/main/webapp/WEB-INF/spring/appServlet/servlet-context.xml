@@ -12,12 +12,12 @@
  
     <!-- Scans within the base package of the application for @Components to configure as beans -->
     <!-- @Controller, @Service, @Configuration, etc. -->
-<<<<<<< .mine
-    <!-- <context:component-scan base-package="com.globerry.project" />-->
-    <!-- <context:component-scan base-package="com.globerry.project.controllers" />-->
-=======
-    <context:component-scan base-package="com.globerry.project" />
->>>>>>> .r26
+
+   <context:component-scan base-package="com.globerry.project" />
+   <context:component-scan base-package="com.globerry.project.controllers" />
+
+
+
  
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven />

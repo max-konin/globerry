@@ -10,35 +10,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.globerry.project.domain.Company;
-import com.globerry.project.service.CompanyService;
+//import com.globerry.project.service.CompanyService;
 //TODO
 @Controller
 public class CompanyController
 {
-    @Autowired
-    private CompanyService companyService;
+    //@Autowired
+    //private CompanyService companyService;
     
-    @RequestMapping("/company")
+    //@RequestMapping("/company")
     public String companyList(Map<String,Object> map){
 	map.put("company",new Company());
-	map.put("companyList",companyService.getCompanyList());
+	//map.put("companyList",companyService.getCompanyList());
 	
 	return "company";
     }
     
     @RequestMapping("/")
     public String home(){
-	return "redirect:/index";
+	return "WEB-INF/views/company.jsp";
     }
     
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    //@RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addCompany(@ModelAttribute("company") Company company, BindingResult result){
-	companyService.addCompany(company);
+	//companyService.addCompany(company);
 	
 	return "redirect:/index";
     }
     
-    @RequestMapping("/delete/{companyId}")
+    //@RequestMapping("/delete/{companyId}")
     public String removeCompany()
     {
 	return null;

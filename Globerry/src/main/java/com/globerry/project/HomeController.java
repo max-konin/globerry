@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Scope("session")
 public class HomeController {
  
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/globerry")
     public String home(Model model) {
         System.out.println("HomeController: Passing through...");
         staticClass st = new staticClass();
