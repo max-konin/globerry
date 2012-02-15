@@ -1,12 +1,13 @@
 package com.globerry.project.dao;
 
-import static org.junit.Assert.*;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.domain.Company;
+
 
 import junit.framework.TestCase;
 
@@ -18,7 +19,7 @@ public class CompanyTest extends TestCase
     @Test(timeout=1)
     public void test() //throws InterruptedException
     {
-	Company test = new Company();
+	//Company test = new Company();
 	test.setName("Google");
 	test.setEmail("google@gmail.com");
 	ICompanyDao cd = new CompanyDao();
