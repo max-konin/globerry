@@ -15,12 +15,12 @@ public class CompanyService implements ICompanyService
     @Autowired
     private CompanyDao companyDao;
     
-    @Transactional
+    
     public void addCompany(Company company){
 	companyDao.addCompany(company);
     }
     
-    @Transactional
+    
     public List<Company> getCompanyList(){
 	return companyDao.getCompanyList();
     }

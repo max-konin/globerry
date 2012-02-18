@@ -20,11 +20,11 @@ public class CompanyTest extends TestCase
     public void test() //throws InterruptedException
     {
 	//Company test = new Company();
-	test.setName("Google");
-	test.setEmail("google@gmail.com");
-	ICompanyDao cd = new CompanyDao();
-	cd.addCompany(test);
-	System.out.print(test.getName());
+	//test.setName("Google");
+	//test.setEmail("google@gmail.com");
+	//ICompanyDao cd = new CompanyDao();
+	//cd.addCompany(test);
+	//System.out.print(test.getName());
 	//rangeTest.setMaxX(1);
 	//wait(2);
 	//assertEquals(1, rangeTest.getMaxX());

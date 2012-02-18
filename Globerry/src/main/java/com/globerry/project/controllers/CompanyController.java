@@ -33,6 +33,8 @@ public class CompanyController
 	company.setName("name");
 	company.setDescription("afdsdfasfd");
 	company.setLogin("login");
+	company.setEmail("email");
+	company.setPassword("555555");
 	companyService.addCompany(company);
 	return "WEB-INF/views/company.jsp";
     }

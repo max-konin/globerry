@@ -7,10 +7,13 @@ import javax.annotation.Resource;
 
 
 
+
+
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 
@@ -22,8 +25,12 @@ public class CompanyDao implements ICompanyDao {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void addCompany(Company company) {
+	public void addCompany(Company company)
+	{
+	    	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		sessionFactory.getCurrentSession().save(company);
+		tx.commit();
+		sessionFactory.getCurrentSession().close();
 	}
 
 	@Override
