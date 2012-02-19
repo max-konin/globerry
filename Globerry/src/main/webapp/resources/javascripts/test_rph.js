@@ -72,6 +72,9 @@ window.onload = function () {
             var littleBlockWidth = blockWidth / arrln2;
             var littleBlockHeight = blockHeight / arrln2;
 
+            level = begLevel * Math.pow(0.9, size);
+
+
             for (i = 0; i < arrln + 1; i++) {
                 for (j = 0; j < arrln + 1; j++) {
                     myArray[i][j] = 0;
@@ -214,10 +217,10 @@ window.onload = function () {
                 }
             }
         }
-        level = begLevel * Math.pow(0.9, size);
     }
     document.getElementById('level_list').onchange = function () {
-        level = document.getElementById('level_list').value;
+        begLevel = document.getElementById('level_list').value;
+        level = begLevel * Math.pow(0.9, size);
     }
 
 }
