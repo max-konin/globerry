@@ -1,6 +1,9 @@
 package com.globerry.project.controllers;
 
+import java.sql.Date;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.TourDao;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Tour;
 import com.globerry.project.service.CompanyService;
 
 //TODO
@@ -17,7 +24,8 @@ import com.globerry.project.service.CompanyService;
 public class CompanyController
 {
     @Autowired
-    private CompanyService companyService;
+    private CompanyDao companyDao;
+
     
     //@RequestMapping("/company")
     public String companyList(Map<String,Object> map){
@@ -29,13 +37,21 @@ public class CompanyController
     
     @RequestMapping("/")
     public String home(){
-	Company company = new Company();//"123", "123", "123");
+	Company company = new Company();
 	company.setName("name");
 	company.setDescription("afdsdfasfd");
 	company.setLogin("login");
 	company.setEmail("email");
 	company.setPassword("555555");
-	companyService.addCompany(company);
+	Tour tour = new Tour();
+	tour.setName("VISIT MAUSOLEUM");
+	tour.setCost(123);
+	tour.setDateEnd(new Date(0));
+	tour.setDateStart(new Date(0));
+	tour.setDescription("sdfgsdg");
+	company.getTourList().add(tour);
+	//tourDao.addTour(tour);
+	companyDao.addCompany(company);
 	return "WEB-INF/views/company.jsp";
     }
     

@@ -3,6 +3,7 @@ package com.globerry.project.dao;
 import java.util.List;
 
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Tour;
 /**
  * @author Сергей Крупин
  */
@@ -19,8 +20,8 @@ public interface ICompanyDao
      */
     public void removeCompany(Company company);
     /**
-     * Возвращает списко копаний
-     * @return
+     * 
+     * @return Возвращает список копаний
      */
     public List<Company> getCompanyList();
     /**
@@ -29,4 +30,9 @@ public interface ICompanyDao
      * @param newCompany
      */
     public void updateCompany(Company oldCompany, Company newCompany);
+    /**
+     * Функция для получения списка туров
+     * @return Получает список туров компании
+     */
+    public List<Tour> getCompanyTourList();
 }

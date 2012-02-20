@@ -7,6 +7,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+
+import org.hibernate.mapping.Collection;
+//import org.hibernate.mapping.List;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+
 @Entity
 @Table(name = "Company")
 public class Company
@@ -24,6 +38,14 @@ public class Company
     private String password;
     @Column(name = "description")
     private String description;
+    
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(
+               name="CompanyTour",
+               joinColumns = @JoinColumn( name="company_id"),
+               inverseJoinColumns = @JoinColumn( name="tour_id")
+       )
+    private List<Tour> tourList = new ArrayList<Tour>();
    
     
     /*public Company(String name, String login, String password)
@@ -79,6 +101,14 @@ public class Company
     public void setDescription(String description)
     {
 	this.description = description;
+    }
+    public List<Tour> getTourList()
+    {
+	return tourList;
+    }
+    public void setTourList(List<Tour> tourList)
+    {
+	this.tourList = tourList;
     }
 
 }

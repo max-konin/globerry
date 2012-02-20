@@ -2,14 +2,33 @@ package com.globerry.project.domain;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name = "Tour")
 public class Tour
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private int companyId;
+        
+    @Column(name = "name")
     private String name;
+    
+    @Column(name = "cost")
     private float cost;
+    
+    @Column(name = "description")
     private String description;
+    
+    @Column(name = "dateStart")
     private Date dateStart;
+    
+    @Column(name = "dateEnd")
     private Date dateEnd;
 
     // <Гетеры сеттеры>
@@ -73,16 +92,6 @@ public class Tour
 	this.dateEnd = dateEnd;
     }
     
-
-    public int getCompanyId()
-    {
-	return companyId;
-    }
-
-    public void setCompanyId(int companyId)
-    {
-	this.companyId = companyId;
-    }
  // </Гетеры сеттеры>
 
 }
