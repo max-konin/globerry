@@ -1,11 +1,29 @@
 package com.globerry.project.domain;
 
-public class City
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "city")
+public class City implements Serializable
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(name = "name")
     private String name;
-    private Proposals proposals;
-    private Option option;
+    //private Proposals proposals;
+    //private Option option;
     public int getId()
     {
 	return id;
@@ -22,7 +40,7 @@ public class City
     {
 	this.name = name;
     }
-    public Proposals getProposals()
+    /*public Proposals getProposals()
     {
 	return proposals;
     }
@@ -37,5 +55,5 @@ public class City
     public void setOption(Option option)
     {
 	this.option = option;
-    }
+    }*/
 }

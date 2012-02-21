@@ -29,4 +29,5 @@ public interface ITemperatureDao
      * @return Список температур
      */
     List<Temperature> getTempList(Month month);
+    void setTemp(Temperature temperature);
 }

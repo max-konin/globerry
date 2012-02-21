@@ -12,10 +12,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.TemperatureDao;
 //import com.globerry.project.dao.TourDao;
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Month;
+import com.globerry.project.domain.Temperature;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.CompanyService;
 
@@ -25,6 +30,10 @@ public class CompanyController
 {
     @Autowired
     private CompanyDao companyDao;
+    @Autowired
+    private TemperatureDao temperatureDao;
+    @Autowired
+    private CityDao cityDao;
 
     
     //@RequestMapping("/company")
@@ -37,8 +46,18 @@ public class CompanyController
     
     @RequestMapping("/")
     public String home(){
+	City city = new City();
+	cityDao.addCity(city);
+	
+	Temperature temperature = new Temperature();
+	temperature.setMonth(Month.AUGUST);
+	temperature.setCityId(city.getId());
+	temperature.setVal(10);
+	temperatureDao.setTemp(temperature);
+	
+	
 	Company company = new Company();
-	company.setName("name");
+	company.setName(name);
 	company.setDescription("afdsdfasfd");
 	company.setLogin("login");
 	company.setEmail("email");

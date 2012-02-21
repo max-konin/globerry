@@ -5,8 +5,10 @@
 
 <hibernate-configuration>
 	<session-factory>
-		<!--  <property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">update</property>
 		<mapping class="com.globerry.project.domain.Company"/>
-		<mapping class="com.globerry.project.domain.Tour"/>-->
+		<mapping class="com.globerry.project.domain.Tour"/>
+		<mapping class="com.globerry.project.domain.Temperature"/>
+		<mapping class="com.globerry.project.domain.City"/>
 	</session-factory>
 </hibernate-configuration>
