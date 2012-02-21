@@ -57,7 +57,7 @@ public class CompanyController
 	
 	
 	Company company = new Company();
-	company.setName(name);
+	company.setName("name");
 	company.setDescription("afdsdfasfd");
 	company.setLogin("login");
 	company.setEmail("email");
