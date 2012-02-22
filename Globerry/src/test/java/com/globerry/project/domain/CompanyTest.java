@@ -1,4 +1,4 @@
-package com.globerry.project.domain;
+/*package com.globerry.project.domain;
 
 import static org.junit.Assert.*;
 
@@ -39,3 +39,4 @@ public class CompanyTest
     }
 
 }
+*/

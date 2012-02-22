@@ -26,8 +26,10 @@ public class CityDao implements ICityDao
     @Override
     public void removeCity(City city)
     {
-	// TODO Auto-generated method stub
-	
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	   sessionFactory.getCurrentSession().delete(city);
+	   tx.commit();
+	   sessionFactory.close();
     }
 
     @Override
@@ -37,10 +39,14 @@ public class CityDao implements ICityDao
 	return null;
     }
 
+
     @Override
-    public void updateCity(City oldCity, City newCity)
+    public void updateCity(City city)
     {
-	// TODO Auto-generated method stub
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	   sessionFactory.getCurrentSession().update(city);
+	   tx.commit();
+	   sessionFactory.close();
 	
     }
 

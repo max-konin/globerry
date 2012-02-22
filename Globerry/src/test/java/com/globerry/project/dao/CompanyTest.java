@@ -33,7 +33,7 @@ public class CompanyTest
     @Autowired
     private ICompanyDao companyDao;
     
-    @Test(timeout=100)
+    @Test(timeout=10000)
     public void test() throws Exception
     {
 	//ICompanyDao companyDao = new CompanyDao();

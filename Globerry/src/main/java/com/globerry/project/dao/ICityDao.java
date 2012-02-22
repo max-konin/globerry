@@ -30,5 +30,5 @@ public interface ICityDao
      * @param oldCity старый город
      * @param newCity город с новыми параметрами
      */
-    public void updateCity(City oldCity, City newCity);
+    void updateCity(City city);
 }
