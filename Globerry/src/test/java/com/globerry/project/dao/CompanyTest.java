@@ -1,32 +1,49 @@
 package com.globerry.project.dao;
 
 
-import org.junit.Ignore;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import com.globerry.project.dao.ContextLoaderListener;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.runner.RunWith;
 
 import com.globerry.project.dao.ICompanyDao;
-import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.domain.Company;
 
 
 import junit.framework.TestCase;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
+@TestExecutionListeners({
 
-public class CompanyTest extends TestCase
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class,
+    ContextLoaderListener.class
+
+})
+//*/
+public class CompanyTest
 {
-    private ICompanyDao companyDao = new CompanyDao();
-    @Ignore("Not yet implemented")
-    @Test(timeout=1)
-    public void test() //throws InterruptedException
+    @Autowired
+    private ICompanyDao companyDao;
+    
+    @Test(timeout=100)
+    public void test() throws Exception
     {
+	//ICompanyDao companyDao = new CompanyDao();
 	Company test = new Company();
 	test.setName("Google");
 	test.setEmail("google@gmail.com");
 	test.setLogin("Google");
 	test.setPassword("asfdsadf");
 	test.setDescription("Its google");
-	companyDao.addCompany(test);
+	companyDao.addCompany(test);//*/
 	//System.out.print(test.getName());
 	//rangeTest.setMaxX(1);
 	//wait(2);
