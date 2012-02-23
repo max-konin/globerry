@@ -15,6 +15,7 @@ import javax.persistence.Table;
 public class PropertyType
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String name;
