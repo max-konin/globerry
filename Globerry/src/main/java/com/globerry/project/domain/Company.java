@@ -6,23 +6,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
-import org.hibernate.mapping.Collection;
-//import org.hibernate.mapping.List;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.CascadeType;
 
 @Entity
-@Table(name = "Company")
+@Table(name = "Company",
+uniqueConstraints = {@UniqueConstraint(columnNames={"name","login"})}
+)
 public class Company
 {
     @Id
