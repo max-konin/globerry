@@ -15,6 +15,11 @@ public interface ICityDao
      */
     public void addCity(City city);
     /**
+     * Удаляет город по id
+     * @param id
+     */
+    public void removeCity(int id);
+    /**
      * Удаляет город
      * @param city город
      */
