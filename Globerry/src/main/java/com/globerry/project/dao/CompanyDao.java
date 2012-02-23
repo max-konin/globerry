@@ -2,17 +2,7 @@ package com.globerry.project.dao;
 
 
 import java.util.List;
-
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-
-import org.apache.log4j.Logger;
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
@@ -64,17 +54,38 @@ public class CompanyDao implements ICompanyDao {
 	    sessionFactory.close();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Company> getCompanyList()
 	{
-	    // TODO Auto-generated method stub
-	    return null;
+	    List<Company> companiesList;
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    companiesList = sessionFactory.getCurrentSession().createQuery("from Company")
+	            .list();
+	    tx.commit();
+	    sessionFactory.close();
+	    return companiesList;
 	}
 
 	@Override
 	public void updateCompany(Company oldCompany, Company newCompany)
 	{
-	    // TODO Auto-generated method stub
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    // Retrieve session from Hibernate
+	    Session session = sessionFactory.getCurrentSession();
+	   /* Company newCompany = (Company) session.get(Company.class, newCompany.getId());*/
+	    oldCompany.setDescription(newCompany.getDescription());
+	    oldCompany.setEmail(newCompany.getEmail());
+	    oldCompany.setLogin(newCompany.getLogin());
+	    oldCompany.setName(newCompany.getName());
+	    oldCompany.setPassword(newCompany.getPassword());
+	    oldCompany.setTourList(newCompany.getTourList());
+    	    session.update(oldCompany);
+	    tx.commit();
+	 //   session.close();
+	   
+	    // Save updates
+	    
 	   
 	}
 
