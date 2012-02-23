@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "OptionsType")
-public class OptionsType
+public class PropertyType
 {
     @Id
     private int id;

@@ -2,7 +2,7 @@ package com.globerry.project.domain;
 
 import java.util.List;
 
-public class Option
+public class Property
 {
     private Temperature temperature;
     private int population;

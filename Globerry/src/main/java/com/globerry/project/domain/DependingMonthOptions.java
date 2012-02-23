@@ -33,7 +33,7 @@ public class DependingMonthOptions
         joinColumns = @JoinColumn(name="DMonthOptions_id"),
         inverseJoinColumns = @JoinColumn(name="OptionsType_id")
     )
-    private OptionsType optionsType;
+    private PropertyType optionsType;
     @Column
     private float val;
     public int getId()
@@ -60,11 +60,11 @@ public class DependingMonthOptions
     {
 	this.val = val;
     }
-    public OptionsType getOptionsType()
+    public PropertyType getOptionsType()
     {
 	return optionsType;
     }
-    public void setOptionsType(OptionsType optionsType)
+    public void setOptionsType(PropertyType optionsType)
     {
 	this.optionsType = optionsType;
     }

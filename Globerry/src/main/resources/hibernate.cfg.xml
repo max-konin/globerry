@@ -11,6 +11,6 @@
 		<mapping class="com.globerry.project.domain.City"/>
 		<mapping class="com.globerry.project.domain.Temperature"/>
 		<mapping class="com.globerry.project.domain.DependingMonthOptions"/>
-		<mapping class="com.globerry.project.domain.OptionsType"/>
+		<mapping class="com.globerry.project.domain.PropertyType"/>
 	</session-factory>
 </hibernate-configuration>
