@@ -5,10 +5,12 @@
 
 <hibernate-configuration>
 	<session-factory>
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">create</property>
 		<mapping class="com.globerry.project.domain.Company"/>
 		<mapping class="com.globerry.project.domain.Tour"/>
 		<mapping class="com.globerry.project.domain.City"/>
 		<mapping class="com.globerry.project.domain.Temperature"/>
+		<mapping class="com.globerry.project.domain.DependingMonthOptions"/>
+		<mapping class="com.globerry.project.domain.OptionsType"/>
 	</session-factory>
 </hibernate-configuration>
