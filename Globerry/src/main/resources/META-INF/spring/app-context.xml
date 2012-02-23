@@ -36,8 +36,8 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		p:driverClassName="com.mysql.jdbc.Driver" 
 		p:url="jdbc:mysql://localhost:3306/globerry"
-		p:username="root" 
-		p:password="12345" />
+		p:username="admin" 
+		p:password="admin" />
 
 	<!-- Настройки фабрики сессий Хибернейта -->
 	<bean id="sessionFactory"
