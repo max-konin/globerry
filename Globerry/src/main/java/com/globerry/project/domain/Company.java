@@ -18,8 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
 @Entity
-@Table(name = "Company"
-)
+@Table(name = "Company")
 public class Company
 {
     @Id
