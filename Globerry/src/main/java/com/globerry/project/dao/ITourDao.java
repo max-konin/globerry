@@ -17,7 +17,7 @@ public interface ITourDao
      * @param tour Тур
      */
     public void addTour(Tour tour);
-    public Tour getTour();//TODO
+    public Tour getTour(int id);//TODO
     /**
      * Список туров конкретной компании
      * @param company Компания
