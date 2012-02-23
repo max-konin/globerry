@@ -1,6 +1,6 @@
 package com.globerry.project.dao;
 
-import com.globerry.project.domain.Option;
+import com.globerry.project.domain.Property;
 /**
  * @author Сергей
  * Запрос на подбор городов по критериям
@@ -8,13 +8,13 @@ import com.globerry.project.domain.Option;
 public class CityRequest
 {
     private Range range;
-    private Option option;
+    private Property option;
     /**
      * Конструктор запроса
      * @param range область поиска
      * @param option опции поиска
      */
-    public CityRequest(Range range, Option option){
+    public CityRequest(Range range, Property option){
 	this.range = range;
 	this.option = option;
     }
@@ -26,11 +26,11 @@ public class CityRequest
     {
 	this.range = range;
     }
-    public Option getOption()
+    public Property getOption()
     {
 	return option;
     }
-    public void setOption(Option option)
+    public void setOption(Property option)
     {
 	this.option = option;
     }

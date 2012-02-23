@@ -9,7 +9,6 @@
 		<mapping class="com.globerry.project.domain.Company"/>
 		<mapping class="com.globerry.project.domain.Tour"/>
 		<mapping class="com.globerry.project.domain.City"/>
-		<mapping class="com.globerry.project.domain.Temperature"/>
 		<mapping class="com.globerry.project.domain.DependingMonthOptions"/>
 		<mapping class="com.globerry.project.domain.PropertyType"/>
 	</session-factory>

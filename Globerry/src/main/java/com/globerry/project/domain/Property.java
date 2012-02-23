@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Property
 {
-    private Temperature temperature;
     private int population;
     private int funFactor;
     private int security;
@@ -16,14 +15,6 @@ public class Property
     private int englishSpeaking;
     private int attractionsNumber;
     private List<Tag> tags;
-    public Temperature getTemperature()
-    {
-	return temperature;
-    }
-    public void setTemperature(Temperature temperature)
-    {
-	this.temperature = temperature;
-    }
     public int getPopulation()
     {
 	return population;
