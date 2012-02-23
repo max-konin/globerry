@@ -18,8 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
 @Entity
-@Table(name = "Company",
-uniqueConstraints = {@UniqueConstraint(columnNames={"name","login"})}
+@Table(name = "Company"
 )
 public class Company
 {

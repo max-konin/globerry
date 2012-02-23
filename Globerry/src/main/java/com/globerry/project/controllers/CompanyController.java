@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.TourDao;
 //import com.globerry.project.dao.TourDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
@@ -30,6 +31,8 @@ public class CompanyController
     private CompanyDao companyDao;
     @Autowired
     private CityDao cityDao;
+    @Autowired
+    private TourDao tourDao;
 
     
     //@RequestMapping("/company")
@@ -59,9 +62,13 @@ public class CompanyController
 	tour.setDateEnd(new Date(0));
 	tour.setDateStart(new Date(0));
 	tour.setDescription("sdfgsdg");
+	
 	company.getTourList().add(tour);
-	//tourDao.addTour(tour);
+	
 	companyDao.addCompany(company);
+	
+	
+	
 	return "WEB-INF/views/company.jsp";
     }
     

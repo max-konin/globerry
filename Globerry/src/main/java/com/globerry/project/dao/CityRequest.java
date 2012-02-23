@@ -8,15 +8,15 @@ import com.globerry.project.domain.Property;
 public class CityRequest
 {
     private Range range;
-    private Property option;
+    private Property property;
     /**
      * Конструктор запроса
      * @param range область поиска
      * @param option опции поиска
      */
-    public CityRequest(Range range, Property option){
+    public CityRequest(Range range, Property property){
 	this.range = range;
-	this.option = option;
+	this.property = property;
     }
     public Range getRange()
     {
@@ -28,10 +28,10 @@ public class CityRequest
     }
     public Property getOption()
     {
-	return option;
+	return property;
     }
-    public void setOption(Property option)
+    public void setOption(Property property)
     {
-	this.option = option;
+	this.property = property;
     }
 }

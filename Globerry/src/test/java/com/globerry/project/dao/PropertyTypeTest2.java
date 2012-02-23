@@ -1,6 +1,5 @@
 package com.globerry.project.dao;
 
-
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -14,6 +13,7 @@ import org.junit.runner.RunWith;
 
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.PropertyType;
 
 
 import junit.framework.TestCase;
@@ -27,31 +27,17 @@ import junit.framework.TestCase;
     ContextLoaderListener.class
 
 })
-//*/
-public class CompanyTest
+
+public class PropertyTypeTest2
 {
     @Autowired
-    private ICompanyDao companyDao;
-    
+    private IPropertyTypeDao PropertyTypeDao;
     @Test(timeout=10000)
     public void test() throws Exception
     {
-	//ICompanyDao companyDao = new CompanyDao();
-	Company test = new Company();
-	test.setName("Google");
-	test.setEmail("google@gmail.com");
-	test.setLogin("Google");
-	test.setPassword("asfdsadf");
-	test.setDescription("Its google");
-	companyDao.addCompany(test);//*/
-	//System.out.print(test.getName());
-	//rangeTest.setMaxX(1);
-	//wait(2);
-	//assertEquals(1, rangeTest.getMaxX());
-	//CompanyDao dao = new CompanyDao();
-	//dao.addCompany(test);
-	//fail("Not yet implemented");
-	//failNotEquals("qqqq", 1, 2);
+	PropertyType test = new PropertyType();
+	test.setName("name");
+	PropertyTypeDao.addPropertyType(test);
     }
-
+    
 }

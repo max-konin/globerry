@@ -15,7 +15,7 @@
 	<table>
 		<tr>
 		
-			<td>asdfasfasdfasdfasdf</td>
+			<td>Новый ТЕКСТ</td>
 		</tr>
 		<tr>
 			<td colspan="2"><input type="submit"

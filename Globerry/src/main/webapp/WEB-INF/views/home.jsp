@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ page language="java" contentType="text/html; charset=utf8"
+	pageEncoding="utf8"%>
 <HTML>
 <HEAD>
 <META NAME="GENERATOR" Content="Microsoft Visual Studio 8.0">

@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "OptionsType")
+@Table(name = "PropertyType")
 public class PropertyType
 {
     @Id

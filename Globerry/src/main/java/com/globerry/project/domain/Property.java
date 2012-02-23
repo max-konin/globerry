@@ -1,106 +1,65 @@
 package com.globerry.project.domain;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.mapping.Collection;
+//import org.hibernate.mapping.List;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Max-NG
+ *
+ */
+@Entity
+@Table(name="Property")
 public class Property
 {
-    private int population;
-    private int funFactor;
-    private int security;
-    private int livingCost;
-    private int foodCost;
-    private int alchogolCost;
-    private int touristsNumber;
-    private boolean visa;
-    private int englishSpeaking;
-    private int attractionsNumber;
-    private List<Tag> tags;
-    public int getPopulation()
+    @Id
+    private int id;
+    @Column(name = "value")
+    private float value;
+    
+   @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER )
+    @JoinTable(name="PropertyPropertyType",
+    joinColumns = @JoinColumn(name="property_id"),
+    inverseJoinColumns = @JoinColumn(name="propertyType_id")
+	    )
+    private PropertyType propertyType;
+    
+    public int getId()
     {
-	return population;
+	return id;
     }
-    public void setPopulation(int population)
+    public void setId(int id)
     {
-	this.population = population;
+	this.id = id;
     }
-    public int getFunFactor()
+    public float getValue()
     {
-	return funFactor;
+	return value;
     }
-    public void setFunFactor(int funFactor)
+    public void setValue(float value)
     {
-	this.funFactor = funFactor;
+	this.value = value;
     }
-    public int getSecurity()
+    public PropertyType getPropertyType()
     {
-	return security;
+	return propertyType;
     }
-    public void setSecurity(int security)
+    public void setPropertyType(PropertyType propertyType)
     {
-	this.security = security;
+	this.propertyType = propertyType;
     }
-    public int getLivingCost()
-    {
-	return livingCost;
-    }
-    public void setLivingCost(int livingCost)
-    {
-	this.livingCost = livingCost;
-    }
-    public int getAlchogolCost()
-    {
-	return alchogolCost;
-    }
-    public void setAlchogolCost(int alchogolCost)
-    {
-	this.alchogolCost = alchogolCost;
-    }
-    public int getFoodCost()
-    {
-	return foodCost;
-    }
-    public void setFoodCost(int foodCost)
-    {
-	this.foodCost = foodCost;
-    }
-    public int getTouristsNumber()
-    {
-	return touristsNumber;
-    }
-    public void setTouristsNumber(int touristsNumber)
-    {
-	this.touristsNumber = touristsNumber;
-    }
-    public boolean isVisa()
-    {
-	return visa;
-    }
-    public void setVisa(boolean visa)
-    {
-	this.visa = visa;
-    }
-    public int getEnglishSpeaking()
-    {
-	return englishSpeaking;
-    }
-    public void setEnglishSpeaking(int englishSpeaking)
-    {
-	this.englishSpeaking = englishSpeaking;
-    }
-    public int getAttractionsNumber()
-    {
-	return attractionsNumber;
-    }
-    public void setAttractionsNumber(int attractionsNumber)
-    {
-	this.attractionsNumber = attractionsNumber;
-    }
-    public List<Tag> getTags()
-    {
-	return tags;
-    }
-    public void setTags(List<Tag> tags)
-    {
-	this.tags = tags;
-    } 
+ 
+
 }
