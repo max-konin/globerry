@@ -20,6 +20,11 @@ public interface ICompanyDao
      */
     public void removeCompany(Company company);
     /**
+     * Удаляет Company по id
+     * @param id Id в таблице
+     */
+    public void removeCompany(int id);
+    /**
      * 
      * @return Возвращает список копаний
      */
