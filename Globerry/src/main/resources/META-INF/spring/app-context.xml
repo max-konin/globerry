@@ -27,17 +27,17 @@
 	</bean>
 
 	<!-- Настройки бина dataSource будем хранить в отдельном файле -->
-<!--  <bean id="propertyConfigurer"
+  <bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-		p:location="/WEB-INF/jdbc.properties" />-->
+		p:location="classpath:/META-INF/jdbc.properties" />
 
 	<!-- Непосредственно бин dataSource -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		p:driverClassName="com.mysql.jdbc.Driver" 
-		p:url="jdbc:mysql://localhost:3306/globerry"
-		p:username="admin" 
-		p:password="admin" />
+		p:url="${jdbc.databaseurl}"
+		p:username="${jdbc.username}" 
+		p:password="${jdbc.password}" />
 
 	<!-- Настройки фабрики сессий Хибернейта -->
 	<bean id="sessionFactory"
@@ -55,7 +55,7 @@
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.current_session_context_class">thread</prop>
 				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
 				<prop key="hibernate.connection.charSet">UTF-8</prop>
 			</props>
 		</property>
