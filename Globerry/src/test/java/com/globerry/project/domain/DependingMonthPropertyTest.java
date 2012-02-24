@@ -33,7 +33,7 @@ import junit.framework.TestCase;
 
 })
 
-public class DependingMonthOptionsTest
+public class DependingMonthPropertyTest
 {
     @Autowired
     SessionFactory sessionFactory;
@@ -44,71 +44,71 @@ public class DependingMonthOptionsTest
     @Test(timeout = 1000)
     public void test()
     {
-	DependingMonthOptions dependingMonthOptions = new DependingMonthOptions();
-	dependingMonthOptions.setMonth(month);
-	dependingMonthOptions.setVal(val);
-	PropertyType optionsType = new PropertyType();
-	optionsType.setName(optionsTypeName);
+	DependingMonthProperty dependingMonthProperty = new DependingMonthProperty();
+	dependingMonthProperty.setMonth(month);
+	dependingMonthProperty.setVal(val);
+	PropertyType propertyType = new PropertyType();
+	propertyType.setName(optionsTypeName);
 	
-	dependingMonthOptions.setOptionsType(optionsType);
+	dependingMonthProperty.setPropertysType(propertyType);
 	//add entity
 	{
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    sessionFactory.getCurrentSession().save(dependingMonthOptions);
-	    sessionFactory.getCurrentSession().save(optionsType);
+	    sessionFactory.getCurrentSession().save(dependingMonthProperty);
+	    sessionFactory.getCurrentSession().save(propertyType);
 	    tx.commit();
 	    sessionFactory.close();
 	}
 	//check entity
 	{
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    List<DependingMonthOptions> listDependingMonthOptions =
-		    sessionFactory.getCurrentSession().createCriteria(DependingMonthOptions.class)
+	    List<DependingMonthProperty> listDependingMonthProperty =
+		    sessionFactory.getCurrentSession().createCriteria(DependingMonthProperty.class)
 		    .add(Restrictions.like("month", month))
-		    .add(Restrictions.like("optionsType", optionsType))
+		    .add(Restrictions.like("propertyType", propertyType))
 		    .list();
 	    tx.commit();
-	    assertEquals((double)val, (double)listDependingMonthOptions.get(0).getVal(),0);
+	    assertEquals((double)val, (double)listDependingMonthProperty.get(0).getVal(),0);
 	    sessionFactory.close();
 	}
 	//update entity
 	{
 	   Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	   dependingMonthOptions.setVal(valNew);
-	   sessionFactory.getCurrentSession().update(dependingMonthOptions);
+	   dependingMonthProperty.setVal(valNew);
+	   sessionFactory.getCurrentSession().update(dependingMonthProperty);
 	   tx.commit();
 	   sessionFactory.close();
 	}
 	//check entity
 	{
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    List<DependingMonthOptions> listDependingMonthOptions =
-		    sessionFactory.getCurrentSession().createCriteria(DependingMonthOptions.class)
+	    List<DependingMonthProperty> listDependingMonthProperty =
+		    sessionFactory.getCurrentSession().createCriteria(DependingMonthProperty.class)
 		    .add(Restrictions.like("month", month))
-		    .add(Restrictions.like("optionsType", optionsType))
+		    .add(Restrictions.like("propertyType", propertyType))
 		    .list();
 	    tx.commit();
-	    assertEquals((double)valNew, (double)listDependingMonthOptions.get(0).getVal(),0);
+	    assertEquals((double)valNew, (double)listDependingMonthProperty.get(0).getVal(),0);
 	    sessionFactory.close();
 	}
 	//remove entity
 	{
 	   Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	   sessionFactory.getCurrentSession().delete(dependingMonthOptions);
+	   sessionFactory.getCurrentSession().delete(dependingMonthProperty);
 	   tx.commit();
 	   sessionFactory.close();
 	}
 	//check entity
 	{
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    List<DependingMonthOptions> listDependingMonthOptions =
-		    sessionFactory.getCurrentSession().createCriteria(DependingMonthOptions.class)
+	    List<DependingMonthProperty> listDependingMonthProperty =
+		    sessionFactory.getCurrentSession().createCriteria(DependingMonthProperty.class)
 		    .add(Restrictions.like("month", month))
-		    .add(Restrictions.like("optionsType", optionsType))
+		    .add(Restrictions.like("propertyType", propertyType))
 		    .add(Restrictions.like("val", valNew))
 		    .list();
 	    tx.commit();
-	    assertTrue(listDependingMonthOptions.isEmpty());
+	    assertTrue(listDependingMonthProperty.isEmpty());
 	    sessionFactory.close();
 	}
     }

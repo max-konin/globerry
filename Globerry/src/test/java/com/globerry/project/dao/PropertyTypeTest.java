@@ -1,5 +1,10 @@
 package com.globerry.project.dao;
 
+import static org.junit.Assert.*;
+
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -28,16 +33,62 @@ import junit.framework.TestCase;
 
 })
 
-public class PropertyTypeTest2
+public class PropertyTypeTest
 {
     @Autowired
     private IPropertyTypeDao PropertyTypeDao;
     @Test(timeout=10000)
     public void test() throws Exception
     {
+
 	PropertyType test = new PropertyType();
 	test.setName("name");
 	PropertyTypeDao.addPropertyType(test);
+	test = new PropertyType();
+	test.setName("name2");
+	PropertyTypeDao.addPropertyType(test);
+	//add + list test
+	List<PropertyType> propertyTypeList = PropertyTypeDao.getPropertyTypeList();
+	Iterator<PropertyType> it = propertyTypeList.iterator();
+	while(it.hasNext())
+	{
+	    PropertyType test2 = it.next();
+	    if(test.getId() == test2.getId())
+		assertEquals(true,test2.equals(test));
+	}
+	//remove test
+	PropertyTypeDao.removePropertyType(test);
+	propertyTypeList = PropertyTypeDao.getPropertyTypeList();
+	it = propertyTypeList.iterator();
+	int count = 0;
+	while(it.hasNext())
+	{
+	    PropertyType test2 = it.next();
+	    if(test.equals(test2))
+	    {
+		++count;
+	    }
+	}
+	assertEquals(count,0);
+	//updateTest
+	test = new PropertyType();
+	test.setName("name");
+	PropertyTypeDao.addPropertyType(test);
+	test.setName("NEWname");
+	PropertyTypeDao.updatePropertyType(test);
+	propertyTypeList = PropertyTypeDao.getPropertyTypeList();
+	it = propertyTypeList.iterator();
+	count = 0;
+	while(it.hasNext())
+	{
+	    PropertyType test2 = it.next();
+	    if(test.equals(test2))
+	    {
+		++count;
+	    }
+	}
+	assertEquals(count,1);
+	
     }
     
 }

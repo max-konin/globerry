@@ -10,8 +10,8 @@
 		<mapping class="com.globerry.project.domain.Tour"/>
 		<mapping class="com.globerry.project.domain.Property"/>
 		<mapping class="com.globerry.project.domain.City"/>
-		<mapping class="com.globerry.project.domain.DependingMonthOptions"/>
-		<mapping class="com.globerry.project.domain.PropertyType"/>
+		<mapping class="com.globerry.project.domain.Tag"/>
+		<mapping class="com.globerry.project.domain.DependingMonthProperty"/>
 		<mapping class="com.globerry.project.domain.PropertyType"/>
 
 	</session-factory>

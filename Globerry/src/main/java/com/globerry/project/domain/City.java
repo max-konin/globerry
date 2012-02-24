@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,6 +41,10 @@ public class City implements Serializable
                inverseJoinColumns = @JoinColumn( name="property_id")
        )
     private List<Property> optionList = new ArrayList<Property>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "CityTag", joinColumns = { @JoinColumn(name = "city_id") },
+    inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+    private List<Tag> tagList = new ArrayList<Tag>();
     public int getId()
     {
 	return id;
@@ -72,4 +77,12 @@ public class City implements Serializable
     {
 	this.option = option;
     }*/
+    public List<Tag> getTagList()
+    {
+	return tagList;
+    }
+    public void setTagList(List<Tag> tagList)
+    {
+	this.tagList = tagList;
+    }
 }

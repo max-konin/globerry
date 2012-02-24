@@ -35,4 +35,13 @@ public class PropertyType
     {
 	this.name = name;
     }
+    public boolean equals(PropertyType propertyType)
+    {
+	if(
+	(this.getId() == propertyType.getId())&&
+	(this.getName().equals(propertyType.getName())))
+	    return true;
+	else 
+	    return false;
+    }
 }

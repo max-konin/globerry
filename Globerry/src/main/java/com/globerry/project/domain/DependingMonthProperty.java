@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Table
-public class DependingMonthOptions
+public class DependingMonthProperty
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,11 +29,11 @@ public class DependingMonthOptions
     @Enumerated(EnumType.ORDINAL)
     private Month month;
     @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER )
-    @JoinTable(name="OptionsTypeDepending",
-        joinColumns = @JoinColumn(name="DMonthOptions_id"),
-        inverseJoinColumns = @JoinColumn(name="OptionsType_id")
+    @JoinTable(name="DMonthPropertyPropertyType",
+        joinColumns = @JoinColumn(name="DMonthProperty_id"),
+        inverseJoinColumns = @JoinColumn(name="PropertyType_id")
     )
-    private PropertyType optionsType;
+    private PropertyType propertyType;
     @Column
     private float val;
     public int getId()
@@ -60,12 +60,12 @@ public class DependingMonthOptions
     {
 	this.val = val;
     }
-    public PropertyType getOptionsType()
+    public PropertyType getPropertysType()
     {
-	return optionsType;
+	return propertyType;
     }
-    public void setOptionsType(PropertyType optionsType)
+    public void setPropertysType(PropertyType propertyType)
     {
-	this.optionsType = optionsType;
+	this.propertyType = propertyType;
     }
 }

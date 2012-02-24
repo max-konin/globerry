@@ -62,11 +62,6 @@ public class CityDao implements ICityDao
 	
     }
 
-    @Override
-    public void removeCity(int id)
-    {
-	// TODO Auto-generated method stub
-	
-    }
-
+   
+   
 }

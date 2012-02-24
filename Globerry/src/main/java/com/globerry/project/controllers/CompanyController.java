@@ -20,6 +20,7 @@ import com.globerry.project.dao.TourDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Month;
+import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.CompanyService;
 
@@ -46,10 +47,14 @@ public class CompanyController
     @RequestMapping("/")
     public String home(){
 	City city = new City();
+	city.setName("name");
+	Tag tag = new Tag();
+	tag.setName("123123");
+	city.getTagList().add(tag);
 	cityDao.addCity(city);
 	
 	
-	
+
 	Company company = new Company();
 	company.setName("name");
 	company.setDescription("afdsdfasfd");
