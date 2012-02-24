@@ -19,7 +19,7 @@ window.onload = function () {
     //var Height = document.getElementsByTagName("div")["canvas_container"].offsetHeight;
     var Width = $(document.getElementById("canvas_container")).width();
     var Height = $(document.getElementById("canvas_container")).height();
-    alert(Width);
+    //alert(Width);
     var p = 2;
     var level = 1.6;
     var line_s = '';
@@ -38,7 +38,7 @@ window.onload = function () {
             myArray[i][j] = 0;
         }
     }
-    alert(blockWidth*arrln);
+    //alert(blockWidth*arrln);
     Canvas_container.onclick = function (e) {
         e = e || window.event;
 
