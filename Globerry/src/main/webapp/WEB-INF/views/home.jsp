@@ -6,6 +6,7 @@
 <TITLE>Globerry 0.0.2</TITLE>
 
 <script type="text/javascript" src="<c:url value="resources/javascripts/raphael.js" />"></script>
+<script type="text/javascript" src="javascripts/jquerry.js"></script>
 <script type="text/javascript" src="resources/javascripts/test_rph.js"></script>
 
 <style type="text/css">  
