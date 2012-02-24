@@ -15,8 +15,10 @@ window.onload = function () {
     var startx, starty;
     var arrln = 100, i, j;
     var myArray = new Array();
-    var Width = document.getElementsByTagName("div")["canvas_container"].offsetWidth;
-    var Height = document.getElementsByTagName("div")["canvas_container"].offsetHeight;
+    //var Width = document.getElementsByTagName("div")["canvas_container"].offsetWidth;
+    //var Height = document.getElementsByTagName("div")["canvas_container"].offsetHeight;
+    var Width = $(document.getElementById("canvas_container")).width();
+    var Height = $(document.getElementById("canvas_container")).height();
     var blockWidth = Width / arrln;
     var blockHeight = Height / arrln;
     var p = 2;
