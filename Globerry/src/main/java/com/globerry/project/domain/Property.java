@@ -29,7 +29,7 @@ public class Property
     @Column(name = "value")
     private float value;
     
-   @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER )
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER )
     @JoinTable(name="PropertyPropertyType",
     joinColumns = @JoinColumn(name="property_id"),
     inverseJoinColumns = @JoinColumn(name="propertyType_id")

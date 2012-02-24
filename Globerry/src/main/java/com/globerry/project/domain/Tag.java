@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 /**
  * Tag class
- * Класс соединен с city таблицей CityTag ManyToMany
+ * ����� �������� � city �������� CityTag ManyToMany
  * @author Artem
  *
  */
@@ -70,5 +70,14 @@ public class Tag
     public void setCityList(List<City> cityList)
     {
 	this.cityList = cityList;
+    }
+    public boolean equals(Tag tag)
+    {
+	if(this.getId() == tag.getId() &&
+		this.getImg().equals(tag.getImg()) &&
+		this.getName().equals(tag.getName()) &&
+		this.getCityList().equals(tag.getCityList()))
+	    return true;
+	else return false;
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -70,31 +72,32 @@ public class CompanyDao implements ICompanyDao {
 	@Override
 	public void updateCompany(Company oldCompany, Company newCompany)
 	{
-	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    // Retrieve session from Hibernate
-	    Session session = sessionFactory.getCurrentSession();
-	   /* Company newCompany = (Company) session.get(Company.class, newCompany.getId());*/
 	    oldCompany.setDescription(newCompany.getDescription());
 	    oldCompany.setEmail(newCompany.getEmail());
 	    oldCompany.setLogin(newCompany.getLogin());
 	    oldCompany.setName(newCompany.getName());
 	    oldCompany.setPassword(newCompany.getPassword());
 	    oldCompany.setTourList(newCompany.getTourList());
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    Session session = sessionFactory.getCurrentSession();
     	    session.update(oldCompany);
 	    tx.commit();
-	 //   session.close();
-	   
-	    // Save updates
-	    
-	   
+	    //ПОЧЕМУ У МЕНЯ ОНА РУГАЕТСЯ ЧТО СЕССИЯ ЗАКРЫТА КОГДА Я ЕЁ НЕ ЗАКРЫЛ?!?!?!?!
 	}
 
 
 	@Override
-	public List<Tour> getCompanyTourList()
+	public List<Tour> getCompanyTourList(Company company)
 	{
-	    return sessionFactory.getCurrentSession().createQuery("from Company")
-	            .list();
+	   /* Session session = sessionFactory.getCurrentSession();
+
+	    Query query = session.createQuery("FROM Person as p WHERE p.id="+personId);
+	     
+	    Person person = (Person) query.uniqueResult();
+	     
+	    // Retrieve all
+	    return  new ArrayList<CreditCard>(person.getCreditCards());*/
+	    return null;
 	}
 
 }
