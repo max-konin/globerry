@@ -19,8 +19,7 @@ window.onload = function () {
     //var Height = document.getElementsByTagName("div")["canvas_container"].offsetHeight;
     var Width = $(document.getElementById("canvas_container")).width();
     var Height = $(document.getElementById("canvas_container")).height();
-    var blockWidth = Width / arrln;
-    var blockHeight = Height / arrln;
+    alert(Width);
     var p = 2;
     var level = 1.6;
     var line_s = '';
@@ -30,12 +29,16 @@ window.onload = function () {
     if (Width < 1500) arrln = 40;
     if (Width < 1000) arrln = 30;
     if (Width < 700) arrln = 25;
+    var blockWidth = Width / arrln;
+    var blockHeight = Height / arrln;
+
     for (i = 0; i < arrln + 1; i++) {
         myArray[i] = new Array();
         for (j = 0; j < arrln + 1; j++) {
             myArray[i][j] = 0;
         }
     }
+    alert(blockWidth*arrln);
     Canvas_container.onclick = function (e) {
         e = e || window.event;
 
