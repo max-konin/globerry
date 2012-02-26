@@ -75,8 +75,7 @@ public class Tag
     {
 	if(this.getId() == tag.getId() &&
 		this.getImg().equals(tag.getImg()) &&
-		this.getName().equals(tag.getName()) &&
-		this.getCityList().equals(tag.getCityList()))
+		this.getName().equals(tag.getName()))
 	    return true;
 	else return false;
     }
