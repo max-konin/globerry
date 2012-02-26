@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,9 @@ public class Company
     private int id;
     @Column(name = "name")
     private String name;
-    @Column(name = "email")
+    @Column(name = "email", unique=true)
     private String email;
-    @Column(name = "login")
+    @Column(name = "login", unique=true)
     private String login;
     @Column(name = "password")
     private String password;
