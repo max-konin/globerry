@@ -41,55 +41,36 @@ import junit.framework.TestCase;
 public class CompanyTest
 {
     @Autowired
-    private TagDao tagDao;
-    
-    @Test(timeout=10000)
-    public void test() throws Exception
+    private CompanyDao companyDao;
+    Company company = new Company();
+    @Test(timeout=1000)
+    public void AddTest() throws Exception
     {
-	//update test
-	Tag tag1 = new Tag();
-	tag1.setImg("img");
-	tagDao.addTag(tag1);
-	Tag tag2 = new Tag();
-	tag2.setId(1);
-	tag2.setImg("Dinosaur");
-	tag2.setName("asdasdasd");
-	tagDao.updateTag(tag2);
-	//remove tags by id
-	//tagDao.removeTag(5);
-	//show list
-	Tag test = new Tag();
-	test.setName("Monkey");
-	/*Tag test1 = new Tag();
-	test1.setName("Crocodile");*/
-	List<Tag> tagList = tagDao.getTagList();
-	Iterator<Tag> it = tagList.iterator();
-	while(it.hasNext())
-	{
-	    Tag test2 = it.next();
-	    if(test.getId() == test2.getId())
-		assertEquals(true,test2.equals(test));
-	}
+	company.setDescription("Its yandex");
+	company.setEmail("yandex@yandex.ru");
+	company.setLogin("hello");
+	companyDao.addCompany(company);
 	
-	
-	
-	
-	//ICompanyDao companyDao = new CompanyDao();
-//	City city = new City();
-//	city.setName("Novosibirsk");
-//	Tag tag = new Tag();
-//	tag.setImg("java.jpg");
-//	tag.setName("prog");
-//	tag.getCityList().add(city);
-//	
-	//System.out.print(test.getName());
-	//rangeTest.setMaxX(1);
-	//wait(2);
-	//assertEquals(1, rangeTest.getMaxX());
-	//CompanyDao dao = new CompanyDao();
-	//dao.addCompany(test);
-	//fail("Not yet implemented");
-	//failNotEquals("qqqq", 1, 2);
     }
-
+    @Test(timeout=1000)
+    public void removeCompany()
+    {
+	Company cmpn1 = new Company();
+	companyDao.addCompany(cmpn1);
+	companyDao.removeCompany(cmpn1);
+    }
+    @Test(timeout=1000)
+    public void updateCompany()
+    {
+	Company company = new Company();
+	companyDao.addCompany(company);
+	Company cmpn1 = new Company();
+	cmpn1.setDescription("shokoladnie batonchiky snikers");
+	cmpn1.setName("Snikers");
+	cmpn1.setEmail("Sinkers@snikers.ru");
+	cmpn1.setLogin("Shaurma");
+	cmpn1.setPassword("Kotiki");
+	companyDao.updateCompany(company, cmpn1);
+	
+    }
 }
