@@ -34,7 +34,10 @@ public class Company
     @Column(name = "description")
     private String description;
     
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(
+	    	cascade=CascadeType.ALL,
+	    	fetch=FetchType.EAGER
+	    	)
     @JoinTable(
                name="CompanyTour",
                joinColumns = @JoinColumn( name="company_id"),

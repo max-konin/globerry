@@ -5,7 +5,7 @@
 
 <hibernate-configuration>
 	<session-factory>
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">create</property>
 		<mapping class="com.globerry.project.domain.Company"/>
 		<mapping class="com.globerry.project.domain.Tour"/>
 		<mapping class="com.globerry.project.domain.Property"/>
@@ -13,6 +13,7 @@
 		<mapping class="com.globerry.project.domain.Tag"/>
 		<mapping class="com.globerry.project.domain.DependingMonthProperty"/>
 		<mapping class="com.globerry.project.domain.PropertyType"/>
+		<mapping class="com.globerry.project.domain.Event"/>
 
 	</session-factory>
 </hibernate-configuration>

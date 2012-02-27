@@ -1,6 +1,7 @@
 package com.globerry.project.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
@@ -16,7 +17,7 @@ public interface IEventDao
      * @param city Город
      * @return Список событий
      */
-    public List<Event> getEventList(City city);
+    public Set<Event> getEventList(City city);
     /**
      * Удалить событие
      * @param event Событие

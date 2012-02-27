@@ -3,7 +3,9 @@ package com.globerry.project.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,16 +36,26 @@ public class City implements Serializable
     private String name;
     //private Proposals proposals;
     //private Option option;
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    /*@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinTable(
                name="CityProperty",
                joinColumns = @JoinColumn( name="city_id"),
                inverseJoinColumns = @JoinColumn( name="property_id")
        )
-    private List<Property> optionList = new ArrayList<Property>();
+    private List<Property> optionList = new ArrayList<Property>();*/
+    @ManyToMany(
+	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
+	    targetEntity = Event.class,
+	    	    mappedBy = "cityList"
+	    )
+    private Set<Event> eventList = new HashSet<Event>();
+    
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "CityTag", joinColumns = { @JoinColumn(name = "city_id") },
-    inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+    @JoinTable(
+	    name = "CityTag",
+	    joinColumns = { @JoinColumn(name = "city_id") },
+	    inverseJoinColumns = { @JoinColumn(name = "tag_id") }
+	    )
     private List<Tag> tagList = new ArrayList<Tag>();
     public int getId()
     {
@@ -84,5 +96,13 @@ public class City implements Serializable
     public void setTagList(List<Tag> tagList)
     {
 	this.tagList = tagList;
+    }
+    public Set<Event> getEvents()
+    {
+	return eventList;
+    }
+    public void setEvents(Set<Event> events)
+    {
+	this.eventList = events;
     }
 }
