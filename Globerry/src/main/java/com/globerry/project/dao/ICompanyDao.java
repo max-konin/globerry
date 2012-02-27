@@ -2,6 +2,7 @@ package com.globerry.project.dao;
 
 import java.util.List;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 /**
@@ -12,8 +13,9 @@ public interface ICompanyDao
     /**
      * Добавляет компанию
      * @param company
+     * @throws MySqlException когда поля не уникальные
      */
-    public void addCompany(Company company);
+    public void addCompany(Company company) throws MySqlException;
     /**
      * Удаляет компанию
      * @param company
@@ -34,11 +36,13 @@ public interface ICompanyDao
      * @param oldCompany
      * @param newCompany
      */
-    public void updateCompany(Company oldCompany, Company newCompany);
+    public void updateCompany(Company oldCompany, Company newCompany) throws MySqlException;
+    public void updateCompany(Company newCompany);
     /**
      * Функция для получения списка туров
      * @param company компания
      * @return Получает список туров компании
      */
     public List<Tour> getCompanyTourList(Company company);
+
 }

@@ -12,6 +12,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ContextLoaderListener;
 
 import org.junit.Test;
@@ -49,28 +51,61 @@ public class CompanyTest
 	company.setDescription("Its yandex");
 	company.setEmail("yandex@yandex.ru");
 	company.setLogin("hello");
-	companyDao.addCompany(company);
+	try
+	{
+	    companyDao.addCompany(company);
+	}
+	catch(MySqlException e)
+	{
+	    
+	}
 	
     }
     @Test(timeout=1000)
     public void removeCompany()
     {
 	Company cmpn1 = new Company();
-	companyDao.addCompany(cmpn1);
+	try
+	{
+	    companyDao.addCompany(cmpn1);
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 	companyDao.removeCompany(cmpn1);
     }
     @Test(timeout=1000)
     public void updateCompany()
     {
 	Company company = new Company();
-	companyDao.addCompany(company);
+	try
+	{
+	    companyDao.addCompany(company);
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 	Company cmpn1 = new Company();
 	cmpn1.setDescription("shokoladnie batonchiky snikers");
 	cmpn1.setName("Snikers");
 	cmpn1.setEmail("Sinkers@snikers.ru");
 	cmpn1.setLogin("Shaurma");
 	cmpn1.setPassword("Kotiki");
-	companyDao.updateCompany(company, cmpn1);
+	try
+	{
+	    companyDao.updateCompany(company, cmpn1);
+	}
+	catch(MySqlException e)
+	{
+	    System.out.println(e.getDescription());
+	    
+	}
+	catch (Exception e)
+	{
+	    
+	}
 	
     }
 }

@@ -63,12 +63,17 @@ public class TourTest
         	tourDao.updateTour(tour, tr1);
     	
         }
-        @Test(timeout=1000)
-        public void getAndAddTour()//идевательство
-        {
-            Tour tour = tourDao.getTour(14);
-            tourDao.addTour(tour);
-        }
+        	@Test(timeout=1000)
+                public void getAndAddTour()//идевательство
+                {
+                    try{
+                 Tour tour = tourDao.getTour(14);
+                 tourDao.addTour(tour);
+                 //fail();
+                    }catch(Exception e){
+                 
+                    }
+                }
 
 
 }

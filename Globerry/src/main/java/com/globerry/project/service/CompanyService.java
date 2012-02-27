@@ -1,9 +1,16 @@
 package com.globerry.project.service;
 
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.dao.TourDao;
+import com.globerry.project.MySqlException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +23,21 @@ public class CompanyService implements ICompanyService
     @Autowired
     private CompanyDao companyDao;
     
+    @Autowired 
+    private TourDao tourDao;
+    
     
     public void addCompany(Company company){
-	companyDao.addCompany(company);
+	try
+	{
+	    companyDao.addCompany(company);
+	} catch (MySqlException e)
+	{
+	    JOptionPane.showMessageDialog(null, company.getLogin()
+		    + " or " + company.getEmail()
+		    + "is exist. Please set new values");
+	    e.printStackTrace();
+	}
     }
     
     
@@ -29,7 +48,7 @@ public class CompanyService implements ICompanyService
     @Override
     public void removeCompany(Company company)
     {
-	// TODO Auto-generated method stub
+	companyDao.removeCompany(company);
 	
     }
 
@@ -43,28 +62,51 @@ public class CompanyService implements ICompanyService
     @Override
     public void companyUpdate(Company oldCompany, Company newCompany)
     {
-	// TODO Auto-generated method stub
-	
+
+	    try
+	    {
+		companyDao.updateCompany(oldCompany, newCompany);
+	    } catch (MySqlException e)
+	    {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+
     }
 
     @Override
-    public void addTour(Tour tour)
+    public void addTour(Company company, Tour tour)
     {
-	// TODO Auto-generated method stub
+	company.getTourList().add(tour);
+	try
+	{
+	    companyDao.addCompany(company);
+	} catch (MySqlException e)
+	{
+	    companyDao.updateCompany(company);
+	}
 	
     }
 
     @Override
     public void removeTour(Tour tour)
     {
-	// TODO Auto-generated method stub
+	tourDao.removeTour(tour);
 	
     }
 
     @Override
-    public List<Tour> getTourList()
+    public List<Tour> getTourList(Company company)
     {
 	// TODO Auto-generated method stub
-	return null;
+	return company.getTourList();
+    }
+
+
+    @Override
+    public void removeCompany(int id)
+    {
+	companyDao.removeCompany(id);
+	
     }
 }

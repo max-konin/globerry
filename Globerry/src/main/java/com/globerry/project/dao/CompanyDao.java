@@ -3,14 +3,18 @@ package com.globerry.project.dao;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Tour;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Repository;
 
 
@@ -22,12 +26,22 @@ public class CompanyDao implements ICompanyDao {
     	private SessionFactory sessionFactory;
 	
 	@Override
-	public void addCompany(Company company)
+	public void addCompany(Company company) throws MySqlException
 	{
-	   Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	   sessionFactory.getCurrentSession().save(company);
-	   tx.commit();
-	   sessionFactory.close();
+	   try
+	   {
+	       Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	       sessionFactory.getCurrentSession().save(company);
+	       tx.commit();
+	       sessionFactory.close();
+	   }
+	   catch(ConstraintViolationException e)
+	   {
+	       MySqlException mySqlExc = new MySqlException();
+	       mySqlExc.setMyClass(company);
+	       mySqlExc.setDescription("Email or login is unique. Change email or login");
+	       throw mySqlExc;
+	   }
 	}
 
 	@Override
@@ -70,8 +84,15 @@ public class CompanyDao implements ICompanyDao {
 	}
 
 	@Override
-	public void updateCompany(Company oldCompany, Company newCompany)
+	public void updateCompany(Company oldCompany, Company newCompany) throws MySqlException
 	{
+	    if(oldCompany == null) 
+	    {
+		MySqlException mySqlExc = new MySqlException();
+		mySqlExc.setMyClass(oldCompany);
+		mySqlExc.setDescription("Old company is null");
+		throw mySqlExc;
+	    }
 	    oldCompany.setDescription(newCompany.getDescription());
 	    oldCompany.setEmail(newCompany.getEmail());
 	    oldCompany.setLogin(newCompany.getLogin());
@@ -96,8 +117,24 @@ public class CompanyDao implements ICompanyDao {
 	    Person person = (Person) query.uniqueResult();
 	     
 	    // Retrieve all
-	    return  new ArrayList<CreditCard>(person.getCreditCards());*/
+	    return  new ArrayList<CreditCard>(person.getCreditCards());//*/
 	    return null;
+	}
+
+	@Override
+	public void updateCompany(Company newCompany)
+	{
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		Company existingCompany = (Company) session.get(Company.class, newCompany.getId());
+		existingCompany.setLogin(newCompany.getLogin());
+		existingCompany.setName(newCompany.getName());
+		existingCompany.setDescription(newCompany.getDescription());
+		existingCompany.setEmail(newCompany.getEmail());
+		existingCompany.setPassword(newCompany.getPassword());
+		existingCompany.setTourList(newCompany.getTourList());
+		session.update(existingCompany);
+		tx.commit();
 	}
 
 }

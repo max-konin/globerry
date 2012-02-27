@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +42,6 @@ public class Company
        )
     private List<Tour> tourList = new ArrayList<Tour>();
    
-    
-    /*public Company(String name, String login, String password)
-    {
-	this.name     = name;
-	this.login    = login;
-	this.password = password;
-    }*/
     public int getId()
     {
 	return id;

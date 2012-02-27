@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.dao.ICompanyDao;
@@ -33,7 +34,7 @@ public class CompanyController
     @Autowired
     private CityDao cityDao;
     @Autowired
-    private TourDao tourDao;
+    private CompanyService cmpService;
 
     
     //@RequestMapping("/company")
@@ -46,31 +47,15 @@ public class CompanyController
     
     @RequestMapping("/")
     public String home(){
-	City city = new City();
-	city.setName("name");
-	Tag tag = new Tag();
-	tag.setName("123123");
-	city.getTagList().add(tag);
-	cityDao.addCity(city);
-	
-	
-
+		
 	Company company = new Company();
 	company.setName("name");
 	company.setDescription("afdsdfasfd");
 	company.setLogin("login");
 	company.setEmail("email");
 	company.setPassword("555555");
-	Tour tour = new Tour();
-	tour.setName("VISIT MAUSOLEUM");
-	tour.setCost(123);
-	tour.setDateEnd(new Date(0));
-	tour.setDateStart(new Date(0));
-	tour.setDescription("sdfgsdg");
 	
-	company.getTourList().add(tour);
-	
-	companyDao.addCompany(company);
+	cmpService.addCompany(company);
 	
 	
 	
