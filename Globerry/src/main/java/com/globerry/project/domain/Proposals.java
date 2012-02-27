@@ -1,23 +1,25 @@
 package com.globerry.project.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Proposals
 {
     private int id;
     private int cityId;
-    private List<Tour> tourList = new ArrayList<Tour>();
-    private List<Air> airList = new ArrayList<Air>();
-    private List<Hotel> hotelList = new ArrayList<Hotel>();
-    private List<Auto> autoList = new ArrayList<Auto>();
+    private Set<Tour> tourList = new HashSet<Tour>();
+    private Set<Air> airList = new HashSet<Air>();
+    private Set<Hotel> hotelList = new HashSet<Hotel>();
+    private Set<Auto> autoList = new HashSet<Auto>();
 
-    public List<Tour> getTourList()
+    public Set<Tour> getTourList()
     {
 	return tourList;
     }
 
-    public void setTourList(List<Tour> tourList)
+    public void setTourList(Set<Tour> tourList)
     {
 	this.tourList = tourList;
     }
@@ -42,32 +44,32 @@ public class Proposals
 	this.id = id;
     }
 
-    public List<Air> getAirList()
+    public Set<Air> getAirList()
     {
 	return airList;
     }
 
-    public void setAirList(List<Air> airList)
+    public void setAirList(Set<Air> airList)
     {
 	this.airList = airList;
     }
 
-    public List<Hotel> getHotelList()
+    public Set<Hotel> getHotelList()
     {
 	return hotelList;
     }
 
-    public void setHotelList(List<Hotel> hotelList)
+    public void setHotelList(Set<Hotel> hotelList)
     {
 	this.hotelList = hotelList;
     }
 
-    public List<Auto> getAutoList()
+    public Set<Auto> getAutoList()
     {
 	return autoList;
     }
 
-    public void setAutoList(List<Auto> autoList)
+    public void setAutoList(Set<Auto> autoList)
     {
 	this.autoList = autoList;
     }
