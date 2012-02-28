@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("companyService")
-@Transactional
 public class CompanyService implements ICompanyService
 {
     @Autowired
@@ -33,9 +32,6 @@ public class CompanyService implements ICompanyService
 	    companyDao.addCompany(company);
 	} catch (MySqlException e)
 	{
-	    JOptionPane.showMessageDialog(null, company.getLogin()
-		    + " or " + company.getEmail()
-		    + "is exist. Please set new values");
 	    e.printStackTrace();
 	}
     }
