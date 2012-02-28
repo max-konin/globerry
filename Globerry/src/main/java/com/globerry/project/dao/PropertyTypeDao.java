@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.PropertyType;
 @Repository
@@ -16,12 +18,22 @@ public class PropertyTypeDao implements IPropertyTypeDao
     private SessionFactory sessionFactory;
 
     @Override
-    public void addPropertyType(PropertyType propertyType)
+    public void addPropertyType(PropertyType propertyType) throws MySqlException
     {
-	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	sessionFactory.getCurrentSession().save(propertyType);
-	tx.commit();
-	sessionFactory.close();
+	try
+	{
+        	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+        	sessionFactory.getCurrentSession().save(propertyType);
+        	tx.commit();
+        	sessionFactory.close();
+	}
+	catch(ConstraintViolationException e)
+	{
+	       MySqlException mySqlExc = new MySqlException();
+	       mySqlExc.setMyClass(propertyType);
+	       mySqlExc.setDescription("propertyType name is dublicated");
+	       throw mySqlExc;
+	}
 	
     }
 
@@ -29,7 +41,7 @@ public class PropertyTypeDao implements IPropertyTypeDao
     public List<PropertyType> getPropertyTypeList()
     {
 	 Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	 List <PropertyType> list = sessionFactory.getCurrentSession().createQuery("from PropertyType").list();
+	List <PropertyType> list = sessionFactory.getCurrentSession().createQuery("from PropertyType").list();
 	 tx.commit();
 	 sessionFactory.close();
 	 return list;
