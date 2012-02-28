@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 
@@ -17,12 +19,22 @@ public class CityDao implements ICityDao
     @Autowired
     SessionFactory sessionFactory;
     @Override
-    public void addCity(City city)
+    public void addCity(City city) throws MySqlException
     {
+	try
+	{
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    sessionFactory.getCurrentSession().save(city);
 	    tx.commit();
 	    sessionFactory.close();
+	}
+	 catch(ConstraintViolationException e)
+	   {
+	       MySqlException mySqlExc = new MySqlException();
+	       mySqlExc.setMyClass(city);
+	       mySqlExc.setDescription("city name is dublicated");
+	       throw mySqlExc;
+	   }
 
     }
 
