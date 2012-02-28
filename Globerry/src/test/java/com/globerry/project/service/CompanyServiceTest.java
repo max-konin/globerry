@@ -1,0 +1,78 @@
+/**
+ * 
+ */
+package com.globerry.project.service;
+
+import static org.junit.Assert.*;
+
+import java.util.Iterator;
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import com.globerry.project.dao.ContextLoaderListener;
+import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Tour;
+
+/**
+ * @author Artem
+ *
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
+@TestExecutionListeners({
+
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class,
+    ContextLoaderListener.class
+
+})
+public class CompanyServiceTest
+{
+    @Autowired
+    private CompanyService cmpService;
+
+    private String getStringGenerator()
+    {  
+	
+      final int LENGHT = 8;  
+      StringBuffer sb = new StringBuffer();  
+      for (int x = 0; x <LENGHT; x++)  
+      {  
+        sb.append((char)((int)(Math.random()*26)+97));  
+      }  
+      return sb.toString();  
+    } 
+    
+    @Test(timeout = 10000)
+    public void ShowList()
+    {
+	Company cmp = new Company();
+	cmp.setName(getStringGenerator());
+	cmp.setEmail(getStringGenerator());
+	Tour tour = new Tour();
+	tour.setName(getStringGenerator());
+	cmp.getTourList().add(tour);
+	cmpService.addCompany(cmp);
+	List<Tour> lst = cmpService.getTourList(cmp);
+	int count = 0;
+	Iterator<Tour> it = lst.iterator();
+	while(it.hasNext())
+	{
+	    Tour tr = it.next();
+	    System.out.println(tr.getName());
+	    count++;
+	    
+	}
+	if (count == 0) fail();
+	//fail("Not yet implemented");
+    }
+
+}
