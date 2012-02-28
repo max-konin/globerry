@@ -32,7 +32,7 @@ public class City implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
     //private Proposals proposals;
     //private Option option;
