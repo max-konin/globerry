@@ -1,13 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=utf8"
-	pageEncoding="utf8"%>
+<%@ page session="false" %>
 <HTML>
 <HEAD>
 <META NAME="GENERATOR" Content="Microsoft Visual Studio 8.0">
 <TITLE>Globerry 0.0.2</TITLE>
 
 <script type="text/javascript" src="<c:url value="resources/javascripts/raphael.js" />"></script>
+<script type="text/javascript" src="javascripts/jquerry.js"></script>
 <script type="text/javascript" src="resources/javascripts/test_rph.js"></script>
+<script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
 
 <style type="text/css">  
     
@@ -23,28 +24,29 @@
 	        height: 99%;
 	        position:absolute;
 	        /*background-color:White;*/
-	        background-color: #ffc;
 	        border-color:#333;
-	        float: left;           
-	   }  
+	        float: left;
+	        z-index : 1;         
+	   }
 	   #Button_div
 	   {
 	        position:absolute;
-	        /*background-color:White;*/
-	        //background-color: #ffc;
-	        //border-color:#333;
-	        float: left;           
+	        float: left;
+	        z-index : 2;         
 	   	}
         </style>  
 </HEAD>
 <BODY height='100%'>
 
-<div id='div_container'>
 
+
+<div id='div_container'>
 <div id='canvas_container'></div>
+<div style="width:100%; height:100%; position:absolute; z-index:0" id="map"></div>
+
 <div id='Button_div'>    
 <input type="button" id="Button_1" name="press" value="  Соединить  ">
-<select id="level_list" onchange = alert("123");)>
+<select id="level_list")>
     <option value =0.1> 0.1</option>
     <option value =0.2> 0.2</option>
     <option value =0.3> 0.3</option>
@@ -80,9 +82,13 @@
     <option value =3.3> 3.3</option>
 
     </select>
+    <select id="moveOrDraw")>
+    <option value =0> рисовать кривульки</option>
+    <option value =1> ходить по карте</option>
+    </select>
 </div>
 
-</div>
+
 
 </BODY>
 
