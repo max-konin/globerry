@@ -29,7 +29,7 @@ public class Tag
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "name")
+    @Column(name = "name", unique=true)
     private String name;
     @Column(name = "img")
     private String img;
