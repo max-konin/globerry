@@ -10,6 +10,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ContextLoaderListener;
 
 import org.junit.Test;
@@ -37,15 +39,32 @@ public class PropertyTypeTest
 {
     @Autowired
     private IPropertyTypeDao PropertyTypeDao;
+    /**
+     * Рандомный генератор стрингов
+     * @return стринг
+     */
+    private String getStringGenerator()
+    {  
+	
+      final int LENGHT = 8;  
+      StringBuffer sb = new StringBuffer();  
+      for (int x = 0; x <LENGHT; x++)  
+      {  
+        sb.append((char)((int)(Math.random()*26)+97));  
+      }  
+      return sb.toString();  
+    } 
     @Test(timeout=10000)
     public void test() throws Exception
     {
 
+	try
+	{
 	PropertyType test = new PropertyType();
-	test.setName("name");
+	test.setName(getStringGenerator());
 	PropertyTypeDao.addPropertyType(test);
 	test = new PropertyType();
-	test.setName("name2");
+	test.setName(getStringGenerator());
 	PropertyTypeDao.addPropertyType(test);
 	//add + list test
 	List<PropertyType> propertyTypeList = PropertyTypeDao.getPropertyTypeList();
@@ -72,9 +91,9 @@ public class PropertyTypeTest
 	assertEquals(count,0);
 	//updateTest
 	test = new PropertyType();
-	test.setName("name");
+	test.setName(getStringGenerator());
 	PropertyTypeDao.addPropertyType(test);
-	test.setName("NEWname");
+	test.setName(getStringGenerator());
 	PropertyTypeDao.updatePropertyType(test);
 	propertyTypeList = PropertyTypeDao.getPropertyTypeList();
 	it = propertyTypeList.iterator();
@@ -89,6 +108,12 @@ public class PropertyTypeTest
 	}
 	assertEquals(count,1);
 	
+	
+    }
+    catch(MySqlException e)
+    {
+	fail(e.getDescription());
     }
     
+}
 }
