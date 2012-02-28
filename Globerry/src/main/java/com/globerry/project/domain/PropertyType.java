@@ -17,7 +17,7 @@ public class PropertyType
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column
+    @Column(name = "name", unique = true)
     private String name;
     public int getId()
     {
