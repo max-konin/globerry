@@ -8,9 +8,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tag;
 
@@ -38,12 +40,22 @@ public class TagDao implements ITagDao
     }
 
     @Override
-    public void addTag(Tag tag)
+    public void addTag(Tag tag) throws MySqlException
     {
-	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	sessionFactory.getCurrentSession().save(tag);
-	tx.commit();
-	sessionFactory.close();
+	try
+	{
+	    Transaction tx = sessionFactory.getCurrentSession()
+		    .beginTransaction();
+	    sessionFactory.getCurrentSession().save(tag);
+	    tx.commit();
+	    sessionFactory.close();
+	} catch (ConstraintViolationException e)
+	{
+	       MySqlException mySqlExc = new MySqlException();
+	       mySqlExc.setMyClass(tag);
+	       mySqlExc.setDescription("Name of tag is dublicated");
+	       throw mySqlExc;
+	}
     }
 
     @Override
