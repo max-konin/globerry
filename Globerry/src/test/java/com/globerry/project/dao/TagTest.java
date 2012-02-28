@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
@@ -40,20 +41,36 @@ public class TagTest
     private TagDao tagDao;
     @Autowired
     private CityDao cityDao;
+    
+    /**
+     * Рандомный генератор стрингов
+     * @return стринг
+     */
+    private String getStringGenerator()
+    {  
+	
+      final int LENGHT = 8;  
+      StringBuffer sb = new StringBuffer();  
+      for (int x = 0; x <LENGHT; x++)  
+      {  
+        sb.append((char)((int)(Math.random()*26)+97));  
+      }  
+      return sb.toString();  
+    } 
+    
     @Test
     public void test()
     {
-
-		
-	
+	try
+	{
 		Tag tag1 = new Tag();
-		tag1.setImg("PUTIN.IMG");
-		tag1.setName("PUTIN");
+		tag1.setImg(getStringGenerator());
+		tag1.setName(getStringGenerator());
 		tagDao.addTag(tag1);
-		tagDao.addTag(tag1);
+
 		Tag tag2 = new Tag();
-		tag2.setImg("MEDVEDEV.img");
-		tag2.setName("MEDVEDEV");
+		tag2.setImg(getStringGenerator());
+		tag2.setName(getStringGenerator());
 
 		City city = new City();
 		city.setName("Novosibirsk");
@@ -77,6 +94,11 @@ public class TagTest
         	    }
         	}
         	assertEquals(check,1);//*/
+	}
+	catch(MySqlException e)
+	{
+	    fail(e.getDescription());
+	}
     }
 
 }
