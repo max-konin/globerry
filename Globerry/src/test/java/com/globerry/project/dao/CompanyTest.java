@@ -2,6 +2,7 @@ package com.globerry.project.dao;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.sql.Date;
 import java.util.Iterator;
@@ -18,6 +19,7 @@ import com.globerry.project.dao.ContextLoaderListener;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.RunWith;
 
 import com.globerry.project.dao.ICompanyDao;
@@ -57,7 +59,7 @@ public class CompanyTest
 	}
 	catch(MySqlException e)
 	{
-	    
+	    fail(e.getDescription());
 	}
 	
     }
