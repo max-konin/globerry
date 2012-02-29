@@ -1,6 +1,8 @@
 package com.globerry.project.service;
 
 import java.util.List;
+import java.util.Set;
+
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 /**
@@ -16,7 +18,7 @@ public interface ICompanyService
     
     public void removeCompany(int id);
     
-    public List<Company> getCompanyList();
+    public Set<Company> getCompanyList();
     
     public void update();
     
@@ -26,6 +28,6 @@ public interface ICompanyService
     
     public void removeTour(Tour tour);
     
-    public List<Tour> getTourList(Company company);
+    public Set<Tour> getTourList(Company company);
 
 }

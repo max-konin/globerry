@@ -3,7 +3,9 @@
  */
 package com.globerry.project.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,12 +30,11 @@ public class TagDao implements ITagDao
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Tag> getTagList()
+    public Set<Tag> getTagList()
     {
-	List<Tag> tagsList;
+	Set<Tag> tagsList;
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	tagsList = sessionFactory.getCurrentSession().createQuery("from Tag")
-	        .list();
+	tagsList = new HashSet<Tag>(sessionFactory.getCurrentSession().createQuery("from Tag").list());
 	tx.commit();
 	sessionFactory.close();
 	return tagsList;

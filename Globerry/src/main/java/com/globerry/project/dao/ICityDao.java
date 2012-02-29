@@ -1,6 +1,7 @@
 package com.globerry.project.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
@@ -30,7 +31,7 @@ public interface ICityDao
      * @param request запрос
      * @return списко городов
      */
-    public List<City> getCityList(CityRequest request);
+    public Set<City> getCityList(CityRequest request);
     /**
      * Обновляет парметры города
      * @param oldCity старый город

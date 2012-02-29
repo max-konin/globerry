@@ -57,7 +57,7 @@ public class City implements Serializable
 	    joinColumns = { @JoinColumn(name = "city_id") },
 	    inverseJoinColumns = { @JoinColumn(name = "tag_id") }
 	    )
-    private List<Tag> tagList = new ArrayList<Tag>();
+    private Set<Tag> tagList = new HashSet<Tag>();
     public int getId()
     {
 	return id;
@@ -90,11 +90,11 @@ public class City implements Serializable
     {
 	this.option = option;
     }*/
-    public List<Tag> getTagList()
+    public Set<Tag> getTagList()
     {
 	return tagList;
     }
-    public void setTagList(List<Tag> tagList)
+    public void setTagList(Set<Tag> tagList)
     {
 	this.tagList = tagList;
     }

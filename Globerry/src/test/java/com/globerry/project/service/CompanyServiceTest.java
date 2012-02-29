@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,7 +62,7 @@ public class CompanyServiceTest
 	tour.setName(getStringGenerator());
 	cmp.getTourList().add(tour);
 	cmpService.addCompany(cmp);
-	List<Tour> lst = cmpService.getTourList(cmp);
+	Set<Tour> lst = cmpService.getTourList(cmp);
 	int count = 0;
 	Iterator<Tour> it = lst.iterator();
 	while(it.hasNext())

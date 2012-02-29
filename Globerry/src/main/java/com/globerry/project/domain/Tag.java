@@ -1,7 +1,9 @@
 package com.globerry.project.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,7 +40,7 @@ public class Tag
 	        mappedBy = "tagList",
 	        targetEntity = City.class
 	    )
-    private List<City> cityList = new ArrayList<City>();
+    private Set<City> cityList = new HashSet<City>();
     public int getId()
     {
 	return id;
@@ -63,11 +65,11 @@ public class Tag
     {
 	this.img = img;
     }
-    public List<City> getCityList()
+    public Set<City> getCityList()
     {
 	return cityList;
     }
-    public void setCityList(List<City> cityList)
+    public void setCityList(Set<City> cityList)
     {
 	this.cityList = cityList;
     }

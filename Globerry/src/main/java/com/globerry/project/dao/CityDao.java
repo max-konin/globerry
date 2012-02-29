@@ -2,6 +2,7 @@ package com.globerry.project.dao;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -68,7 +69,7 @@ public class CityDao implements ICityDao
     }
 
     @Override
-    public List<City> getCityList(CityRequest request)
+    public Set<City> getCityList(CityRequest request)
     {
 	// TODO Auto-generated method stub
 	return null;

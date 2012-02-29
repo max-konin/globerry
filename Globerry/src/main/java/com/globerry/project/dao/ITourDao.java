@@ -1,6 +1,7 @@
 package com.globerry.project.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
@@ -23,13 +24,13 @@ public interface ITourDao
      * @param company Компания
      * @return Список туров
      */
-    public List<Tour> getTourList(Company company);
+    public Set<Tour> getTourList(Company company);
     /**
      * Список туров для конкретного города
      * @param city Город
      * @return Список туров
      */
-    public List<Tour> getTourList(City city);
+    public Set<Tour> getTourList(City city);
     /**
      * Обновляет тур
      * @param oldTour старый тур

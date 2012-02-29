@@ -8,7 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -43,7 +46,7 @@ public class Company
                joinColumns = @JoinColumn( name="company_id"),
                inverseJoinColumns = @JoinColumn( name="tour_id")
        )
-    private List<Tour> tourList = new ArrayList<Tour>();
+    private Set<Tour> tourList = new HashSet<Tour>();
    
     public int getId()
     {
@@ -93,11 +96,11 @@ public class Company
     {
 	this.description = description;
     }
-    public List<Tour> getTourList()
+    public Set<Tour> getTourList()
     {
 	return tourList;
     }
-    public void setTourList(List<Tour> tourList)
+    public void setTourList(Set<Tour> tourList)
     {
 	this.tourList = tourList;
     }

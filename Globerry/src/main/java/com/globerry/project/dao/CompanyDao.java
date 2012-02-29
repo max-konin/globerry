@@ -2,6 +2,8 @@ package com.globerry.project.dao;
 
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.globerry.project.MySqlException;
@@ -72,11 +74,11 @@ public class CompanyDao implements ICompanyDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Company> getCompanyList()
+	public Set<Company> getCompanyList()
 	{
-	    List<Company> companiesList;
+	    Set<Company> companiesList;
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    companiesList = sessionFactory.getCurrentSession().createQuery("from Company")
+	    companiesList = (Set<Company>) sessionFactory.getCurrentSession().createQuery("from Company")
 	            .list();
 	    tx.commit();
 	    sessionFactory.close();
@@ -108,7 +110,7 @@ public class CompanyDao implements ICompanyDao {
 
 
 	@Override
-	public List<Tour> getCompanyTourList(Company company)
+	public Set<Tour> getCompanyTourList(Company company)
 	{
 	   /* Session session = sessionFactory.getCurrentSession();
 

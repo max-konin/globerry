@@ -1,6 +1,7 @@
 package com.globerry.project.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -37,7 +38,7 @@ public class CompanyService implements ICompanyService
     }
     
     
-    public List<Company> getCompanyList(){
+    public Set<Company> getCompanyList(){
 	return companyDao.getCompanyList();
     }
 
@@ -92,7 +93,7 @@ public class CompanyService implements ICompanyService
     }
 
     @Override
-    public List<Tour> getTourList(Company company)
+    public Set<Tour> getTourList(Company company)
     {
 	// TODO Auto-generated method stub
 	return company.getTourList();

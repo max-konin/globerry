@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -67,7 +68,7 @@ public class PropertyTypeTest
 	test.setName(getStringGenerator());
 	PropertyTypeDao.addPropertyType(test);
 	//add + list test
-	List<PropertyType> propertyTypeList = PropertyTypeDao.getPropertyTypeList();
+	Set<PropertyType> propertyTypeList = PropertyTypeDao.getPropertyTypeList();
 	Iterator<PropertyType> it = propertyTypeList.iterator();
 	while(it.hasNext())
 	{

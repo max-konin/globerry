@@ -1,6 +1,8 @@
 package com.globerry.project.dao;
 
 import java.util.List;
+import java.util.Set;
+
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
@@ -42,14 +44,14 @@ public class TourDao implements ITourDao
     }
 
     @Override
-    public List<Tour> getTourList(Company company)
+    public Set<Tour> getTourList(Company company)
     {
 	// TODO Auto-generated method stub
 	return null;
     }
 
     @Override
-    public List<Tour> getTourList(City city)
+    public Set<Tour> getTourList(City city)
     {
 	 /* logger.debug("Retrieving all credit cards");
 	   

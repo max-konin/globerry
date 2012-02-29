@@ -1,6 +1,8 @@
 package com.globerry.project.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -38,10 +40,10 @@ public class PropertyTypeDao implements IPropertyTypeDao
     }
 
     @Override
-    public List<PropertyType> getPropertyTypeList()
+    public Set<PropertyType> getPropertyTypeList()
     {
 	 Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	List <PropertyType> list = sessionFactory.getCurrentSession().createQuery("from PropertyType").list();
+	 Set <PropertyType> list = new HashSet(sessionFactory.getCurrentSession().createQuery("from PropertyType").list());
 	 tx.commit();
 	 sessionFactory.close();
 	 return list;

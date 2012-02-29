@@ -2,6 +2,7 @@ package com.globerry.project.dao;
 
 
 import java.util.List;
+import java.util.Set;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
@@ -14,7 +15,7 @@ import com.globerry.project.domain.Tag;
  */
 public interface ITagDao
 {
-    public List<Tag> getTagList();
+    public Set<Tag> getTagList();
     public void addTag(Tag tag) throws MySqlException;
     public void removeTag(Tag tag);
     public void removeTag(int id);

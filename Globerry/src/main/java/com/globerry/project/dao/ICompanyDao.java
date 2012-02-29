@@ -1,6 +1,7 @@
 package com.globerry.project.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
@@ -30,7 +31,7 @@ public interface ICompanyDao
      * 
      * @return Возвращает список копаний
      */
-    public List<Company> getCompanyList();
+    public Set<Company> getCompanyList();
     /**
      * Заменяет oldCompany на newCompany
      * @param oldCompany
@@ -43,6 +44,6 @@ public interface ICompanyDao
      * @param company компания
      * @return Получает список туров компании
      */
-    public List<Tour> getCompanyTourList(Company company);
+    public Set<Tour> getCompanyTourList(Company company);
 
 }
