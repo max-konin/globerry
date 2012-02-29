@@ -21,11 +21,6 @@ public interface IProposalsDao
      */
     public void removeProposals(Proposals proposals);
     /**
-     * Возвращает список предложений для определенного города
-     * @param city
-     */
-    public List<City> getPropListByCity(City city);
-    /**
      * Заменяет предложение oldProposals на newProposals
      * @param oldProposals
      * @param newProposals

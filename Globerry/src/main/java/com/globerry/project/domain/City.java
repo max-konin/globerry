@@ -21,6 +21,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.mapping.Collection;
@@ -34,7 +36,13 @@ public class City implements Serializable
     private int id;
     @Column(name = "name")
     private String name;
-    //private Proposals proposals;
+    @OneToOne(
+	    fetch = FetchType.LAZY,
+	    cascade = CascadeType.ALL
+	    )
+    //@JoinColumn(name="proposals_fk")
+    @PrimaryKeyJoinColumn
+    private Proposals proposals;
     //private Option option;
     @ManyToMany(
 	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
@@ -97,5 +105,13 @@ public class City implements Serializable
     public void setEvents(Set<Event> events)
     {
 	this.eventList = events;
+    }
+    public Proposals getProposals()
+    {
+	return proposals;
+    }
+    public void setProposals(Proposals proposals)
+    {
+	this.proposals = proposals;
     }
 }

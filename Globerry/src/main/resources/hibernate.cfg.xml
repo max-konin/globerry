@@ -14,6 +14,7 @@
 		<mapping class="com.globerry.project.domain.DependingMonthProperty"/>
 		<mapping class="com.globerry.project.domain.PropertyType"/>
 		<mapping class="com.globerry.project.domain.Event"/>
+		<mapping class="com.globerry.project.domain.Proposals"/>
 
 	</session-factory>
 </hibernate-configuration>
