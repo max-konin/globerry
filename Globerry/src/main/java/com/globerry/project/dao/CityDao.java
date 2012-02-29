@@ -21,20 +21,20 @@ public class CityDao implements ICityDao
     @Override
     public void addCity(City city) throws MySqlException
     {
-	try
-	{
+	/*try
+	{*/
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    sessionFactory.getCurrentSession().save(city);
 	    tx.commit();
 	    sessionFactory.close();
-	}
+	/*}
 	 catch(ConstraintViolationException e)
 	   {
 	       MySqlException mySqlExc = new MySqlException();
 	       mySqlExc.setMyClass(city);
 	       mySqlExc.setDescription("city name is dublicated");
 	       throw mySqlExc;
-	   }
+	   }*/
 
     }
 

@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Event;
@@ -31,7 +32,10 @@ import com.globerry.project.domain.Tour;
     ContextLoaderListener.class
 
 })
-
+/**
+ * @author Sergey Krupin
+ *
+ */
 public class EventDaoTest
 {
     @Autowired
@@ -72,7 +76,7 @@ public class EventDaoTest
 	event2.setCities(event.getCities());
     }
     @Test
-    public void addEventTest(){
+    public void addEventTest() throws MySqlException{
 	Event event = new Event();
 	event.setImage(imageEvent);
 	event.setMonth(monthEvent);
@@ -91,7 +95,7 @@ public class EventDaoTest
 	eventDao.addEvent(event, city);
     }
     @Test
-    public void removeEventTest(){
+    public void removeEventTest() throws MySqlException{
 	Event event = new Event();
 	event.setImage(imageEvent);
 	event.setMonth(monthEvent);
@@ -106,7 +110,7 @@ public class EventDaoTest
 	eventDao.removeEvent(event);
     }
     @Test
-    public void getEventListTest(){
+    public void getEventListTest() throws MySqlException{
 	Event event = new Event();
 	event.setImage(imageEvent);
 	event.setMonth(monthEvent);
@@ -124,7 +128,7 @@ public class EventDaoTest
 	//while(it.next().getDescription().compareTo(descriptionEvent) != 0){}
     }
     @Test
-    public void updateEventTest(){
+    public void updateEventTest() throws MySqlException{
 	Event event = new Event();
 	event.setImage(imageEvent);
 	event.setMonth(monthEvent);

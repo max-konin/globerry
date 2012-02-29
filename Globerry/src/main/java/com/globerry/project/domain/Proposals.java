@@ -5,11 +5,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Proposals
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column
     private int cityId;
+    //@OneToMany
     private Set<Tour> tourList = new HashSet<Tour>();
+    
     private Set<Air> airList = new HashSet<Air>();
     private Set<Hotel> hotelList = new HashSet<Hotel>();
     private Set<Auto> autoList = new HashSet<Auto>();

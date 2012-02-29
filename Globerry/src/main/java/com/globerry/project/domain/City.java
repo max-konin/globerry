@@ -32,17 +32,10 @@ public class City implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
     //private Proposals proposals;
     //private Option option;
-    /*@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinTable(
-               name="CityProperty",
-               joinColumns = @JoinColumn( name="city_id"),
-               inverseJoinColumns = @JoinColumn( name="property_id")
-       )
-    private List<Property> optionList = new ArrayList<Property>();*/
     @ManyToMany(
 	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
 	    targetEntity = Event.class,
