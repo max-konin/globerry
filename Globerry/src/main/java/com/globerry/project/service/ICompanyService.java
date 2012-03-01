@@ -3,6 +3,7 @@ package com.globerry.project.service;
 import java.util.List;
 import java.util.Set;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 /**
@@ -12,7 +13,7 @@ import com.globerry.project.domain.Tour;
  */
 public interface ICompanyService
 {
-    public void addCompany(Company company);
+    public void addCompany(Company company) throws MySqlException;
     
     public void removeCompany(Company company);
     
@@ -22,7 +23,7 @@ public interface ICompanyService
     
     public void update();
     
-    public void companyUpdate(Company oldCompany, Company newCompany);
+    public void companyUpdate(Company oldCompany, Company newCompany) throws MySqlException;
     
     public void addTour(Company company, Tour tour);
     

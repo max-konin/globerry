@@ -1,5 +1,7 @@
 package com.globerry.project.service;
 
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,13 +29,14 @@ public class CompanyService implements ICompanyService
     private TourDao tourDao;
     
     
-    public void addCompany(Company company){
+    public void addCompany(Company company) throws MySqlException
+    {
 	try
 	{
 	    companyDao.addCompany(company);
 	} catch (MySqlException e)
 	{
-	    e.printStackTrace();
+	    throw e;
 	}
     }
     
@@ -57,7 +60,7 @@ public class CompanyService implements ICompanyService
     }
 
     @Override
-    public void companyUpdate(Company oldCompany, Company newCompany)
+    public void companyUpdate(Company oldCompany, Company newCompany) throws MySqlException
     {
 
 	    try
@@ -66,7 +69,7 @@ public class CompanyService implements ICompanyService
 	    } catch (MySqlException e)
 	    {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		throw e;
 	    }
 
     }

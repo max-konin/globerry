@@ -1,18 +1,38 @@
+/**
+ * 
+ */
 package com.globerry.project.service;
 
+import java.util.List;
 import java.util.Set;
 
-import com.globerry.project.domain.Property;
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.PropertyType;
 
 /**
- * 
- * @author Сергей Крупин
+ * @author Artem
  *
  */
 public interface IPropertyTypeService
 {
-    public Set<Property> getOptionList();
+    /**
+     * Получает лист PropertyType
+     * @return
+     */
+    public Set<PropertyType> getPropertyTypeList();
+    /**
+     * Добавляет PropertyType
+     * @param propertyType
+     */
+    public void addProperyType(PropertyType propertyType) throws MySqlException;
+    /**
+     * Удаляет по объекту
+     * @param propertyType
+     */
     public void removePropertyType(PropertyType propertyType);
-    public void addPropertyType(PropertyType propertyType);
+    /**
+     * удаляет по id
+     * @param id
+     */
+    public void removePropertyType(int id);
 }
