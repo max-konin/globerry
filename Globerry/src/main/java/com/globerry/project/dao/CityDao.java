@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
@@ -22,20 +23,29 @@ public class CityDao implements ICityDao
     @Override
     public void addCity(City city) throws MySqlException
     {
-	/*try
-	{*/
-	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	Transaction tx = null;
+	try
+	{
+	    tx = sessionFactory.getCurrentSession().beginTransaction();
 	    sessionFactory.getCurrentSession().save(city);
 	    tx.commit();
 	    sessionFactory.close();
-	/*}
-	 catch(ConstraintViolationException e)
+	}
+	 /*catch(ConstraintViolationException e)
 	   {
 	       MySqlException mySqlExc = new MySqlException();
 	       mySqlExc.setMyClass(city);
 	       mySqlExc.setDescription("city name is dublicated");
 	       throw mySqlExc;
 	   }*/
+	catch (Exception e) {
+	    if(tx !=null)
+		tx.rollback();
+	    MySqlException mySqlExc = new MySqlException();
+	       mySqlExc.setMyClass(city);
+	       mySqlExc.setDescription("unexpected error");
+	       throw mySqlExc;
+	}
 
     }
 

@@ -72,10 +72,13 @@ public class TagTest
 		tag2.setImg(getStringGenerator());
 		tag2.setName(getStringGenerator());
 
+		//tagDao.addTag(tag2);
+
 		City city = new City();
 		city.setName("Novosibirsk");
 		city.getTagList().add(tag1);
 		city.getTagList().add(tag2);
+		tagDao.addTag(tag2);
 		cityDao.addCity(city);//*/
 		cityDao.removeCity(city);
 		

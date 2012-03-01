@@ -40,7 +40,6 @@ public class City implements Serializable
 	    fetch = FetchType.LAZY,
 	    cascade = CascadeType.ALL
 	    )
-    //@JoinColumn(name="proposals_fk")
     @PrimaryKeyJoinColumn
     private Proposals proposals;
     //private Option option;
@@ -51,11 +50,9 @@ public class City implements Serializable
 	    )
     private Set<Event> eventList = new HashSet<Event>();
     
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-	    name = "CityTag",
-	    joinColumns = { @JoinColumn(name = "city_id") },
-	    inverseJoinColumns = { @JoinColumn(name = "tag_id") }
+    @ManyToMany(
+	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
+	    targetEntity = Tag.class
 	    )
     private Set<Tag> tagList = new HashSet<Tag>();
     public int getId()
