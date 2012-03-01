@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
@@ -37,12 +39,12 @@ public class CompanyController
     private CompanyService cmpService;
 
     
-    //@RequestMapping("/company")
+    @RequestMapping("/admin")
     public String companyList(Map<String,Object> map){
-	//map.put("company",new Company());
-	//map.put("companyList",companyService.getCompanyList());
+	map.put("company",new Company());
+	map.put("companyList",cmpService.getCompanyList());
 	
-	return "company";
+	return "admin";
     }
     
     @RequestMapping("/")
@@ -54,25 +56,41 @@ public class CompanyController
 	company.setLogin("login");
 	company.setEmail("email");
 	company.setPassword("555555");
+	try
+	{
+	    cmpService.addCompany(company);
+	}
+	catch(MySqlException e)
+	{
+
+	}
 	
-	cmpService.addCompany(company);
 	
 	
-	
-	return "WEB-INF/views/company.jsp";
+	return "company";
     }
     
-    //@RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addCompany(@ModelAttribute("company") Company company, BindingResult result){
-	//companyService.addCompany(company);
-	
-	return "redirect:/index";
+    
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addContact(@ModelAttribute("admin") Company company,
+            BindingResult result) {
+
+	try
+	{
+	    cmpService.addCompany(company);
+	}
+	catch(MySqlException e)
+	{
+	    //Пока не понятно что писать если пользователь ввёл повторяющиеся данные
+	}
+        return "redirect:/";
     }
     
-    //@RequestMapping("/delete/{companyId}")
-    public String removeCompany()
+    @RequestMapping("/delete/{companyId}")
+    public String removeCompany(@PathVariable("companyId") Integer companyId)
     {
-	return null;
+	cmpService.removeCompany(companyId);
+	return "redirect:/admin";
     }//TODO
     
 }
