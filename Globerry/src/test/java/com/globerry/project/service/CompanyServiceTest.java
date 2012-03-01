@@ -6,9 +6,9 @@ package com.globerry.project.service;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
+import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ContextLoaderListener;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
@@ -52,9 +53,10 @@ public class CompanyServiceTest
       return sb.toString();  
     } 
     
-    @Test(timeout = 10000)
+    @Test(timeout = 1000)
     public void ShowList()
     {
+	try{
 	Company cmp = new Company();
 	cmp.setName(getStringGenerator());
 	cmp.setEmail(getStringGenerator());
@@ -67,13 +69,16 @@ public class CompanyServiceTest
 	Iterator<Tour> it = lst.iterator();
 	while(it.hasNext())
 	{
-	    Tour tr = it.next();
-	    System.out.println(tr.getName());
 	    count++;
-	    
+	    it.next();
+	}//*/
+	if (count == 0) fail("Set is empty");
 	}
-	if (count == 0) fail();
-	//fail("Not yet implemented");
+	catch (MySqlException e)
+	{
+	    fail(e.getDescription());
+	}
+	
     }
 
 }
