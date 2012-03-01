@@ -31,13 +31,6 @@ public class CityDao implements ICityDao
 	    tx.commit();
 	    sessionFactory.close();
 	}
-	 /*catch(ConstraintViolationException e)
-	   {
-	       MySqlException mySqlExc = new MySqlException();
-	       mySqlExc.setMyClass(city);
-	       mySqlExc.setDescription("city name is dublicated");
-	       throw mySqlExc;
-	   }*/
 	catch (Exception e) {
 	    if(tx !=null)
 		tx.rollback();
