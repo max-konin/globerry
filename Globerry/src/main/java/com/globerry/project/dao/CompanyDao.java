@@ -3,6 +3,7 @@ package com.globerry.project.dao;
 
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -76,14 +77,16 @@ public class CompanyDao implements ICompanyDao {
 	@Override
 	public Set<Company> getCompanyList()
 	{
-	    Set<Company> companiesList;
+	    List<Company> companiesList;
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    companiesList = (Set<Company>) sessionFactory.getCurrentSession().createQuery("from Company")
+	    companiesList = sessionFactory.getCurrentSession().createQuery("from Company")
 	            .list();
 	    tx.commit();
 	    sessionFactory.close();
-	    return companiesList;
+	    return new HashSet<Company>(companiesList);
 	}
+
+
 
 	@Override
 	public void updateCompany(Company oldCompany, Company newCompany) throws MySqlException

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.PropertyType;
+import java.lang.IllegalArgumentException;
 @Repository
 public class PropertyTypeDao implements IPropertyTypeDao
 {
@@ -63,6 +64,18 @@ public class PropertyTypeDao implements IPropertyTypeDao
     public void removePropertyType(PropertyType propertyType)
     {
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	sessionFactory.getCurrentSession().delete(propertyType);
+	tx.commit();
+	sessionFactory.close();
+	
+    }
+    @Override
+    public void removePropertyType(int id)
+    {
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	PropertyType propertyType = (PropertyType) sessionFactory.getCurrentSession().load(
+		PropertyType.class, id);
+	if(null == propertyType) throw new IllegalArgumentException("Such id is not excist!!!");
 	sessionFactory.getCurrentSession().delete(propertyType);
 	tx.commit();
 	sessionFactory.close();

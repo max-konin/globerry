@@ -49,7 +49,8 @@ public class EventDao implements IEventDao
         	    sessionFactory.getCurrentSession().save(event);
         	    tx.commit();
         	    sessionFactory.close();
-	    }catch (Exception e) {
+	    }catch (Exception e)
+	    {
 		event.getCities().remove(city);
 		city.getEvents().remove(event);
 		throw new RuntimeException(e);
