@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.Month;
 /**
  * 
  * @author Сергей
@@ -35,4 +36,5 @@ public interface IEventDao
      * @param newEvent новое событие
      */
     public void updateEvent(Event oldEvent, Event newEvent);
+    public List<Event> getEventList(Month month, City city);
 }

@@ -1,11 +1,14 @@
 package com.globerry.project.dao;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -74,8 +77,16 @@ public class CityDao implements ICityDao
     @Override
     public Set<City> getCityList(CityRequest request)
     {
+	Set<City> result;
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class)
+		//.add(Restrictions.e)
+		.createCriteria("eventList")
+			.add(Restrictions.eq("name", "new year"));
+	result = new HashSet<City>(criteria.list());
+	tx.commit();
 	// TODO Auto-generated method stub
-	return null;
+	return result;
     }
 
 

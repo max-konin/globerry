@@ -2,9 +2,11 @@ package com.globerry.project.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.DependingMonthProperty;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.Month;
 
 @Repository
 public class EventDao implements IEventDao
@@ -70,6 +73,20 @@ public class EventDao implements IEventDao
 	tx.commit();
 	sessionFactory.close();
 	
+    }
+
+    @Override
+    public List<Event> getEventList(Month month, City city)
+    {
+	List<Event> result;
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Event.class)
+		.add(Restrictions.eq("month", month))
+		.createCriteria("cityList")
+			.add(Restrictions.eq("id", city.getId()));
+	result = (List<Event>)criteria.list();
+	tx.commit();
+	return result;
     }
 
 }

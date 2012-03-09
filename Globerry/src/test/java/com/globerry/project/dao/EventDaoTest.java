@@ -124,6 +124,11 @@ public class EventDaoTest
 	eventDao.addEvent(event, city);
 	Set<Event> listEvents = eventDao.getEventList(city);
 	assertTrue(listEvents.contains(event));
+	
+	List<Event> listEventsMonth = eventDao.getEventList(monthEvent,city);
+	assertEquals(nameEvent, listEventsMonth.iterator().next().getName());
+	//System.out.println(listEventsMonth.iterator().next().getName());
+	//assertTrue(listEventsMonth.contains(event));
 	//Iterator<Event> it = listEvents.iterator();
 	//while(it.next().getDescription().compareTo(descriptionEvent) != 0){}
     }
