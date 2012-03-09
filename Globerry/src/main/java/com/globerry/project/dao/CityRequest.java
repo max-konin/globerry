@@ -1,5 +1,7 @@
 package com.globerry.project.dao;
 
+import java.util.List;
+
 import com.globerry.project.domain.Property;
 /**
  * @author Сергей
@@ -8,15 +10,15 @@ import com.globerry.project.domain.Property;
 public class CityRequest
 {
     private Range range;
-    private Property property;
+    private List<Property> properties;
     /**
      * Конструктор запроса
      * @param range область поиска
      * @param option опции поиска
      */
-    public CityRequest(Range range, Property property){
+    public CityRequest(Range range, List<Property> properties){
 	this.range = range;
-	this.property = property;
+	this.properties = properties;
     }
     public Range getRange()
     {
@@ -26,12 +28,12 @@ public class CityRequest
     {
 	this.range = range;
     }
-    public Property getOption()
+    public List<Property> getOption()
     {
-	return property;
+	return properties;
     }
-    public void setOption(Property property)
+    public void setOption(List<Property> properties)
     {
-	this.property = property;
+	this.properties = properties;
     }
 }

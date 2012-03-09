@@ -1,10 +1,13 @@
 package com.globerry.project.service;
-/**
- * 
- * @author Сергей Крупин
- *
- */
-public interface IOptionBlock
+
+import java.util.List;
+
+public class IOptionBlock
 {
-    public IBlockItem getBlockItems();
+    private List<IBlockItem> items;
+
+    public List<IBlockItem> getBlockItems()
+    {
+	return items;
+    }
 }
