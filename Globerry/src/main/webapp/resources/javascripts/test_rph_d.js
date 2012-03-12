@@ -36,16 +36,62 @@ window.onload = function () {
     if (Width < 1500)
         bottomFont = 14;
     if (Width < 1000)
-        bottomFont = 12;
+        bottomFont = 10;
+    var osm = new OpenLayers.Layer.OSM();
+    osm.wrapDateLine = false;
 
-    
-    var wms = new OpenLayers.Layer.WMS("OpenLayers WMS", "http://labs.metacarta.com/wms/vmap0", { layers: 'basic', zoom: 1 });
+    var wms = new OpenLayers.Layer.WMS("OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0", { layers: 'basic', zoom: 1 });
+
     var map = new OpenLayers.Map({
-    div: "map",
-    layers: [wms], center: new OpenLayers.LonLat(0, 0), zoom: 1 });
+        projection: 'EPSG:900913',
+        numZoomLevels: 6,
+
+        controls: [
+    new OpenLayers.Control.TouchNavigation({
+        dragPanOptions: {
+            enableKinetic: true
+        }
+    }),
+    new OpenLayers.Control.ZoomPanel()
+    ],
+
+
+        div: "map",
+        layers: [osm], center: new OpenLayers.LonLat(0, 0), zoom: 1
+    });
+
     if (Width > 800) map.zoomIn();
     if (Width > 1500) map.zoomIn();
-  /*   */
+    /* 
+    var osm = new OpenLayers.Layer.OSM();
+    osm.wrapDateLine = false;
+
+    map = new OpenLayers.Map({
+    div: 'map',
+    projection: 'EPSG:900913',
+    numZoomLevels: 18,
+    controls: [
+    new OpenLayers.Control.TouchNavigation({
+    dragPanOptions: {
+    enableKinetic: true
+    }
+    }),
+    new OpenLayers.Control.ZoomPanel(),
+    toolbar
+    ],
+    layers: [osm],
+    center: new OpenLayers.LonLat(0, 0),
+    zoom: 1,
+    theme: null
+    });
+    */
+
+
+    // map.addLayers([wms, wfs, kml]);
+
+    // map.setCenter(new OpenLayers.LonLat(0, 0), 3);
+    /**/
+
     var HeadPaper = new Raphael(Head, '100%', '100%');
     var HeadPaperWidth = $(document.getElementById("header")).width();
     var HeadPaperHeight = $(document.getElementById("header")).height();
@@ -65,7 +111,7 @@ window.onload = function () {
 
     whiteLine = bottomSwitcher.rect(0, (bottomSwitcherHeight * 0.85), bottomSwitcherWidth, (bottomSwitcherHeight * 0.15));
     //whiteLine.attr({ fill: [0, '#ffe', '#ffa'].join("-"), stroke: bottomColor });
-    whiteLine.attr({ fill: [0, '#fff', '#fee'].join("-"), stroke: 'white', 'stroke-size': 2 });
+    whiteLine.attr({ fill: [0, '#fff', '#fee'].join("-"), stroke: 'white', 'stroke-size': 4 });
     //tour-------------------------------------------------------
     var tourRect = bottomSwitcher.path(tourPathAnimated);
     tourRect.attr({ fill: [0, 'yellow', 'orange'].join("-"), stroke: 'none' });
@@ -107,6 +153,9 @@ window.onload = function () {
     autoRectOver.translate((bottomSwitcherWidth * 0.42), 0);
     autoRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
     //tourRect.hover(function () {},function () {});
+
+    // var myBottomSwitcherSet = bottomSwitcher.set();
+    //myBottomSwitcherSet.push(aviaRect, aviaText, aviaRectOver, tourRect, tourText, tourRectOver, hotelRect, hotelText, hotelRectOver, autoRect, autoText, autoRectOver);
 
     tourRectOver.click(function () {
         tourRect.animate({ path: tourPathAnimated, zIndex: 1 }, bottomSwitcherDelay);
@@ -242,7 +291,8 @@ window.onload = function () {
         e = e || window.event;
         monthClickX = e.clientX;
         monthClickX -= $(document.getElementById("left")).width();
-        monthClickX /= (MonthPaperWidth / 12);
+        //alert($(document.getElementById("month")).width());
+        monthClickX /= ($(document.getElementById("month")).width() / 12);
         monthClickX = Math.round(monthClickX + 0.5);
         orangePath.animate({ opacity: 0 });
         for (monthCounter = 0; monthCounter < 12; monthCounter++) {
@@ -569,7 +619,7 @@ window.onload = function () {
             }
             else {
                 this.attr({ x: (temperatureSliderRightHandler.attr("x") - temperatureSliderHandlerXSize) });
-                temperatureSliderCenterRect.atrr({ x: (temperatureSliderRightHandler.attr("x") - temperatureSliderHandlerXSize), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x") - temperatureSliderHandlerXSize / 5) });
+                temperatureSliderCenterRect.attr({ x: (temperatureSliderRightHandler.attr("x") - temperatureSliderHandlerXSize), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x") - temperatureSliderHandlerXSize / 5) });
             }
         }
         if ((dx < 0) && (this.attr("x") > (temperatureSliderLeftPosition + temperatureSliderHandlerXSize)))
@@ -581,6 +631,12 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (temperatureSliderLeftPosition - temperatureSliderHandlerXSize)) });
                 temperatureSliderCenterRect.attr({ x: (this.attr("x") > (temperatureSliderLeftPosition + temperatureSliderHandlerXSize)), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x") - temperatureSliderHandlerXSize / 5) });
             }
+        //warp slider if its out of bounds
+        if (this.attr("x") < (temperatureSliderLeftPosition)) {
+            this.attr({ x: (temperatureSliderLeftPosition) });
+        }
+
+
         temperatureSliderCenterRect.attr({ x: (this.attr("x")), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x")) });
 
         //---
@@ -686,6 +742,12 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (timeSliderLeftPosition + timeSliderHandlerXSize)) });
                 timeSliderCenterRect.attr({ x: (this.attr("x") > (timeSliderLeftPosition + timeSliderHandlerXSize)), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x") - timeSliderHandlerXSize / 5) });
             }
+        //warp slider if its out of bounds
+        if (this.attr("x") < (timeSliderLeftPosition)) {
+            this.attr({ x: (timeSliderLeftPosition) });
+        }
+
+
         timeSliderCenterRect.attr({ x: (this.attr("x")), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x")) });
         var leftTimeBlockTime = Math.round(((timeSliderLeftHandler.attr("x") - (timeSliderLeftPosition + timeSliderHandlerYSize)) * 24) / ((SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize)));
         if (leftTimeBlockTime > 0)
@@ -796,6 +858,11 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (livingSliderLeftPosition + livingSliderHandlerXSize)) });
                 livingSliderCenterRect.attr({ x: (this.attr("x") > (livingSliderLeftPosition + livingSliderHandlerXSize)), width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x") - livingSliderHandlerXSize / 5) });
             }
+        //warp
+        if (this.attr("x") < (livingSliderLeftPosition)) {
+            this.attr({ x: (livingSliderLeftPosition) });
+        }
+
         livingSliderCenterRect.attr({ x: (this.attr("x")), width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x")) });
         var leftlivingBlockliving = Math.round(((livingSliderLeftHandler.attr("x") - (livingSliderLeftPosition + livingSliderHandlerYSize)) * 3000) / ((SliderPaperWidth - (2 * livingSliderLeftPosition) - livingSliderHandlerYSize)));
         if (leftlivingBlockliving > 0)
@@ -904,6 +971,11 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (foodSliderLeftPosition + foodSliderHandlerXSize)) });
                 foodSliderCenterRect.attr({ x: (this.attr("x") > (foodSliderLeftPosition + foodSliderHandlerXSize)), width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x") - foodSliderHandlerXSize / 5) });
             }
+        //warp
+        if (this.attr("x") < (foodSliderLeftPosition)) {
+            this.attr({ x: (foodSliderLeftPosition) });
+        }
+
         foodSliderCenterRect.attr({ x: (this.attr("x")), width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x")) });
         var leftfoodBlockfood = Math.round(((foodSliderLeftHandler.attr("x") - (foodSliderLeftPosition + foodSliderHandlerYSize)) * 300) / ((SliderPaperWidth - (2 * foodSliderLeftPosition) - foodSliderHandlerYSize)));
         if (leftfoodBlockfood > 0)
@@ -1012,6 +1084,11 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (alcoholSliderLeftPosition + alcoholSliderHandlerXSize)) });
                 alcoholSliderCenterRect.attr({ x: (this.attr("x") > (alcoholSliderLeftPosition + alcoholSliderHandlerXSize)), width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x") - alcoholSliderHandlerXSize / 5) });
             }
+        //warp
+        if (this.attr("x") < (alcoholSliderLeftPosition)) {
+            this.attr({ x: (alcoholSliderLeftPosition) });
+        }
+
         alcoholSliderCenterRect.attr({ x: (this.attr("x")), width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x")) });
         var leftalcoholBlockalcohol = Math.round(((alcoholSliderLeftHandler.attr("x") - (alcoholSliderLeftPosition + alcoholSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * alcoholSliderLeftPosition) - alcoholSliderHandlerYSize)));
         if (leftalcoholBlockalcohol > 0)
@@ -1120,6 +1197,11 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (moodSliderLeftPosition + moodSliderHandlerXSize)) });
                 moodSliderCenterRect.attr({ x: (this.attr("x") > (moodSliderLeftPosition + moodSliderHandlerXSize)), width: (moodSliderRightHandler.attr("x") - moodSliderCenterRect.attr("x") - moodSliderHandlerXSize / 5) });
             }
+        //warp
+        if (this.attr("x") < (moodSliderLeftPosition)) {
+            this.attr({ x: (moodSliderLeftPosition) });
+        }
+
         //   moodSliderCenterRect.attr({ x: (this.attr("x")), width: (moodSliderRightHandler.attr("x") - moodSliderCenterRect.attr("x")) });
         /*
         var leftmoodBlockmood = Math.round(((moodSliderLeftHandler.attr("x") - (moodSliderLeftPosition + moodSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * moodSliderLeftPosition) - moodSliderHandlerYSize)));
@@ -1189,6 +1271,11 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (touristsSliderLeftPosition + touristsSliderHandlerXSize)) });
                 touristsSliderCenterRect.attr({ x: (this.attr("x") > (touristsSliderLeftPosition + touristsSliderHandlerXSize)), width: (touristsSliderRightHandler.attr("x") - touristsSliderCenterRect.attr("x") - touristsSliderHandlerXSize / 5) });
             }
+        //warp
+        if (this.attr("x") < (touristsSliderLeftPosition)) {
+            this.attr({ x: (touristsSliderLeftPosition) });
+        }
+
         //   touristsSliderCenterRect.attr({ x: (this.attr("x")), width: (touristsSliderRightHandler.attr("x") - touristsSliderCenterRect.attr("x")) });
         /*
         var lefttouristsBlocktourists = Math.round(((touristsSliderLeftHandler.attr("x") - (touristsSliderLeftPosition + touristsSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * touristsSliderLeftPosition) - touristsSliderHandlerYSize)));
@@ -1210,7 +1297,7 @@ window.onload = function () {
     touristsSliderLeftHandler.drag(touristsSliderLeftHandlerMove, touristsSliderLeftHandlerStart, touristsSliderLeftHandlerUp);
 
     //----------------------===========================-----------
-    ///----------------------seventh (security) Slider -------------------------------------
+    ///----------------------eights (security) Slider -------------------------------------
 
     var securitySliderYPosition = ninthDevideLinePosition + (SliderPaperHeight * 0.06);
     var securitySliderHeight = firstBlockRectWidth * 0.15;
@@ -1257,6 +1344,11 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (securitySliderLeftPosition + securitySliderHandlerXSize)) });
                 securitySliderCenterRect.attr({ x: (this.attr("x") > (securitySliderLeftPosition + securitySliderHandlerXSize)), width: (securitySliderRightHandler.attr("x") - securitySliderCenterRect.attr("x") - securitySliderHandlerXSize / 5) });
             }
+        //warp
+        if (this.attr("x") < (securitySliderLeftPosition)) {
+            this.attr({ x: (securitySliderLeftPosition) });
+        }
+
         //   securitySliderCenterRect.attr({ x: (this.attr("x")), width: (securitySliderRightHandler.attr("x") - securitySliderCenterRect.attr("x")) });
         /*
         var leftsecurityBlocksecurity = Math.round(((securitySliderLeftHandler.attr("x") - (securitySliderLeftPosition + securitySliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * securitySliderLeftPosition) - securitySliderHandlerYSize)));
@@ -1279,7 +1371,7 @@ window.onload = function () {
 
     //----------------------===========================-----------
     //----------------------===========================-----------
-    ///----------------------eights (sex) Slider -------------------------------------
+    ///----------------------ninths (sex) Slider -------------------------------------
 
     var sexSliderYPosition = tenthDevideLinePosition + (SliderPaperHeight * 0.06);
     var sexSliderHeight = firstBlockRectWidth * 0.15;
@@ -1326,6 +1418,10 @@ window.onload = function () {
                 this.attr({ x: (this.attr("x") > (sexSliderLeftPosition + sexSliderHandlerXSize)) });
                 sexSliderCenterRect.attr({ x: (this.attr("x") > (sexSliderLeftPosition + sexSliderHandlerXSize)), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x") - sexSliderHandlerXSize / 5) });
             }
+        //warp
+        if (this.attr("x") < (sexSliderLeftPosition)) {
+            this.attr({ x: (sexSliderLeftPosition) });
+        }
         //   sexSliderCenterRect.attr({ x: (this.attr("x")), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x")) });
         /*
         var leftsexBlocksex = Math.round(((sexSliderLeftHandler.attr("x") - (sexSliderLeftPosition + sexSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * sexSliderLeftPosition) - sexSliderHandlerYSize)));
@@ -1359,7 +1455,7 @@ window.onload = function () {
         var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.4, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "Русский язык");
     ninthBlockRussianText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //russianRect.attr({ fill: [270, '#ccc', '#999'].join("-"), stroke: 'none' });
-    russianRect.attr({ fill: [270, '#fc0', '#fc6'].join("-"), stroke: '#bbb' , cursor : 'hand' });
+    russianRect.attr({ fill: [270, '#fc0', '#fc6'].join("-"), stroke: '#bbb', cursor: 'hand' });
 
     var visaRect = SliderPaper.rect((SliderPaperWidth - firstBlockRectOffset), eleventhDevideLinePosition + (SliderPaperHeight * 0.02), firstBlockRectWidth / 4, firstBlockRectWidth / 4);
     if (Width > 1000)
@@ -1392,6 +1488,101 @@ window.onload = function () {
         }
     });
 
+    var magicKey = true; //magic key for fixing magic bug.
 
+
+    $(window).resize(function (e) {
+        //alert($(window).width());
+        //var browserHeight
+        var newWidth = $(window).width();
+        var newHeight = $(window).height();
+        var newHeadHeight = $(Head).height();
+        //HeadPaperWidth = newWidth;
+        //HeadPaperHeight = newHeight*0.07;
+
+        //alert(newWidth);
+        //alert(Width);
+        if (newWidth < 900)
+            newWidth = 900;
+        if (newHeight < 600)
+            newHeight = 600;
+        //  if (($.browser.opera) || ($.browser.mozilla) || ($.browser.msie)) {
+
+        HeadPaper.setSize(newWidth, newHeight * 0.07);
+        HeadPaper.forEach(function (el) {
+            el.scale(1, newHeight / Height, 0, 0);
+        });
+        headGradRect1.scale(newWidth / Width, 1, 0, 0);
+        headGradRect2.scale(newWidth / Width, 1, 0, 0);
+
+        /**/
+        // alert(newWidth);
+        SliderPaper.setSize(newWidth * 0.31, newHeight * 0.93);
+        SliderPaper.forEach(function (el) {
+            //el.scale(1, 1, (newWidth * 0.3) / 2, (newHeight * 0.93) / 2);
+            el.scale((newWidth / Width), newHeight / Height, 0, 0);
+            // myBottomSwitcherSet.scale((newWidth / Width), newHeight / Height, 0, 0);
+        });
+
+        MonthPaper.setSize(newWidth * 0.7, newHeight * 0.022);
+        MonthPaper.forEach(function (el) {
+            el.scale((newWidth / Width), newHeight / Height, 0, 0);
+        });
+
+        //---------------------------------------------------------------------------
+
+        var newBottomSwitcherWidth = bottomSwitcherWidth * (newWidth / Width);
+        //Avia-------------------------------------------------------
+
+        aviaRect.translate(-(bottomSwitcherWidth * 0.14), 0);
+        aviaText.translate(-(bottomSwitcherWidth * 0.14), 0);
+        aviaRectOver.translate(-(bottomSwitcherWidth * 0.14), 0);
+        aviaRect.translate((newBottomSwitcherWidth * 0.14), 0);
+        aviaText.translate((newBottomSwitcherWidth * 0.14), 0);
+        aviaRectOver.translate((newBottomSwitcherWidth * 0.14), 0);
+
+        //Hotels-------------------------------------------------------
+        hotelRect.translate(-(bottomSwitcherWidth * 0.28), 0);
+        hotelText.translate(-(bottomSwitcherWidth * 0.28), 0);
+        hotelRectOver.translate(-(bottomSwitcherWidth * 0.28), 0);
+        hotelRect.translate((newBottomSwitcherWidth * 0.28), 0);
+        hotelText.translate((newBottomSwitcherWidth * 0.28), 0);
+        hotelRectOver.translate((newBottomSwitcherWidth * 0.28), 0);
+
+        //Auto-------------------------------------------------------
+        autoRect.translate(-(bottomSwitcherWidth * 0.42), 0);
+        autoText.translate(-(bottomSwitcherWidth * 0.42), 0);
+        autoRectOver.translate(-(bottomSwitcherWidth * 0.42), 0);
+        autoRect.translate((newBottomSwitcherWidth * 0.42), 0);
+        autoText.translate((newBottomSwitcherWidth * 0.42), 0);
+        autoRectOver.translate((newBottomSwitcherWidth * 0.42), 0);
+        //---------------------------------------------------------------------------
+        bottomSwitcher.setSize(newWidth * 0.7, newHeight * 0.07);
+        bottomSwitcher.forEach(function (el) {
+            el.scale(newWidth / Width, newHeight / Height, 0, 0);
+            //el.translate(dx, dy);
+        });
+
+        Height = newHeight;
+        Width = newWidth;
+        bottomSwitcherWidth = newBottomSwitcherWidth;
+        //        }
+        /*
+        else {
+        HeadPaper.setViewBox(0, 0, Width, Height * 0.07, true);
+        SliderPaper.setViewBox(0, 0, Width * 0.3, Height * 0.93, true);
+        MonthPaper.setViewBox(0, 0, Width * 0.7, Height * 0.022, true);
+        //            MonthPaperWidth = Width * 0.7;
+        // alert("123");
+        }
+        */
+    });
+    //scaling sliders
+    Left.onmouseover = function (e) {
+        leftClickY = e.clientY;
+    }
+    //scaling sliders //not done yet
     alert("sucsessfull build");
 }
+
+/**/
