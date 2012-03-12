@@ -21,25 +21,33 @@
         #div_container
 	   {
 	   	width:100%;
-	   	height : 100%; 
+	   	height : 101%; 
 	   	position : relative;
+	   	min-width : 900px;
+	   	min-height : 600px;
+	   	scrolling : auto;
 	   	/*background-color:#333;*/
 	   	}
         #header
 	   {
+	   	top : 0;
+	   	left: 0;
 	   	width:100%;
 	   	height : 7%; 
 	   	position : absolute;
+	   	margin: 0 auto;
 	   	}
 	   .bottom
 	   {
 	   	bottom :0px;
-	   	left:30%;
+	   	margin-left:30%;
 	   	width:70%;
 	   	height : 27.1%; 
 	   	position : absolute;
 	   	float:left;
 	   	/*background-color:#000;*/
+	   	
+	   	margin: 0 30% 0 0 auto;
 	   	
 	   	background: #ffffff; /* Для старых браузров */
         background: -moz-linear-gradient(left, #ffffff, #f0f0f0); /* Firefox 3.6+  fefcea */
@@ -52,7 +60,10 @@
 	   #month
 	   {
 	   	bottom :34%;
-	   	left:30%;/**/
+	   	/*left:30%;*/
+	   	right:0px;
+	   	margin-left:30%;
+	   	margin-right:0px;
 	   	width:70%;
 	   	height : 2%; 
 	   	position : absolute;
@@ -84,10 +95,12 @@
 
         #left
 	   {
+	   	margin-right:70%;
 	   	top: 7%;
 	   	width:30%;
 	   	height : 92%; 
 	   	position : absolute;
+	   	border-right: 1px;
 	   	/*background-color:#9cf;*/
 	   	background: #ffffff; /* Для старых браузров */
         background: -moz-linear-gradient(left, #ffffff, #f0f0f0); /* Firefox 3.6+  fefcea */
@@ -141,6 +154,14 @@
 <div id='bottom_tour' , class ='bottom'><p>tour</p></div>
 
 </div>
+<!--
+<div id='div_container'>
+<div id='heap'>Globbery</div>
+<div id='requests'>Requsts</div>
+<div id='canvas_container'></div>
+<div id="map"></div>
+</div>
+-->
 </BODY>
 
 </HTML>
