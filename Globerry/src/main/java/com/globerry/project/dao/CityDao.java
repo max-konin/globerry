@@ -64,15 +64,16 @@ public class CityDao implements ICityDao
     @Override
     public void removeCity(int id)
     {
-      /*  City city = (City) sessionFactory.getCurrentSession().load(
-                City.class, id);
-        if (null != city) {
-            Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-            sessionFactory.getCurrentSession().delete(city);
-            tx.commit();
-            sessionFactory.close();
-        }*/
-	
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	City city = (City) sessionFactory.getCurrentSession().load(City.class,
+		id);
+	if (null != city)
+	{
+	    sessionFactory.getCurrentSession().delete(city);
+	}
+	tx.commit();
+	sessionFactory.close();
+
     }
 
     @Override

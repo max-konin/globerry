@@ -176,8 +176,8 @@ public class EventDaoTest
 	    fail(e.getDescription());
 	}
     }
-    @Test(timeout = 100000)
-    public void getEventListWithMonth() throws MySqlException
+   /* @Test(timeout = 100000)
+    public void getEventListWithMonth1() throws MySqlException
     {
 	try
 	{
@@ -189,20 +189,45 @@ public class EventDaoTest
     		event.setName(city1.getCityName());
     		event.setDescription(city1.getLongitude());
 
-    		city.setName(city.getName());
-    		cityDao.addCity(city);
-    		eventDao.addEvent(event, city); 
-    		
-    		/*List<Event> listEvent = eventDao.getEventList(Month.DECEMBER, city);
-    		Iterator<Event> it = listEvent.iterator();
-    		while(it.hasNext())
-    		{
-    		    System.out.println(it.next().getName());
-    		}//*/
-	}
-	catch(MySqlException e)
+	City city = new City();
+	city.setName(nameCity);
+	
+	cityDao.addCity(city);
+	eventDao.addEvent(event, city);
+
+	Event event2 = new Event();
+	event2.setImage(imageEvent2);
+	event2.setMonth(monthEvent2);
+	event2.setName(nameEvent2);
+	event2.setCities(event.getCities());
+	
+	eventDao.updateEvent(event, event2);
+    }   */
+    @Test
+    public void getEventListWithMonth() throws MySqlException
+    {
+	try
 	{
-	    fail(e.getDescription());
-	}
-    }//*/
-}
+	    Event event = new Event();
+	    event.setImage("1");
+	    event.setMonth(Month.DECEMBER);
+      		event.setName("Посещение музея");
+      		event.setDescription("test");
+      City city = new City();
+      city.setName("Novosibirsk");
+      cityDao.addCity(city);
+      eventDao.addEvent(event, city); 
+      
+      List<Event> listEvent = eventDao.getEventList(Month.DECEMBER, city);
+      Iterator<Event> it = listEvent.iterator();
+      while(it.hasNext())
+      {
+          System.out.println(it.next().getName());
+      }
+ }
+ catch(MySqlException e)
+ {
+     fail(e.getDescription());
+ }
+    }
+    }

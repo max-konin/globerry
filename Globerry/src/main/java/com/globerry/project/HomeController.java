@@ -20,7 +20,7 @@ public class HomeController {
     public String home(Model model) {
         System.out.println("HomeController: Passing through...");
         model.addAttribute("hash", this.hashCode());
-        return "WEB-INF/views/home.jsp";
+        return "home";
         
         
     }

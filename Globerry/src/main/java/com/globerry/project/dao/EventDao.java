@@ -9,6 +9,8 @@ import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -72,8 +74,8 @@ public class EventDao implements IEventDao
 	sessionFactory.getCurrentSession().update(newEvent);
 	tx.commit();
 	sessionFactory.close();
-	
     }
+
 
     @Override
     public List<Event> getEventList(Month month, City city)
