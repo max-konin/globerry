@@ -21,6 +21,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ContextLoaderListener;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.DependingMonthProperty;
+import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Tour;
 
 /**
@@ -79,6 +81,14 @@ public class CompanyServiceTest
 	    fail(e.getDescription());
 	}
 	
+    }
+    @Test
+    public void TestMonth()
+    {
+	DependingMonthProperty  dmp = new DependingMonthProperty();
+	dmp.setMonth(2);
+	System.err.println(dmp.getMonth());
+    
     }
 
 }

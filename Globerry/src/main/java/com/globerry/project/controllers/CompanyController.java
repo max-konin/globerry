@@ -1,5 +1,7 @@
 package com.globerry.project.controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.globerry.project.Excel;
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CompanyDao;
@@ -92,5 +95,52 @@ public class CompanyController
 	cmpService.removeCompany(companyId);
 	return "redirect:/admin";
     }//TODO
-    
+   /* @RequestMapping("/updateCities")
+    public String updateCities()
+    {
+	File file = new File("classpath:content.xlsx");
+	try
+	{
+	    System.out.println(file.getCanonicalPath());
+	    System.out.println(file.getAbsolutePath());
+	} catch (IOException e)
+	{
+	    System.out.println(file.getAbsolutePath());
+	    System.out.println(file.getPath());
+	    e.printStackTrace();
+	}
+	return "HELLO WORLD";//*/
+	/*Excel exc = new Excel("content.xlsx");
+	int i = 1;
+	while(i<exc.getLenght(0))
+	{
+	    	System.out.println("Lenght file: " + exc.getLenght(0));
+		long timeout= System.currentTimeMillis();
+		City city = new City();
+		city.setName(exc.getName(i));
+		city.setRu_name(exc.getRussianName(i));
+		timeout = System.currentTimeMillis() - timeout;
+		System.out.println("Parsing time: " + timeout);
+		try
+		{
+		    long time = System.currentTimeMillis();
+		    cityDao.addCity(city);
+		    time = System.currentTimeMillis() - time;
+		    System.out.println("Mapping:time " + time);
+		}
+		catch(MySqlException except)
+		{
+		    System.out.println(exc.getLenght(0));
+		}
+		catch(NullPointerException e)
+		{
+		    return "redirect:/";
+		}
+		i++;
+		
+	    }
+	return "redirect:/";
+    }
+    //*/
+
 }

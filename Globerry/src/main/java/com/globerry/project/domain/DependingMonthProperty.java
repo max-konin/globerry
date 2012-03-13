@@ -1,7 +1,6 @@
 package com.globerry.project.domain;
 
 
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -51,6 +50,10 @@ public class DependingMonthProperty
     public void setMonth(Month month)
     {
 	this.month = month;
+    }
+    public void setMonth(int monthNumber)
+    {
+	this.month = Month.values()[monthNumber];
     }
     public float getVal()
     {

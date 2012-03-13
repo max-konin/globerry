@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,10 +33,17 @@ public class Tag
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    
     @Column(name = "name", unique=true)
     private String name;
+    
     @Column(name = "img")
     private String img;
+    
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private TagsType tagsType;
+    
     @ManyToMany(
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
 	        mappedBy = "tagList",
@@ -80,5 +89,17 @@ public class Tag
 		this.getName().equals(tag.getName()))
 	    return true;
 	else return false;
+    }
+    public TagsType getTagsType()
+    {
+	return tagsType;
+    }
+    public void setTagsType(TagsType tagsType)
+    {
+	this.tagsType = tagsType;
+    }
+    public void setTagsType(int number)
+    {
+	this.tagsType = TagsType.values()[number];
     }
 }

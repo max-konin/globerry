@@ -4,6 +4,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
@@ -25,6 +27,7 @@ import java.util.List;
 public class Property
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(name = "value")
     private float value;

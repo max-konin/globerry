@@ -7,6 +7,7 @@ package com.globerry.project;
  */
 public class MySqlException extends Exception
 {
+   
     private Object myClass;
     
     private String description;

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.Tour;
 
 @Repository
 public class CityDao implements ICityDao
@@ -98,6 +99,16 @@ public class CityDao implements ICityDao
 	   tx.commit();
 	   sessionFactory.close();
 	
+    }
+
+    @Override
+    public City getCityById(int id)
+    {
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	City city = (City)sessionFactory.getCurrentSession().get(City.class, id);
+	tx.commit();
+	sessionFactory.close();
+	return city;
     }
 
 }

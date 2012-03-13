@@ -36,12 +36,15 @@ public class City implements Serializable
     private int id;
     @Column(name = "name")
     private String name;
+    @Column(name = "ru_name")
+    private String ru_name;
     @OneToOne(
 	    fetch = FetchType.LAZY,
 	    cascade = CascadeType.ALL
 	    )
     @PrimaryKeyJoinColumn
     private Proposals proposals;
+    //-------------------------------------------------------
     //private Option option;
     @ManyToMany(
 	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
@@ -49,12 +52,34 @@ public class City implements Serializable
 	    	    mappedBy = "cityList"
 	    )
     private Set<Event> eventList = new HashSet<Event>();
-    
+    //-------------------------------------------------------
     @ManyToMany(
 	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
 	    targetEntity = Tag.class
 	    )
     private Set<Tag> tagList = new HashSet<Tag>();
+    //-------------------------------------------------------
+    @OneToMany(
+	    	cascade=CascadeType.ALL,
+	    	fetch=FetchType.EAGER
+	    	)
+    @JoinTable(
+           name="CityDependingMonthProperty",
+           joinColumns = @JoinColumn( name="company_id"),
+           inverseJoinColumns = @JoinColumn( name="dmp_id")
+	    )
+    private Set<DependingMonthProperty> dmpList = new HashSet<DependingMonthProperty>();
+    //-------------------------------------------------------
+    @OneToMany(
+	    	cascade=CascadeType.ALL,
+	    	fetch=FetchType.EAGER
+	    	)
+    @JoinTable(
+       name="CityProperty",
+       joinColumns = @JoinColumn( name="company_id"),
+       inverseJoinColumns = @JoinColumn( name="dmp_id")
+	    )
+    private Set<Property> propertyList = new HashSet<Property>();
     public int getId()
     {
 	return id;
@@ -63,14 +88,8 @@ public class City implements Serializable
     {
 	this.id = id;
     }
-    public String getName()
-    {
-	return name;
-    }
-    public void setName(String name)
-    {
-	this.name = name;
-    }
+    
+
     /*public Proposals getProposals()
     {
 	return proposals;
@@ -110,5 +129,37 @@ public class City implements Serializable
     public void setProposals(Proposals proposals)
     {
 	this.proposals = proposals;
+    }
+    public String getName()
+    {
+	return name;
+    }
+    public void setName(String name)
+    {
+	this.name = name;
+    }
+    public String getRu_name()
+    {
+	return ru_name;
+    }
+    public void setRu_name(String ru_name)
+    {
+	this.ru_name = ru_name;
+    }
+    public Set<DependingMonthProperty> getDmpList()
+    {
+	return dmpList;
+    }
+    public void setDmpList(Set<DependingMonthProperty> dmpList)
+    {
+	this.dmpList = dmpList;
+    }
+    public Set<Property> getPropertyList()
+    {
+	return propertyList;
+    }
+    public void setPropertyList(Set<Property> propertyList)
+    {
+	this.propertyList = propertyList;
     }
 }

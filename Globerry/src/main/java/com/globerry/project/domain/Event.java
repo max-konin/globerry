@@ -30,9 +30,13 @@ public class Event
     @Column
     private String name;
     @Column
+    private String ru_name;
+    @Column
     private String description;
     @Column
-    private float image;
+    private String ru_description;
+    @Column
+    private String image;
     @Column
     @Enumerated(EnumType.ORDINAL)
     private Month month;
@@ -74,11 +78,15 @@ public class Event
     {
 	this.month = month;
     }
-    public float getImage()
+    public void setMonth(int monthNumber)
+    {
+	this.month = Month.values()[monthNumber];
+    }
+    public String getImage()
     {
 	return image;
     }
-    public void setImage(float image)
+    public void setImage(String image)
     {
 	this.image = image;
     }
@@ -89,5 +97,21 @@ public class Event
     public void setCities(Set<City> cities)
     {
 	this.cityList = cities;
+    }
+    public String getRu_description()
+    {
+	return ru_description;
+    }
+    public void setRu_description(String ru_description)
+    {
+	this.ru_description = ru_description;
+    }
+    public String getRu_name()
+    {
+	return ru_name;
+    }
+    public void setRu_name(String ru_name)
+    {
+	this.ru_name = ru_name;
     }
 }

@@ -38,4 +38,5 @@ public interface ICityDao
      * @param newCity город с новыми параметрами
      */
     void updateCity(City city);
+    public City getCityById(int id);
 }
