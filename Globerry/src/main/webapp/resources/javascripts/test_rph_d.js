@@ -1426,6 +1426,15 @@ window.onload = function () {
         if (this.attr("x") < (sexSliderLeftPosition)) {
             this.attr({ x: (sexSliderLeftPosition) });
         }
+        //TODO я хз как эти слайдеры работают
+        //тут должно быть условие определяющее что слайдер не двигали
+        if (dx > 0){
+        	$.getJSON("/project/testjson/"+this.attr("x")+"x"+dx+"x"+this.ox,
+                function(data) {
+                    // do something with the data
+                    alert(data.name);
+              });
+    	}
         //   sexSliderCenterRect.attr({ x: (this.attr("x")), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x")) });
         /*
         var leftsexBlocksex = Math.round(((sexSliderLeftHandler.attr("x") - (sexSliderLeftPosition + sexSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * sexSliderLeftPosition) - sexSliderHandlerYSize)));
@@ -2206,6 +2215,7 @@ window.onload = function () {
 
 
     alert("sucsessfull build");
+    
 }
 
 /**/

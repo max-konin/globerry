@@ -5,8 +5,14 @@ package com.globerry.project;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.globerry.project.domain.City;
 
  
 /**
@@ -23,6 +29,13 @@ public class HomeController {
         return "home";
         
         
+    }
+    //TODO delete this 
+    @RequestMapping(value="/testjson/{sexLevel}", method= RequestMethod.GET)
+    public @ResponseBody City test(@PathVariable String sexLevel) {
+        City city = new City();
+        city.setName("New Orlean "+sexLevel);
+        return city;
     }
 }
 

@@ -54,6 +54,13 @@
 		    <version>${org.springframework-version}</version> 
 		    <scope>test</scope> 
 		</dependency>
+		
+		<!-- Jackson JSON Mapper -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.7.1</version>
+		</dependency>
 				
 		<!-- AspectJ -->
 		<dependency>
