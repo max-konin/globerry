@@ -1,5 +1,6 @@
 package com.globerry.project.dao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
-import com.globerry.project.domain.Tour;
+import com.globerry.project.domain.Tag;
 
 @Repository
 public class CityDao implements ICityDao
@@ -81,13 +82,20 @@ public class CityDao implements ICityDao
     {
 	Set<City> result;
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class)
-		//.add(Restrictions.e)
-		.createCriteria("eventList")
-			.add(Restrictions.eq("name", "new year"));
+	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
+	//отсечение по tag
+	List<Integer> tagIdList = new ArrayList<Integer>();
+	Iterator<Tag> it = request.getTags().iterator();
+	while(it.hasNext()){
+	    tagIdList.add(it.next().getId());
+	}
+	criteria.createCriteria("tagList")
+		.add(Restrictions.in("id", tagIdList));
+	//отсечение по property
+	//отсечение по range TODO
 	result = new HashSet<City>(criteria.list());
 	tx.commit();
-	// TODO Auto-generated method stub
+	// TODO пока без учета локации
 	return result;
     }
 

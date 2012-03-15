@@ -2,6 +2,11 @@ package com.globerry.project.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import org.junit.Test;
@@ -16,6 +21,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.Property;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
@@ -51,7 +57,7 @@ public class CityDaoTest
 	event.setName("new year");
 	eventDao.addEvent(event, city);
 	
-	Set<City> cities = cityDao.getCityList(null);
+	Set<City> cities = cityDao.getCityList(new CityRequest(new Range(), new ArrayList<Property>()));
 	System.out.println(cities.iterator().next().getName());
 	//fail("Not yet implemented");
     }

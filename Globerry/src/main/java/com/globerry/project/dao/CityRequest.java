@@ -2,7 +2,9 @@ package com.globerry.project.dao;
 
 import java.util.List;
 
+import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
+import com.globerry.project.domain.Tag;
 /**
  * @author Сергей
  * Запрос на подбор городов по критериям
@@ -11,6 +13,8 @@ public class CityRequest
 {
     private Range range;
     private List<Property> properties;
+    private List<Tag> tags;
+    private Month month;
     /**
      * Конструктор запроса
      * @param range область поиска
@@ -35,5 +39,21 @@ public class CityRequest
     public void setOption(List<Property> properties)
     {
 	this.properties = properties;
+    }
+    public List<Tag> getTags()
+    {
+	return tags;
+    }
+    public void setTags(List<Tag> tags)
+    {
+	this.tags = tags;
+    }
+    public Month getMonth()
+    {
+	return month;
+    }
+    public void setMonth(Month month)
+    {
+	this.month = month;
     }
 }
