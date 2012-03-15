@@ -1,4 +1,4 @@
-Ôªøwindow.onload = function () {
+window.onload = function () {
     //------------------------------------------------
     // Please don't try to change anything, if you're 
     // not sure what you are doing, or are not aware
@@ -33,10 +33,12 @@
     var Width = $(document.getElementById("div_container")).width();
     var Height = $(document.getElementById("div_container")).height();
 
-    if (Width < 1500)
+    if (Width < 1500) {
         bottomFont = 14;
-    if (Width < 1000)
+    }
+    if (Width < 1000) {
         bottomFont = 10;
+    }
     var osm = new OpenLayers.Layer.OSM();
     osm.wrapDateLine = false;
 
@@ -97,7 +99,7 @@
     var HeadPaperHeight = $(document.getElementById("header")).height();
     var headGradRect1 = HeadPaper.rect(0, (HeadPaperHeight * 0.8), HeadPaperWidth, (HeadPaperHeight * 0.13));
     var headGradRect2 = HeadPaper.rect(0, (HeadPaperHeight * 0.9), HeadPaperWidth, (HeadPaperHeight * 0.07));
-    HeadPaper.image("resources/img/Globerry.png", 0, HeadPaperHeight * 0.05, 230, HeadPaperHeight * 0.7);
+    HeadPaper.image("img/Globerry.png", 0, HeadPaperHeight * 0.05, 230, HeadPaperHeight * 0.7);
     //<img src="Globerr1.jpg">
 
     headGradRect1.attr({ fill: [0, gradLineVioletFirstColor, gradLineVioletSecondColor].join("-"), stroke: 'none' });
@@ -115,7 +117,7 @@
     //tour-------------------------------------------------------
     var tourRect = bottomSwitcher.path(tourPathAnimated);
     tourRect.attr({ fill: [0, 'yellow', 'orange'].join("-"), stroke: 'none' });
-    var tourText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "–¢—É—Ä—ã");
+    var tourText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "“Û˚");
     tourText.attr({ 'font-size': bottomFont });
     var tourRectOver = bottomSwitcher.path(tourPathAnimated);
     tourRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
@@ -123,7 +125,7 @@
     //Avia-------------------------------------------------------
     var aviaRect = bottomSwitcher.path(tourPathNotAnimated);
     aviaRect.attr({ fill: [0, '#08f', 'blue'].join("-"), stroke: 'none' });
-    var aviaText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "–ê–≤–∏–∞–±–∏–ª–µ—Ç—ã");
+    var aviaText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "¿‚Ë‡·ËÎÂÚ˚");
     aviaText.attr({ 'font-size': bottomFont });
     aviaRect.translate((bottomSwitcherWidth * 0.14), 0);
     aviaText.translate((bottomSwitcherWidth * 0.14), 0);
@@ -134,7 +136,7 @@
     //Hotels-------------------------------------------------------
     var hotelRect = bottomSwitcher.path(tourPathNotAnimated);
     hotelRect.attr({ fill: [0, '#ff0', '#af0'].join("-"), stroke: 'none' });
-    var hotelText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "–û—Ç–µ–ª–∏");
+    var hotelText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "ŒÚÂÎË");
     hotelText.attr({ 'font-size': bottomFont });
     hotelRect.translate((bottomSwitcherWidth * 0.28), 0);
     hotelText.translate((bottomSwitcherWidth * 0.28), 0);
@@ -145,7 +147,7 @@
     //Auto-------------------------------------------------------
     var autoRect = bottomSwitcher.path(tourPathNotAnimated);
     autoRect.attr({ fill: [0, '#d14', '#f14'].join("-"), stroke: 'none', opacity: 0.8 });
-    var autoText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "–ê–≤—Ç–æ");
+    var autoText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "¿‚ÚÓ");
     autoText.attr({ 'font-size': bottomFont });
     autoRect.translate((bottomSwitcherWidth * 0.42), 0);
     autoText.translate((bottomSwitcherWidth * 0.42), 0);
@@ -259,29 +261,29 @@
     orangePath = MonthPaper.path('M' + 0 + ',' + (MonthPaperHeight * 0.3) + 'L' + (MonthPaperWidth / 12) + ',' + (MonthPaperHeight * 0.3) + 'L' + (MonthPaperWidth / 12) + ',' + 0 + 'L' + 0 + ',' + 0);
     orangePath.attr({ fill: [90, '#fd3', 'orange'].join("-"), stroke: 'none' });
 
-    monthNamesText[1] = MonthPaper.text((MonthPaperWidth * 0.5 / 12), (MonthPaperHeight * 0.6), "–Ø–Ω–≤–∞—Ä—å");
+    monthNamesText[1] = MonthPaper.text((MonthPaperWidth * 0.5 / 12), (MonthPaperHeight * 0.6), "ﬂÌ‚‡¸");
     monthNamesText[1].attr({ 'font-size': (bottomFont * 3) / 4, fill: 'white', cursor: "hand" });
-    monthNamesText[2] = MonthPaper.text((MonthPaperWidth * 1.5 / 12), (MonthPaperHeight * 0.6), "–§–µ–≤—Ä–∞–ª—å");
+    monthNamesText[2] = MonthPaper.text((MonthPaperWidth * 1.5 / 12), (MonthPaperHeight * 0.6), "‘Â‚‡Î¸");
     monthNamesText[2].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[3] = MonthPaper.text((MonthPaperWidth * 2.5 / 12), (MonthPaperHeight * 0.6), "–ú–∞—Ä—Ç");
+    monthNamesText[3] = MonthPaper.text((MonthPaperWidth * 2.5 / 12), (MonthPaperHeight * 0.6), "Ã‡Ú");
     monthNamesText[3].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[4] = MonthPaper.text((MonthPaperWidth * 3.5 / 12), (MonthPaperHeight * 0.6), "–ê–ø—Ä–µ–ª—å");
+    monthNamesText[4] = MonthPaper.text((MonthPaperWidth * 3.5 / 12), (MonthPaperHeight * 0.6), "¿ÔÂÎ¸");
     monthNamesText[4].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[5] = MonthPaper.text((MonthPaperWidth * 4.5 / 12), (MonthPaperHeight * 0.6), "–ú–∞–π");
+    monthNamesText[5] = MonthPaper.text((MonthPaperWidth * 4.5 / 12), (MonthPaperHeight * 0.6), "Ã‡È");
     monthNamesText[5].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[6] = MonthPaper.text((MonthPaperWidth * 5.5 / 12), (MonthPaperHeight * 0.6), "–ò—é–Ω—å");
+    monthNamesText[6] = MonthPaper.text((MonthPaperWidth * 5.5 / 12), (MonthPaperHeight * 0.6), "»˛Ì¸");
     monthNamesText[6].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[7] = MonthPaper.text((MonthPaperWidth * 6.5 / 12), (MonthPaperHeight * 0.6), "–ò—é–ª—å");
+    monthNamesText[7] = MonthPaper.text((MonthPaperWidth * 6.5 / 12), (MonthPaperHeight * 0.6), "»˛Î¸");
     monthNamesText[7].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[8] = MonthPaper.text((MonthPaperWidth * 7.5 / 12), (MonthPaperHeight * 0.6), "–ê–≤–≥—É—Å—Ç");
+    monthNamesText[8] = MonthPaper.text((MonthPaperWidth * 7.5 / 12), (MonthPaperHeight * 0.6), "¿‚„ÛÒÚ");
     monthNamesText[8].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[9] = MonthPaper.text((MonthPaperWidth * 8.5 / 12), (MonthPaperHeight * 0.6), "–°–µ–Ω—Ç—è–±—Ä—å");
+    monthNamesText[9] = MonthPaper.text((MonthPaperWidth * 8.5 / 12), (MonthPaperHeight * 0.6), "—ÂÌÚˇ·¸");
     monthNamesText[9].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[10] = MonthPaper.text((MonthPaperWidth * 9.5 / 12), (MonthPaperHeight * 0.6), "–û–∫—Ç—è–±—Ä—å");
+    monthNamesText[10] = MonthPaper.text((MonthPaperWidth * 9.5 / 12), (MonthPaperHeight * 0.6), "ŒÍÚˇ·¸");
     monthNamesText[10].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[11] = MonthPaper.text((MonthPaperWidth * 10.5 / 12), (MonthPaperHeight * 0.6), "–ù–æ—è–±—Ä—å");
+    monthNamesText[11] = MonthPaper.text((MonthPaperWidth * 10.5 / 12), (MonthPaperHeight * 0.6), "ÕÓˇ·¸");
     monthNamesText[11].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[12] = MonthPaper.text((MonthPaperWidth * 11.5 / 12), (MonthPaperHeight * 0.6), "–î–µ–∫–∞–±—Ä—å");
+    monthNamesText[12] = MonthPaper.text((MonthPaperWidth * 11.5 / 12), (MonthPaperHeight * 0.6), "ƒÂÍ‡·¸");
     monthNamesText[12].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
 
 
@@ -325,7 +327,7 @@
     var rightDevideLine = SliderPaper.path('M' + SliderPaperWidth + ',' + 0 + 'L' + SliderPaperWidth + ',' + SliderPaperHeight);
     rightDevideLine.attr({ fill: lineColor, stroke: lineColor });
 
-    var firstBlockText = SliderPaper.text((SliderPaperWidth * 0.5), (SliderPaperHeight * 0.02), "–ö—Ç–æ –µ–¥–µ—Ç?");
+    var firstBlockText = SliderPaper.text((SliderPaperWidth * 0.5), (SliderPaperHeight * 0.02), " ÚÓ Â‰ÂÚ?");
     firstBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //if(Width < Height)
     var firstBlockRectWidth = (SliderPaperWidth * 0.12);
@@ -344,16 +346,16 @@
 
     var firstBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 4 + firstBlockBetweenRectWidth * 3)) / 2;
     var selfRect = SliderPaper.rect((firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("resources/img/self.png", (firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    SliderPaper.image("img/self.png", (firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var selfRectOver = SliderPaper.rect((firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var coupleRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("resources/img/couple.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    SliderPaper.image("img/couple.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var coupleRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var familyRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("resources/img/family.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    SliderPaper.image("img/family.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var familyRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var friendsRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("resources/img/friends.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    SliderPaper.image("img/friends.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var friendsRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
 
     var firstDevideLinePosition = (SliderPaperHeight * 0.05) + firstBlockRectWidth * 1.5;
@@ -365,10 +367,10 @@
     //  firstBlockTextYPosition = (firstDevideLinePosition - (SliderPaperHeight * 0.034));
     firstBlockTextYPosition = (SliderPaperHeight * 0.04) + firstBlockRectWidth + (SliderPaperHeight * 0.01);
 
-    var selfRectText = SliderPaper.text((firstBlockRectOffset + firstBlockRectWidth * 0.5), firstBlockTextYPosition, "–û–¥–∏–Ω");
-    var coupleRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth + (firstBlockRectWidth) * 1.5), firstBlockTextYPosition, "–í–¥–≤–æ–µ–º");
-    var familyRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 2 + (firstBlockRectWidth) * 2.5), firstBlockTextYPosition, "–°–µ–º—å—è");
-    var friendsRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 3 + (firstBlockRectWidth) * 3.5), firstBlockTextYPosition, "–î—Ä—É–∑—å—è");
+    var selfRectText = SliderPaper.text((firstBlockRectOffset + firstBlockRectWidth * 0.5), firstBlockTextYPosition, "Œ‰ËÌ");
+    var coupleRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth + (firstBlockRectWidth) * 1.5), firstBlockTextYPosition, "¬‰‚ÓÂÏ");
+    var familyRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 2 + (firstBlockRectWidth) * 2.5), firstBlockTextYPosition, "—ÂÏ¸ˇ");
+    var friendsRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 3 + (firstBlockRectWidth) * 3.5), firstBlockTextYPosition, "ƒÛÁ¸ˇ");
 
     selfRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
     coupleRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
@@ -419,7 +421,7 @@
     var secondDevideLinePosition = firstDevideLinePosition * 2;
     var secondDevideLine = SliderPaper.path('M' + 0 + ',' + secondDevideLinePosition + 'L' + SliderPaperWidth + ',' + secondDevideLinePosition);
     secondDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var secondBlockText = SliderPaper.text((SliderPaperWidth * 0.49), firstDevideLinePosition + (SliderPaperHeight * 0.02), "–ß—Ç–æ –¥–µ–ª–∞—Ç—å?");
+    var secondBlockText = SliderPaper.text((SliderPaperWidth * 0.49), firstDevideLinePosition + (SliderPaperHeight * 0.02), "◊ÚÓ ‰ÂÎ‡Ú¸?");
     secondBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //alert(Height);
     var secondBlockRectWidth = firstBlockRectWidth;
@@ -427,30 +429,30 @@
     var secondBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 5 + firstBlockBetweenRectWidth * 4)) / 2;
 
     var tanRect = SliderPaper.rect((secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("resources/img/tan.png", (secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, firstBlockRectWidth);
+    SliderPaper.image("img/tan.png", (secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, firstBlockRectWidth);
     var tanRectOver = SliderPaper.rect((secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var skiRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("resources/img/ski.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    SliderPaper.image("img/ski.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var skiRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var watchRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("resources/img/watch.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    SliderPaper.image("img/watch.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var watchRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var shoppingRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("resources/img/shopping.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    SliderPaper.image("img/shopping.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var shoppingRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var cruiseRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("resources/img/cruise.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    SliderPaper.image("img/cruise.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var cruiseRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
 
     var secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
     //if (Width > 1000)
     //  secondBlockTextYPosition = (secondDevideLinePosition - (SliderPaperHeight * 0.035));
 
-    var tanRectText = SliderPaper.text((secondBlockRectOffset + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "–ó–∞–≥–∞—Ä–∞—Ç—å");
-    var skiRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth + (secondBlockRectWidth) + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "–ö–∞—Ç–∞—Ç—å—Å—è");
-    var watchRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 2 + (secondBlockRectWidth) * 2 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "–°–º–æ—Ç—Ä–µ—Ç—å");
-    var shoppingRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 3 + (secondBlockRectWidth) * 3 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "–®–æ–ø–ø–∏–Ω–≥");
-    var cruiseRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 4 + (secondBlockRectWidth) * 4 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "–ö—Ä—É–∏–∑");
+    var tanRectText = SliderPaper.text((secondBlockRectOffset + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "«‡„‡‡Ú¸");
+    var skiRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth + (secondBlockRectWidth) + secondBlockRectWidth * 0.5), secondBlockTextYPosition, " ‡Ú‡Ú¸Òˇ");
+    var watchRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 2 + (secondBlockRectWidth) * 2 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "—ÏÓÚÂÚ¸");
+    var shoppingRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 3 + (secondBlockRectWidth) * 3 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "ÿÓÔÔËÌ„");
+    var cruiseRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 4 + (secondBlockRectWidth) * 4 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, " ÛËÁ");
 
     tanRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
     skiRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
@@ -513,7 +515,7 @@
     var thirdDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.13; // +0.7 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var thirdDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + thirdDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + thirdDevideLinePosition);
     thirdDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    var thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     thirdBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.2), secondDevideLinePosition + (SliderPaperHeight * 0.05), "-35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.81), secondDevideLinePosition + (SliderPaperHeight * 0.05), "+35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -521,15 +523,15 @@
     var forthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.26; //firstDevideLinePosition * 2 + 1.35 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var forthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + forthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + forthDevideLinePosition);
     forthDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "–í—Ä–µ–º—è –ø–µ—Ä–µ–ª–µ—Ç–∞");
+    var forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "¬ÂÏˇ ÔÂÂÎÂÚ‡");
     forthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    var leftTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.2), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "0–ß").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    var rightTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.81), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "24–ß").attr({ 'font-size': bottomFont, fill: '#bbb' });
+    var leftTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.2), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "0◊").attr({ 'font-size': bottomFont, fill: '#bbb' });
+    var rightTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.81), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "24◊").attr({ 'font-size': bottomFont, fill: '#bbb' });
 
     var fifthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.35; //firstDevideLinePosition * 2 + 1.75 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var fifthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + fifthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + fifthDevideLinePosition);
     fifthDevideLine.attr({ fill: lineColor, stroke: lineColor, opacity: 0 });
-    var fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "–ü—Ä–æ–∂–∏–≤–∞–Ω–∏–µ");
+    var fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "œÓÊË‚‡ÌËÂ");
     fifthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftlivingBlockText = SliderPaper.text((SliderPaperWidth * 0.2), forthDevideLinePosition + (SliderPaperHeight * 0.03), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightlivingBlockText = SliderPaper.text((SliderPaperWidth * 0.81), forthDevideLinePosition + (SliderPaperHeight * 0.03), "3000$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -537,7 +539,7 @@
     var sixthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.44; //firstDevideLinePosition * 2 + 2.15 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var sixthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + sixthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + sixthDevideLinePosition);
     sixthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "–ï–¥–∞");
+    var sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "≈‰‡");
     sixthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftfoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), fifthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightfoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), fifthDevideLinePosition + (SliderPaperHeight * 0.04), "300$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -545,7 +547,7 @@
     var seventhDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.53; //firstDevideLinePosition * 2 + 2.55 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var seventhDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + seventhDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + seventhDevideLinePosition);
     seventhDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "–ê–ª–∫–æ–≥–æ–ª—å");
+    var seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "¿ÎÍÓ„ÓÎ¸");
     seventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftalcoholBlockText = SliderPaper.text((SliderPaperWidth * 0.2), sixthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightalcoholBlockText = SliderPaper.text((SliderPaperWidth * 0.81), sixthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -553,7 +555,7 @@
     var eightsDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.62; //firstDevideLinePosition * 2 + 2.95 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var eightsDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + eightsDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + eightsDevideLinePosition);
     eightsDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "–ù–∞—Å—Ç—Ä–æ–µ–Ω–∏–µ");
+    var eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "Õ‡ÒÚÓÂÌËÂ");
     eightsBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), seventhDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), seventhDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -561,7 +563,7 @@
     var ninthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.71; //firstDevideLinePosition * 2 + 3.35 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var ninthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + ninthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + ninthDevideLinePosition);
     ninthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), "–ö–æ–ª–∏—á–µ—Å—Ç–≤–æ —Ç—É—Ä–∏—Å–æ—Ç–≤");
+    var ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), " ÓÎË˜ÂÒÚ‚Ó ÚÛËÒÚÓ‚");
     ninthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), eightsDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), eightsDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -569,7 +571,7 @@
     var tenthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.8; //firstDevideLinePosition * 2 + 3.75 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var tenthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + tenthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + tenthDevideLinePosition);
     tenthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "–ë–µ–∑–æ–ø–∞—Å–Ω–æ—Å—Ç—å");
+    var tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "¡ÂÁÓÔ‡ÒÌÓÒÚ¸");
     tenthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), ninthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), ninthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -577,7 +579,7 @@
     var eleventhDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.89; //firstDevideLinePosition * 2 + 4.15 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var eleventhDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + eleventhDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + eleventhDevideLinePosition);
     eleventhDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "–°–µ–∫—Å");
+    var eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "—ÂÍÒ");
     eleventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), tenthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), tenthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -597,9 +599,11 @@
 
     var temperatureSliderCenterRect = SliderPaper.rect((temperatureSliderLeftPosition + temperatureSliderHandlerYSize), (temperatureSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * temperatureSliderLeftPosition) - temperatureSliderHandlerYSize), (temperatureSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
 
+    //var temperatureSliderGradCenterBottomLies = SliderPaper.path("M" + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight) + 'L' + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight + temperatureSliderHandlerYSize*0.2));
+
     temperatureSliderLeftHandler = SliderPaper.rect(temperatureSliderLeftPosition, (temperatureSliderYPosition - temperatureSliderHandlerYSize * 0.1), temperatureSliderHandlerXSize * 1.1, temperatureSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     temperatureSliderRightHandler = SliderPaper.rect((SliderPaperWidth - temperatureSliderLeftPosition), (temperatureSliderYPosition - temperatureSliderHandlerYSize * 0.1), temperatureSliderHandlerXSize * 1.1, temperatureSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var temperatureSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var temperatureSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var temperatureSliderLeftPathString = 'M'+ temperatureSliderLeftPosition +',' + ()
     //var temperatureSliderLeftPath = SliderPaper.path(temperatureSliderLeftPath);
 
@@ -710,7 +714,7 @@
 
     timeSliderLeftHandler = SliderPaper.rect(timeSliderLeftPosition, (timeSliderYPosition - timeSliderHandlerYSize * 0.1), timeSliderHandlerXSize * 1.1, timeSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     timeSliderRightHandler = SliderPaper.rect((SliderPaperWidth - timeSliderLeftPosition), (timeSliderYPosition - timeSliderHandlerYSize * 0.1), timeSliderHandlerXSize * 1.1, timeSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var timeSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var timeSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var timeSliderLeftPathString = 'M'+ timeSliderLeftPosition +',' + ()
     //var timeSliderLeftPath = SliderPaper.path(timeSliderLeftPath);
 
@@ -751,9 +755,9 @@
         timeSliderCenterRect.attr({ x: (this.attr("x")), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x")) });
         var leftTimeBlockTime = Math.round(((timeSliderLeftHandler.attr("x") - (timeSliderLeftPosition + timeSliderHandlerYSize)) * 24) / ((SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize)));
         if (leftTimeBlockTime > 0)
-            leftTimeBlockText.attr({ text: leftTimeBlockTime + '–ß' });
+            leftTimeBlockText.attr({ text: leftTimeBlockTime + '◊' });
         else
-            leftTimeBlockText.attr({ text: '0–ß' });
+            leftTimeBlockText.attr({ text: '0◊' });
 
     },
     timeSliderLeftHandlerUp = function () {
@@ -790,12 +794,12 @@
         var rightTimeBlockTime = Math.round(((timeSliderRightHandler.attr("x") - (timeSliderLeftPosition + timeSliderHandlerYSize)) * 24) / ((SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize)));
         if (rightTimeBlockTime > 0) {
             if (rightTimeBlockTime > 24)
-                rightTimeBlockText.attr({ text: '24–ß' });
+                rightTimeBlockText.attr({ text: '24◊' });
             else
-                rightTimeBlockText.attr({ text: rightTimeBlockTime + '–ß' });
+                rightTimeBlockText.attr({ text: rightTimeBlockTime + '◊' });
         }
         else
-            rightTimeBlockText.attr({ text: '0–ß' });
+            rightTimeBlockText.attr({ text: '0◊' });
 
     },
     timeSliderRightHandlerUp = function () {
@@ -826,7 +830,7 @@
 
     livingSliderLeftHandler = SliderPaper.rect(livingSliderLeftPosition, (livingSliderYPosition - livingSliderHandlerYSize * 0.1), livingSliderHandlerXSize * 1.1, livingSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     livingSliderRightHandler = SliderPaper.rect((SliderPaperWidth - livingSliderLeftPosition), (livingSliderYPosition - livingSliderHandlerYSize * 0.1), livingSliderHandlerXSize * 1.1, livingSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var livingSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var livingSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var livingSliderLeftPathString = 'M'+ livingSliderLeftPosition +',' + ()
     //var livingSliderLeftPath = SliderPaper.path(livingSliderLeftPath);
 
@@ -910,7 +914,7 @@
                 rightlivingBlockText.attr({ text: rightlivingBlockliving + '$' });
         }
         else
-            rightlivingBlockText.attr({ text: '0–ß$' });
+            rightlivingBlockText.attr({ text: '0◊$' });
 
     },
     livingSliderRightHandlerUp = function () {
@@ -939,7 +943,7 @@
 
     foodSliderLeftHandler = SliderPaper.rect(foodSliderLeftPosition, (foodSliderYPosition - foodSliderHandlerYSize * 0.1), foodSliderHandlerXSize * 1.1, foodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     foodSliderRightHandler = SliderPaper.rect((SliderPaperWidth - foodSliderLeftPosition), (foodSliderYPosition - foodSliderHandlerYSize * 0.1), foodSliderHandlerXSize * 1.1, foodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var foodSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var foodSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var foodSliderLeftPathString = 'M'+ foodSliderLeftPosition +',' + ()
     //var foodSliderLeftPath = SliderPaper.path(foodSliderLeftPath);
 
@@ -1023,7 +1027,7 @@
                 rightfoodBlockText.attr({ text: rightfoodBlockfood + '$' });
         }
         else
-            rightfoodBlockText.attr({ text: '0–ß$' });
+            rightfoodBlockText.attr({ text: '0◊$' });
 
     },
     foodSliderRightHandlerUp = function () {
@@ -1052,7 +1056,7 @@
 
     alcoholSliderLeftHandler = SliderPaper.rect(alcoholSliderLeftPosition, (alcoholSliderYPosition - alcoholSliderHandlerYSize * 0.1), alcoholSliderHandlerXSize * 1.1, alcoholSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     alcoholSliderRightHandler = SliderPaper.rect((SliderPaperWidth - alcoholSliderLeftPosition), (alcoholSliderYPosition - alcoholSliderHandlerYSize * 0.1), alcoholSliderHandlerXSize * 1.1, alcoholSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var alcoholSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var alcoholSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var alcoholSliderLeftPathString = 'M'+ alcoholSliderLeftPosition +',' + ()
     //var alcoholSliderLeftPath = SliderPaper.path(alcoholSliderLeftPath);
 
@@ -1136,7 +1140,7 @@
                 rightalcoholBlockText.attr({ text: rightalcoholBlockalcohol + '$' });
         }
         else
-            rightalcoholBlockText.attr({ text: '0–ß$' });
+            rightalcoholBlockText.attr({ text: '0◊$' });
 
     },
     alcoholSliderRightHandlerUp = function () {
@@ -1165,7 +1169,7 @@
 
     moodSliderLeftHandler = SliderPaper.rect(moodSliderLeftPosition + ((moodSliderLeftPosition - moodSliderHandlerYSize) + (SliderPaperWidth - (2 * moodSliderLeftPosition) - 5 * moodSliderHandlerYSize)) / 2, (moodSliderYPosition - moodSliderHandlerYSize * 0.1), moodSliderHandlerXSize * 1.1, moodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     moodSliderRightHandler = SliderPaper.rect((SliderPaperWidth - moodSliderLeftPosition) + moodSliderHandlerYSize, (moodSliderYPosition - moodSliderHandlerYSize * 0.1), moodSliderHandlerXSize * 1.1, moodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var moodSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var moodSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var moodSliderLeftPathString = 'M'+ moodSliderLeftPosition +',' + ()
     //var moodSliderLeftPath = SliderPaper.path(moodSliderLeftPath);
 
@@ -1239,7 +1243,7 @@
 
     touristsSliderLeftHandler = SliderPaper.rect(touristsSliderLeftPosition + ((touristsSliderLeftPosition - touristsSliderHandlerYSize) + (SliderPaperWidth - (2 * touristsSliderLeftPosition) - 5 * touristsSliderHandlerYSize)) / 2, (touristsSliderYPosition - touristsSliderHandlerYSize * 0.1), touristsSliderHandlerXSize * 1.1, touristsSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     touristsSliderRightHandler = SliderPaper.rect((SliderPaperWidth - touristsSliderLeftPosition) + touristsSliderHandlerYSize, (touristsSliderYPosition - touristsSliderHandlerYSize * 0.1), touristsSliderHandlerXSize * 1.1, touristsSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var touristsSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var touristsSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var touristsSliderLeftPathString = 'M'+ touristsSliderLeftPosition +',' + ()
     //var touristsSliderLeftPath = SliderPaper.path(touristsSliderLeftPath);
 
@@ -1312,7 +1316,7 @@
 
     securitySliderLeftHandler = SliderPaper.rect(securitySliderLeftPosition + ((securitySliderLeftPosition - securitySliderHandlerYSize) + (SliderPaperWidth - (2 * securitySliderLeftPosition) - 5 * securitySliderHandlerYSize)) / 2, (securitySliderYPosition - securitySliderHandlerYSize * 0.1), securitySliderHandlerXSize * 1.1, securitySliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     securitySliderRightHandler = SliderPaper.rect((SliderPaperWidth - securitySliderLeftPosition) + securitySliderHandlerYSize, (securitySliderYPosition - securitySliderHandlerYSize * 0.1), securitySliderHandlerXSize * 1.1, securitySliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var securitySliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var securitySliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var securitySliderLeftPathString = 'M'+ securitySliderLeftPosition +',' + ()
     //var securitySliderLeftPath = SliderPaper.path(securitySliderLeftPath);
 
@@ -1386,7 +1390,7 @@
 
     sexSliderLeftHandler = SliderPaper.rect(sexSliderLeftPosition + ((sexSliderLeftPosition - sexSliderHandlerYSize) + (SliderPaperWidth - (2 * sexSliderLeftPosition) - 5 * sexSliderHandlerYSize)) / 2, (sexSliderYPosition - sexSliderHandlerYSize * 0.1), sexSliderHandlerXSize * 1.1, sexSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     sexSliderRightHandler = SliderPaper.rect((SliderPaperWidth - sexSliderLeftPosition) + sexSliderHandlerYSize, (sexSliderYPosition - sexSliderHandlerYSize * 0.1), sexSliderHandlerXSize * 1.1, sexSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var sexSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "–¢–µ–º–ø–µ—Ä–∞—Ç—É—Ä–∞");
+    //var sexSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "“ÂÏÔÂ‡ÚÛ‡");
     //var sexSliderLeftPathString = 'M'+ sexSliderLeftPosition +',' + ()
     //var sexSliderLeftPath = SliderPaper.path(sexSliderLeftPath);
 
@@ -1450,18 +1454,18 @@
     var visaButtonActive = true;
     var russianRect = SliderPaper.rect((firstBlockRectOffset) * 1.3 + 55, eleventhDevideLinePosition + (SliderPaperHeight * 0.02), firstBlockRectWidth / 4, firstBlockRectWidth / 4);
     if (Width > 1000)
-        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.3, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "–†—É—Å—Å–∫–∏–π —è–∑—ã–∫");
+        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.3, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "–ÛÒÒÍËÈ ˇÁ˚Í");
     else
-        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.4, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "–†—É—Å—Å–∫–∏–π —è–∑—ã–∫");
+        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.4, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "–ÛÒÒÍËÈ ˇÁ˚Í");
     ninthBlockRussianText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //russianRect.attr({ fill: [270, '#ccc', '#999'].join("-"), stroke: 'none' });
     russianRect.attr({ fill: [270, '#fc0', '#fc6'].join("-"), stroke: '#bbb', cursor: 'hand' });
 
     var visaRect = SliderPaper.rect((SliderPaperWidth - firstBlockRectOffset), eleventhDevideLinePosition + (SliderPaperHeight * 0.02), firstBlockRectWidth / 4, firstBlockRectWidth / 4);
     if (Width > 1000)
-        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 40, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "–ë–µ–∑ –í–∏–∑—ã");
+        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 40, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "¡ÂÁ ¬ËÁ˚");
     else
-        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 30, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "–ë–µ–∑ –í–∏–∑—ã");
+        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 30, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "¡ÂÁ ¬ËÁ˚");
     ninthBlockVisaText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //visaRect.attr({ fill: [270, '#ccc', '#999'].join("-"), stroke: 'none' });
     visaRect.attr({ fill: [270, '#fc0', '#fc6'].join("-"), stroke: '#bbb', cursor: 'hand' });
@@ -1500,6 +1504,110 @@
         //HeadPaperWidth = newWidth;
         //HeadPaperHeight = newHeight*0.07;
 
+
+        firstDevideLinePosition *= newHeight / Height;
+        secondDevideLinePosition *= newHeight / Height;
+        thirdDevideLinePosition *= newHeight / Height;
+        fifthDevideLinePosition *= newHeight / Height;
+        sixthDevideLinePosition *= newHeight / Height;
+        seventhDevideLinePosition *= newHeight / Height;
+        eightsDevideLinePosition *= newHeight / Height;
+        ninthDevideLinePosition *= newHeight / Height;
+
+        //=======================ololo
+        if (sliderActiveArray[0] == true) {
+            temperatureSliderYPosition = normaltemperatureSliderYPosition;
+            temperatureSliderHeight /= 1.4;
+            temperatureSliderHandlerXSize /= 1;
+            temperatureSliderHandlerYSize /= 1.4;
+
+            temperatureSliderBackRect.scale(1, (1 / 1.4));
+            temperatureSliderBackRect.attr({ fill: '#ddd' });
+            temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
+            temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
+            temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
+            temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
+            temperatureSliderCenterRect.scale(1, (1 / 1.4));
+            temperatureSliderLeftHandler.scale(1, (1 / 1.4));
+            temperatureSliderRightHandler.scale(1, (1 / 1.4));
+            sliderActiveArray[0] = false;
+
+        }
+
+
+        if (sliderActiveArray[1] == true) {
+            timeSliderYPosition = normaltimeSliderYPosition;
+            timeSliderHeight /= 1.4;
+            timeSliderHandlerXSize /= 1;
+            timeSliderHandlerYSize /= 1.4;
+
+            timeSliderBackRect.scale(1, (1 / 1.4));
+            timeSliderBackRect.attr({ fill: '#ddd' });
+            timeSliderLeftBackCircle.scale(1, (1 / 1.4));
+            timeSliderRightBackCircle.scale(1, (1 / 1.4));
+            timeSliderLeftBackCircle.attr({ fill: '#ddd' });
+            timeSliderRightBackCircle.attr({ fill: '#ddd' });
+            timeSliderCenterRect.scale(1, (1 / 1.4));
+            timeSliderLeftHandler.scale(1, (1 / 1.4));
+            timeSliderRightHandler.scale(1, (1 / 1.4));
+            sliderActiveArray[1] = false;
+        }
+        if (sliderActiveArray[2] == true) {
+            livingSliderYPosition = normallivingSliderYPosition;
+            livingSliderHeight /= 1.4;
+            livingSliderHandlerXSize /= 1;
+            livingSliderHandlerYSize /= 1.4;
+
+            livingSliderBackRect.scale(1, (1 / 1.4));
+            livingSliderBackRect.attr({ fill: '#ddd' });
+            livingSliderLeftBackCircle.scale(1, (1 / 1.4));
+            livingSliderRightBackCircle.scale(1, (1 / 1.4));
+            livingSliderLeftBackCircle.attr({ fill: '#ddd' });
+            livingSliderRightBackCircle.attr({ fill: '#ddd' });
+            livingSliderCenterRect.scale(1, (1 / 1.4));
+            livingSliderLeftHandler.scale(1, (1 / 1.4));
+            livingSliderRightHandler.scale(1, (1 / 1.4));
+            sliderActiveArray[2] = false;
+
+        }
+        if (sliderActiveArray[3] == true) {
+            foodSliderYPosition = normalfoodSliderYPosition;
+            foodSliderHeight /= 1.4;
+            foodSliderHandlerXSize /= 1;
+            foodSliderHandlerYSize /= 1.4;
+
+            foodSliderBackRect.scale(1, (1 / 1.4));
+            foodSliderBackRect.attr({ fill: '#ddd' });
+            foodSliderLeftBackCircle.scale(1, (1 / 1.4));
+            foodSliderRightBackCircle.scale(1, (1 / 1.4));
+            foodSliderLeftBackCircle.attr({ fill: '#ddd' });
+            foodSliderRightBackCircle.attr({ fill: '#ddd' });
+            foodSliderCenterRect.scale(1, (1 / 1.4));
+            foodSliderLeftHandler.scale(1, (1 / 1.4));
+            foodSliderRightHandler.scale(1, (1 / 1.4));
+            sliderActiveArray[3] = false;
+
+        }
+        if (sliderActiveArray[4] == true) {
+            alcoholSliderYPosition = normalalcoholSliderYPosition;
+            alcoholSliderHeight /= 1.4;
+            alcoholSliderHandlerXSize /= 1;
+            alcoholSliderHandlerYSize /= 1.4;
+
+            alcoholSliderBackRect.scale(1, (1 / 1.4));
+            alcoholSliderBackRect.attr({ fill: '#ddd' });
+            alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
+            alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
+            alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
+            alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
+            alcoholSliderCenterRect.scale(1, (1 / 1.4));
+            alcoholSliderLeftHandler.scale(1, (1 / 1.4));
+            alcoholSliderRightHandler.scale(1, (1 / 1.4));
+            sliderActiveArray[4] = false;
+        }
+        //=======================ololo
+
+
         //alert(newWidth);
         //alert(Width);
         if (newWidth < 900)
@@ -1534,25 +1642,25 @@
         var newBottomSwitcherWidth = bottomSwitcherWidth * (newWidth / Width);
         //Avia-------------------------------------------------------
 
-        aviaRect.translate(-(bottomSwitcherWidth * 0.14), 0);
-        aviaText.translate(-(bottomSwitcherWidth * 0.14), 0);
-        aviaRectOver.translate(-(bottomSwitcherWidth * 0.14), 0);
+        aviaRect.translate(-(bottomSwitcherWidth * 0.136), 0);
+        aviaText.translate(-(bottomSwitcherWidth * 0.136), 0);
+        aviaRectOver.translate(-(bottomSwitcherWidth * 0.136), 0);
         aviaRect.translate((newBottomSwitcherWidth * 0.14), 0);
         aviaText.translate((newBottomSwitcherWidth * 0.14), 0);
         aviaRectOver.translate((newBottomSwitcherWidth * 0.14), 0);
 
         //Hotels-------------------------------------------------------
-        hotelRect.translate(-(bottomSwitcherWidth * 0.28), 0);
-        hotelText.translate(-(bottomSwitcherWidth * 0.28), 0);
-        hotelRectOver.translate(-(bottomSwitcherWidth * 0.28), 0);
+        hotelRect.translate(-(bottomSwitcherWidth * 0.276), 0);
+        hotelText.translate(-(bottomSwitcherWidth * 0.276), 0);
+        hotelRectOver.translate(-(bottomSwitcherWidth * 0.276), 0);
         hotelRect.translate((newBottomSwitcherWidth * 0.28), 0);
         hotelText.translate((newBottomSwitcherWidth * 0.28), 0);
         hotelRectOver.translate((newBottomSwitcherWidth * 0.28), 0);
 
         //Auto-------------------------------------------------------
-        autoRect.translate(-(bottomSwitcherWidth * 0.42), 0);
-        autoText.translate(-(bottomSwitcherWidth * 0.42), 0);
-        autoRectOver.translate(-(bottomSwitcherWidth * 0.42), 0);
+        autoRect.translate(-(bottomSwitcherWidth * 0.416), 0);
+        autoText.translate(-(bottomSwitcherWidth * 0.416), 0);
+        autoRectOver.translate(-(bottomSwitcherWidth * 0.416), 0);
         autoRect.translate((newBottomSwitcherWidth * 0.42), 0);
         autoText.translate((newBottomSwitcherWidth * 0.42), 0);
         autoRectOver.translate((newBottomSwitcherWidth * 0.42), 0);
@@ -1566,6 +1674,23 @@
         Height = newHeight;
         Width = newWidth;
         bottomSwitcherWidth = newBottomSwitcherWidth;
+        /*
+        if (Width < 1500) {
+        bottomFont = 14;
+        }
+        if (Width < 1000) {
+        bottomFont = 10;
+        }
+
+        tourText.attr({ 'font-size': bottomFont });
+        aviaText.attr({ 'font-size': bottomFont });
+        hotelText.attr({ 'font-size': bottomFont });
+        autoText.attr({ 'font-size': bottomFont });
+        alert("bottom");
+        */
+        //tourText.attr({ 'font-size': bottomFont });
+
+
         //        }
         /*
         else {
@@ -1578,10 +1703,515 @@
         */
     });
     //scaling sliders
+    var sliderActiveArray = new Array();
+    var sliderActiveArrayCounter = 0;
+    for (sliderActiveArrayCounter = 0; sliderActiveArrayCounter < 9; sliderActiveArrayCounter++) {
+        sliderActiveArray[sliderActiveArrayCounter] = false;
+    }
+
     Left.onmouseover = function (e) {
         leftClickY = e.clientY;
+
+        leftClickY -= $(document.getElementById("header")).height();
+        //alert("123");
+
+        normaltemperatureSliderYPosition = temperatureSliderYPosition;
+        normaltimeSliderYPosition = timeSliderYPosition;
+        normallivingSliderYPosition = livingSliderYPosition;
+        normalfoodSliderYPosition = foodSliderYPosition;
+        normalfoodSliderYPosition = foodSliderYPosition;
+        normalalcoholSliderYPosition = alcoholSliderYPosition;
+
+        if ((leftClickY > secondDevideLinePosition) && (leftClickY < thirdDevideLinePosition) && (sliderActiveArray[0] == false)) {
+            temperatureSliderYPosition = temperatureSliderYPosition - temperatureSliderHeight * 0.1;
+            temperatureSliderHeight *= 1.4;
+            temperatureSliderHandlerXSize *= 1;
+            temperatureSliderHandlerYSize *= 1.4;
+
+            temperatureSliderBackRect.scale(1, 1.4);
+            temperatureSliderBackRect.attr({ fill: gradLineVioletFirstColor });
+            temperatureSliderLeftBackCircle.scale(1, 1.4);
+            temperatureSliderRightBackCircle.scale(1, 1.4);
+            temperatureSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
+            temperatureSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
+            temperatureSliderCenterRect.scale(1, 1.4);
+            temperatureSliderLeftHandler.scale(1, 1.4);
+            temperatureSliderRightHandler.scale(1, 1.4);
+
+            sliderActiveArray[0] = true;
+            //==================ololo
+            if (sliderActiveArray[1] == true) {
+                timeSliderYPosition = normaltimeSliderYPosition;
+                timeSliderHeight /= 1.4;
+                timeSliderHandlerXSize /= 1;
+                timeSliderHandlerYSize /= 1.4;
+
+                timeSliderBackRect.scale(1, (1 / 1.4));
+                timeSliderBackRect.attr({ fill: '#ddd' });
+                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
+                timeSliderRightBackCircle.scale(1, (1 / 1.4));
+                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
+                timeSliderRightBackCircle.attr({ fill: '#ddd' });
+                timeSliderCenterRect.scale(1, (1 / 1.4));
+                timeSliderLeftHandler.scale(1, (1 / 1.4));
+                timeSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[1] = false;
+            }
+            if (sliderActiveArray[2] == true) {
+                livingSliderYPosition = normallivingSliderYPosition;
+                livingSliderHeight /= 1.4;
+                livingSliderHandlerXSize /= 1;
+                livingSliderHandlerYSize /= 1.4;
+
+                livingSliderBackRect.scale(1, (1 / 1.4));
+                livingSliderBackRect.attr({ fill: '#ddd' });
+                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
+                livingSliderRightBackCircle.scale(1, (1 / 1.4));
+                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
+                livingSliderRightBackCircle.attr({ fill: '#ddd' });
+                livingSliderCenterRect.scale(1, (1 / 1.4));
+                livingSliderLeftHandler.scale(1, (1 / 1.4));
+                livingSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[2] = false;
+
+            }
+            if (sliderActiveArray[3] == true) {
+                foodSliderYPosition = normalfoodSliderYPosition;
+                foodSliderHeight /= 1.4;
+                foodSliderHandlerXSize /= 1;
+                foodSliderHandlerYSize /= 1.4;
+
+                foodSliderBackRect.scale(1, (1 / 1.4));
+                foodSliderBackRect.attr({ fill: '#ddd' });
+                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
+                foodSliderRightBackCircle.scale(1, (1 / 1.4));
+                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
+                foodSliderRightBackCircle.attr({ fill: '#ddd' });
+                foodSliderCenterRect.scale(1, (1 / 1.4));
+                foodSliderLeftHandler.scale(1, (1 / 1.4));
+                foodSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[3] = false;
+
+            }
+            if (sliderActiveArray[4] == true) {
+                alcoholSliderYPosition = normalalcoholSliderYPosition;
+                alcoholSliderHeight /= 1.4;
+                alcoholSliderHandlerXSize /= 1;
+                alcoholSliderHandlerYSize /= 1.4;
+
+                alcoholSliderBackRect.scale(1, (1 / 1.4));
+                alcoholSliderBackRect.attr({ fill: '#ddd' });
+                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderCenterRect.scale(1, (1 / 1.4));
+                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
+                alcoholSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[4] = false;
+
+            }
+
+            //==================ololo
+
+
+
+        }
+        //-------------------------------------------------------------------------------------------------
+        if ((leftClickY > thirdDevideLinePosition) && (leftClickY < forthDevideLinePosition) && (sliderActiveArray[1] == false)) {
+            timeSliderYPosition = timeSliderYPosition - timeSliderHeight * 0.1;
+            timeSliderHeight *= 1.4;
+            timeSliderHandlerXSize *= 1;
+            timeSliderHandlerYSize *= 1.4;
+
+            timeSliderBackRect.scale(1, 1.4);
+            timeSliderBackRect.attr({ fill: gradLineVioletFirstColor });
+            timeSliderLeftBackCircle.scale(1, 1.4);
+            timeSliderRightBackCircle.scale(1, 1.4);
+            timeSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
+            timeSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
+            timeSliderCenterRect.scale(1, 1.4);
+            timeSliderLeftHandler.scale(1, 1.4);
+            timeSliderRightHandler.scale(1, 1.4);
+
+            sliderActiveArray[1] = true;
+            //==================ololo
+            if (sliderActiveArray[0] == true) {
+                temperatureSliderYPosition = normaltemperatureSliderYPosition;
+                temperatureSliderHeight /= 1.4;
+                temperatureSliderHandlerXSize /= 1;
+                temperatureSliderHandlerYSize /= 1.4;
+
+                temperatureSliderBackRect.scale(1, (1 / 1.4));
+                temperatureSliderBackRect.attr({ fill: '#ddd' });
+                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderCenterRect.scale(1, (1 / 1.4));
+                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
+                temperatureSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[0] = false;
+
+            }
+
+            if (sliderActiveArray[2] == true) {
+                livingSliderYPosition = normallivingSliderYPosition;
+                livingSliderHeight /= 1.4;
+                livingSliderHandlerXSize /= 1;
+                livingSliderHandlerYSize /= 1.4;
+
+                livingSliderBackRect.scale(1, (1 / 1.4));
+                livingSliderBackRect.attr({ fill: '#ddd' });
+                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
+                livingSliderRightBackCircle.scale(1, (1 / 1.4));
+                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
+                livingSliderRightBackCircle.attr({ fill: '#ddd' });
+                livingSliderCenterRect.scale(1, (1 / 1.4));
+                livingSliderLeftHandler.scale(1, (1 / 1.4));
+                livingSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[2] = false;
+
+            }
+            if (sliderActiveArray[3] == true) {
+                foodSliderYPosition = normalfoodSliderYPosition;
+                foodSliderHeight /= 1.4;
+                foodSliderHandlerXSize /= 1;
+                foodSliderHandlerYSize /= 1.4;
+
+                foodSliderBackRect.scale(1, (1 / 1.4));
+                foodSliderBackRect.attr({ fill: '#ddd' });
+                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
+                foodSliderRightBackCircle.scale(1, (1 / 1.4));
+                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
+                foodSliderRightBackCircle.attr({ fill: '#ddd' });
+                foodSliderCenterRect.scale(1, (1 / 1.4));
+                foodSliderLeftHandler.scale(1, (1 / 1.4));
+                foodSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[3] = false;
+
+            }
+            if (sliderActiveArray[4] == true) {
+                alcoholSliderYPosition = normalalcoholSliderYPosition;
+                alcoholSliderHeight /= 1.4;
+                alcoholSliderHandlerXSize /= 1;
+                alcoholSliderHandlerYSize /= 1.4;
+
+                alcoholSliderBackRect.scale(1, (1 / 1.4));
+                alcoholSliderBackRect.attr({ fill: '#ddd' });
+                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderCenterRect.scale(1, (1 / 1.4));
+                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
+                alcoholSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[4] = false;
+
+            }
+
+            //==================ololo
+
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        if ((leftClickY > fifthDevideLinePosition) && (leftClickY < sixthDevideLinePosition) && (sliderActiveArray[2] == false)) {
+            livingSliderYPosition = livingSliderYPosition - livingSliderHeight * 0.1;
+            livingSliderHeight *= 1.4;
+            livingSliderHandlerXSize *= 1;
+            livingSliderHandlerYSize *= 1.4;
+
+            livingSliderBackRect.scale(1, 1.4);
+            livingSliderBackRect.attr({ fill: gradLineVioletFirstColor });
+            livingSliderLeftBackCircle.scale(1, 1.4);
+            livingSliderRightBackCircle.scale(1, 1.4);
+            livingSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
+            livingSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
+            livingSliderCenterRect.scale(1, 1.4);
+            livingSliderLeftHandler.scale(1, 1.4);
+            livingSliderRightHandler.scale(1, 1.4);
+
+            sliderActiveArray[2] = true;
+            //==================ololo
+            if (sliderActiveArray[0] == true) {
+                temperatureSliderYPosition = normaltemperatureSliderYPosition;
+                temperatureSliderHeight /= 1.4;
+                temperatureSliderHandlerXSize /= 1;
+                temperatureSliderHandlerYSize /= 1.4;
+
+                temperatureSliderBackRect.scale(1, (1 / 1.4));
+                temperatureSliderBackRect.attr({ fill: '#ddd' });
+                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderCenterRect.scale(1, (1 / 1.4));
+                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
+                temperatureSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[0] = false;
+
+            }
+            if (sliderActiveArray[1] == true) {
+                timeSliderYPosition = normaltimeSliderYPosition;
+                timeSliderHeight /= 1.4;
+                timeSliderHandlerXSize /= 1;
+                timeSliderHandlerYSize /= 1.4;
+
+                timeSliderBackRect.scale(1, (1 / 1.4));
+                timeSliderBackRect.attr({ fill: '#ddd' });
+                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
+                timeSliderRightBackCircle.scale(1, (1 / 1.4));
+                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
+                timeSliderRightBackCircle.attr({ fill: '#ddd' });
+                timeSliderCenterRect.scale(1, (1 / 1.4));
+                timeSliderLeftHandler.scale(1, (1 / 1.4));
+                timeSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[1] = false;
+            }
+
+            if (sliderActiveArray[3] == true) {
+                foodSliderYPosition = normalfoodSliderYPosition;
+                foodSliderHeight /= 1.4;
+                foodSliderHandlerXSize /= 1;
+                foodSliderHandlerYSize /= 1.4;
+
+                foodSliderBackRect.scale(1, (1 / 1.4));
+                foodSliderBackRect.attr({ fill: '#ddd' });
+                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
+                foodSliderRightBackCircle.scale(1, (1 / 1.4));
+                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
+                foodSliderRightBackCircle.attr({ fill: '#ddd' });
+                foodSliderCenterRect.scale(1, (1 / 1.4));
+                foodSliderLeftHandler.scale(1, (1 / 1.4));
+                foodSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[3] = false;
+
+            }
+            if (sliderActiveArray[4] == true) {
+                alcoholSliderYPosition = normalalcoholSliderYPosition;
+                alcoholSliderHeight /= 1.4;
+                alcoholSliderHandlerXSize /= 1;
+                alcoholSliderHandlerYSize /= 1.4;
+
+                alcoholSliderBackRect.scale(1, (1 / 1.4));
+                alcoholSliderBackRect.attr({ fill: '#ddd' });
+                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderCenterRect.scale(1, (1 / 1.4));
+                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
+                alcoholSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[4] = false;
+            }
+
+            //==================ololo
+
+
+
+        }
+        //-------------------------------------------------------------------------------------------------
+        if ((leftClickY > sixthDevideLinePosition) && (leftClickY < seventhDevideLinePosition) && (sliderActiveArray[3] == false)) {
+            foodSliderYPosition = foodSliderYPosition - foodSliderHeight * 0.1;
+            foodSliderHeight *= 1.4;
+            foodSliderHandlerXSize *= 1;
+            foodSliderHandlerYSize *= 1.4;
+
+            foodSliderBackRect.scale(1, 1.4);
+            foodSliderBackRect.attr({ fill: gradLineVioletFirstColor });
+            foodSliderLeftBackCircle.scale(1, 1.4);
+            foodSliderRightBackCircle.scale(1, 1.4);
+            foodSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
+            foodSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
+            foodSliderCenterRect.scale(1, 1.4);
+            foodSliderLeftHandler.scale(1, 1.4);
+            foodSliderRightHandler.scale(1, 1.4);
+
+            sliderActiveArray[3] = true;
+            //==================ololo
+            if (sliderActiveArray[0] == true) {
+                temperatureSliderYPosition = normaltemperatureSliderYPosition;
+                temperatureSliderHeight /= 1.4;
+                temperatureSliderHandlerXSize /= 1;
+                temperatureSliderHandlerYSize /= 1.4;
+
+                temperatureSliderBackRect.scale(1, (1 / 1.4));
+                temperatureSliderBackRect.attr({ fill: '#ddd' });
+                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderCenterRect.scale(1, (1 / 1.4));
+                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
+                temperatureSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[0] = false;
+
+            }
+            if (sliderActiveArray[1] == true) {
+                timeSliderYPosition = normaltimeSliderYPosition;
+                timeSliderHeight /= 1.4;
+                timeSliderHandlerXSize /= 1;
+                timeSliderHandlerYSize /= 1.4;
+
+                timeSliderBackRect.scale(1, (1 / 1.4));
+                timeSliderBackRect.attr({ fill: '#ddd' });
+                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
+                timeSliderRightBackCircle.scale(1, (1 / 1.4));
+                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
+                timeSliderRightBackCircle.attr({ fill: '#ddd' });
+                timeSliderCenterRect.scale(1, (1 / 1.4));
+                timeSliderLeftHandler.scale(1, (1 / 1.4));
+                timeSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[1] = false;
+            }
+            if (sliderActiveArray[2] == true) {
+                livingSliderYPosition = normallivingSliderYPosition;
+                livingSliderHeight /= 1.4;
+                livingSliderHandlerXSize /= 1;
+                livingSliderHandlerYSize /= 1.4;
+
+                livingSliderBackRect.scale(1, (1 / 1.4));
+                livingSliderBackRect.attr({ fill: '#ddd' });
+                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
+                livingSliderRightBackCircle.scale(1, (1 / 1.4));
+                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
+                livingSliderRightBackCircle.attr({ fill: '#ddd' });
+                livingSliderCenterRect.scale(1, (1 / 1.4));
+                livingSliderLeftHandler.scale(1, (1 / 1.4));
+                livingSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[2] = false;
+
+            }
+
+            if (sliderActiveArray[4] == true) {
+                alcoholSliderYPosition = normalalcoholSliderYPosition;
+                alcoholSliderHeight /= 1.4;
+                alcoholSliderHandlerXSize /= 1;
+                alcoholSliderHandlerYSize /= 1.4;
+
+                alcoholSliderBackRect.scale(1, (1 / 1.4));
+                alcoholSliderBackRect.attr({ fill: '#ddd' });
+                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
+                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
+                alcoholSliderCenterRect.scale(1, (1 / 1.4));
+                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
+                alcoholSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[4] = false;
+            }
+
+            //==================ololo
+
+
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        if ((leftClickY > seventhDevideLinePosition) && (leftClickY < eightsDevideLinePosition) && (sliderActiveArray[4] == false)) {
+            alcoholSliderYPosition = alcoholSliderYPosition - alcoholSliderHeight * 0.1;
+            alcoholSliderHeight *= 1.4;
+            alcoholSliderHandlerXSize *= 1;
+            alcoholSliderHandlerYSize *= 1.4;
+
+            alcoholSliderBackRect.scale(1, 1.4);
+            alcoholSliderBackRect.attr({ fill: gradLineVioletFirstColor });
+            alcoholSliderLeftBackCircle.scale(1, 1.4);
+            alcoholSliderRightBackCircle.scale(1, 1.4);
+            alcoholSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
+            alcoholSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
+            alcoholSliderCenterRect.scale(1, 1.4);
+            alcoholSliderLeftHandler.scale(1, 1.4);
+            alcoholSliderRightHandler.scale(1, 1.4);
+
+            sliderActiveArray[4] = true;
+            //==================ololo
+            if (sliderActiveArray[0] == true) {
+                temperatureSliderYPosition = normaltemperatureSliderYPosition;
+                temperatureSliderHeight /= 1.4;
+                temperatureSliderHandlerXSize /= 1;
+                temperatureSliderHandlerYSize /= 1.4;
+
+                temperatureSliderBackRect.scale(1, (1 / 1.4));
+                temperatureSliderBackRect.attr({ fill: '#ddd' });
+                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
+                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
+                temperatureSliderCenterRect.scale(1, (1 / 1.4));
+                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
+                temperatureSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[0] = false;
+
+            }
+            if (sliderActiveArray[1] == true) {
+                timeSliderYPosition = normaltimeSliderYPosition;
+                timeSliderHeight /= 1.4;
+                timeSliderHandlerXSize /= 1;
+                timeSliderHandlerYSize /= 1.4;
+
+                timeSliderBackRect.scale(1, (1 / 1.4));
+                timeSliderBackRect.attr({ fill: '#ddd' });
+                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
+                timeSliderRightBackCircle.scale(1, (1 / 1.4));
+                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
+                timeSliderRightBackCircle.attr({ fill: '#ddd' });
+                timeSliderCenterRect.scale(1, (1 / 1.4));
+                timeSliderLeftHandler.scale(1, (1 / 1.4));
+                timeSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[1] = false;
+            }
+            if (sliderActiveArray[2] == true) {
+                livingSliderYPosition = normallivingSliderYPosition;
+                livingSliderHeight /= 1.4;
+                livingSliderHandlerXSize /= 1;
+                livingSliderHandlerYSize /= 1.4;
+
+                livingSliderBackRect.scale(1, (1 / 1.4));
+                livingSliderBackRect.attr({ fill: '#ddd' });
+                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
+                livingSliderRightBackCircle.scale(1, (1 / 1.4));
+                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
+                livingSliderRightBackCircle.attr({ fill: '#ddd' });
+                livingSliderCenterRect.scale(1, (1 / 1.4));
+                livingSliderLeftHandler.scale(1, (1 / 1.4));
+                livingSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[2] = false;
+
+            }
+            if (sliderActiveArray[3] == true) {
+                foodSliderYPosition = normalfoodSliderYPosition;
+                foodSliderHeight /= 1.4;
+                foodSliderHandlerXSize /= 1;
+                foodSliderHandlerYSize /= 1.4;
+
+                foodSliderBackRect.scale(1, (1 / 1.4));
+                foodSliderBackRect.attr({ fill: '#ddd' });
+                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
+                foodSliderRightBackCircle.scale(1, (1 / 1.4));
+                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
+                foodSliderRightBackCircle.attr({ fill: '#ddd' });
+                foodSliderCenterRect.scale(1, (1 / 1.4));
+                foodSliderLeftHandler.scale(1, (1 / 1.4));
+                foodSliderRightHandler.scale(1, (1 / 1.4));
+                sliderActiveArray[3] = false;
+
+            }
+            //==================ololo
+
+        }
+
+        /* */
+        //alert(secondDevideLinePosition);
+        // alert(leftClickY);
     }
     //scaling sliders //not done yet
+    //===========================
+    //===========================
+
+
+
+
+
     alert("sucsessfull build");
 }
 
