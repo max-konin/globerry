@@ -517,8 +517,8 @@ window.onload = function () {
     thirdDevideLine.attr({ fill: lineColor, stroke: lineColor });
     var thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "Температура");
     thirdBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    var leftTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.2), secondDevideLinePosition + (SliderPaperHeight * 0.05), "-35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    var rightTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.81), secondDevideLinePosition + (SliderPaperHeight * 0.05), "+35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
+    var leftTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.2), secondDevideLinePosition + (SliderPaperHeight * 0.03), "-35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
+    var rightTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.81), secondDevideLinePosition + (SliderPaperHeight * 0.03), "+35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
 
     var forthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.26; //firstDevideLinePosition * 2 + 1.35 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var forthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + forthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + forthDevideLinePosition);
@@ -588,7 +588,7 @@ window.onload = function () {
     ///---------------------------------first slider-------------------
     //var nowX, nowY, R = Raphael(BottomAvia, 500, 500),
     var previousX;
-    var temperatureSliderYPosition = secondDevideLinePosition + (SliderPaperHeight * 0.065);
+    var temperatureSliderYPosition = secondDevideLinePosition + (SliderPaperHeight * 0.060);
     var temperatureSliderHeight = firstBlockRectWidth * 0.15;
     var temperatureSliderHandlerXSize = temperatureSliderHeight + firstBlockRectWidth * 0.02;
     var temperatureSliderHandlerYSize = temperatureSliderHeight + firstBlockRectWidth * 0.02;
@@ -599,7 +599,7 @@ window.onload = function () {
 
     var temperatureSliderCenterRect = SliderPaper.rect((temperatureSliderLeftPosition + temperatureSliderHandlerYSize), (temperatureSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * temperatureSliderLeftPosition) - temperatureSliderHandlerYSize), (temperatureSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
 
-    //var temperatureSliderGradCenterBottomLies = SliderPaper.path("M" + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight) + 'L' + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight + temperatureSliderHandlerYSize*0.2));
+    //var temperatureSliderGradCenterBottomLies = SliderPaper.path("M" + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight) + 'L' + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight + temperatureSliderHandlerYSize));
 
     temperatureSliderLeftHandler = SliderPaper.rect(temperatureSliderLeftPosition, (temperatureSliderYPosition - temperatureSliderHandlerYSize * 0.1), temperatureSliderHandlerXSize * 1.1, temperatureSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
     temperatureSliderRightHandler = SliderPaper.rect((SliderPaperWidth - temperatureSliderLeftPosition), (temperatureSliderYPosition - temperatureSliderHandlerYSize * 0.1), temperatureSliderHandlerXSize * 1.1, temperatureSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
@@ -2006,9 +2006,6 @@ window.onload = function () {
             }
 
             //==================ololo
-
-
-
         }
         //-------------------------------------------------------------------------------------------------
         if ((leftClickY > sixthDevideLinePosition) && (leftClickY < seventhDevideLinePosition) && (sliderActiveArray[3] == false)) {
@@ -2102,8 +2099,6 @@ window.onload = function () {
             }
 
             //==================ololo
-
-
         }
 
         //-------------------------------------------------------------------------------------------------
@@ -2194,10 +2189,8 @@ window.onload = function () {
                 foodSliderLeftHandler.scale(1, (1 / 1.4));
                 foodSliderRightHandler.scale(1, (1 / 1.4));
                 sliderActiveArray[3] = false;
-
             }
             //==================ololo
-
         }
 
         /* */
