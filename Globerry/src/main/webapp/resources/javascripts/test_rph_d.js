@@ -37,7 +37,7 @@ window.onload = function () {
         bottomFont = 14;
     }
     if (Width < 1000) {
-        bottomFont = 10;
+        bottomFont = 12;
     }
     var osm = new OpenLayers.Layer.OSM();
     osm.wrapDateLine = false;
@@ -194,8 +194,6 @@ window.onload = function () {
         BottomAuto.style.zIndex = bottomZIndexDown;
         BottomHotel.style.zIndex = bottomZIndexDown;
         BottomAvia.style.zIndex = bottomZIndexUp;
-
-
     });
     hotelRectOver.click(function () {
         hotelRect.animate({ path: tourPathAnimated }, bottomSwitcherDelay);
@@ -213,8 +211,6 @@ window.onload = function () {
         BottomAuto.style.zIndex = bottomZIndexDown;
         BottomHotel.style.zIndex = bottomZIndexUp;
         BottomAvia.style.zIndex = bottomZIndexDown;
-
-
     });
     autoRectOver.click(function () {
         autoRect.animate({ path: tourPathAnimated, zIndex: 1 }, bottomSwitcherDelay);
@@ -232,8 +228,6 @@ window.onload = function () {
         BottomAuto.style.zIndex = bottomZIndexUp;
         BottomHotel.style.zIndex = bottomZIndexDown;
         BottomAvia.style.zIndex = bottomZIndexDown;
-
-
     });
 
     var gradRect1 = bottomSwitcher.rect(0, 0, bottomSwitcherWidth, (bottomSwitcherHeight * 0.1));
@@ -289,6 +283,7 @@ window.onload = function () {
 
     //monthDivideLine = MonthPaper.path('M' + 0 + ',' + (MonthPaperHeight * 0.3) + 'L' + MonthPaperWidth + ',' + (MonthPaperHeight * 0.3));
     //monthDivideLine.attr({ fill: lineColor, stroke: lineColor });
+    var monthClickX;
     Month.onclick = function (e) {
         e = e || window.event;
         monthClickX = e.clientX;
@@ -311,7 +306,7 @@ window.onload = function () {
         }
         // alert(monthClickX);
     }
-    /* */
+    /**/
     //------------------------------------------------------------
     //==========buttons===========================================
     /**/
@@ -346,16 +341,16 @@ window.onload = function () {
 
     var firstBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 4 + firstBlockBetweenRectWidth * 3)) / 2;
     var selfRect = SliderPaper.rect((firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("img/self.png", (firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var selfRectImage = SliderPaper.image("img/self.png", (firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var selfRectOver = SliderPaper.rect((firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var coupleRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("img/couple.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var coupleRectImage = SliderPaper.image("img/couple.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var coupleRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var familyRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("img/family.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var familyRectImage = SliderPaper.image("img/family.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var familyRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var friendsRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    SliderPaper.image("img/friends.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var friendsRectImage = SliderPaper.image("img/friends.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var friendsRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
 
     var firstDevideLinePosition = (SliderPaperHeight * 0.05) + firstBlockRectWidth * 1.5;
@@ -386,9 +381,6 @@ window.onload = function () {
     coupleRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
     familyRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
     friendsRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
-
-
-
 
     selfRectOver.click(function () {
         selfRect.animate({ fill: [270, '#fc0', '#fc6'].join("-"), opacity: 0.7 }, 0);
@@ -429,19 +421,19 @@ window.onload = function () {
     var secondBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 5 + firstBlockBetweenRectWidth * 4)) / 2;
 
     var tanRect = SliderPaper.rect((secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("img/tan.png", (secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, firstBlockRectWidth);
+    var tanRectImage = SliderPaper.image("img/tan.png", (secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, firstBlockRectWidth);
     var tanRectOver = SliderPaper.rect((secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var skiRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("img/ski.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var skiRectImage = SliderPaper.image("img/ski.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var skiRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var watchRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("img/watch.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var watchRectImage = SliderPaper.image("img/watch.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var watchRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var shoppingRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("img/shopping.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var shoppingRectImage = SliderPaper.image("img/shopping.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var shoppingRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var cruiseRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    SliderPaper.image("img/cruise.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var cruiseRectImage = SliderPaper.image("img/cruise.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var cruiseRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
 
     var secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
@@ -813,9 +805,9 @@ window.onload = function () {
     timeSliderRightHandler.drag(timeSliderRightHandlerMove, timeSliderRightHandlerStart, timeSliderRightHandlerUp);
 
 
-    /////------------=====================-------------------
-
+    //==================================================================================
     ///----------------------third (Living) Slider -------------------------------------
+    //==================================================================================
 
     var livingSliderYPosition = forthDevideLinePosition + (SliderPaperHeight * 0.06);
     var livingSliderHeight = firstBlockRectWidth * 0.15;
@@ -914,7 +906,7 @@ window.onload = function () {
                 rightlivingBlockText.attr({ text: rightlivingBlockliving + '$' });
         }
         else
-            rightlivingBlockText.attr({ text: '0Ч$' });
+            rightlivingBlockText.attr({ text: '0$' });
 
     },
     livingSliderRightHandlerUp = function () {
@@ -1027,7 +1019,7 @@ window.onload = function () {
                 rightfoodBlockText.attr({ text: rightfoodBlockfood + '$' });
         }
         else
-            rightfoodBlockText.attr({ text: '0Ч$' });
+            rightfoodBlockText.attr({ text: '0$' });
 
     },
     foodSliderRightHandlerUp = function () {
@@ -1140,7 +1132,7 @@ window.onload = function () {
                 rightalcoholBlockText.attr({ text: rightalcoholBlockalcohol + '$' });
         }
         else
-            rightalcoholBlockText.attr({ text: '0Ч$' });
+            rightalcoholBlockText.attr({ text: '0$' });
 
     },
     alcoholSliderRightHandlerUp = function () {
@@ -1426,15 +1418,6 @@ window.onload = function () {
         if (this.attr("x") < (sexSliderLeftPosition)) {
             this.attr({ x: (sexSliderLeftPosition) });
         }
-        //TODO СЏ С…Р· РєР°Рє СЌС‚Рё СЃР»Р°Р№РґРµСЂС‹ СЂР°Р±РѕС‚Р°СЋС‚
-        //С‚СѓС‚ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ СѓСЃР»РѕРІРёРµ РѕРїСЂРµРґРµР»СЏСЋС‰РµРµ С‡С‚Рѕ СЃР»Р°Р№РґРµСЂ РЅРµ РґРІРёРіР°Р»Рё
-        if (dx > 0){
-        	$.getJSON("/project/testjson/"+this.attr("x")+"x"+dx+"x"+this.ox,
-                function(data) {
-                    // do something with the data
-                    alert(data.name);
-              });
-    	}
         //   sexSliderCenterRect.attr({ x: (this.attr("x")), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x")) });
         /*
         var leftsexBlocksex = Math.round(((sexSliderLeftHandler.attr("x") - (sexSliderLeftPosition + sexSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * sexSliderLeftPosition) - sexSliderHandlerYSize)));
@@ -1501,35 +1484,81 @@ window.onload = function () {
         }
     });
 
-    var magicKey = true; //magic key for fixing magic bug.
+    //var magicKey = true; //magic key for fixing magic bug.
 
-
+    //==================================================================================================================
+    //Rsize
+    //==================================================================================================================
     $(window).resize(function (e) {
-        //alert($(window).width());
-        //var browserHeight
-        var newWidth = $(window).width();
-        var newHeight = $(window).height();
+        var newWidth = $(document.getElementById("div_container")).width();
+        var newHeight = $(document.getElementById("div_container")).height();
+        //-------------
         var newHeadHeight = $(Head).height();
-        //HeadPaperWidth = newWidth;
-        //HeadPaperHeight = newHeight*0.07;
+        oldSliderPaperWidth = SliderPaperWidth;
+        oldSliderPaperHeight = SliderPaperHeight;
+        SliderPaperHeight = $(document.getElementById("left")).height();
+        SliderPaperWidth = $(document.getElementById("left")).width();
+        //-------------
+        firstBlockRectOffset *= newWidth / Width;
+        secondBlockRectOffset *= newWidth / Width;
 
+        if (newHeight < 700) {
+            firstBlockRectWidth = 33;
+            secondBlockRectWidth = 33;
+        }
+        else
+            if (Height < 700) {
+                firstBlockRectWidth = (SliderPaperWidth * 0.12);
+                secondBlockRectWidth = (SliderPaperWidth * 0.12);
+            }
+            else {
+                if (newWidth < 1300) {
+                    firstBlockRectWidth = 43;
+                }
+                else
+                    if (Width < 1300) {
+                        firstBlockRectWidth *= newWidth / 1300;
+                    }
+                    else {
+                        firstBlockRectWidth *= newWidth / Width;
+                    }
 
+                if (newWidth < 1200) {
+                    secondBlockRectWidth = 37;
+                }
+                else
+                    if (Width < 1200) {
+                        secondBlockRectWidth *= newWidth / 1300;
+                    }
+                    else {
+                        secondBlockRectWidth = firstBlockRectWidth;
+                    }
+            }
+        //-------------
+        oldMonthPaperWidth = MonthPaperWidth;
+        oldMonthPaperHeight = MonthPaperHeight;
+        MonthPaperWidth *= newWidth / Width;
+        MonthPaperHeight *= newHeight / Height;
+        //-------------
         firstDevideLinePosition *= newHeight / Height;
         secondDevideLinePosition *= newHeight / Height;
         thirdDevideLinePosition *= newHeight / Height;
+        forthDevideLinePosition *= newHeight / Height;
         fifthDevideLinePosition *= newHeight / Height;
         sixthDevideLinePosition *= newHeight / Height;
         seventhDevideLinePosition *= newHeight / Height;
         eightsDevideLinePosition *= newHeight / Height;
         ninthDevideLinePosition *= newHeight / Height;
-
+        tenthDevideLinePosition *= newHeight / Height;
+        eleventhDevideLinePosition *= newHeight / Height;
+        //-------------
+        /**/
         //=======================ololo
         if (sliderActiveArray[0] == true) {
             temperatureSliderYPosition = normaltemperatureSliderYPosition;
             temperatureSliderHeight /= 1.4;
             temperatureSliderHandlerXSize /= 1;
             temperatureSliderHandlerYSize /= 1.4;
-
             temperatureSliderBackRect.scale(1, (1 / 1.4));
             temperatureSliderBackRect.attr({ fill: '#ddd' });
             temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
@@ -1540,16 +1569,13 @@ window.onload = function () {
             temperatureSliderLeftHandler.scale(1, (1 / 1.4));
             temperatureSliderRightHandler.scale(1, (1 / 1.4));
             sliderActiveArray[0] = false;
-
         }
-
 
         if (sliderActiveArray[1] == true) {
             timeSliderYPosition = normaltimeSliderYPosition;
             timeSliderHeight /= 1.4;
             timeSliderHandlerXSize /= 1;
             timeSliderHandlerYSize /= 1.4;
-
             timeSliderBackRect.scale(1, (1 / 1.4));
             timeSliderBackRect.attr({ fill: '#ddd' });
             timeSliderLeftBackCircle.scale(1, (1 / 1.4));
@@ -1566,7 +1592,6 @@ window.onload = function () {
             livingSliderHeight /= 1.4;
             livingSliderHandlerXSize /= 1;
             livingSliderHandlerYSize /= 1.4;
-
             livingSliderBackRect.scale(1, (1 / 1.4));
             livingSliderBackRect.attr({ fill: '#ddd' });
             livingSliderLeftBackCircle.scale(1, (1 / 1.4));
@@ -1584,7 +1609,6 @@ window.onload = function () {
             foodSliderHeight /= 1.4;
             foodSliderHandlerXSize /= 1;
             foodSliderHandlerYSize /= 1.4;
-
             foodSliderBackRect.scale(1, (1 / 1.4));
             foodSliderBackRect.attr({ fill: '#ddd' });
             foodSliderLeftBackCircle.scale(1, (1 / 1.4));
@@ -1602,7 +1626,6 @@ window.onload = function () {
             alcoholSliderHeight /= 1.4;
             alcoholSliderHandlerXSize /= 1;
             alcoholSliderHandlerYSize /= 1.4;
-
             alcoholSliderBackRect.scale(1, (1 / 1.4));
             alcoholSliderBackRect.attr({ fill: '#ddd' });
             alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
@@ -1615,50 +1638,101 @@ window.onload = function () {
             sliderActiveArray[4] = false;
         }
         //=======================ololo
-
-
-        //alert(newWidth);
-        //alert(Width);
         if (newWidth < 900)
             newWidth = 900;
         if (newHeight < 600)
             newHeight = 600;
-        //  if (($.browser.opera) || ($.browser.mozilla) || ($.browser.msie)) {
 
         HeadPaper.setSize(newWidth, newHeight * 0.07);
-        HeadPaper.forEach(function (el) {
-            el.scale(1, newHeight / Height, 0, 0);
-        });
+        HeadPaper.forEach(function (el) { el.scale(1, newHeight / Height, 0, 0); });
         headGradRect1.scale(newWidth / Width, 1, 0, 0);
         headGradRect2.scale(newWidth / Width, 1, 0, 0);
 
-        /**/
-        // alert(newWidth);
         SliderPaper.setSize(newWidth * 0.31, newHeight * 0.93);
         SliderPaper.forEach(function (el) {
-            //el.scale(1, 1, (newWidth * 0.3) / 2, (newHeight * 0.93) / 2);
-            el.scale((newWidth / Width), newHeight / Height, 0, 0);
-            // myBottomSwitcherSet.scale((newWidth / Width), newHeight / Height, 0, 0);
-        });
+            if (!((el == selfRect) || (el == coupleRect) || (el == friendsRect) || (el == familyRect) ||
+            (el == selfRectOver) || (el == coupleRectOver) || (el == friendsRectOver) || (el == familyRectOver) ||
+            (el == selfRectImage) || (el == coupleRectImage) || (el == friendsRectImage) || (el == familyRectImage) ||
 
-        MonthPaper.setSize(newWidth * 0.7, newHeight * 0.022);
-        MonthPaper.forEach(function (el) {
-            el.scale((newWidth / Width), newHeight / Height, 0, 0);
+            (el == tanRect) || (el == skiRect) || (el == watchRect) || (el == shoppingRect) || (el == cruiseRect) ||
+            (el == tanRectOver) || (el == skiRectOver) || (el == watchRectOver) || (el == shoppingRectOver) || (el == cruiseRectOver) ||
+            (el == tanRectImage) || (el == skiRectImage) || (el == watchRectImage) || (el == shoppingRectImage) || (el == cruiseRectImage)
+            ))
+                el.scale((newWidth / Width), newHeight / Height, 0, 0);
         });
-
         //---------------------------------------------------------------------------
+        /*
+        if (newWidth < 1300) {
+            tourRect.transform('s' + 0.8 + ',' + 1);
+            //tourRect.translate(0, 7);
+        }
+        else if (Width < 1300) {
+            tourRect.transform("");
+            //tourRect.transform('s' + 1 + ',' + 1);
+            //tourRect.translate(0, -7);
+          //  tourRect.scale(1.25, 1, 0, 0);
+        }
+        */
+        /*
+        var bottomSwitcherScaleK = 0.8;
+        if (newWidth < 1300) {
+        tourRect.scale(bottomSwitcherScaleK, 1, 0, 0);
+        tourText.scale(bottomSwitcherScaleK, 1, 0, 0);
+        tourRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
+        aviaRect.scale(bottomSwitcherScaleK, 1, 0, 0);
+        aviaText.scale(bottomSwitcherScaleK, 1, 0, 0);
+        aviaRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
+        hotelRect.scale(bottomSwitcherScaleK, 1, 0, 0);
+        hotelText.scale(bottomSwitcherScaleK, 1, 0, 0);
+        hotelRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
+        autoRect.scale(bottomSwitcherScaleK, 1, 0, 0);
+        autoText.scale(bottomSwitcherScaleK, 1, 0, 0);
+        autoRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
+        }
+        else if (Width < 1300) {
+        tourRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        tourText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        tourRectOver.scale((1 / bottomSwitcherScaleK), 1), 0, 0;
+        aviaRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        aviaText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        aviaRectOver.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        hotelRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        hotelText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        hotelRectOver.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        autoRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        autoText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        autoRectOver.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
+        } */
 
         var newBottomSwitcherWidth = bottomSwitcherWidth * (newWidth / Width);
-        //Avia-------------------------------------------------------
+        bottomSwitcher.setSize(newWidth * 0.7, newHeight * 0.07);
 
-        aviaRect.translate(-(bottomSwitcherWidth * 0.136), 0);
-        aviaText.translate(-(bottomSwitcherWidth * 0.136), 0);
-        aviaRectOver.translate(-(bottomSwitcherWidth * 0.136), 0);
+        bottomSwitcher.forEach(function (el) {
+            if (!(
+        (el == tourRect) || (el == aviaRect) || (el == hotelRect) || (el == autoRect) ||
+        (el == tourRectOver) || (el == aviaRectOver) || (el == hotelRectOver) || (el == autoRectOver) ||
+        (el == tourText) || (el == aviaText) || (el == hotelText) || (el == autoText)
+        )) {
+                el.scale(newWidth / Width, newHeight / Height, 0, 0);
+            }
+            else {
+                el.scale(1, newHeight / Height, 0, 0);
+            }
+        });
+
+
+
+        //===================
+        //aviaRect.translate(-(0.12) * bottomSwitcherWidth, 0);
+        //aviaText.translate(-(0.18) * bottomSwitcherWidth, 0);
+        //aviaRectOver.translate(-(0.18) * bottomSwitcherWidth, 0);
+        /*
         aviaRect.translate((newBottomSwitcherWidth * 0.14), 0);
         aviaText.translate((newBottomSwitcherWidth * 0.14), 0);
         aviaRectOver.translate((newBottomSwitcherWidth * 0.14), 0);
-
-        //Hotels-------------------------------------------------------
+        */
+        /*
+        //Hotels-----------------------------------------------------
         hotelRect.translate(-(bottomSwitcherWidth * 0.276), 0);
         hotelText.translate(-(bottomSwitcherWidth * 0.276), 0);
         hotelRectOver.translate(-(bottomSwitcherWidth * 0.276), 0);
@@ -1673,45 +1747,198 @@ window.onload = function () {
         autoRect.translate((newBottomSwitcherWidth * 0.42), 0);
         autoText.translate((newBottomSwitcherWidth * 0.42), 0);
         autoRectOver.translate((newBottomSwitcherWidth * 0.42), 0);
-        //---------------------------------------------------------------------------
-        bottomSwitcher.setSize(newWidth * 0.7, newHeight * 0.07);
-        bottomSwitcher.forEach(function (el) {
-            el.scale(newWidth / Width, newHeight / Height, 0, 0);
-            //el.translate(dx, dy);
-        });
+        //------------------------------------------------------------
+        */
+
+        //===================
+
 
         Height = newHeight;
         Width = newWidth;
         bottomSwitcherWidth = newBottomSwitcherWidth;
+
+        //------------------------
+        //Fonts
+        //------------------------
+        if (newWidth < 2500)
+            bottomFont = 18;
+        if (newWidth < 2000)
+            bottomFont = 16;
+        if (newWidth < 1500)
+            bottomFont = 14;
+        if (newWidth < 1100)
+            bottomFont = 12;
+
+        thirdBlockText.remove();
+        thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "Температура");
+        thirdBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        firstBlockText.remove();
+        firstBlockText = SliderPaper.text((SliderPaperWidth * 0.5), (SliderPaperHeight * 0.02), "Кто едет?");
+        firstBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        secondBlockText.remove();
+        secondBlockText = SliderPaper.text((SliderPaperWidth * 0.49), firstDevideLinePosition + (SliderPaperHeight * 0.02), "Что делать?");
+        secondBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        forthBlockText.remove();
+        forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "Время перелета");
+        forthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        fifthBlockText.remove();
+        fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "Проживание");
+        fifthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        sixthBlockText.remove();
+        sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "Еда");
+        sixthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        seventhBlockText.remove();
+        seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "Алкоголь");
+        seventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        eightsBlockText.remove();
+        eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "Настроение");
+        eightsBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        ninthBlockText.remove();
+        ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), "Количество туристов");
+        ninthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        tenthBlockText.remove();
+        tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "Безопасность");
+        tenthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        eleventhBlockText.remove();
+        eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "Секс");
+        eleventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+
+
+        var monthCounterForRemovingMonthesInResizeFunc = 0;
+        for (monthCounterForRemovingMonthesInResizeFunc in monthNamesText)
+            monthNamesText[monthCounterForRemovingMonthesInResizeFunc].remove();
+        monthNamesText[1] = MonthPaper.text((MonthPaperWidth * 0.5 / 12), (MonthPaperHeight * 0.6), "Январь");
+        monthNamesText[1].attr({ 'font-size': (bottomFont * 3) / 4, fill: 'white', cursor: "hand" });
+        monthNamesText[2] = MonthPaper.text((MonthPaperWidth * 1.5 / 12), (MonthPaperHeight * 0.6), "Февраль");
+        monthNamesText[2].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[3] = MonthPaper.text((MonthPaperWidth * 2.5 / 12), (MonthPaperHeight * 0.6), "Март");
+        monthNamesText[3].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[4] = MonthPaper.text((MonthPaperWidth * 3.5 / 12), (MonthPaperHeight * 0.6), "Апрель");
+        monthNamesText[4].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[5] = MonthPaper.text((MonthPaperWidth * 4.5 / 12), (MonthPaperHeight * 0.6), "Май");
+        monthNamesText[5].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[6] = MonthPaper.text((MonthPaperWidth * 5.5 / 12), (MonthPaperHeight * 0.6), "Июнь");
+        monthNamesText[6].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[7] = MonthPaper.text((MonthPaperWidth * 6.5 / 12), (MonthPaperHeight * 0.6), "Июль");
+        monthNamesText[7].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[8] = MonthPaper.text((MonthPaperWidth * 7.5 / 12), (MonthPaperHeight * 0.6), "Август");
+        monthNamesText[8].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[9] = MonthPaper.text((MonthPaperWidth * 8.5 / 12), (MonthPaperHeight * 0.6), "Сентябрь");
+        monthNamesText[9].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[10] = MonthPaper.text((MonthPaperWidth * 9.5 / 12), (MonthPaperHeight * 0.6), "Октябрь");
+        monthNamesText[10].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[11] = MonthPaper.text((MonthPaperWidth * 10.5 / 12), (MonthPaperHeight * 0.6), "Ноябрь");
+        monthNamesText[11].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+        monthNamesText[12] = MonthPaper.text((MonthPaperWidth * 11.5 / 12), (MonthPaperHeight * 0.6), "Декабрь");
+        monthNamesText[12].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
+
+        if (monthClickX == undefined)
+            monthClickX = 1;
+        orangePath.animate({ opacity: 0 });
+        for (monthCounter = 0; monthCounter < 12; monthCounter++) {
+            if (monthCounter == (monthClickX - 1)) {
+                monthes[monthClickX - 1].animate({ fill: '#f33', path: 'M' + ((MonthPaperWidth / 12) * (monthClickX - 1)) + ',' + MonthPaperHeight + 'L' + ((MonthPaperWidth / 12) * (monthClickX)) + ',' + MonthPaperHeight + 'L' + ((MonthPaperWidth / 12) * (monthClickX)) + ',' + (MonthPaperHeight * 0.3) + 'L' + ((MonthPaperWidth / 12) * (monthClickX - 1)) + ',' + (MonthPaperHeight * 0.3) }, 0);
+                monthNamesText[monthClickX].attr({ fill: 'white' });
+                orangePath.attr({ path: 'M' + ((MonthPaperWidth / 12) * (monthClickX - 1)) + ',' + (MonthPaperHeight * 0.3) + 'L' + ((MonthPaperWidth / 12) * (monthClickX)) + ',' + (MonthPaperHeight * 0.3) + 'L' + ((MonthPaperWidth / 12) * (monthClickX)) + ',' + 0 + 'L' + ((MonthPaperWidth / 12) * (monthClickX - 1)) + ',' + 0 });
+                orangePath.animate({ opacity: 1 }, 300)
+            }
+            else {
+                monthes[monthCounter].animate({ fill: 'white', path: 'M' + ((MonthPaperWidth / 12) * monthCounter) + ',' + MonthPaperHeight + 'L' + ((MonthPaperWidth / 12) * (monthCounter + 1)) + ',' + MonthPaperHeight + 'L' + ((MonthPaperWidth / 12) * (monthCounter + 1)) + ',' + (MonthPaperHeight * 0.3) + 'L' + ((MonthPaperWidth / 12) * monthCounter) + ',' + (MonthPaperHeight * 0.3) }, 0);
+                monthNamesText[monthCounter + 1].attr({ fill: gradLineVioletFirstColor });
+            }
+        }
+
+        selfRectText.remove();
+        coupleRectText.remove();
+        familyRectText.remove();
+        friendsRectText.remove();
+        firstBlockTextYPosition = (SliderPaperHeight * 0.05) + firstBlockRectWidth;
+        selfRectText = SliderPaper.text((firstBlockRectOffset + firstBlockRectWidth * 0.5), firstBlockTextYPosition, "Один");
+        coupleRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth + (firstBlockRectWidth) * 1.5), firstBlockTextYPosition, "Вдвоем");
+        familyRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 2 + (firstBlockRectWidth) * 2.5), firstBlockTextYPosition, "Семья");
+        friendsRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 3 + (firstBlockRectWidth) * 3.5), firstBlockTextYPosition, "Друзья");
+
+        selfRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        coupleRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        familyRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        friendsRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+
+        tanRectText.remove();
+        skiRectText.remove();
+        watchRectText.remove();
+        shoppingRectText.remove();
+        cruiseRectText.remove();
+        secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
+        tanRectText = SliderPaper.text((secondBlockRectOffset + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "Загарать");
+        skiRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth + (secondBlockRectWidth) + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "Кататься");
+        watchRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 2 + (secondBlockRectWidth) * 2 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "Смотреть");
+        shoppingRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 3 + (secondBlockRectWidth) * 3 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "Шоппинг");
+        cruiseRectText = SliderPaper.text((secondBlockRectOffset + secondBlockBetweenRectWidth * 4 + (secondBlockRectWidth) * 4 + secondBlockRectWidth * 0.5), secondBlockTextYPosition, "Круиз");
+
+        tanRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        skiRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        watchRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        shoppingRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        cruiseRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+        //FirstBlock       
+        firstBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 4 + firstBlockBetweenRectWidth * 3)) / 2;
+        selfRect.attr({ x: (firstBlockRectOffset), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        selfRectOver.attr({ x: (firstBlockRectOffset), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        selfRectImage.attr({ x: (firstBlockRectOffset), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth }); //= SliderPaper.image("img/self.png", (firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+        coupleRect.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth }); //= SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+        coupleRectImage.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        coupleRectOver.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        familyRect.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        familyRectImage.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        familyRectOver.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        friendsRect.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        friendsRectImage.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+        friendsRectOver.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
+
+        //SecondBlock
+        secondBlockRectOffset = (SliderPaperWidth - (secondBlockRectWidth * 5 + secondBlockBetweenRectWidth * 4)) / 2;
+        tanRect.attr({ x: (secondBlockRectOffset), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        tanRectImage.attr({ x: (secondBlockRectOffset), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        tanRectOver.attr({ x: (secondBlockRectOffset), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        skiRect.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        skiRectImage.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        skiRectOver.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        watchRect.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        watchRectImage.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        watchRectOver.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        shoppingRect.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        shoppingRectImage.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        shoppingRectOver.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        cruiseRect.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        cruiseRectImage.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+        cruiseRectOver.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
+
+        //secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
+
+
+
+
         /*
-        if (Width < 1500) {
-        bottomFont = 14;
-        }
-        if (Width < 1000) {
-        bottomFont = 10;
-        }
-
-        tourText.attr({ 'font-size': bottomFont });
-        aviaText.attr({ 'font-size': bottomFont });
-        hotelText.attr({ 'font-size': bottomFont });
-        autoText.attr({ 'font-size': bottomFont });
-        alert("bottom");
+        ninthBlockRussianText.remove();
+        if (newWidth > 1350)
+        ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.3, eleventhDevideLinePosition + (SliderPaperHeight * 0.028), "Русский язык");
+        else
+        if (newWidth > 1200)
+        ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.2, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "Русский язык");
+        else
+        if (newWidth < 1000)
+        ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.1, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "Русский язык");
+        ninthBlockRussianText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         */
-        //tourText.attr({ 'font-size': bottomFont });
+        SliderPaperHeight = oldSliderPaperWidth
+        SliderPaperWidth = SliderPaperHeight
+        //MonthPaperWidth = oldMonthPaperWidth
+        //MonthPaperHeight = oldMonthPaperHeight
 
-
-        //        }
-        /*
-        else {
-        HeadPaper.setViewBox(0, 0, Width, Height * 0.07, true);
-        SliderPaper.setViewBox(0, 0, Width * 0.3, Height * 0.93, true);
-        MonthPaper.setViewBox(0, 0, Width * 0.7, Height * 0.022, true);
-        //            MonthPaperWidth = Width * 0.7;
-        // alert("123");
-        }
-        */
     });
-    //scaling sliders
+    //-------------------------------------------------------------------------------------------------
+    //Scaling sliders
+    //-------------------------------------------------------------------------------------------------
     var sliderActiveArray = new Array();
     var sliderActiveArrayCounter = 0;
     for (sliderActiveArrayCounter = 0; sliderActiveArrayCounter < 9; sliderActiveArrayCounter++) {
@@ -1822,11 +2049,7 @@ window.onload = function () {
             }
 
             //==================ololo
-
-
-
         }
-        //-------------------------------------------------------------------------------------------------
         if ((leftClickY > thirdDevideLinePosition) && (leftClickY < forthDevideLinePosition) && (sliderActiveArray[1] == false)) {
             timeSliderYPosition = timeSliderYPosition - timeSliderHeight * 0.1;
             timeSliderHeight *= 1.4;
@@ -1918,9 +2141,7 @@ window.onload = function () {
                 sliderActiveArray[4] = false;
 
             }
-
             //==================ololo
-
         }
 
         //-------------------------------------------------------------------------------------------------
@@ -2200,22 +2421,12 @@ window.onload = function () {
                 sliderActiveArray[3] = false;
             }
             //==================ololo
+
         }
 
-        /* */
-        //alert(secondDevideLinePosition);
-        // alert(leftClickY);
     }
-    //scaling sliders //not done yet
-    //===========================
-    //===========================
 
-
-
-
-
-    alert("sucsessfull build");
-    
+    //  alert("sucsessfull build");
 }
 
 /**/
