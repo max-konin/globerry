@@ -6,42 +6,42 @@ package com.globerry.project.dao;
  */
 public class Range
 {
-    private int minX;
-    private int minY;
-    private int maxX;
-    private int maxY;
+    private float minX;
+    private float minY;
+    private float maxX;
+    private float maxY;
     public Range(){
 	
     }
-    public int getMinX()
+    public float getMinX()
     {
 	return minX;
     }
-    public void setMinX(int minX)
+    public void setMinX(float minX)
     {
 	this.minX = minX;
     }
-    public int getMinY()
+    public float getMinY()
     {
 	return minY;
     }
-    public void setMinY(int minY)
+    public void setMinY(float minY)
     {
 	this.minY = minY;
     }
-    public int getMaxX()
+    public float getMaxX()
     {
 	return maxX;
     }
-    public void setMaxX(int maxX)
+    public void setMaxX(float maxX)
     {
 	this.maxX = maxX;
     }
-    public int getMaxY()
+    public float getMaxY()
     {
 	return maxY;
     }
-    public void setMaxY(int maxY)
+    public void setMaxY(float maxY)
     {
 	this.maxY = maxY;
     }

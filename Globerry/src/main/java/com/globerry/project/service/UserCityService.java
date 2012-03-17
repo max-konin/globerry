@@ -57,7 +57,7 @@ public class UserCityService implements IUserCityService
     @Override
     public Set<City> getCityList()
     {
-	CityRequest request = new CityRequest(currentRange, currentProperties);
+	CityRequest request = CityRequest.CityRequestGenerate(currentRange, currentProperties);
 	Set<City> resultRequest = cityDao.getCityList(request);
 	return resultRequest;
     }

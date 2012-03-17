@@ -1,6 +1,7 @@
 package com.globerry.project.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -84,19 +85,68 @@ public class CityDao implements ICityDao
 	Set<City> result;
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
-	//отсечение по tag
-	List<Integer> tagIdList = new ArrayList<Integer>();
-	Iterator<Tag> it = request.getTags().iterator();
-	while(it.hasNext()){
-	    tagIdList.add(it.next().getId());
+	// select by tag
+	if (request.getTags().size() > 0){
+            List<Integer> tagIdList = new ArrayList<Integer>();
+            Iterator<Tag> iteratorTag = request.getTags().iterator();
+            while(iteratorTag.hasNext()){
+        	tagIdList.add(iteratorTag.next().getId());
+            }
+            criteria.createCriteria("tagList")
+        	.add(Restrictions.in("id", tagIdList));
 	}
-	criteria.createCriteria("tagList")
-		.add(Restrictions.in("id", tagIdList));
-	//отсечение по property
-	//отсечение по range TODO
+	//select by property
+	Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
+	while(iteratorProperty.hasNext()){
+	    PropertySegment propertySegment = iteratorProperty.next();
+	    if (propertySegment.getPropertyType().isDependingMonth()){
+		criteria.createCriteria("dmpList")
+		    .add(Restrictions.eq(
+			"PropertyType",
+			propertySegment.getPropertyType()
+			))
+		    .add(Restrictions.eq(
+			"Month",
+			request.getMonth()
+			))
+		    .add(Restrictions.between(
+			"value",
+	    		propertySegment.getMinValue(),
+	    		propertySegment.getMaxValue()
+	    	));
+	    }else{
+		criteria.createCriteria("propertyList")
+		    .add(Restrictions.eq(
+			"PropertyType",
+			propertySegment.getPropertyType()
+			))
+		    .add(Restrictions.between(
+			"value",
+	    		propertySegment.getMinValue(),
+	    		propertySegment.getMaxValue()
+	    	));
+	    }
+	}
+	//select by range TODO
+	//longitude С€РёСЂРѕС‚Р°
+	if(request.getRange().getMinX() < request.getRange().getMaxX()){
+	    criteria.add(Restrictions.between(
+    		"longitude",
+    		request.getRange().getMinX() ,
+    		request.getRange().getMaxX()));
+	}else{
+	    criteria.add(Restrictions.or(
+		    Restrictions.le("longitude", request.getRange().getMinX()),
+		    Restrictions.ge("longitude", request.getRange().getMaxX())
+		    ));
+	}
+	//latitude РґРѕР»РіРѕС‚Р°
+	criteria.add(Restrictions.between(
+    		"latitude",
+    		request.getRange().getMinY() ,
+    		request.getRange().getMaxY()));
 	result = new HashSet<City>(criteria.list());
 	tx.commit();
-	// TODO пока без учета локации
 	return result;
     }
 

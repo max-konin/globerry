@@ -21,7 +21,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
+import com.globerry.project.domain.Tag;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
@@ -40,9 +42,11 @@ public class CityDaoTest
     CityDao cityDao;
     @Autowired
     EventDao eventDao;
+    @Autowired
+    TagDao tagDao;
     /**
-     * Рандомный генератор стрингов
-     * @return стринг
+     * ��������� ��������� ��������
+     * @return ������
      */
     private String getStringGenerator()
     {  
@@ -57,10 +61,18 @@ public class CityDaoTest
     } 
     
     @Test
-    public void test()
+    public void test() throws MySqlException
     {
+	List<Tag> tagList = new ArrayList<Tag>();
+	Tag tag = new Tag();
+	tagDao.addTag(tag);
+	tagList.add(tag);
+	
 	City city = new City();
 	city.setName("Berlin");
+	city.getTagList().add(tag);
+	city.setLongitude(90);
+	city.setLatitude(30);
 	try
 	{
 	    cityDao.addCity(city);
@@ -73,7 +85,20 @@ public class CityDaoTest
 	event.setName("new year");
 	eventDao.addEvent(event, city);
 	
-	Set<City> cities = cityDao.getCityList(new CityRequest(new Range(), new ArrayList<Property>()));
+	Range range = new Range();
+	range.setMinX(80);
+	range.setMaxX(120);
+	range.setMinY(10);
+	range.setMaxY(90);
+	
+	Set<City> cities = cityDao.getCityList(
+		//CityRequest.CityRequestGenerate(new Range(), new ArrayList<Property>())
+		new CityRequest(
+			range, 
+			new ArrayList<PropertySegment>(),
+			tagList,
+			Month.APRIL
+		));
 	System.out.println(cities.iterator().next().getName());
 	//fail("Not yet implemented");
     }
@@ -82,7 +107,6 @@ public class CityDaoTest
     {
 	City city = new City();
 	city.setName(getStringGenerator());
-	int id = city.getId();
 	try
 	{
 	    cityDao.addCity(city);
@@ -91,6 +115,7 @@ public class CityDaoTest
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+	int id = city.getId();
 	cityDao.removeCity(id);
     }
 

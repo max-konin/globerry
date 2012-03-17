@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 import org.springframework.orm.hibernate3.SessionHolder;
@@ -46,7 +47,10 @@ public class ContextLoaderListener extends AbstractTestExecutionListener {
         TransactionSynchronizationManager.bindResource(_sessionFactory,
 
                 new SessionHolder(_session));
-    }
+        
+        
+    }@Autowired
+    SessionFactory sessionFactory;
 
     @Override
     @After

@@ -19,6 +19,12 @@ public class PropertyType
     private int id;
     @Column(name = "name", unique = true)
     private String name;
+    @Column
+    private boolean DependingMonth;
+    @Column
+    private float maxValue;
+    @Column
+    private float minValue;
     public int getId()
     {
 	return id;
@@ -43,5 +49,29 @@ public class PropertyType
 	    return true;
 	else 
 	    return false;
+    }
+    public boolean isDependingMonth()
+    {
+	return DependingMonth;
+    }
+    public void setDependingMonth(boolean dependingMonth)
+    {
+	DependingMonth = dependingMonth;
+    }
+    public float getMaxValue()
+    {
+	return maxValue;
+    }
+    public void setMaxValue(float maxValue)
+    {
+	this.maxValue = maxValue;
+    }
+    public float getMinValue()
+    {
+	return minValue;
+    }
+    public void setMinValue(float minValue)
+    {
+	this.minValue = minValue;
     }
 }

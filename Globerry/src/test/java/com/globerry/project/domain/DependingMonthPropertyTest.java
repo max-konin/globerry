@@ -13,6 +13,7 @@ import com.globerry.project.dao.ContextLoaderListener;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.runner.RunWith;
@@ -38,15 +39,15 @@ public class DependingMonthPropertyTest
     @Autowired
     SessionFactory sessionFactory;
     final Month month = Month.APRIL;
-    final float val = (float) 123.321;
-    final float valNew = (float) 321.123;
+    final float value = (float) 123.321;
+    final float valueNew = (float) 321.123;
     final String optionsTypeName = "population";
-    @Test(timeout = 10000)
+    @Test
     public void test()
     {
 	DependingMonthProperty dependingMonthProperty = new DependingMonthProperty();
 	dependingMonthProperty.setMonth(month);
-	dependingMonthProperty.setVal(val);
+	dependingMonthProperty.setValue(value);
 	PropertyType propertyType = new PropertyType();
 	propertyType.setName(optionsTypeName);
 	
@@ -68,13 +69,13 @@ public class DependingMonthPropertyTest
 		    .add(Restrictions.like("propertyType", propertyType))
 		    .list();
 	    tx.commit();
-	    assertEquals((double)val, (double)listDependingMonthProperty.get(0).getVal(),0);
+	    assertEquals((double)value, (double)listDependingMonthProperty.get(0).getValue(),0);
 	    sessionFactory.close();
 	}
 	//update entity
 	{
 	   Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	   dependingMonthProperty.setVal(valNew);
+	   dependingMonthProperty.setValue(valueNew);
 	   sessionFactory.getCurrentSession().update(dependingMonthProperty);
 	   tx.commit();
 	   sessionFactory.close();
@@ -88,7 +89,7 @@ public class DependingMonthPropertyTest
 		    .add(Restrictions.like("propertyType", propertyType))
 		    .list();
 	    tx.commit();
-	    assertEquals((double)valNew, (double)listDependingMonthProperty.get(0).getVal(),0);
+	    assertEquals((double)valueNew, (double)listDependingMonthProperty.get(0).getValue(),0);
 	    sessionFactory.close();
 	}
 	//remove entity
@@ -105,7 +106,7 @@ public class DependingMonthPropertyTest
 		    sessionFactory.getCurrentSession().createCriteria(DependingMonthProperty.class)
 		    .add(Restrictions.like("month", month))
 		    .add(Restrictions.like("propertyType", propertyType))
-		    .add(Restrictions.like("val", valNew))
+		    .add(Restrictions.like("value", valueNew))
 		    .list();
 	    tx.commit();
 	    assertTrue(listDependingMonthProperty.isEmpty());

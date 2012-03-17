@@ -1,6 +1,10 @@
 package com.globerry.project.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
@@ -12,17 +16,29 @@ import com.globerry.project.domain.Tag;
 public class CityRequest
 {
     private Range range;
-    private List<Property> properties;
+    private List<PropertySegment> properties;
     private List<Tag> tags;
     private Month month;
     /**
      * Конструктор запроса
      * @param range область поиска
      * @param option опции поиска
+     * @return 
      */
-    public CityRequest(Range range, List<Property> properties){
+    public CityRequest(Range range, List<PropertySegment> properties,List<Tag> tags, Month month){
 	this.range = range;
 	this.properties = properties;
+	this.tags = tags;
+	this.month = month;
+    }
+    @Deprecated
+    public static CityRequest CityRequestGenerate(Range range, List<Property> properties){
+	Iterator<Property> iteratorProperties = properties.iterator();
+	List<PropertySegment> propertySegment = new ArrayList<PropertySegment>();
+	while(iteratorProperties.hasNext()){
+	    propertySegment.add(new PropertySegment(iteratorProperties.next()));
+	}
+	return new CityRequest(range,propertySegment, new ArrayList<Tag>(), Month.APRIL);
     }
     public Range getRange()
     {
@@ -32,11 +48,11 @@ public class CityRequest
     {
 	this.range = range;
     }
-    public List<Property> getOption()
+    public List<PropertySegment> getOption()
     {
 	return properties;
     }
-    public void setOption(List<Property> properties)
+    public void setOption(List<PropertySegment> properties)
     {
 	this.properties = properties;
     }

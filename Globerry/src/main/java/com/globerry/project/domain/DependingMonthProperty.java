@@ -34,7 +34,7 @@ public class DependingMonthProperty
     )
     private PropertyType propertyType;
     @Column
-    private float val;
+    private float value;
     public int getId()
     {
 	return id;
@@ -55,13 +55,13 @@ public class DependingMonthProperty
     {
 	this.month = Month.values()[monthNumber];
     }
-    public float getVal()
+    public float getValue()
     {
-	return val;
+	return value;
     }
-    public void setVal(float val)
+    public void setValue(float value)
     {
-	this.val = val;
+	this.value = value;
     }
     public PropertyType getPropertysType()
     {

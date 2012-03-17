@@ -38,6 +38,10 @@ public class City implements Serializable
     private String name;
     @Column(name = "ru_name")
     private String ru_name;
+    @Column
+    private float longitude;
+    @Column
+    private float latitude;
     @OneToOne(
 	    fetch = FetchType.LAZY,
 	    cascade = CascadeType.ALL
@@ -163,6 +167,22 @@ public class City implements Serializable
     public void setPropertyList(Set<Property> propertyList)
     {
 	this.propertyList = propertyList;
+    }
+    public float getLongitude()
+    {
+	return longitude;
+    }
+    public void setLongitude(float longitude)
+    {
+	this.longitude = longitude;
+    }
+    public float getLatitude()
+    {
+	return latitude;
+    }
+    public void setLatitude(float latitude)
+    {
+	this.latitude = latitude;
     }
     public boolean equals(City city)
     {

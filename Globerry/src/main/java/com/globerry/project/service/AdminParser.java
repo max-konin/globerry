@@ -156,7 +156,7 @@ public class AdminParser implements IAdminParser
 	       		    DependingMonthProperty dmpFunFactorType = new DependingMonthProperty();
 	       		    try
 	       		    {
-	       			dmpFunFactorType.setVal((float)exc.getFloatField(0, i, j + devider + 12*k)); // fun factor в файле начинается с 10
+	       			dmpFunFactorType.setValue((float)exc.getFloatField(0, i, j + devider + 12*k)); // fun factor в файле начинается с 10
 	       		    }
 	       		    catch(NullPointerException e)
 	       		    {
