@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.globerry.project.MySqlException;
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tag;
 
@@ -41,22 +42,56 @@ public class TagDao implements ITagDao
     }
 
     @Override
+    public void addTag(Tag tag, City city) throws MySqlException
+    {
+	if(!tag.getCityList().contains(city)&&!city.getTagList().contains(tag)){
+	    tag.getCityList().add(city);
+	    city.getTagList().add(tag);
+	    try
+	    {
+		Transaction tx = sessionFactory.getCurrentSession()
+			.beginTransaction();
+        	sessionFactory.getCurrentSession().save(tag);
+        	tx.commit();
+        	sessionFactory.close();
+	    }
+	    catch (ConstraintViolationException e)
+	    {
+        	 MySqlException mySqlExc = new MySqlException();
+        	 mySqlExc.setMyClass(tag);
+        	 mySqlExc.setDescription("Name of tag is dublicated");
+        	 throw mySqlExc;
+	    }
+	    catch (Exception e)
+	    {
+		tag.getCityList().remove(city);
+		city.getTagList().remove(tag);
+		throw new RuntimeException(e);
+	    }
+	}
+	else
+	{
+		throw new RuntimeException();	    
+	}
+    }
+    @Override
     public void addTag(Tag tag) throws MySqlException
     {
-	try
-	{
-	    Transaction tx = sessionFactory.getCurrentSession()
-		    .beginTransaction();
-	    sessionFactory.getCurrentSession().save(tag);
-	    tx.commit();
-	    sessionFactory.close();
-	} catch (ConstraintViolationException e)
-	{
-	       MySqlException mySqlExc = new MySqlException();
-	       mySqlExc.setMyClass(tag);
-	       mySqlExc.setDescription("Name of tag is dublicated");
-	       throw mySqlExc;
-	}
+	  try
+	    {
+		Transaction tx = sessionFactory.getCurrentSession()
+				.beginTransaction();
+		sessionFactory.getCurrentSession().save(tag);
+      		tx.commit();
+      		sessionFactory.close();
+	    }
+	    catch (ConstraintViolationException e)
+	    {
+		MySqlException mySqlExc = new MySqlException();
+		mySqlExc.setMyClass(tag);
+		mySqlExc.setDescription("Name of tag is dublicated");
+		throw mySqlExc;
+	    }
     }
 
     @Override
@@ -113,6 +148,17 @@ public class TagDao implements ITagDao
 	sessionFactory.close();
 	
     }
+
+    @Override
+    public Tag getTagById(int id)
+    {
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	Tag tag = (Tag)sessionFactory.getCurrentSession().get(Tag.class, id);
+	tx.commit();
+	sessionFactory.close();
+	return tag;
+    }
+
     
 
 }

@@ -47,13 +47,15 @@ public class City implements Serializable
     //-------------------------------------------------------
     //private Option option;
     @ManyToMany(
-	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
-	    targetEntity = Event.class,
-	    	    mappedBy = "cityList"
+	    	fetch = FetchType.EAGER,
+	    	cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
+	    	targetEntity = Event.class,
+	    	mappedBy = "cityList"
 	    )
     private Set<Event> eventList = new HashSet<Event>();
     //-------------------------------------------------------
     @ManyToMany(
+	    fetch = FetchType.EAGER,
 	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
 	    targetEntity = Tag.class
 	    )
@@ -65,7 +67,7 @@ public class City implements Serializable
 	    	)
     @JoinTable(
            name="CityDependingMonthProperty",
-           joinColumns = @JoinColumn( name="company_id"),
+           joinColumns = @JoinColumn( name="city_id"),
            inverseJoinColumns = @JoinColumn( name="dmp_id")
 	    )
     private Set<DependingMonthProperty> dmpList = new HashSet<DependingMonthProperty>();
@@ -76,8 +78,8 @@ public class City implements Serializable
 	    	)
     @JoinTable(
        name="CityProperty",
-       joinColumns = @JoinColumn( name="company_id"),
-       inverseJoinColumns = @JoinColumn( name="dmp_id")
+       joinColumns = @JoinColumn( name="city_id"),
+       inverseJoinColumns = @JoinColumn( name="property_id")
 	    )
     private Set<Property> propertyList = new HashSet<Property>();
     public int getId()
@@ -161,5 +163,13 @@ public class City implements Serializable
     public void setPropertyList(Set<Property> propertyList)
     {
 	this.propertyList = propertyList;
+    }
+    public boolean equals(City city)
+    {
+	if(this.getId() == city.getId() &&
+		this.getName().equals(city.getName()) &&
+		this.getRu_name().equals(city.getRu_name()))
+	    return true;
+	else return false;
     }
 }

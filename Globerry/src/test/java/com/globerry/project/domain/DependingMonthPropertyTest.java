@@ -41,7 +41,7 @@ public class DependingMonthPropertyTest
     final float val = (float) 123.321;
     final float valNew = (float) 321.123;
     final String optionsTypeName = "population";
-    @Test(timeout = 1000)
+    @Test(timeout = 10000)
     public void test()
     {
 	DependingMonthProperty dependingMonthProperty = new DependingMonthProperty();

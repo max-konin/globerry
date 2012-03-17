@@ -45,7 +45,7 @@ public class EventDao implements IEventDao
     @Override
     public void addEvent(Event event, City city)
     {
-	if(!event.getCities().contains(city)&&!city.getEvents().contains(city)){
+	if(!event.getCities().contains(city)&&!city.getEvents().contains(event)){
 	    event.getCities().add(city);
 	    city.getEvents().add(event);
 	    try{

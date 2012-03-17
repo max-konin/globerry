@@ -40,6 +40,22 @@ public class CityDaoTest
     CityDao cityDao;
     @Autowired
     EventDao eventDao;
+    /**
+     * Рандомный генератор стрингов
+     * @return стринг
+     */
+    private String getStringGenerator()
+    {  
+	
+      final int LENGHT = 8;  
+      StringBuffer sb = new StringBuffer();  
+      for (int x = 0; x <LENGHT; x++)  
+      {  
+        sb.append((char)((int)(Math.random()*26)+97));  
+      }  
+      return sb.toString();  
+    } 
+    
     @Test
     public void test()
     {
@@ -60,6 +76,22 @@ public class CityDaoTest
 	Set<City> cities = cityDao.getCityList(new CityRequest(new Range(), new ArrayList<Property>()));
 	System.out.println(cities.iterator().next().getName());
 	//fail("Not yet implemented");
+    }
+    @Test
+    public void deleteTest()
+    {
+	City city = new City();
+	city.setName(getStringGenerator());
+	int id = city.getId();
+	try
+	{
+	    cityDao.addCity(city);
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	cityDao.removeCity(id);
     }
 
 }

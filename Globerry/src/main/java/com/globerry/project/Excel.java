@@ -177,6 +177,29 @@ public int getLenght(int sheetNumber)
 	}//*/
 	return j;	
 }
+public String getSheetName(int sheetNumber)
+{
+    Workbook wb;
+    try
+    {
+	wb = WorkbookFactory.create(new FileInputStream(fileName));
+	org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
+	return sheet.getSheetName();
+    } catch (InvalidFormatException e)
+    {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+    } catch (FileNotFoundException e)
+    {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+    } catch (IOException e)
+    {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+    }
+    return "UNDEFINED SHEET";
+}
 //sheet 1 лист 1
 /**
  * Функция получает ID города из первой таблицы
@@ -195,6 +218,7 @@ public int getCityIdSheet1(int row) throws IllegalArgumentException
 		throw new IllegalArgumentException("Не соответствует тип. Должен получиться int, а в таблице что-то другое. Может появиться если row = 0");
 	}
 }
+
 /**
  * Функция получает название города в листе 1
  * @param row строка в этой листе 1

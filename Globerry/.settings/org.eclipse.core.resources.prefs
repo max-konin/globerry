@@ -1,5 +1,6 @@
-#Thu Mar 01 18:58:50 NOVT 2012
+#Sat Mar 17 15:01:51 NOVT 2012
 eclipse.preferences.version=1
+encoding//src/main/java/com/globerry/project/controllers/AdminController.java=UTF-8
 encoding//src/main/webapp/WEB-INF/messages/messages_ru.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8
 encoding/<project>=UTF-8

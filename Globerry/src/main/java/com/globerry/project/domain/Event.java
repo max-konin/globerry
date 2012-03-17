@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,6 +42,7 @@ public class Event
     @Enumerated(EnumType.ORDINAL)
     private Month month;
     @ManyToMany(
+	    fetch = FetchType.EAGER,
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH},
 	        targetEntity = City.class
 	    )
@@ -113,5 +115,17 @@ public class Event
     public void setRu_name(String ru_name)
     {
 	this.ru_name = ru_name;
+    }
+    public boolean equals(Event event)
+    {
+	if(this.getId() == event.getId() &&
+		this.getDescription().equals(event.getDescription()) &&
+		this.getName().equals(event.getName()) &&
+		this.getImage().equals(event.getImage()) &&
+		this.getMonth().equals(event.getMonth()) && 
+		this.getRu_description().equals(event.getRu_description()) &&
+		this.getRu_name().equals(event.getRu_name()))
+	    return true;
+	else return false;
     }
 }

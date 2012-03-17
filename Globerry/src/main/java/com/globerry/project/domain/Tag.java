@@ -45,7 +45,8 @@ public class Tag
     private TagsType tagsType;
     
     @ManyToMany(
-	        cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH},
+	    	fetch = FetchType.EAGER,
+	        cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
 	        mappedBy = "tagList",
 	        targetEntity = City.class
 	    )

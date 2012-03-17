@@ -76,11 +76,11 @@ public class TagTest
 
 		City city = new City();
 		city.setName("Novosibirsk");
-		city.getTagList().add(tag1);
-		city.getTagList().add(tag2);
+		cityDao.addCity(city);
+		
+		tag2.getCityList().add(city);
 		tagDao.addTag(tag2);
-		cityDao.addCity(city);//*/
-		cityDao.removeCity(city);
+		//cityDao.removeCity(city);
 		
 		int check = 0;
 		Tag test = new Tag();
@@ -102,6 +102,38 @@ public class TagTest
 	{
 	    fail(e.getDescription());
 	}
+    }
+    
+    @Test
+    public void addCityToTagList()
+    {
+	City city = new City();
+	city.setName(getStringGenerator());
+
+	try
+	{
+	    cityDao.addCity(city);
+
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	Tag tag = new Tag();
+	tag.setName("sdfg");
+	city.getTagList().add(tag);
+	
+	try
+	{
+	    tagDao.addTag(tag);
+	    cityDao.updateCity(city);
+	    
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
     }
 
 }

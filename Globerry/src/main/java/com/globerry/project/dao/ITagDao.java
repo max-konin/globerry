@@ -16,9 +16,11 @@ import com.globerry.project.domain.Tag;
 public interface ITagDao
 {
     public Set<Tag> getTagList();
+    public void addTag(Tag tag, City city) throws MySqlException;
     public void addTag(Tag tag) throws MySqlException;
     public void removeTag(Tag tag);
     public void removeTag(int id);
     public void updateTag(Tag newTag);
     public void updateTag(Tag oldTag, Tag newTag);
+    public Tag getTagById(int id);
 }
