@@ -108,16 +108,36 @@ window.onload = function () {
     var bottomSwitcher = new Raphael(BottomSwitcher, '100%', '100%');
     var bottomSwitcherWidth = $(document.getElementById("bottom_switcher")).width();
     var bottomSwitcherHeight = $(document.getElementById("bottom_switcher")).height();
+    var tourRectIsActive = new Array;
+    var tourrectCounter = 0;
+    for (tourrectCounter = 0; tourrectCounter < 4; tourrectCounter++)
+        tourRectIsActive[tourrectCounter] = false;
+    tourRectIsActive[0] = true;
+    /*
     var tourPathNotAnimated = 'M' + (bottomSwitcherWidth * 0.04) + ',' + (bottomSwitcherHeight * 0.85) + 'L' + (bottomSwitcherWidth * 0.06) + ',' + (bottomSwitcherHeight * 0.5) + 'L' + (bottomSwitcherWidth * 0.18) + ',' + (bottomSwitcherHeight * 0.5) + ',' + 'L' + (bottomSwitcherWidth * 0.2) + ',' + (bottomSwitcherHeight * 0.85) + 'z';
     var tourPathAnimated = 'M' + (bottomSwitcherWidth * 0.04) + ',' + (bottomSwitcherHeight * 0.85) + 'L' + (bottomSwitcherWidth * 0.06) + ',' + (bottomSwitcherHeight * 0.5) + 'L' + (bottomSwitcherWidth * 0.18) + ',' + (bottomSwitcherHeight * 0.5) + ',' + 'L' + (bottomSwitcherWidth * 0.2) + ',' + (bottomSwitcherHeight * 0.85) + 'Q' + (bottomSwitcherWidth * 0.11) + ',' + (bottomSwitcherHeight * 1.1) + ',' + (bottomSwitcherWidth * 0.04) + ',' + (bottomSwitcherHeight * 0.85);
-
+    */
+    var littleTourPathNotAnimated = 'M' + 45 + ',' + 55 + 'L' + 70 + ',' + 30 + 'L' + 180 + ',' + 30 + ',' + 'L' + 200 + ',' + 55 + 'z';
+    var littleTourPathAnimated = 'M' + 45 + ',' + 55 + 'L' + 70 + ',' + 30 + 'L' + 180 + ',' + 30 + ',' + 'L' + 200 + ',' + 55 + 'Q' + 123 + ',' + 72 + ',' + 45 + ',' + 55;
+    var largeTourPathNotAnimated = 'M' + 45 + ',' + 55 + 'L' + 70 + ',' + 30 + 'L' + 210 + ',' + 30 + ',' + 'L' + 230 + ',' + 55 + 'z';
+    var largeTourPathAnimated = 'M' + 45 + ',' + 55 + 'L' + 70 + ',' + 30 + 'L' + 210 + ',' + 30 + ',' + 'L' + 230 + ',' + 55 + 'Q' + 130 + ',' + 72 + ',' + 45 + ',' + 55;
+    var tourPathTranslaion = 162;
+    var tourPathTextPosition = 140;
+    var tourPathNotAnimated = largeTourPathNotAnimated;
+    var tourPathAnimated = largeTourPathAnimated;
+    if (Width < 1250) {
+        var tourPathNotAnimated = littleTourPathNotAnimated;
+        var tourPathAnimated = littleTourPathAnimated;
+        tourPathTranslaion = 125;
+        tourPathTextPosition = 125;
+    }
     whiteLine = bottomSwitcher.rect(0, (bottomSwitcherHeight * 0.85), bottomSwitcherWidth, (bottomSwitcherHeight * 0.15));
     //whiteLine.attr({ fill: [0, '#ffe', '#ffa'].join("-"), stroke: bottomColor });
     whiteLine.attr({ fill: [0, '#fff', '#fee'].join("-"), stroke: 'white', 'stroke-size': 4 });
     //tour-------------------------------------------------------
     var tourRect = bottomSwitcher.path(tourPathAnimated);
     tourRect.attr({ fill: [0, 'yellow', 'orange'].join("-"), stroke: 'none' });
-    var tourText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "Туры");
+    var tourText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Туры");
     tourText.attr({ 'font-size': bottomFont });
     var tourRectOver = bottomSwitcher.path(tourPathAnimated);
     tourRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
@@ -125,34 +145,34 @@ window.onload = function () {
     //Avia-------------------------------------------------------
     var aviaRect = bottomSwitcher.path(tourPathNotAnimated);
     aviaRect.attr({ fill: [0, '#08f', 'blue'].join("-"), stroke: 'none' });
-    var aviaText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "Авиабилеты");
+    var aviaText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Авиабилеты");
     aviaText.attr({ 'font-size': bottomFont });
-    aviaRect.translate((bottomSwitcherWidth * 0.14), 0);
-    aviaText.translate((bottomSwitcherWidth * 0.14), 0);
+    aviaRect.translate(tourPathTranslaion, 0);
+    aviaText.translate(tourPathTranslaion, 0);
     var aviaRectOver = bottomSwitcher.path(tourPathNotAnimated);
-    aviaRectOver.translate((bottomSwitcherWidth * 0.14), 0);
+    aviaRectOver.translate(tourPathTranslaion, 0);
     aviaRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
 
     //Hotels-------------------------------------------------------
     var hotelRect = bottomSwitcher.path(tourPathNotAnimated);
     hotelRect.attr({ fill: [0, '#ff0', '#af0'].join("-"), stroke: 'none' });
-    var hotelText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "Отели");
+    var hotelText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Отели");
     hotelText.attr({ 'font-size': bottomFont });
-    hotelRect.translate((bottomSwitcherWidth * 0.28), 0);
-    hotelText.translate((bottomSwitcherWidth * 0.28), 0);
+    hotelRect.translate((tourPathTranslaion * 2), 0);
+    hotelText.translate((tourPathTranslaion * 2), 0);
     var hotelRectOver = bottomSwitcher.path(tourPathNotAnimated);
-    hotelRectOver.translate((bottomSwitcherWidth * 0.28), 0);
+    hotelRectOver.translate((tourPathTranslaion * 2), 0);
     hotelRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
 
     //Auto-------------------------------------------------------
     var autoRect = bottomSwitcher.path(tourPathNotAnimated);
     autoRect.attr({ fill: [0, '#d14', '#f14'].join("-"), stroke: 'none', opacity: 0.8 });
-    var autoText = bottomSwitcher.text((bottomSwitcherWidth * 0.12), (bottomSwitcherHeight * 0.7), "Авто");
+    var autoText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Авто");
     autoText.attr({ 'font-size': bottomFont });
-    autoRect.translate((bottomSwitcherWidth * 0.42), 0);
-    autoText.translate((bottomSwitcherWidth * 0.42), 0);
+    autoRect.translate((tourPathTranslaion * 3), 0);
+    autoText.translate((tourPathTranslaion * 3), 0);
     var autoRectOver = bottomSwitcher.path(tourPathNotAnimated);
-    autoRectOver.translate((bottomSwitcherWidth * 0.42), 0);
+    autoRectOver.translate((tourPathTranslaion * 3), 0);
     autoRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
     //tourRect.hover(function () {},function () {});
 
@@ -175,8 +195,9 @@ window.onload = function () {
         BottomAuto.style.zIndex = bottomZIndexDown;
         BottomHotel.style.zIndex = bottomZIndexDown;
         BottomAvia.style.zIndex = bottomZIndexDown;
-
-
+        for (tourrectCounter = 0; tourrectCounter < 4; tourrectCounter++)
+            tourRectIsActive[tourrectCounter] = false;
+        tourRectIsActive[0] = true;
     });
     aviaRectOver.click(function () {
         aviaRect.animate({ path: tourPathAnimated }, bottomSwitcherDelay);
@@ -194,6 +215,9 @@ window.onload = function () {
         BottomAuto.style.zIndex = bottomZIndexDown;
         BottomHotel.style.zIndex = bottomZIndexDown;
         BottomAvia.style.zIndex = bottomZIndexUp;
+        for (tourrectCounter = 0; tourrectCounter < 4; tourrectCounter++)
+            tourRectIsActive[tourrectCounter] = false;
+        tourRectIsActive[1] = true;
     });
     hotelRectOver.click(function () {
         hotelRect.animate({ path: tourPathAnimated }, bottomSwitcherDelay);
@@ -211,6 +235,9 @@ window.onload = function () {
         BottomAuto.style.zIndex = bottomZIndexDown;
         BottomHotel.style.zIndex = bottomZIndexUp;
         BottomAvia.style.zIndex = bottomZIndexDown;
+        for (tourrectCounter = 0; tourrectCounter < 4; tourrectCounter++)
+            tourRectIsActive[tourrectCounter] = false;
+        tourRectIsActive[2] = true;
     });
     autoRectOver.click(function () {
         autoRect.animate({ path: tourPathAnimated, zIndex: 1 }, bottomSwitcherDelay);
@@ -228,6 +255,9 @@ window.onload = function () {
         BottomAuto.style.zIndex = bottomZIndexUp;
         BottomHotel.style.zIndex = bottomZIndexDown;
         BottomAvia.style.zIndex = bottomZIndexDown;
+        for (tourrectCounter = 0; tourrectCounter < 4; tourrectCounter++)
+            tourRectIsActive[tourrectCounter] = false;
+        tourRectIsActive[0] = true;
     });
 
     var gradRect1 = bottomSwitcher.rect(0, 0, bottomSwitcherWidth, (bottomSwitcherHeight * 0.1));
@@ -1552,92 +1582,6 @@ window.onload = function () {
         tenthDevideLinePosition *= newHeight / Height;
         eleventhDevideLinePosition *= newHeight / Height;
         //-------------
-        /**/
-        //=======================ololo
-        if (sliderActiveArray[0] == true) {
-            temperatureSliderYPosition = normaltemperatureSliderYPosition;
-            temperatureSliderHeight /= 1.4;
-            temperatureSliderHandlerXSize /= 1;
-            temperatureSliderHandlerYSize /= 1.4;
-            temperatureSliderBackRect.scale(1, (1 / 1.4));
-            temperatureSliderBackRect.attr({ fill: '#ddd' });
-            temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
-            temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
-            temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
-            temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
-            temperatureSliderCenterRect.scale(1, (1 / 1.4));
-            temperatureSliderLeftHandler.scale(1, (1 / 1.4));
-            temperatureSliderRightHandler.scale(1, (1 / 1.4));
-            sliderActiveArray[0] = false;
-        }
-
-        if (sliderActiveArray[1] == true) {
-            timeSliderYPosition = normaltimeSliderYPosition;
-            timeSliderHeight /= 1.4;
-            timeSliderHandlerXSize /= 1;
-            timeSliderHandlerYSize /= 1.4;
-            timeSliderBackRect.scale(1, (1 / 1.4));
-            timeSliderBackRect.attr({ fill: '#ddd' });
-            timeSliderLeftBackCircle.scale(1, (1 / 1.4));
-            timeSliderRightBackCircle.scale(1, (1 / 1.4));
-            timeSliderLeftBackCircle.attr({ fill: '#ddd' });
-            timeSliderRightBackCircle.attr({ fill: '#ddd' });
-            timeSliderCenterRect.scale(1, (1 / 1.4));
-            timeSliderLeftHandler.scale(1, (1 / 1.4));
-            timeSliderRightHandler.scale(1, (1 / 1.4));
-            sliderActiveArray[1] = false;
-        }
-        if (sliderActiveArray[2] == true) {
-            livingSliderYPosition = normallivingSliderYPosition;
-            livingSliderHeight /= 1.4;
-            livingSliderHandlerXSize /= 1;
-            livingSliderHandlerYSize /= 1.4;
-            livingSliderBackRect.scale(1, (1 / 1.4));
-            livingSliderBackRect.attr({ fill: '#ddd' });
-            livingSliderLeftBackCircle.scale(1, (1 / 1.4));
-            livingSliderRightBackCircle.scale(1, (1 / 1.4));
-            livingSliderLeftBackCircle.attr({ fill: '#ddd' });
-            livingSliderRightBackCircle.attr({ fill: '#ddd' });
-            livingSliderCenterRect.scale(1, (1 / 1.4));
-            livingSliderLeftHandler.scale(1, (1 / 1.4));
-            livingSliderRightHandler.scale(1, (1 / 1.4));
-            sliderActiveArray[2] = false;
-
-        }
-        if (sliderActiveArray[3] == true) {
-            foodSliderYPosition = normalfoodSliderYPosition;
-            foodSliderHeight /= 1.4;
-            foodSliderHandlerXSize /= 1;
-            foodSliderHandlerYSize /= 1.4;
-            foodSliderBackRect.scale(1, (1 / 1.4));
-            foodSliderBackRect.attr({ fill: '#ddd' });
-            foodSliderLeftBackCircle.scale(1, (1 / 1.4));
-            foodSliderRightBackCircle.scale(1, (1 / 1.4));
-            foodSliderLeftBackCircle.attr({ fill: '#ddd' });
-            foodSliderRightBackCircle.attr({ fill: '#ddd' });
-            foodSliderCenterRect.scale(1, (1 / 1.4));
-            foodSliderLeftHandler.scale(1, (1 / 1.4));
-            foodSliderRightHandler.scale(1, (1 / 1.4));
-            sliderActiveArray[3] = false;
-
-        }
-        if (sliderActiveArray[4] == true) {
-            alcoholSliderYPosition = normalalcoholSliderYPosition;
-            alcoholSliderHeight /= 1.4;
-            alcoholSliderHandlerXSize /= 1;
-            alcoholSliderHandlerYSize /= 1.4;
-            alcoholSliderBackRect.scale(1, (1 / 1.4));
-            alcoholSliderBackRect.attr({ fill: '#ddd' });
-            alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
-            alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
-            alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
-            alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
-            alcoholSliderCenterRect.scale(1, (1 / 1.4));
-            alcoholSliderLeftHandler.scale(1, (1 / 1.4));
-            alcoholSliderRightHandler.scale(1, (1 / 1.4));
-            sliderActiveArray[4] = false;
-        }
-        //=======================ololo
         if (newWidth < 900)
             newWidth = 900;
         if (newHeight < 600)
@@ -1661,48 +1605,67 @@ window.onload = function () {
                 el.scale((newWidth / Width), newHeight / Height, 0, 0);
         });
         //---------------------------------------------------------------------------
-        /*
-        if (newWidth < 1300) {
-            tourRect.transform('s' + 0.8 + ',' + 1);
-            //tourRect.translate(0, 7);
+
+        if ((newWidth < 1250) && (Width > 1250)) {
+            tourPathNotAnimated = littleTourPathNotAnimated;
+            tourPathAnimated = littleTourPathAnimated;
+            tourRect.animate({ path: littleTourPathNotAnimated }, 1);
+            aviaRect.animate({ path: littleTourPathNotAnimated }, 1);
+            autoRect.animate({ path: littleTourPathNotAnimated }, 1);
+            hotelRect.animate({ path: littleTourPathNotAnimated }, 1);
+            aviaRect.translate(-37, 0);
+            autoRect.translate(-111, 0);
+            hotelRect.translate(-74, 0);
+            tourRectOver.animate({ path: littleTourPathNotAnimated }, 1);
+            aviaRectOver.animate({ path: littleTourPathNotAnimated }, 1);
+            autoRectOver.animate({ path: littleTourPathNotAnimated }, 1);
+            hotelRectOver.animate({ path: littleTourPathNotAnimated }, 1);
+            aviaRectOver.translate(-37, 0);
+            autoRectOver.translate(-111, 0);
+            hotelRectOver.translate(-74, 0);
+            tourText.translate(-15, 0);
+            aviaText.translate(-52, 0);
+            autoText.translate(-126, 0);
+            hotelText.translate(-89, 0);
         }
-        else if (Width < 1300) {
-            tourRect.transform("");
-            //tourRect.transform('s' + 1 + ',' + 1);
-            //tourRect.translate(0, -7);
-          //  tourRect.scale(1.25, 1, 0, 0);
+        else if ((Width < 1250) && (newWidth > 1250)) {
+            tourPathNotAnimated = largeTourPathNotAnimated;
+            tourPathAnimated = largeTourPathAnimated;
+            tourRect.animate({ path: largeTourPathNotAnimated }, 1);
+            aviaRect.animate({ path: largeTourPathNotAnimated }, 1);
+            autoRect.animate({ path: largeTourPathNotAnimated }, 1);
+            hotelRect.animate({ path: largeTourPathNotAnimated }, 1);
+            aviaRect.translate(37, 0);
+            autoRect.translate(111, 0);
+            hotelRect.translate(74, 0);
+            tourRectOver.animate({ path: largeTourPathNotAnimated }, 1);
+            aviaRectOver.animate({ path: largeTourPathNotAnimated }, 1);
+            autoRectOver.animate({ path: largeTourPathNotAnimated }, 1);
+            hotelRectOver.animate({ path: largeTourPathNotAnimated }, 1);
+            aviaRectOver.translate(37, 0);
+            autoRectOver.translate(111, 0);
+            hotelRectOver.translate(74, 0);
+            tourText.translate(15, 0);
+            aviaText.translate(52, 0);
+            autoText.translate(126, 0);
+            hotelText.translate(89, 0);
         }
-        */
-        /*
-        var bottomSwitcherScaleK = 0.8;
-        if (newWidth < 1300) {
-        tourRect.scale(bottomSwitcherScaleK, 1, 0, 0);
-        tourText.scale(bottomSwitcherScaleK, 1, 0, 0);
-        tourRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
-        aviaRect.scale(bottomSwitcherScaleK, 1, 0, 0);
-        aviaText.scale(bottomSwitcherScaleK, 1, 0, 0);
-        aviaRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
-        hotelRect.scale(bottomSwitcherScaleK, 1, 0, 0);
-        hotelText.scale(bottomSwitcherScaleK, 1, 0, 0);
-        hotelRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
-        autoRect.scale(bottomSwitcherScaleK, 1, 0, 0);
-        autoText.scale(bottomSwitcherScaleK, 1, 0, 0);
-        autoRectOver.scale(bottomSwitcherScaleK, 1, 0, 0);
+        if (tourRectIsActive[0] == true) {
+            tourRect.animate({ path: tourPathAnimated }, 20);
+            tourRectOver.animate({ path: tourPathAnimated }, 20);
         }
-        else if (Width < 1300) {
-        tourRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        tourText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        tourRectOver.scale((1 / bottomSwitcherScaleK), 1), 0, 0;
-        aviaRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        aviaText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        aviaRectOver.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        hotelRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        hotelText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        hotelRectOver.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        autoRect.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        autoText.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        autoRectOver.scale((1 / bottomSwitcherScaleK), 1, 0, 0);
-        } */
+        if (tourRectIsActive[1] == true) {
+            aviaRect.animate({ path: tourPathAnimated }, 20);
+            aviaRectOver.animate({ path: tourPathAnimated }, 20);
+        }
+        if (tourRectIsActive[2] == true) {
+            hotelRect.animate({ path: tourPathAnimated }, 20);
+            hotelRectOver.animate({ path: tourPathAnimated }, 20);
+        }
+        if (tourRectIsActive[3] == true) {
+            autoRect.animate({ path: tourPathAnimated }, 20);
+            autoRectOver.animate({ path: tourPathAnimated }, 20);
+        }
 
         var newBottomSwitcherWidth = bottomSwitcherWidth * (newWidth / Width);
         bottomSwitcher.setSize(newWidth * 0.7, newHeight * 0.07);
@@ -1719,39 +1682,6 @@ window.onload = function () {
                 el.scale(1, newHeight / Height, 0, 0);
             }
         });
-
-
-
-        //===================
-        //aviaRect.translate(-(0.12) * bottomSwitcherWidth, 0);
-        //aviaText.translate(-(0.18) * bottomSwitcherWidth, 0);
-        //aviaRectOver.translate(-(0.18) * bottomSwitcherWidth, 0);
-        /*
-        aviaRect.translate((newBottomSwitcherWidth * 0.14), 0);
-        aviaText.translate((newBottomSwitcherWidth * 0.14), 0);
-        aviaRectOver.translate((newBottomSwitcherWidth * 0.14), 0);
-        */
-        /*
-        //Hotels-----------------------------------------------------
-        hotelRect.translate(-(bottomSwitcherWidth * 0.276), 0);
-        hotelText.translate(-(bottomSwitcherWidth * 0.276), 0);
-        hotelRectOver.translate(-(bottomSwitcherWidth * 0.276), 0);
-        hotelRect.translate((newBottomSwitcherWidth * 0.28), 0);
-        hotelText.translate((newBottomSwitcherWidth * 0.28), 0);
-        hotelRectOver.translate((newBottomSwitcherWidth * 0.28), 0);
-
-        //Auto-------------------------------------------------------
-        autoRect.translate(-(bottomSwitcherWidth * 0.416), 0);
-        autoText.translate(-(bottomSwitcherWidth * 0.416), 0);
-        autoRectOver.translate(-(bottomSwitcherWidth * 0.416), 0);
-        autoRect.translate((newBottomSwitcherWidth * 0.42), 0);
-        autoText.translate((newBottomSwitcherWidth * 0.42), 0);
-        autoRectOver.translate((newBottomSwitcherWidth * 0.42), 0);
-        //------------------------------------------------------------
-        */
-
-        //===================
-
 
         Height = newHeight;
         Width = newWidth;
@@ -1914,10 +1844,6 @@ window.onload = function () {
         cruiseRectOver.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
 
         //secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
-
-
-
-
         /*
         ninthBlockRussianText.remove();
         if (newWidth > 1350)
@@ -1936,496 +1862,6 @@ window.onload = function () {
         //MonthPaperHeight = oldMonthPaperHeight
 
     });
-    //-------------------------------------------------------------------------------------------------
-    //Scaling sliders
-    //-------------------------------------------------------------------------------------------------
-    var sliderActiveArray = new Array();
-    var sliderActiveArrayCounter = 0;
-    for (sliderActiveArrayCounter = 0; sliderActiveArrayCounter < 9; sliderActiveArrayCounter++) {
-        sliderActiveArray[sliderActiveArrayCounter] = false;
-    }
-
-    Left.onmouseover = function (e) {
-        leftClickY = e.clientY;
-
-        leftClickY -= $(document.getElementById("header")).height();
-        //alert("123");
-
-        normaltemperatureSliderYPosition = temperatureSliderYPosition;
-        normaltimeSliderYPosition = timeSliderYPosition;
-        normallivingSliderYPosition = livingSliderYPosition;
-        normalfoodSliderYPosition = foodSliderYPosition;
-        normalfoodSliderYPosition = foodSliderYPosition;
-        normalalcoholSliderYPosition = alcoholSliderYPosition;
-
-        if ((leftClickY > secondDevideLinePosition) && (leftClickY < thirdDevideLinePosition) && (sliderActiveArray[0] == false)) {
-            temperatureSliderYPosition = temperatureSliderYPosition - temperatureSliderHeight * 0.1;
-            temperatureSliderHeight *= 1.4;
-            temperatureSliderHandlerXSize *= 1;
-            temperatureSliderHandlerYSize *= 1.4;
-
-            temperatureSliderBackRect.scale(1, 1.4);
-            temperatureSliderBackRect.attr({ fill: gradLineVioletFirstColor });
-            temperatureSliderLeftBackCircle.scale(1, 1.4);
-            temperatureSliderRightBackCircle.scale(1, 1.4);
-            temperatureSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
-            temperatureSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
-            temperatureSliderCenterRect.scale(1, 1.4);
-            temperatureSliderLeftHandler.scale(1, 1.4);
-            temperatureSliderRightHandler.scale(1, 1.4);
-
-            sliderActiveArray[0] = true;
-            //==================ololo
-            if (sliderActiveArray[1] == true) {
-                timeSliderYPosition = normaltimeSliderYPosition;
-                timeSliderHeight /= 1.4;
-                timeSliderHandlerXSize /= 1;
-                timeSliderHandlerYSize /= 1.4;
-
-                timeSliderBackRect.scale(1, (1 / 1.4));
-                timeSliderBackRect.attr({ fill: '#ddd' });
-                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
-                timeSliderRightBackCircle.scale(1, (1 / 1.4));
-                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
-                timeSliderRightBackCircle.attr({ fill: '#ddd' });
-                timeSliderCenterRect.scale(1, (1 / 1.4));
-                timeSliderLeftHandler.scale(1, (1 / 1.4));
-                timeSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[1] = false;
-            }
-            if (sliderActiveArray[2] == true) {
-                livingSliderYPosition = normallivingSliderYPosition;
-                livingSliderHeight /= 1.4;
-                livingSliderHandlerXSize /= 1;
-                livingSliderHandlerYSize /= 1.4;
-
-                livingSliderBackRect.scale(1, (1 / 1.4));
-                livingSliderBackRect.attr({ fill: '#ddd' });
-                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
-                livingSliderRightBackCircle.scale(1, (1 / 1.4));
-                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
-                livingSliderRightBackCircle.attr({ fill: '#ddd' });
-                livingSliderCenterRect.scale(1, (1 / 1.4));
-                livingSliderLeftHandler.scale(1, (1 / 1.4));
-                livingSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[2] = false;
-
-            }
-            if (sliderActiveArray[3] == true) {
-                foodSliderYPosition = normalfoodSliderYPosition;
-                foodSliderHeight /= 1.4;
-                foodSliderHandlerXSize /= 1;
-                foodSliderHandlerYSize /= 1.4;
-
-                foodSliderBackRect.scale(1, (1 / 1.4));
-                foodSliderBackRect.attr({ fill: '#ddd' });
-                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
-                foodSliderRightBackCircle.scale(1, (1 / 1.4));
-                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
-                foodSliderRightBackCircle.attr({ fill: '#ddd' });
-                foodSliderCenterRect.scale(1, (1 / 1.4));
-                foodSliderLeftHandler.scale(1, (1 / 1.4));
-                foodSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[3] = false;
-
-            }
-            if (sliderActiveArray[4] == true) {
-                alcoholSliderYPosition = normalalcoholSliderYPosition;
-                alcoholSliderHeight /= 1.4;
-                alcoholSliderHandlerXSize /= 1;
-                alcoholSliderHandlerYSize /= 1.4;
-
-                alcoholSliderBackRect.scale(1, (1 / 1.4));
-                alcoholSliderBackRect.attr({ fill: '#ddd' });
-                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderCenterRect.scale(1, (1 / 1.4));
-                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
-                alcoholSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[4] = false;
-
-            }
-
-            //==================ololo
-        }
-        if ((leftClickY > thirdDevideLinePosition) && (leftClickY < forthDevideLinePosition) && (sliderActiveArray[1] == false)) {
-            timeSliderYPosition = timeSliderYPosition - timeSliderHeight * 0.1;
-            timeSliderHeight *= 1.4;
-            timeSliderHandlerXSize *= 1;
-            timeSliderHandlerYSize *= 1.4;
-
-            timeSliderBackRect.scale(1, 1.4);
-            timeSliderBackRect.attr({ fill: gradLineVioletFirstColor });
-            timeSliderLeftBackCircle.scale(1, 1.4);
-            timeSliderRightBackCircle.scale(1, 1.4);
-            timeSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
-            timeSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
-            timeSliderCenterRect.scale(1, 1.4);
-            timeSliderLeftHandler.scale(1, 1.4);
-            timeSliderRightHandler.scale(1, 1.4);
-
-            sliderActiveArray[1] = true;
-            //==================ololo
-            if (sliderActiveArray[0] == true) {
-                temperatureSliderYPosition = normaltemperatureSliderYPosition;
-                temperatureSliderHeight /= 1.4;
-                temperatureSliderHandlerXSize /= 1;
-                temperatureSliderHandlerYSize /= 1.4;
-
-                temperatureSliderBackRect.scale(1, (1 / 1.4));
-                temperatureSliderBackRect.attr({ fill: '#ddd' });
-                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderCenterRect.scale(1, (1 / 1.4));
-                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
-                temperatureSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[0] = false;
-
-            }
-
-            if (sliderActiveArray[2] == true) {
-                livingSliderYPosition = normallivingSliderYPosition;
-                livingSliderHeight /= 1.4;
-                livingSliderHandlerXSize /= 1;
-                livingSliderHandlerYSize /= 1.4;
-
-                livingSliderBackRect.scale(1, (1 / 1.4));
-                livingSliderBackRect.attr({ fill: '#ddd' });
-                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
-                livingSliderRightBackCircle.scale(1, (1 / 1.4));
-                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
-                livingSliderRightBackCircle.attr({ fill: '#ddd' });
-                livingSliderCenterRect.scale(1, (1 / 1.4));
-                livingSliderLeftHandler.scale(1, (1 / 1.4));
-                livingSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[2] = false;
-
-            }
-            if (sliderActiveArray[3] == true) {
-                foodSliderYPosition = normalfoodSliderYPosition;
-                foodSliderHeight /= 1.4;
-                foodSliderHandlerXSize /= 1;
-                foodSliderHandlerYSize /= 1.4;
-
-                foodSliderBackRect.scale(1, (1 / 1.4));
-                foodSliderBackRect.attr({ fill: '#ddd' });
-                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
-                foodSliderRightBackCircle.scale(1, (1 / 1.4));
-                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
-                foodSliderRightBackCircle.attr({ fill: '#ddd' });
-                foodSliderCenterRect.scale(1, (1 / 1.4));
-                foodSliderLeftHandler.scale(1, (1 / 1.4));
-                foodSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[3] = false;
-
-            }
-            if (sliderActiveArray[4] == true) {
-                alcoholSliderYPosition = normalalcoholSliderYPosition;
-                alcoholSliderHeight /= 1.4;
-                alcoholSliderHandlerXSize /= 1;
-                alcoholSliderHandlerYSize /= 1.4;
-
-                alcoholSliderBackRect.scale(1, (1 / 1.4));
-                alcoholSliderBackRect.attr({ fill: '#ddd' });
-                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderCenterRect.scale(1, (1 / 1.4));
-                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
-                alcoholSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[4] = false;
-
-            }
-            //==================ololo
-        }
-
-        //-------------------------------------------------------------------------------------------------
-        if ((leftClickY > fifthDevideLinePosition) && (leftClickY < sixthDevideLinePosition) && (sliderActiveArray[2] == false)) {
-            livingSliderYPosition = livingSliderYPosition - livingSliderHeight * 0.1;
-            livingSliderHeight *= 1.4;
-            livingSliderHandlerXSize *= 1;
-            livingSliderHandlerYSize *= 1.4;
-
-            livingSliderBackRect.scale(1, 1.4);
-            livingSliderBackRect.attr({ fill: gradLineVioletFirstColor });
-            livingSliderLeftBackCircle.scale(1, 1.4);
-            livingSliderRightBackCircle.scale(1, 1.4);
-            livingSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
-            livingSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
-            livingSliderCenterRect.scale(1, 1.4);
-            livingSliderLeftHandler.scale(1, 1.4);
-            livingSliderRightHandler.scale(1, 1.4);
-
-            sliderActiveArray[2] = true;
-            //==================ololo
-            if (sliderActiveArray[0] == true) {
-                temperatureSliderYPosition = normaltemperatureSliderYPosition;
-                temperatureSliderHeight /= 1.4;
-                temperatureSliderHandlerXSize /= 1;
-                temperatureSliderHandlerYSize /= 1.4;
-
-                temperatureSliderBackRect.scale(1, (1 / 1.4));
-                temperatureSliderBackRect.attr({ fill: '#ddd' });
-                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderCenterRect.scale(1, (1 / 1.4));
-                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
-                temperatureSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[0] = false;
-
-            }
-            if (sliderActiveArray[1] == true) {
-                timeSliderYPosition = normaltimeSliderYPosition;
-                timeSliderHeight /= 1.4;
-                timeSliderHandlerXSize /= 1;
-                timeSliderHandlerYSize /= 1.4;
-
-                timeSliderBackRect.scale(1, (1 / 1.4));
-                timeSliderBackRect.attr({ fill: '#ddd' });
-                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
-                timeSliderRightBackCircle.scale(1, (1 / 1.4));
-                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
-                timeSliderRightBackCircle.attr({ fill: '#ddd' });
-                timeSliderCenterRect.scale(1, (1 / 1.4));
-                timeSliderLeftHandler.scale(1, (1 / 1.4));
-                timeSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[1] = false;
-            }
-
-            if (sliderActiveArray[3] == true) {
-                foodSliderYPosition = normalfoodSliderYPosition;
-                foodSliderHeight /= 1.4;
-                foodSliderHandlerXSize /= 1;
-                foodSliderHandlerYSize /= 1.4;
-
-                foodSliderBackRect.scale(1, (1 / 1.4));
-                foodSliderBackRect.attr({ fill: '#ddd' });
-                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
-                foodSliderRightBackCircle.scale(1, (1 / 1.4));
-                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
-                foodSliderRightBackCircle.attr({ fill: '#ddd' });
-                foodSliderCenterRect.scale(1, (1 / 1.4));
-                foodSliderLeftHandler.scale(1, (1 / 1.4));
-                foodSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[3] = false;
-
-            }
-            if (sliderActiveArray[4] == true) {
-                alcoholSliderYPosition = normalalcoholSliderYPosition;
-                alcoholSliderHeight /= 1.4;
-                alcoholSliderHandlerXSize /= 1;
-                alcoholSliderHandlerYSize /= 1.4;
-
-                alcoholSliderBackRect.scale(1, (1 / 1.4));
-                alcoholSliderBackRect.attr({ fill: '#ddd' });
-                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderCenterRect.scale(1, (1 / 1.4));
-                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
-                alcoholSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[4] = false;
-            }
-
-            //==================ololo
-        }
-        //-------------------------------------------------------------------------------------------------
-        if ((leftClickY > sixthDevideLinePosition) && (leftClickY < seventhDevideLinePosition) && (sliderActiveArray[3] == false)) {
-            foodSliderYPosition = foodSliderYPosition - foodSliderHeight * 0.1;
-            foodSliderHeight *= 1.4;
-            foodSliderHandlerXSize *= 1;
-            foodSliderHandlerYSize *= 1.4;
-
-            foodSliderBackRect.scale(1, 1.4);
-            foodSliderBackRect.attr({ fill: gradLineVioletFirstColor });
-            foodSliderLeftBackCircle.scale(1, 1.4);
-            foodSliderRightBackCircle.scale(1, 1.4);
-            foodSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
-            foodSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
-            foodSliderCenterRect.scale(1, 1.4);
-            foodSliderLeftHandler.scale(1, 1.4);
-            foodSliderRightHandler.scale(1, 1.4);
-
-            sliderActiveArray[3] = true;
-            //==================ololo
-            if (sliderActiveArray[0] == true) {
-                temperatureSliderYPosition = normaltemperatureSliderYPosition;
-                temperatureSliderHeight /= 1.4;
-                temperatureSliderHandlerXSize /= 1;
-                temperatureSliderHandlerYSize /= 1.4;
-
-                temperatureSliderBackRect.scale(1, (1 / 1.4));
-                temperatureSliderBackRect.attr({ fill: '#ddd' });
-                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderCenterRect.scale(1, (1 / 1.4));
-                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
-                temperatureSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[0] = false;
-
-            }
-            if (sliderActiveArray[1] == true) {
-                timeSliderYPosition = normaltimeSliderYPosition;
-                timeSliderHeight /= 1.4;
-                timeSliderHandlerXSize /= 1;
-                timeSliderHandlerYSize /= 1.4;
-
-                timeSliderBackRect.scale(1, (1 / 1.4));
-                timeSliderBackRect.attr({ fill: '#ddd' });
-                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
-                timeSliderRightBackCircle.scale(1, (1 / 1.4));
-                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
-                timeSliderRightBackCircle.attr({ fill: '#ddd' });
-                timeSliderCenterRect.scale(1, (1 / 1.4));
-                timeSliderLeftHandler.scale(1, (1 / 1.4));
-                timeSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[1] = false;
-            }
-            if (sliderActiveArray[2] == true) {
-                livingSliderYPosition = normallivingSliderYPosition;
-                livingSliderHeight /= 1.4;
-                livingSliderHandlerXSize /= 1;
-                livingSliderHandlerYSize /= 1.4;
-
-                livingSliderBackRect.scale(1, (1 / 1.4));
-                livingSliderBackRect.attr({ fill: '#ddd' });
-                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
-                livingSliderRightBackCircle.scale(1, (1 / 1.4));
-                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
-                livingSliderRightBackCircle.attr({ fill: '#ddd' });
-                livingSliderCenterRect.scale(1, (1 / 1.4));
-                livingSliderLeftHandler.scale(1, (1 / 1.4));
-                livingSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[2] = false;
-
-            }
-
-            if (sliderActiveArray[4] == true) {
-                alcoholSliderYPosition = normalalcoholSliderYPosition;
-                alcoholSliderHeight /= 1.4;
-                alcoholSliderHandlerXSize /= 1;
-                alcoholSliderHandlerYSize /= 1.4;
-
-                alcoholSliderBackRect.scale(1, (1 / 1.4));
-                alcoholSliderBackRect.attr({ fill: '#ddd' });
-                alcoholSliderLeftBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderRightBackCircle.scale(1, (1 / 1.4));
-                alcoholSliderLeftBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderRightBackCircle.attr({ fill: '#ddd' });
-                alcoholSliderCenterRect.scale(1, (1 / 1.4));
-                alcoholSliderLeftHandler.scale(1, (1 / 1.4));
-                alcoholSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[4] = false;
-            }
-
-            //==================ololo
-        }
-
-        //-------------------------------------------------------------------------------------------------
-        if ((leftClickY > seventhDevideLinePosition) && (leftClickY < eightsDevideLinePosition) && (sliderActiveArray[4] == false)) {
-            alcoholSliderYPosition = alcoholSliderYPosition - alcoholSliderHeight * 0.1;
-            alcoholSliderHeight *= 1.4;
-            alcoholSliderHandlerXSize *= 1;
-            alcoholSliderHandlerYSize *= 1.4;
-
-            alcoholSliderBackRect.scale(1, 1.4);
-            alcoholSliderBackRect.attr({ fill: gradLineVioletFirstColor });
-            alcoholSliderLeftBackCircle.scale(1, 1.4);
-            alcoholSliderRightBackCircle.scale(1, 1.4);
-            alcoholSliderLeftBackCircle.attr({ fill: gradLineVioletFirstColor });
-            alcoholSliderRightBackCircle.attr({ fill: gradLineVioletFirstColor });
-            alcoholSliderCenterRect.scale(1, 1.4);
-            alcoholSliderLeftHandler.scale(1, 1.4);
-            alcoholSliderRightHandler.scale(1, 1.4);
-
-            sliderActiveArray[4] = true;
-            //==================ololo
-            if (sliderActiveArray[0] == true) {
-                temperatureSliderYPosition = normaltemperatureSliderYPosition;
-                temperatureSliderHeight /= 1.4;
-                temperatureSliderHandlerXSize /= 1;
-                temperatureSliderHandlerYSize /= 1.4;
-
-                temperatureSliderBackRect.scale(1, (1 / 1.4));
-                temperatureSliderBackRect.attr({ fill: '#ddd' });
-                temperatureSliderLeftBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderRightBackCircle.scale(1, (1 / 1.4));
-                temperatureSliderLeftBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderRightBackCircle.attr({ fill: '#ddd' });
-                temperatureSliderCenterRect.scale(1, (1 / 1.4));
-                temperatureSliderLeftHandler.scale(1, (1 / 1.4));
-                temperatureSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[0] = false;
-
-            }
-            if (sliderActiveArray[1] == true) {
-                timeSliderYPosition = normaltimeSliderYPosition;
-                timeSliderHeight /= 1.4;
-                timeSliderHandlerXSize /= 1;
-                timeSliderHandlerYSize /= 1.4;
-
-                timeSliderBackRect.scale(1, (1 / 1.4));
-                timeSliderBackRect.attr({ fill: '#ddd' });
-                timeSliderLeftBackCircle.scale(1, (1 / 1.4));
-                timeSliderRightBackCircle.scale(1, (1 / 1.4));
-                timeSliderLeftBackCircle.attr({ fill: '#ddd' });
-                timeSliderRightBackCircle.attr({ fill: '#ddd' });
-                timeSliderCenterRect.scale(1, (1 / 1.4));
-                timeSliderLeftHandler.scale(1, (1 / 1.4));
-                timeSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[1] = false;
-            }
-            if (sliderActiveArray[2] == true) {
-                livingSliderYPosition = normallivingSliderYPosition;
-                livingSliderHeight /= 1.4;
-                livingSliderHandlerXSize /= 1;
-                livingSliderHandlerYSize /= 1.4;
-
-                livingSliderBackRect.scale(1, (1 / 1.4));
-                livingSliderBackRect.attr({ fill: '#ddd' });
-                livingSliderLeftBackCircle.scale(1, (1 / 1.4));
-                livingSliderRightBackCircle.scale(1, (1 / 1.4));
-                livingSliderLeftBackCircle.attr({ fill: '#ddd' });
-                livingSliderRightBackCircle.attr({ fill: '#ddd' });
-                livingSliderCenterRect.scale(1, (1 / 1.4));
-                livingSliderLeftHandler.scale(1, (1 / 1.4));
-                livingSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[2] = false;
-
-            }
-            if (sliderActiveArray[3] == true) {
-                foodSliderYPosition = normalfoodSliderYPosition;
-                foodSliderHeight /= 1.4;
-                foodSliderHandlerXSize /= 1;
-                foodSliderHandlerYSize /= 1.4;
-
-                foodSliderBackRect.scale(1, (1 / 1.4));
-                foodSliderBackRect.attr({ fill: '#ddd' });
-                foodSliderLeftBackCircle.scale(1, (1 / 1.4));
-                foodSliderRightBackCircle.scale(1, (1 / 1.4));
-                foodSliderLeftBackCircle.attr({ fill: '#ddd' });
-                foodSliderRightBackCircle.attr({ fill: '#ddd' });
-                foodSliderCenterRect.scale(1, (1 / 1.4));
-                foodSliderLeftHandler.scale(1, (1 / 1.4));
-                foodSliderRightHandler.scale(1, (1 / 1.4));
-                sliderActiveArray[3] = false;
-            }
-            //==================ololo
-
-        }
-
-    }
-
     //  alert("sucsessfull build");
 }
 
