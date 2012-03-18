@@ -59,13 +59,13 @@
 	   	}
 	   #month
 	   {
-	   	bottom :34%;
+	   	bottom :33.95%;
 	   	/*left:30%;*/
 	   	right:0px;
 	   	margin-left:30%;
 	   	margin-right:0px;
 	   	width:70%;
-	   	height : 2%; 
+	   	height : 2.5%; 
 	   	position : absolute;
 	   	float:left;
 	   	/*background-color:#def;*/
