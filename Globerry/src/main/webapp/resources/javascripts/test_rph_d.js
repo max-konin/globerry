@@ -99,7 +99,7 @@ window.onload = function () {
     var HeadPaperHeight = $(document.getElementById("header")).height();
     var headGradRect1 = HeadPaper.rect(0, (HeadPaperHeight * 0.8), HeadPaperWidth, (HeadPaperHeight * 0.13));
     var headGradRect2 = HeadPaper.rect(0, (HeadPaperHeight * 0.9), HeadPaperWidth, (HeadPaperHeight * 0.07));
-    HeadPaper.image("img/Globerry.png", 0, HeadPaperHeight * 0.05, 230, HeadPaperHeight * 0.7);
+    HeadPaper.image("recourses/img/Globerry.png", 0, HeadPaperHeight * 0.05, 230, HeadPaperHeight * 0.7);
     //<img src="Globerr1.jpg">
 
     headGradRect1.attr({ fill: [0, gradLineVioletFirstColor, gradLineVioletSecondColor].join("-"), stroke: 'none' });
@@ -371,16 +371,16 @@ window.onload = function () {
 
     var firstBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 4 + firstBlockBetweenRectWidth * 3)) / 2;
     var selfRect = SliderPaper.rect((firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    var selfRectImage = SliderPaper.image("img/self.png", (firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var selfRectImage = SliderPaper.image("recourses/img/self.png", (firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var selfRectOver = SliderPaper.rect((firstBlockRectOffset), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var coupleRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    var coupleRectImage = SliderPaper.image("img/couple.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var coupleRectImage = SliderPaper.image("recourses/img/couple.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var coupleRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth)), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var familyRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    var familyRectImage = SliderPaper.image("img/family.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var familyRectImage = SliderPaper.image("recourses/img/family.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var familyRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var friendsRect = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
-    var friendsRectImage = SliderPaper.image("img/friends.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
+    var friendsRectImage = SliderPaper.image("recourses/img/friends.png", (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
     var friendsRectOver = SliderPaper.rect((firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04), firstBlockRectWidth, firstBlockRectWidth);
 
     var firstDevideLinePosition = (SliderPaperHeight * 0.05) + firstBlockRectWidth * 1.5;
@@ -451,19 +451,19 @@ window.onload = function () {
     var secondBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 5 + firstBlockBetweenRectWidth * 4)) / 2;
 
     var tanRect = SliderPaper.rect((secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    var tanRectImage = SliderPaper.image("img/tan.png", (secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, firstBlockRectWidth);
+    var tanRectImage = SliderPaper.image("recourses/img/tan.png", (secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, firstBlockRectWidth);
     var tanRectOver = SliderPaper.rect((secondBlockRectOffset), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var skiRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    var skiRectImage = SliderPaper.image("img/ski.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var skiRectImage = SliderPaper.image("recourses/img/ski.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var skiRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth)), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var watchRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    var watchRectImage = SliderPaper.image("img/watch.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var watchRectImage = SliderPaper.image("recourses/img/watch.png", (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var watchRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var shoppingRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    var shoppingRectImage = SliderPaper.image("img/shopping.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var shoppingRectImage = SliderPaper.image("recourses/img/shopping.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var shoppingRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var cruiseRect = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
-    var cruiseRectImage = SliderPaper.image("img/cruise.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
+    var cruiseRectImage = SliderPaper.image("recourses/img/cruise.png", (secondBlockRectOffset + (firstBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
     var cruiseRectOver = SliderPaper.rect((secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), (SliderPaperHeight * 0.04 + firstDevideLinePosition), secondBlockRectWidth, secondBlockRectWidth);
 
     var secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
@@ -1519,6 +1519,8 @@ window.onload = function () {
     //==================================================================================================================
     //Rsize
     //==================================================================================================================
+    var tourPathTextDelta = 80; //global, due to magic recall of resize function in chrome and opera.
+    var resizedTourPathTextDelta = true;
     $(window).resize(function (e) {
         var newWidth = $(document.getElementById("div_container")).width();
         var newHeight = $(document.getElementById("div_container")).height();
@@ -1582,10 +1584,23 @@ window.onload = function () {
         tenthDevideLinePosition *= newHeight / Height;
         eleventhDevideLinePosition *= newHeight / Height;
         //-------------
+        bottomSwitcherHeight *= newHeight / Height;
+        //-------------
         if (newWidth < 900)
             newWidth = 900;
         if (newHeight < 600)
             newHeight = 600;
+
+        if (newWidth < 2500)
+            bottomFont = 18;
+        if (newWidth < 2000)
+            bottomFont = 16;
+        if (newWidth < 1500)
+            bottomFont = 14;
+        if (newWidth < 1100)
+            bottomFont = 12;
+
+
 
         HeadPaper.setSize(newWidth, newHeight * 0.07);
         HeadPaper.forEach(function (el) { el.scale(1, newHeight / Height, 0, 0); });
@@ -1605,7 +1620,37 @@ window.onload = function () {
                 el.scale((newWidth / Width), newHeight / Height, 0, 0);
         });
         //---------------------------------------------------------------------------
-
+        //alert((bottomSwitcherHeight * 0.7));
+        if (resizedTourPathTextDelta == true) {
+            tourText.remove();
+            tourText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Туры");
+            tourText.attr({ 'font-size': bottomFont });
+            aviaText.remove();
+            aviaText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 2, (bottomSwitcherHeight * 0.7), "Авиабилеты");
+            aviaText.attr({ 'font-size': bottomFont });
+            hotelText.remove();
+            hotelText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 4, (bottomSwitcherHeight * 0.7), "Отели");
+            hotelText.attr({ 'font-size': bottomFont });
+            autoText.remove();
+            autoText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 6, (bottomSwitcherHeight * 0.7), "Авто");
+            autoText.attr({ 'font-size': bottomFont });
+            resizedTourPathTextDelta = false;
+        } else {
+            resizedTourPathTextDelta = true;
+        }
+        if (newWidth < 1250) {
+         //   tourText.translate(-15, 0);
+            aviaText.translate(-23, 0);
+            autoText.translate(-53, 0);
+            hotelText.translate(-41, 0);
+        }
+        else {
+            tourText.translate(6, 0);
+            aviaText.translate(5, 0);
+            autoText.translate(6, 0);
+            hotelText.translate(4, 0);
+        }
+        /**/
         if ((newWidth < 1250) && (Width > 1250)) {
             tourPathNotAnimated = littleTourPathNotAnimated;
             tourPathAnimated = littleTourPathAnimated;
@@ -1623,10 +1668,6 @@ window.onload = function () {
             aviaRectOver.translate(-37, 0);
             autoRectOver.translate(-111, 0);
             hotelRectOver.translate(-74, 0);
-            tourText.translate(-15, 0);
-            aviaText.translate(-52, 0);
-            autoText.translate(-126, 0);
-            hotelText.translate(-89, 0);
         }
         else if ((Width < 1250) && (newWidth > 1250)) {
             tourPathNotAnimated = largeTourPathNotAnimated;
@@ -1645,26 +1686,31 @@ window.onload = function () {
             aviaRectOver.translate(37, 0);
             autoRectOver.translate(111, 0);
             hotelRectOver.translate(74, 0);
-            tourText.translate(15, 0);
-            aviaText.translate(52, 0);
-            autoText.translate(126, 0);
-            hotelText.translate(89, 0);
         }
+        tourRectOver.toFront();
+        aviaRectOver.toFront();
+        hotelRectOver.toFront();
+        autoRectOver.toFront();
+
         if (tourRectIsActive[0] == true) {
             tourRect.animate({ path: tourPathAnimated }, 20);
             tourRectOver.animate({ path: tourPathAnimated }, 20);
+            tourRectOver.toFront();
         }
         if (tourRectIsActive[1] == true) {
             aviaRect.animate({ path: tourPathAnimated }, 20);
             aviaRectOver.animate({ path: tourPathAnimated }, 20);
+            aviaRectOver.toFront();
         }
         if (tourRectIsActive[2] == true) {
             hotelRect.animate({ path: tourPathAnimated }, 20);
             hotelRectOver.animate({ path: tourPathAnimated }, 20);
+            hotelRectOver.toFront();
         }
         if (tourRectIsActive[3] == true) {
             autoRect.animate({ path: tourPathAnimated }, 20);
             autoRectOver.animate({ path: tourPathAnimated }, 20);
+            autoRectOver.toFront();
         }
 
         var newBottomSwitcherWidth = bottomSwitcherWidth * (newWidth / Width);
@@ -1679,10 +1725,10 @@ window.onload = function () {
                 el.scale(newWidth / Width, newHeight / Height, 0, 0);
             }
             else {
-                el.scale(1, newHeight / Height, 0, 0);
+                if (!((el == tourText) || (el == aviaText) || (el == hotelText) || (el == autoText)))
+                    el.scale(1, newHeight / Height, 0, 0);
             }
         });
-
         Height = newHeight;
         Width = newWidth;
         bottomSwitcherWidth = newBottomSwitcherWidth;
@@ -1690,15 +1736,6 @@ window.onload = function () {
         //------------------------
         //Fonts
         //------------------------
-        if (newWidth < 2500)
-            bottomFont = 18;
-        if (newWidth < 2000)
-            bottomFont = 16;
-        if (newWidth < 1500)
-            bottomFont = 14;
-        if (newWidth < 1100)
-            bottomFont = 12;
-
         thirdBlockText.remove();
         thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "Температура");
         thirdBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
@@ -1810,6 +1847,8 @@ window.onload = function () {
         watchRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
         shoppingRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
         cruiseRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
+
+
         //FirstBlock       
         firstBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 4 + firstBlockBetweenRectWidth * 3)) / 2;
         selfRect.attr({ x: (firstBlockRectOffset), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
@@ -1844,18 +1883,48 @@ window.onload = function () {
         cruiseRectOver.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
 
         //secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
-        /*
         ninthBlockRussianText.remove();
+        ninthBlockVisaText.remove();
+        if (newWidth > 1350) {
+            ninthBlockRussianText = SliderPaper.text(115, SliderPaperHeight - 42, "Русский язык");
+        }
+        else {
+            if (newWidth > 1150)
+                ninthBlockRussianText = SliderPaper.text(90, SliderPaperHeight - 42, "Русский язык");
+            else
+                ninthBlockRussianText = SliderPaper.text(70, SliderPaperHeight - 42, "Русский язык");
+        }
+        if (newWidth < 975) {
+            ninthBlockRussianText.remove();
+            ninthBlockRussianText = SliderPaper.text(55, SliderPaperHeight - 42, "Русский язык");
+        }
+
+        if (newWidth > 1450) {
+            ninthBlockVisaText = SliderPaper.text(320, SliderPaperHeight - 42, "Без Визы");
+        }
+        else {
+            if (newWidth > 1250)
+                ninthBlockVisaText = SliderPaper.text(250, SliderPaperHeight - 42, "Без Визы");
+            else
+                ninthBlockVisaText = SliderPaper.text(210, SliderPaperHeight - 42, "Без Визы");
+        }
+        if (newWidth < 975) {
+            ninthBlockVisaText.remove();
+            ninthBlockVisaText = SliderPaper.text(180, SliderPaperHeight - 42, "Без Визы");
+        }
+
+        /*
         if (newWidth > 1350)
-        ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.3, eleventhDevideLinePosition + (SliderPaperHeight * 0.028), "Русский язык");
         else
         if (newWidth > 1200)
-        ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.2, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "Русский язык");
+        ninthBlockRussianText = SliderPaper.text(20, SliderPaperHeight - 42, "Русский язык");
         else
         if (newWidth < 1000)
-        ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.1, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "Русский язык");
-        ninthBlockRussianText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        ninthBlockRussianText = SliderPaper.text(20, SliderPaperHeight - 42, "Русский язык");
         */
+        ninthBlockRussianText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        ninthBlockVisaText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+
         SliderPaperHeight = oldSliderPaperWidth
         SliderPaperWidth = SliderPaperHeight
         //MonthPaperWidth = oldMonthPaperWidth
