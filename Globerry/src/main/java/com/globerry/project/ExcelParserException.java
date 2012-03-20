@@ -20,7 +20,7 @@ public class ExcelParserException extends Exception
     {
 	
     }
-    public String getMessage()
+    public String getDescription()
     {
 	return message;
     }

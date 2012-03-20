@@ -89,20 +89,22 @@ public class AdminController
       {
 	filePath = getProjectRoot() + "/../../../../../../resources/upload/" + uploadItem.getFileData().getOriginalFilename();
 	uploadItem.getFileData().transferTo(new File(filePath)); 
+	List<String> excList = new ArrayList<String>();
 	try
 	{
 	    Excel exc = new Excel(filePath);
 	    adminParser.updateCities(exc);
+	    
 	} catch (MySqlException e)
 	{
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	   excList.add(e.getDescription());
 	} catch (ExcelParserException e)
 	{
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    excList.add(e.getDescription());
 	}
-      } catch (IllegalStateException e)
+	if(excList.size() == 0) return "admin/errorForm";
+      }
+      catch (IllegalStateException e)
       {
 	  System.err.println("Hello World--------------------------------------------------");
 	e.printStackTrace();
@@ -111,6 +113,7 @@ public class AdminController
 	  System.err.println("IOEXC--------------------------------------------------");
 	e.printStackTrace();
       }
+      
       return "redirect:/";
     }
     
