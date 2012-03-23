@@ -99,7 +99,7 @@ window.onload = function () {
     var HeadPaperHeight = $(document.getElementById("header")).height();
     var headGradRect1 = HeadPaper.rect(0, (HeadPaperHeight * 0.8), HeadPaperWidth, (HeadPaperHeight * 0.13));
     var headGradRect2 = HeadPaper.rect(0, (HeadPaperHeight * 0.9), HeadPaperWidth, (HeadPaperHeight * 0.07));
-    HeadPaper.image("recourses/img/Globerry.png", 0, HeadPaperHeight * 0.05, 230, HeadPaperHeight * 0.7);
+    HeadPaper.image("resources/img/Globerry.png", 0, HeadPaperHeight * 0.05, 230, HeadPaperHeight * 0.7);
     //<img src="Globerr1.jpg">
 
     headGradRect1.attr({ fill: [0, gradLineVioletFirstColor, gradLineVioletSecondColor].join("-"), stroke: 'none' });
@@ -137,7 +137,7 @@ window.onload = function () {
     //tour-------------------------------------------------------
     var tourRect = bottomSwitcher.path(tourPathAnimated);
     tourRect.attr({ fill: [0, 'yellow', 'orange'].join("-"), stroke: 'none' });
-    var tourText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "����");
+    var tourText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Туры");
     tourText.attr({ 'font-size': bottomFont });
     var tourRectOver = bottomSwitcher.path(tourPathAnimated);
     tourRectOver.attr({ fill: '#000', stroke: 'none', opacity: 0, cursor: "hand" });
@@ -145,7 +145,7 @@ window.onload = function () {
     //Avia-------------------------------------------------------
     var aviaRect = bottomSwitcher.path(tourPathNotAnimated);
     aviaRect.attr({ fill: [0, '#08f', 'blue'].join("-"), stroke: 'none' });
-    var aviaText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "����������");
+    var aviaText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Авиабилеты");
     aviaText.attr({ 'font-size': bottomFont });
     aviaRect.translate(tourPathTranslaion, 0);
     aviaText.translate(tourPathTranslaion, 0);
@@ -156,7 +156,7 @@ window.onload = function () {
     //Hotels-------------------------------------------------------
     var hotelRect = bottomSwitcher.path(tourPathNotAnimated);
     hotelRect.attr({ fill: [0, '#ff0', '#af0'].join("-"), stroke: 'none' });
-    var hotelText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "�����");
+    var hotelText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Отели");
     hotelText.attr({ 'font-size': bottomFont });
     hotelRect.translate((tourPathTranslaion * 2), 0);
     hotelText.translate((tourPathTranslaion * 2), 0);
@@ -167,7 +167,7 @@ window.onload = function () {
     //Auto-------------------------------------------------------
     var autoRect = bottomSwitcher.path(tourPathNotAnimated);
     autoRect.attr({ fill: [0, '#d14', '#f14'].join("-"), stroke: 'none', opacity: 0.8 });
-    var autoText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "����");
+    var autoText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Авто");
     autoText.attr({ 'font-size': bottomFont });
     autoRect.translate((tourPathTranslaion * 3), 0);
     autoText.translate((tourPathTranslaion * 3), 0);
@@ -285,29 +285,29 @@ window.onload = function () {
     orangePath = MonthPaper.path('M' + 0 + ',' + (MonthPaperHeight * 0.3) + 'L' + (MonthPaperWidth / 12) + ',' + (MonthPaperHeight * 0.3) + 'L' + (MonthPaperWidth / 12) + ',' + 0 + 'L' + 0 + ',' + 0);
     orangePath.attr({ fill: [90, '#fd3', 'orange'].join("-"), stroke: 'none' });
 
-    monthNamesText[1] = MonthPaper.text((MonthPaperWidth * 0.5 / 12), (MonthPaperHeight * 0.6), "??????");
+    monthNamesText[1] = MonthPaper.text((MonthPaperWidth * 0.5 / 12), (MonthPaperHeight * 0.6), "Январь");
     monthNamesText[1].attr({ 'font-size': (bottomFont * 3) / 4, fill: 'white', cursor: "hand" });
-    monthNamesText[2] = MonthPaper.text((MonthPaperWidth * 1.5 / 12), (MonthPaperHeight * 0.6), "???????");
+    monthNamesText[2] = MonthPaper.text((MonthPaperWidth * 1.5 / 12), (MonthPaperHeight * 0.6), "Февраль");
     monthNamesText[2].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[3] = MonthPaper.text((MonthPaperWidth * 2.5 / 12), (MonthPaperHeight * 0.6), "????");
+    monthNamesText[3] = MonthPaper.text((MonthPaperWidth * 2.5 / 12), (MonthPaperHeight * 0.6), "Март");
     monthNamesText[3].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[4] = MonthPaper.text((MonthPaperWidth * 3.5 / 12), (MonthPaperHeight * 0.6), "??????");
+    monthNamesText[4] = MonthPaper.text((MonthPaperWidth * 3.5 / 12), (MonthPaperHeight * 0.6), "Апрель");
     monthNamesText[4].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[5] = MonthPaper.text((MonthPaperWidth * 4.5 / 12), (MonthPaperHeight * 0.6), "???");
+    monthNamesText[5] = MonthPaper.text((MonthPaperWidth * 4.5 / 12), (MonthPaperHeight * 0.6), "Май");
     monthNamesText[5].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[6] = MonthPaper.text((MonthPaperWidth * 5.5 / 12), (MonthPaperHeight * 0.6), "????");
+    monthNamesText[6] = MonthPaper.text((MonthPaperWidth * 5.5 / 12), (MonthPaperHeight * 0.6), "Июнь");
     monthNamesText[6].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[7] = MonthPaper.text((MonthPaperWidth * 6.5 / 12), (MonthPaperHeight * 0.6), "????");
+    monthNamesText[7] = MonthPaper.text((MonthPaperWidth * 6.5 / 12), (MonthPaperHeight * 0.6), "Июль");
     monthNamesText[7].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[8] = MonthPaper.text((MonthPaperWidth * 7.5 / 12), (MonthPaperHeight * 0.6), "??????");
+    monthNamesText[8] = MonthPaper.text((MonthPaperWidth * 7.5 / 12), (MonthPaperHeight * 0.6), "Август");
     monthNamesText[8].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[9] = MonthPaper.text((MonthPaperWidth * 8.5 / 12), (MonthPaperHeight * 0.6), "????????");
+    monthNamesText[9] = MonthPaper.text((MonthPaperWidth * 8.5 / 12), (MonthPaperHeight * 0.6), "Сентябрь");
     monthNamesText[9].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[10] = MonthPaper.text((MonthPaperWidth * 9.5 / 12), (MonthPaperHeight * 0.6), "???????");
+    monthNamesText[10] = MonthPaper.text((MonthPaperWidth * 9.5 / 12), (MonthPaperHeight * 0.6), "Октябрь");
     monthNamesText[10].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[11] = MonthPaper.text((MonthPaperWidth * 10.5 / 12), (MonthPaperHeight * 0.6), "??????");
+    monthNamesText[11] = MonthPaper.text((MonthPaperWidth * 10.5 / 12), (MonthPaperHeight * 0.6), "Ноябрь");
     monthNamesText[11].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-    monthNamesText[12] = MonthPaper.text((MonthPaperWidth * 11.5 / 12), (MonthPaperHeight * 0.6), "???????");
+    monthNamesText[12] = MonthPaper.text((MonthPaperWidth * 11.5 / 12), (MonthPaperHeight * 0.6), "Декабрь");
     monthNamesText[12].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
 
 
@@ -352,7 +352,7 @@ window.onload = function () {
     var rightDevideLine = SliderPaper.path('M' + SliderPaperWidth + ',' + 0 + 'L' + SliderPaperWidth + ',' + SliderPaperHeight);
     rightDevideLine.attr({ fill: lineColor, stroke: lineColor });
 
-    var firstBlockText = SliderPaper.text((SliderPaperWidth * 0.5), (SliderPaperHeight * 0.02), "??? ?????");
+    var firstBlockText = SliderPaper.text((SliderPaperWidth * 0.5), (SliderPaperHeight * 0.02), "Кто едет?");
     firstBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //if(Width < Height)
     var firstBlockRectWidth = (SliderPaperWidth * 0.12);
@@ -442,28 +442,28 @@ window.onload = function () {
     };
     
     var selfButton = new ButtonTag(
-    	(firstBlockRectOffset + firstBlockRectWidth * 0.5),firstBlockTextYPosition,"self",
+    	(firstBlockRectOffset + firstBlockRectWidth * 0.5),firstBlockTextYPosition,"Один",
     	(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 0),(SliderPaperHeight * 0.04),
     	firstBlockRectWidth,firstBlockRectWidth,
-    	"recourses/img/self.png"
+    	"resources/img/self.png"
     	);
     var coupleButton = new ButtonTag(
-    		(firstBlockRectOffset + firstBlockBetweenRectWidth + (firstBlockRectWidth) * 1.5),firstBlockTextYPosition,"couple",
+    		(firstBlockRectOffset + firstBlockBetweenRectWidth + (firstBlockRectWidth) * 1.5),firstBlockTextYPosition,"Вдвоем",
     		(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 1),(SliderPaperHeight * 0.04),
         	firstBlockRectWidth,firstBlockRectWidth,
-        	"recourses/img/self.png"
+        	"resources/img/self.png"
         	);
     var familyButton = new ButtonTag(
-    		(firstBlockRectOffset + firstBlockBetweenRectWidth * 2 + (firstBlockRectWidth) * 2.5),firstBlockTextYPosition,"family",
+    		(firstBlockRectOffset + firstBlockBetweenRectWidth * 2 + (firstBlockRectWidth) * 2.5),firstBlockTextYPosition,"Семья",
     		(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2),(SliderPaperHeight * 0.04),
 	    	firstBlockRectWidth,firstBlockRectWidth,
-	    	"recourses/img/self.png"
+	    	"resources/img/self.png"
 	    	);
     var friendsButton = new ButtonTag(
-    		(firstBlockRectOffset + firstBlockBetweenRectWidth * 3 + (firstBlockRectWidth) * 3.5),firstBlockTextYPosition,"friends",
+    		(firstBlockRectOffset + firstBlockBetweenRectWidth * 3 + (firstBlockRectWidth) * 3.5),firstBlockTextYPosition,"Друзья",
     		(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3),(SliderPaperHeight * 0.04),
         	firstBlockRectWidth,firstBlockRectWidth,
-        	"recourses/img/self.png"
+        	"resources/img/self.png"
         	);
     
     var firstButtonsBlock = new ButtonBlock();
@@ -476,7 +476,7 @@ window.onload = function () {
     var secondDevideLinePosition = firstDevideLinePosition * 2;
     var secondDevideLine = SliderPaper.path('M' + 0 + ',' + secondDevideLinePosition + 'L' + SliderPaperWidth + ',' + secondDevideLinePosition);
     secondDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var secondBlockText = SliderPaper.text((SliderPaperWidth * 0.49), firstDevideLinePosition + (SliderPaperHeight * 0.02), "??? ???????");
+    var secondBlockText = SliderPaper.text((SliderPaperWidth * 0.49), firstDevideLinePosition + (SliderPaperHeight * 0.02), "Что делать?");
     secondBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //alert(Height);
     var secondBlockRectWidth = firstBlockRectWidth;
@@ -486,34 +486,34 @@ window.onload = function () {
     var secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
     
     var tanButton = new ButtonTag(
-    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 0 + (secondBlockRectWidth) * 0 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"tan",
+    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 0 + (secondBlockRectWidth) * 0 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Загарать",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 0),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"recourses/img/tan.png"
+        	"resources/img/tan.png"
         	);
     var skiButton = new ButtonTag(
-    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 1 + (secondBlockRectWidth) * 1 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"ski",
+    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 1 + (secondBlockRectWidth) * 1 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Кататься",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 1),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"recourses/img/ski.png"
+        	"resources/img/ski.png"
         	);
     var watchButton = new ButtonTag(
-    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 2 + (secondBlockRectWidth) * 2 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"watch",
+    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 2 + (secondBlockRectWidth) * 2 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Смотреть",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"recourses/img/watch.png"
+        	"resources/img/watch.png"
         	);
     var shoppingButton = new ButtonTag(
-    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 3 + (secondBlockRectWidth) * 3 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"shopping",
+    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 3 + (secondBlockRectWidth) * 3 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Шоппинг",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"recourses/img/shopping.png"
+        	"resources/img/shopping.png"
         	);
     var cruiseButton = new ButtonTag(
-    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 4 + (secondBlockRectWidth) * 4 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"cruise",
+    		(secondBlockRectOffset + secondBlockBetweenRectWidth * 4 + (secondBlockRectWidth) * 4 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Круиз",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"recourses/img/cruise.png"
+        	"resources/img/cruise.png"
         	);
     
     var secondButtonsBlock = new ButtonBlock();
@@ -529,7 +529,7 @@ window.onload = function () {
     var thirdDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.13; // +0.7 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var thirdDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + thirdDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + thirdDevideLinePosition);
     thirdDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
+    var thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "Температура");
     thirdBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.2), secondDevideLinePosition + (SliderPaperHeight * 0.03), "-35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.81), secondDevideLinePosition + (SliderPaperHeight * 0.03), "+35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -537,7 +537,7 @@ window.onload = function () {
     var forthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.26; //firstDevideLinePosition * 2 + 1.35 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var forthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + forthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + forthDevideLinePosition);
     forthDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "????? ????????");
+    var forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "Время перелета");
     forthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.2), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "0?").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.81), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "24?").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -545,7 +545,7 @@ window.onload = function () {
     var fifthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.35; //firstDevideLinePosition * 2 + 1.75 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var fifthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + fifthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + fifthDevideLinePosition);
     fifthDevideLine.attr({ fill: lineColor, stroke: lineColor, opacity: 0 });
-    var fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "??????????");
+    var fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "Проживание");
     fifthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftlivingBlockText = SliderPaper.text((SliderPaperWidth * 0.2), forthDevideLinePosition + (SliderPaperHeight * 0.03), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightlivingBlockText = SliderPaper.text((SliderPaperWidth * 0.81), forthDevideLinePosition + (SliderPaperHeight * 0.03), "3000$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -553,7 +553,7 @@ window.onload = function () {
     var sixthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.44; //firstDevideLinePosition * 2 + 2.15 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var sixthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + sixthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + sixthDevideLinePosition);
     sixthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "???");
+    var sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "Еда");
     sixthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftfoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), fifthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightfoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), fifthDevideLinePosition + (SliderPaperHeight * 0.04), "300$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -561,7 +561,7 @@ window.onload = function () {
     var seventhDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.53; //firstDevideLinePosition * 2 + 2.55 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var seventhDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + seventhDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + seventhDevideLinePosition);
     seventhDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "????????");
+    var seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "Алкоголь");
     seventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     var leftalcoholBlockText = SliderPaper.text((SliderPaperWidth * 0.2), sixthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     var rightalcoholBlockText = SliderPaper.text((SliderPaperWidth * 0.81), sixthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -569,7 +569,7 @@ window.onload = function () {
     var eightsDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.62; //firstDevideLinePosition * 2 + 2.95 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var eightsDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + eightsDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + eightsDevideLinePosition);
     eightsDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "??????????");
+    var eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "Настроение");
     eightsBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), seventhDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), seventhDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -577,7 +577,7 @@ window.onload = function () {
     var ninthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.71; //firstDevideLinePosition * 2 + 3.35 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var ninthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + ninthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + ninthDevideLinePosition);
     ninthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), "?????????? ????????");
+    var ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), "Количество туристов");
     ninthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), eightsDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), eightsDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -585,7 +585,7 @@ window.onload = function () {
     var tenthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.8; //firstDevideLinePosition * 2 + 3.75 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var tenthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + tenthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + tenthDevideLinePosition);
     tenthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "????????????");
+    var tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "Безопасность");
     tenthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), ninthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), ninthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -593,7 +593,7 @@ window.onload = function () {
     var eleventhDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.89; //firstDevideLinePosition * 2 + 4.15 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var eleventhDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + eleventhDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + eleventhDevideLinePosition);
     eleventhDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "????");
+    var eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "Секс");
     eleventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), tenthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
     //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), tenthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
@@ -769,9 +769,9 @@ window.onload = function () {
         timeSliderCenterRect.attr({ x: (this.attr("x")), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x")) });
         var leftTimeBlockTime = Math.round(((timeSliderLeftHandler.attr("x") - (timeSliderLeftPosition + timeSliderHandlerYSize)) * 24) / ((SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize)));
         if (leftTimeBlockTime > 0)
-            leftTimeBlockText.attr({ text: leftTimeBlockTime + '?' });
+            leftTimeBlockText.attr({ text: leftTimeBlockTime + 'Ч' });
         else
-            leftTimeBlockText.attr({ text: '0?' });
+            leftTimeBlockText.attr({ text: '0Ч' });
 
     },
     timeSliderLeftHandlerUp = function () {
@@ -808,12 +808,12 @@ window.onload = function () {
         var rightTimeBlockTime = Math.round(((timeSliderRightHandler.attr("x") - (timeSliderLeftPosition + timeSliderHandlerYSize)) * 24) / ((SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize)));
         if (rightTimeBlockTime > 0) {
             if (rightTimeBlockTime > 24)
-                rightTimeBlockText.attr({ text: '24?' });
+                rightTimeBlockText.attr({ text: '24Ч' });
             else
-                rightTimeBlockText.attr({ text: rightTimeBlockTime + '?' });
+                rightTimeBlockText.attr({ text: rightTimeBlockTime + 'Ч' });
         }
         else
-            rightTimeBlockText.attr({ text: '0?' });
+            rightTimeBlockText.attr({ text: '0Ч' });
 
     },
     timeSliderRightHandlerUp = function () {
@@ -1475,18 +1475,18 @@ window.onload = function () {
     var visaButtonActive = true;
     var russianRect = SliderPaper.rect((firstBlockRectOffset) * 1.3 + 55, eleventhDevideLinePosition + (SliderPaperHeight * 0.02), firstBlockRectWidth / 4, firstBlockRectWidth / 4);
     if (Width > 1000)
-        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.3, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "??????? ????");
+        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.3, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "Русский язык");
     else
-        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.4, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "??????? ????");
+        var ninthBlockRussianText = SliderPaper.text((firstBlockRectOffset) * 1.4, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "Русский язык");
     ninthBlockRussianText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //russianRect.attr({ fill: [270, '#ccc', '#999'].join("-"), stroke: 'none' });
     russianRect.attr({ fill: [270, '#fc0', '#fc6'].join("-"), stroke: '#bbb', cursor: 'hand' });
 
     var visaRect = SliderPaper.rect((SliderPaperWidth - firstBlockRectOffset), eleventhDevideLinePosition + (SliderPaperHeight * 0.02), firstBlockRectWidth / 4, firstBlockRectWidth / 4);
     if (Width > 1000)
-        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 40, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "??? ????");
+        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 40, eleventhDevideLinePosition + (SliderPaperHeight * 0.027), "Без визы");
     else
-        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 30, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "??? ????");
+        var ninthBlockVisaText = SliderPaper.text((SliderPaperWidth - firstBlockRectOffset) - 30, eleventhDevideLinePosition + (SliderPaperHeight * 0.023), "Без визы");
     ninthBlockVisaText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
     //visaRect.attr({ fill: [270, '#ccc', '#999'].join("-"), stroke: 'none' });
     visaRect.attr({ fill: [270, '#fc0', '#fc6'].join("-"), stroke: '#bbb', cursor: 'hand' });
@@ -1622,16 +1622,16 @@ window.onload = function () {
         //alert((bottomSwitcherHeight * 0.7));
         if (resizedTourPathTextDelta == true) {
             tourText.remove();
-            tourText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "����");
+            tourText = bottomSwitcher.text(tourPathTextPosition, (bottomSwitcherHeight * 0.7), "Туры");
             tourText.attr({ 'font-size': bottomFont });
             aviaText.remove();
-            aviaText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 2, (bottomSwitcherHeight * 0.7), "����������");
+            aviaText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 2, (bottomSwitcherHeight * 0.7), "Авиабилеты");
             aviaText.attr({ 'font-size': bottomFont });
             hotelText.remove();
-            hotelText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 4, (bottomSwitcherHeight * 0.7), "�����");
+            hotelText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 4, (bottomSwitcherHeight * 0.7), "Отели");
             hotelText.attr({ 'font-size': bottomFont });
             autoText.remove();
-            autoText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 6, (bottomSwitcherHeight * 0.7), "����");
+            autoText = bottomSwitcher.text((tourPathTextPosition) + tourPathTextDelta * 6, (bottomSwitcherHeight * 0.7), "Авто");
             autoText.attr({ 'font-size': bottomFont });
             resizedTourPathTextDelta = false;
         } else {
@@ -1736,66 +1736,66 @@ window.onload = function () {
         //Fonts
         //------------------------
         thirdBlockText.remove();
-        thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
+        thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "Температура");
         thirdBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         firstBlockText.remove();
-        firstBlockText = SliderPaper.text((SliderPaperWidth * 0.5), (SliderPaperHeight * 0.02), "??? ?????");
+        firstBlockText = SliderPaper.text((SliderPaperWidth * 0.5), (SliderPaperHeight * 0.02), "Кто едет");
         firstBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         secondBlockText.remove();
-        secondBlockText = SliderPaper.text((SliderPaperWidth * 0.49), firstDevideLinePosition + (SliderPaperHeight * 0.02), "??? ???????");
+        secondBlockText = SliderPaper.text((SliderPaperWidth * 0.49), firstDevideLinePosition + (SliderPaperHeight * 0.02), "Что делать?");
         secondBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         forthBlockText.remove();
-        forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "????? ????????");
+        forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "Время перелета");
         forthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         fifthBlockText.remove();
-        fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "??????????");
+        fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "Проживание");
         fifthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         sixthBlockText.remove();
-        sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "???");
+        sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "Еда");
         sixthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         seventhBlockText.remove();
-        seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "????????");
+        seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "Алкоголь");
         seventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         eightsBlockText.remove();
-        eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "??????????");
+        eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "Настроение");
         eightsBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         ninthBlockText.remove();
-        ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), "?????????? ????????");
+        ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), "Количество туристов");
         ninthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         tenthBlockText.remove();
-        tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "????????????");
+        tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "Безопастность");
         tenthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
         eleventhBlockText.remove();
-        eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "????");
+        eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "Секс");
         eleventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
 
 
         var monthCounterForRemovingMonthesInResizeFunc = 0;
         for (monthCounterForRemovingMonthesInResizeFunc in monthNamesText)
             monthNamesText[monthCounterForRemovingMonthesInResizeFunc].remove();
-        monthNamesText[1] = MonthPaper.text((MonthPaperWidth * 0.5 / 12), (MonthPaperHeight * 0.6), "??????");
+        monthNamesText[1] = MonthPaper.text((MonthPaperWidth * 0.5 / 12), (MonthPaperHeight * 0.6), "Январь");
         monthNamesText[1].attr({ 'font-size': (bottomFont * 3) / 4, fill: 'white', cursor: "hand" });
-        monthNamesText[2] = MonthPaper.text((MonthPaperWidth * 1.5 / 12), (MonthPaperHeight * 0.6), "???????");
+        monthNamesText[2] = MonthPaper.text((MonthPaperWidth * 1.5 / 12), (MonthPaperHeight * 0.6), "Февраль");
         monthNamesText[2].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[3] = MonthPaper.text((MonthPaperWidth * 2.5 / 12), (MonthPaperHeight * 0.6), "????");
+        monthNamesText[3] = MonthPaper.text((MonthPaperWidth * 2.5 / 12), (MonthPaperHeight * 0.6), "Март");
         monthNamesText[3].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[4] = MonthPaper.text((MonthPaperWidth * 3.5 / 12), (MonthPaperHeight * 0.6), "??????");
+        monthNamesText[4] = MonthPaper.text((MonthPaperWidth * 3.5 / 12), (MonthPaperHeight * 0.6), "Апрель");
         monthNamesText[4].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[5] = MonthPaper.text((MonthPaperWidth * 4.5 / 12), (MonthPaperHeight * 0.6), "???");
+        monthNamesText[5] = MonthPaper.text((MonthPaperWidth * 4.5 / 12), (MonthPaperHeight * 0.6), "Май");
         monthNamesText[5].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[6] = MonthPaper.text((MonthPaperWidth * 5.5 / 12), (MonthPaperHeight * 0.6), "????");
+        monthNamesText[6] = MonthPaper.text((MonthPaperWidth * 5.5 / 12), (MonthPaperHeight * 0.6), "Июнь");
         monthNamesText[6].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[7] = MonthPaper.text((MonthPaperWidth * 6.5 / 12), (MonthPaperHeight * 0.6), "????");
+        monthNamesText[7] = MonthPaper.text((MonthPaperWidth * 6.5 / 12), (MonthPaperHeight * 0.6), "Июль");
         monthNamesText[7].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[8] = MonthPaper.text((MonthPaperWidth * 7.5 / 12), (MonthPaperHeight * 0.6), "??????");
+        monthNamesText[8] = MonthPaper.text((MonthPaperWidth * 7.5 / 12), (MonthPaperHeight * 0.6), "Август");
         monthNamesText[8].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[9] = MonthPaper.text((MonthPaperWidth * 8.5 / 12), (MonthPaperHeight * 0.6), "????????");
+        monthNamesText[9] = MonthPaper.text((MonthPaperWidth * 8.5 / 12), (MonthPaperHeight * 0.6), "Сентябрь");
         monthNamesText[9].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[10] = MonthPaper.text((MonthPaperWidth * 9.5 / 12), (MonthPaperHeight * 0.6), "???????");
+        monthNamesText[10] = MonthPaper.text((MonthPaperWidth * 9.5 / 12), (MonthPaperHeight * 0.6), "Октябрь");
         monthNamesText[10].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[11] = MonthPaper.text((MonthPaperWidth * 10.5 / 12), (MonthPaperHeight * 0.6), "??????");
+        monthNamesText[11] = MonthPaper.text((MonthPaperWidth * 10.5 / 12), (MonthPaperHeight * 0.6), "Ноябрь");
         monthNamesText[11].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
-        monthNamesText[12] = MonthPaper.text((MonthPaperWidth * 11.5 / 12), (MonthPaperHeight * 0.6), "???????");
+        monthNamesText[12] = MonthPaper.text((MonthPaperWidth * 11.5 / 12), (MonthPaperHeight * 0.6), "Декабрь");
         monthNamesText[12].attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor, cursor: "hand" });
 
         if (monthClickX == undefined)
@@ -1814,12 +1814,12 @@ window.onload = function () {
             }
         }
 
-        //selfRectText.remove();
+        /*selfRectText.remove();
         coupleRectText.remove();
         familyRectText.remove();
         friendsRectText.remove();
         firstBlockTextYPosition = (SliderPaperHeight * 0.05) + firstBlockRectWidth;
-        //selfRectText = SliderPaper.text((firstBlockRectOffset + firstBlockRectWidth * 0.5), firstBlockTextYPosition, "????");
+        selfRectText = SliderPaper.text((firstBlockRectOffset + firstBlockRectWidth * 0.5), firstBlockTextYPosition, "????");
         coupleRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth + (firstBlockRectWidth) * 1.5), firstBlockTextYPosition, "??????");
         familyRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 2 + (firstBlockRectWidth) * 2.5), firstBlockTextYPosition, "?????");
         friendsRectText = SliderPaper.text((firstBlockRectOffset + firstBlockBetweenRectWidth * 3 + (firstBlockRectWidth) * 3.5), firstBlockTextYPosition, "??????");
@@ -1846,7 +1846,7 @@ window.onload = function () {
         watchRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
         shoppingRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
         cruiseRectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
-
+*/
 
         //FirstBlock       
         /*firstBlockRectOffset = (SliderPaperWidth - (firstBlockRectWidth * 4 + firstBlockBetweenRectWidth * 3)) / 2;
@@ -1864,7 +1864,7 @@ window.onload = function () {
         friendsRectOver.attr({ x: (firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3), y: (SliderPaperHeight * 0.04), width: firstBlockRectWidth, height: firstBlockRectWidth });
 */
         //SecondBlock
-        secondBlockRectOffset = (SliderPaperWidth - (secondBlockRectWidth * 5 + secondBlockBetweenRectWidth * 4)) / 2;
+      /*  secondBlockRectOffset = (SliderPaperWidth - (secondBlockRectWidth * 5 + secondBlockBetweenRectWidth * 4)) / 2;
         tanRect.attr({ x: (secondBlockRectOffset), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
         tanRectImage.attr({ x: (secondBlockRectOffset), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
         tanRectOver.attr({ x: (secondBlockRectOffset), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
@@ -1880,36 +1880,36 @@ window.onload = function () {
         cruiseRect.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
         cruiseRectImage.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
         cruiseRectOver.attr({ x: (secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4), y: (SliderPaperHeight * 0.04 + firstDevideLinePosition), width: secondBlockRectWidth, height: secondBlockRectWidth });
-
+*/
         //secondBlockTextYPosition = (SliderPaperHeight * 0.05 + firstDevideLinePosition) + secondBlockRectWidth;
         ninthBlockRussianText.remove();
         ninthBlockVisaText.remove();
         if (newWidth > 1350) {
-            ninthBlockRussianText = SliderPaper.text(115, SliderPaperHeight - 42, "������� ����");
+            ninthBlockRussianText = SliderPaper.text(115, SliderPaperHeight - 42, "Русский язык");
         }
         else {
             if (newWidth > 1150)
-                ninthBlockRussianText = SliderPaper.text(90, SliderPaperHeight - 42, "������� ����");
+                ninthBlockRussianText = SliderPaper.text(90, SliderPaperHeight - 42, "Русский язык");
             else
-                ninthBlockRussianText = SliderPaper.text(70, SliderPaperHeight - 42, "������� ����");
+                ninthBlockRussianText = SliderPaper.text(70, SliderPaperHeight - 42, "Русский язык");
         }
         if (newWidth < 975) {
             ninthBlockRussianText.remove();
-            ninthBlockRussianText = SliderPaper.text(55, SliderPaperHeight - 42, "������� ����");
+            ninthBlockRussianText = SliderPaper.text(55, SliderPaperHeight - 42, "Русский язык");
         }
 
         if (newWidth > 1450) {
-            ninthBlockVisaText = SliderPaper.text(320, SliderPaperHeight - 42, "��� ����");
+            ninthBlockVisaText = SliderPaper.text(320, SliderPaperHeight - 42, "Без визы");
         }
         else {
             if (newWidth > 1250)
-                ninthBlockVisaText = SliderPaper.text(250, SliderPaperHeight - 42, "��� ����");
+                ninthBlockVisaText = SliderPaper.text(250, SliderPaperHeight - 42, "Без визы");
             else
-                ninthBlockVisaText = SliderPaper.text(210, SliderPaperHeight - 42, "��� ����");
+                ninthBlockVisaText = SliderPaper.text(210, SliderPaperHeight - 42, "Без визы");
         }
         if (newWidth < 975) {
             ninthBlockVisaText.remove();
-            ninthBlockVisaText = SliderPaper.text(180, SliderPaperHeight - 42, "��� ����");
+            ninthBlockVisaText = SliderPaper.text(180, SliderPaperHeight - 42, "Без визы");
         }
 
         /*
