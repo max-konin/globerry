@@ -529,944 +529,295 @@ window.onload = function () {
     var thirdDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.13; // +0.7 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var thirdDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + thirdDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + thirdDevideLinePosition);
     thirdDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var thirdBlockText = SliderPaper.text((SliderPaperWidth * 0.53), secondDevideLinePosition + (SliderPaperHeight * 0.04), "Температура");
-    thirdBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    var leftTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.2), secondDevideLinePosition + (SliderPaperHeight * 0.03), "-35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    var rightTemperatureBlockText = SliderPaper.text((SliderPaperWidth * 0.81), secondDevideLinePosition + (SliderPaperHeight * 0.03), "+35C").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var forthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.26; //firstDevideLinePosition * 2 + 1.35 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var forthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + forthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + forthDevideLinePosition);
     forthDevideLine.attr({ fill: lineColor, stroke: lineColor });
-    var forthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), thirdDevideLinePosition + (SliderPaperHeight * 0.02), "Время перелета");
-    forthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    var leftTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.2), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "0?").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    var rightTimeBlockText = SliderPaper.text((SliderPaperWidth * 0.81), thirdDevideLinePosition + (SliderPaperHeight * 0.05), "24?").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var fifthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.35; //firstDevideLinePosition * 2 + 1.75 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var fifthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + fifthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + fifthDevideLinePosition);
     fifthDevideLine.attr({ fill: lineColor, stroke: lineColor, opacity: 0 });
-    var fifthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), forthDevideLinePosition + (SliderPaperHeight * 0.02), "Проживание");
-    fifthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    var leftlivingBlockText = SliderPaper.text((SliderPaperWidth * 0.2), forthDevideLinePosition + (SliderPaperHeight * 0.03), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    var rightlivingBlockText = SliderPaper.text((SliderPaperWidth * 0.81), forthDevideLinePosition + (SliderPaperHeight * 0.03), "3000$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var sixthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.44; //firstDevideLinePosition * 2 + 2.15 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var sixthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + sixthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + sixthDevideLinePosition);
     sixthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var sixthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), fifthDevideLinePosition + (SliderPaperHeight * 0.03), "Еда");
-    sixthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    var leftfoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), fifthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    var rightfoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), fifthDevideLinePosition + (SliderPaperHeight * 0.04), "300$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var seventhDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.53; //firstDevideLinePosition * 2 + 2.55 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var seventhDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + seventhDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + seventhDevideLinePosition);
     seventhDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var seventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), sixthDevideLinePosition + (SliderPaperHeight * 0.03), "Алкоголь");
-    seventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    var leftalcoholBlockText = SliderPaper.text((SliderPaperWidth * 0.2), sixthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    var rightalcoholBlockText = SliderPaper.text((SliderPaperWidth * 0.81), sixthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var eightsDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.62; //firstDevideLinePosition * 2 + 2.95 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var eightsDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + eightsDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + eightsDevideLinePosition);
     eightsDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var eightsBlockText = SliderPaper.text((SliderPaperWidth * 0.53), seventhDevideLinePosition + (SliderPaperHeight * 0.03), "Настроение");
-    eightsBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), seventhDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), seventhDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var ninthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.71; //firstDevideLinePosition * 2 + 3.35 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var ninthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + ninthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + ninthDevideLinePosition);
     ninthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var ninthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), eightsDevideLinePosition + (SliderPaperHeight * 0.03), "Количество туристов");
-    ninthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), eightsDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), eightsDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var tenthDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.8; //firstDevideLinePosition * 2 + 3.75 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var tenthDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + tenthDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + tenthDevideLinePosition);
     tenthDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var tenthBlockText = SliderPaper.text((SliderPaperWidth * 0.53), ninthDevideLinePosition + (SliderPaperHeight * 0.03), "Безопасность");
-    tenthBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), ninthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), ninthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
+    
     var eleventhDevideLinePosition = firstDevideLinePosition * 2 + (SliderPaperHeight - firstDevideLinePosition * 2) * 0.89; //firstDevideLinePosition * 2 + 4.15 * ((SliderPaperHeight * 0.05) + (SliderPaperHeight * 0.105));
     var eleventhDevideLine = SliderPaper.path('M' + (SliderPaperWidth * 0.1) + ',' + eleventhDevideLinePosition + 'L' + (SliderPaperWidth * 0.9) + ',' + eleventhDevideLinePosition);
     eleventhDevideLine.attr({ fill: '#f00', stroke: lineColor, opacity: 0 });
-    var eleventhBlockText = SliderPaper.text((SliderPaperWidth * 0.53), tenthDevideLinePosition + (SliderPaperHeight * 0.03), "Секс");
-    eleventhBlockText.attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
-    //var leftmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.2), tenthDevideLinePosition + (SliderPaperHeight * 0.04), "0$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-    //var rightmoodBlockText = SliderPaper.text((SliderPaperWidth * 0.81), tenthDevideLinePosition + (SliderPaperHeight * 0.04), "30$").attr({ 'font-size': bottomFont, fill: '#bbb' });
-
-
-    ///---------------------------------first slider-------------------
-    //var nowX, nowY, R = Raphael(BottomAvia, 500, 500),
-    var previousX;
-    var temperatureSliderYPosition = secondDevideLinePosition + (SliderPaperHeight * 0.060);
-    var temperatureSliderHeight = firstBlockRectWidth * 0.15;
-    var temperatureSliderHandlerXSize = temperatureSliderHeight + firstBlockRectWidth * 0.02;
-    var temperatureSliderHandlerYSize = temperatureSliderHeight + firstBlockRectWidth * 0.02;
-    var temperatureSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var temperatureSliderBackRect = SliderPaper.rect((temperatureSliderLeftPosition - temperatureSliderHandlerYSize), (temperatureSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * temperatureSliderLeftPosition) + 3 * temperatureSliderHandlerYSize), (temperatureSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var temperatureSliderLeftBackCircle = SliderPaper.circle((temperatureSliderLeftPosition - temperatureSliderHandlerYSize), ((temperatureSliderYPosition + firstBlockRectWidth * 0.02) + (temperatureSliderHeight - firstBlockRectWidth * 0.04) / 2), (temperatureSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var temperatureSliderRightBackCircle = SliderPaper.circle(((temperatureSliderLeftPosition - temperatureSliderHandlerYSize) + (SliderPaperWidth - (2 * temperatureSliderLeftPosition) + 3 * temperatureSliderHandlerYSize)), ((temperatureSliderYPosition + firstBlockRectWidth * 0.02) + (temperatureSliderHeight - firstBlockRectWidth * 0.04) / 2), (temperatureSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    var temperatureSliderCenterRect = SliderPaper.rect((temperatureSliderLeftPosition + temperatureSliderHandlerYSize), (temperatureSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * temperatureSliderLeftPosition) - temperatureSliderHandlerYSize), (temperatureSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    //var temperatureSliderGradCenterBottomLies = SliderPaper.path("M" + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight) + 'L' + temperatureSliderLeftPosition + ',' + (temperatureSliderYPosition + temperatureSliderHeight + temperatureSliderHandlerYSize));
-
-    temperatureSliderLeftHandler = SliderPaper.rect(temperatureSliderLeftPosition, (temperatureSliderYPosition - temperatureSliderHandlerYSize * 0.1), temperatureSliderHandlerXSize * 1.1, temperatureSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    temperatureSliderRightHandler = SliderPaper.rect((SliderPaperWidth - temperatureSliderLeftPosition), (temperatureSliderYPosition - temperatureSliderHandlerYSize * 0.1), temperatureSliderHandlerXSize * 1.1, temperatureSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var temperatureSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var temperatureSliderLeftPathString = 'M'+ temperatureSliderLeftPosition +',' + ()
-    //var temperatureSliderLeftPath = SliderPaper.path(temperatureSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    temperatureSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    temperatureSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((temperatureSliderRightHandler.attr("x") - temperatureSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((temperatureSliderRightHandler.attr("x") - temperatureSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                temperatureSliderCenterRect.attr({ x: (this.ox + dx), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x") - temperatureSliderHandlerXSize / 5) });
+   
+    //=====================SLIDER CLASS===============================
+    function SliderInt(YPosition,RightHandlerExist,
+    		LeftLimit,RightLimit,
+    		UnitsOfMeasure,UnitsOfMeasurePrefixPlus,
+    		Name){
+    	this.sliderYPosition = YPosition;
+    	this.sliderLeftLimit = LeftLimit;
+    	this.sliderRightLimit = RightLimit;
+    	this.sliderUnitsOfMeasure = UnitsOfMeasure;
+    	this.sliderUnitsOfMeasurePrefixPlus = UnitsOfMeasurePrefixPlus;
+    	this.name = Name;
+    	this.sliderRightHandlerExist = RightHandlerExist;
+    	
+    	this.sliderHeight = firstBlockRectWidth * 0.15;
+    	this.sliderHandlerXSize = this.sliderHeight + firstBlockRectWidth * 0.02;
+    	this.sliderHandlerYSize = this.sliderHeight + firstBlockRectWidth * 0.02;
+    	this.sliderLeftPosition = (SliderPaperWidth * 0.2);
+    	
+    	this.sliderBackRect = SliderPaper.rect(
+    			(this.sliderLeftPosition - this.sliderHandlerYSize),
+    			(this.sliderYPosition + firstBlockRectWidth * 0.02),
+    			(SliderPaperWidth - (2 * this.sliderLeftPosition) + 3 * this.sliderHandlerYSize),
+    			(this.sliderHeight - firstBlockRectWidth * 0.04))
+    				.attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
+    	//ЧТО ЭТО ТАКОЕ?
+    	this.sliderLeftBackCircle = SliderPaper.circle(
+    			(this.sliderLeftPosition - this.sliderHandlerYSize),
+    			((this.sliderYPosition + firstBlockRectWidth * 0.02) + (this.sliderHeight - firstBlockRectWidth * 0.04) / 2),
+    			(this.sliderHeight - firstBlockRectWidth * 0.04) / 2)
+    				.attr({ fill: '#ddd', stroke: "none" });
+    	this.sliderRightBackCircle = SliderPaper.circle(
+    			((this.sliderLeftPosition - this.sliderHandlerYSize) + (SliderPaperWidth - (2 * this.sliderLeftPosition) + 3 * this.sliderHandlerYSize)),
+    			((this.sliderYPosition + firstBlockRectWidth * 0.02) + (this.sliderHeight - firstBlockRectWidth * 0.04) / 2),
+    			(this.sliderHeight - firstBlockRectWidth * 0.04) / 2)
+    				.attr({ fill: '#ddd', stroke: "none" });
+    	
+    	if(this.sliderRightHandlerExist)
+    		this.sliderCenterRect = SliderPaper.rect(
+    			(this.sliderLeftPosition + this.sliderHandlerYSize),
+    			(this.sliderYPosition + firstBlockRectWidth * 0.02),
+    			(SliderPaperWidth - (2 * this.sliderLeftPosition) - this.sliderHandlerYSize),
+    			(this.sliderHeight - firstBlockRectWidth * 0.04))
+    			.attr({fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
+    	
+    	if(this.sliderRightHandlerExist)
+    		this.sliderLeftHandler = SliderPaper.rect(
+    			this.sliderLeftPosition,
+    			(this.sliderYPosition - this.sliderHandlerYSize * 0.1),
+    			this.sliderHandlerXSize * 1.1, this.sliderHandlerYSize * 1.2)
+    				.attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" });
+    	else
+    		this.sliderLeftHandler = SliderPaper.rect(
+    				(SliderPaperWidth * 0.5),
+        			(this.sliderYPosition - this.sliderHandlerYSize * 0.1),
+        			this.sliderHandlerXSize * 1.1, this.sliderHandlerYSize * 1.2)
+        				.attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" });
+    		
+    	if(this.sliderRightHandlerExist)
+    		this.sliderRightHandler = SliderPaper.rect(
+        		(SliderPaperWidth - this.sliderLeftPosition),
+        		(this.sliderYPosition - this.sliderHandlerYSize * 0.1),
+        		this.sliderHandlerXSize * 1.1, this.sliderHandlerYSize * 1.2)
+        			.attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
+    	else
+    		this.sliderRightHandler = SliderPaper.rect(
+            		(SliderPaperWidth - this.sliderLeftPosition),
+            		(this.sliderYPosition - this.sliderHandlerYSize * 0.1),
+            		this.sliderHandlerXSize * 1.1, this.sliderHandlerYSize * 1.2)
+            			.attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
+    		
+    	this.sliderLeftHandler.parent = this;
+    	if(this.sliderRightHandlerExist)
+    	this.sliderRightHandler.parent = this;
+    	
+    	// start, move, and up are the drag functions
+    	this.sliderLeftHandlerStart = function () {
+            // storing original coordinates
+            this.ox = this.attr("x");
+            //  this.attr({ opacity: 1 });
+        },
+        this.sliderLeftHandlerMove = function (dx, dy) {
+            // move will be called with dx and dy
+            if ((dx > 0) && (this.attr("x") < ((this.parent.sliderRightHandler.attr("x") - this.parent.sliderHandlerXSize)))) {
+                if ((this.ox + dx) < ((this.parent.sliderRightHandler.attr("x") - this.parent.sliderHandlerXSize))) {
+                    this.attr({ x: this.ox + dx });
+                    this.parent.sliderCenterRect.attr({ x: (this.ox + dx), width: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderCenterRect.attr("x") - this.parent.sliderHandlerXSize / 5) });
+                }
+                else {
+                    this.attr({ x: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderHandlerXSize) });
+                    this.parent.sliderCenterRect.attr({ x: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderHandlerXSize), width: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderCenterRect.attr("x") - this.parent.sliderHandlerXSize / 5) });
+                }
             }
-            else {
-                this.attr({ x: (temperatureSliderRightHandler.attr("x") - temperatureSliderHandlerXSize) });
-                temperatureSliderCenterRect.attr({ x: (temperatureSliderRightHandler.attr("x") - temperatureSliderHandlerXSize), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x") - temperatureSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (temperatureSliderLeftPosition + temperatureSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (temperatureSliderLeftPosition + temperatureSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                temperatureSliderCenterRect.attr({ x: (this.ox + dx), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x") - temperatureSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (temperatureSliderLeftPosition - temperatureSliderHandlerXSize)) });
-                temperatureSliderCenterRect.attr({ x: (this.attr("x") > (temperatureSliderLeftPosition + temperatureSliderHandlerXSize)), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x") - temperatureSliderHandlerXSize / 5) });
-            }
-        //warp slider if its out of bounds
-        if (this.attr("x") < (temperatureSliderLeftPosition)) {
-            this.attr({ x: (temperatureSliderLeftPosition) });
-        }
-
-
-        temperatureSliderCenterRect.attr({ x: (this.attr("x")), width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x")) });
-
-        //---
-        var leftTemperatureBlockTemperature = Math.round(((temperatureSliderLeftHandler.attr("x") - (temperatureSliderLeftPosition + temperatureSliderHandlerYSize) - (SliderPaperWidth - (2 * temperatureSliderLeftPosition) - temperatureSliderHandlerYSize) / 2) * 35) / ((SliderPaperWidth - (2 * temperatureSliderLeftPosition) - temperatureSliderHandlerYSize) / 2));
-        if (leftTemperatureBlockTemperature > 0)
-            leftTemperatureBlockText.attr({ text: '+' + leftTemperatureBlockTemperature + 'C' });
-        else
-            leftTemperatureBlockText.attr({ text: leftTemperatureBlockTemperature + 'C' });
-
-        //---
-    },
-    temperatureSliderLeftHandlerUp = function () {
-        // restoring state
-        //temperatureSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-    temperatureSliderRightHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        // this.attr({ opacity: 1 });
-    },
-    temperatureSliderRightHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        //alert(temperatureSliderCenterRect.attr("x"));
-        if ((dx > 0) && (this.attr("x") < (SliderPaperWidth - (temperatureSliderLeftPosition + temperatureSliderHandlerXSize))))
-            if ((this.ox + dx) < ((SliderPaperWidth - (temperatureSliderLeftPosition + temperatureSliderHandlerXSize)))) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (SliderPaperWidth - (temperatureSliderLeftPosition)) });
-            }
-
-        if ((dx < 0) && (this.attr("x") > (temperatureSliderLeftHandler.attr("x") + temperatureSliderHandlerXSize))) {
-            if ((this.ox + dx) > (temperatureSliderLeftHandler.attr("x") + temperatureSliderHandlerXSize)) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (temperatureSliderLeftHandler.attr("x") + temperatureSliderHandlerXSize) });
-            }
-        }
-        temperatureSliderCenterRect.attr({ width: (temperatureSliderRightHandler.attr("x") - temperatureSliderCenterRect.attr("x")) });
-        var rightTemperatureBlockTemperature = Math.round(((temperatureSliderRightHandler.attr("x") - (temperatureSliderLeftPosition + temperatureSliderHandlerYSize) - (SliderPaperWidth - (2 * temperatureSliderLeftPosition) - temperatureSliderHandlerYSize) / 2) * 35) / ((SliderPaperWidth - (2 * temperatureSliderLeftPosition) - temperatureSliderHandlerYSize) / 2));
-        if (rightTemperatureBlockTemperature > 0)
-            rightTemperatureBlockText.attr({ text: '+' + rightTemperatureBlockTemperature + 'C' });
-        else
-            rightTemperatureBlockText.attr({ text: rightTemperatureBlockTemperature + 'C' });
-    },
-    temperatureSliderRightHandlerUp = function () {
-        // restoring state
-        // this.attr({ opacity: .5 });
-        // temperatureSliderCenterRect.attr({fill : '#999' });
-    };
-
-    // rstart and rmove are the resize functions;
-    temperatureSliderLeftHandler.drag(temperatureSliderLeftHandlerMove, temperatureSliderLeftHandlerStart, temperatureSliderLeftHandlerUp);
-    temperatureSliderRightHandler.drag(temperatureSliderRightHandlerMove, temperatureSliderRightHandlerStart, temperatureSliderRightHandlerUp);
-
-    ///----------------------second Slider -------------------------------------
-
-    var timeSliderYPosition = thirdDevideLinePosition + (SliderPaperHeight * 0.065);
-    var timeSliderHeight = firstBlockRectWidth * 0.15;
-    var timeSliderHandlerXSize = timeSliderHeight + firstBlockRectWidth * 0.02;
-    var timeSliderHandlerYSize = timeSliderHeight + firstBlockRectWidth * 0.02;
-    var timeSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var timeSliderBackRect = SliderPaper.rect((timeSliderLeftPosition - timeSliderHandlerYSize), (timeSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * timeSliderLeftPosition) + 3 * timeSliderHandlerYSize), (timeSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var timeSliderLeftBackCircle = SliderPaper.circle((timeSliderLeftPosition - timeSliderHandlerYSize), ((timeSliderYPosition + firstBlockRectWidth * 0.02) + (timeSliderHeight - firstBlockRectWidth * 0.04) / 2), (timeSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var timeSliderRightBackCircle = SliderPaper.circle(((timeSliderLeftPosition - timeSliderHandlerYSize) + (SliderPaperWidth - (2 * timeSliderLeftPosition) + 3 * timeSliderHandlerYSize)), ((timeSliderYPosition + firstBlockRectWidth * 0.02) + (timeSliderHeight - firstBlockRectWidth * 0.04) / 2), (timeSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    var timeSliderCenterRect = SliderPaper.rect((timeSliderLeftPosition + timeSliderHandlerYSize), (timeSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize), (timeSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    timeSliderLeftHandler = SliderPaper.rect(timeSliderLeftPosition, (timeSliderYPosition - timeSliderHandlerYSize * 0.1), timeSliderHandlerXSize * 1.1, timeSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    timeSliderRightHandler = SliderPaper.rect((SliderPaperWidth - timeSliderLeftPosition), (timeSliderYPosition - timeSliderHandlerYSize * 0.1), timeSliderHandlerXSize * 1.1, timeSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var timeSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var timeSliderLeftPathString = 'M'+ timeSliderLeftPosition +',' + ()
-    //var timeSliderLeftPath = SliderPaper.path(timeSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    timeSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    timeSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((timeSliderRightHandler.attr("x") - timeSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((timeSliderRightHandler.attr("x") - timeSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                timeSliderCenterRect.attr({ x: (this.ox + dx), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x") - timeSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (timeSliderRightHandler.attr("x") - timeSliderHandlerXSize) });
-                timeSliderCenterRect.atrr({ x: (timeSliderRightHandler.attr("x") - timeSliderHandlerXSize), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x") - timeSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (timeSliderLeftPosition + timeSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (timeSliderLeftPosition + timeSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                timeSliderCenterRect.attr({ x: (this.ox + dx), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x") - timeSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (timeSliderLeftPosition + timeSliderHandlerXSize)) });
-                timeSliderCenterRect.attr({ x: (this.attr("x") > (timeSliderLeftPosition + timeSliderHandlerXSize)), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x") - timeSliderHandlerXSize / 5) });
-            }
-        //warp slider if its out of bounds
-        if (this.attr("x") < (timeSliderLeftPosition)) {
-            this.attr({ x: (timeSliderLeftPosition) });
-        }
-
-
-        timeSliderCenterRect.attr({ x: (this.attr("x")), width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x")) });
-        var leftTimeBlockTime = Math.round(((timeSliderLeftHandler.attr("x") - (timeSliderLeftPosition + timeSliderHandlerYSize)) * 24) / ((SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize)));
-        if (leftTimeBlockTime > 0)
-            leftTimeBlockText.attr({ text: leftTimeBlockTime + 'Ч' });
-        else
-            leftTimeBlockText.attr({ text: '0Ч' });
-
-    },
-    timeSliderLeftHandlerUp = function () {
-        // restoring state
-        //timeSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-    timeSliderRightHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        // this.attr({ opacity: 1 });
-    },
-    timeSliderRightHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        //alert(timeSliderCenterRect.attr("x"));
-        if ((dx > 0) && (this.attr("x") < (SliderPaperWidth - (timeSliderLeftPosition + timeSliderHandlerXSize))))
-            if ((this.ox + dx) < ((SliderPaperWidth - (timeSliderLeftPosition + timeSliderHandlerXSize)))) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (SliderPaperWidth - (timeSliderLeftPosition)) });
+            if ((dx < 0) && (this.attr("x") > (this.parent.sliderLeftPosition + this.parent.sliderHandlerXSize)))
+                if ((this.ox + dx) > (this.attr("x") > (this.parent.sliderLeftPosition + this.parent.sliderHandlerXSize))) {
+                    this.attr({ x: this.ox + dx });
+                    if(this.sliderRightHandlerExist)
+                    	this.parent.sliderCenterRect.attr({ x: (this.ox + dx), width: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderCenterRect.attr("x") - this.parent.sliderHandlerXSize / 5) });
+                }
+                else {
+                    this.attr({ x: (this.attr("x") > (this.parent.sliderLeftPosition - this.parent.sliderHandlerXSize)) });
+                    if(this.sliderRightHandlerExist)
+                    	this.parent.sliderCenterRect.attr({ x: (this.attr("x") > (this.parent.sliderLeftPosition + this.parent.sliderHandlerXSize)), width: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderCenterRect.attr("x") - this.parent.sliderHandlerXSize / 5) });
+                }
+            //warp slider if its out of bounds
+            if (this.attr("x") < (this.parent.sliderLeftPosition)) {
+                this.attr({ x: (this.parent.sliderLeftPosition) });
             }
 
-        if ((dx < 0) && (this.attr("x") > (timeSliderLeftHandler.attr("x") + timeSliderHandlerXSize))) {
-            if ((this.ox + dx) > (timeSliderLeftHandler.attr("x") + timeSliderHandlerXSize)) {
-                this.attr({ x: this.ox + dx });
+            this.parent.sliderCenterRect.attr({ x: (this.attr("x")), width: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderCenterRect.attr("x")) });
+
+            this.parent.leftBlockValue = Math.round(
+            		this.parent.sliderLeftLimit +
+            		(
+        				(this.parent.sliderLeftHandler.attr("x") - (this.parent.sliderLeftPosition + this.parent.sliderHandlerYSize))
+        				* (this.parent.sliderRightLimit - this.parent.sliderLeftLimit)
+            		)
+            		/ (
+        				(SliderPaperWidth - (2 * this.parent.sliderLeftPosition) - this.parent.sliderHandlerYSize)
+            		)
+            	);
+
+            this.parent.leftBlockText.attr({ text: this.parent.valueAsString(this.parent.leftBlockValue)});
+        },
+        this.sliderLeftHandlerUp = function () {
+        };
+    	
+        this.sliderRightHandlerStart = function () {
+            // storing original coordinates
+            this.ox = this.attr("x");
+            // this.attr({ opacity: 1 });
+        },
+        this.sliderRightHandlerMove = function (dx, dy) {
+            // move will be called with dx and dy
+            if ((dx > 0) && (this.attr("x") < (SliderPaperWidth - (this.parent.sliderLeftPosition + this.parent.sliderHandlerXSize))))
+                if ((this.ox + dx) < ((SliderPaperWidth - (this.parent.sliderPosition + this.parent.sliderHandlerXSize)))) {
+                    this.attr({ x: this.ox + dx });
+                }
+                else {
+                    this.attr({ x: (SliderPaperWidth - (this.parent.sliderLeftPosition)) });
+                }
+
+            if ((dx < 0) && (this.attr("x") > (this.parent.sliderLeftHandler.attr("x") + this.parent.sliderHandlerXSize))) {
+                if ((this.ox + dx) > (this.parent.sliderLeftHandler.attr("x") + this.parent.sliderHandlerXSize)) {
+                    this.attr({ x: this.ox + dx });
+                }
+                else {
+                    this.attr({ x: (this.parent.sliderLeftHandler.attr("x") + this.parent.sliderHandlerXSize) });
+                }
             }
-            else {
-                this.attr({ x: (timeSliderLeftHandler.attr("x") + timeSliderHandlerXSize) });
-            }
-        }
-        timeSliderCenterRect.attr({ width: (timeSliderRightHandler.attr("x") - timeSliderCenterRect.attr("x")) });
-        var rightTimeBlockTime = Math.round(((timeSliderRightHandler.attr("x") - (timeSliderLeftPosition + timeSliderHandlerYSize)) * 24) / ((SliderPaperWidth - (2 * timeSliderLeftPosition) - timeSliderHandlerYSize)));
-        if (rightTimeBlockTime > 0) {
-            if (rightTimeBlockTime > 24)
-                rightTimeBlockText.attr({ text: '24Ч' });
+            this.parent.sliderCenterRect.attr({ width: (this.parent.sliderRightHandler.attr("x") - this.parent.sliderCenterRect.attr("x")) });
+            this.parent.rightBlockValue = Math.round(
+            		this.parent.sliderLeftLimit +
+            		(
+        				(this.parent.sliderRightHandler.attr("x") - (this.parent.sliderLeftPosition + this.parent.sliderHandlerYSize))
+        				* (this.parent.sliderRightLimit - this.parent.sliderLeftLimit)
+            		)
+            		/ (
+        				(SliderPaperWidth - (2 * this.parent.sliderLeftPosition) - this.parent.sliderHandlerYSize)
+            		)
+            	);
+            this.parent.rightBlockText.attr({ text: this.parent.valueAsString(this.parent.rightBlockValue)});
+        },
+        this.sliderRightHandlerUp = function () {
+        };
+     // rstart and rmove are the resize functions;
+        this.sliderLeftHandler.drag(
+        		this.sliderLeftHandlerMove,
+        		this.sliderLeftHandlerStart,
+        		this.sliderLeftHandlerUp);
+        if(this.sliderRightHandlerExist)
+        this.sliderRightHandler.drag(
+        		this.sliderRightHandlerMove,
+        		this.sliderRightHandlerStart,
+        		this.sliderRightHandlerUp);
+        
+        this.valueAsString = function(value){
+        	if (value > 0 && this.sliderUnitsOfMeasurePrefixPlus)
+                return('+' + value + this.sliderUnitsOfMeasure);
             else
-                rightTimeBlockText.attr({ text: rightTimeBlockTime + 'Ч' });
-        }
-        else
-            rightTimeBlockText.attr({ text: '0Ч' });
-
-    },
-    timeSliderRightHandlerUp = function () {
-        // restoring state
-        // this.attr({ opacity: .5 });
-        // timeSliderCenterRect.attr({fill : '#999' });
-    };
-
-    // rstart and rmove are the resize functions;
-    timeSliderLeftHandler.drag(timeSliderLeftHandlerMove, timeSliderLeftHandlerStart, timeSliderLeftHandlerUp);
-    timeSliderRightHandler.drag(timeSliderRightHandlerMove, timeSliderRightHandlerStart, timeSliderRightHandlerUp);
-
-
-    //==================================================================================
-    ///----------------------third (Living) Slider -------------------------------------
-    //==================================================================================
-
-    var livingSliderYPosition = forthDevideLinePosition + (SliderPaperHeight * 0.06);
-    var livingSliderHeight = firstBlockRectWidth * 0.15;
-    var livingSliderHandlerXSize = livingSliderHeight + firstBlockRectWidth * 0.02;
-    var livingSliderHandlerYSize = livingSliderHeight + firstBlockRectWidth * 0.02;
-    var livingSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var livingSliderBackRect = SliderPaper.rect((livingSliderLeftPosition - livingSliderHandlerYSize), (livingSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * livingSliderLeftPosition) + 3 * livingSliderHandlerYSize), (livingSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var livingSliderLeftBackCircle = SliderPaper.circle((livingSliderLeftPosition - livingSliderHandlerYSize), ((livingSliderYPosition + firstBlockRectWidth * 0.02) + (livingSliderHeight - firstBlockRectWidth * 0.04) / 2), (livingSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var livingSliderRightBackCircle = SliderPaper.circle(((livingSliderLeftPosition - livingSliderHandlerYSize) + (SliderPaperWidth - (2 * livingSliderLeftPosition) + 3 * livingSliderHandlerYSize)), ((livingSliderYPosition + firstBlockRectWidth * 0.02) + (livingSliderHeight - firstBlockRectWidth * 0.04) / 2), (livingSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    var livingSliderCenterRect = SliderPaper.rect((livingSliderLeftPosition + livingSliderHandlerYSize), (livingSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * livingSliderLeftPosition) - livingSliderHandlerYSize), (livingSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    livingSliderLeftHandler = SliderPaper.rect(livingSliderLeftPosition, (livingSliderYPosition - livingSliderHandlerYSize * 0.1), livingSliderHandlerXSize * 1.1, livingSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    livingSliderRightHandler = SliderPaper.rect((SliderPaperWidth - livingSliderLeftPosition), (livingSliderYPosition - livingSliderHandlerYSize * 0.1), livingSliderHandlerXSize * 1.1, livingSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var livingSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var livingSliderLeftPathString = 'M'+ livingSliderLeftPosition +',' + ()
-    //var livingSliderLeftPath = SliderPaper.path(livingSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    livingSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    livingSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((livingSliderRightHandler.attr("x") - livingSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((livingSliderRightHandler.attr("x") - livingSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                livingSliderCenterRect.attr({ x: (this.ox + dx), width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x") - livingSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (livingSliderRightHandler.attr("x") - livingSliderHandlerXSize) });
-                livingSliderCenterRect.atrr({ x: (livingSliderRightHandler.attr("x") - livingSliderHandlerXSize), width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x") - livingSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (livingSliderLeftPosition + livingSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (livingSliderLeftPosition + livingSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                livingSliderCenterRect.attr({ x: (this.ox + dx), width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x") - livingSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (livingSliderLeftPosition + livingSliderHandlerXSize)) });
-                livingSliderCenterRect.attr({ x: (this.attr("x") > (livingSliderLeftPosition + livingSliderHandlerXSize)), width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x") - livingSliderHandlerXSize / 5) });
-            }
-        //warp
-        if (this.attr("x") < (livingSliderLeftPosition)) {
-            this.attr({ x: (livingSliderLeftPosition) });
-        }
-
-        livingSliderCenterRect.attr({ x: (this.attr("x")), width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x")) });
-        var leftlivingBlockliving = Math.round(((livingSliderLeftHandler.attr("x") - (livingSliderLeftPosition + livingSliderHandlerYSize)) * 3000) / ((SliderPaperWidth - (2 * livingSliderLeftPosition) - livingSliderHandlerYSize)));
-        if (leftlivingBlockliving > 0)
-            leftlivingBlockText.attr({ text: leftlivingBlockliving + '$' });
-        else
-            leftlivingBlockText.attr({ text: '0$' });
-
-    },
-    livingSliderLeftHandlerUp = function () {
-        // restoring state
-        //livingSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-    livingSliderRightHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        // this.attr({ opacity: 1 });
-    },
-    livingSliderRightHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        //alert(livingSliderCenterRect.attr("x"));
-        if ((dx > 0) && (this.attr("x") < (SliderPaperWidth - (livingSliderLeftPosition + livingSliderHandlerXSize))))
-            if ((this.ox + dx) < ((SliderPaperWidth - (livingSliderLeftPosition + livingSliderHandlerXSize)))) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (SliderPaperWidth - (livingSliderLeftPosition)) });
-            }
-
-        if ((dx < 0) && (this.attr("x") > (livingSliderLeftHandler.attr("x") + livingSliderHandlerXSize))) {
-            if ((this.ox + dx) > (livingSliderLeftHandler.attr("x") + livingSliderHandlerXSize)) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (livingSliderLeftHandler.attr("x") + livingSliderHandlerXSize) });
-            }
-        }
-        livingSliderCenterRect.attr({ width: (livingSliderRightHandler.attr("x") - livingSliderCenterRect.attr("x")) });
-        var rightlivingBlockliving = Math.round(((livingSliderRightHandler.attr("x") - (livingSliderLeftPosition + livingSliderHandlerYSize))) / ((SliderPaperWidth - (2 * livingSliderLeftPosition) - livingSliderHandlerYSize)) * 3000);
-        if (rightlivingBlockliving > 0) {
-            if (rightlivingBlockliving > 3000)
-                rightlivingBlockText.attr({ text: '3000$' });
-            else
-                rightlivingBlockText.attr({ text: rightlivingBlockliving + '$' });
-        }
-        else
-            rightlivingBlockText.attr({ text: '0$' });
-
-    },
-    livingSliderRightHandlerUp = function () {
-        // restoring state
-        // this.attr({ opacity: .5 });
-        // livingSliderCenterRect.attr({fill : '#999' });
-    };
-
-    // rstart and rmove are the resize functions;
-    livingSliderLeftHandler.drag(livingSliderLeftHandlerMove, livingSliderLeftHandlerStart, livingSliderLeftHandlerUp);
-    livingSliderRightHandler.drag(livingSliderRightHandlerMove, livingSliderRightHandlerStart, livingSliderRightHandlerUp);
-
-    //----------------------===========================-----------
-    ///----------------------forth (food) Slider -------------------------------------
-
-    var foodSliderYPosition = fifthDevideLinePosition + (SliderPaperHeight * 0.06);
-    var foodSliderHeight = firstBlockRectWidth * 0.15;
-    var foodSliderHandlerXSize = foodSliderHeight + firstBlockRectWidth * 0.02;
-    var foodSliderHandlerYSize = foodSliderHeight + firstBlockRectWidth * 0.02;
-    var foodSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var foodSliderBackRect = SliderPaper.rect((foodSliderLeftPosition - foodSliderHandlerYSize), (foodSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * foodSliderLeftPosition) + 3 * foodSliderHandlerYSize), (foodSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var foodSliderLeftBackCircle = SliderPaper.circle((foodSliderLeftPosition - foodSliderHandlerYSize), ((foodSliderYPosition + firstBlockRectWidth * 0.02) + (foodSliderHeight - firstBlockRectWidth * 0.04) / 2), (foodSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var foodSliderRightBackCircle = SliderPaper.circle(((foodSliderLeftPosition - foodSliderHandlerYSize) + (SliderPaperWidth - (2 * foodSliderLeftPosition) + 3 * foodSliderHandlerYSize)), ((foodSliderYPosition + firstBlockRectWidth * 0.02) + (foodSliderHeight - firstBlockRectWidth * 0.04) / 2), (foodSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    var foodSliderCenterRect = SliderPaper.rect((foodSliderLeftPosition + foodSliderHandlerYSize), (foodSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * foodSliderLeftPosition) - foodSliderHandlerYSize), (foodSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    foodSliderLeftHandler = SliderPaper.rect(foodSliderLeftPosition, (foodSliderYPosition - foodSliderHandlerYSize * 0.1), foodSliderHandlerXSize * 1.1, foodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    foodSliderRightHandler = SliderPaper.rect((SliderPaperWidth - foodSliderLeftPosition), (foodSliderYPosition - foodSliderHandlerYSize * 0.1), foodSliderHandlerXSize * 1.1, foodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var foodSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var foodSliderLeftPathString = 'M'+ foodSliderLeftPosition +',' + ()
-    //var foodSliderLeftPath = SliderPaper.path(foodSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    foodSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    foodSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((foodSliderRightHandler.attr("x") - foodSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((foodSliderRightHandler.attr("x") - foodSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                foodSliderCenterRect.attr({ x: (this.ox + dx), width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x") - foodSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (foodSliderRightHandler.attr("x") - foodSliderHandlerXSize) });
-                foodSliderCenterRect.atrr({ x: (foodSliderRightHandler.attr("x") - foodSliderHandlerXSize), width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x") - foodSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (foodSliderLeftPosition + foodSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (foodSliderLeftPosition + foodSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                foodSliderCenterRect.attr({ x: (this.ox + dx), width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x") - foodSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (foodSliderLeftPosition + foodSliderHandlerXSize)) });
-                foodSliderCenterRect.attr({ x: (this.attr("x") > (foodSliderLeftPosition + foodSliderHandlerXSize)), width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x") - foodSliderHandlerXSize / 5) });
-            }
-        //warp
-        if (this.attr("x") < (foodSliderLeftPosition)) {
-            this.attr({ x: (foodSliderLeftPosition) });
-        }
-
-        foodSliderCenterRect.attr({ x: (this.attr("x")), width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x")) });
-        var leftfoodBlockfood = Math.round(((foodSliderLeftHandler.attr("x") - (foodSliderLeftPosition + foodSliderHandlerYSize)) * 300) / ((SliderPaperWidth - (2 * foodSliderLeftPosition) - foodSliderHandlerYSize)));
-        if (leftfoodBlockfood > 0)
-            leftfoodBlockText.attr({ text: leftfoodBlockfood + '$' });
-        else
-            leftfoodBlockText.attr({ text: '0$' });
-
-    },
-    foodSliderLeftHandlerUp = function () {
-        // restoring state
-        //foodSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-    foodSliderRightHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        // this.attr({ opacity: 1 });
-    },
-    foodSliderRightHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        //alert(foodSliderCenterRect.attr("x"));
-        if ((dx > 0) && (this.attr("x") < (SliderPaperWidth - (foodSliderLeftPosition + foodSliderHandlerXSize))))
-            if ((this.ox + dx) < ((SliderPaperWidth - (foodSliderLeftPosition + foodSliderHandlerXSize)))) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (SliderPaperWidth - (foodSliderLeftPosition)) });
-            }
-
-        if ((dx < 0) && (this.attr("x") > (foodSliderLeftHandler.attr("x") + foodSliderHandlerXSize))) {
-            if ((this.ox + dx) > (foodSliderLeftHandler.attr("x") + foodSliderHandlerXSize)) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (foodSliderLeftHandler.attr("x") + foodSliderHandlerXSize) });
-            }
-        }
-        foodSliderCenterRect.attr({ width: (foodSliderRightHandler.attr("x") - foodSliderCenterRect.attr("x")) });
-        var rightfoodBlockfood = Math.round(((foodSliderRightHandler.attr("x") - (foodSliderLeftPosition + foodSliderHandlerYSize))) / ((SliderPaperWidth - (2 * foodSliderLeftPosition) - foodSliderHandlerYSize)) * 300);
-        if (rightfoodBlockfood > 0) {
-            if (rightfoodBlockfood > 3000)
-                rightfoodBlockText.attr({ text: '300$' });
-            else
-                rightfoodBlockText.attr({ text: rightfoodBlockfood + '$' });
-        }
-        else
-            rightfoodBlockText.attr({ text: '0$' });
-
-    },
-    foodSliderRightHandlerUp = function () {
-        // restoring state
-        // this.attr({ opacity: .5 });
-        // foodSliderCenterRect.attr({fill : '#999' });
-    };
-
-    // rstart and rmove are the resize functions;
-    foodSliderLeftHandler.drag(foodSliderLeftHandlerMove, foodSliderLeftHandlerStart, foodSliderLeftHandlerUp);
-    foodSliderRightHandler.drag(foodSliderRightHandlerMove, foodSliderRightHandlerStart, foodSliderRightHandlerUp);
-
-    //----------------------===========================-----------
-    ///----------------------fifth (alcohol) Slider -------------------------------------
-
-    var alcoholSliderYPosition = sixthDevideLinePosition + (SliderPaperHeight * 0.06);
-    var alcoholSliderHeight = firstBlockRectWidth * 0.15;
-    var alcoholSliderHandlerXSize = alcoholSliderHeight + firstBlockRectWidth * 0.02;
-    var alcoholSliderHandlerYSize = alcoholSliderHeight + firstBlockRectWidth * 0.02;
-    var alcoholSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var alcoholSliderBackRect = SliderPaper.rect((alcoholSliderLeftPosition - alcoholSliderHandlerYSize), (alcoholSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * alcoholSliderLeftPosition) + 3 * alcoholSliderHandlerYSize), (alcoholSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var alcoholSliderLeftBackCircle = SliderPaper.circle((alcoholSliderLeftPosition - alcoholSliderHandlerYSize), ((alcoholSliderYPosition + firstBlockRectWidth * 0.02) + (alcoholSliderHeight - firstBlockRectWidth * 0.04) / 2), (alcoholSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var alcoholSliderRightBackCircle = SliderPaper.circle(((alcoholSliderLeftPosition - alcoholSliderHandlerYSize) + (SliderPaperWidth - (2 * alcoholSliderLeftPosition) + 3 * alcoholSliderHandlerYSize)), ((alcoholSliderYPosition + firstBlockRectWidth * 0.02) + (alcoholSliderHeight - firstBlockRectWidth * 0.04) / 2), (alcoholSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    var alcoholSliderCenterRect = SliderPaper.rect((alcoholSliderLeftPosition + alcoholSliderHandlerYSize), (alcoholSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * alcoholSliderLeftPosition) - alcoholSliderHandlerYSize), (alcoholSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    alcoholSliderLeftHandler = SliderPaper.rect(alcoholSliderLeftPosition, (alcoholSliderYPosition - alcoholSliderHandlerYSize * 0.1), alcoholSliderHandlerXSize * 1.1, alcoholSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    alcoholSliderRightHandler = SliderPaper.rect((SliderPaperWidth - alcoholSliderLeftPosition), (alcoholSliderYPosition - alcoholSliderHandlerYSize * 0.1), alcoholSliderHandlerXSize * 1.1, alcoholSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", rx: "5", ry: "5" });
-    //var alcoholSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var alcoholSliderLeftPathString = 'M'+ alcoholSliderLeftPosition +',' + ()
-    //var alcoholSliderLeftPath = SliderPaper.path(alcoholSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    alcoholSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    alcoholSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((alcoholSliderRightHandler.attr("x") - alcoholSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((alcoholSliderRightHandler.attr("x") - alcoholSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                alcoholSliderCenterRect.attr({ x: (this.ox + dx), width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x") - alcoholSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (alcoholSliderRightHandler.attr("x") - alcoholSliderHandlerXSize) });
-                alcoholSliderCenterRect.atrr({ x: (alcoholSliderRightHandler.attr("x") - alcoholSliderHandlerXSize), width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x") - alcoholSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (alcoholSliderLeftPosition + alcoholSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (alcoholSliderLeftPosition + alcoholSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                alcoholSliderCenterRect.attr({ x: (this.ox + dx), width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x") - alcoholSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (alcoholSliderLeftPosition + alcoholSliderHandlerXSize)) });
-                alcoholSliderCenterRect.attr({ x: (this.attr("x") > (alcoholSliderLeftPosition + alcoholSliderHandlerXSize)), width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x") - alcoholSliderHandlerXSize / 5) });
-            }
-        //warp
-        if (this.attr("x") < (alcoholSliderLeftPosition)) {
-            this.attr({ x: (alcoholSliderLeftPosition) });
-        }
-
-        alcoholSliderCenterRect.attr({ x: (this.attr("x")), width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x")) });
-        var leftalcoholBlockalcohol = Math.round(((alcoholSliderLeftHandler.attr("x") - (alcoholSliderLeftPosition + alcoholSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * alcoholSliderLeftPosition) - alcoholSliderHandlerYSize)));
-        if (leftalcoholBlockalcohol > 0)
-            leftalcoholBlockText.attr({ text: leftalcoholBlockalcohol + '$' });
-        else
-            leftalcoholBlockText.attr({ text: '0$' });
-
-    },
-    alcoholSliderLeftHandlerUp = function () {
-        // restoring state
-        //alcoholSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-    alcoholSliderRightHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        // this.attr({ opacity: 1 });
-    },
-    alcoholSliderRightHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        //alert(alcoholSliderCenterRect.attr("x"));
-        if ((dx > 0) && (this.attr("x") < (SliderPaperWidth - (alcoholSliderLeftPosition + alcoholSliderHandlerXSize))))
-            if ((this.ox + dx) < ((SliderPaperWidth - (alcoholSliderLeftPosition + alcoholSliderHandlerXSize)))) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (SliderPaperWidth - (alcoholSliderLeftPosition)) });
-            }
-
-        if ((dx < 0) && (this.attr("x") > (alcoholSliderLeftHandler.attr("x") + alcoholSliderHandlerXSize))) {
-            if ((this.ox + dx) > (alcoholSliderLeftHandler.attr("x") + alcoholSliderHandlerXSize)) {
-                this.attr({ x: this.ox + dx });
-            }
-            else {
-                this.attr({ x: (alcoholSliderLeftHandler.attr("x") + alcoholSliderHandlerXSize) });
-            }
-        }
-        alcoholSliderCenterRect.attr({ width: (alcoholSliderRightHandler.attr("x") - alcoholSliderCenterRect.attr("x")) });
-        var rightalcoholBlockalcohol = Math.round(((alcoholSliderRightHandler.attr("x") - (alcoholSliderLeftPosition + alcoholSliderHandlerYSize))) / ((SliderPaperWidth - (2 * alcoholSliderLeftPosition) - alcoholSliderHandlerYSize)) * 30);
-        if (rightalcoholBlockalcohol > 0) {
-            if (rightalcoholBlockalcohol > 3000)
-                rightalcoholBlockText.attr({ text: '30$' });
-            else
-                rightalcoholBlockText.attr({ text: rightalcoholBlockalcohol + '$' });
-        }
-        else
-            rightalcoholBlockText.attr({ text: '0$' });
-
-    },
-    alcoholSliderRightHandlerUp = function () {
-        // restoring state
-        // this.attr({ opacity: .5 });
-        // alcoholSliderCenterRect.attr({fill : '#999' });
-    };
-
-    // rstart and rmove are the resize functions;
-    alcoholSliderLeftHandler.drag(alcoholSliderLeftHandlerMove, alcoholSliderLeftHandlerStart, alcoholSliderLeftHandlerUp);
-    alcoholSliderRightHandler.drag(alcoholSliderRightHandlerMove, alcoholSliderRightHandlerStart, alcoholSliderRightHandlerUp);
-
-    //----------------------===========================-----------
-    ///----------------------sixth (mood) Slider -------------------------------------
-
-    var moodSliderYPosition = seventhDevideLinePosition + (SliderPaperHeight * 0.06);
-    var moodSliderHeight = firstBlockRectWidth * 0.15;
-    var moodSliderHandlerXSize = moodSliderHeight + firstBlockRectWidth * 0.02;
-    var moodSliderHandlerYSize = moodSliderHeight + firstBlockRectWidth * 0.02;
-    var moodSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var moodSliderBackRect = SliderPaper.rect((moodSliderLeftPosition - moodSliderHandlerYSize), (moodSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * moodSliderLeftPosition) + 3 * moodSliderHandlerYSize), (moodSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var moodSliderLeftBackCircle = SliderPaper.circle((moodSliderLeftPosition - moodSliderHandlerYSize), ((moodSliderYPosition + firstBlockRectWidth * 0.02) + (moodSliderHeight - firstBlockRectWidth * 0.04) / 2), (moodSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var moodSliderRightBackCircle = SliderPaper.circle(((moodSliderLeftPosition - moodSliderHandlerYSize) + (SliderPaperWidth - (2 * moodSliderLeftPosition) + 3 * moodSliderHandlerYSize)), ((moodSliderYPosition + firstBlockRectWidth * 0.02) + (moodSliderHeight - firstBlockRectWidth * 0.04) / 2), (moodSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    // var moodSliderCenterRect = SliderPaper.rect((moodSliderLeftPosition + moodSliderHandlerYSize), (moodSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * moodSliderLeftPosition) - moodSliderHandlerYSize), (moodSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    moodSliderLeftHandler = SliderPaper.rect(moodSliderLeftPosition + ((moodSliderLeftPosition - moodSliderHandlerYSize) + (SliderPaperWidth - (2 * moodSliderLeftPosition) - 5 * moodSliderHandlerYSize)) / 2, (moodSliderYPosition - moodSliderHandlerYSize * 0.1), moodSliderHandlerXSize * 1.1, moodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    moodSliderRightHandler = SliderPaper.rect((SliderPaperWidth - moodSliderLeftPosition) + moodSliderHandlerYSize, (moodSliderYPosition - moodSliderHandlerYSize * 0.1), moodSliderHandlerXSize * 1.1, moodSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var moodSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var moodSliderLeftPathString = 'M'+ moodSliderLeftPosition +',' + ()
-    //var moodSliderLeftPath = SliderPaper.path(moodSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    moodSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    moodSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((moodSliderRightHandler.attr("x") - moodSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((moodSliderRightHandler.attr("x") - moodSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //   moodSliderCenterRect.attr({ x: (this.ox + dx), width: (moodSliderRightHandler.attr("x") - moodSliderCenterRect.attr("x") - moodSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (moodSliderRightHandler.attr("x") - moodSliderHandlerXSize) });
-                //     moodSliderCenterRect.atrr({ x: (moodSliderRightHandler.attr("x") - moodSliderHandlerXSize), width: (moodSliderRightHandler.attr("x") - moodSliderCenterRect.attr("x") - moodSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (moodSliderLeftPosition + moodSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (moodSliderLeftPosition + moodSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //     moodSliderCenterRect.attr({ x: (this.ox + dx), width: (moodSliderRightHandler.attr("x") - moodSliderCenterRect.attr("x") - moodSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (moodSliderLeftPosition + moodSliderHandlerXSize)) });
-                moodSliderCenterRect.attr({ x: (this.attr("x") > (moodSliderLeftPosition + moodSliderHandlerXSize)), width: (moodSliderRightHandler.attr("x") - moodSliderCenterRect.attr("x") - moodSliderHandlerXSize / 5) });
-            }
-        //warp
-        if (this.attr("x") < (moodSliderLeftPosition)) {
-            this.attr({ x: (moodSliderLeftPosition) });
-        }
-
-        //   moodSliderCenterRect.attr({ x: (this.attr("x")), width: (moodSliderRightHandler.attr("x") - moodSliderCenterRect.attr("x")) });
-        /*
-        var leftmoodBlockmood = Math.round(((moodSliderLeftHandler.attr("x") - (moodSliderLeftPosition + moodSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * moodSliderLeftPosition) - moodSliderHandlerYSize)));
-        if (leftmoodBlockmood > 0)
-        leftmoodBlockText.attr({ text: leftmoodBlockmood + '$' });
-        else
-        leftmoodBlockText.attr({ text: '0$' });
-        */
-
-    },
-    moodSliderLeftHandlerUp = function () {
-        // restoring state
-        //moodSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-
-    // rstart and rmove are the resize functions;
-    moodSliderLeftHandler.drag(moodSliderLeftHandlerMove, moodSliderLeftHandlerStart, moodSliderLeftHandlerUp);
-
-    //----------------------===========================-----------
-
-    ///----------------------seventh (tourists) Slider -------------------------------------
-
-    var touristsSliderYPosition = eightsDevideLinePosition + (SliderPaperHeight * 0.06);
-    var touristsSliderHeight = firstBlockRectWidth * 0.15;
-    var touristsSliderHandlerXSize = touristsSliderHeight + firstBlockRectWidth * 0.02;
-    var touristsSliderHandlerYSize = touristsSliderHeight + firstBlockRectWidth * 0.02;
-    var touristsSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var touristsSliderBackRect = SliderPaper.rect((touristsSliderLeftPosition - touristsSliderHandlerYSize), (touristsSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * touristsSliderLeftPosition) + 3 * touristsSliderHandlerYSize), (touristsSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var touristsSliderLeftBackCircle = SliderPaper.circle((touristsSliderLeftPosition - touristsSliderHandlerYSize), ((touristsSliderYPosition + firstBlockRectWidth * 0.02) + (touristsSliderHeight - firstBlockRectWidth * 0.04) / 2), (touristsSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var touristsSliderRightBackCircle = SliderPaper.circle(((touristsSliderLeftPosition - touristsSliderHandlerYSize) + (SliderPaperWidth - (2 * touristsSliderLeftPosition) + 3 * touristsSliderHandlerYSize)), ((touristsSliderYPosition + firstBlockRectWidth * 0.02) + (touristsSliderHeight - firstBlockRectWidth * 0.04) / 2), (touristsSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    // var touristsSliderCenterRect = SliderPaper.rect((touristsSliderLeftPosition + touristsSliderHandlerYSize), (touristsSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * touristsSliderLeftPosition) - touristsSliderHandlerYSize), (touristsSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    touristsSliderLeftHandler = SliderPaper.rect(touristsSliderLeftPosition + ((touristsSliderLeftPosition - touristsSliderHandlerYSize) + (SliderPaperWidth - (2 * touristsSliderLeftPosition) - 5 * touristsSliderHandlerYSize)) / 2, (touristsSliderYPosition - touristsSliderHandlerYSize * 0.1), touristsSliderHandlerXSize * 1.1, touristsSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    touristsSliderRightHandler = SliderPaper.rect((SliderPaperWidth - touristsSliderLeftPosition) + touristsSliderHandlerYSize, (touristsSliderYPosition - touristsSliderHandlerYSize * 0.1), touristsSliderHandlerXSize * 1.1, touristsSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var touristsSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var touristsSliderLeftPathString = 'M'+ touristsSliderLeftPosition +',' + ()
-    //var touristsSliderLeftPath = SliderPaper.path(touristsSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    touristsSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    touristsSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((touristsSliderRightHandler.attr("x") - touristsSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((touristsSliderRightHandler.attr("x") - touristsSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //   touristsSliderCenterRect.attr({ x: (this.ox + dx), width: (touristsSliderRightHandler.attr("x") - touristsSliderCenterRect.attr("x") - touristsSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (touristsSliderRightHandler.attr("x") - touristsSliderHandlerXSize) });
-                //     touristsSliderCenterRect.atrr({ x: (touristsSliderRightHandler.attr("x") - touristsSliderHandlerXSize), width: (touristsSliderRightHandler.attr("x") - touristsSliderCenterRect.attr("x") - touristsSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (touristsSliderLeftPosition + touristsSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (touristsSliderLeftPosition + touristsSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //     touristsSliderCenterRect.attr({ x: (this.ox + dx), width: (touristsSliderRightHandler.attr("x") - touristsSliderCenterRect.attr("x") - touristsSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (touristsSliderLeftPosition + touristsSliderHandlerXSize)) });
-                touristsSliderCenterRect.attr({ x: (this.attr("x") > (touristsSliderLeftPosition + touristsSliderHandlerXSize)), width: (touristsSliderRightHandler.attr("x") - touristsSliderCenterRect.attr("x") - touristsSliderHandlerXSize / 5) });
-            }
-        //warp
-        if (this.attr("x") < (touristsSliderLeftPosition)) {
-            this.attr({ x: (touristsSliderLeftPosition) });
-        }
-
-        //   touristsSliderCenterRect.attr({ x: (this.attr("x")), width: (touristsSliderRightHandler.attr("x") - touristsSliderCenterRect.attr("x")) });
-        /*
-        var lefttouristsBlocktourists = Math.round(((touristsSliderLeftHandler.attr("x") - (touristsSliderLeftPosition + touristsSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * touristsSliderLeftPosition) - touristsSliderHandlerYSize)));
-        if (lefttouristsBlocktourists > 0)
-        lefttouristsBlockText.attr({ text: lefttouristsBlocktourists + '$' });
-        else
-        lefttouristsBlockText.attr({ text: '0$' });
-        */
-
-    },
-    touristsSliderLeftHandlerUp = function () {
-        // restoring state
-        //touristsSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-
-    // rstart and rmove are the resize functions;
-    touristsSliderLeftHandler.drag(touristsSliderLeftHandlerMove, touristsSliderLeftHandlerStart, touristsSliderLeftHandlerUp);
-
-    //----------------------===========================-----------
-    ///----------------------eights (security) Slider -------------------------------------
-
-    var securitySliderYPosition = ninthDevideLinePosition + (SliderPaperHeight * 0.06);
-    var securitySliderHeight = firstBlockRectWidth * 0.15;
-    var securitySliderHandlerXSize = securitySliderHeight + firstBlockRectWidth * 0.02;
-    var securitySliderHandlerYSize = securitySliderHeight + firstBlockRectWidth * 0.02;
-    var securitySliderLeftPosition = (SliderPaperWidth * 0.2);
-    var securitySliderBackRect = SliderPaper.rect((securitySliderLeftPosition - securitySliderHandlerYSize), (securitySliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * securitySliderLeftPosition) + 3 * securitySliderHandlerYSize), (securitySliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var securitySliderLeftBackCircle = SliderPaper.circle((securitySliderLeftPosition - securitySliderHandlerYSize), ((securitySliderYPosition + firstBlockRectWidth * 0.02) + (securitySliderHeight - firstBlockRectWidth * 0.04) / 2), (securitySliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var securitySliderRightBackCircle = SliderPaper.circle(((securitySliderLeftPosition - securitySliderHandlerYSize) + (SliderPaperWidth - (2 * securitySliderLeftPosition) + 3 * securitySliderHandlerYSize)), ((securitySliderYPosition + firstBlockRectWidth * 0.02) + (securitySliderHeight - firstBlockRectWidth * 0.04) / 2), (securitySliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    // var securitySliderCenterRect = SliderPaper.rect((securitySliderLeftPosition + securitySliderHandlerYSize), (securitySliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * securitySliderLeftPosition) - securitySliderHandlerYSize), (securitySliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    securitySliderLeftHandler = SliderPaper.rect(securitySliderLeftPosition + ((securitySliderLeftPosition - securitySliderHandlerYSize) + (SliderPaperWidth - (2 * securitySliderLeftPosition) - 5 * securitySliderHandlerYSize)) / 2, (securitySliderYPosition - securitySliderHandlerYSize * 0.1), securitySliderHandlerXSize * 1.1, securitySliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    securitySliderRightHandler = SliderPaper.rect((SliderPaperWidth - securitySliderLeftPosition) + securitySliderHandlerYSize, (securitySliderYPosition - securitySliderHandlerYSize * 0.1), securitySliderHandlerXSize * 1.1, securitySliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var securitySliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var securitySliderLeftPathString = 'M'+ securitySliderLeftPosition +',' + ()
-    //var securitySliderLeftPath = SliderPaper.path(securitySliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    securitySliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    securitySliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((securitySliderRightHandler.attr("x") - securitySliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((securitySliderRightHandler.attr("x") - securitySliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //   securitySliderCenterRect.attr({ x: (this.ox + dx), width: (securitySliderRightHandler.attr("x") - securitySliderCenterRect.attr("x") - securitySliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (securitySliderRightHandler.attr("x") - securitySliderHandlerXSize) });
-                //     securitySliderCenterRect.atrr({ x: (securitySliderRightHandler.attr("x") - securitySliderHandlerXSize), width: (securitySliderRightHandler.attr("x") - securitySliderCenterRect.attr("x") - securitySliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (securitySliderLeftPosition + securitySliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (securitySliderLeftPosition + securitySliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //     securitySliderCenterRect.attr({ x: (this.ox + dx), width: (securitySliderRightHandler.attr("x") - securitySliderCenterRect.attr("x") - securitySliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (securitySliderLeftPosition + securitySliderHandlerXSize)) });
-                securitySliderCenterRect.attr({ x: (this.attr("x") > (securitySliderLeftPosition + securitySliderHandlerXSize)), width: (securitySliderRightHandler.attr("x") - securitySliderCenterRect.attr("x") - securitySliderHandlerXSize / 5) });
-            }
-        //warp
-        if (this.attr("x") < (securitySliderLeftPosition)) {
-            this.attr({ x: (securitySliderLeftPosition) });
-        }
-
-        //   securitySliderCenterRect.attr({ x: (this.attr("x")), width: (securitySliderRightHandler.attr("x") - securitySliderCenterRect.attr("x")) });
-        /*
-        var leftsecurityBlocksecurity = Math.round(((securitySliderLeftHandler.attr("x") - (securitySliderLeftPosition + securitySliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * securitySliderLeftPosition) - securitySliderHandlerYSize)));
-        if (leftsecurityBlocksecurity > 0)
-        leftsecurityBlockText.attr({ text: leftsecurityBlocksecurity + '$' });
-        else
-        leftsecurityBlockText.attr({ text: '0$' });
-        */
-
-    },
-    securitySliderLeftHandlerUp = function () {
-        // restoring state
-        //securitySliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-
-    // rstart and rmove are the resize functions;
-    securitySliderLeftHandler.drag(securitySliderLeftHandlerMove, securitySliderLeftHandlerStart, securitySliderLeftHandlerUp);
-
-    //----------------------===========================-----------
-    //----------------------===========================-----------
-    ///----------------------ninths (sex) Slider -------------------------------------
-
-    var sexSliderYPosition = tenthDevideLinePosition + (SliderPaperHeight * 0.06);
-    var sexSliderHeight = firstBlockRectWidth * 0.15;
-    var sexSliderHandlerXSize = sexSliderHeight + firstBlockRectWidth * 0.02;
-    var sexSliderHandlerYSize = sexSliderHeight + firstBlockRectWidth * 0.02;
-    var sexSliderLeftPosition = (SliderPaperWidth * 0.2);
-    var sexSliderBackRect = SliderPaper.rect((sexSliderLeftPosition - sexSliderHandlerYSize), (sexSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * sexSliderLeftPosition) + 3 * sexSliderHandlerYSize), (sexSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: '#ddd', stroke: "none", 'rx': '20' });
-    var sexSliderLeftBackCircle = SliderPaper.circle((sexSliderLeftPosition - sexSliderHandlerYSize), ((sexSliderYPosition + firstBlockRectWidth * 0.02) + (sexSliderHeight - firstBlockRectWidth * 0.04) / 2), (sexSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-    var sexSliderRightBackCircle = SliderPaper.circle(((sexSliderLeftPosition - sexSliderHandlerYSize) + (SliderPaperWidth - (2 * sexSliderLeftPosition) + 3 * sexSliderHandlerYSize)), ((sexSliderYPosition + firstBlockRectWidth * 0.02) + (sexSliderHeight - firstBlockRectWidth * 0.04) / 2), (sexSliderHeight - firstBlockRectWidth * 0.04) / 2).attr({ fill: '#ddd', stroke: "none" });
-
-    // var sexSliderCenterRect = SliderPaper.rect((sexSliderLeftPosition + sexSliderHandlerYSize), (sexSliderYPosition + firstBlockRectWidth * 0.02), (SliderPaperWidth - (2 * sexSliderLeftPosition) - sexSliderHandlerYSize), (sexSliderHeight - firstBlockRectWidth * 0.04)).attr({ fill: [0, gradLineYellowFirstColor, gradLineYellowSecondColor].join("-"), stroke: "none" });
-
-    sexSliderLeftHandler = SliderPaper.rect(sexSliderLeftPosition + ((sexSliderLeftPosition - sexSliderHandlerYSize) + (SliderPaperWidth - (2 * sexSliderLeftPosition) - 5 * sexSliderHandlerYSize)) / 2, (sexSliderYPosition - sexSliderHandlerYSize * 0.1), sexSliderHandlerXSize * 1.1, sexSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", cursor: "hand", 'stroke-linejoin': "round", rx: "5", ry: "5" }),
-    sexSliderRightHandler = SliderPaper.rect((SliderPaperWidth - sexSliderLeftPosition) + sexSliderHandlerYSize, (sexSliderYPosition - sexSliderHandlerYSize * 0.1), sexSliderHandlerXSize * 1.1, sexSliderHandlerYSize * 1.2).attr({ fill: '#fff', stroke: "#ddd", rx: "5", ry: "5", opacity: 0 });
-    //var sexSliderLeftTopText = SliderPaper.text((SliderPaperWidth * 0.49), secondDevideLinePosition + (SliderPaperHeight * 0.04), "???????????");
-    //var sexSliderLeftPathString = 'M'+ sexSliderLeftPosition +',' + ()
-    //var sexSliderLeftPath = SliderPaper.path(sexSliderLeftPath);
-
-    //j = SliderPaper.rect(0, 0, 100, 100),
-    // start, move, and up are the drag functions
-    sexSliderLeftHandlerStart = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        //  this.attr({ opacity: 1 });
-    },
-    sexSliderLeftHandlerMove = function (dx, dy) {
-        // move will be called with dx and dy
-        if ((dx > 0) && (this.attr("x") < ((sexSliderRightHandler.attr("x") - sexSliderHandlerXSize)))) {
-            if ((this.ox + dx) < ((sexSliderRightHandler.attr("x") - sexSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //   sexSliderCenterRect.attr({ x: (this.ox + dx), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x") - sexSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (sexSliderRightHandler.attr("x") - sexSliderHandlerXSize) });
-                //     sexSliderCenterRect.atrr({ x: (sexSliderRightHandler.attr("x") - sexSliderHandlerXSize), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x") - sexSliderHandlerXSize / 5) });
-            }
-        }
-        if ((dx < 0) && (this.attr("x") > (sexSliderLeftPosition + sexSliderHandlerXSize)))
-            if ((this.ox + dx) > (this.attr("x") > (sexSliderLeftPosition + sexSliderHandlerXSize))) {
-                this.attr({ x: this.ox + dx });
-                //     sexSliderCenterRect.attr({ x: (this.ox + dx), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x") - sexSliderHandlerXSize / 5) });
-            }
-            else {
-                this.attr({ x: (this.attr("x") > (sexSliderLeftPosition + sexSliderHandlerXSize)) });
-                sexSliderCenterRect.attr({ x: (this.attr("x") > (sexSliderLeftPosition + sexSliderHandlerXSize)), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x") - sexSliderHandlerXSize / 5) });
-            }
-        //warp
-        if (this.attr("x") < (sexSliderLeftPosition)) {
-            this.attr({ x: (sexSliderLeftPosition) });
-        }
-        if (dx > 0){
-        	$.getJSON("/project/testjson/"+this.attr("x")+"x"+dx+"x"+this.ox,
-                function(data) {
-                    // do something with the data
-                    alert(data.name);
-              });
-    	}
-        //   sexSliderCenterRect.attr({ x: (this.attr("x")), width: (sexSliderRightHandler.attr("x") - sexSliderCenterRect.attr("x")) });
-        /*
-        var leftsexBlocksex = Math.round(((sexSliderLeftHandler.attr("x") - (sexSliderLeftPosition + sexSliderHandlerYSize)) * 30) / ((SliderPaperWidth - (2 * sexSliderLeftPosition) - sexSliderHandlerYSize)));
-        if (leftsexBlocksex > 0)
-        leftsexBlockText.attr({ text: leftsexBlocksex + '$' });
-        else
-        leftsexBlockText.attr({ text: '0$' });
-        */
-
-    },
-    sexSliderLeftHandlerUp = function () {
-        // restoring state
-        //sexSliderCenterRect.attr({ fill: '#999' });
-        // this.attr({ opacity: .5 });
-    };
-    //----------------------------------------------
-
-    // rstart and rmove are the resize functions;
-    sexSliderLeftHandler.drag(sexSliderLeftHandlerMove, sexSliderLeftHandlerStart, sexSliderLeftHandlerUp);
-
+            	return(value + this.sliderUnitsOfMeasure);
+        };
+        //text
+        this.blockText = SliderPaper.text(
+        		(SliderPaperWidth * 0.53),
+        		this.sliderYPosition - (SliderPaperHeight * 0.04),
+        		this.name
+        		).attr({ 'font-size': bottomFont, fill: gradLineVioletFirstColor });
+        if(this.sliderRightHandlerExist)
+        this.leftBlockText = SliderPaper.text(
+        		(SliderPaperWidth * 0.2),
+        		this.sliderYPosition - (SliderPaperHeight * 0.02),
+        		this.valueAsString(this.sliderLeftLimit)
+        	).attr({ 'font-size': bottomFont, fill: '#bbb' });
+        if(this.sliderRightHandlerExist)
+        this.rightBlockText = SliderPaper.text(
+        		(SliderPaperWidth * 0.81),
+        		this.sliderYPosition - (SliderPaperHeight * 0.02),
+        		this.valueAsString(this.sliderRightLimit)
+        	).attr({ 'font-size': bottomFont, fill: '#bbb' });
+    }
+    
+    temperatureSlider = new SliderInt(
+    		secondDevideLinePosition + (SliderPaperHeight * 0.06),true,
+    		-35,35,
+    		"C",true,
+    		"Температура"
+    	);
+    timeSlider = new SliderInt(
+    		thirdDevideLinePosition + (SliderPaperHeight * 0.065),true,
+    		0,24,
+    		"Ч",false,
+    		"Время перелета"
+    	);
+    livingSlider = new SliderInt(
+    		forthDevideLinePosition + (SliderPaperHeight * 0.06),true,
+    		0,3000,
+    		"$",false,
+    		"Проживание"
+    	);
+    foodSlider = new SliderInt(
+    		fifthDevideLinePosition + (SliderPaperHeight * 0.06),true,
+    		0,300,
+    		"$",false,
+    		"Еда"
+    	);
+    alcoholSlider = new SliderInt(
+    		sixthDevideLinePosition + (SliderPaperHeight * 0.06),true,
+    		0,30,
+    		"$",false,
+    		"Алкоголь"
+    	);
+    moodSlider = new SliderInt(
+    			seventhDevideLinePosition + (SliderPaperHeight * 0.06),false,
+        		0,10,
+        		"HZ",false,
+        		"Настроение"
+        	);
+    moodSlider = new SliderInt(
+    		eightsDevideLinePosition + (SliderPaperHeight * 0.06),false,
+    		0,10,
+    		"HZ",false,
+    		"Количество туристов"
+    	);
+    moodSlider = new SliderInt(
+    		ninthDevideLinePosition + (SliderPaperHeight * 0.06),false,
+    		0,10,
+    		"HZ",false,
+    		"Безопасность"
+    	);
+    moodSlider = new SliderInt(
+    		tenthDevideLinePosition + (SliderPaperHeight * 0.06),false,
+    		0,10,
+    		"HZ",false,
+    		"Секс"
+    	);
+   
     //----------------------===========================-----------
     //----------------------===========================-----------
     //----------------------===========================-----------
