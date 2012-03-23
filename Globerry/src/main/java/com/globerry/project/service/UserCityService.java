@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CityRequest;
+import com.globerry.project.dao.PropertyTypeDao;
 import com.globerry.project.dao.Range;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Month;
@@ -22,6 +23,10 @@ public class UserCityService implements IUserCityService
 {
     @Autowired
     CityDao cityDao;
+    
+    @Autowired
+    private PropertyTypeDao propertyTypeDao;
+    
     private Range currentRange;
     private List<Property> currentProperties = new ArrayList<Property>();
     private List<Tag> currentWhoTags = new ArrayList<Tag>();
@@ -72,6 +77,10 @@ public class UserCityService implements IUserCityService
 	    }
 	}
 	
+    }
+    public int getPropertyDaoHash()
+    {
+	return this.propertyTypeDao.hashCode();
     }
 
 }

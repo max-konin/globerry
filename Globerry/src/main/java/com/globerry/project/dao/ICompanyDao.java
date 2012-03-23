@@ -45,5 +45,7 @@ public interface ICompanyDao
      * @return Получает список туров компании
      */
     public Set<Tour> getCompanyTourList(Company company);
+    
+    public Company getCompanyByLogin(String login);
 
 }

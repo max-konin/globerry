@@ -24,7 +24,6 @@ import com.globerry.project.domain.Company;
 import com.globerry.project.domain.DependingMonthProperty;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Tour;
-
 /**
  * @author Artem
  *

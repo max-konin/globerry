@@ -69,5 +69,9 @@ public class PropertyTypeService implements IPropertyTypeService
 	// TODO Auto-generated method stub
 
     }
+    public int getPropertyDaoHash()
+    {
+	return this.propertyTypeDao.hashCode();
+    }
 
 }

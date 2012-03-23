@@ -1,6 +1,7 @@
 package com.globerry.project.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
@@ -19,13 +20,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
 @Repository
 public class CompanyDao implements ICompanyDao {
 
 
-    	@Autowired
+    	private static final Integer ROLE_USER = 2;
+    	private static final Integer ROLE_ADMIN = 1;
+	@Autowired
     	private SessionFactory sessionFactory;
 	
 	@Override
@@ -140,6 +143,41 @@ public class CompanyDao implements ICompanyDao {
 		existingCompany.setTourList(newCompany.getTourList());
 		session.update(existingCompany);
 		tx.commit();
+	}
+	public Company getCompanyByLogin(String login)
+	{
+	    List<Company> companyList = this.TestDB();
+	    Company company = null;
+	    for(Company companyBuff:companyList) 
+	    {
+		if(companyBuff.getLogin().equals(login))
+		{
+		    company = companyBuff; 
+		    break;
+		}
+	    }
+	    return company;
+	}
+	public List<Company> TestDB()
+	{
+	    List<Company> companyList = new ArrayList<Company>();
+	    Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+	    
+	    Company company1 = new Company();
+	    company1.setLogin("User");
+	    company1.setAccess(ROLE_USER);
+	    company1.setPassword(md5.encodePassword("User", null));
+	    
+	    Company company2 = new Company();
+	    company2.setLogin("Admin");
+	    company2.setAccess(ROLE_ADMIN);
+	    
+	    company2.setPassword(md5.encodePassword("Admin", null));
+//	    user.setPassword("21232f297a57a5a743894a0e4a801fc3");
+	   
+	    companyList.add(company1);
+	    companyList.add(company2);
+	    return companyList;
 	}
 
 }

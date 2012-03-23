@@ -50,6 +50,8 @@ public class DependingMonthPropertyTest
 	dependingMonthProperty.setValue(value);
 	PropertyType propertyType = new PropertyType();
 	propertyType.setName(optionsTypeName);
+	propertyType.setMaxValue(123);
+	propertyType.setMinValue(123);
 	
 	dependingMonthProperty.setPropertysType(propertyType);
 	//add entity

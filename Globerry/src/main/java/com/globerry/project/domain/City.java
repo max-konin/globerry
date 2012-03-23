@@ -188,7 +188,9 @@ public class City implements Serializable
     {
 	if(this.getId() == city.getId() &&
 		this.getName().equals(city.getName()) &&
-		this.getRu_name().equals(city.getRu_name()))
+		this.getRu_name().equals(city.getRu_name())&&
+		this.getLatitude()==city.getLatitude()&&
+		this.getLongitude()==city.getLongitude())
 	    return true;
 	else return false;
     }

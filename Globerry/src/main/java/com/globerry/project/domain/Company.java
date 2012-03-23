@@ -45,9 +45,20 @@ public class Company
                name="CompanyTour",
                joinColumns = @JoinColumn( name="company_id"),
                inverseJoinColumns = @JoinColumn( name="tour_id")
-       )
+	    	)
     private Set<Tour> tourList = new HashSet<Tour>();
-   
+
+    private Integer access;
+
+    public Integer getAccess()
+    {
+	return access;
+    }
+
+    public void setAccess(Integer access)
+    {
+	this.access = access;
+    }
     public int getId()
     {
 	return id;
