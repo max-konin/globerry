@@ -39,4 +39,5 @@ public interface ICityDao
      */
     void updateCity(City city);
     public City getCityById(int id);
+    public List<City> getCityList();
 }

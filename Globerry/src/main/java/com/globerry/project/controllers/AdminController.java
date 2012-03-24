@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,8 +48,10 @@ public class AdminController
 {
     @Autowired
     private AdminParser adminParser;
-    //@Autowired
-    //private Depending
+    @Autowired
+    private CityDao cityDao;
+
+    private List<String> excList = new ArrayList<String>();
     
     public String getProjectRoot() {
 	URL u = this.getClass().getProtectionDomain().getCodeSource()
@@ -59,7 +63,6 @@ public class AdminController
 	    return f.getParent();
 	} catch (URISyntaxException e)
 	{
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	return null;
@@ -89,7 +92,7 @@ public class AdminController
       {
 	filePath = getProjectRoot() + "/../../../../../../resources/upload/" + uploadItem.getFileData().getOriginalFilename();
 	uploadItem.getFileData().transferTo(new File(filePath)); 
-	List<String> excList = new ArrayList<String>();
+	
 	try
 	{
 	    Excel exc = new Excel(filePath);
@@ -98,11 +101,20 @@ public class AdminController
 	} catch (MySqlException e)
 	{
 	   excList.add(e.getDescription());
+	   System.out.println(e.getDescription());
 	} catch (ExcelParserException e)
 	{
 	    excList.add(e.getDescription());
+	    System.out.println(e.getDescription());
 	}
-	if(excList.size() == 0) return "admin/errorForm";
+	if(excList.size() != 0)
+	{
+	    for(int i = 0; i < excList.size(); i++)
+	    {
+		System.err.println(excList.get(i));
+	    }
+	    return "admin/errorForm";   
+	}
       }
       catch (IllegalStateException e)
       {
@@ -115,6 +127,12 @@ public class AdminController
       }
       
       return "redirect:/";
+    }
+    @RequestMapping("/wikiparse")
+    public String wikiParseBtn()
+    {
+	adminParser.updateWikiContent();
+	return "redirect:/admin/upload";
     }
     
  

@@ -156,7 +156,7 @@ public class CityDao implements ICityDao
     {
 	   Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	   
-/*	   City excistingCity = (City) sessionFactory.getCurrentSession().get(City.class, city.getId());
+	  /* City excistingCity = (City) sessionFactory.getCurrentSession().get(City.class, city.getId());
 	   excistingCity.setDmpList(city.getDmpList());
 	   excistingCity.setName(city.getName());
 	   excistingCity.setPropertyList(city.getPropertyList());
@@ -178,6 +178,19 @@ public class CityDao implements ICityDao
 	tx.commit();
 	sessionFactory.close();
 	return city;
+    }
+
+    @Override
+    public List<City> getCityList()
+    {
+	List<City> cityList;
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	cityList =  sessionFactory.getCurrentSession().createQuery("from City")
+	            .list();
+	tx.commit();
+	sessionFactory.close();
+	return cityList;
+	
     }
 
 }

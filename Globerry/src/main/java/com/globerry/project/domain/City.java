@@ -39,9 +39,17 @@ public class City implements Serializable
     @Column(name = "ru_name")
     private String ru_name;
     @Column
-    private float longitude;
+    private float area;
     @Column
-    private float latitude;
+    private int population;
+    @Column
+    private String longitude;
+    @Column
+    private String latitude;
+    @Column 
+    private boolean isValid;
+    @Column
+    private String message;
     @OneToOne(
 	    fetch = FetchType.LAZY,
 	    cascade = CascadeType.ALL
@@ -168,30 +176,65 @@ public class City implements Serializable
     {
 	this.propertyList = propertyList;
     }
-    public float getLongitude()
+    public String getLongitude()
     {
 	return longitude;
     }
-    public void setLongitude(float longitude)
+    public void setLongitude(String longitude)
     {
 	this.longitude = longitude;
     }
-    public float getLatitude()
+    public String getLatitude()
     {
 	return latitude;
     }
-    public void setLatitude(float latitude)
+    public void setLatitude(String latitude)
     {
 	this.latitude = latitude;
+    }
+    public int getPopulation()
+    {
+	return population;
+    }
+    public void setPopulation(int population)
+    {
+	this.population = population;
+    }
+    public float getArea()
+    {
+	return area;
+    }
+    public void setArea(float area)
+    {
+	this.area = area;
+    }
+    public boolean isValid()
+    {
+	return isValid;
+    }
+    public void setValid(boolean isValid)
+    {
+	this.isValid = isValid;
+    }
+    public String getMessage()
+    {
+	return message;
+    }
+    public void setMessage(String message)
+    {
+	this.message = message;
     }
     public boolean equals(City city)
     {
 	if(this.getId() == city.getId() &&
 		this.getName().equals(city.getName()) &&
-		this.getRu_name().equals(city.getRu_name())&&
-		this.getLatitude()==city.getLatitude()&&
-		this.getLongitude()==city.getLongitude())
+		this.getRu_name().equals(city.getRu_name()) &&
+		this.getArea() == city.getArea() &&
+		this.getPopulation() == city.getPopulation() &&
+		this.getLatitude().equals(city.getLatitude()) &&
+		this.getLongitude().equals(city.getLongitude()))
 	    return true;
 	else return false;
     }
+
 }

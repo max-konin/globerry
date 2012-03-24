@@ -14,4 +14,5 @@ import com.globerry.project.MySqlException;
 public interface IAdminParser
 {
     public void updateCities(Excel excel) throws MySqlException, ExcelParserException;
+    public void updateWikiContent();
 }

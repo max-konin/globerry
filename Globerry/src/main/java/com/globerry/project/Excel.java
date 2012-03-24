@@ -68,7 +68,7 @@ public Excel(String fileName)
  * @return				float значение таблицы
  * 						Если какая то ошибка - то -1;
  */
-public double getFloatField(int sheetNumber, int rowNumber, int cellNumber)
+public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException
 {
 	try {
 		
@@ -77,13 +77,10 @@ public double getFloatField(int sheetNumber, int rowNumber, int cellNumber)
 		Cell currentCell = currentRow.getCell(cellNumber);
 		return currentCell.getNumericCellValue();
 
-	    
 		}
-		catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		return -1;
-	}
+		catch (NullPointerException e) {
+		    return -1;
+		}
 
 	//return -1;
 }
@@ -95,7 +92,7 @@ public double getFloatField(int sheetNumber, int rowNumber, int cellNumber)
  * @return					string значение таблицы
  * 							если ошибка то null;
  */
-public String getStringField(int sheetNumber, int rowNumber, int cellNumber)
+public String getStringField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException
 {
 	try {
 		org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
@@ -105,11 +102,9 @@ public String getStringField(int sheetNumber, int rowNumber, int cellNumber)
 
 	    
 		}
-		catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		return null;
-	}
+		catch (NullPointerException e) {
+		    return null;
+		}
 
 }
 /**

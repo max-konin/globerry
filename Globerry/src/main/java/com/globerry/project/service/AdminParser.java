@@ -4,8 +4,12 @@
 package com.globerry.project.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.hibernate.NonUniqueObjectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +46,8 @@ public class AdminParser implements IAdminParser
     private TagDao tagDao;
     
     private Excel exc;
+    
+    protected static Logger logger = Logger.getLogger("service");
     /* (non-Javadoc)
      * @see com.globerry.project.service.IAdminParser#updateCities()
      */
@@ -53,6 +59,58 @@ public class AdminParser implements IAdminParser
 	cityParse();
 	eventParse();
 	tagParse();
+    }
+    /**
+     * Обновляет ВСЕ города в таблице. Обновляются area, lattitude, longitude, population 
+     * и два вспомогательных - isValid и message
+     */
+    @Override
+    public void updateWikiContent()
+    {
+	PropertyType tempPropType = new PropertyType();
+	try
+	{
+	    tempPropType.setName("Temperature");
+	    tempPropType.setDependingMonth(true);
+	    propertyTypeDao.addPropertyType(tempPropType);
+	}
+	catch(Exception e)
+	{
+	    e.printStackTrace();
+	    Set <PropertyType> listPT = propertyTypeDao.getPropertyTypeList();
+	    Iterator<PropertyType> it = listPT.iterator();
+	    while(it.hasNext())
+	    {
+		PropertyType pt = it.next();
+		if(pt.getName().equals("Temperature")) tempPropType = pt;
+	    }
+	}
+
+	List<City> cityList = new ArrayList<City>();
+	cityList = cityDao.getCityList();
+	Iterator<City> it = cityList.iterator();
+	while(it.hasNext())
+	{
+	    City city = it.next();
+	    com.globerry.htmlparser.City cityWiki = new com.globerry.htmlparser.City(city.getName());
+	    city.setLatitude(cityWiki.getLatitude());
+	    city.setLongitude(cityWiki.getLongitude());
+	    city.setPopulation(cityWiki.getPopulation());
+	    city.setArea(cityWiki.getArea());
+	    city.setMessage(cityWiki.getMessage());
+	    city.setValid(cityWiki.getIsValid());
+	    float[] temperature = cityWiki.getTemperature();
+	    for(int i = 0; i < 12; i++)
+	    {
+		DependingMonthProperty dmpProp = new DependingMonthProperty();
+		dmpProp.setMonth(i);
+		dmpProp.setValue(temperature[i]);
+		dmpProp.setPropertysType(tempPropType);
+		city.getDmpList().add(dmpProp);
+	    }
+	    cityDao.updateCity(city);  
+	}
+	
     }
     /**
      * Функция которая парсит первую страницу 
@@ -189,6 +247,27 @@ public class AdminParser implements IAdminParser
 		
 	 }
     }
+   /* public void wikiParse()
+    {
+	List<City> cityList = new ArrayList<City>();
+	PropertyType tempPropType = new PropertyType();
+	tempPropType.setName("Temperature");
+	cityList = cityDao.getCityList();
+	Iterator<City> it = cityList.iterator();
+	while(it.hasNext())
+	{
+	    City city = it.next();
+	    com.globerry.htmlparser.City cityFromWiki = new com.globerry.htmlparser.City(city.getName());
+	    city.setArea(cityFromWiki.getArea());
+	    city.setPopulation(cityFromWiki.getPopulation());
+	    city.setLatitude(cityFromWiki.getLatitude());
+	    city.setLongitude(cityFromWiki.getLongitude());
+	    city.setValid(cityFromWiki.getIsValid());
+	    city.setMessage(cityFromWiki.getMessage());
+	    logger.error("City Valid:" + cityFromWiki.getIsValid());
+	    System.err.println("City Valid:" + cityFromWiki.getIsValid());
+	}
+    }*/
     /**
      * Функция парсит event
      * @throws ExcelParserException в случае провала валидации
@@ -272,11 +351,19 @@ public class AdminParser implements IAdminParser
 		    {
 		        ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
 		    	    			+ exc.getSheetName(sheetNumber) + 
-		    	    			"line 0" +
-		    	    			"column" + i, i);
+		    	    			"; line 0;" +
+		    	    			"column " + i, i);
 		        throw excParseExc;
 		        
 		    }
+        	    catch(NonUniqueObjectException e)
+        	    {
+		        ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet(NonUnique): " 
+    	    			+ exc.getSheetName(sheetNumber) + 
+    	    			"; line 0" +
+    	    			"; column " + i, i);
+		        throw excParseExc;
+        	    }
 
         		i++;
         	}
@@ -286,6 +373,7 @@ public class AdminParser implements IAdminParser
 	    throw e;
 	}
     }
+    
     
     /**
      * Функция осуцествляет поиск по таблице event_id city_id в документе
@@ -335,6 +423,7 @@ public class AdminParser implements IAdminParser
         }
         return tagsArr;
     }
+
 
 
 }
