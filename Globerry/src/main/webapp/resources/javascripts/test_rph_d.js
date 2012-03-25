@@ -852,7 +852,11 @@ window.onload = function () {
 	            function(data) {
 	                // do something with the data
 	                alert(data[0].name);
+	                return data;
 	          });
+	    };
+	    this.rangeChange = function(input){
+	    	
 	    };
 	};
     
