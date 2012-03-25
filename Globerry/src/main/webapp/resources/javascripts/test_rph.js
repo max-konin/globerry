@@ -41,8 +41,8 @@ function mapAndCurves() {
     var arrln2 = 5;
     var littleBlockWidth = blockWidth / arrln2;
     var littleBlockHeight = blockHeight / arrln2;
-
-
+	
+	var JSONContr = new JsonController();
 
 
     for (i = 0; i < arrln + 1; i++) {
@@ -184,7 +184,8 @@ function mapAndCurves() {
 			  });
 			bounds = map.getExtent();
 			//alert(bounds);
-			redraw(circles, size);
+			circles = JSONContr.cityRequest(1);
+			redraw(circles, 1);
 			this.attr({ opacity: 0, cursor: "auto"  });
 		};
 		// rstart and rmove are the resize functions;
