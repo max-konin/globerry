@@ -2,11 +2,11 @@
 <%@ page session="false" %>
 <HTML>
 <HEAD>
-<META NAME="GENERATOR" Content="Microsoft Visual Studio 8.0">
 <TITLE>Globerry 0.0.2</TITLE>
 
 <script type="text/javascript" src="resources/javascripts/raphael.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquerry.js"></script>
+<script type="text/javascript" src="resources/javascripts/test_rph.js"></script>
 <script type="text/javascript" src="resources/javascripts/test_rph_d.js"></script>
 <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
 
@@ -118,8 +118,33 @@
 	   	height : 58%; 
 	   	position : absolute;
 	   	background-color:#eee;
+		z-index : 0;
 	   	/*background-color:#333;*/
 	   	}
+		#moveMapAndCurves   
+       {
+	   	    top: 7%;
+	   	    left:30%;
+	   	    width:70%;
+	   	    height : 58%; 
+	        position:absolute;
+	        /*background-color:White;*/
+	        border-color:#333;
+	        float: left;
+	        z-index : 1;         
+	   }
+       #canvas_container   
+       {
+	   	    top: 7%;
+	   	    left:30%;
+	   	    width:70%;
+	   	    height : 58%; 
+	        position:absolute;
+	        /*background-color:White;*/
+	        border-color:#333;
+	        float: left;
+	        z-index : 1;         
+	   }
 </style> 
 
 <style>
@@ -145,6 +170,8 @@
 <div id='div1'></div>
 </div>
 <div id='map'></div>
+<div id='canvas_container'></div>
+<div id="moveMapAndCurves"></div>
 <div id='line'></div>
 <div id ='month'></div>
 <div id='bottom_switcher'></div>
