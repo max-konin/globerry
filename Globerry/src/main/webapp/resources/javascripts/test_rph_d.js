@@ -381,11 +381,15 @@ window.onload = function () {
     //  firstBlockTextYPosition = (firstDevideLinePosition - (SliderPaperHeight * 0.034));
     firstBlockTextYPosition = (SliderPaperHeight * 0.04) + firstBlockRectWidth + (SliderPaperHeight * 0.01);
 
+
+    jsonController = new JsonController();
+    
     function ButtonTag(textXPosition,textYPosition,name,
     		buttonXPosition,buttonYPosition,
     		buttonXSize,buttonYSize,
-    		image){
+    		image,setTagName){
     	buttonBlock = this;
+    	this.tagName = setTagName;
     	    	
     	this.rectText = SliderPaper.text(textXPosition,textYPosition,name);
     	this.rectText.attr({ 'font-size': (bottomFont * 3) / 4, fill: gradLineVioletFirstColor });
@@ -438,6 +442,7 @@ window.onload = function () {
     				this.buttons[button].unPressed();
     			};
     		};
+    		jsonController.buttonClick(pressedButton);
     	};
     };
     
@@ -445,27 +450,27 @@ window.onload = function () {
     	(firstBlockRectOffset + firstBlockRectWidth * 0.5),firstBlockTextYPosition,"Один",
     	(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 0),(SliderPaperHeight * 0.04),
     	firstBlockRectWidth,firstBlockRectWidth,
-    	"resources/img/self.png"
+    	"resources/img/self.png",0
     	);
     var coupleButton = new ButtonTag(
     		(firstBlockRectOffset + firstBlockBetweenRectWidth + (firstBlockRectWidth) * 1.5),firstBlockTextYPosition,"Вдвоем",
     		(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 1),(SliderPaperHeight * 0.04),
         	firstBlockRectWidth,firstBlockRectWidth,
-        	"resources/img/self.png"
+        	"resources/img/self.png",1
         	);
     var familyButton = new ButtonTag(
     		(firstBlockRectOffset + firstBlockBetweenRectWidth * 2 + (firstBlockRectWidth) * 2.5),firstBlockTextYPosition,"Семья",
     		(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 2),(SliderPaperHeight * 0.04),
 	    	firstBlockRectWidth,firstBlockRectWidth,
-	    	"resources/img/self.png"
+	    	"resources/img/self.png",2
 	    	);
     var friendsButton = new ButtonTag(
     		(firstBlockRectOffset + firstBlockBetweenRectWidth * 3 + (firstBlockRectWidth) * 3.5),firstBlockTextYPosition,"Друзья",
     		(firstBlockRectOffset + (firstBlockRectWidth + firstBlockBetweenRectWidth) * 3),(SliderPaperHeight * 0.04),
         	firstBlockRectWidth,firstBlockRectWidth,
-        	"resources/img/self.png"
+        	"resources/img/self.png",3
         	);
-    
+
     var firstButtonsBlock = new ButtonBlock();
     firstButtonsBlock.add(selfButton);
     firstButtonsBlock.add(coupleButton);
@@ -489,31 +494,31 @@ window.onload = function () {
     		(secondBlockRectOffset + secondBlockBetweenRectWidth * 0 + (secondBlockRectWidth) * 0 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Загарать",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 0),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"resources/img/tan.png"
+        	"resources/img/tan.png",4
         	);
     var skiButton = new ButtonTag(
     		(secondBlockRectOffset + secondBlockBetweenRectWidth * 1 + (secondBlockRectWidth) * 1 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Кататься",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 1),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"resources/img/ski.png"
+        	"resources/img/ski.png",5
         	);
     var watchButton = new ButtonTag(
     		(secondBlockRectOffset + secondBlockBetweenRectWidth * 2 + (secondBlockRectWidth) * 2 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Смотреть",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 2),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"resources/img/watch.png"
+        	"resources/img/watch.png",6
         	);
     var shoppingButton = new ButtonTag(
     		(secondBlockRectOffset + secondBlockBetweenRectWidth * 3 + (secondBlockRectWidth) * 3 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Шоппинг",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 3),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"resources/img/shopping.png"
+        	"resources/img/shopping.png",7
         	);
     var cruiseButton = new ButtonTag(
     		(secondBlockRectOffset + secondBlockBetweenRectWidth * 4 + (secondBlockRectWidth) * 4 + secondBlockRectWidth * 0.5),secondBlockTextYPosition,"Круиз",
     		(secondBlockRectOffset + (secondBlockRectWidth + secondBlockBetweenRectWidth) * 4),(SliderPaperHeight * 0.04 + firstDevideLinePosition),
     		secondBlockRectWidth,secondBlockRectWidth,
-        	"resources/img/cruise.png"
+        	"resources/img/cruise.png",8
         	);
     
     var secondButtonsBlock = new ButtonBlock();
@@ -686,6 +691,7 @@ window.onload = function () {
             this.parent.leftBlockText.attr({ text: this.parent.valueAsString(this.parent.leftBlockValue)});
         },
         this.sliderLeftHandlerUp = function () {
+        	jsonController.sliderChange(this.parent);
         };
     	
         this.sliderRightHandlerStart = function () {
@@ -725,6 +731,7 @@ window.onload = function () {
             this.parent.rightBlockText.attr({ text: this.parent.valueAsString(this.parent.rightBlockValue)});
         },
         this.sliderRightHandlerUp = function () {
+        	jsonController.sliderChange(this.parent);
         };
      // rstart and rmove are the resize functions;
         this.sliderLeftHandler.drag(
@@ -817,7 +824,38 @@ window.onload = function () {
     		"HZ",false,
     		"Секс"
     	);
-   
+    //=========================JSON Controller===========================
+    function JsonController(){
+	    this.buttonClick = function(button){
+	    	function objFactory(){
+	    		  return {
+	    		    constructor : objFactory
+	    		  };
+	    		};
+	    	$.post("/project/selecttag", 
+	    		{
+	    		id : 1
+	    		}
+	    	  ,
+	    	  jsonController.cityRequest(button),
+	    	  "json");
+	    	
+	    	
+	    	//jsonController.cityRequest(button);
+	    };
+	    this.sliderChange = function(slider){
+	    	jsonController.cityRequest(slider);
+	    };
+	    this.cityRequest = function(input){
+	
+	    	$.getJSON("/project/getcities",
+	            function(data) {
+	                // do something with the data
+	                alert(data[0].name);
+	          });
+	    };
+	};
+    
     //----------------------===========================-----------
     //----------------------===========================-----------
     //----------------------===========================-----------

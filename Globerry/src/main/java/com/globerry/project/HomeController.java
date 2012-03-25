@@ -2,17 +2,32 @@ package com.globerry.project;
 
 
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.globerry.project.dao.CityRequest;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.Hotel;
+import com.globerry.project.domain.Tag;
+
+import flexjson.JSONDeserializer;
 
  
 /**
@@ -31,11 +46,24 @@ public class HomeController {
         
     }
     //TODO delete this 
-    @RequestMapping(value="/testjson/{sexLevel}", method= RequestMethod.GET)
-    public @ResponseBody City test(@PathVariable String sexLevel) {
+    @RequestMapping(value="/getcities", method= RequestMethod.GET)
+    public @ResponseBody City[] test() {
+	City[] cities = null;
         City city = new City();
-        city.setName("New Orlean "+sexLevel);
-        return city;
+        city.setName("New Orlean ");
+        List<City> cityList = new ArrayList<City>();
+        cityList.add(city);
+        cities = new City[1];//cityList.toArray(cities);
+        cities[0] = city;
+        return cities;
+    }
+    //TODO delete this 
+    @RequestMapping(value="/selecttag", method= RequestMethod.POST)
+    public void testPost(Tag tag) {
+	
+	
+	System.out.println(tag.getId());
+        
     }
 }
 
