@@ -1319,7 +1319,8 @@ window.onload = function () {
         //MonthPaperHeight = oldMonthPaperHeight
 
     });
-    //  alert("sucsessfull build");
+    //  alert("sucsessfull build");s
+	mapAndCurves();
 }
 
 /**/
