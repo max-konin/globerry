@@ -27,8 +27,6 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.Hotel;
 import com.globerry.project.domain.Tag;
 
-import flexjson.JSONDeserializer;
-
  
 /**
  * Handles requests for the application home page.
