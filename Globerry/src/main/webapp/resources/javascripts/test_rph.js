@@ -1,4 +1,4 @@
-window.onload = function () {
+function mapAndCurves() {
     var Canvas_container = document.getElementById('canvas_container');
     var My_Button1 = document.getElementById('Button_1');
     //var Map = document.getElementById('map');
@@ -17,7 +17,7 @@ window.onload = function () {
     var triangle;
     var ln;
     var startx, starty;
-    var arrln = 33, i, j;
+    var arrln = 40, i, j;
     var myArray = new Array();
     var Width = $(document.getElementById("canvas_container")).width();
     var Height = $(document.getElementById("canvas_container")).height();
@@ -53,19 +53,12 @@ window.onload = function () {
     }
     //------------------------------------------------------------
     Canvas_container.onclick = function (e) {
-        //if (startMove) {
-        //   Map.onclick(e);
-        //}
-        //else {
         e = e || window.event;
 
         if (!startDraw) {
             startDraw = true;
-            startx = e.clientX - $(document.getElementById("canvas_container")).width() * 0.3 / 0.7; //Õ≈ «¿¡”ƒ‹ ”¡–¿“‹ Ã¿√»◊≈— »≈  ŒÕ—“¿Õ“€!
-            starty = e.clientY - $(document.getElementById("canvas_container")).height() * 0.07/0.58;
-            //alert($(document.getElementById("canvas_container")).height() * 0.07 / 0.51 + starty - e.clientY);
-            //alert(e.clientY);
-            //alert(starty);
+            startx = e.clientX - $(document.getElementById("div_container")).width() * 0.3; 
+            starty = e.clientY - $(document.getElementById("div_container")).height() * 0.07;
             circle = paper.circle(startx, starty, 0);
             circle.attr({ fill: circleColor, opacity: vopacity, stroke: 'none' });
         }
@@ -91,15 +84,135 @@ window.onload = function () {
                 }
 
                 if (startDraw) {    //» “”“ “Œ∆≈!
-                    ln = Math.sqrt((e.clientX - startx - $(document.getElementById("canvas_container")).width() * 0.3 / 0.7) * (e.clientX - startx - $(document.getElementById("canvas_container")).width() * 0.3 / 0.7) + (e.clientY - starty - $(document.getElementById("canvas_container")).height() * 0.07 / 0.58) * (e.clientY - starty - $(document.getElementById("canvas_container")).height() * 0.07 / 0.58));
+                    ln = Math.sqrt((e.clientX - startx - $(document.getElementById("div_container")).width() * 0.3 ) * (e.clientX - startx - $(document.getElementById("div_container")).width() * 0.3) + (e.clientY - starty - $(document.getElementById("div_container")).height() * 0.07) * (e.clientY - starty - $(document.getElementById("div_container")).height() * 0.07));
                     circle.animate({ r: ln }, 10);
                 }
             }
         }
         //------------------------------------------------------------
+		/*
         document.getElementById('Button_1').onclick = function () {
             if (!startMove) {
-                circle_counter;
+			redraw (circles, size);
+            } //move
+			
+        }
+		*/
+        //------------------------------------------------------------
+		/*
+        document.getElementById('level_list').onchange = function () {
+            begLevel = document.getElementById('level_list').value;
+            level = begLevel * Math.pow(0.9, size);
+        }
+		*/
+        //------------------------------------------------------------
+        document.getElementById('moveOrDraw').onchange = function () {
+            if (0 == document.getElementById('moveOrDraw').value) {
+                startMove = false;
+                document.getElementById('canvas_container').style.zIndex = "2";
+                document.getElementById('moveMapAndCurves').style.zIndex = "1";
+            } //if
+            else {
+                startMove = true;
+                document.getElementById('canvas_container').style.zIndex = "1";
+                document.getElementById('moveMapAndCurves').style.zIndex = "2";
+            } //else
+        }
+
+    } //draw
+
+   function novigate(){
+		var deltaX, delataY;
+		var Width = $(document.getElementById("moveMapAndCurves")).width();
+		var Height = $(document.getElementById("moveMapAndCurves")).height();
+		//alert("test_rph_e.js");
+		bounds = new OpenLayers.Bounds(0, 0, 360, 180);
+		//alert(bounds);
+		map = new OpenLayers.Map('map', { numZoomLevels: 6 });
+		layer = new OpenLayers.Layer.WMS("OpenLayers WMS",
+					"http://vmap0.tiles.osgeo.org/wms/vmap0", { layers: 'basic' });
+		map.addLayer(layer);
+		map.zoomIn();
+		map.zoomIn();
+		map.zoomIn();
+		var lon = 0;
+		var lat = 0;
+		var lonlat = new OpenLayers.LonLat(lon, lat);
+		map.zoomIn();
+		bounds = map.getExtent();
+		//alert(bounds);
+		//alert(bounds.right);
+		//alert(bounds.left);
+		//alert(bounds.bottom);
+		//alert(bounds.top);
+		//alert( map.getPixelFromLonLat(lonlat));
+		var pixel = new OpenLayers.Pixel(840, 468);
+		pixel = map.getPixelFromLonLat(lonlat);
+
+		var Canvas_container = document.getElementById('moveMapAndCurves');
+		var nowX, nowY, R = Raphael(Canvas_container, '100%', '100%'),
+		moveContainer = R.rect(0, 0, Width, Height).attr({
+			fill: "hsb(.8, 1, 1)",
+			stroke: "none",
+			opacity: 0,
+		}),
+		start = function () {
+			// storing original coordinates
+			this.ox = this.attr("x");
+			this.oy = this.attr("y");
+			this.attr({ opacity: 0, cursor: "move" });
+		},
+		move = function (dx, dy) {
+			deltaX = dx;
+			deltaY = dy;
+			pixel = new OpenLayers.Pixel(($(document.getElementById("canvas_container")).width()*0.5 - dx), ($(document.getElementById("canvas_container")).height()*0.5 - dy));
+			lonlat = map.getLonLatFromPixel(pixel);
+			map.panTo(lonlat);
+
+			  $('#canvas_container').animate({
+				left: ($(document.getElementById("canvas_container")).width() * 0.3 / 0.7 + dx),
+				top: ($(document.getElementById("canvas_container")).height() * 0.07/0.58 + dy)
+			  }, 1, function() {
+			  });
+		},
+		up = function () {
+			// restoring state
+			$('#canvas_container').animate({
+				left: ($(document.getElementById("canvas_container")).width() * 0.3 / 0.7),
+				top: ($(document.getElementById("canvas_container")).height() * 0.07/0.58)
+			  }, 1, function() {
+			  });
+			bounds = map.getExtent();
+			//alert(bounds);
+			redraw(circles, size);
+			this.attr({ opacity: 0, cursor: "auto"  });
+		};
+		// rstart and rmove are the resize functions;
+		moveContainer.drag(move, start, up);
+		document.getElementById('moveMapAndCurves').ondblclick = function () {
+		map.zoomIn();
+		};
+	}
+	
+	/*
+    map.events.register("zoomend", map, function(e) { 
+        alert('ok');
+		redraw(circles, size);
+    }); 
+	*/
+
+/*
+map.events.register("move", map, function(e) { 
+    return true;
+});
+*/
+		//------------------------------------------------------------
+		function redraw (arrayOfCityes, number){		
+			//latitude
+			//longitude
+			//commented version has non-constant radius
+			/*
+		       circle_counter;
                 my2Array = new Array();
                 i2, j2;
                 arrln2 = 5;
@@ -115,47 +228,61 @@ window.onload = function () {
                 }
                 for (i = 0; i < arrln + 1; i++) {
                     for (j = 0; j < arrln + 1; j++) {
-                        for (circle_counter in circles) {
-                            var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - circles[circle_counter][1]) * (i * blockWidth - circles[circle_counter][1]) + (j * blockHeight - circles[circle_counter][2]) * (j * blockHeight - circles[circle_counter][2])), p))
+                        for (circle_counter in arrayOfCityes) {
+                            var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - arrayOfCityes[circle_counter][1]) * (i * blockWidth - arrayOfCityes[circle_counter][1]) + (j * blockHeight - arrayOfCityes[circle_counter][2]) * (j * blockHeight - arrayOfCityes[circle_counter][2])), p))
                             if (some_math_operations) {
-                                myArray[i][j] += (6 * (circles[circle_counter][3] * circles[circle_counter][3]) / some_math_operations - level);
+                                myArray[i][j] += (6 * (arrayOfCityes[circle_counter][3] * arrayOfCityes[circle_counter][3]) / some_math_operations - level);
                             }
                             else
                                 myArray[i][j] += level * 10;
                         }
                     }
                 }
-
-
                 for (i2 = 0; i2 < arrln2 + 1; i2++) {
                     my2Array[i2] = new Array();
                     for (j2 = 0; j2 < arrln2 + 1; j2++) {
                         my2Array[i2][j2] = 0;
                     }
                 }
-                draw();
-            } //move
-        }
-        //------------------------------------------------------------
-        document.getElementById('level_list').onchange = function () {
-            begLevel = document.getElementById('level_list').value;
-            level = begLevel * Math.pow(0.9, size);
-        }
-        //------------------------------------------------------------
-        document.getElementById('moveOrDraw').onchange = function () {
-            if (0 == document.getElementById('moveOrDraw').value) {
-                startMove = false;
-                document.getElementById('canvas_container').style.zIndex = "2";
-                document.getElementById('moveMapAndCurves').style.zIndex = "1";
-            } //if
-            else {
-                startMove = true;
-                document.getElementById('canvas_container').style.zIndex = "1";
-                document.getElementById('moveMapAndCurves').style.zIndex = "2";
-            } //else
-        }
+				*/
+				//alert("123");
+				circle_counter;
+                my2Array = new Array();
+                i2, j2;
+                arrln2 = 5;
+                littleBlockWidth = blockWidth / arrln2;
+                littleBlockHeight = blockHeight / arrln2;
 
-        //------------------------------------------------------------
+                level = begLevel * Math.pow(0.9, size);
+
+                for (i = 0; i < arrln + 1; i++) {
+                    for (j = 0; j < arrln + 1; j++) {
+                        myArray[i][j] = 0;
+                    }
+                }
+                for (i = 0; i < arrln + 1; i++) {
+                    for (j = 0; j < arrln + 1; j++) {
+                        for (circle_counter = 0;  circle_counter< size; circle_counter++) {
+                            var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - arrayOfCityes[circle_counter].longitude) * (i * blockWidth - arrayOfCityes[circle_counter].longitude()) + (j * blockHeight - arrayOfCityes[circle_counter].latitude()) * (j * blockHeight - arrayOfCityes[circle_counter]. latitude())), p))
+                            if (some_math_operations) {
+                                myArray[i][j] += (6 * (2500) / some_math_operations - level);
+                            }
+                            else
+                                myArray[i][j] += level * 10;
+                        }
+                    }
+                }
+                for (i2 = 0; i2 < arrln2 + 1; i2++) {
+                    my2Array[i2] = new Array();
+                    for (j2 = 0; j2 < arrln2 + 1; j2++) {
+                        my2Array[i2][j2] = 0;
+                    }
+                }
+
+                draw();	
+		/* */
+		}
+		//------------------------------------------------------------
         function draw() {
             paper.clear();
             for (i in circles) {
@@ -272,103 +399,8 @@ window.onload = function () {
                     }
                 }
             }
-        }
-    } //draw
+        }//draw
 
-   function novigate(){
-    var deltaX, delataY;
-    var Width = $(document.getElementById("moveMapAndCurves")).width();
-    var Height = $(document.getElementById("moveMapAndCurves")).height();
-    //alert("test_rph_e.js");
-    bounds = new OpenLayers.Bounds(0, 0, 360, 180);
-    alert(bounds);
-    map = new OpenLayers.Map('map', { numZoomLevels: 6 });
-    layer = new OpenLayers.Layer.WMS("OpenLayers WMS",
-                "http://vmap0.tiles.osgeo.org/wms/vmap0", { layers: 'basic' });
-    map.addLayer(layer);
-    map.zoomIn();
-    map.zoomIn();
-    map.zoomIn();
-    var lon = 0;
-    var lat = 0;
-    var lonlat = new OpenLayers.LonLat(lon, lat);
-    map.zoomIn();
-    bounds = map.getExtent();
-    alert(bounds);
-    alert(bounds.right);
-    alert(bounds.left);
-    alert(bounds.bottom);
-    alert(bounds.top);
-    //alert( map.getPixelFromLonLat(lonlat));
-    var pixel = new OpenLayers.Pixel(840, 468);
-    pixel = map.getPixelFromLonLat(lonlat);
-   //$(document.getElementById("canvas_container")).style.left = 0;
-
-    var Canvas_container = document.getElementById('moveMapAndCurves');
-    var nowX, nowY, R = Raphael(Canvas_container, '100%', '100%'),
-    moveContainer = R.rect(0, 0, Width, Height).attr({
-        fill: "hsb(.8, 1, 1)",
-        stroke: "none",
-        opacity: 0,
-    }),
-    start = function () {
-        // storing original coordinates
-        this.ox = this.attr("x");
-        this.oy = this.attr("y");
-        this.attr({ opacity: 0, cursor: "move" });
-    },
-    move = function (dx, dy) {
-        deltaX = dx;
-        deltaY = dy;
-        pixel = new OpenLayers.Pixel(($(document.getElementById("canvas_container")).width()*0.5 - dx), ($(document.getElementById("canvas_container")).height()*0.5 - dy));
-        lonlat = map.getLonLatFromPixel(pixel);
-        map.panTo(lonlat);
-
-          $('#canvas_container').animate({
-            //opacity: 0.25,
-            left: ($(document.getElementById("canvas_container")).width() * 0.3 / 0.7 + dx),
-            top: ($(document.getElementById("canvas_container")).height() * 0.07/0.58 + dy)
-            //height: 'toggle'
-          }, 1, function() {
-            // Animation complete.
-          });
-    },
-    up = function () {
-        // restoring state
-        $('#canvas_container').animate({
-            //opacity: 0.25,
-            left: ($(document.getElementById("canvas_container")).width() * 0.3 / 0.7),
-            top: ($(document.getElementById("canvas_container")).height() * 0.07/0.58)
-            //height: 'toggle'
-          }, 1, function() {
-            // Animation complete.
-          });
-        /*
-         paper.forEach(function (el) {
-         el.translate(deltaX, deltaY); 
-         });
-         */
-         //alert("123");
-        bounds = map.getExtent();
-        alert(bounds);
-        this.attr({ opacity: 0, cursor: "auto"  });
-    };
-    // rstart and rmove are the resize functions;
-    moveContainer.drag(move, start, up);
-    document.getElementById('moveMapAndCurves').ondblclick = function () {
-        map.zoomIn();
-    };
-
-}
-/*
-map.events.register("move", map, function(e) { 
-    return true;
-});
-*/
+		
 }
 
-/*
-    map.events.register("zoomend", map, function(e) { 
-        alert('ok');
-    }); 
-*/
