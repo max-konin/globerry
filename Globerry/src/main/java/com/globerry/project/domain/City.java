@@ -43,9 +43,9 @@ public class City implements Serializable
     @Column
     private int population;
     @Column
-    private String longitude;
+    private float longitude;
     @Column
-    private String latitude;
+    private float latitude;
     @Column 
     private boolean isValid;
     @Column
@@ -176,21 +176,21 @@ public class City implements Serializable
     {
 	this.propertyList = propertyList;
     }
-    public String getLongitude()
+    public float getLongitude()
     {
 	return longitude;
     }
-    public void setLongitude(String longitude)
+    public void setLongitude(float longitude)
     {
 	this.longitude = longitude;
     }
-    public String getLatitude()
+    public float getLatitude()
     {
 	return latitude;
     }
-    public void setLatitude(String latitude)
+    public void setLatitude(int i)
     {
-	this.latitude = latitude;
+	this.latitude = i;
     }
     public int getPopulation()
     {
@@ -231,8 +231,8 @@ public class City implements Serializable
 		this.getRu_name().equals(city.getRu_name()) &&
 		this.getArea() == city.getArea() &&
 		this.getPopulation() == city.getPopulation() &&
-		this.getLatitude().equals(city.getLatitude()) &&
-		this.getLongitude().equals(city.getLongitude()))
+		this.getLatitude() == city.getLatitude() &&
+		this.getLongitude() == city.getLongitude())
 	    return true;
 	else return false;
     }

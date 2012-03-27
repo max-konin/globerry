@@ -71,8 +71,8 @@ public class CityDaoTest
 	City city = new City();
 	city.setName("Berlin");
 	city.getTagList().add(tag);
-	city.setLongitude("90");
-	city.setLatitude("30");
+	city.setLongitude(90);
+	city.setLatitude(30);
 	try
 	{
 	    cityDao.addCity(city);

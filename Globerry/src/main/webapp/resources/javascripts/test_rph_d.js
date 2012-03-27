@@ -39,6 +39,7 @@ window.onload = function () {
     if (Width < 1000) {
         bottomFont = 12;
     }
+    /*
     var osm = new OpenLayers.Layer.OSM();
     osm.wrapDateLine = false;
 
@@ -64,6 +65,7 @@ window.onload = function () {
 
     if (Width > 800) map.zoomIn();
     if (Width > 1500) map.zoomIn();
+    */
     /* 
     var osm = new OpenLayers.Layer.OSM();
     osm.wrapDateLine = false;
@@ -851,7 +853,7 @@ window.onload = function () {
 	    	$.getJSON("/project/getcities",
 	            function(data) {
 	                // do something with the data
-	                alert(data[0].name);
+	                //alert(data[0].name);
 	                return data;
 	          });
 	    };

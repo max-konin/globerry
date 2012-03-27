@@ -49,12 +49,18 @@ public class HomeController {
 	City[] cities = null;
         City city = new City();
         city.setName("New Orlean ");
-        city.setLatitude(0);
-        city.setLongitude(0);
+        city.setLatitude(1);
+        city.setLongitude(1);
+        City city1 = new City();
+        city1.setName("New Orlean ");
+        city1.setLatitude(10);
+        city1.setLongitude(10);
         List<City> cityList = new ArrayList<City>();
         cityList.add(city);
-        cities = new City[1];//cityList.toArray(cities);
+        cities = new City[2];//cityList.toArray(cities);
         cities[0] = city;
+        cities[1] = city1;
+        System.out.println(cities[1]);
         return cities;
     }
     //TODO delete this 

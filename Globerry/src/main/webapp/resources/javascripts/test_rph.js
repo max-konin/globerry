@@ -83,7 +83,7 @@ function mapAndCurves() {
                     line = undefined;
                 }
 
-                if (startDraw) {    //х рср рнфе!
+                if (startDraw) {    //О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫!
                     ln = Math.sqrt((e.clientX - startx - $(document.getElementById("div_container")).width() * 0.3 ) * (e.clientX - startx - $(document.getElementById("div_container")).width() * 0.3) + (e.clientY - starty - $(document.getElementById("div_container")).height() * 0.07) * (e.clientY - starty - $(document.getElementById("div_container")).height() * 0.07));
                     circle.animate({ r: ln }, 10);
                 }
@@ -168,24 +168,30 @@ function mapAndCurves() {
 			pixel = new OpenLayers.Pixel(($(document.getElementById("canvas_container")).width()*0.5 - dx), ($(document.getElementById("canvas_container")).height()*0.5 - dy));
 			lonlat = map.getLonLatFromPixel(pixel);
 			map.panTo(lonlat);
-
+            /*
 			  $('#canvas_container').animate({
 				left: ($(document.getElementById("canvas_container")).width() * 0.3 / 0.7 + dx),
 				top: ($(document.getElementById("canvas_container")).height() * 0.07/0.58 + dy)
 			  }, 1, function() {
 			  });
+              */
 		},
 		up = function () {
 			// restoring state
+            /*
 			$('#canvas_container').animate({
 				left: ($(document.getElementById("canvas_container")).width() * 0.3 / 0.7),
 				top: ($(document.getElementById("canvas_container")).height() * 0.07/0.58)
 			  }, 1, function() {
 			  });
+              */
 			bounds = map.getExtent();
 			//alert(bounds);
-			circles = JSONContr.cityRequest(1);
-			redraw(circles, 1);
+			//var ololo123;
+			JSONContr.cityRequest(1);
+			//for(ololo123 in circles)
+			//	alert(circles[ololo123]);
+			//redraw(circles, 1);
 			this.attr({ opacity: 0, cursor: "auto"  });
 		};
 		// rstart and rmove are the resize functions;
@@ -195,12 +201,13 @@ function mapAndCurves() {
 		};
 	}
 	
-	/*
+	
     map.events.register("zoomend", map, function(e) { 
-        alert('ok');
-		redraw(circles, size);
+        //alert('ok');
+		//redraw(circles, size);
+        JSONContr.cityRequest(1);
     }); 
-	*/
+	/**/
 
 /*
 map.events.register("move", map, function(e) { 
@@ -247,6 +254,10 @@ map.events.register("move", map, function(e) {
                 }
 				*/
 				//alert("123");
+			size = number;
+			
+			circles = arrayOfCityes;
+				//alert(arrayOfCityes[0].latitude+ "," + arrayOfCityes[0].longitude);
 				circle_counter;
                 my2Array = new Array();
                 i2, j2;
@@ -264,7 +275,16 @@ map.events.register("move", map, function(e) {
                 for (i = 0; i < arrln + 1; i++) {
                     for (j = 0; j < arrln + 1; j++) {
                         for (circle_counter = 0;  circle_counter< size; circle_counter++) {
-                            var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - arrayOfCityes[circle_counter].longitude) * (i * blockWidth - arrayOfCityes[circle_counter].longitude()) + (j * blockHeight - arrayOfCityes[circle_counter].latitude()) * (j * blockHeight - arrayOfCityes[circle_counter]. latitude())), p))
+                        	bounds = map.getExtent();
+		                    //alert(bounds);
+		                    //alert(bounds.right);
+		                    //alert(bounds.left);
+		                    //alert(bounds.bottom);
+		                    //alert(bounds.top);
+                            //alert( map.getPixelFromLonLat(lonlat));
+                            //((myCitiesArray[circle_counter].longitude - bounds.left)/(bounds.right - bounds.left)*$(document.getElementById("canvas_container")).width())
+
+                            var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.left)/(bounds.right -bounds.left))*$(document.getElementById("canvas_container")).width()) * (i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.left)/(bounds.right -bounds.left))*$(document.getElementById("canvas_container")).width()) + (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.top)/(bounds.bottom - bounds.top)*$(document.getElementById("canvas_container")).height())) * (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.top)/(bounds.bottom - bounds.top)*$(document.getElementById("canvas_container")).height()))), p));
                             if (some_math_operations) {
                                 myArray[i][j] += (6 * (2500) / some_math_operations - level);
                             }
@@ -279,17 +299,19 @@ map.events.register("move", map, function(e) {
                         my2Array[i2][j2] = 0;
                     }
                 }
-
-                draw();	
+                draw(arrayOfCityes);	
 		/* */
 		}
 		//------------------------------------------------------------
-        function draw() {
+        function draw(myCitiesArray) {
+        	//alert(circles[0].name);
             paper.clear();
+            /*
             for (i in circles) {
                 circle = paper.circle(circles[i][1], circles[i][2], circles[i][3]);
                 circle.attr({ fill: circleColor, opacity: vopacity, stroke: 'none' });
             }
+            */
             for (i = 0; i < arrln; i++) {
                 for (j = 0; j < arrln; j++) {
                     if (!((myArray[i][j] < 0) && (myArray[i + 1][j] < 0) && (myArray[i][j + 1] < 0) && (myArray[i + 1][j + 1] < 0))) {
@@ -307,10 +329,10 @@ map.events.register("move", map, function(e) {
                         }
                         for (i2 = 0; i2 < arrln2 + 1; i2++) {
                             for (j2 = 0; j2 < arrln2 + 1; j2++) {
-                                for (circle_counter in circles) {
-                                    var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - circles[circle_counter][1]) * (i * blockWidth + i2 * littleBlockWidth - circles[circle_counter][1]) + (j * blockHeight + j2 * littleBlockHeight - circles[circle_counter][2]) * (j * blockHeight + j2 * littleBlockHeight - circles[circle_counter][2])), p))
+                                for (circle_counter in myCitiesArray) {
+                                    var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.left)/(bounds.right - bounds.left)*$(document.getElementById("canvas_container")).width())) * (i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.left)/(bounds.right - bounds.left)*$(document.getElementById("canvas_container")).width())) + (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.top)/(bounds.bottom - bounds.top)*$(document.getElementById("canvas_container")).height())) * (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.top)/(bounds.bottom - bounds.top)*$(document.getElementById("canvas_container")).height()))), p));
                                     if (some_math_operations) {
-                                        my2Array[i2][j2] += (6 * (circles[circle_counter][3] * circles[circle_counter][3]) / some_math_operations - level);
+                                        my2Array[i2][j2] += (6 * (2500) / some_math_operations - level);
                                     }
                                     else
                                         my2Array[i2][j2] += level * 10;
@@ -401,7 +423,44 @@ map.events.register("move", map, function(e) {
                 }
             }
         }//draw
-
-		
+        //=========================JSON Controller===========================
+        function JsonController(){
+    	    this.buttonClick = function(button){
+    	    	function objFactory(){
+    	    		  return {
+    	    		    constructor : objFactory
+    	    		  };
+    	    		};
+    	    	$.post("/project/selecttag", 
+    	    		{
+    	    		id : 1
+    	    		}
+    	    	  ,
+    	    	  jsonController.cityRequest(button),
+    	    	  "json");
+    	    	
+    	    	
+    	    	//jsonController.cityRequest(button);
+    	    };
+    	    this.sliderChange = function(slider){
+    	    	jsonController.cityRequest(slider);
+    	    };
+    	    this.cityRequest = function(input){
+    	    	//myDataArray = new Array();
+    	    	//alert("!!!");
+    	    	$.getJSON("/project/getcities",
+    	            function(data) {
+    	    			redraw(data, 2);
+    	                // do something with the data
+    	                //myDataArray = data;
+    	    			
+    	          });
+    	    	//(myDataArray[0].name);
+    	    	//return myDataArray;
+    	    };
+    	    this.rangeChange = function(input){
+    	    	
+    	    };
+    	};
 }
 
