@@ -4,12 +4,16 @@
 <HEAD>
 <TITLE>Globerry 0.0.2</TITLE>
 
-<script type="text/javascript" src="resources/javascripts/raphael.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquerry.js"></script>
+<script type="text/javascript" src="resources/javascripts/raphael.js"></script>
+<!--
 <script type="text/javascript" src="resources/javascripts/test_rph.js"></script>
-<script type="text/javascript" src="resources/javascripts/test_rph_d.js"></script>
 <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
-
+-->
+<link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+<script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+<script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
+<script type="text/javascript" src="resources/javascripts/test_rph_d.js"></script>
 <style type="text/css">  
     
        body, html 
@@ -170,8 +174,10 @@
 <div id='div1'></div>
 </div>
 <div id='map'></div>
+<!--
 <div id='canvas_container'></div>
 <div id="moveMapAndCurves"></div>
+-->
 <div id='line'></div>
 <div id ='month'></div>
 <div id='bottom_switcher'></div>
