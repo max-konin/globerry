@@ -25,6 +25,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.mapping.Collection;
 
 @Entity
@@ -47,9 +49,10 @@ public class City implements Serializable
     @Column
     private float latitude;
     @Column 
-    private boolean isValid;
+    private Boolean isValid;
     @Column
     private String message;
+    @NotFound(action = NotFoundAction.IGNORE)
     @OneToOne(
 	    fetch = FetchType.LAZY,
 	    cascade = CascadeType.ALL
@@ -57,7 +60,7 @@ public class City implements Serializable
     @PrimaryKeyJoinColumn
     private Proposals proposals;
     //-------------------------------------------------------
-    //private Option option;
+    @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
 	    	fetch = FetchType.EAGER,
 	    	cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
@@ -66,6 +69,7 @@ public class City implements Serializable
 	    )
     private Set<Event> eventList = new HashSet<Event>();
     //-------------------------------------------------------
+    @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
 	    fetch = FetchType.EAGER,
 	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
@@ -73,6 +77,7 @@ public class City implements Serializable
 	    )
     private Set<Tag> tagList = new HashSet<Tag>();
     //-------------------------------------------------------
+    @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(
 	    	cascade=CascadeType.ALL,
 	    	fetch=FetchType.EAGER
@@ -84,6 +89,7 @@ public class City implements Serializable
 	    )
     private Set<DependingMonthProperty> dmpList = new HashSet<DependingMonthProperty>();
     //-------------------------------------------------------
+    @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(
 	    	cascade=CascadeType.ALL,
 	    	fetch=FetchType.EAGER
@@ -208,11 +214,11 @@ public class City implements Serializable
     {
 	this.area = area;
     }
-    public boolean isValid()
+    public Boolean getIsValid()
     {
 	return isValid;
     }
-    public void setValid(boolean isValid)
+    public void setIsValid(Boolean isValid)
     {
 	this.isValid = isValid;
     }

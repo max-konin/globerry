@@ -48,9 +48,8 @@ public class AdminController
 {
     @Autowired
     private AdminParser adminParser;
-    @Autowired
-    private CityDao cityDao;
 
+    
     private List<String> excList = new ArrayList<String>();
     
     public String getProjectRoot() {
@@ -126,13 +125,13 @@ public class AdminController
 	e.printStackTrace();
       }
       
-      return "redirect:/";
+      return "redirect:upload";
     }
-    @RequestMapping("/wikiparse")
+    @RequestMapping("wikiparse")
     public String wikiParseBtn()
     {
 	adminParser.updateWikiContent();
-	return "redirect:/admin/upload";
+	return "admin/wikiparse";
     }
     
  

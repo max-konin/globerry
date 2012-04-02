@@ -29,6 +29,7 @@ public interface IEventDao
      * @param event Событие
      * @param city Город
      */
+    public void removeEvent(int id);
     public void addEvent(Event event, City city);
     /**
      * Изменить событие
@@ -41,4 +42,5 @@ public interface IEventDao
      * @param month месяц
      */
     public List<Event> getEventList(Month month, City city);
+    public List<Event> getEventList();
 }

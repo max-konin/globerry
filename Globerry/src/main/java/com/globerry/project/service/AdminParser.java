@@ -92,13 +92,28 @@ public class AdminParser implements IAdminParser
 	while(it.hasNext())
 	{
 	    City city = it.next();
-	    com.globerry.htmlparser.City cityWiki = new com.globerry.htmlparser.City(city.getName());
+	    com.globerry.htmlparser.City cityWiki;
+	    try
+	    {
+		cityWiki = new com.globerry.htmlparser.City(city.getName().replace(", an island", "").replaceAll(" ","_"));
+	    }
+	    catch(NullPointerException e)
+	    {
+		System.err.println("Обработанный эксепшн");
+		break;
+	    }
 	    city.setLatitude(cityWiki.getLatitude());
 	    city.setLongitude(cityWiki.getLongitude());
 	    city.setPopulation(cityWiki.getPopulation());
 	    city.setArea(cityWiki.getArea());
 	    city.setMessage(cityWiki.getMessage());
-	    city.setValid(cityWiki.getIsValid());
+	    city.setIsValid(cityWiki.getIsValid());
+	    
+	    System.err.println("-------------------------------------");
+	    System.err.println("cityWiki: " + cityWiki.getIsValid());
+	    System.err.println("-------------------------------------");
+	    System.err.println("city" + city.getIsValid());
+	    System.err.println("-------------------------------------");
 	    float[] temperature = cityWiki.getTemperature();
 	    for(int i = 0; i < 12; i++)
 	    {
@@ -347,7 +362,7 @@ public class AdminParser implements IAdminParser
         		city.getTagList().add(tagDao.getTagById(index + 1));
         		cityDao.updateCity(city);
         	    }
-   		 	catch(NullPointerException e)
+   		    catch(NullPointerException e)
 		    {
 		        ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
 		    	    			+ exc.getSheetName(sheetNumber) + 

@@ -70,13 +70,8 @@ public class CityDao implements ICityDao
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	City city = (City) sessionFactory.getCurrentSession().load(City.class,
 		id);
-	if (null != city)
-	{
-	    sessionFactory.getCurrentSession().delete(city);
-	}
-	tx.commit();
-	sessionFactory.close();
-
+	removeCity(city);
+	
     }
 
     @Override

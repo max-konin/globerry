@@ -99,7 +99,7 @@ public class CityDaoTest
 			tagList,
 			Month.APRIL
 		));
-	System.out.println(cities.iterator().next().getName());
+	System.out.println(cities.iterator().next().getName());//*/
 	//fail("Not yet implemented");
     }
     @Test
@@ -117,6 +117,40 @@ public class CityDaoTest
 	}
 	int id = city.getId();
 	cityDao.removeCity(id);
+    }
+    
+    @Test
+    public void deletePlusList()
+    {
+	City city1 = new City();
+	city1.setName("Bobryjsk1");
+	City city2 = new City();
+	city2.setName("Bobryjsk2");
+	try
+	{
+	    cityDao.addCity(city1);
+	    cityDao.addCity(city2);
+	} 
+	catch (MySqlException e)
+	{
+	    e.printStackTrace();
+	}
+	Event ev = new Event();
+	ev.setName("Disnayland");
+	eventDao.addEvent(ev, city1);
+	cityDao.removeCity(city1.getId());
+	cityDao.getCityList();
+	
+    }
+    @Test
+    public void testList()
+    {
+	List<City> cityList = cityDao.getCityList();
+	for(int i = 0; i < cityList.size(); i++)
+	{
+	    System.out.println(cityList.get(i));
+	}
+	
     }
 
 }

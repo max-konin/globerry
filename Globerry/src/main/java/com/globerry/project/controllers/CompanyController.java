@@ -52,16 +52,16 @@ public class CompanyController
     @Autowired
     private LocaleResolver localeResolver;
     
-    @RequestMapping("/admin")
+  /*  @RequestMapping("/admin")
     public String companyList(Map<String,Object> map){
 	map.put("company",new Company());
 	map.put("companyList",cmpService.getCompanyList());
 	
 	return "admin";
-    }
+    }*/
     
     @RequestMapping("/")
-    public String home(HttpServletRequest request, Map<String,Object> map,Locale locale){
+    public String home(HttpServletRequest request, Map<String,Object> map, Locale locale){
 		
 	Company company = new Company();
 	company.setName("name");
@@ -101,58 +101,12 @@ public class CompanyController
         return "redirect:/";
     }
     
-    @RequestMapping("/delete/{companyId}")
+ /*   @RequestMapping("/delete/{companyId}")
     public String removeCompany(@PathVariable("companyId") Integer companyId)
     {
 	cmpService.removeCompany(companyId);
 	return "redirect:/admin";
-    }//TODO
-   /* @RequestMapping("/updateCities")
-    public String updateCities()
-    {
-	File file = new File("classpath:content.xlsx");
-	try
-	{
-	    System.out.println(file.getCanonicalPath());
-	    System.out.println(file.getAbsolutePath());
-	} catch (IOException e)
-	{
-	    System.out.println(file.getAbsolutePath());
-	    System.out.println(file.getPath());
-	    e.printStackTrace();
-	}
-	return "HELLO WORLD";//*/
-	/*Excel exc = new Excel("content.xlsx");
-	int i = 1;
-	while(i<exc.getLenght(0))
-	{
-	    	System.out.println("Lenght file: " + exc.getLenght(0));
-		long timeout= System.currentTimeMillis();
-		City city = new City();
-		city.setName(exc.getName(i));
-		city.setRu_name(exc.getRussianName(i));
-		timeout = System.currentTimeMillis() - timeout;
-		System.out.println("Parsing time: " + timeout);
-		try
-		{
-		    long time = System.currentTimeMillis();
-		    cityDao.addCity(city);
-		    time = System.currentTimeMillis() - time;
-		    System.out.println("Mapping:time " + time);
-		}
-		catch(MySqlException except)
-		{
-		    System.out.println(exc.getLenght(0));
-		}
-		catch(NullPointerException e)
-		{
-		    return "redirect:/";
-		}
-		i++;
-		
-	    }
-	return "redirect:/";
-    }
-    //*/
+    }*/
+
 
 }

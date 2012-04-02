@@ -9,12 +9,12 @@ package com.globerry.project.service.admin;
  */
 public abstract class JSPCreatorForEntuities
 {
-    private String createLink()
+    public String createLink()
     {
 	return "";
     }
     
-    String createTable()
+    public String createTable()
     {
 	
 	return "";

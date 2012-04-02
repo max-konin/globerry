@@ -19,6 +19,9 @@ import javax.persistence.OneToMany;
 
 import javax.persistence.CascadeType;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 @Entity
 @Table(name = "Company")
 public class Company
@@ -37,6 +40,7 @@ public class Company
     @Column(name = "description")
     private String description;
     
+   // @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(
 	    	cascade=CascadeType.ALL,
 	    	fetch=FetchType.EAGER

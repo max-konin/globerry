@@ -90,5 +90,31 @@ public class EventDao implements IEventDao
 	tx.commit();
 	return result;
     }
+    @Override
+    public List<Event> getEventList()
+    {
+	List<Event> result;
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	result = sessionFactory.getCurrentSession().createQuery("from Event")
+	            .list();
+	tx.commit();
+	sessionFactory.close();
+	return result;
+    }
+
+    @Override
+    public void removeEvent(int id)
+    {
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	Event event = (Event) sessionFactory.getCurrentSession().load(Event.class,
+		id);
+	if (null != event)
+	{
+	    sessionFactory.getCurrentSession().delete(event);
+	}
+	tx.commit();
+	sessionFactory.close();
+	
+    }
 
 }
