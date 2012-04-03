@@ -59,8 +59,9 @@ function init() {
     };
     bounds = map.getBounds();
     var polygons = new Array();
+
     function redraw(circles, size) {
-    	//alert(arrayOfCityes[0].name);
+    	alert('123');
         for (i2 = 0; i2 < arrln2 + 1; i2++) {
             my2Array[i2] = new Array();
             for (j2 = 0; j2 < arrln2 + 1; j2++) {
@@ -74,7 +75,7 @@ function init() {
             }
         }
         
-       
+/*       
         for (i = 0; i < arrln + 1; i++) {
             for (j = 0; j < arrln + 1; j++) {
                 for (circle_counter in circles) {
@@ -93,7 +94,7 @@ function init() {
        //alert("(bounds.getSouthWest().lng -bounds.getNorthEast().lng): "+ bounds.getNorthEast().lng);
         //alert(((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width);
         
-/* 
+  */
         bounds = map.getBounds();
         var circle_counter = 0;
         for (i = 0; i < arrln + 1; i++) {
@@ -104,19 +105,13 @@ function init() {
                     //bounds = map.getExtent();
                     var some_math_operations = (Math.pow(
                     		Math.sqrt(
-                    				(
-                    						i * blockWidth 
-                    						- (
-                    								(arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)
-                    								/(bounds.getSouthWest().lng -bounds.getNorthEast().lng)
-                    						)*Width
-                    				)
+                    				(i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
                     				* (i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
                     				+ (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
                     				* (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
                     				), p));
                     //var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width) * (i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width) + (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height)) * (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))), p));
-                	var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - 666) * (i * blockWidth - 666) + (j * blockHeight - 180) * (j * blockHeight - 180)), p));
+                	//var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - 666) * (i * blockWidth - 666) + (j * blockHeight - 180) * (j * blockHeight - 180)), p));
                     if (some_math_operations) {
                         myArray[i][j] += (6 * (2500) / some_math_operations - level);
                     }
@@ -126,32 +121,32 @@ function init() {
                 }//for[circles]
             }//for[j]
         }//for[i]
- */
+
 
         draw(circles);
     }
-    function draw(arrayOfCityes) {
+    function draw(myCitiesArray) {
         for (polygonsCounter in polygons) {
             map.removeLayer(polygons[polygonsCounter]);
         }
         var polygonsCounter = 0;
-
         var currentPolygon = 0;
         var drawingCirclesCounter = 0;
         var drawingCircles = new Array();
         var circleLocation;
-
+        /*
         for (i in myCitiesArray) {
             circleLocation = map.layerPointToLatLng(new L.Point(myCitiesArray[i][0], myCitiesArray[i][1]));
             drawingCircles[drawingCirclesCounter] = new L.Circle(circleLocation, (myCitiesArray[i][2]*20), circleOptions);
             drawingCirclesCounter++;
         }
+        
         for (circleCounter in drawingCircles) {
            // map.addLayer(drawingCircles[circleCounter]);
-        }
+        }*/
+        
         for (i = 0; i < arrln; i++) {
             for (j = 0; j < arrln; j++) {
-
                 if (!((myArray[i][j] < 0) && (myArray[i + 1][j] < 0) && (myArray[i][j + 1] < 0) && (myArray[i + 1][j + 1] < 0))) {
                     if (((myArray[i][j] > 0) && (myArray[i + 1][j] > 0) && (myArray[i][j + 1] > 0) && (myArray[i + 1][j + 1] > 0))) {
                         var j0 = j;
@@ -167,7 +162,7 @@ function init() {
                                 my2Array[i2][j2] = 0;
                          }
                     }//memset(my2Array, 0, ..);
-  /*                      
+/*                         
                     for (i2 = 0; i2 < arrln2 + 1; i2++) {
                        for (j2 = 0; j2 < arrln2 + 1; j2++) {
                              for (circle_counter in myCitiesArray) {
@@ -180,11 +175,18 @@ function init() {
                                 }//for[circles]
                         }//for[j2]
                     }//for[i2]
- */                   
+*/                   
                     for (i2 = 0; i2 < arrln2 + 1; i2++) {
                         for (j2 = 0; j2 < arrln2 + 1; j2++) {
                             for (circle_counter in myCitiesArray) {
-                                var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/ (bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) * (i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) + (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height())) * (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height()))), p));
+                                //var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/ (bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) * (i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) + (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height())) * (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height()))), p));
+                                var some_math_operations = (Math.pow(
+                    		    Math.sqrt(
+                    				    (i * blockWidth + i2 * littleBlockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
+                    				    * (i * blockWidth + i2 * littleBlockWidth  - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
+                    				    + (j * blockHeight + j2 * littleBlockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
+                    				    * (j * blockHeight + j2 * littleBlockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
+                    				    ), p));
                                 if (some_math_operations) {
                                     my2Array[i2][j2] += (6 * (250000) / some_math_operations - level);
                                 }
@@ -303,8 +305,9 @@ function init() {
         }
         polygonsCounter = 0;
     }//draw
-        
+        //alert('123');
     //redraw(cir, 3);
+    JSONContr.cityRequest(1);
 
     //======================================Map novigation==================
     map.on('viewreset', function() {
@@ -353,6 +356,7 @@ function init() {
     	    	//alert("!!!");
     	    	$.getJSON("/project/getcities",
     	            function(data) {
+                        //alert('123');
     	    			redraw(data, 0);
     	                // do something with the data
     	                //myDataArray = data;
