@@ -67,6 +67,11 @@ public class City implements Serializable
 	    	targetEntity = Event.class,
 	    	mappedBy = "cityList"
 	    )
+    @JoinTable(
+	           name="CityEvent",
+	           joinColumns = @JoinColumn( name="city_id"),
+	           inverseJoinColumns = @JoinColumn( name="event_id")
+		    )
     private Set<Event> eventList = new HashSet<Event>();
     //-------------------------------------------------------
     @NotFound(action = NotFoundAction.IGNORE)

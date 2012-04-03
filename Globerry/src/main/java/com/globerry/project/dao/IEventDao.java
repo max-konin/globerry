@@ -14,12 +14,6 @@ import com.globerry.project.domain.Month;
 public interface IEventDao
 {
     /**
-     * Получить список событий для города
-     * @param city Город
-     * @return Список событий
-     */
-    public Set<Event> getEventList(City city);
-    /**
      * Удалить событие
      * @param event Событие
      */
@@ -43,4 +37,5 @@ public interface IEventDao
      */
     public List<Event> getEventList(Month month, City city);
     public List<Event> getEventList();
+    void addEvent(Event event);
 }

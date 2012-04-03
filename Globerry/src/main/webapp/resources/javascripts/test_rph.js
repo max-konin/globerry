@@ -431,7 +431,7 @@ map.events.register("move", map, function(e) {
     	    		    constructor : objFactory
     	    		  };
     	    		};
-    	    	$.post("/project/selecttag", 
+    	    	$.post("/Globerry/selecttag", 
     	    		{
     	    		id : 1
     	    		}
@@ -448,7 +448,7 @@ map.events.register("move", map, function(e) {
     	    this.cityRequest = function(input){
     	    	//myDataArray = new Array();
     	    	//alert("!!!");
-    	    	$.getJSON("/project/getcities",
+    	    	$.getJSON("/Globerry/getcities",
     	            function(data) {
     	    			redraw(data, 2);
     	                // do something with the data

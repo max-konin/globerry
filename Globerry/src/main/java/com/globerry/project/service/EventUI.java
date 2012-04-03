@@ -1,4 +1,5 @@
 package com.globerry.project.service;
+import org.hibernate.connection.ProxoolConnectionProvider;
 
 public class EventUI
 {

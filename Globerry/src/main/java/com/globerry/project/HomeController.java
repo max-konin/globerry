@@ -48,13 +48,13 @@ public class HomeController {
     public @ResponseBody City[] test() {
 	City[] cities = null;
         City city = new City();
-        city.setName("New Orlean ");
+        city.setName("New York ");
         city.setLatitude(1);
         city.setLongitude(1);
         City city1 = new City();
-        city1.setName("New Orlean ");
-        city1.setLatitude(10);
-        city1.setLongitude(10);
+        city1.setName("London ");
+        city1.setLatitude((float)51.505);
+        city1.setLongitude((float)-0.09);
         List<City> cityList = new ArrayList<City>();
         cityList.add(city);
         cities = new City[2];//cityList.toArray(cities);

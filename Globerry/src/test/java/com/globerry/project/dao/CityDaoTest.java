@@ -137,8 +137,10 @@ public class CityDaoTest
 	}
 	Event ev = new Event();
 	ev.setName("Disnayland");
-	eventDao.addEvent(ev, city1);
-	cityDao.removeCity(city1.getId());
+	ev.getCities().add(city1);
+	ev.getCities().add(city2);
+	eventDao.addEvent(ev);
+	cityDao.removeCity(city1);
 	cityDao.getCityList();
 	
     }
@@ -150,7 +152,6 @@ public class CityDaoTest
 	{
 	    System.out.println(cityList.get(i));
 	}
-	
     }
 
 }

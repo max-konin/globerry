@@ -17,7 +17,6 @@ import com.globerry.project.domain.Month;
 public interface IEventService
 {
     public Set<Event> getEventList();
-    public Set<Event> getEventList(City city);
     public Set<Event> getEventList(Month month);
     public void addEvent(Event event,City city);
     public void removeEvent(Event event);

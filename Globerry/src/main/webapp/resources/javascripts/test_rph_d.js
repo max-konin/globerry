@@ -1326,7 +1326,8 @@ window.onload = function () {
 
     });
     //  alert("sucsessfull build");s
-	mapAndCurves();
+	//mapAndCurves();
+    init();
 }
 
 /**/

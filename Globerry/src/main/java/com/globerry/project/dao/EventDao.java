@@ -1,8 +1,10 @@
 package com.globerry.project.dao;
 
+import java.lang.reflect.Field;
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -26,12 +28,6 @@ public class EventDao implements IEventDao
 {
     @Autowired
     SessionFactory sessionFactory;
-    @Override
-    public Set<Event> getEventList(City city)
-    {
-	return city.getEvents();
-    }	
-
     @Override
     public void removeEvent(Event event)
     {
@@ -64,6 +60,27 @@ public class EventDao implements IEventDao
 	else{
 		throw new RuntimeException();	    
 	}
+    }
+    
+    @Override
+    public void addEvent(Event event)
+    {
+	Iterator<City> IT = event.getCities().iterator();
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	while(IT.hasNext())
+	{
+	    City city = IT.next();
+	    sessionFactory.getCurrentSession().saveOrUpdate(city);
+	    
+	}
+	    try{    
+        	    sessionFactory.getCurrentSession().save(event);
+        	    tx.commit();
+        	    sessionFactory.close();
+	    }catch (Exception e)
+	    {
+		
+	    }
     }
 
     @Override

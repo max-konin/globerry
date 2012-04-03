@@ -33,19 +33,7 @@ public class EventService implements IEventService
 	return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.globerry.project.service.IEventService#getEventList(com.globerry.project.domain.City)
-     */
-    @Override
-    public Set<Event> getEventList(City city)
-    {
-	// TODO Auto-generated method stub
-	return eventDao.getEventList(city);
-    }
 
-    /* (non-Javadoc)
-     * @see com.globerry.project.service.IEventService#getEventList(com.globerry.project.domain.Month)
-     */
     @Override
     public Set<Event> getEventList(Month month)
     {

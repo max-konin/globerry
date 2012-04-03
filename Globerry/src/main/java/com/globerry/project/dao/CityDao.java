@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -53,11 +54,29 @@ public class CityDao implements ICityDao
     public void removeCity(City city)
     {
 	 Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	 
+	 System.out.print("\n------------ID--------------->"+city.getId()+" \n\n");
+	 System.out.print("\n-------------LISTSIZE-------------->"+city.getEvents().size()+" \n\n");
+	 Object object = sessionFactory.getCurrentSession().get(City.class, city.getId());
+	 City citytest = null;
+	 if(object != null)
+	     citytest = (City)object;
+	 System.out.print("\n------------IDхуя--------------->"+citytest.getId()+" \n\n");
+	 System.out.print("\n-------------LISTSIZEхуя-------------->"+citytest.getEvents().size()+" \n\n");
+	 city = citytest;
 	 Iterator<Event> it = city.getEvents().iterator();
-	 while(it.hasNext()){
+	while(it.hasNext()){
 	     Event event = it.next();
+	     city.getEvents().remove(event);
+	     System.out.print("\n------------количество_ХУев_В_ЕВЕНТЕ--------------->"+event.getCities().size()+" \n\n");
 	     if(event.getCities().size() < 2){
+		 System.out.print("\n------------ИМЯ_ХУЯ--------------->"+event.getName()+" \n\n");
 		 sessionFactory.getCurrentSession().delete(event);
+	     }
+	     else
+	     {
+		 event.getCities().remove(city);
+		 sessionFactory.getCurrentSession().update(event);
 	     }
 	 }
          sessionFactory.getCurrentSession().delete(city);

@@ -46,6 +46,11 @@ public class Event
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH},
 	        targetEntity = City.class
 	    )
+    @JoinTable(
+	           name="CityEvent",
+	        	   inverseJoinColumns = @JoinColumn( name="city_id"),
+	        	   joinColumns = @JoinColumn( name="event_id")
+		    )
     private Set<City> cityList = new HashSet<City>();
     
     public int getId()

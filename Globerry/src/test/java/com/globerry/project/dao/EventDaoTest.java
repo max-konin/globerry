@@ -137,7 +137,7 @@ public class EventDaoTest
 
 	cityDao.addCity(city);
 	eventDao.addEvent(event, city);
-	Set<Event> listEvents = eventDao.getEventList(city);
+	Set<Event> listEvents = city.getEvents();
 	assertTrue(listEvents.contains(event));
 	
 	List<Event> listEventsMonth = eventDao.getEventList(monthEvent,city);
