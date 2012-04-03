@@ -194,9 +194,9 @@ public class City implements Serializable
     {
 	return latitude;
     }
-    public void setLatitude(int i)
+    public void setLatitude(float latitude)
     {
-	this.latitude = i;
+	this.latitude = latitude;
     }
     public int getPopulation()
     {

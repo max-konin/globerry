@@ -146,6 +146,12 @@ public class EventDaoTest
 	//assertTrue(listEventsMonth.contains(event));
 	//Iterator<Event> it = listEvents.iterator();
 	//while(it.next().getDescription().compareTo(descriptionEvent) != 0){}
+	
+	List<Event> allEvent = eventDao.getEventList();
+	for(int i = 0; i < allEvent.size(); i++)
+	{
+	    System.out.println(allEvent.get(i).getName());
+	}
     }
     @Test
     public void updateEventTest() throws MySqlException{

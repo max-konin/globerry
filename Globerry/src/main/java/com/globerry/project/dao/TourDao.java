@@ -46,7 +46,7 @@ public class TourDao implements ITourDao
     @Override
     public Set<Tour> getTourList(Company company)
     {
-	// TODO Auto-generated method stub
+
 	return null;
     }
 

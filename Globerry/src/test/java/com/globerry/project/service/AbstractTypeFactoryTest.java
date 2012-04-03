@@ -37,37 +37,16 @@ import com.globerry.project.domain.City;
 }) 
 public class AbstractTypeFactoryTest
 {
-      @Autowired
-      private CityDao cityDao;
-      
-      @Autowired 
-      private CityPage cityPage;
-      @Test
-      public void cityDao()
-      {
-            City city = new City();
-            city.setName("Ottawa");
-            try
-        	{
-        	    cityDao.addCity(city);
-        	} catch (MySqlException e)
-        	{
-        	    // TODO Auto-generated catch block
-        	    e.printStackTrace();
-        	}
-      }
-
-      @Test
-      public void test()
-      {
-	  Map<String, Object> map = new HashMap<String,Object>();
-	 // IEntityCreator creator = AbstractTypeFactory.responsePage("companyadminpage");
-	  cityPage.setList(map);
-	  for(Object o:map.values())
-	  {
-	      System.err.println(o.toString());
-	  }
+    @Autowired
+    private AdminParser adminParser;
+    
+    @Test 
+    public void testAdmin()
+    {
+	String coord = "55°45′0″";
 	
-      }
-
+	
+	System.err.println(adminParser.coordsTransform(coord));
+    }
+    
 }

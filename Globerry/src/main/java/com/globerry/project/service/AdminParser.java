@@ -3,6 +3,7 @@
  */
 package com.globerry.project.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -102,8 +103,9 @@ public class AdminParser implements IAdminParser
 		System.err.println("Обработанный эксепшн");
 		break;
 	    }
-	    city.setLatitude(cityWiki.getLatitude());
-	    city.setLongitude(cityWiki.getLongitude());
+	    System.out.println(cityWiki.getLatitude());
+	    city.setLatitude(coordsTransform(cityWiki.getLatitude()));
+	    city.setLongitude(coordsTransform(cityWiki.getLongitude()));
 	    city.setPopulation(cityWiki.getPopulation());
 	    city.setArea(cityWiki.getArea());
 	    city.setMessage(cityWiki.getMessage());
@@ -438,7 +440,25 @@ public class AdminParser implements IAdminParser
         }
         return tagsArr;
     }
-
+    /**
+     * преобразует координаты из типа String из стандарта в float не стандарт 
+     * @return float координаты не стандарта
+     */
+    public float coordsTransform(String coordsStr)
+    {
+	String[] split = coordsStr.split("°|′|″");
+	float[] splitFloat = new float[3];
+	for(int i = 0; i < split.length - 1; i++)
+	{
+	    splitFloat[i] = Float.parseFloat(split[i]);
+	}
+	if(split[split.length - 1].equals("N") || split[split.length - 1].equals("E"))
+	{
+	    return splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600;
+	}
+	else
+	    return -(splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600);
+    }//*/
 
 
 }
