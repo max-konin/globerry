@@ -60,7 +60,7 @@ function init() {
     bounds = map.getBounds();
     var polygons = new Array();
 
-    function redraw(circles, size) {
+    function redraw(arrayOfCityes, size) {
     	alert('123');
         for (i2 = 0; i2 < arrln2 + 1; i2++) {
             my2Array[i2] = new Array();
@@ -123,7 +123,7 @@ function init() {
         }//for[i]
 
 
-        draw(circles);
+        draw(arrayOfCityes);
     }
     function draw(myCitiesArray) {
         for (polygonsCounter in polygons) {
