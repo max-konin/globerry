@@ -60,8 +60,9 @@ function init() {
     bounds = map.getBounds();
     var polygons = new Array();
 
+    //-------------------------------------------------------------------------------------------------------
     function redraw(arrayOfCityes, size) {
-    	alert('123');
+    	//alert('123');
         for (i2 = 0; i2 < arrln2 + 1; i2++) {
             my2Array[i2] = new Array();
             for (j2 = 0; j2 < arrln2 + 1; j2++) {
@@ -125,7 +126,8 @@ function init() {
 
         draw(arrayOfCityes);
     }
-    function draw(myCitiesArray) {
+    function draw(arrayOfCityes) {
+        alert("Запуск функции отрисовки кривулек.");
         for (polygonsCounter in polygons) {
             map.removeLayer(polygons[polygonsCounter]);
         }
@@ -178,7 +180,7 @@ function init() {
 */                   
                     for (i2 = 0; i2 < arrln2 + 1; i2++) {
                         for (j2 = 0; j2 < arrln2 + 1; j2++) {
-                            for (circle_counter in myCitiesArray) {
+                            for (circle_counter in arrayOfCityes) {
                                 //var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/ (bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) * (i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) + (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height())) * (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height()))), p));
                                 var some_math_operations = (Math.pow(
                     		    Math.sqrt(
@@ -195,7 +197,7 @@ function init() {
                             }//for[circles]
                         }//for[j]
                     }//for[i]
-
+                     alert("Расчитаны большие блоки кривулек.");
                     for (i2 = 0; i2 < arrln2; i2++) {
                         for (j2 = 0; j2 < arrln2; j2++) {                            
                             if ((my2Array[i2][j2] > 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2][j2 + 1] > 0) && (my2Array[i2 + 1][j2 + 1] > 0)) {
@@ -299,11 +301,13 @@ function init() {
                 }//if!()
             }//for[j]
         }//for[i]
+        alert("Расчитаны края кривулек.");
         for (polygonsCounter in polygons){
             polygons[polygonsCounter].setStyle({stroke : false});
             map.addLayer(polygons[polygonsCounter]);
         }
         polygonsCounter = 0;
+        alert("Отрисовка завершина.");
     }//draw
         //alert('123');
     //redraw(cir, 3);
