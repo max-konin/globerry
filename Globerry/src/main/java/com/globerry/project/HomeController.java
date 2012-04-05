@@ -49,8 +49,8 @@ public class HomeController {
 	City[] cities = null;
         City city = new City();
         city.setName("New York ");
-        city.setLatitude(1);
-        city.setLongitude(1);
+        city.setLatitude((float)51.508);
+        city.setLongitude((float)-0.12);
         City city1 = new City();
         city1.setName("London ");
         city1.setLatitude((float)51.505);
