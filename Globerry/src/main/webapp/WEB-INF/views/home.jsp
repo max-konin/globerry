@@ -2,199 +2,186 @@
 <%@ page session="false" %>
 <HTML>
 <HEAD>
-<TITLE>Globerry 0.0.2</TITLE>
+
+<meta charset="utf-8">
+
+<TITLE>Globerry (new design)</TITLE>
+<!--
+<link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+<script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+-->
+<link rel="stylesheet" href="resources/styles/main.css" type="text/css" />
+<link type="text/css" href="resources/styles/slidersCss.css" rel="stylesheet" media="all" />
 
 <script type="text/javascript" src="resources/javascripts/jquerry.js"></script>
 <script type="text/javascript" src="resources/javascripts/raphael.js"></script>
-<!--
-<script type="text/javascript" src="resources/javascripts/test_rph.js"></script>
-<script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
--->
-<link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
-<script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
-<script type="text/javascript" src="resources/javascripts/test_rph_d.js"></script>
-<style type="text/css">  
-    
-       body, html 
-        {
-    	    height:100%;
-            margin:0px;
-            padding:0px;
-         }
-        #div_container
-	   {
-	   	width:100%;
-	   	height : 101%; 
-	   	position : relative;
-	   	min-width : 900px;
-	   	min-height : 600px;
-	   	scrolling : auto;
-	   	/*background-color:#333;*/
-	   	}
-        #header
-	   {
-	   	top : 0;
-	   	left: 0;
-	   	width:100%;
-	   	height : 7%; 
-	   	position : absolute;
-	   	margin: 0 auto;
-	   	}
-	   .bottom
-	   {
-	   	bottom :0px;
-	   	margin-left:30%;
-	   	width:70%;
-	   	height : 27.1%; 
-	   	position : absolute;
-	   	float:left;
-	   	/*background-color:#000;*/
-	   	
-	   	margin: 0 30% 0 0 auto;
-	   	
-	   	background: #ffffff; /* Для старых браузров */
-        background: -moz-linear-gradient(left, #ffffff, #f0f0f0); /* Firefox 3.6+  fefcea */
-        background: -webkit-linear-gradient(left, #ffffff, #f0f0f0);
-        background: -o-linear-gradient(left, #ffffff, #f0f0f0); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left, #ffffff, #f0f0f0); /* IE10 */
-        background: linear-gradient(left, #ffffff, #f0f0f0); /* CSS3 */ 
+<script type="text/javascript" src="resources/javascripts/main.js"></script>
+<!---->
+<script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min"></script>
 
-	   	}
-	   #month
-	   {
-	   	bottom :33.95%;
-	   	/*left:30%;*/
-	   	right:0px;
-	   	margin-left:30%;
-	   	margin-right:0px;
-	   	width:70%;
-	   	height : 2.5%; 
-	   	position : absolute;
-	   	float:left;
-	   	/*background-color:#def;*/
-	   	}
+<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
+<script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
 
-	   #bottom_switcher
-	   {
-	   	bottom :27%;
-	   	left:30%;/**/
-	   	width:70%;
-	   	height : 7%; 
-	   	position : absolute;
-	   	float:left;
-	   	background-color:#def;
-	   	}
-
-	   #line
-	   {
-	   	bottom :27%;
-	   	left:30%;/**/
-	   	width:70%;
-	   	height : 4%; 
-	   	position : absolute;
-	   	float:left;
-	   	background-color:#def;
-	   	}
-
-        #left
-	   {
-	   	margin-right:70%;
-	   	top: 7%;
-	   	width:30%;
-	   	height : 92%; 
-	   	position : absolute;
-	   	border-right: 1px;
-	   	/*background-color:#9cf;*/
-	   	background: #ffffff; /* Для старых браузров */
-        background: -moz-linear-gradient(left, #ffffff, #f0f0f0); /* Firefox 3.6+  fefcea */
-        background: -webkit-linear-gradient(left, #ffffff, #f0f0f0);
-        background: -o-linear-gradient(left, #ffffff, #f0f0f0); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left, #ffffff, #f0f0f0); /* IE10 */
-        background: linear-gradient(left, #ffffff, #f0f0f0); /* CSS3 */ 
-
-	   	}
-        #map
-	   {
-	   	top: 7%;
-	   	left:30%;
-	   	width:70%;
-	   	height : 58%; 
-	   	position : absolute;
-	   	background-color:#eee;
-		z-index : 0;
-	   	/*background-color:#333;*/
-	   	}
-		#moveMapAndCurves   
-       {
-	   	    top: 7%;
-	   	    left:30%;
-	   	    width:70%;
-	   	    height : 58%; 
-	        position:absolute;
-	        /*background-color:White;*/
-	        border-color:#333;
-	        float: left;
-	        z-index : 1;         
-	   }
-       #canvas_container   
-       {
-	   	    top: 7%;
-	   	    left:30%;
-	   	    width:70%;
-	   	    height : 58%; 
-	        position:absolute;
-	        /*background-color:White;*/
-	        border-color:#333;
-	        float: left;
-	        z-index : 1;         
-	   }
-</style> 
-
-<style>
-   .gradient {
-	   	background: #ffffff; /* Для старых браузров */
-        background: -moz-linear-gradient(left, #ffffff, #f0f0f0); /* Firefox 3.6+  fefcea */
-        background: -webkit-linear-gradient(left, #ffffff, #f0f0f0);
-        background: -o-linear-gradient(left, #ffffff, #f0f0f0); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left, #ffffff, #f0f0f0); /* IE10 */
-        background: linear-gradient(left, #ffffff, #f0f0f0); /* CSS3 */ 
-
-   }
-  
-</style>
 
 
 </HEAD>
-<BODY height='100%', class="gradient">
+<BODY height='100%'>
 <div id='div_container'>
-
-<div id='header'></div>
-<div id='left'>
-<div id='div1'></div>
+        <div id ='globerryImg', class='roundBorder'>
+            <div id ='GLIMG'>
+                <img src="resources/img/globerry.png" alt="Globerry">
+            </div>
+            <div id='upperToggle' class='toggels'>
+            <div id ='circlecw'></div>
+            <div id ='circlech'></div>
+            <div id ='circle'></div>
+            </div>
+        </div>
+        <div id ='head' , class='roundBorder'>
+            <div id ='Request'>
+                <div id ='who' class='textRequests'><p id ='whoTextDiv' class = 'textInRequests'><span class='number'>01.</span> Кто едет?</p></div>
+                <div id ='whoReq' class='reqMenu'>
+                    <p class = 'textInRequests'>С друзьями--</p>
+                </div>
+                <div id ='what' class='textRequests'><p id ='whatTextDiv' class = 'textInRequests'><span class='number'>02.</span> Что делать?</p></div>
+                <div id ='whatReq' class='reqMenu'><p class = 'textInRequests'>Загорать ----</p></div>
+                <div id ='when' class='textRequests'><p id ='whenTextDiv' class = 'textInRequests'><span class='number'>03.</span> Когда?</p></div>
+                <div id ='whenReq' class='reqMenu'><p class = 'textInRequests'>Февраль -----</p></div>
+                <div id ='LetsGo' class='textRequests' id='headSwithcer'><a href="#" id='buttonHeadSwitcher' class="button">Поехали</a></div>
+            </div>
+        </div>
+        <div id='SliderRequest'>
+            <div id ='SliderRequestContent'>
+                <div id='Sliders'>
+                    <div id ='firstSBlock' class = 'blocks'>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" id="minCost" class ='left' value="-35" readonly />
+                                <div id='tempSText', class = 'sText'>Температура</div>
+				                <input type="text" id="maxCost" class ='right' value="35" readonly />
+			                </div>
+			                <div class="sliderCont" id ="tSCont">
+					                <div id="tempSlider"></div>
+			                </div>
+		                </form>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" id="alcMinCost" class ='left' value="0" readonly />
+                                <div id='AlcoholSText', class = 'sText' >Алкоголь</div>
+				                <input type="text" id="alcMaxCost" class ='right' value="30" readonly />
+			                </div>
+			                <div class="sliderCont">
+					                <div id="alchSlider"></div>
+			                </div>
+		                </form>
+                    </div>
+                    <!-- -->
+                    <div id ='secondBlock' class = 'blocks'>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" id="TimeMinV" class ='left' value="0" readonly />
+                                <div id='TimeSText', class = 'sText'>Время в пути</div>
+				                <input type="text" id="TimeMaxV" class ='right' value="24" readonly />
+			                </div>
+			                <div class="sliderCont" id ="timeCont">
+					                <div id="timeSlider"></div>
+			                </div>
+		                </form>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" class ='left' value="" readonly />
+                                <div id='Mood', class = 'sText' >Настроение</div>
+				                <input type="text" class ='right' value="" readonly />
+			                </div>
+			                <div class="sliderCont">
+					                <div id="MoodSlider"></div>
+			                </div>
+		                </form>
+                    </div>
+                    <div id ='thirdBlock' class = 'blocks'>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" id="LivMinV" class ='left' value="0" readonly />
+                                <div id='Living', class = 'sText'>Проживание</div>
+				                <input type="text" id="LivMaxV" class ='right' value="300" readonly />
+			                </div>
+			                <div class="sliderCont" id ="LivCont">
+					                <div id="LivSlider"></div>
+			                </div>
+		                </form>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" class ='left' value="" readonly />
+                                <div id='security', class = 'sText' >Безопасность</div>
+				                <input type="text" class ='right' value="" readonly />
+			                </div>
+			                <div class="sliderCont">
+					                <div id="securitySlider"></div>
+			                </div>
+		                </form>
+                    </div>
+                    <div id ='forthBlock' class = 'blocks'>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" id="FoodMinV" class ='left' value="0" readonly />
+                                <div id='food', class = 'sText'>Еда</div>
+				                <input type="text" id="FoodMaxV" class ='right' value="300" readonly />
+			                </div>
+			                <div class="sliderCont" id ="foodCont">
+					                <div id="foodSlider"></div>
+			                </div>
+		                </form>
+                        <form action="#" method="post" >
+			                <div class="formCost">
+				                <input type="text" class ='left' value="" readonly />
+                                <div id='Sex', class = 'sText' >Секс</div>
+				                <input type="text" class ='right' value="" readonly />
+			                </div>
+			                <div class="sliderCont">
+					                <div id="SexSlider"></div>
+			                </div>
+		                </form>
+                    </div>
+                    <div id ='fifthBlock' class = 'blocks'>
+                    <div id='Visa' class='fbText'>Виза</div>
+                    <div id ='VisaAc' class='VLBut'></div>
+                    <div id='Lang' class='fbText'>Язык</div>
+                    <div id ='LangAc' class='VLBut'></div>
+                    </div>
+                    <!-- -->
+                </div>
+            </div>
+            <div id ='SliderRequestBottom', class='roundBorder'>
+                <div id='bottomToggle' class='toggels'>
+                    <div id='arrowcw'></div>
+                    <div id ='arrow'>
+                        <img src="resources/img/arrow.png" alt="slide up">
+                    </div>
+                </div>
+            </div>
+            <div id ='monthes'>
+                <div id = 'calenrarimg'>
+                    <img src="resources/img/calendar.png" alt="Globerry">
+                </div>
+            </div>
+            <!--<div id='monthContainer'>-->
+                <div class='calMonth' id ='jan'>Январь</div>
+                <div class='calMonth' id ='feb'>Февраль</div>
+                <div class='calMonth' id ='mar'>Март</div>
+                <div class='calMonth' id ='apr'>Апрель</div>
+                <div class='calMonth' id ='may'>Май</div>
+                <div class='calMonth' id ='jun'>Июнь</div>
+                <div class='calMonth' id ='jul'>Июль</div>
+                <div class='calMonth' id ='aug'>Август</div>
+                <div class='calMonth' id ='sep'>Сентябрь</div>
+                <div class='calMonth' id ='oct'>Октябрь</div>
+                <div class='calMonth' id ='nov'>Ноябрь</div>
+                <div class='calMonth' id ='dec'>Декабрь</div>
+            <!--</div>
+            -->
+        </div>
+    <div id='map'></div>
 </div>
-<div id='map'></div>
-<!--
-<div id='canvas_container'></div>
-<div id="moveMapAndCurves"></div>
--->
-<div id='line'></div>
-<div id ='month'></div>
-<div id='bottom_switcher'></div>
-<div id='bottom_auto' , class ='bottom'><p>auto</p></div>
-<div id='bottom_avia' , class ='bottom'><p>avia</p></div>
-<div id='bottom_hotel' , class ='bottom'><p>hotel</p></div>
-<div id='bottom_tour' , class ='bottom'><p>tour</p></div>
-
-</div>
-<!--
-<div id='div_container'>
-<div id='heap'>Globbery</div>
-<div id='requests'>Requsts</div>
-<div id='canvas_container'></div>
-<div id="map"></div>
-</div>
--->
 </BODY>
-
 </HTML>
