@@ -55,11 +55,16 @@ public class HomeController {
         city1.setName("London ");
         city1.setLatitude((float)51.505);
         city1.setLongitude((float)-0.09);
+        City city2 = new City();
+        city2.setName("Novosibirsk ");
+        city2.setLatitude((float)60.505);
+        city2.setLongitude((float)-5.09);
         List<City> cityList = new ArrayList<City>();
         cityList.add(city);
-        cities = new City[2];//cityList.toArray(cities);
+        cities = new City[3];//cityList.toArray(cities);
         cities[0] = city;
         cities[1] = city1;
+        cities[2] = city2;
         System.out.println(cities[1]);
         return cities;
     }

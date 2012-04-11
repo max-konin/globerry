@@ -14,7 +14,6 @@ function init() {
     var blockWidth = Width / arrln;
     var blockHeight = Height / arrln;
     var polygons = new Array();
-    var R = 50;
     
     var JSONContr = new JsonController(); 
 
@@ -42,7 +41,7 @@ function init() {
     map.setView(new L.LatLng(51.505, -0.09), 13).addLayer(cloudmade); //London 13
 
     //debag
-    //var cir = [[100, 100, 50], [150, 200, 50], [100, 300, 50]];
+    var cir = [[100, 100, 50], [150, 200, 50], [100, 300, 50]];
     //debag
     var circleOptions = {
         color: 'blue',
@@ -77,19 +76,45 @@ function init() {
             }
         }
         
-        //alert(map.getZoom());
-        R = 50*map.getZoom()/13;
+/*       
+        for (i = 0; i < arrln + 1; i++) {
+            for (j = 0; j < arrln + 1; j++) {
+                for (circle_counter in circles) {
+                    var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - circles[circle_counter][0]) * (i * blockWidth - circles[circle_counter][0]) + (j * blockHeight - circles[circle_counter][1]) * (j * blockHeight - circles[circle_counter][1])), p));
+                    if (some_math_operations) {
+                        myArray[i][j] += (6 * (circles[circle_counter][2] * circles[circle_counter][2]) / some_math_operations - level);
+                    }
+                    else
+                        myArray[i][j] += level * 10;
+                }//for[circles]
+            }//for[j]
+        }//for[i]
+        
+
+       // alert("arrayOfCityes[0].longitude: "+ arrayOfCityes[1].longitude);
+       //alert("(bounds.getSouthWest().lng -bounds.getNorthEast().lng): "+ bounds.getNorthEast().lng);
+        //alert(((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width);
+        
+  */
+        bounds = map.getBounds();
         var circle_counter = 0;
         for (i = 0; i < arrln + 1; i++) {
             for (j = 0; j < arrln + 1; j++) {
                 for (circle_counter in arrayOfCityes) {
-                	var cityLocation = new L.LatLng(arrayOfCityes[circle_counter].latitude , arrayOfCityes[circle_counter].longitude);
-                	var cityPoint = map.latLngToLayerPoint(cityLocation);
-                	var myCityX = (map.layerPointToContainerPoint(cityPoint)).x;
-                	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
-                    var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - myCityX) * (i * blockWidth - myCityX) + (j * blockHeight - myCityY) * (j * blockHeight - myCityY)), p));
+                	//alert(arrayOfCityes[circle_counter].name);
+                    //alert(((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lat)/(bounds.getSouthWest().lat -bounds.getNorthEast().lat)));
+                    //bounds = map.getExtent();
+                    var some_math_operations = (Math.pow(
+                    		Math.sqrt(
+                    				(i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
+                    				* (i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
+                    				+ (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
+                    				* (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
+                    				), p));
+                    //var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width) * (i * blockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width) + (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height)) * (j * blockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))), p));
+                	//var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - 666) * (i * blockWidth - 666) + (j * blockHeight - 180) * (j * blockHeight - 180)), p));
                     if (some_math_operations) {
-                        myArray[i][j] += (6 * (R*R) / some_math_operations - level);
+                        myArray[i][j] += (6 * (2500) / some_math_operations - level);
                     }
                     else
                         myArray[i][j] += level * 10;
@@ -101,32 +126,37 @@ function init() {
 
         draw(arrayOfCityes);
     }
-    var citiesLayer = new L.LayerGroup();
     function draw(arrayOfCityes) {
-    	citiesLayer.clearLayers();
+        alert("������ ������� ��������� ��������.");
         for (polygonsCounter in polygons) {
             map.removeLayer(polygons[polygonsCounter]);
-            polygons[polygonsCounter] = 0;
         }
-
         var polygonsCounter = 0;
         var currentPolygon = 0;
         var drawingCirclesCounter = 0;
         var drawingCircles = new Array();
         var circleLocation;
-  
+        /*
+        for (i in myCitiesArray) {
+            circleLocation = map.layerPointToLatLng(new L.Point(myCitiesArray[i][0], myCitiesArray[i][1]));
+            drawingCircles[drawingCirclesCounter] = new L.Circle(circleLocation, (myCitiesArray[i][2]*20), circleOptions);
+            drawingCirclesCounter++;
+        }
+        
+        for (circleCounter in drawingCircles) {
+           // map.addLayer(drawingCircles[circleCounter]);
+        }*/
+        
         for (i = 0; i < arrln; i++) {
             for (j = 0; j < arrln; j++) {
                 if (!((myArray[i][j] < 0) && (myArray[i + 1][j] < 0) && (myArray[i][j + 1] < 0) && (myArray[i + 1][j + 1] < 0))) {
                     if (((myArray[i][j] > 0) && (myArray[i + 1][j] > 0) && (myArray[i][j + 1] > 0) && (myArray[i + 1][j + 1] > 0))) {
                         var j0 = j;
                         while (((myArray[i][j + 1] > 0) && (myArray[i + 1][j + 1] > 0) && (myArray[i][j + 2] > 0) && (myArray[i + 1][j + 2] > 0)) && (j < arrln)) j++;
-                   
-                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight)),containerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight))];
+                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight))];
                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight)),containerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight))];
+                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight))];
                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                        
                         j++;
                     } //if(4+)
                     for (i2 = 0; i2 < arrln2 + 1; i2++) {
@@ -134,117 +164,132 @@ function init() {
                                 my2Array[i2][j2] = 0;
                          }
                     }//memset(my2Array, 0, ..);
-
+/*                         
+                    for (i2 = 0; i2 < arrln2 + 1; i2++) {
+                       for (j2 = 0; j2 < arrln2 + 1; j2++) {
+                             for (circle_counter in myCitiesArray) {
+                                var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - myCitiesArray[circle_counter][0]) * (i * blockWidth + i2 * littleBlockWidth - myCitiesArray[circle_counter][0]) + (j * blockHeight + j2 * littleBlockHeight - myCitiesArray[circle_counter][1]) * (j * blockHeight + j2 * littleBlockHeight - myCitiesArray[circle_counter][1])), p))
+                                if (some_math_operations) {
+                                    my2Array[i2][j2] += (6 * (myCitiesArray[circle_counter][2] * myCitiesArray[circle_counter][2]) / some_math_operations - level);
+                                }
+                                else
+                                    my2Array[i2][j2] += level * 10;
+                                }//for[circles]
+                        }//for[j2]
+                    }//for[i2]
+*/                   
                     for (i2 = 0; i2 < arrln2 + 1; i2++) {
                         for (j2 = 0; j2 < arrln2 + 1; j2++) {
-                            for (circle_counter in arrayOfCityes) {                            	
+                            for (circle_counter in arrayOfCityes) {
                                 //var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/ (bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) * (i * blockWidth + i2 * littleBlockWidth - ((myCitiesArray[circle_counter].longitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*$(document.getElementById("map")).width())) + (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height())) * (j * blockHeight + j2 * littleBlockHeight - ((myCitiesArray[circle_counter].latitude - bounds.getNorthEast().lng)/(bounds.getSouthWest().lng - bounds.getNorthEast().lng)*$(document.getElementById("map")).height()))), p));
-                                    	var cityLocation = new L.LatLng(arrayOfCityes[circle_counter].latitude , arrayOfCityes[circle_counter].longitude);
-                                    	var cityPoint = map.latLngToLayerPoint(cityLocation);
-                                    	var myCityX = (map.layerPointToContainerPoint(cityPoint)).x;
-                                    	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
-                                        var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - myCityX) * (i * blockWidth + i2 * littleBlockWidth - myCityX) + (j * blockHeight + j2 * littleBlockHeight - myCityY) * (j * blockHeight + j2 * littleBlockHeight - myCityY)), p));
-                                        if (some_math_operations) {
-                                            my2Array[i2][j2] += (6 * (R*R) / some_math_operations - level);
-                                        }
-                                        else
-                                            my2Array[i2][j2] += level * 10;
+                                var some_math_operations = (Math.pow(
+                    		    Math.sqrt(
+                    				    (i * blockWidth + i2 * littleBlockWidth - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
+                    				    * (i * blockWidth + i2 * littleBlockWidth  - ((arrayOfCityes[circle_counter].longitude-bounds.getNorthEast().lng)/(bounds.getSouthWest().lng -bounds.getNorthEast().lng))*Width)
+                    				    + (j * blockHeight + j2 * littleBlockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
+                    				    * (j * blockHeight + j2 * littleBlockHeight - ((arrayOfCityes[circle_counter].latitude - bounds.getNorthEast().lat)/(bounds.getSouthWest().lat - bounds.getNorthEast().lat)*Height))
+                    				    ), p));
+                                if (some_math_operations) {
+                                    my2Array[i2][j2] += (6 * (250000) / some_math_operations - level);
+                                }
+                                else
+                                    my2Array[i2][j2] += level * 10;
                             }//for[circles]
                         }//for[j]
                     }//for[i]
-
+                     alert("��������� ������� ����� ��������.");
                     for (i2 = 0; i2 < arrln2; i2++) {
                         for (j2 = 0; j2 < arrln2; j2++) {                            
                             if ((my2Array[i2][j2] > 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2][j2 + 1] > 0) && (my2Array[i2 + 1][j2 + 1] > 0)) {
                                 var j0 = j2;
                                 while (((my2Array[i2][j2 + 1] > 0) && (my2Array[i2 + 1][j2 + 1] > 0) && (my2Array[i2][j2 + 2] > 0) && (my2Array[i2 + 1][j2 + 2] > 0)) && (j2 < arrln2)) j2++;
-                                polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j0 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth + littleBlockWidth, j * blockHeight +j0 * littleBlockHeight + (j2 - j0 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j0 * littleBlockHeight + (j2 - j0 + 1) * littleBlockHeight))];
+                                polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j0 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth + littleBlockWidth, j * blockHeight +j0 * littleBlockHeight + (j2 - j0 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j0 * littleBlockHeight + (j2 - j0 + 1) * littleBlockHeight))];
                                 polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j0 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth + littleBlockWidth, j * blockHeight +j0 * littleBlockHeight + (j2 - j0 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth + littleBlockWidth, j * blockHeight +j0 * littleBlockHeight))];
+                                polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j0 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth + littleBlockWidth, j * blockHeight +j0 * littleBlockHeight + (j2 - j0 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth + littleBlockWidth, j * blockHeight +j0 * littleBlockHeight))];
                                 polygons[polygonsCounter++] = new L.Polygon(polygonPoints);                         
                                 j2++;                                    
                             }//if[4+]
                              if (((my2Array[i2][j2] > 0) && (my2Array[i2][j2 + 1] > 0) && (my2Array[i2 + 1][j2] < 0) && (my2Array[i2 + 1][j2 + 1] < 0)) || ((my2Array[i2][j2] < 0) && (my2Array[i2][j2 + 1] < 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2 + 1][j2 + 1] > 0))) {
                                     if (my2Array[i2][j2] > 0) {
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     } else
                                     {
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     } 
                                 } //if[2+|2-] (left & right)
                                 if (((my2Array[i2][j2] > 0) && (my2Array[i2][j2 + 1] < 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2 + 1][j2 + 1] < 0)) || ((my2Array[i2][j2] < 0) && (my2Array[i2][j2 + 1] > 0) && (my2Array[i2 + 1][j2] < 0) && (my2Array[i2 + 1][j2 + 1] > 0))) {
                                     if (my2Array[i2][j2] > 0){
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     } else
                                     {
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     }
                                 }//if[2+|2-] (up&down)
                                 if (((my2Array[i2][j2] > 0) && (my2Array[i2 + 1][j2] < 0) && (my2Array[i2 + 1][j2 + 1] < 0) && (my2Array[i2][j2 + 1] < 0)) || ((my2Array[i2][j2] < 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2 + 1][j2 + 1] > 0) && (my2Array[i2][j2 + 1] > 0))) {
                                     if (my2Array[i2][j2] > 0){
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     } else
                                     {
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     }
                                 }//if[3+|1-] upper left
                                 if (((my2Array[i2][j2] < 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2 + 1][j2 + 1] < 0) && (my2Array[i2][j2 + 1] < 0)) || ((my2Array[i2][j2] > 0) && (my2Array[i2 + 1][j2] < 0) && (my2Array[i2 + 1][j2 + 1] > 0) && (my2Array[i2][j2 + 1] > 0))) {
                                     if (my2Array[i2 + 1][j2] > 0){
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     } else
                                     {
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth , j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth , j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth , j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth , j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth , j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2 + 1][j2])) * littleBlockWidth , j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     }
                                 }//if[1+|3-] (upper right)
                                 if (((my2Array[i2][j2] < 0) && (my2Array[i2 + 1][j2] < 0) && (my2Array[i2 + 1][j2 + 1] < 0) && (my2Array[i2][j2 + 1] > 0)) || ((my2Array[i2][j2] > 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2 + 1][j2 + 1] > 0) && (my2Array[i2][j2 + 1] < 0))) {
                                     if (my2Array[i2][j2 + 1] > 0){
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     } else
                                     {
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2][j2]) / (my2Array[i2][j2] - my2Array[i2][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + i2 * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2+1) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);                                    
                                     }
                                 }//if[1+|3-] (down left)
                                 if (((my2Array[i2][j2] < 0) && (my2Array[i2 + 1][j2] < 0) && (my2Array[i2 + 1][j2 + 1] > 0) && (my2Array[i2][j2 + 1] < 0)) || ((my2Array[i2][j2] > 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2 + 1][j2 + 1] < 0) && (my2Array[i2][j2 + 1] > 0))) {
                                     if (my2Array[i2 + 1][j2 + 1] > 0){
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + 1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     } else
                                     {
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +(j2 + (my2Array[i2 + 1][j2]) / (my2Array[i2 + 1][j2] - my2Array[i2 + 1][j2 + 1])) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + 1) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                                        polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
+                                        polygonPoints = [map.layerPointToLatLng(new L.Point(i * blockWidth + (i2 + (my2Array[i2][j2 + 1]) / (my2Array[i2][j2 + 1] - my2Array[i2 + 1][j2 + 1])) * littleBlockWidth ,j * blockHeight +(j2 + 1) * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +j2 * littleBlockHeight)), map.layerPointToLatLng(new L.Point(i * blockWidth + (i2) * littleBlockWidth, j * blockHeight +(j2+1) * littleBlockHeight))];
                                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                                     }
                                 }//if[1+|3-] (down right)
@@ -256,16 +301,16 @@ function init() {
                 }//if!()
             }//for[j]
         }//for[i]
-       
+        alert("��������� ���� ��������.");
         for (polygonsCounter in polygons){
             polygons[polygonsCounter].setStyle({stroke : false});
-            citiesLayer.addLayer(polygons[polygonsCounter]);
+            map.addLayer(polygons[polygonsCounter]);
         }
-        map.addLayer(citiesLayer);
         polygonsCounter = 0;
-
+        alert("��������� ���������.");
     }//draw
-
+        //alert('123');
+    //redraw(cir, 3);
     JSONContr.cityRequest(1);
 
     //======================================Map novigation==================
@@ -328,10 +373,5 @@ function init() {
     	    	
     	    };
     	};
-    	function containerPointToLatLng(point){
-    		return map.layerPointToLatLng((map.containerPointToLayerPoint(point)));
-    	};
-
 
 }
-

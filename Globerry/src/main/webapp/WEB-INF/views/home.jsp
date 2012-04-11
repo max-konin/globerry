@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf8"
+	pageEncoding="utf8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 <HTML>
@@ -13,13 +15,12 @@
 <link rel="stylesheet" href="resources/styles/main.css" type="text/css" />
 <link type="text/css" href="resources/styles/slidersCss.css" rel="stylesheet" media="all" />
 
-<script type="text/javascript" src="resources/javascripts/jquerry.js"></script>
+
 <script type="text/javascript" src="resources/javascripts/raphael.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
 <script type="text/javascript" src="resources/javascripts/main.js"></script>
 <!---->
-<script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min"></script>
-
+<script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
 
@@ -30,7 +31,7 @@
 <div id='div_container'>
         <div id ='globerryImg', class='roundBorder'>
             <div id ='GLIMG'>
-                <img src="resources/img/globerry.png" alt="Globerry">
+                <img src="resources/img/Globerry.png" alt="Globerry">
             </div>
             <div id='upperToggle' class='toggels'>
             <div id ='circlecw'></div>
