@@ -13,7 +13,6 @@ jQuery(document).ready(function () {
                 //Important! values of the inputs, will change only after the previous two lines.
             },
             slide: function (event, ui) {
-
                 jQuery("input#" + leftInput).val(jQuery("#" + div).slider("values", 0));
                 jQuery("input#" + rightInput).val(jQuery("#" + div).slider("values", 1));
             }

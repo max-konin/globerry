@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 
 <TITLE>Globerry (new design)</TITLE>
-
+<!---->
 <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
 <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
 
