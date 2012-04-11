@@ -72,4 +72,12 @@ public class EventService implements IEventService
 
     }
 
+
+    @Override
+    public Set<Event> getEventList(City city)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
 }

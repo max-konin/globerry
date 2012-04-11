@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
-import com.globerry.project.service.AbstractTypeFactory;
+import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.IEntityCreator;
 
 @Controller
