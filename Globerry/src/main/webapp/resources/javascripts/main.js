@@ -41,6 +41,6 @@ window.onload = function () {
         this.style.background = 'rgb(236, 72, 7)';
     }); 
     
-    //init();
+    init();
 
 }

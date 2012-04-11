@@ -8,19 +8,18 @@
 <meta charset="utf-8">
 
 <TITLE>Globerry (new design)</TITLE>
-<!--
+
 <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
 <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
--->
+
 <link rel="stylesheet" href="resources/styles/main.css" type="text/css" />
 <link type="text/css" href="resources/styles/slidersCss.css" rel="stylesheet" media="all" />
 
-
+<script type="text/javascript" src="resources/javascripts/jquerry.js"></script>
 <script type="text/javascript" src="resources/javascripts/raphael.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
 <script type="text/javascript" src="resources/javascripts/main.js"></script>
 <!---->
-<script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
 
