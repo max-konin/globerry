@@ -207,4 +207,16 @@ public class CityDao implements ICityDao
 	
     }
 
+    @Override
+    public List<City> getDamagedCities()
+    {
+	List<City> cityDamagedList;
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	cityDamagedList =  sessionFactory.getCurrentSession().createQuery("from City as city where city.message is not null")
+	            .list();
+	tx.commit();
+	sessionFactory.close();
+	return cityDamagedList;
+    }
+
 }

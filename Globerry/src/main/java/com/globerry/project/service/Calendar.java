@@ -5,6 +5,7 @@ import java.util.Observable;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.domain.Month;
+import com.globerry.project.service.interfaces.ICalendar;
 
 @Service
 public class Calendar extends Observable implements ICalendar

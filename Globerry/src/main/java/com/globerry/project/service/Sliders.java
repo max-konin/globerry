@@ -7,6 +7,9 @@ import java.util.Observer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.globerry.project.service.interfaces.ISlider;
+import com.globerry.project.service.interfaces.ISliders;
+
 public class Sliders extends Observable implements ISliders
 {
     List<Slider> sliders = new ArrayList<Slider>();

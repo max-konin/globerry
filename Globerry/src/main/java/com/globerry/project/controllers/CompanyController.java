@@ -34,17 +34,14 @@ import com.globerry.project.domain.Tour;
 import com.globerry.project.service.CompanyService;
 import com.globerry.project.service.PropertyTypeService;
 import com.globerry.project.service.UserCityService;
+import com.globerry.project.service.interfaces.ICompanyService;
 
 //TODO
 @Controller
 public class CompanyController
 {
     @Autowired
-    private CompanyDao companyDao;
-    @Autowired
-    private CityDao cityDao;
-    @Autowired
-    private CompanyService cmpService;
+    private ICompanyService cmpService;
     @Autowired
     private PropertyTypeService PrTService;
     @Autowired

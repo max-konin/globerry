@@ -3,6 +3,7 @@ package com.globerry.project.service;
 import java.util.Observable;
 
 import com.globerry.project.domain.PropertyType;
+import com.globerry.project.service.interfaces.ISlider;
 
 public class Slider extends Observable implements ISlider
 {

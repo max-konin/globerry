@@ -12,6 +12,7 @@ import com.globerry.project.dao.EventDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.Month;
+import com.globerry.project.service.interfaces.IEventService;
 
 /**
  * @author Artem

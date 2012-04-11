@@ -36,7 +36,7 @@ import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.DependingMonthProperty;
 import com.globerry.project.domain.UploadItem;
-import com.globerry.project.service.AdminParser;
+import com.globerry.project.service.admin.AdminParser;
 
 /**
  * @author Artem

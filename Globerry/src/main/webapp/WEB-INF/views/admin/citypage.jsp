@@ -22,20 +22,22 @@
 	<table class="data">
 		<tr>
 			<th><spring:message code="label.name" /></th>
-			<th><spring:message code="label.email" /></th>
-			<th><spring:message code="label.login" /></th>
-			<th><spring:message code="label.password" /></th>
+			<th><spring:message code="label.area" /></th>
+			<th><spring:message code="label.population" /></th>
+			<th><spring:message code="label.ru_name" /></th>
+			<th><spring:message code="label.longitude" /></th>
+			<th><spring:message code="label.latitude" /></th>
 			<th>&nbsp;</th>
 		</tr>
 		<c:forEach items="${cityList}" var="city">
 			<tr>
-				<td>${city.name}</td>
+				<td><a href="update/${city.id}">${city.name}</a></td>
 				<td>${city.area}</td>
 				<td>${city.population}</td>
 				<td>${city.ru_name}</td>
 				<td>${city.longitude}</td>
 				<td>${city.latitude}</td>
-				<td><a href="cityadminpage/delete/${city.id}"><spring:message code="label.delete" /></a></td>
+				<td><a href="delete/${city.id}"><spring:message code="label.delete" /></a></td>
 			</tr>
 		</c:forEach>
 	</table>

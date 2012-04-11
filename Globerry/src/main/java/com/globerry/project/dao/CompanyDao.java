@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Tour;
@@ -178,6 +179,16 @@ public class CompanyDao implements ICompanyDao {
 	    companyList.add(company1);
 	    companyList.add(company2);
 	    return companyList;
+	}
+
+	@Override
+	public Company getCompanyById(int id)
+	{
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+		Company company = (Company)sessionFactory.getCurrentSession().get(Company.class, id);
+		tx.commit();
+		sessionFactory.close();
+		return company;
 	}
 
 }

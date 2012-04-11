@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.domain.City;
-import com.globerry.project.service.CityPage;
-import com.globerry.project.service.CompanyPage;
 import com.globerry.project.service.CompanyService;
+import com.globerry.project.service.admin.CityPage;
+import com.globerry.project.service.admin.CompanyPage;
 
 /**
  * @author Artem
  *
  */
-@Controller
-@RequestMapping("/admin")
+//@Controller
+//@RequestMapping("/admin_")
 public class CompanyAdminController
 {
-    static final String url = "companyadminpage";
+  /*  static final String url = "companyadminpage";
     
     
     @Autowired
@@ -42,5 +42,5 @@ public class CompanyAdminController
     {
 	cmpService.removeCompany(cityId);
 	return "redirect:/admin/" + url;
-    }
+    }//*/
 }

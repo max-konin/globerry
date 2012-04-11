@@ -153,5 +153,31 @@ public class CityDaoTest
 	    System.out.println(cityList.get(i));
 	}
     }
+    @Test
+    public void testDamagedList()
+    {
+	City city1 = new City();
+	city1.setName("Murmansk");
+	City city2 = new City();
+	city2.setName("Kaliningrad");
+	City city3 = new City();
+	city3.setName("Moscow");
+	city3.setMessage("error");
+	try
+	{
+	    cityDao.addCity(city1);
+	    cityDao.addCity(city2);
+	    cityDao.addCity(city3);
+	}
+	catch(MySqlException e)
+	{
+	    e.printStackTrace();
+	}
+	List<City> cityDamagedList = cityDao.getDamagedCities();
+	for(int i = 0; i < cityDamagedList.size(); i++)
+	{
+	    System.out.println(cityDamagedList.get(i).getName());
+	}
+    }
 
 }

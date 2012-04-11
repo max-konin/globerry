@@ -16,21 +16,21 @@ import com.globerry.project.service.CompanyService;
  * @author Artem
  *
  */
-@Controller
-@RequestMapping("/admin")
+//@Controller
+//@RequestMapping("/admin")
 public class TourAdminController
 {
-    static final String url = "touradminpage";
+   /* static final String url = "touradminpage";
     
     
     @Autowired
     private CompanyService cmpService;
     
- /*   @RequestMapping("/" + url)
+    @RequestMapping("/" + url)
     public String createForm(Map<String, Object> map)
     {
 	//map.put("city", new City());
-	map.put("tourList", cmpService.getTourList(company));
+	//map.put("tourList", cmpService.getTourList(company));
 	return "admin/tagpage";
     }
     @RequestMapping("/" + url + "/delete/{cityId}")

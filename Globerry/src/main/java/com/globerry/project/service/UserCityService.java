@@ -17,6 +17,7 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.service.interfaces.IUserCityService;
 
 @Service("userCityService")
 public class UserCityService implements IUserCityService

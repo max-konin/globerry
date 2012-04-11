@@ -3,6 +3,7 @@ package com.globerry.project.service;
 import java.util.Observable;
 
 import com.globerry.project.domain.Tag;
+import com.globerry.project.service.interfaces.IBlockItem;
 
 public class BlockItem extends Observable implements IBlockItem
 {

@@ -40,4 +40,9 @@ public interface ICityDao
     void updateCity(City city);
     public City getCityById(int id);
     public List<City> getCityList();
+    /**
+     * Функция извлекающая все города где есть message с ошибкой
+     * @return list<City> городов
+     */
+    public List<City> getDamagedCities();
 }

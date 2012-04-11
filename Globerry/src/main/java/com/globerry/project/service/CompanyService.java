@@ -12,6 +12,7 @@ import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.dao.TourDao;
+import com.globerry.project.service.interfaces.ICompanyService;
 import com.globerry.project.MySqlException;
 
 import org.springframework.beans.factory.annotation.Autowired;

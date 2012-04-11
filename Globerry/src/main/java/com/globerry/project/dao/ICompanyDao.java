@@ -47,5 +47,7 @@ public interface ICompanyDao
     public Set<Tour> getCompanyTourList(Company company);
     
     public Company getCompanyByLogin(String login);
+    
+    public Company getCompanyById(int id);
 
 }

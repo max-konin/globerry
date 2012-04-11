@@ -21,6 +21,7 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.ContextLoaderListener;
 import com.globerry.project.domain.City;
+import com.globerry.project.service.admin.AdminParser;
 
 /**
  * @author Artem
