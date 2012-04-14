@@ -79,6 +79,7 @@ public class CityDao implements ICityDao
 		 sessionFactory.getCurrentSession().update(event);
 	     }
 	 }
+	 city.getEvents().clear();
          sessionFactory.getCurrentSession().delete(city);
          tx.commit();
          sessionFactory.close();

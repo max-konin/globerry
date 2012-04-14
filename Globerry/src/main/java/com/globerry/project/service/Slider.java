@@ -26,5 +26,11 @@ public class Slider extends Observable implements ISlider
     {
 	return type;
     }
+    @Override
+    public void onChange(float newStateLeft, float newStateRight)
+    {
+	// TODO Auto-generated method stub
+	
+    }
 
 }

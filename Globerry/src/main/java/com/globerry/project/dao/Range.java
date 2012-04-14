@@ -11,7 +11,12 @@ public class Range
     private float maxX;
     private float maxY;
     public Range(){
-	
+    }
+    public Range(float minX, float maxX, float minY, float maxY){
+	this.minX = minX;
+	this.minY = minY;
+	this.maxX = maxX;
+	this.maxY = maxY;
     }
     public float getMinX()
     {

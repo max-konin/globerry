@@ -41,7 +41,8 @@ function init() {
     var cloudmade = new L.TileLayer(cloudmadeUrl, { maxZoom: 18, attribution: cloudmadeAttribution });
 
     map.setView(new L.LatLng(51.505, -0.09), 13).addLayer(cloudmade); //London 13
-
+	JSONContr.rangeChange();
+	
     //debag
     //var cir = [[100, 100, 50], [150, 200, 50], [100, 300, 50]];
     //debag
@@ -272,11 +273,14 @@ function init() {
     //======================================Map novigation==================
     map.on('viewreset', function() {
         //catches view reset e.g. zooming or any of unexpected resets(!)
-        JSONContr.cityRequest(1);
+    	alert("o_O");
+    	JSONContr.rangeChange();
+        //JSONContr.cityRequest(1);
     });
     map.on('moveend', function() {
         //catches move end.
-        JSONContr.cityRequest(1);
+    	JSONContr.rangeChange();
+        //JSONContr.cityRequest(1);
     });
    
         map.on('click', function(e) {
@@ -308,6 +312,15 @@ function init() {
     	    	
     	    	//jsonController.cityRequest(button);
     	    };
+    	    this.rangeChange = function(){    	    	
+    	    	$.post("/project/rangechange", 
+    	    			{minX : map.getBounds().getSouthWest().lng,
+        	    		maxX : map.getBounds().getNorthEast().lng,
+        	    		minY : map.getBounds().getSouthWest().lat,
+        	    		maxY : map.getBounds().getNorthEast().lat},
+        	    	  this.cityRequest(),
+        	    	  "json");
+    	    };
     	    this.sliderChange = function(slider){
     	    	jsonController.cityRequest(slider);
     	    };
@@ -324,9 +337,6 @@ function init() {
     	          });
     	    	//(myDataArray[0].name);
     	    	//return myDataArray;
-    	    };
-    	    this.rangeChange = function(input){
-    	    	
     	    };
     	};
     	function containerPointToLatLng(point){

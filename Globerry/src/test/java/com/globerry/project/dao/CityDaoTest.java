@@ -85,11 +85,7 @@ public class CityDaoTest
 	event.setName("new year");
 	eventDao.addEvent(event, city);
 	
-	Range range = new Range();
-	range.setMinX(80);
-	range.setMaxX(120);
-	range.setMinY(10);
-	range.setMaxY(90);
+	Range range = new Range(80,120,10,90);
 	
 	Set<City> cities = cityDao.getCityList(
 		//CityRequest.CityRequestGenerate(new Range(), new ArrayList<Property>())
@@ -180,4 +176,30 @@ public class CityDaoTest
 	}
     }
 
+    @Test
+    public void deletePlusList2()
+    {
+ City city1 = new City();
+ city1.setName("Bobryjsk1");
+ City city2 = new City();
+ city2.setName("Bobryjsk2");
+ try
+ {
+     cityDao.addCity(city1);
+     cityDao.addCity(city2);
+ } 
+ catch (MySqlException e)
+ {
+     e.printStackTrace();
+ }
+ Event ev = new Event();
+ ev.setName("Disnayland");
+ eventDao.addEvent(ev, city1);
+ System.out.println(ev.getId());
+ eventDao.addEvent(ev, city2);
+  
+ cityDao.removeCity(city1.getId());
+ cityDao.getCityList();
+ 
+    }
 }

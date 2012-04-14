@@ -46,8 +46,13 @@ public class EventDao implements IEventDao
 	    city.getEvents().add(event);
 	    try{
         	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-        	    
-        	    sessionFactory.getCurrentSession().save(event);
+        	    if (event.getId() == 0)
+        		sessionFactory.getCurrentSession().save(event);
+        	    else
+        		sessionFactory.getCurrentSession().update(event);
+        	    sessionFactory.getCurrentSession().update(city);
+        	    //int id = ((Event)sessionFactory.getCurrentSession().merge(event)).getId();
+        	    //event.setId(id);
         	    tx.commit();
         	    sessionFactory.close();
 	    }catch (Exception e)

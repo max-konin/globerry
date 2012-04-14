@@ -5,11 +5,13 @@ package com.globerry.project;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CityRequest;
+import com.globerry.project.dao.Range;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Hotel;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.service.UserCityService;
 
  
 /**
@@ -34,6 +39,11 @@ import com.globerry.project.domain.Tag;
 @Controller
 @Scope("session")
 public class HomeController {
+    @Autowired
+    UserCityService userCityService;
+
+    @Autowired
+    CityDao cityDao;
  
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
@@ -49,23 +59,36 @@ public class HomeController {
 	City[] cities = null;
         City city = new City();
         city.setName("New York ");
+        city.setId(1);
         city.setLatitude((float)51.508);
         city.setLongitude((float)-0.12);
         City city1 = new City();
         city1.setName("London ");
+        city1.setId(2);
         city1.setLatitude((float)51.505);
         city1.setLongitude((float)-0.09);
         City city2 = new City();
         city2.setName("Novosibirsk ");
+        city2.setId(3);
         city2.setLatitude((float)60.505);
         city2.setLongitude((float)-5.09);
-        List<City> cityList = new ArrayList<City>();
-        cityList.add(city);
-        cities = new City[3];//cityList.toArray(cities);
-        cities[0] = city;
-        cities[1] = city1;
-        cities[2] = city2;
-        System.out.println(cities[1]);
+        if (cityDao.getCityById(1) == null)
+        try
+	{
+	    cityDao.addCity(city);
+	    cityDao.addCity(city1);
+	    cityDao.addCity(city2);
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+        System.out.println("Запрос городов от клиента");
+        Set<City> cityList = userCityService.getCityList();
+        cities = new City[cityList.size()];
+        userCityService.getCityList().toArray(cities);
+        System.out.println("Найдено "+((Integer)cities.length).toString()+" города");
+        
         return cities;
     }
     //TODO delete this 
@@ -75,6 +98,11 @@ public class HomeController {
 	
 	System.out.println(tag.getId());
         
+    }
+    //TODO delete this 
+    @RequestMapping(value="/rangechange", method= RequestMethod.POST)
+    public void range(Range range) {
+	userCityService.changeRange(range);        
     }
 }
 

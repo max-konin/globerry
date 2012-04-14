@@ -12,6 +12,11 @@ public class PropertySegment
 	this.propertyType = property.getPropertyType();
 	this.setValue(property.getValue());
     }
+    public PropertySegment(PropertyType propertyType, float minValue, float maxValue){
+	this.propertyType = propertyType;
+	this.minValue = minValue;
+	this.maxValue = maxValue;
+    }
     public PropertyType getPropertyType()
     {
 	return propertyType;

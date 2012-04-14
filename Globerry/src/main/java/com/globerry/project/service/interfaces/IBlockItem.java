@@ -1,4 +1,7 @@
 package com.globerry.project.service.interfaces;
+
+import com.globerry.project.domain.Tag;
+
 /**
  * 
  * @author Сергей Крупин
@@ -7,4 +10,5 @@ package com.globerry.project.service.interfaces;
 public interface IBlockItem
 {
     public void onClick();
+    public Tag getTag();
 }

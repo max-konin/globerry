@@ -7,4 +7,5 @@ package com.globerry.project.service.interfaces;
 public interface ISlider 
 {
     public void onChange(float newState);
+    public void onChange(float newStateLeft,float newStateRight);
 }
