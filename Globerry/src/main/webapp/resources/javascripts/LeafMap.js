@@ -273,7 +273,6 @@ function init() {
     //======================================Map novigation==================
     map.on('viewreset', function() {
         //catches view reset e.g. zooming or any of unexpected resets(!)
-    	alert("o_O");
     	JSONContr.rangeChange();
         //JSONContr.cityRequest(1);
     });
