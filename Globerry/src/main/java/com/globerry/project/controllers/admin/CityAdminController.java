@@ -1,7 +1,10 @@
 package com.globerry.project.controllers.admin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -9,12 +12,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.globerry.project.MySqlException;
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Event;
 import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.IEntityCreator;
+import com.globerry.project.service.interfaces.IEventService;
 
+
+//@JsonAutoDetect
 @Controller
 @RequestMapping("/admin")
 public class CityAdminController
@@ -22,6 +31,9 @@ public class CityAdminController
    
     @Autowired
     private AbstractTypeFactory abstrFactory;
+    
+    @Autowired
+    private IEventService eventService;
     
     private IEntityCreator page = null;
     
@@ -48,6 +60,11 @@ public class CityAdminController
     {
 	page.getElemById(map, id);
 	return page.getJspUpdateFile();
+    }
+    @RequestMapping(value="/getevents", method=RequestMethod.GET)
+    public @ResponseBody List<Event> test() {
+	
+        return eventService.getEventList();
     }
     
     

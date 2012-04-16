@@ -3,6 +3,7 @@
  */
 package com.globerry.project.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,10 @@ public class EventService implements IEventService
      * @see com.globerry.project.service.IEventService#getEventList()
      */
     @Override
-    public Set<Event> getEventList()
+    public List<Event> getEventList()
     {
-	// TODO Auto-generated method stub
-	return null;
+	
+	return eventDao.getEventList();
     }
 
 
