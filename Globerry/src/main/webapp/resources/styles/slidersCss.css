@@ -66,6 +66,7 @@ form {
 	border: 1px solid #444;/**/
 	background: rgb(27, 33, 46);
 	opacity : 1;
+	cursor: pointer;
 }
 .ui-widget-header { 
 	border: 1px solid rgb(255, 94, 0);
@@ -75,6 +76,7 @@ form {
     background: -o-linear-gradient(left, rgb(255, 94, 0), rgb(255, 122, 2)); /* Opera 11.10+ */
     background: -ms-linear-gradient(left, rgb(255, 94, 0), rgb(255, 122, 2)); /* IE10 */
     background: linear-gradient(left, rgb(255, 94, 0), rgb(255, 122, 2)); /* CSS3 */ 
+    cursor: pointer;
 	opacity : 1;
 }
 .ui-corner-all {
