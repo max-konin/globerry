@@ -35,6 +35,8 @@ body, html
     -webkit-border-radius:4px;
     border-radius:4px;
 	z-index : 1;
+	display:block;
+	max-height : 60px;
 }
 #GLIMG
 {
@@ -78,15 +80,15 @@ body, html
 
  #Request
 {
-	margin-bottom: 1%;
+	margin-bottom: 0.2%;
 	width:100%;
 	height : 45px; 
 	position : relative;
 	background-color:rgb(37, 46, 64);
-	overflow :hidden;
+	/*overflow :hidden;*/
 	border: 1px;
 	border-color: black;
-
+	display:block;
 }
 #SliderRequestContent
 {
@@ -127,7 +129,7 @@ body, html
 	/*background-color:#777;
 	padding-left:2%;*/
 	padding-right:0%;
-	/*padding-top:0.9em;*/
+	padding-top:0.9em;
 	margin-left:0%;
 	margin-right:1.8%;
 }
@@ -162,35 +164,36 @@ body, html
  
  .textRequests
  {
- 	margin-top : 10px;
-	/*height : 60px;*/ 
+	height : 100%; 
 	position : relative;
 	margin-left:1.8%;
 	padding-right:1.8%;
 	/*background-color:#eee;*/
+	padding-top: 1.05%;
 	overflow :hidden;
 	float: left;
  }
  
  .reqMenu
  {
-  	padding-top : 10px;
-	height : 60px; 
+	height : 100%; /**/
 	position : relative;
 	/*background-color:#777;*/
 	float: left;
-	overflow :hidden;
+	overflow :visible;
 	padding-right:1.8%;
 	border-right: 1px solid #777;
  }
  
  .textInRequests
  {
+ 	padding-top : 0%;
+ 	margin-top : 0%;
+ 	/*height : 100%;*/
 	color:White;
 	font-size:12pt;
-    font-family : sans-serif;/*Helvetica;*/
+    font-family :sans-serif;
 	cursor :default;
-	margin-top: 4px;
  }
  
  .number
@@ -205,7 +208,7 @@ body, html
      white-space: nowrap;
      background-color: rgb(254, 105, 0);
      border: 1px solid Black;
-     padding: 0.16em 1.3em;
+     padding: 0.16em 0.9em;
      /*margin: 0.5em;*/
      font-family :sans-serif;
      text-decoration: none;
@@ -213,10 +216,12 @@ body, html
      -moz-border-radius: .2em;
      -webkit-border-radius: .2em;
      border-radius: .2em;
+     /*width : 50px;*/
  }
 #buttonHeadSwitcher:hover
 {
      background-color: rgb(252, 63, 0);
+     /*width : 50px;*/
 }
 
 #bottomToggle:hover
@@ -456,6 +461,9 @@ body, html
 	background-color:rgb(255, 119, 4);
 	border: 1px solid black;
 	cursor : pointer;
+	-moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
 }
 .fbText
 {
@@ -463,4 +471,27 @@ body, html
 	font-size:12pt;
     font-family :sans-serif;
 	cursor :default;
+}
+
+#whoReq
+{
+	display:block;
+}/**/
+#headText
+{
+	padding-top: 12px;
+	width : 70%;/**/
+	position : relative;
+	float : left;
+	text-align : center;
+	padding-left : 0px;
+}
+#HText
+{
+	width : 500px;/**/
+	opacity : 1;
+	border: none;
+	background : transparent;
+	color : white;
+	font-size : 14pt;
 }
