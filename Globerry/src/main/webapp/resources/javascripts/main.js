@@ -113,6 +113,7 @@ window.onload = function () {
 			monthName = "DECEMBER";
 		}
 		JSONContr.mounthChange(monthName);
+		JSONContr.cityRequest(1);
     });
 	
 	$("#WhenS").change(function () {
@@ -169,6 +170,7 @@ window.onload = function () {
 				}
 				if(str != ""){
 					JSONContr.mounthChange(monthNameInWhenS);
+					JSONContr.cityRequest(1);
 					prev.style.background = 'rgb(37, 46, 64)';
 					prev = document.getElementById(str);
 					prev.style.background = 'rgb(236, 72, 7)';					
@@ -184,6 +186,7 @@ window.onload = function () {
 				if(this.id == "coupleO") whoNameInWhoS = 4;
 				if(whoNameInWhoS != -1)
 					JSONContr.tagChange(whoNameInWhoS);
+					JSONContr.cityRequest(1);
 		});
 	});
 	
@@ -197,6 +200,7 @@ window.onload = function () {
 				if(this.id == "cruiseO") whatNameInWhatS = 9;
 				if(whatNameInWhatS != -1)
 					JSONContr.tagChange(whatNameInWhatS);
+					JSONContr.cityRequest(1);
 		});
 	});
 	
@@ -236,7 +240,8 @@ window.onload = function () {
 	$(".bottomButton").click(function(){
 		//alert(this.id);
 	});
-	$(window).resize(function (e) { 
+	$(window).resize(function (e) {
+		JSONContr.cityRequest(1);
 		/*alert("123");*/
 	});
 	
