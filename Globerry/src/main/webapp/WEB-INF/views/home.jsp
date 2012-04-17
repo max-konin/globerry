@@ -61,11 +61,11 @@
                 <div id ='whatReq' class='reqMenu'>
                 <!--<p class = 'textInRequests'>Загорать ----</p>-->
                        <select id="WhatS">
-							<option value="загорать">Загорать</option>
-							<option value="кататься">Кататься</option>
-							<option value="достопримечательности">Смотреть</option>
-							<option value="шоппинг">Шоппинг</option>
-							<option value="в круиз">Круиз</option><!--<-->
+							<option value="загорать" id="tanO">Загорать</option>
+							<option value="кататься" id="skiO">Кататься</option>
+							<option value="достопримечательности" id="watchO">Смотреть</option>
+							<option value="шоппинг" id="shopO">Шоппинг</option>
+							<option value="в круиз" id="cruiseO">Круиз</option><!--<-->
 							<option value="05"></option><!--<-->
 						</select>
                 </div>
