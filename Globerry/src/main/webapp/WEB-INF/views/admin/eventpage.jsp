@@ -45,41 +45,16 @@
             </style>
 			<script language ="javascript">
 	                $(document).ready(function() {
-	                	
-	                	
-	                	/*events_group = $.getJSON("getevents",
-                	            function(response) 
-                	            {
-                        				var events = [];	
-                        				/*$.each(response, function(key, val)
-   	    										{
-   	    											var id = val.id;
-   	    											var description = val.description;
-   	    											var image = val.image;
-   	    											var month = val.month;
-   	    											var name = val.name;
-   	    											var ru_description = val.ru_description;
-   	    											var ru_name = val.ru_name;
-   	    											
-   	    											events.push({
-   	    												Id: id,
-   	    												Description: description,
-   	    												Image: image,
-   	    												Month: month,
-   	    												Name: name,
-   	    												Ru_description: ru_description,
-   	    												Ru_name: ru_name
-   	    											});
-   	    										});*/
+
    	    									dataSource = new kendo.data.DataSource({
                         					transport: {
                         						 read:  {
                                                      url: "getevents",
-                                                     dataType: "jsonp"
+                                                     dataType: "json"
                                                  },
                                                  update: {
-                                                     url: "update",
-                                                     dataType: "jsonp"
+                                                     url: "edit",
+                                                     dataType: "json"
                                                  },
                                                  destroy: {
                                                      url: "delete",
@@ -87,11 +62,12 @@
                                                  }, 
                                                  create: {
                                                      url: "Create",
-                                                     dataType: "jsonp"
+                                                     dataType: "json"
                                                  },
                                                  parameterMap: function(options, operation) {
                                                      if (operation !== "read" && options.models) {
-                                                         return {models: kendo.stringify(options.models)};
+                                                    	 alert(kendo.stringify(options.models));
+                                                         return {event: kendo.stringify(options.models)};
                                                      }
                                                  } 
                         					},
@@ -99,14 +75,15 @@
                                             pageSize: 30,
                         					schema: {
                                                 model: {
+                                                	title: "event",
                                                     id: "id",
                                                     fields: {
-                                                    	description: { validation: { required: true } },
-                                                        image: { validation: { required: true } },
+                                                    	description: { type:"string", validation: { required: true } },
+                                                        image: { type:"string", validation: { required: true } },
                                                         month: { type: "number", validation: { required: true, min: 0} },
-                                                        name: {validation: { required: true } },
-                                                        ru_description: { validation: { required: true } },
-                                                        ru_name: {validation: { required: true } }
+                                                        name: { type:"string", validation: { required: true } },
+                                                        ru_description: { type:"string", validation: { required: true } },
+                                                        ru_name: { type:"string", validation: { required: true } }
                                                     }
                                                 }
                                             }
@@ -143,8 +120,9 @@
 	   						                        scrollable: true,
 	   						                        sortable: true,
 	   						                        pageable: true,
+	   						                        toolbar:["create"],
 	   						                        columns: [ 
-	   						                             /*   /*  {
+	   						                                  {
 	   						                                field: "id",
 	   						                           		} , 
 	   						                           		{
@@ -161,7 +139,7 @@
 	   						                           		} , 
 	   						                           		{
 	   						                                field: "ru_description"
-	   						                            	} , */
+	   						                            	} , 
 	   						                            	{
 	   							                            field: "image"
 	   						                            	} ,
@@ -271,6 +249,6 @@
 		</c:forEach>
 	</table>
 </c:if> -->
-
+<h1><%= request.getParameter("models") %></h1>
 </body>
 </html>
