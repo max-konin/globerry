@@ -7,7 +7,7 @@ function init() {
 	//version with normal map;
     var Width = $(document.getElementById("map")).width();
     var Height = $(document.getElementById("map")).height();
-    var arrln = 40, i, j;
+    var arrln = 200, i, j;
     var myArray = new Array();
     var p = 2;
     var level = 1.6;
@@ -29,7 +29,7 @@ function init() {
     var circle_counter;
     var my2Array = new Array();
     var i2, j2;
-    var arrln2 = 5;
+    var arrln2 = 3;
     var littleBlockWidth = blockWidth / arrln2;
     var littleBlockHeight = blockHeight / arrln2;
 
@@ -81,6 +81,8 @@ function init() {
         
         //alert(map.getZoom());
         R = 50*map.getZoom()/13;
+        if(R < 30) R*=1.03;
+        if(R < 20) R*=1.02;
         var circle_counter = 0;
         for (i = 0; i < arrln + 1; i++) {
             for (j = 0; j < arrln + 1; j++) {
