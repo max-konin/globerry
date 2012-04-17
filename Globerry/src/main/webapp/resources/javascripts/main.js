@@ -7,6 +7,9 @@ window.onload = function () {
     var headerflag = 0;
 	var prevBotBut;
 	var bottomActive = false;
+	
+    var JSONContr = new JsonController(); 
+	
     var prev = document.getElementById('jan');
     $("#SliderRequest").hide();
     $("#upperToggle").hide();
@@ -18,7 +21,6 @@ window.onload = function () {
                 $("#SliderRequest").slideToggle("slow");
                 $("#upperToggle").slideToggle("slow");
                 $("#bottomToggle").slideToggle("slow");
-				//$("bottomButton").style.background = 'rgb(37, 46, 64)';
 				$("#bottom").show();
 				//alert($(document.getElementById("WhenS")).val);
 				//alert($('select.#WhenS option:selected').option);
@@ -73,35 +75,130 @@ window.onload = function () {
 		//$("select#WhenS option:selected").val($("#WhenS").val());//.attr("selected", "selected");
 		//$('select#WhenS').val($("#WhenS").val()).change();
 		jQuery("input#HText").val("Едем " + $("#WhoS").val() + " " + $("#WhatS").val() + " в " + $("#WhenS").val() + "!");
-		selectWhensInMonthes = document.getElementById('WhenS');
-		//selectWhensInMonthes.options[$("#WhenS").val()].selected=true;
-		for(i in selectWhensInMonthes.options){
-			//alert("i: "+i + " op[i]: " + selectWhensInMonthes.options[i]);
+		monthName = "";
+		if(this.id == "jan") {
+			monthName = "JANUARY";
 		}
+		if(this.id == "febO"){
+			monthName = "FEBRUARY";
+		}
+		if(this.id == "mar"){
+			monthName = "MARCH";
+		}
+		if(this.id == "apr"){
+			monthName = "APRIL";
+		}
+		if(this.id == "may"){
+			monthName = "MAY";
+		}
+		if(this.id == "jun"){
+			monthName = "JUNE";
+		}
+		if(this.id == "jul"){
+			monthName = "JULY";
+		}
+		if(this.id == "aug"){
+			monthName = "AUGUST";
+		}
+		if(this.id == "sep"){
+			monthName = "SEPTEMBER";
+		}				
+		if(this.id == "oct"){
+			monthName = "OCTOBER";
+		}
+		if(this.id == "nov"){
+			monthName = "NOVEMBER";
+		}
+		if(this.id == "dec"){
+			monthName = "DECEMBER";
+		}
+		JSONContr.mounthChange(monthName);
     });
 	
 	$("#WhenS").change(function () {
 		$("select option:selected").each(function () {
 				str="";
-				if(this.id == "janO") str="jan";
-				if(this.id == "febO") str="feb";
-				if(this.id == "marO") str="mar";
-				if(this.id == "aprO") str="apr";
-				if(this.id == "mayO") str="may";
-				if(this.id == "junO") str="jun";
-				if(this.id == "julO") str="jul";
-				if(this.id == "sepO") str="sep";
-				if(this.id == "octO") str="oct";
-				if(this.id == "novO") str="nov";
-				if(this.id == "decO") str="dec";
+				monthNameInWhenS="";
+				if(this.id == "janO") {
+					str="jan";
+					monthNameInWhenS = "JANUARY";
+				}
+				if(this.id == "febO"){
+					str="feb";
+					monthNameInWhenS = "FEBRUARY";
+				}
+				if(this.id == "marO"){
+					str="mar";
+					monthNameInWhenS = "MARCH";
+				}
+				if(this.id == "aprO"){
+					str="apr";
+					monthNameInWhenS = "APRIL";
+				}
+				if(this.id == "mayO"){
+					str="may";
+					monthNameInWhenS = "MAY";
+				}
+				if(this.id == "junO"){
+					str="jun";
+					monthNameInWhenS = "JUNE";
+				}
+				if(this.id == "julO"){
+					str="jul";
+					monthNameInWhenS = "JULY";
+				}
+				if(this.id == "augO"){
+					str="aug";
+					monthNameInWhenS = "AUGUST";
+				}
+				if(this.id == "sepO"){
+					str="sep";
+					monthNameInWhenS = "SEPTEMBER";
+				}				
+				if(this.id == "octO"){
+					str="oct";
+					monthNameInWhenS = "OCTOBER";
+				}
+				if(this.id == "novO"){
+					str="nov";
+					monthNameInWhenS = "NOVEMBER";
+				}
+				if(this.id == "decO"){
+					str="dec";
+					monthNameInWhenS = "DECEMBER";
+				}
 				if(str != ""){
+					JSONContr.mounthChange(monthNameInWhenS);
 					prev.style.background = 'rgb(37, 46, 64)';
 					prev = document.getElementById(str);
-					prev.style.background = 'rgb(236, 72, 7)';
+					prev.style.background = 'rgb(236, 72, 7)';					
 				}
               });
 	});
+	$("#WhoS").change(function () {
+		$("select option:selected").each(function () {
+				whoNameInWhoS = -1;
+				if(this.id == "friendsO") whoNameInWhoS = 1;
+				if(this.id == "familyO") whoNameInWhoS = 2;
+				if(this.id == "aloneO") whoNameInWhoS = 3;
+				if(this.id == "coupleO") whoNameInWhoS = 4;
+				if(whoNameInWhoS != -1)
+					JSONContr.tagChange(whoNameInWhoS);
+		});
+	});
 	
+	$("#WhatS").change(function () {
+		$("select option:selected").each(function () {
+				whatNameInWhatS = -1;
+				if(this.id == "tanO") whatNameInWhatS = 5;
+				if(this.id == "skiO") whatNameInWhatS = 6;
+				if(this.id == "watchO") whatNameInWhatS = 7;
+				if(this.id == "shopO") whatNameInWhatS = 8;
+				if(this.id == "cruiseO") whatNameInWhatS = 9;
+				if(whatNameInWhatS != -1)
+					JSONContr.tagChange(whatNameInWhatS);
+		});
+	});
 	
 	$(".bottomButton").click(function(){
 		if( bottomActive == false){
@@ -145,5 +242,70 @@ window.onload = function () {
 	
     
     init();
+    
+    
+    //=========================JSON Controller===========================
+    function JsonController(){
+	    this.buttonClick = function(button){
+	    	function objFactory(){
+	    		  return {
+	    		    constructor : objFactory
+	    		  };
+	    		};
+	    	$.post("/project/selecttag", 
+	    		{
+	    		id : 1
+	    		}
+	    	  ,
+	    	  jsonController.cityRequest(button),
+	    	  "json");
+	    	
+	    	
+	    	//jsonController.cityRequest(button);
+	    };
+	    this.rangeChange = function(){    	    	
+	    	$.post("/project/rangechange", 
+	    			{minX : map.getBounds().getSouthWest().lng,
+    	    		maxX : map.getBounds().getNorthEast().lng,
+    	    		minY : map.getBounds().getSouthWest().lat,
+    	    		maxY : map.getBounds().getNorthEast().lat},
+    	    	  this.cityRequest(),
+    	    	  "json");
+	    };
+	    this.tagChange = function(tagId){
+	    	$.post("/project/tagchange", 
+	    			{id : tagId},
+    	    	  null,
+    	    	  "json");
+	    };
+	    this.mounthChange = function(monthName){
+	    	//monthName == JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+			$.post("/project/monthchange", 
+					{month : monthName},
+		    	  null,
+		    	  "json");
+	    };
+	    this.sliderChange = function(idSlider, leftValueSlider, rightValueSlider){
+	    	$.post("/project/sliderchange", 
+	    			{id : idSlider,
+	    			leftValue : leftValueSlider,
+	    			rightValue : rightValue},
+    	    	  null,
+    	    	  "json");
+	    };
+	    this.cityRequest = function(input){
+	    	$.getJSON("/project/getcities",
+	            function(data) {
+	    			redraw(data, 0);
+	                // do something with the data
+	                //myDataArray = data;
+	          });
+	    };
+	};
+	function containerPointToLatLng(point){
+		return map.layerPointToLatLng((map.containerPointToLayerPoint(point)));
+	};
+
+    
 
 }
