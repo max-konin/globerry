@@ -50,10 +50,10 @@
                 <div id ='whoReq' class='reqMenu'>
                     <!--<p class = 'textInRequests'>С друзьями--</p>-->
                     	<select id="WhoS">
-							<option value="с друзьями">С друзьями</option>
-							<option value="с семьей">С семьей</option>
-							<option value="один">Один</option>
-							<option value="вдвоем">Вдвоем</option>
+							<option value="с друзьями" id = "friendsO">С друзьями</option>
+							<option value="с семьей" id ="familyO">С семьей</option>
+							<option value="один" id= "aloneO">Один</option>
+							<option value="вдвоем" id = "coupleO">Вдвоем</option>
 							<option value="04"></option><!--<-->
 						</select>
                 </div>
