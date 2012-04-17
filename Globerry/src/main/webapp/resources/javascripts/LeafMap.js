@@ -8,6 +8,8 @@ function init() {
     var Width = $(document.getElementById("map")).width();
     var Height = $(document.getElementById("map")).height();
     var arrln = 200, i, j;
+    if(Width < 1200)
+    	arrln = 100;
     var myArray = new Array();
     var p = 2;
     var level = 1.6;
@@ -30,6 +32,8 @@ function init() {
     var my2Array = new Array();
     var i2, j2;
     var arrln2 = 3;
+    if(Width < 1200)
+    	arrln2 = 5;
     var littleBlockWidth = blockWidth / arrln2;
     var littleBlockHeight = blockHeight / arrln2;
 
