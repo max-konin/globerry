@@ -320,22 +320,34 @@ function init() {
         	    	  this.cityRequest(),
         	    	  "json");
     	    };
-    	    this.sliderChange = function(slider){
-    	    	jsonController.cityRequest(slider);
+    	    this.tagChange = function(tagId){
+    	    	$.post("/project/tagchange", 
+    	    			{id : tagId},
+        	    	  null,
+        	    	  "json");
+    	    };
+    	    this.mounthChange = function(monthName){
+    	    	//monthName == JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+    			$.post("/project/monthchange", 
+    					{month : monthName},
+    		    	  null,
+    		    	  "json");
+    	    };
+    	    this.sliderChange = function(idSlider, leftValueSlider, rightValueSlider){
+    	    	$.post("/project/sliderchange", 
+    	    			{id : idSlider,
+    	    			leftValue : leftValueSlider,
+    	    			rightValue : rightValue},
+        	    	  null,
+        	    	  "json");
     	    };
     	    this.cityRequest = function(input){
-    	    	//myDataArray = new Array();
-    	    	//alert("!!!");
     	    	$.getJSON("/project/getcities",
     	            function(data) {
-                        //alert('123');
     	    			redraw(data, 0);
     	                // do something with the data
     	                //myDataArray = data;
-    	    			
     	          });
-    	    	//(myDataArray[0].name);
-    	    	//return myDataArray;
     	    };
     	};
     	function containerPointToLatLng(point){

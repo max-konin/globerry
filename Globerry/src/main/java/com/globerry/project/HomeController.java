@@ -26,10 +26,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CityRequest;
+import com.globerry.project.dao.PropertyTypeDao;
 import com.globerry.project.dao.Range;
+import com.globerry.project.dao.TagDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Hotel;
+import com.globerry.project.domain.Month;
+import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.domain.TagsType;
+import com.globerry.project.service.BlockItem;
+import com.globerry.project.service.BlockWhat;
+import com.globerry.project.service.BlockWho;
+import com.globerry.project.service.Calendar;
+import com.globerry.project.service.MyDate;
+import com.globerry.project.service.SliderData;
+import com.globerry.project.service.Sliders;
 import com.globerry.project.service.UserCityService;
 
  
@@ -41,9 +53,20 @@ import com.globerry.project.service.UserCityService;
 public class HomeController {
     @Autowired
     UserCityService userCityService;
-
     @Autowired
     CityDao cityDao;
+    @Autowired
+    Sliders sliders;
+    @Autowired
+    PropertyTypeDao propertyTypeDao;
+    @Autowired
+    BlockWhat blockWhat;
+    @Autowired
+    BlockWho blockWho;
+    @Autowired
+    TagDao tagDao;
+    @Autowired
+    Calendar calendar;
  
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
@@ -72,12 +95,22 @@ public class HomeController {
         city2.setId(3);
         city2.setLatitude((float)60.505);
         city2.setLongitude((float)-5.09);
+        
+        Tag tag1 = new Tag();
+        tag1.setName("ololo");
+        tag1.setTagsType(TagsType.WHO);
+        
+        PropertyType propertyType = new PropertyType();
+        propertyType.setName("prop");
+        
         if (cityDao.getCityById(1) == null)
         try
 	{
 	    cityDao.addCity(city);
 	    cityDao.addCity(city1);
 	    cityDao.addCity(city2);
+	    tagDao.addTag(tag1);
+	    propertyTypeDao.addPropertyType(propertyType);
 	} catch (MySqlException e)
 	{
 	    // TODO Auto-generated catch block
@@ -104,5 +137,30 @@ public class HomeController {
     public void range(Range range) {
 	userCityService.changeRange(range);        
     }
+    @RequestMapping(value="/sliderchange", method= RequestMethod.POST)
+    public void slider(SliderData sliderData) {
+	PropertyType type = propertyTypeDao.getById(sliderData.getId());
+	sliders.addOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
+    }
+    @RequestMapping(value="/tagchange", method= RequestMethod.POST)
+    public void who(Tag tag) {    
+
+	System.out.println(tag.getId());
+	tag = tagDao.getTagById(tag.getId());
+	System.out.println(tag.getName());
+	if (tag !=null){
+	    BlockItem blockItem = new BlockItem(tag);
+	    if (tag.getTagsType() == TagsType.WHO)
+		blockWho.setSelected(blockItem);
+	    else
+		blockWhat.setSelected(blockItem);
+	}
+    }
+    @RequestMapping(value="/monthchange", method= RequestMethod.POST)
+    public void month(MyDate myDate) {   
+	calendar.changeMonth(myDate.getMonth());
+    }
+    
+    
 }
 

@@ -89,8 +89,6 @@ public class UserCityService implements IUserCityService
 	Set<City> resultRequest = cityDao.getCityList(request);
 	return resultRequest;
     }
-
-    @Override
     public void update(Observable o, Object arg)
     {
 	if (arg.getClass() == EventUI.class){

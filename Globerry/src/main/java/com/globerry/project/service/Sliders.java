@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.dao.PropertySegment;
 import com.globerry.project.domain.Property;
+import com.globerry.project.domain.PropertyType;
 import com.globerry.project.service.interfaces.ISlider;
 import com.globerry.project.service.interfaces.ISliders;
 
@@ -32,7 +33,23 @@ public class Sliders extends Observable implements ISliders
 	// TODO Auto-generated method stub
 	
     }
-
+    public Slider getSlider(PropertyType type){
+	Iterator<Slider> it = sliders.iterator();
+	while(it.hasNext()){
+	    Slider slider = it.next();
+	    if (slider.getType().equals(type))
+		return slider;
+	}
+	return null;
+    }
+    public void addOrCreate(PropertyType type,int leftValue,int rightValue){
+	Slider slider = getSlider(type);
+	if (slider == null){
+	    slider = new Slider(type);
+	    this.addSlider(slider);
+	}
+	slider.onChange(leftValue, rightValue);
+    }
     @Override
     public void addSlider(ISlider slider)
     {
