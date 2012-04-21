@@ -25,6 +25,8 @@ public class PropertyType
     private float maxValue;
     @Column
     private float minValue;
+    @Column
+    private boolean betterWhenLess = true; 
     public int getId()
     {
 	return id;
@@ -73,5 +75,13 @@ public class PropertyType
     public void setMinValue(float minValue)
     {
 	this.minValue = minValue;
+    }
+    public boolean isBetterWhenLess()
+    {
+	return betterWhenLess;
+    }
+    public void setBetterWhenLess(boolean betterWhenLess)
+    {
+	this.betterWhenLess = betterWhenLess;
     }
 }

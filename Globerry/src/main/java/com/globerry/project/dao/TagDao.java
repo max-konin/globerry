@@ -77,9 +77,10 @@ public class TagDao implements ITagDao
     @Override
     public void addTag(Tag tag) throws MySqlException
     {
+	Transaction tx = null;
 	  try
 	    {
-		Transaction tx = sessionFactory.getCurrentSession()
+		tx = sessionFactory.getCurrentSession()
 				.beginTransaction();
 		sessionFactory.getCurrentSession().save(tag);
       		tx.commit();
@@ -87,6 +88,8 @@ public class TagDao implements ITagDao
 	    }
 	    catch (ConstraintViolationException e)
 	    {
+		if(tx !=null)
+			tx.rollback();
 		MySqlException mySqlExc = new MySqlException();
 		mySqlExc.setMyClass(tag);
 		mySqlExc.setDescription("Name of tag is dublicated");

@@ -4,6 +4,7 @@ package com.globerry.project.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,10 +25,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.mapping.Collection;
+
+import com.globerry.project.dao.PropertySegment;
 
 @Entity
 @Table(name = "City")
@@ -105,6 +109,8 @@ public class City implements Serializable
        inverseJoinColumns = @JoinColumn( name="property_id")
 	    )
     private Set<Property> propertyList = new HashSet<Property>();
+    @Transient
+    private float weight;
     public int getId()
     {
 	return id;
@@ -246,6 +252,35 @@ public class City implements Serializable
 		this.getLongitude() == city.getLongitude())
 	    return true;
 	else return false;
+    }
+    public float getWeight()
+    {
+	return weight;
+    }
+    public void setWeight(float weight)
+    {
+	this.weight = weight;
+    }
+    public PropertySegment getValueByPropertyType(PropertyType type){
+	if (type.isDependingMonth()){
+	    Iterator<DependingMonthProperty> it = dmpList.iterator();
+	    while (it.hasNext()){
+		DependingMonthProperty property = it.next();
+		if (property.getPropertysType().getId() == type.getId()){
+		    PropertySegment propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
+		}
+	    }
+	}else{
+	    Iterator<Property> it = propertyList.iterator();
+	    while (it.hasNext()){
+		Property property = it.next();
+		if (property.getPropertyType().getId() == type.getId()){
+		    PropertySegment propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
+		}
+	    }
+	}
+	return null;
+	
     }
 
 }

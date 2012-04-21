@@ -161,8 +161,36 @@ public class CityDao implements ICityDao
     		request.getRange().getMinY() ,
     		request.getRange().getMaxY()));
 	result = new HashSet<City>(criteria.list());
+	weightCalculation(result,request);
 	tx.commit();
 	return result;
+    }
+    private void weightCalculation(Set<City> cityList, CityRequest request){
+	Iterator<City> itCity = cityList.iterator();
+	while (itCity.hasNext()){
+	    City city = itCity.next();
+	    city.setWeight(1);
+	    Iterator<PropertySegment> itProperty = request.getOption().iterator();
+	    while (itProperty.hasNext()){
+		PropertySegment propertyRequest = itProperty.next();
+		PropertySegment propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
+		if (propertyCity != null){
+		    //TODO
+		    float a,b;
+		    if (propertyRequest.getPropertyType().isBetterWhenLess()){
+			a = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
+			b = propertyCity.getMaxValue();
+		    }else{
+			a = (propertyRequest.getMaxValue() - propertyRequest.getMinValue())/2;
+			b = Math.abs(propertyCity.getMaxValue()-a);
+		    }
+		    float k = b/a;
+		    if (k < 0.2) k = (float) 0.2;
+		    city.setWeight(city.getWeight()*k);		    
+		}
+	    }
+	    city.setWeight((float) Math.pow(city.getWeight(),1/((double) request.getOption().size())));
+	}
     }
 
 

@@ -67,6 +67,7 @@ public class HomeController {
     TagDao tagDao;
     @Autowired
     Calendar calendar;
+    private boolean basebase = true;
  
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
@@ -103,9 +104,10 @@ public class HomeController {
         PropertyType propertyType = new PropertyType();
         propertyType.setName("prop");
         
-        if (cityDao.getCityById(1) == null)
+        if (cityDao.getCityById(1) == null || basebase ){
         try
 	{
+            basebase = false;
 	    cityDao.addCity(city);
 	    cityDao.addCity(city1);
 	    cityDao.addCity(city2);
@@ -115,7 +117,7 @@ public class HomeController {
 	{
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	}
+	}}
         System.out.println("Запрос городов от клиента");
         Set<City> cityList = userCityService.getCityList();
         cities = new City[cityList.size()];
@@ -125,27 +127,20 @@ public class HomeController {
         return cities;
     }
     //TODO delete this 
-    @RequestMapping(value="/selecttag", method= RequestMethod.POST)
-    public void testPost(Tag tag) {
-	
-	
-	System.out.println(tag.getId());
-        
-    }
-    //TODO delete this 
     @RequestMapping(value="/rangechange", method= RequestMethod.POST)
     public void range(Range range) {
+        System.out.println("Передвинули карту");
 	userCityService.changeRange(range);        
     }
     @RequestMapping(value="/sliderchange", method= RequestMethod.POST)
     public void slider(SliderData sliderData) {
+        System.out.println("Сдвинули слайдер");
 	PropertyType type = propertyTypeDao.getById(sliderData.getId());
 	sliders.addOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
     }
     @RequestMapping(value="/tagchange", method= RequestMethod.POST)
     public void who(Tag tag) {    
-
-	System.out.println(tag.getId());
+        System.out.println("выбрали тег");
 	tag = tagDao.getTagById(tag.getId());
 	System.out.println(tag.getName());
 	if (tag !=null){
@@ -158,6 +153,7 @@ public class HomeController {
     }
     @RequestMapping(value="/monthchange", method= RequestMethod.POST)
     public void month(MyDate myDate) {   
+        System.out.println("Выбрали месяц");
 	calendar.changeMonth(myDate.getMonth());
     }
     
