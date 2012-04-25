@@ -4,10 +4,10 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xsi:schemaLocation="
-		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
 	<!-- <jdbc:embedded-database id="dataSource" type="H2"/> -->
@@ -48,7 +48,6 @@
 		</property>
 		<property name="hibernateProperties">
 			<props>
-			<prop key="hibernate.connection.provider_class">org.hibernate.connection.ProxoolConnectionProvider</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.current_session_context_class">thread</prop>
 				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>	

@@ -3,7 +3,7 @@
  */
 package com.globerry.project.controllers.admin;
 
-import java.util.Map;
+/*import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.globerry.project.service.CompanyService;
 
-/**
+*//**
  * @author Artem
  *
- */
+ *//*
 //@Controller
 //@RequestMapping("/admin")
 public class TourAdminController
@@ -38,5 +38,6 @@ public class TourAdminController
     {
 	cmpService.removeCompany(cityId);
 	return "redirect:/admin/" + url;
-    }//*/
+    }//
 }
+*/

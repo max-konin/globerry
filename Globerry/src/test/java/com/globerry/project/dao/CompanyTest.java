@@ -47,6 +47,7 @@ public class CompanyTest
     @Autowired
     private CompanyDao companyDao;
     Company company = new Company();
+    
     @Test(timeout=1000)
     public void AddTest() throws Exception
     {

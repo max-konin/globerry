@@ -6,7 +6,7 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hbm2ddl.auto">create</property>
-		<property name="hibernate.connection.provider_class">org.hibernate.connection.ProxoolConnectionProvider</property>	
+	
 		<mapping class="com.globerry.project.domain.Company"/>
 		<mapping class="com.globerry.project.domain.Tour"/>
 		<mapping class="com.globerry.project.domain.Property"/>

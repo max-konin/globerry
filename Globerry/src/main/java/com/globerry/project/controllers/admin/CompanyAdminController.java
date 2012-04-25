@@ -16,10 +16,10 @@ import com.globerry.project.service.CompanyService;
 import com.globerry.project.service.admin.CityPage;
 import com.globerry.project.service.admin.CompanyPage;
 
-/**
+*//**
  * @author Artem
  *
- */
+ *//*
 //@Controller
 //@RequestMapping("/admin_")
 public class CompanyAdminController
@@ -44,3 +44,4 @@ public class CompanyAdminController
 	return "redirect:/admin/" + url;
     }//*/
 }
+*/
