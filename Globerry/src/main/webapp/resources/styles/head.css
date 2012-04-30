@@ -1,0 +1,624 @@
+ #div_container
+{
+	width:100%;
+	height : 100%; 
+	position : absolute;
+	min-width : 900px;
+	min-height : 600px;
+	scrolling : auto;
+	/*background-color:#333;*/
+}
+
+#map
+{
+	bottom : 0%;
+	right: 0%;
+	width: 100%;
+	min-width : 900px;
+	min-height : 600px;
+	height : 100%; 
+	position : absolute;
+	margin: 0 auto;
+	z-index : 0;
+	background-color: white;
+}
+
+#top
+{
+	top : 0%;
+	left: 0%;
+	width: 100%;
+	height : 2px; 
+	position : absolute;
+	margin: 0 auto;
+	z-index : 1;
+	background-color:#333;
+}
+
+#invisibleHeadBlock
+{
+	margin-left : -450px;
+	width: 50%;
+	height : 100%; 
+	position : relative;
+	z-index : 1;
+	background-color:#777;
+	float : left;
+}
+
+#head
+{
+	width: 900px;
+	height : 2px; 
+	position : relative;
+	z-index : 1;
+	background-color:red;
+	float : left;
+	overflow : visible;
+}
+
+#header
+{
+	margin-bottom:-163px;
+	width: 900px;
+	height : 95px; 
+	position : relative;
+	z-index : 1;
+	/background-color:orange;
+}
+
+#headTop
+{
+	width: 900px;
+	height : 39px; 
+	position : relative;
+	z-index : 1;
+	background: url(../img/GloberryTitleBG.png) no-repeat;
+}
+#GloberryTitle
+{
+	position: relative;
+	width: 178px;
+	height: 39px;
+	float: left;
+	background: url(../img/GloberryTitle.png) no-repeat;
+}
+
+#headContent1
+{
+	width: 900px;
+	height : 38px; 
+	position : relative;
+	z-index : 1;
+	background: url(../img/FirstHeaderBGSmall.png) no-repeat;
+	opacity: 0.95;
+	overflow : visible;
+}
+
+#headContent2
+{
+	width: 900px;
+	height : 0px; 
+	position : relative;
+	z-index : 1;
+	display:none;
+	background: url(../img/SecondHeaderBG.png) no-repeat;
+	opacity: 0.95;
+}
+#headBottom
+{
+	width: 900px;
+	height : 17px; 
+	position : relative;
+	/z-index : 1;
+	background: url(../img/GloberryFirstHeaderBottom.png) no-repeat;
+	border-bottom-left-radius: 3.8px;
+	border-bottom-right-radius: 3.8px;
+	overflow : visible;
+	display : block;
+}
+#calendar
+{
+	width: 876px;
+	margin-left: 23px;
+	height : 0px; /*26px*/
+	position : relative;
+	z-index : 1;
+	/background: url(../img/GloberryFirstHeaderBottom.png) no-repeat;
+	opacity: 0.95;
+	display: none;
+}
+
+#WhoText
+{
+	width: 141px;
+	background: url(../img/WhoReqText.png) no-repeat;
+}
+
+#WhatText
+{
+	width: 151px;
+	margin-left: 118px;
+	background: url(../img/WhatReqText.png) no-repeat;
+}
+#WhenText
+{
+	width: 108px;
+	margin-left: 116px;
+	background: url(../img/WhenReqText.png) no-repeat;
+}
+.requestText
+{
+	height : 38px; 
+	position : relative;
+	float: left;
+	z-index : 1;
+}
+#HeaderButton
+{
+	width: 146px;
+	height : 38px; 
+	position : relative;
+	float: left;
+	margin-left: 120px;
+	z-index : 1;
+	/background: url(../img/GoButtonWithBg.png) no-repeat;
+}
+
+#HeaderButtonText
+{
+	background: url(../img/GoButtonWithoutBg.png) no-repeat;
+	z-index:3;
+	cursor : pointer;
+}
+#HeaderButtonTBackGround
+{
+	background: url(../img/GoButtonBg.png) no-repeat;
+	-moz-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+	z-index:2;
+	cursor : pointer;
+}
+
+.headerButton
+{
+	position: absolute;
+	width: 109px;
+	height : 24px; 	
+	left: 17px;
+	top : 7px;
+}
+#HeaderButtonUp
+{
+	width: 83px;
+	height : 17px; 
+	position : relative;
+	float: right;
+	margin-right: 19px;
+	z-index : 2;
+	background: url(../img/SecondHeaderUpButton.png) no-repeat;
+	opacity : 0;
+	display:none;
+	cursor: pointer;
+}
+
+#UpperHeaderBlockWithCircle
+{
+	width: 81px;
+	height : 39px; 
+	position : relative;
+	float: right;
+	margin-right: 20px;
+	z-index : 2;
+	background: url(../img/SecondHeaderUpperBlockWithoutCircle.png) no-repeat;
+	opacity : 0;
+	display:none;
+}
+
+#circle
+{
+	position: absolute;
+	width: 10px;
+	height : 10px; 	
+	left: 36px;
+	top : 20px;
+	cursor: pointer;
+	background: url(../img/SecondHeaderUpperBlockCircle.png) no-repeat;
+}
+
+.secondHeaderBlocks
+{
+	position : relative;
+	float : left;
+	height : 100px;
+	width : 200px;
+}
+
+#FifthBlock
+{
+	width: 100px;
+}
+
+#FifthBlockText
+{
+	position : relative;
+	float : left;
+	height : 100px;
+	width : 55px;
+	background: url(../img/SecondHeaderUpperRightBlockTextVisLang.png) no-repeat;
+	margin-left: 4px;
+}
+
+#VisaButtonActive
+{
+	position: absolute;
+	width: 13px;
+	height : 13px; 	
+	left: 55px;
+	top : 28px;
+	cursor: pointer;
+	background: url(../img/LangVisaButtonActive.png) no-repeat;
+}
+
+#LangButtonActive
+{
+	position: absolute;
+	width: 13px;
+	height : 13px; 	
+	left: 55px;
+	bottom : 19px;
+	cursor: pointer;
+	background: url(../img/LangVisaButtonActive.png) no-repeat;
+}
+
+#CalendarIMG
+{
+	position : absolute;
+	left: 0px;
+	height : 26px;
+	width : 854px;
+	background: url(../img/CalendarBase.png) no-repeat;
+	border-bottom-left-radius: 3.8px;
+	border-bottom-right-radius: 3.8px;
+	opacity: 0.95;
+	z-index: 2;
+}
+#calendarText
+{
+	position: absolute;
+	width: 820px;
+	height : 26px; 	
+	left: 34px;
+	cursor: pointer;
+	background: url(../img/CalendarMainText.png) no-repeat;
+	z-index:4;
+}
+
+.upperClicableCaendar
+{
+	height: 26px;
+	position : absolute;
+	cursor: pointer;
+	z-index:5;	
+}
+.upperClicableCaendarBG
+{
+	height: 26px;
+	position : absolute;
+	cursor: pointer;
+	z-index:3;
+	background: url(../img/MonthBgActive.png);
+	opacity: 0;
+}
+#JanB, #JanBG
+{
+	left: 34px;
+	width: 71px;
+}
+#FebB, #FebBG
+{
+	left: 105px;
+	width: 72px;
+}
+#MarB, #MarBG
+{
+	left: 177px;
+	width: 63px;
+}
+#AprB, #AprBG
+{
+	left: 240px;
+	width: 70px;	
+}
+#MayB, #MayBG
+{
+	left: 310px;
+	width: 68px;
+}
+#JunB, #JunBG
+{
+	left: 378px;
+	width: 66px;
+}
+#JulB, #JulBG
+{
+	left: 444px;
+	width: 66px;
+}
+#AugB, #AugBG
+{
+	left: 510px;
+	width: 68px;
+}
+#SepB, #SepBG
+{
+	left: 578px;
+	width: 67px;
+}
+#OctB, #OctBG
+{
+	left: 645px;
+	width: 67px;
+}
+#NovB, #NovBG
+{
+	left: 712px;
+	width: 66px;
+}
+#DecB, #DecBG
+{
+	left: 778px;
+	width: 76px;
+	border-bottom-right-radius: 3.8px;
+}
+#JanBG
+{
+	opacity: 1;
+}
+
+#WhoSelectListBG
+{
+	left : 141px;
+}
+#WhatSelectListBG
+{
+	left : 410px;
+}
+#WhenSelectListBG
+{
+	left : 634px;
+}
+.ListBG
+{
+	position: absolute;
+	margin-top : 10px;
+	width: 100px;
+	height: 22px;
+	background: url(../img/DroppingListMain.png);
+}
+.ListButton
+{
+	position: absolute;
+	margin-top : 2px;
+	margin-left : 80px;
+	width: 18px;
+	height: 18px;
+	opacity : none;
+	background: url(../img/lay-selectMoreButton.png);
+	cursor : pointer;
+	overflow: visible;
+}
+#WhoSelectBG
+{
+	max-height : 94px;
+	background: url(../img/WhoSelcetBG.png);
+}
+#WhatSelectBG
+{
+	max-height : 114px;
+	background: url(../img/WhatSelcetBG.png);
+}
+#WhenSelectBG
+{
+	max-height : 260px;
+	background: url(../img/WhenSelcetBG.png);
+}
+
+.SelectLargeImage
+{
+	position: relative;
+	margin-top : 24px;
+	/left : 141px;
+	z-index: 100;
+	width: 100px;
+	height : 0px;
+	cursor : pointer;
+	-moz-border-radius:2px;
+    -khtml-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+}
+
+#alone
+{
+	padding-top : 8px;
+}
+.selectItem
+{
+	margin-top : 2px;
+	position : relative;
+	width : 100px;
+	height: 21px;
+	cursor : pointer;
+}
+
+.selected
+{
+	position: absolute;
+	margin-top : 2px;
+	margin-left : 0px;
+	width: 82px;
+	height: 21px;
+	opacity : none;
+	/cursor : pointer;
+	overflow: visible;
+}
+
+#aloneSelected
+{
+	background: url(../img/AloneText.png) no-repeat;
+}
+
+#WithFriendsSelected
+{
+	background: url(../img/WithFriends.png) no-repeat;
+	display : none;
+}
+
+#WithFamilySelected
+{
+	background: url(../img/WithFamliy.png) no-repeat;
+	display : none;	
+}
+
+#CoupleSelected
+{
+	background: url(../img/CoupleText.png) no-repeat;
+	display : none;	
+}
+#Couple
+{
+	height : 18px;
+}
+
+#tanSelected
+{
+	background: url(../img/tanText.png) no-repeat;
+}
+
+#skiSelected
+{
+	background: url(../img/skiText.png) no-repeat;
+	display : none;
+}
+
+#watchSelected
+{
+	background: url(../img/WatchText.png) no-repeat;
+	display : none;	
+}
+
+#shoppingSelected
+{
+	background: url(../img/shoppingText.png) no-repeat;
+	display : none;	
+}
+#cruiseSelected
+{
+	background: url(../img/cruiseText.png) no-repeat;
+	display : none;	
+}
+#jan
+{
+	padding-top : 6px;
+	height : 18px;
+}
+#may
+{
+	margin-top: 0px;
+}
+#jun
+{
+	height : 16px;
+	margin-top: 0px;	
+}
+#sep
+{
+	height : 16px;
+	margin-top: 0px;	
+}
+#janSelected
+{
+	background: url(../img/janText.png) no-repeat;
+}
+#febSelected
+{
+	background: url(../img/febText.png) no-repeat;
+	display : none;	
+}
+#marSelected
+{
+	background: url(../img/marText.png) no-repeat;
+	display : none;	
+}
+
+#aprSelected
+{
+	background: url(../img/aprText.png) no-repeat;
+	display : none;	
+}
+
+#maySelected
+{
+	background: url(../img/mayText.png) no-repeat;
+	display : none;	
+}
+
+#junSelected
+{
+	background: url(../img/junText.png) no-repeat;
+	display : none;	
+}
+
+#julSelected
+{
+	background: url(../img/julText.png) no-repeat;
+	display : none;	
+}
+#augSelected
+{
+	background: url(../img/augText.png) no-repeat;
+	display : none;	
+}
+#sepSelected
+{
+	background: url(../img/sepText.png) no-repeat;
+	display : none;	
+}
+#octSelected
+{
+	background: url(../img/octText.png) no-repeat;
+	display : none;	
+}
+#novSelected
+{
+	background: url(../img/novText.png) no-repeat;
+	display : none;	
+}
+#decSelected
+{
+	background: url(../img/decText.png) no-repeat;
+	display : none;	
+}
+#headText
+{
+	position:relative;
+	float:left;
+	width: 610px;
+	height : 39px;
+	margin-left: 5px;
+	display : none;
+}
+#HText
+{
+	margin-top: 10px;
+	width: 100%;
+	height: 22px;
+	background: transparent;
+	border: none;
+	text-align : center;
+	color: white;
+	font-size: 18px;
+	cursor: default;
+}
