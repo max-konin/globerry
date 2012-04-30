@@ -8,243 +8,303 @@
 <meta charset="utf-8">
 
 <TITLE>Globerry (new design)</TITLE>
-<!---->
-<link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
-<script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+<!--
+
+
 
 <link rel="stylesheet" href="resources/styles/main.css" type="text/css" />
-<link type="text/css" href="resources/styles/slidersCss.css" rel="stylesheet" media="all" />
-<link rel="stylesheet" type="text/css" media="all" href="resources/styles/jquery.selectbox.css" />
-<link rel="stylesheet" href="resources/styles/bottom.css" type="text/css" />
 
-<script type="text/javascript" src="resources/javascripts/jquerry.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="resources/styles/jquery.selectbox.css" />
+-->
+<link rel="stylesheet" href="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.css" />
+<link rel="stylesheet" href="resources/styles/bottom.css" type="text/css" />
+<link type="text/css" href="resources/styles/slidersCss.css" rel="stylesheet" media="all" />
+<link rel="stylesheet" href="resources/styles/head.css" type="text/css" />
+
+<script src="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.js"></script>
+<script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="resources/javascripts/main.js"></script>
+<script type="text/javascript" src="resources/javascripts/headerSwitch.js"></script>
+<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
+<script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
+<script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
+<!--
 <script type="text/javascript" src="resources/javascripts/raphael.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
 <script type="text/javascript" src="resources/javascripts/main.js"></script>
-<!---->
-<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
-<script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
-<script type="text/javascript" src="resources/javascripts/jquery.selectbox-0.6.1.js"></script>
 
+<script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min.js"></script>
+
+
+<script type="text/javascript" src="resources/javascripts/jquery.selectbox-0.6.1.js"></script>
+-->
 
 
 </HEAD>
 <BODY height='100%'>
-<div id='div_container'>
-        <div id ='globerryImg', class='roundBorder'>
-            <div id ='GLIMG'>
-                <img src="resources/img/Globerry.png" alt="Globerry">
-            </div>
-			<div id="headText">
-				<input type="text" id="HText" value="" readonly />
+<div id = 'top'>
+	<div id = 'invisibleHeadBlock'></div>
+	<div id = 'head'>
+		<div id ='header'>
+			<div id='headTop'>
+				<div id="GloberryTitle"></div>
+				<div id="headText">
+					<input type="text" id="HText" value="" readonly />
+				</div>
+				<div id ="UpperHeaderBlockWithCircle">
+					<div id = 'circle'></div>
+				</div>
 			</div>
-            <div id='upperToggle' class='toggels'>
-            <div id ='circlecw'></div>
-            <div id ='circlech'></div>
-            <div id ='circle'></div>
-            </div>
-        </div>
-        <div id ='head' , class='roundBorder'>
-            <div id ='Request'>
-                <div id ='who' class='textRequests'><p id ='whoTextDiv' class = 'textInRequests'><span class='number'>01.</span> Кто едет?</p></div>
-                <div id ='whoReq' class='reqMenu'>
-                    <!--<p class = 'textInRequests'>С друзьями--</p>-->
-                    	<select id="WhoS">
-							<option value="с друзьями" id = "friendsO">С друзьями</option>
-							<option value="с семьей" id ="familyO">С семьей</option>
-							<option value="один" id= "aloneO">Один</option>
-							<option value="вдвоем" id = "coupleO">Вдвоем</option>
-							<option value="04"></option><!--<-->
-						</select>
-                </div>
-                <div id ='what' class='textRequests'><p id ='whatTextDiv' class = 'textInRequests'><span class='number'>02.</span> Что делать?</p></div>
-                <div id ='whatReq' class='reqMenu'>
-                <!--<p class = 'textInRequests'>Загорать ----</p>-->
-                       <select id="WhatS">
-							<option value="загорать" id="tanO">Загорать</option>
-							<option value="кататься" id="skiO">Кататься</option>
-							<option value="достопримечательности" id="watchO">Смотреть</option>
-							<option value="шоппинг" id="shopO">Шоппинг</option>
-							<option value="в круиз" id="cruiseO">Круиз</option><!--<-->
-							<option value="05"></option><!--<-->
-						</select>
-                </div>
-                <div id ='when' class='textRequests'><p id ='whenTextDiv' class = 'textInRequests'><span class='number'>03.</span> Когда?</p></div>
-                <div id ='whenReq' class='reqMenu'>
-                    <!--<p class = 'textInRequests'>Февраль -----</p>-->
-                       <select id="WhenS">
-							<option value="январе" id ="janO" class ="OMonth">Январь</option>
-							<option value="феврале" id="febO" class ="OMonth">Февраль</option>
-							<option value="марте" id="marO" class ="OMonth">Март</option>
-							<option value="апреле" id = "aprO" class ="OMonth">Апрель</option>
-							<option value="мае" id="mayO" class ="OMonth">Май</option>
-                            <option value="июне" id="junO" class ="OMonth">Июнь</option>
-							<option value="июле" id="julO" class ="OMonth">Июль</option>
-							<option value="августе" id="augO" class ="OMonth">Август</option>
-							<option value="сентябре" id="sepO" class ="OMonth">Сентябрь</option>
-							<option value="октябре" id="octO" class ="OMonth">Октябрь</option>
-							<option value="ноябре" id="novO" class ="OMonth">Ноябрь</option>
-							<option value="декабре" id="decO" class ="OMonth">Декабрь</option>
-                            <option value="11"></option>
-                            <option value="11"></option>
-						</select>
-                </div>
-                <div id ='LetsGo' class='textRequests'><a href="#" id='buttonHeadSwitcher' class="button">Поехали</a></div>
-            </div>
-        </div>
-        <div id='SliderRequest'>
-            <div id ='SliderRequestContent'>
-                <div id='Sliders'>
-                    <div id ='firstSBlock' class = 'blocks'>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" id="minCost" class ='left' value="-35" readonly />
-                                <div id='tempSText', class = 'sText'>Температура</div>
-				                <input type="text" id="maxCost" class ='right' value="+35" readonly />
-			                </div>
-			                <div class="sliderCont" id ="tSCont">
-					                <div id="tempSlider"></div>
-			                </div>
-		                </form>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" id="alcMinCost" class ='left' value="$0" readonly />
-                                <div id='AlcoholSText', class = 'sText' >Алкоголь</div>
-				                <input type="text" id="alcMaxCost" class ='right' value="$30" readonly />
-			                </div>
-			                <div class="sliderCont">
-					                <div id="alchSlider"></div>
-			                </div>
-		                </form>
-                    </div>
-                    <!-- -->
-                    <div id ='secondBlock' class = 'blocks'>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" id="TimeMinV" class ='left' value="0 Ч" readonly />
-                                <div id='TimeSText', class = 'sText'>Время в пути</div>
-				                <input type="text" id="TimeMaxV" class ='right' value="24 Ч" readonly />
-			                </div>
-			                <div class="sliderCont" id ="timeCont">
-					                <div id="timeSlider"></div>
-			                </div>
-		                </form>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" class ='left' value="" readonly />
-                                <div id='Mood', class = 'sText' >Настроение</div>
-				                <input type="text" class ='right' value="" readonly />
-			                </div>
-			                <div class="sliderCont">
-					                <div id="MoodSlider"></div>
-			                </div>
-		                </form>
-                    </div>
-                    <div id ='thirdBlock' class = 'blocks'>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" id="LivMinV" class ='left' value="$0" readonly />
-                                <div id='Living', class = 'sText'>Проживание</div>
-				                <input type="text" id="LivMaxV" class ='right' value="$300" readonly />
-			                </div>
-			                <div class="sliderCont" id ="LivCont">
-					                <div id="LivSlider"></div>
-			                </div>
-		                </form>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" class ='left' value="" readonly />
-                                <div id='security', class = 'sText' >Безопасность</div>
-				                <input type="text" class ='right' value="" readonly />
-			                </div>
-			                <div class="sliderCont">
-					                <div id="securitySlider"></div>
-			                </div>
-		                </form>
-                    </div>
-                    <div id ='forthBlock' class = 'blocks'>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" id="FoodMinV" class ='left' value="$0" readonly />
-                                <div id='food', class = 'sText'>Еда</div>
-				                <input type="text" id="FoodMaxV" class ='right' value="$100" readonly />
-			                </div>
-			                <div class="sliderCont" id ="foodCont">
-					                <div id="foodSlider"></div>
-			                </div>
-		                </form>
-                        <form action="#" method="post" >
-			                <div class="formCost">
-				                <input type="text" class ='left' value="" readonly />
-                                <div id='Sex', class = 'sText' >Секс</div>
-				                <input type="text" class ='right' value="" readonly />
-			                </div>
-			                <div class="sliderCont">
-					                <div id="SexSlider"></div>
-			                </div>
-		                </form>
-                    </div>
-                    <div id ='fifthBlock' class = 'blocks'>
-                    <div id='Visa' class='fbText'>Виза</div>
-                    <div id ='VisaAc' class='VLBut'></div>
-                    <div id='Lang' class='fbText'>Язык</div>
-                    <div id ='LangAc' class='VLBut'></div>
-                    </div>
-                    <!-- -->
-                </div>
-            </div>
-            <div id ='SliderRequestBottom', class='roundBorder'>
-                <div id='bottomToggle' class='toggels'>
-                    <div id='arrowcw'></div>
-                    <div id ='arrow'>
-                        <img src="resources/img/arrow.png" alt="slide up">
-                    </div>
-                </div>
-            </div>
-            <div id ='monthes'>
-                <div id = 'calenrarimg'>
-                    <img src="resources/img/calendar.png" alt="Globerry">
-                </div>
-            </div>
-            <!--<div id='monthContainer'>-->
-                <div class='calMonth' id ='jan'>Январь</div>
-                <div class='calMonth' id ='feb'>Февраль</div>
-                <div class='calMonth' id ='mar'>Март</div>
-                <div class='calMonth' id ='apr'>Апрель</div>
-                <div class='calMonth' id ='may'>Май</div>
-                <div class='calMonth' id ='jun'>Июнь</div>
-                <div class='calMonth' id ='jul'>Июль</div>
-                <div class='calMonth' id ='aug'>Август</div>
-                <div class='calMonth' id ='sep'>Сентябрь</div>
-                <div class='calMonth' id ='oct'>Октябрь</div>
-                <div class='calMonth' id ='nov'>Ноябрь</div>
-                <div class='calMonth' id ='dec'>Декабрь</div>
-            <!--</div>
-            -->
-        </div>
-		<div id='bottom' class='roundBorder'>
-		<div id ='bottomButtons'>
-			<div id='Tour' class='bottomButton'>
-				<div class = 'bottomHeadText'>Туры</div>
+			<div id='headContent1' class ='headSwitcharable'>
+				<div id ='WhoText' class = 'requestText'></div>
+				<div id='WhoSelectListBG' class = 'ListBG'>
+					<div id='WhoSelect' class = 'ListButton'></div>
+					<div id='aloneSelected' class ='selected'></div>
+					<div id='WithFriendsSelected' class ='selected'></div>
+					<div id='WithFamilySelected' class ='selected'></div>
+					<div id='CoupleSelected' class ='selected'></div>
+					<div id ='WhoSelectBG' class ='SelectLargeImage'>
+						<div id = 'alone' class='selectItem'></div>
+						<div id = 'WithFriends' class='selectItem'></div>
+						<div id = 'WithFamily' class='selectItem'></div>
+						<div id = 'Couple' class='selectItem'></div>
+					</div>
+				</div>
+				
+				<div id ='WhatText' class = 'requestText'></div>
+				<div id='WhatSelectListBG' class='ListBG'>
+					<div id='WhatSelect' class = 'ListButton'></div>
+					<div id='tanSelected' class ='selected'></div>
+					<div id='skiSelected' class ='selected'></div>
+					<div id='watchSelected' class ='selected'></div>
+					<div id='shoppingSelected' class ='selected'></div>
+					<div id='cruiseSelected' class ='selected'></div>
+					<div id ='WhatSelectBG' class ='SelectLargeImage'>
+						<div id = 'tan' class='selectItem'></div>
+						<div id = 'ski' class='selectItem'></div>
+						<div id = 'watch' class='selectItem'></div>
+						<div id = 'shopping' class='selectItem'></div>
+						<div id = 'cruise' class='selectItem'></div>
+					</div>
+				</div>
+				
+				<div id ='WhenText' class = 'requestText'></div>
+				<div id='WhenSelectListBG' class='ListBG'>
+					<div id='WhenSelect' class = 'ListButton'></div>
+					<div id='janSelected' class ='selected'></div>
+					<div id='febSelected' class ='selected'></div>
+					<div id='marSelected' class ='selected'></div>
+					<div id='aprSelected' class ='selected'></div>
+					<div id='maySelected' class ='selected'></div>
+					<div id='junSelected' class ='selected'></div>
+					<div id='julSelected' class ='selected'></div>
+					<div id='augSelected' class ='selected'></div>
+					<div id='sepSelected' class ='selected'></div>
+					<div id='octSelected' class ='selected'></div>
+					<div id='novSelected' class ='selected'></div>
+					<div id='decSelected' class ='selected'></div>
+					<div id ='WhenSelectBG' class ='SelectLargeImage'>
+						<div id = 'jan' class='selectItem'></div>
+						<div id = 'feb' class='selectItem'></div>
+						<div id = 'mar' class='selectItem'></div>
+						<div id = 'apr' class='selectItem'></div>
+						<div id = 'may' class='selectItem'></div>
+						<div id = 'jun' class='selectItem'></div>
+						<div id = 'jul' class='selectItem'></div>
+						<div id = 'aug' class='selectItem'></div>
+						<div id = 'sep' class='selectItem'></div>
+						<div id = 'oct' class='selectItem'></div>
+						<div id = 'nov' class='selectItem'></div>
+						<div id = 'dec' class='selectItem'></div>
+					</div>	
+				</div>
+				<div id ='HeaderButton'>
+					<div id ='HeaderButtonText' class = 'headerButton'></div>
+					<div id ='HeaderButtonTBackGround' class = 'headerButton'></div>
+				</div>
 			</div>
-			<div id='Avia' class='bottomButton'>
-				<div class = 'bottomHeadText'>Авиабилеты</div>
+			<div id='headContent2' class ='headSwitcharable'>
+				<div id='FirstBlock' class='secondHeaderBlocks'>
+                    <form action="#" method="post" >
+		                <div class="formCost">
+			                <input type="text" id="minCost" class ='left' value="-35" readonly />
+                            <div id='tempSText', class = 'sText'></div>
+							<input type="text" id="maxCost" class ='right' value="+35" readonly />
+			            </div>
+			            <div class="sliderCont" id ="tSCont">
+							<div id="tempSlider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+								<a id='leftSliderHeandlerTemp' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%"></a>
+								<a id='rightSliderHeandlerTemp' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 100%"></a> <!---->
+							</div>					
+			            </div>
+		            </form>
+                    <form action="#" method="post" >
+			            <div class="formCost">
+				            <input type="text" id="alcMinCost" class ='left' value="$0" readonly />
+                            <div id='AlcoholSText', class = 'sText' ></div>
+				            <input type="text" id="alcMaxCost" class ='right' value="$30" readonly />
+			            </div>
+			            <div class="sliderCont">
+					        <div id="alchSlider">
+								<a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%"></a>
+								<a id='rightSliderHeandlerAlc' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 100%"></a> <!---->
+							</div>
+			            </div>
+		            </form>					
+					
+					
+				</div>
+				
+				<div id='SecondBlock' class='secondHeaderBlocks'>
+                    <form action="#" method="post" >
+			            <div class="formCost">
+				            <input type="text" id="TimeMinV" class ='left' value="0 Ч" readonly />
+                            <div id='TimeSText', class = 'sText'></div>
+				            <input type="text" id="TimeMaxV" class ='right' value="24 Ч" readonly />
+			            </div>
+			            <div class="sliderCont" id ="timeCont">
+					            <div id="timeSlider">
+									<a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%"></a>
+									<a id='rightSliderHeandlerTime' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 100%"></a>								
+								</div>
+			            </div>
+		            </form>
+					<form action="#" method="post" >
+			            <div class="formCost">
+				            <input type="text" class ='left' value="" readonly />
+                            <div id='Mood', class = 'sText' ></div>
+				            <input type="text" class ='right' value="" readonly />
+			            </div>
+			            <div class="sliderCont">
+					            <div id="MoodSlider">
+									<a id='MoodHeandler' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%"></a>
+								</div>
+			            </div>
+		            </form>
+				</div>
+				<div id='ThirdBlock' class='secondHeaderBlocks'>
+                    <form action="#" method="post" >
+			            <div class="formCost">
+				            <input type="text" id="LivMinV" class ='left' value="$0" readonly />
+                            <div id='Living', class = 'sText'></div>
+				            <input type="text" id="LivMaxV" class ='right' value="$300" readonly />
+			            </div>
+			            <div class="sliderCont" id ="LivCont">
+					            <div id="LivSlider">
+									<a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%"></a>
+									<a id='rightSliderHeandlerLiv' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 100%"></a>								
+								</div>
+			            </div>
+		            </form>
+                    <form action="#" method="post" >
+			            <div class="formCost">
+				            <input type="text" class ='left' value="" readonly />
+                            <div id='security', class = 'sText' ></div>
+				            <input type="text" class ='right' value="" readonly />
+			            </div>
+			            <div class="sliderCont">
+					            <div id="securitySlider">
+									<a id='SecurityHeandler' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%"></a>	
+								</div>
+			            </div>
+		            </form>				
+				</div>
+				<div id='ForthBlock' class='secondHeaderBlocks'>
+                    <form action="#" method="post" >
+			            <div class="formCost">
+				            <input type="text" id="FoodMinV" class ='left' value="$0" readonly />
+                            <div id='food', class = 'sText'></div>
+				            <input type="text" id="FoodMaxV" class ='right' value="$100" readonly />
+			            </div>
+			            <div class="sliderCont" id ="foodCont">
+					            <div id="foodSlider">
+									<a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%"></a>
+									<a id='rightSliderHeandlerFood' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 100%"></a>								
+								</div>
+			            </div>
+		            </form>
+                    <form action="#" method="post" >
+			            <div class="formCost">
+				            <input type="text" class ='left' value="" readonly />
+                            <div id='Sex', class = 'sText' ></div>
+				            <input type="text" class ='right' value="" readonly />
+			            </div>
+			            <div class="sliderCont">
+					            <div id="SexSlider">
+									<a id='FoodHeandler' class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 50%"></a>	
+								</div>
+			            </div>
+		            </form>
+				</div>
+				<div id='FifthBlock' class='secondHeaderBlocks'>
+					<div id='FifthBlockText'></div>
+					<div id ='VisaButtonActive'></div>
+					<div id = 'LangButtonActive'></div>
+				</div>
 			</div>
-			<div id='Hotel' class='bottomButton'>
-				<div class = 'bottomHeadText'>Отели</div>
+			<div id='headBottom'>
+				<div id = 'HeaderButtonUp' class='headerUpSwitcher'></div>
 			</div>
-			<div id='Auto' class='bottomButton'>
-				<div class = 'bottomHeadText'>Авто</div>
+			<div id ='calendar'>
+				<div id='CalendarIMG'></div>
+				<div id='JanBG' class='upperClicableCaendarBG'></div>
+				<div id='FebBG' class='upperClicableCaendarBG'></div>
+				<div id='MarBG' class='upperClicableCaendarBG'></div>
+				<div id='AprBG' class='upperClicableCaendarBG'></div>
+				<div id='MayBG' class='upperClicableCaendarBG'></div>
+				<div id='JunBG' class='upperClicableCaendarBG'></div>
+				<div id='JulBG' class='upperClicableCaendarBG'></div>
+				<div id='AugBG' class='upperClicableCaendarBG'></div>
+				<div id='SepBG' class='upperClicableCaendarBG'></div>
+				<div id='OctBG' class='upperClicableCaendarBG'></div>
+				<div id='NovBG' class='upperClicableCaendarBG'></div>
+				<div id='DecBG' class='upperClicableCaendarBG'></div>
+				<div id='calendarText'></div>
+				<div id='JanB' class='upperClicableCaendar'></div>
+				<div id='FebB' class='upperClicableCaendar'></div>
+				<div id='MarB' class='upperClicableCaendar'></div>
+				<div id='AprB' class='upperClicableCaendar'></div>
+				<div id='MayB' class='upperClicableCaendar'></div>
+				<div id='JunB' class='upperClicableCaendar'></div>
+				<div id='JulB' class='upperClicableCaendar'></div>
+				<div id='AugB' class='upperClicableCaendar'></div>
+				<div id='SepB' class='upperClicableCaendar'></div>
+				<div id='OctB' class='upperClicableCaendar'></div>
+				<div id='NovB' class='upperClicableCaendar'></div>
+				<div id='DecB' class='upperClicableCaendar'></div>
 			</div>
 		</div>
+	</div>
+</div>
+<div id= 'bottomContainer'>
+	<div id = "invisibleBottom"></div>
+	<div id='bottom' class='roundBorder'>
+	<div id ='bottomButtons'>
+		<div id='Tour' class='bottomButton'>
+			<div class = 'bottomHeadText'>Туры</div>
 		</div>
-		<div id ='WhiteBottom'></div>
+		<div id='Avia' class='bottomButton'>
+			<div class = 'bottomHeadText'>Авиабилеты</div>
+		</div>
+		<div id='Hotel' class='bottomButton'>
+			<div class = 'bottomHeadText'>Отели</div>
+		</div>
+		<div id='Auto' class='bottomButton'>
+			<div class = 'bottomHeadText'>Авто</div>
+		</div>
+	</div>
+	<div id='gradLine'></div>
+	<div id ='WhiteBottom'>
 		<div id='TourB' class='bottomB'>Туры</div>
 		<div id='AviaB' class='bottomB'>Авиа</div>
 		<div id='HotelB' class='bottomB'>Отели</div>
 		<div id='AutoB' class='bottomB'>Авто</div>
-		
-    <div id='map'></div>
+	</div>	
+	</div>
+
+	
+
 </div>
+<div id='map'></div>
 </BODY>
 </HTML>
