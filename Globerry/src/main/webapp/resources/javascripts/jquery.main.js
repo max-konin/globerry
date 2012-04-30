@@ -48,7 +48,7 @@ jQuery(document).ready(function () {
 
     firstSL = new mySlider(-35, 35, "+", "tempSlider", "minCost", "maxCost", "l");
     firstSL = new mySlider(0, 30, "$", "alchSlider", "alcMinCost", "alcMaxCost", "l");
-    firstSL = new mySlider(0, 24, " Ð§", "timeSlider", "TimeMinV", "TimeMaxV", "r");
+    firstSL = new mySlider(0, 24, " ×", "timeSlider", "TimeMinV", "TimeMaxV", "r");
     $("#MoodSlider").slider();
     firstSL = new mySlider(0, 300, "$", "LivSlider", "LivMinV", "LivMaxV", "l");
     $("#securitySlider").slider();
