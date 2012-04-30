@@ -1,16 +1,37 @@
+#bottomContainer
+{
+	position: absolute;
+	bottom: 0px;
+	height: 2px;
+	overflow: visible;
+	width: 100%;
+	left:0px;
+}
+#invisibleBottom
+{
+	margin-left : -450px;
+	width: 50%;
+	height : 100%; 
+	position : relative;
+	z-index : 1;
+	background: transparent;
+	float : left;
+}
 #bottom
 {
 	z-index : 2; /*map has 0*/
-	position: absolute;
+	position: relative;
+	float:left;
 	bottom: 0px;
-	height : 10px;
-	right : 5%;
-	width : 90%;
+	height : 0px;
+	/margin-bottom: 10px;
+	/right : 5%;
+	width : 900px;
 	border-top-right-radius:4px;
-	min-width : 850px;
-	box-shadow: 0px 0px 10px #888;
-	-moz-box-shadow: 0px 0px 10px #888;
-	-webkit-box-shadow: 0px 0px 10px #888;
+	min-width : 900px;
+	/box-shadow: 0px 0px 10px #888;
+	/-moz-box-shadow: 0px 0px 10px #888;
+	/-webkit-box-shadow: 0px 0px 10px #888;
 	display : none;
 }
 
@@ -35,7 +56,7 @@
 	padding-top : 2px;
 	color:white;
 	font-size:14pt;
-    font-family :sans-serif;
+    font-family :Helvetica;
 	cursor : pointer;
 	text-align:center;
 }
@@ -49,28 +70,49 @@
 #WhiteBottom
 {
 	z-index : 1; /*map has 0*/
-	position: absolute;
-	bottom: 0px;
-	height : 0px;
-	right : 5%;
-	width : 90%;
-	box-shadow: 0px 0px 10px #888;
-	-moz-box-shadow: 0px 0px 10px #888;
-	-webkit-box-shadow: 0px 0px 10px #888;
-	min-width : 850px;
+	position: relative;
+	float: left;
+	margin-bottom: 2px;
+	/bottom: 0px;
+	/height : 0px;
+	/right : 5%;
+	width : 900px
+	/box-shadow: 0px 0px 10px #888;
+	/-moz-box-shadow: 0px 0px 10px #888;
+	/-webkit-box-shadow: 0px 0px 10px #888;
+	min-width : 900px;
 	background-color: white;
 }
 
 .bottomB
 {
-	z-index : 1; /*map has 0*/
-	position: absolute;
+	z-index : 2; /*map has 0*/
+	position: relative;
+	float: left;
 	bottom: 0px;
-	height : 300px;
-	right : 5%;
-	width : 90%;
+	height : 147px;
+	float: left;
+	/right : 5%;
+	width : 900px;
 	border-top-right-radius:4px;
-	min-width : 850px;
 	display:none;/**/
 	background-color: white;
+}
+.roundBorder
+{	
+     background: rgb(255, 122, 2); 
+     background: -moz-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+     background: -webkit-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0));
+     background: -o-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+     background: -ms-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+     background: linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+ }
+ #gradLine
+{
+	width: 900px;
+	position: absolute;
+	/bottom: -1px;
+	height: 7px;
+	margin-top: -5px;
+	background: url(../img/BottomGradLine.png) no-repeat;
 }
