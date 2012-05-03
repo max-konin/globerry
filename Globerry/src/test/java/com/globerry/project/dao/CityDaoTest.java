@@ -87,7 +87,7 @@ public class CityDaoTest
 	
 	Range range = new Range(80,120,10,90);
 	
-	Set<City> cities = cityDao.getCityList(
+	List<City> cities = cityDao.getCityList(
 		//CityRequest.CityRequestGenerate(new Range(), new ArrayList<Property>())
 		new CityRequest(
 			range, 

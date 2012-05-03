@@ -31,7 +31,7 @@ public interface ICityDao
      * @param request запрос
      * @return списко городов
      */
-    public Set<City> getCityList(CityRequest request);
+    public List<City> getCityList(CityRequest request);
     /**
      * Обновляет парметры города
      * @param oldCity старый город

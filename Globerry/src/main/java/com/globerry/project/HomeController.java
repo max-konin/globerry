@@ -119,7 +119,7 @@ public class HomeController {
 	    e.printStackTrace();
 	}}
         System.out.println("Запрос городов от клиента");
-        Set<City> cityList = userCityService.getCityList();
+        List<City> cityList = userCityService.getCityList();
         cities = new City[cityList.size()];
         userCityService.getCityList().toArray(cities);
         System.out.println("Найдено "+((Integer)cities.length).toString()+" города");

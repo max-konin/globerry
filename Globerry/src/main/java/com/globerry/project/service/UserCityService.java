@@ -76,7 +76,7 @@ public class UserCityService implements IUserCityService
     }
 
     @Override
-    public Set<City> getCityList()
+    public List<City> getCityList()
     {
 	List<Tag> tags =  new ArrayList<Tag>();
 	//tags.add(blockWho.getSelected().getTag());
@@ -86,7 +86,7 @@ public class UserCityService implements IUserCityService
 		sliders.getProperties(),
 		tags,
 		calendar.getMonth());
-	Set<City> resultRequest = cityDao.getCityList(request);
+	List<City> resultRequest = cityDao.getCityList(request);
 	return resultRequest;
     }
     public void update(Observable o, Object arg)

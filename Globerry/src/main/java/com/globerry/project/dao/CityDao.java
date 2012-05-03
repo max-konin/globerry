@@ -95,9 +95,9 @@ public class CityDao implements ICityDao
     }
 
     @Override
-    public Set<City> getCityList(CityRequest request)
+    public List<City> getCityList(CityRequest request)
     {
-	Set<City> result;
+	List<City> result;
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
 	// select by tag
@@ -160,13 +160,13 @@ public class CityDao implements ICityDao
     		"latitude",
     		request.getRange().getMinY() ,
     		request.getRange().getMaxY()));
-	result = new HashSet<City>(criteria.list());
+	result = criteria.list();
 	weightCalculation(result,request);
 	tx.commit();
 	return result;
     }
-    private void weightCalculation(Set<City> cityList, CityRequest request){
-	Iterator<City> itCity = cityList.iterator();
+    private void weightCalculation(List<City> result, CityRequest request){
+	Iterator<City> itCity = result.iterator();
 	while (itCity.hasNext()){
 	    City city = itCity.next();
 	    city.setWeight(1);
