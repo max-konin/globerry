@@ -1,6 +1,7 @@
 function headerChange()
 {
 	
+    var JSONContr = new JsonController(); 
 	WhoStr = new Array();
 	WhoStr[2] = "Мы с друзьями едем ";
 	WhoStr[3] = "Мы с семьей едем ";
@@ -201,9 +202,7 @@ function headerChange()
 			if(this.id == "dec"){
 				prev = "#" + "Dec" + "BG";
 			}
-			$(prev).animate({opacity:1}, "fast");
-
-			
+			$(prev).animate({opacity:1}, "fast");	
 		}
 	});
 
@@ -241,6 +240,7 @@ function headerChange()
 		}
 	});
 	function configureText(){
+		var prevSelectInFirst = TextSelectorWho;
 		if(prevSelect[1] == "#aloneSelected"){
 			TextSelectorWho = 1;
 		}
@@ -253,7 +253,11 @@ function headerChange()
 		if(prevSelect[1] == "#CoupleSelected"){
 			TextSelectorWho = 4;
 		}
+		if(prevSelectInFirst != TextSelectorWho){
+			JSONContr.tagChange(TextSelectorWho);
+		}
 		
+		var prevSelectInSecond = TextSelectorWhat;
 		if(prevSelect[2] == "#tanSelected"){
 			TextSelectorWhat = 1;
 		}
@@ -271,42 +275,124 @@ function headerChange()
 			TextSelectorWhat = 5;
 		}
 		
+		if(prevSelectInSecond != TextSelectorWhat){
+			JSONContr.tagChange(TextSelectorWhat + 4);
+		}
+		
+		var prevSelectInThird = TextSelectorWhen;
+		var MonthNameInJcontrSelectionAfterTagChange;
+    	//monthName == JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
 		if(prevSelect[3] == "#janSelected"){
 			TextSelectorWhen = 1;
+			MonthNameInJcontrSelectionAfterTagChange = "JANUARY";
 		}
 		if(prevSelect[3] == "#febSelected"){
 			TextSelectorWhen = 2;
+			MonthNameInJcontrSelectionAfterTagChange = "FEBRUARY";
 		}
 		if(prevSelect[3] == "#marSelected"){
 			TextSelectorWhen = 3;
+			MonthNameInJcontrSelectionAfterTagChange = "MARCH";
 		}
 		if(prevSelect[3] == "#aprSelected"){
 			TextSelectorWhen = 4;
+			MonthNameInJcontrSelectionAfterTagChange = "APRIL";
 		}
 		if(prevSelect[3] == "#maySelected"){
 			TextSelectorWhen = 5;
+			MonthNameInJcontrSelectionAfterTagChange = "MAY";
 		}
 		if(prevSelect[3] == "#junSelected"){
 			TextSelectorWhen = 6;
+			MonthNameInJcontrSelectionAfterTagChange = "JUNE";
 		}
 		if(prevSelect[3] == "#julSelected"){
 			TextSelectorWhen = 7;
+			MonthNameInJcontrSelectionAfterTagChange = "JULY";
 		}
 		if(prevSelect[3] == "#augSelected"){
 			TextSelectorWhen = 8;
+			MonthNameInJcontrSelectionAfterTagChange = "AUGUST";
 		}
 		if(prevSelect[3] == "#sepSelected"){
 			TextSelectorWhen = 9;
+			MonthNameInJcontrSelectionAfterTagChange = "SEPTEMBER";
 		}
 		if(prevSelect[3] == "#octSelected"){
 			TextSelectorWhen = 10;
+			MonthNameInJcontrSelectionAfterTagChange = "OCTOBER";
 		}
 		if(prevSelect[3] == "#novSelected"){
 			TextSelectorWhen = 11;
+			MonthNameInJcontrSelectionAfterTagChange = "NOVEMBER";
 		}
 		if(prevSelect[3] == "#decSelected"){
 			TextSelectorWhen = 12;
+			MonthNameInJcontrSelectionAfterTagChange = "DECEMBER";
+		}
+		if(prevSelectInThird != TextSelectorWhen){
+			JSONContr.mounthChange(MonthNameInJcontrSelectionAfterTagChange);
 		}
 		jQuery("input#HText").val( WhoStr[TextSelectorWho] + WhatStr[TextSelectorWhat] + WhenStr[TextSelectorWhen]);
 	};
+	
+    //=========================JSON Controller===========================
+    function JsonController(){
+	    this.buttonClick = function(button){
+	    	function objFactory(){
+	    		  return {
+	    		    constructor : objFactory
+	    		  };
+	    		};
+	    	$.post("/project/selecttag", 
+	    		{
+	    		id : 1
+	    		}
+	    	  ,
+	    	  jsonController.cityRequest(button),
+	    	  "json");
+	    	
+	    	
+	    	//jsonController.cityRequest(button);
+	    };
+	    this.rangeChange = function(){    	    	
+	    	$.post("/project/rangechange", 
+	    			{minX : map.getBounds().getSouthWest().lng,
+    	    		maxX : map.getBounds().getNorthEast().lng,
+    	    		minY : map.getBounds().getSouthWest().lat,
+    	    		maxY : map.getBounds().getNorthEast().lat},
+    	    	  this.cityRequest(),
+    	    	  "json");
+	    };
+	    this.tagChange = function(tagId){
+	    	$.post("/project/tagchange", 
+	    			{id : tagId},
+    	    	  null,
+    	    	  "json");
+	    };
+	    this.mounthChange = function(monthName){
+	    	//monthName == JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+			$.post("/project/monthchange", 
+					{month : monthName},
+		    	  null,
+		    	  "json");
+	    };
+	    this.sliderChange = function(idSlider, leftValueSlider, rightValueSlider){
+	    	$.post("/project/sliderchange", 
+	    			{id : idSlider,
+	    			leftValue : leftValueSlider,
+	    			rightValue : rightValue},
+    	    	  null,
+    	    	  "json");
+	    };
+	    this.cityRequest = function(input){
+	    	$.getJSON("/project/getcities",
+	            function(data) {
+	    			redraw(data, 0);
+	                // do something with the data
+	                //myDataArray = data;
+	          });
+	    };
+	};
+	
 }
