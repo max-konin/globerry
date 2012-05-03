@@ -40,7 +40,6 @@ public class SlidersTest
     @Test
     public void propertiesListTest()
     {
-	sliders = new Sliders();
 	PropertyType type = new PropertyType();
 	type.setName("testAdd");
 	type.setMinValue(0);
@@ -58,7 +57,6 @@ public class SlidersTest
     @Test
     public void onChangeTest()
     {
-	sliders = new Sliders();
 	PropertyType type = new PropertyType();
 	type.setName("testAdd");
 	type.setMinValue(0);
@@ -72,7 +70,6 @@ public class SlidersTest
     @Test
     public void addSliderTest()
     {
-	sliders = new Sliders();
 	PropertyType type = new PropertyType();
 	type.setName("testAdd");
 	ISlider slider = new Slider(type );

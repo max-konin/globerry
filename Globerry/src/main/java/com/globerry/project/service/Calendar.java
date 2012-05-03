@@ -17,6 +17,7 @@ public class Calendar extends Observable implements ICalendar
     @Override
     public void changeMonth(Month month)
     {
+	currentMonth = month;
 	super.notifyObservers(new EventUI(this));
 	
     }
