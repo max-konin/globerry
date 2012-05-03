@@ -12,13 +12,19 @@ public class Slider extends Observable implements ISlider
     private PropertyType type;
     public Slider(PropertyType type){
 	this.type = type;
+	this.state = type.getMinValue();
+	this.stateSecond = type.getMaxValue();
     }
     @Override
+    @Deprecated
     public void onChange(float newState)
     {
+	if (!isStateCorrectly(newState))
+	    return;
 	state = newState;
 	super.notifyObservers(new EventUI(this));
     }
+    @Deprecated
     public float getState()
     {
 	return state;
@@ -30,6 +36,8 @@ public class Slider extends Observable implements ISlider
     @Override
     public void onChange(float newStateLeft, float newStateRight)
     {
+	if (!(isStateCorrectly(newStateLeft)&&isStateCorrectly(newStateRight)&&(newStateLeft<=newStateRight)))
+	    return;
 	state = newStateLeft;
 	stateSecond = newStateRight;
     }
@@ -41,6 +49,9 @@ public class Slider extends Observable implements ISlider
     {
 	// TODO Auto-generated method stub
 	return stateSecond;
+    }
+    private boolean isStateCorrectly(float newState){
+	return (newState <= type.getMaxValue()&& newState >= type.getMinValue())?true:false;
     }
 
 }

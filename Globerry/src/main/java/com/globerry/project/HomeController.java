@@ -126,6 +126,46 @@ public class HomeController {
         
         return cities;
     }
+    @RequestMapping(value="/cityinit")
+    public void cityInit(){
+	City city = new City();
+        city.setName("New York ");
+        city.setId(1);
+        city.setLatitude((float)51.508);
+        city.setLongitude((float)-0.12);
+        City city1 = new City();
+        city1.setName("London ");
+        city1.setId(2);
+        city1.setLatitude((float)51.505);
+        city1.setLongitude((float)-0.09);
+        City city2 = new City();
+        city2.setName("Novosibirsk ");
+        city2.setId(3);
+        city2.setLatitude((float)60.505);
+        city2.setLongitude((float)-5.09);
+        
+        Tag tag1 = new Tag();
+        tag1.setName("ololo");
+        tag1.setTagsType(TagsType.WHO);
+        
+        PropertyType propertyType = new PropertyType();
+        propertyType.setName("prop");
+        
+        if (cityDao.getCityById(1) == null || basebase ){
+        try
+	{
+            basebase = false;
+	    cityDao.addCity(city);
+	    cityDao.addCity(city1);
+	    cityDao.addCity(city2);
+	    tagDao.addTag(tag1);
+	    propertyTypeDao.addPropertyType(propertyType);
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}}
+    }
     //TODO delete this 
     @RequestMapping(value="/rangechange", method= RequestMethod.POST)
     public void range(Range range) {
@@ -136,7 +176,7 @@ public class HomeController {
     public void slider(SliderData sliderData) {
         System.out.println("Сдвинули слайдер");
 	PropertyType type = propertyTypeDao.getById(sliderData.getId());
-	sliders.addOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
+	sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
     }
     @RequestMapping(value="/tagchange", method= RequestMethod.POST)
     public void who(Tag tag) {    

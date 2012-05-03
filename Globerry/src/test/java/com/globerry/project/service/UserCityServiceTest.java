@@ -20,6 +20,7 @@ import com.globerry.project.dao.ContextLoaderListener;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
 @TestExecutionListeners({
+    WebContextTestExecutionListener.class,
     DependencyInjectionTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class,
     ContextLoaderListener.class

@@ -42,7 +42,7 @@ public class Sliders extends Observable implements ISliders
 	}
 	return null;
     }
-    public void addOrCreate(PropertyType type,int leftValue,int rightValue){
+    public void changeOrCreate(PropertyType type,int leftValue,int rightValue){
 	Slider slider = getSlider(type);
 	if (slider == null){
 	    slider = new Slider(type);
