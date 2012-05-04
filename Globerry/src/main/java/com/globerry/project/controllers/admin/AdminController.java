@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.Element;
@@ -36,6 +37,7 @@ import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.Month;
 import com.globerry.project.service.CityService;
+import com.globerry.project.service.CompanyService;
 import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.IEntityCreator;
 import com.globerry.project.service.interfaces.ICityService;
@@ -56,6 +58,9 @@ public class AdminController
     
     @Autowired
     private CityService cityService;
+    
+    @Autowired
+    private CompanyService companyService;
     
     private IEntityCreator page = null;
     
@@ -99,6 +104,11 @@ public class AdminController
     public @ResponseBody List<City> getCities() {
 	//БЫДЛОКОД
         return cityService.getCityList();
+    }
+    @RequestMapping(value="/getcompanies", method=RequestMethod.GET)
+    public @ResponseBody Set<Company> getCompanies() {
+	//БЫДЛОКОД
+        return companyService.getCompanyList();
     }
     @RequestMapping(value="/getrelations/{id}", method=RequestMethod.GET)
     public @ResponseBody Map<String, Object> getRelations(@PathVariable("id") Integer id, Map<String, Object> map) {

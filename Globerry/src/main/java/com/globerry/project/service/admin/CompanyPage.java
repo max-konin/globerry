@@ -17,6 +17,7 @@ public class CompanyPage implements IEntityCreator
 
     
     static final String JSPPAGE = "companypage";
+    static final String JSPUPDATEPAGE = "companyupdatepage";
     
     @Override
     public String getJspListFile()
@@ -48,7 +49,7 @@ public class CompanyPage implements IEntityCreator
     public String getJspUpdateFile()
     {
 	
-	return null;
+	return "admin/" + JSPUPDATEPAGE;
     }
 
     @Override
@@ -61,8 +62,9 @@ public class CompanyPage implements IEntityCreator
     @Override
     public Map<String, Object> getRelation(Map<String, Object> map, int id)
     {
-	// TODO Auto-generated method stub
-	return null;
+	Company company = companyDao.getCompanyById(id);
+	map.put("tourList", company.getTourList());
+	return map;
     }
 
 
