@@ -26,9 +26,20 @@ public interface IEntityCreator
      */
     public void  setList(Map<String, Object> map);
     
+    
     public void removeElem(int id);
     
     public void getElemById(Map<String, Object> map, int id);
     
     public  String getJspUpdateFile();
+    
+    public void updateElem(Object object);
+    /**
+     * Запихивает в map все list связанные с элементом
+     */
+    public Map<String, Object> getRelation(Map<String, Object> map, int id);
+    /**
+     * 
+     */
+    
 }

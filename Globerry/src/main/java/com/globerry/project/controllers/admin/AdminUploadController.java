@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.globerry.project.controllers;
+package com.globerry.project.controllers.admin;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +44,7 @@ import com.globerry.project.service.admin.AdminParser;
  */
 @Controller
 @RequestMapping(value = "/admin/upload")
-public class AdminController
+public class AdminUploadController
 {
     @Autowired
     private AdminParser adminParser;

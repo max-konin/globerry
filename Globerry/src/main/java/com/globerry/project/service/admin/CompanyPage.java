@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.domain.Company;
 
 @Service
 public class CompanyPage implements IEntityCreator
@@ -49,5 +50,21 @@ public class CompanyPage implements IEntityCreator
 	
 	return null;
     }
+
+    @Override
+    public void updateElem(Object object)
+    {
+	Company company = (Company) object;
+	companyDao.updateCompany(company);
+    }
+
+    @Override
+    public Map<String, Object> getRelation(Map<String, Object> map, int id)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+
 
 }

@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table
 public class DependingMonthProperty
@@ -47,13 +49,19 @@ public class DependingMonthProperty
     {
 	return month;
     }
+    @JsonIgnore
     public void setMonth(Month month)
     {
 	this.month = month;
     }
+    @JsonIgnore
     public void setMonth(int monthNumber)
     {
 	this.month = Month.values()[monthNumber];
+    }
+    public void setMonth(String month)
+    {
+	this.month = Month.valueOf(month);
     }
     public float getValue()
     {

@@ -59,8 +59,15 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.7.1</version>
+			<version>1.9.5</version>
 		</dependency>
+		<!-- Добавил, если что, удалить  -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<!-- конец для удаления -->
 				
 		<!-- AspectJ -->
 		<dependency>

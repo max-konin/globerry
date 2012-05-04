@@ -19,6 +19,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Tag class
  * ����� �������� � city �������� CityTag ManyToMany
@@ -95,6 +97,7 @@ public class Tag
     {
 	return tagsType;
     }
+    @JsonIgnore
     public void setTagsType(TagsType tagsType)
     {
 	this.tagsType = tagsType;

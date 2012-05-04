@@ -54,6 +54,93 @@
 				value="<spring:message code="label.addcontact"/>" /></td>
 		</tr>
 	</table>
+	<c:if test="${!empty eventList}">
+		<table class="data">
+			<thead>
+				  <tr>
+  						 <td> Event </td>
+				  </tr>
+			</thead>
+			<tr>
+				<th><spring:message code="label.id" /></th>
+				<th><spring:message code="label.name" /></th>
+			</tr>
+			<c:forEach items="${eventList}" var="events">
+				<tr>
+					<td>${events.id}</td>
+					<td>${events.name}</td>
+					<td><a href="delete/${events.id}"><spring:message code="label.delete" /></a></td>
+				</tr>
+			</c:forEach>
+	
+		</table>
+	</c:if>
+	<c:if test="${!empty dmpList}">
+		<table class="data">
+			<thead>
+				  <tr>
+  						 <td> Depending Month Property </td>
+				  </tr>
+			</thead>
+			<tr>
+				<th><spring:message code="label.id" /></th>
+				<th><spring:message code="label.name" /></th>
+				<th><spring:message code="label.name" /></th>
+			</tr>
+			<c:forEach items="${dmpList}" var="dmp">
+				<tr>
+					<td>${dmp.id}</td>
+					<td>${dmp.month}</td>
+					<td>${dmp.value}</td>
+					<td><a href="delete/${dmp.id}"><spring:message code="label.delete" /></a></td>
+				</tr>
+			</c:forEach>
+	
+		</table>
+	</c:if>
+	<c:if test="${!empty propertyList}">
+
+		<table class="data">
+			<thead>
+				  <tr>
+  						 <td> Property </td>
+				  </tr>
+			</thead>
+			<tr>
+				<th><spring:message code="label.id" /></th>
+				<th><spring:message code="label.name" /></th>
+			</tr>
+			<c:forEach items="${propertyList}" var="property">
+				<tr>
+					<td>${property.id}</td>
+					<td>${property.value}</td>
+					<td><a href="delete/${property.id}"><spring:message code="label.delete" /></a></td>
+				</tr>
+			</c:forEach>
+	
+		</table>
+	</c:if>
+		<c:if test="${!empty tagList}">
+		<table class="data">
+			<thead>
+				  <tr>
+  						 <td> Tag </td>
+				  </tr>
+			</thead>
+			<tr>
+				<th><spring:message code="label.id" /></th>
+				<th><spring:message code="label.name" /></th>
+			</tr>
+			<c:forEach items="${tagList}" var="tag">
+				<tr>
+					<td>${tag.id}</td>
+					<td>${tag.name}</td>
+					<td><a href="delete/${tag.id}"><spring:message code="label.delete" /></a></td>
+				</tr>
+			</c:forEach>
+	
+		</table>
+	</c:if>
 </form:form>
 </body>
 </html>

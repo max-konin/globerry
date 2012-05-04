@@ -68,8 +68,9 @@ public class EventDao implements IEventDao
     }
     
     @Override
-    public void addEvent(Event event)
+    public int addEvent(Event event)
     {
+	int id = 0;
 	Iterator<City> IT = event.getCities().iterator();
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	while(IT.hasNext())
@@ -79,13 +80,15 @@ public class EventDao implements IEventDao
 	    
 	}
 	    try{    
-        	    sessionFactory.getCurrentSession().save(event);
+        	    id = (Integer) sessionFactory.getCurrentSession().save(event);
+        	    System.err.println(id);
         	    tx.commit();
         	    sessionFactory.close();
 	    }catch (Exception e)
 	    {
 		
 	    }
+	    return id;
     }
 
     @Override
@@ -110,6 +113,7 @@ public class EventDao implements IEventDao
 			.add(Restrictions.eq("id", city.getId()));
 	result = (List<Event>)criteria.list();
 	tx.commit();
+	//sessionFactory.close();
 	return result;
     }
     @Override
@@ -137,6 +141,27 @@ public class EventDao implements IEventDao
 	tx.commit();
 	sessionFactory.close();
 	
+    }
+
+    @Override
+    public Event getEventById(int id)
+    {
+	Event event;
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	event = (Event) sessionFactory.getCurrentSession().get(Event.class,
+		id);
+	tx.commit();
+	sessionFactory.close();
+	return event;
+    }
+
+    @Override
+    public void updateEvent(Event newEvent)
+    {
+	   Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	   sessionFactory.getCurrentSession().update(newEvent);
+	   tx.commit();
+	   sessionFactory.close();
     }
 
 }

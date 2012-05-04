@@ -27,6 +27,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.mapping.Collection;
@@ -56,6 +59,7 @@ public class City implements Serializable
     private Boolean isValid;
     @Column
     private String message;
+    @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToOne(
 	    fetch = FetchType.LAZY,
@@ -64,6 +68,7 @@ public class City implements Serializable
     @PrimaryKeyJoinColumn
     private Proposals proposals;
     //-------------------------------------------------------
+    @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
 	    	fetch = FetchType.EAGER,
@@ -76,8 +81,10 @@ public class City implements Serializable
 	           joinColumns = @JoinColumn( name="city_id"),
 	           inverseJoinColumns = @JoinColumn( name="event_id")
 		    )*/
+    
     private Set<Event> eventList = new HashSet<Event>();
     //-------------------------------------------------------
+    @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
 	    fetch = FetchType.EAGER,
@@ -86,6 +93,7 @@ public class City implements Serializable
 	    )
     private Set<Tag> tagList = new HashSet<Tag>();
     //-------------------------------------------------------
+    @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(
 	    	cascade=CascadeType.ALL,
@@ -98,6 +106,7 @@ public class City implements Serializable
 	    )
     private Set<DependingMonthProperty> dmpList = new HashSet<DependingMonthProperty>();
     //-------------------------------------------------------
+    @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(
 	    	cascade=CascadeType.ALL,
@@ -137,26 +146,32 @@ public class City implements Serializable
     {
 	this.option = option;
     }*/
+    @JsonIgnore
     public Set<Tag> getTagList()
     {
 	return tagList;
     }
+    @JsonIgnore
     public void setTagList(Set<Tag> tagList)
     {
 	this.tagList = tagList;
     }
+    @JsonIgnore
     public Set<Event> getEvents()
     {
 	return eventList;
     }
+    @JsonIgnore
     public void setEvents(Set<Event> events)
     {
 	this.eventList = events;
     }
+    @JsonIgnore
     public Proposals getProposals()
     {
 	return proposals;
     }
+    @JsonIgnore
     public void setProposals(Proposals proposals)
     {
 	this.proposals = proposals;
@@ -177,18 +192,22 @@ public class City implements Serializable
     {
 	this.ru_name = ru_name;
     }
+    @JsonIgnore
     public Set<DependingMonthProperty> getDmpList()
     {
 	return dmpList;
     }
+    @JsonIgnore
     public void setDmpList(Set<DependingMonthProperty> dmpList)
     {
 	this.dmpList = dmpList;
     }
+    @JsonIgnore
     public Set<Property> getPropertyList()
     {
 	return propertyList;
     }
+    @JsonIgnore
     public void setPropertyList(Set<Property> propertyList)
     {
 	this.propertyList = propertyList;

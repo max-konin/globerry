@@ -1,11 +1,14 @@
 package com.globerry.project.service.admin;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.EventDao;
+import com.globerry.project.domain.Event;
 
 @Service
 public class EventPage implements IEntityCreator
@@ -13,8 +16,11 @@ public class EventPage implements IEntityCreator
     
     @Autowired
     private EventDao eventDao;
+    @Autowired
+    private CityDao cityDao;
 
     static final String JSPPAGE = "eventpage";
+    static final String JSPUPDATEPAGE ="eventupdatepage";
     @Override
     public String getJspListFile()
     {
@@ -36,15 +42,32 @@ public class EventPage implements IEntityCreator
     @Override
     public void getElemById(Map<String, Object> map, int id)
     {
-	// TODO Auto-generated method stub
-	
+	map.put("event", eventDao.getEventById(id));
     }
 
     @Override
     public String getJspUpdateFile()
     {
-	// TODO Auto-generated method stub
-	return null;
+	return "admin/" + JSPUPDATEPAGE;
     }
+
+    @Override
+    public void updateElem(Object object)
+    {
+	Event event = (Event) object;
+	eventDao.updateEvent(event);
+	
+    }
+
+    @Override
+    public Map<String, Object> getRelation(Map<String, Object> map, int id)
+    {
+	Event event = eventDao.getEventById(id);
+	map.put("cityList", event.getCities());
+	map.put("allCities", cityDao.getCityList());
+	return map;
+    }
+
+
 
 }

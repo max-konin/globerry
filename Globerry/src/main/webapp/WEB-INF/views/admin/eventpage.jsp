@@ -12,12 +12,6 @@
 	<script type="text/javascript" src="../resources/javascripts/kendoui/source/js/kendo.web.js"></script>
     <link href="../resources/javascripts/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="../resources/javascripts/kendoui/styles/kendo.default.min.css" rel="stylesheet" />
-    <script language="javascript">
-    	function getJsp()
-    	{
-    		
-    	}
-    </script>
 </head>
 <body>
 
@@ -33,191 +27,247 @@
                 <div id="grid"></div>
 
             </div>
+            <div>
+				<ul id="treeView">
+					
+				</ul>
+            </div>
 
             <style scoped>
                 #clientsDb {
                     width: 692px;
-                    height: 393px;
-                    margin: 30px auto;
+                    height: 500px;
+                    margin: 30px;
                     padding: 51px 4px 0 4px;
                   
                 }
             </style>
 			<script language ="javascript">
+				
 	                $(document).ready(function() {
-
-   	    									dataSource = new kendo.data.DataSource({
-                        					transport: {
-                        						 read:  {
-                                                     url: "getevents",
-                                                     dataType: "json"
-                                                 },
-                                                 update: {
-                                                     url: "edit",
-                                                     dataType: "json"
-                                                 },
-                                                 destroy: {
-                                                     url: "delete",
-                                                     dataType: "jsonp"
-                                                 }, 
-                                                 create: {
-                                                     url: "Create",
-                                                     dataType: "json"
-                                                 },
-                                                 parameterMap: function(options, operation) {
-                                                     if (operation !== "read" && options.models) {
-                                                    	 alert(kendo.stringify(options.models));
-                                                         return {event: kendo.stringify(options.models)};
-                                                     }
-                                                 } 
-                        					},
-                        					batch: true,
-                                            pageSize: 30,
-                        					schema: {
-                                                model: {
-                                                	title: "event",
-                                                    id: "id",
-                                                    fields: {
-                                                    	description: { type:"string", validation: { required: true } },
-                                                        image: { type:"string", validation: { required: true } },
-                                                        month: { type: "number", validation: { required: true, min: 0} },
-                                                        name: { type:"string", validation: { required: true } },
-                                                        ru_description: { type:"string", validation: { required: true } },
-                                                        ru_name: { type:"string", validation: { required: true } }
-                                                    }
-                                                }
-                                            }
-                                        });
-   	    										//alert("ready");
-   	    								/*$.each(response, function(key, val)
-   	    										{
-   	    											var id = val.id;
-   	    											var description = val.description;
-   	    											var image = val.image;
-   	    											var month = val.month;
-   	    											var name = val.name;
-   	    											var ru_description = val.ru_description;
-   	    											var ru_name = val.ru_name;
-   	    											
-   	    											events.push({
-   	    												Id: id,
-   	    												Description: description,
-   	    												Image: image,
-   	    												Month: month,
-   	    												Name: name,
-   	    												Ru_description: ru_description,
-   	    												Ru_name: ru_name
-   	    											});
-   	    										});//*/
-	   									$("#grid").kendoGrid(
-	   						                    {
-	   						                        dataSource: dataSource,
-	   						                        	/* {
-	   						                            data: events,
-	   						                          	pageSize: 20
-	   						                    	    }*/
-	   						                        height: 500,
-	   						                        scrollable: true,
-	   						                        sortable: true,
-	   						                        pageable: true,
-	   						                        toolbar:["create"],
-	   						                        columns: [ 
-	   						                                  {
-	   						                                field: "id",
-	   						                           		} , 
-	   						                           		{
-	   						                                field: "description"
-	   						                            	} , 
-	   						                           		{
-	   						                                field: "image"
-	   						                            	} , 
-	   						                            	{
-	   						                                field: "month"
-	   						                            	} , 
-	   						                            	{
-	   						                                field: "name"
-	   						                           		} , 
-	   						                           		{
-	   						                                field: "ru_description"
-	   						                            	} , 
-	   						                            	{
-	   							                            field: "image"
-	   						                            	} ,
-	   						                            	{ command: ["edit", "destroy"], title: "&nbsp;", width: "210px" }
-	   						                        ],
-	   						                     editable: "inline"
-	   						                    });	
-	   							 });	
-	   										
-
-	                	
-	                /*	alert(events_group[3].Month);
-	                	
-	                    $("#grid").kendoGrid(
-	                    		{
-	                        dataSource: {
-	                            data: $.getJSON("getevents",
-	                    	            function(response) 
-	                    	            {
-	                            				var events = [];	
-           	    								$.each(response, function(key, val)
-           	    										{
-           	    											var id = val.id;
-           	    											var description = val.description ? val.description : "ok";
-           	    											var image = val.image ? val.image : "ok";
-           	    											var month = val.month ? val.month : "ok";
-           	    											var name = val.name ? val.name : "ok";
-           	    											var ru_description = val.ru_description ? val.ru_description : "ok";
-           	    											var ru_name = val.ru_name ? val.ru_name : "ok";
-           	    											
-           	    											events.push({
-           	    												Id: id,
-           	    												Description: description,
-           	    												Image: image,
-           	    												Month: month,
-           	    												Name: name,
-           	    												Ru_description: ru_description,
-           	    												Ru_name: ru_name
-           	    											});
-           	    											
-           	    										
-           	    											
-           	    										});
-           	    								
-           	    								return events;
-           	         						 }),
-	                          	pageSize: 10
-	                        },
+	                	$.getJSON("getevents",
+               	            function(response) 
+               	            {
+	                			var events = [];		
+   								$.each(response, function(key, val)
+   								{
+									var id = val.id;
+									var description = val.description;
+									var image = val.image;
+									var month = val.month;
+									var name = val.name;
+									var ru_description = val.ru_description;
+									var ru_name = val.ru_name;
+									var deleteButton = "<input type=\"button\" value=\"блаблабла\" onclick=\"location.href='delete/" + id +"'\" />";
+									
+									//alert(month);
+									
+									events.push({
+										Id: id,
+										Description: description,
+										Image: image,
+										Month: month,
+										Name: name,
+										Ru_description: ru_description,
+										Ru_name: ru_name,
+										DeleteButton: deleteButton
+   									});
+									//alert(deleteButton);
+   								});
+   									
+	   							 $("#grid").kendoGrid(
+	   		                    		{
+	   		                        dataSource:
+	   		                        {
+	   		                            data:events,
+	   		                          	pageSize: 30
+	   		                        },
+	   		                        height: 500,
+	   		                        groupable: true,
+	   		                        scrollable: true,
+	   		                     	selectable: "multiple",
+	   		                        sortable: true,
+	   		                        pageable: true,
+	   		                        columns: [ 
+	   		                                {
+	   		                                field: "Id"
+	   		                           		} , 
+	   		                           		{
+	   		                                field: "Description"
+	   		                            	} , 
+	   		                           		{
+	   		                                field: "Image"
+	   		                            	} , 
+	   		                            	{
+	   		                                field: "Month"
+	   		                            	} , 
+	   		                            	{
+	   		                                field: "Name"
+	   		                           		} , 
+	   		                           		{
+	   		                                field: "Ru_description"
+	   		                            	} ,
+	   		                            	{
+	   			                            	field: "Ru_name"
+	   		                            	} ,
+	   		                            	{
+	   		                            		command: ["edit", "destroy"], 
+	   		                            		title: " ",
+	   		                            		width: "110px" 
+	   		                            		//template: "&lt;a class=\"k-button k-button-icontext k-grid-delete\" href=\"#= Id#\"><span class=\"k-icon k-delete\"></span>Delete</a>&rt;"
+	   		                            	}
+	   		                        		]
+	   		                    		});
+   		                	$('.k-focusable tr').each(function(key, val)
+   		                			{
+   		                				var id =$(val).children("td:first").text();
+   		                				var buttonsCell = $(val).children("td:last");
+   		                				$(buttonsCell).children("a.k-grid-delete")
+   		                					.click(function(){
+   		                						$.ajax(
+   		                								{
+   		                									url:"delete/" + id,
+   		                									success:function(response){
+   		                										$(val).remove();
+   		                									}
+   		                								});
+   		                				}); 
+   		                				$(buttonsCell).children("a.k-grid-edit").attr("href", "update/" + id);
+   		                			}); 
+   		                	var row = $("#grid").find(".k-grid-content").find("tr");
+   		                	row.click(function(){
+   		                			var id =$(this).find("td:first").text();
+           							$.getJSON("getrelations/" + id,function(response) 
+       					               	       {
+           											$("#treeView").empty();
+       												$.each(response, function(key, val)
+       				   								{	
+       													var globElem = $("<li>" + key + "</li>");
+       													var localElem = $("<ul/>");
+       													for(var i = 0; i < val.length; i++)
+       														{
+																$(localElem).append("<li>" + val[i].name + "</li>");
+       														}
+       													$(globElem).append(localElem);
+       													$("#treeView").append(globElem);
+       				   								});
+       												$("#treeView").kendoTreeView();
+       											});
+           							
+       										
+   		                			});
+   		                
+               	            });
+        			});
+	                   
+	                /*
+						dataSource = new kendo.data.DataSource({
+					transport: {
+						 read:  {
+                             url: "getevents",
+                             dataType: "json"
+                         },
+                         update: {
+                             url: "edit",
+                             dataType: "json"
+                         },
+                         destroy: {
+                             url: "delete",
+                             dataType: "jsonp"
+                         }, 
+                         create: {
+                             url: "Create",
+                             dataType: "json"
+                         },
+                         parameterMap: function(options, operation) {
+                             if (operation !== "read" && options.models) {
+                            	 alert(kendo.stringify(options.models));
+                                 return {event: kendo.stringify(options.models)};
+                             }
+                         } 
+					},
+					batch: true,
+                    pageSize: 30,
+					schema: {
+                        model: {
+                        	title: "event",
+                            id: "id",
+                            fields: {
+                            	description: { type:"string", validation: { required: true } },
+                                image: { type:"string", validation: { required: true } },
+                                month: { type: "string", validation: { required: true} },
+                                name: { type:"string", validation: { required: true } },
+                                ru_description: { type:"string", validation: { required: true } },
+                                ru_name: { type:"string", validation: { required: true } }
+                            }
+                        }
+                    }
+                });
+							//alert("ready");*/
+		/*	var events[];
+			$.each(response, function(key, val)
+					{
+						var id = val.id;
+						var description = val.description;
+						var image = val.image;
+						var month = val.month;
+						var name = val.name;
+						var ru_description = val.ru_description;
+						var ru_name = val.ru_name;//*/
+						
+						/*events.push({
+							Id: id,
+							Description: description,
+							Image: image,
+							Month: month,
+							Name: name,
+							Ru_description: ru_description,
+							Ru_name: ru_name
+							//Func:"<a id = id></a>
+						});
+						});//*/
+			/*	$("#grid").kendoGrid(
+	                    {
+	                        dataSource: 
+	                        	{
+	                            data: events,
+	                          	pageSize: 20
+	                    	    } ,
 	                        height: 360,
 	                        groupable: true,
 	                        scrollable: true,
 	                        sortable: true,
 	                        pageable: true,
 	                        columns: [ 
-	                                {
-	                                field: "Id"
+	                                  {
+	                                field: "id",
 	                           		} , 
 	                           		{
-	                                field: "Description"
+	                                field: "description",
 	                            	} , 
 	                           		{
-	                                field: "Image"
+	                                field: "image",
 	                            	} , 
 	                            	{
-	                                field: "Month"
+	                                field: "month",
 	                            	} , 
 	                            	{
-	                                field: "Name"
+	                                field: "name",
 	                           		} , 
 	                           		{
-	                                field: "Ru_description"
-	                            	} ,
+	                                field: "ru_description",
+	                            	} , 
 	                            	{
-		                            field: "Ru_name"
-	                            	}
-	                        ]
-	                    });
-	                });*/
+		                            field: "image",
+	                            	} 
+	                            	
+	                        ],
+	                    });	
+		 });	//*/
+					
+
+
+
 	            </script>
 	    </div>
 
@@ -249,6 +299,5 @@
 		</c:forEach>
 	</table>
 </c:if> -->
-<h1><%= request.getParameter("models") %></h1>
 </body>
 </html>

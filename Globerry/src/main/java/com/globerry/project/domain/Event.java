@@ -19,7 +19,13 @@ import javax.persistence.Table;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.hibernate.mapping.Collection;
+
+
 
 @Entity
 @Table
@@ -41,6 +47,7 @@ public class Event
     @Column
     @Enumerated(EnumType.ORDINAL)
     private Month month;
+    @JsonIgnore
     @ManyToMany(
 	    fetch = FetchType.EAGER,
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH},
@@ -89,6 +96,11 @@ public class Event
     {
 	this.month = Month.values()[monthNumber];
     }
+    
+    public void setMonth(String month)
+    {
+	this.month = Month.valueOf(month);
+    }
     public String getImage()
     {
 	return image;
@@ -97,10 +109,12 @@ public class Event
     {
 	this.image = image;
     }
+    @JsonIgnore
     public Set<City> getCities()
     {
 	return cityList;
     }
+    @JsonIgnore
     public void setCities(Set<City> cities)
     {
 	this.cityList = cities;

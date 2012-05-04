@@ -236,4 +236,32 @@ public class EventDaoTest
      fail(e.getDescription());
  }
     }
+    @Test
+    public void getEventById()
+    {
+	try
+	{
+	    Event eventNew = new Event();
+	    eventNew.setDescription("sdhdsfghdh");
+	    System.err.println(eventNew.getId());
+	    Event event = eventDao.getEventById(eventDao.addEvent(eventNew));
+	    System.err.print(event.getDescription());
+	}
+	catch(Exception e)
+	{
+	    e.printStackTrace();
+	    fail("not found 1 event");
+	}
+    }
+    @Test
+    public void updateTest()
+    {
+	Event oldEvent = new Event();
+	Event newEvent = new Event();
+	newEvent.setName("HelloWorld");
+	eventDao.addEvent(oldEvent);
+	newEvent.setId(oldEvent.getId());
+	eventDao.updateEvent(newEvent);
+	System.err.println("------------" + oldEvent.getId());
+    }
     }

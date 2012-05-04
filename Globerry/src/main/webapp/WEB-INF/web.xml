@@ -56,5 +56,46 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!--  Фильтр для работы с lazy подгрузкой данных -->
+<!-- 
+<bean id="hibernateInterceptor"
+     class="org.springframework.orm.hibernate3.HibernateInterceptor">
+    <property name="sessionFactory">
+        <ref bean="sessionFactory"/>
+    </property>
+</bean>
+
+
+<bean id="eventDao" class="com.globerry.project.dao">
+    <property name="EventDao">
+        <ref bean="EventDao" />
+    </property>
+</bean>
+
+
+
+<bean id="businessObject" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target">
+        <ref bean="businessObjectTarget" />
+    </property>
+
+    <property name="proxyInterfaces">
+
+        <value>org.beq.IBusinessObject</value>
+
+    </property>
+
+    <property name="interceptorNames">
+
+        <list>
+
+           <value>hibernateInterceptor</value>
+
+        </list>
+
+    </property>
+
+</bean>  -->
+	
 </web-app>
 

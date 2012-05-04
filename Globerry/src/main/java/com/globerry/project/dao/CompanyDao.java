@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Repository;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
@@ -119,6 +120,7 @@ public class CompanyDao implements ICompanyDao {
 	@Override
 	public Set<Tour> getCompanyTourList(Company company)
 	{
+	    
 	   /* Session session = sessionFactory.getCurrentSession();
 
 	    Query query = session.createQuery("FROM Person as p WHERE p.id="+personId);
@@ -147,7 +149,23 @@ public class CompanyDao implements ICompanyDao {
 	}
 	public Company getCompanyByLogin(String login)
 	{
-	    List<Company> companyList = this.TestDB();
+	    Company company;
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    try
+	    {
+		company = (Company)sessionFactory.getCurrentSession().createQuery("FROM Company C WHERE C.login='" + login + "'").list().get(0);
+	    }
+	    catch(SQLGrammarException e)
+	    {
+		System.err.println("LOGIN IS NOT EXIST");
+		e.printStackTrace();
+		return null;
+	    }
+	    
+	    tx.commit();
+	    sessionFactory.close();
+	    return company;
+	    /*List<Company> companyList = this.TestDB();
 	    Company company = null;
 	    for(Company companyBuff:companyList) 
 	    {
@@ -157,7 +175,7 @@ public class CompanyDao implements ICompanyDao {
 		    break;
 		}
 	    }
-	    return company;
+	    return company;*/
 	}
 	public List<Company> TestDB()
 	{

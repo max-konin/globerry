@@ -31,11 +31,13 @@ public interface IEventDao
      * @param newEvent новое событие
      */
     public void updateEvent(Event oldEvent, Event newEvent);
+    public void updateEvent(Event newEvent);
     /**
      * Возвращает лист событий по месяцу
      * @param month месяц
      */
     public List<Event> getEventList(Month month, City city);
     public List<Event> getEventList();
-    void addEvent(Event event);
+    int addEvent(Event event);
+    public Event getEventById(int id);
 }

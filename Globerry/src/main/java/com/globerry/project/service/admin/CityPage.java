@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.Event;
 
 @Service
 public class CityPage implements IEntityCreator
@@ -45,6 +46,23 @@ public class CityPage implements IEntityCreator
 	// TODO Auto-generated method stub
 	return "admin/" + JSPUPDATEPAGE;
     }
+    @Override
+    public void updateElem(Object object)
+    {
+	City city = (City) object;
+	cityDao.updateCity(city);
+    }
+    @Override
+    public Map<String, Object> getRelation(Map<String, Object> map, int id)
+    {
+	City city = cityDao.getCityById(id);
+	map.put("eventList", city.getEvents());
+	map.put("dmpList", city.getDmpList());
+	map.put("propertyList", city.getPropertyList());
+	map.put("tagList",city.getTagList());
+	return map;
+    }
+
     
 
 

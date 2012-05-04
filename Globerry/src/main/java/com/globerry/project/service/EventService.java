@@ -17,7 +17,7 @@ import com.globerry.project.service.interfaces.IEventService;
 
 /**
  * @author Artem
- *Класс не доделан! 
+
  */
 @Service("eventService")
 public class EventService implements IEventService

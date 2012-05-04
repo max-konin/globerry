@@ -47,6 +47,21 @@ public class CompanyTest
     @Autowired
     private CompanyDao companyDao;
     Company company = new Company();
+    /**
+     * Рандомный генератор стрингов
+     * @return стринг
+     */
+    private String getStringGenerator()
+    {  
+	
+      final int LENGHT = 8;  
+      StringBuffer sb = new StringBuffer();  
+      for (int x = 0; x <LENGHT; x++)  
+      {  
+        sb.append((char)((int)(Math.random()*26)+97));  
+      }  
+      return sb.toString();  
+    } 
     
     @Test(timeout=1000)
     public void AddTest() throws Exception
@@ -110,5 +125,30 @@ public class CompanyTest
 	    
 	}
 	
+    }
+    @Test
+    public void getCompanyByLogin()
+    {
+	Company newCompany = new Company();
+	newCompany.setLogin(getStringGenerator());
+	newCompany.setEmail(getStringGenerator());
+	newCompany.setDescription(getStringGenerator());
+	newCompany.setPassword(getStringGenerator());
+	
+	try
+	{
+	    companyDao.addCompany(newCompany);
+	} catch (MySqlException e)
+	{
+	    e.printStackTrace();
+	}
+	
+	String login = newCompany.getLogin();
+	System.err.println(login);//*/
+	Company company = companyDao.getCompanyByLogin(login);
+	if(company != null)
+	{
+	    System.err.println(company.getDescription());
+	}
     }
 }
