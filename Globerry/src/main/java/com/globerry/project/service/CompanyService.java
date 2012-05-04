@@ -11,6 +11,8 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.ITourDao;
 import com.globerry.project.dao.TourDao;
 import com.globerry.project.service.interfaces.ICompanyService;
 import com.globerry.project.MySqlException;
@@ -24,10 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class CompanyService implements ICompanyService
 {
     @Autowired
-    private CompanyDao companyDao;
+    private ICompanyDao companyDao;
     
     @Autowired 
-    private TourDao tourDao;
+    private ITourDao tourDao;
     
     
     public void addCompany(Company company) throws MySqlException

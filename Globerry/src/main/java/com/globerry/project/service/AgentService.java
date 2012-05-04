@@ -15,21 +15,74 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.ITourDao;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Tour;
+import com.globerry.project.service.interfaces.IAgentService;
 
 /**
  * A custom service for retrieving users from a custom datasource, such as a database.
  * <p>
  * This custom service must implement Spring's {@link UserDetailsService}
  */
-@Service("companyLoginService")
-public class CustomUserDetailsService implements UserDetailsService {
+@Service("AgentService")
+public class AgentService implements UserDetailsService, IAgentService {
 	
 	protected static Logger logger = Logger.getLogger("service");
 
-	//@Autowired
+	@Autowired
 	private CompanyDao companyDao = new CompanyDao();
+	
+	@Autowired 
+	private ITourDao tourDao;
+
+	private Company currentCompany;
+	    
+	@Override
+	public void addTour(Tour tour)
+	{
+	    currentCompany.getTourList().add(tour);
+	    companyDao.updateCompany(currentCompany);
+	}
+	
+	@Override
+	public void updateTour(Tour oldTour, Tour newTour)
+	{
+	    if (currentCompany.getTourList().contains(oldTour))
+		tourDao.updateTour(oldTour, newTour);
+	    else
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public void removeTour(Tour tour)
+	{
+	    if (currentCompany.getTourList().contains(tour))
+	    {
+		currentCompany.getTourList().remove(tour);
+		companyDao.updateCompany(currentCompany);
+	    }
+	    else
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public Company returnCurrentCompany()
+	{
+	    return currentCompany;
+	}
+
+	@Override
+	public void companyUpdate(Company company) throws MySqlException
+	{
+	    companyDao.updateCompany(currentCompany, company);
+	    currentCompany = company;
+	}
+	
+	
 	//CompanyService cmpService;
 	/**
 	 * Retrieves a user record containing the user's credentials and access. 
@@ -60,6 +113,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 					true,
 					true,
 					getAuthorities(company.getAccess()));
+			currentCompany = company;
 
 		} catch (Exception e) {
 			logger.error("Error in retrieving user");

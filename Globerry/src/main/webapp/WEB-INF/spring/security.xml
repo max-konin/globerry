@@ -37,6 +37,6 @@
 	<bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
 
 	<!-- A custom service where Spring will retrieve users and their corresponding access levels  -->
-	<bean id="customUserDetailsService" class="com.globerry.project.service.CustomUserDetailsService"/>
+	<bean id="customUserDetailsService" class="com.globerry.project.service.AgentService"/>
 	
 </beans>
