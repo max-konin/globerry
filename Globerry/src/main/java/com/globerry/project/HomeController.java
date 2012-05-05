@@ -184,11 +184,10 @@ public class HomeController {
 	tag = tagDao.getTagById(tag.getId());
 	System.out.println(tag.getName());
 	if (tag !=null){
-	    BlockItem blockItem = new BlockItem(tag);
 	    if (tag.getTagsType() == TagsType.WHO)
-		blockWho.setSelected(blockItem);
+		blockWho.setSelected(tag);
 	    else
-		blockWhat.setSelected(blockItem);
+		blockWhat.setSelected(tag);
 	}
     }
     @RequestMapping(value="/monthchange", method= RequestMethod.POST)

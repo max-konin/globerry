@@ -1,7 +1,10 @@
 package com.globerry.project.service.interfaces;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import com.globerry.project.domain.Tag;
 
 public class IOptionBlock
 {
@@ -10,21 +13,36 @@ public class IOptionBlock
 
     public List<IBlockItem> getBlockItems()
     {
+	if (items.size() == 0)
+	    tagsLoad();
 	return items;
     }
-    public void addBlockItem(IBlockItem blockItem){
+    protected void addBlockItem(IBlockItem blockItem){
 	items.add(blockItem);
 	if (items.size() == 1)
 	    selected = blockItem;
     }
 
-    public IBlockItem getSelected()
+    public Tag getSelected()
     {
-	return selected;
+	if (items.size() == 0)
+	    tagsLoad();
+	return selected.getTag();
     }
 
-    public void setSelected(IBlockItem selected)
+    public void setSelected(Tag selected)
     {
-	this.selected = selected;
+	if (items.size() == 0)
+	    tagsLoad();
+	Iterator<IBlockItem> it = items.iterator();
+	while (it.hasNext()){
+	    IBlockItem iBlockItem = it.next();
+	    if (iBlockItem.getTag().equals(selected)){
+		this.selected = iBlockItem;
+		break;
+	    }
+	}
+    }
+    protected void tagsLoad(){
     }
 }
