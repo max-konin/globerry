@@ -4,6 +4,7 @@ package com.globerry.project;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -101,6 +102,15 @@ public class HomeController {
         tag1.setName("ololo");
         tag1.setTagsType(TagsType.WHO);
         
+        Tag tag2 = new Tag();
+        tag2.setName("gg");
+        tag2.setTagsType(TagsType.WHERE);
+        
+        Set<Tag> tagList = new HashSet<Tag>();
+        tagList.add(tag1);
+        tagList.add(tag2);
+	city.setTagList(tagList);
+        
         PropertyType propertyType = new PropertyType();
         propertyType.setName("prop");
         
@@ -108,10 +118,13 @@ public class HomeController {
         try
 	{
             basebase = false;
+	    tagDao.addTag(tag1);
+	    tagDao.addTag(tag2);
 	    cityDao.addCity(city);
 	    cityDao.addCity(city1);
 	    cityDao.addCity(city2);
-	    tagDao.addTag(tag1);
+	    /*tagDao.addTag(tag1, city);
+	    tagDao.addTag(tag2, city);*/
 	    propertyTypeDao.addPropertyType(propertyType);
 	} catch (MySqlException e)
 	{
@@ -180,15 +193,16 @@ public class HomeController {
     }
     @RequestMapping(value="/tagchange", method= RequestMethod.POST)
     public void who(Tag tag) {    
-        System.out.println("выбрали тег");
 	tag = tagDao.getTagById(tag.getId());
-	System.out.println(tag.getName());
 	if (tag !=null){
+	    System.out.println("выбрали тег: "+tag.getName());
 	    if (tag.getTagsType() == TagsType.WHO)
 		blockWho.setSelected(tag);
 	    else
 		blockWhat.setSelected(tag);
 	}
+	else  
+	        System.out.println("выбрали несуществующий тег. изменение тега проигнорировано");
     }
     @RequestMapping(value="/monthchange", method= RequestMethod.POST)
     public void month(MyDate myDate) {   

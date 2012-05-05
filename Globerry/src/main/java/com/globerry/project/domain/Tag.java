@@ -88,7 +88,8 @@ public class Tag
     public boolean equals(Tag tag)
     {
 	if(this.getId() == tag.getId() &&
-		this.getImg().equals(tag.getImg()) &&
+		(this.getImg() == null && tag.getImg() == null) ||
+			(this.getImg() != null && tag.getImg() != null && this.getImg().equals(tag.getImg())) &&
 		this.getName().equals(tag.getName()))
 	    return true;
 	else return false;

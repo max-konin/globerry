@@ -20,7 +20,11 @@ import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.service.interfaces.IUserCityService;
-
+/**
+ * 
+ * @author Sergey Krupin
+ *
+ */
 @Service("userCityService")
 @Scope("session")
 public class UserCityService implements IUserCityService
@@ -38,11 +42,7 @@ public class UserCityService implements IUserCityService
     @Autowired
     private BlockWhat blockWhat;
     
-    
     private Range currentRange = new Range(-180, 180, -90, 90);
-    //private List<Property> currentProperties = new ArrayList<Property>();
-    //private List<Tag> currentWhoTags = new ArrayList<Tag>();
-    //private List<Tag> currentWhatTags = new ArrayList<Tag>();
     
     //init
     private void init(){
@@ -71,7 +71,6 @@ public class UserCityService implements IUserCityService
     @Override
     public void sliderOnChangeHandler()
     {
-	
 	//TODO
     }
 
@@ -79,8 +78,8 @@ public class UserCityService implements IUserCityService
     public List<City> getCityList()
     {
 	List<Tag> tags =  new ArrayList<Tag>();
-	//tags.add(blockWho.getSelected().getTag());
-	//tags.add(blockWhat.getSelected().getTag());
+	tags.add(blockWho.getSelected());
+	tags.add(blockWhat.getSelected());
 	CityRequest request = new CityRequest(
 		currentRange,
 		sliders.getProperties(),
