@@ -71,7 +71,6 @@ public class HomeController {
     Calendar calendar;
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
-    private boolean basebase = true;
  
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
@@ -84,42 +83,9 @@ public class HomeController {
     //TODO delete this 
     @RequestMapping(value="/getcities", method= RequestMethod.GET)
     public @ResponseBody City[] test() {
+        this.cityInit();
+        
 	City[] cities = null;
-        /*City city = new City();
-        city.setName("New York ");
-        city.setId(1);
-        city.setLatitude((float)51.508);
-        city.setLongitude((float)-0.12);
-        City city1 = new City();
-        city1.setName("London ");
-        city1.setId(2);
-        city1.setLatitude((float)51.505);
-        city1.setLongitude((float)-0.09);
-        City city2 = new City();
-        city2.setName("Novosibirsk ");
-        city2.setId(3);
-        city2.setLatitude((float)60.505);
-        city2.setLongitude((float)-5.09);
-        
-        Tag tag1 = new Tag();
-        tag1.setName("ololo");
-        tag1.setTagsType(TagsType.WHO);
-        
-        Tag tag2 = new Tag();
-        tag2.setName("gg");
-        tag2.setTagsType(TagsType.WHERE);
-        
-        Set<Tag> tagList = new HashSet<Tag>();
-        tagList.add(tag1);
-        tagList.add(tag2);
-	city.setTagList(tagList);
-        
-        PropertyType propertyType = new PropertyType();
-        propertyType.setName("prop");
-        */
-        if (cityDao.getCityById(1) == null || basebase ){
-            this.cityInit();
-        }
         System.out.println("Запрос городов от клиента");
         List<City> cityList = userCityService.getCityList();
         cities = new City[cityList.size()];
@@ -130,37 +96,9 @@ public class HomeController {
     }
     @RequestMapping(value="/cityinit")
     public void cityInit(){
-	City city = new City();
-        city.setName("New York ");
-        city.setId(1);
-        city.setLatitude((float)51.508);
-        city.setLongitude((float)-0.12);
-        City city1 = new City();
-        city1.setName("London ");
-        city1.setId(2);
-        city1.setLatitude((float)51.505);
-        city1.setLongitude((float)-0.09);
-        City city2 = new City();
-        city2.setName("Novosibirsk ");
-        city2.setId(3);
-        city2.setLatitude((float)60.505);
-        city2.setLongitude((float)-5.09);
-        
         defaultDatabaseCreator.initTags();
         defaultDatabaseCreator.initPropertyType();
-        
-        if (cityDao.getCityById(1) == null || basebase ){
-        try
-	{
-            basebase = false;
-	    cityDao.addCity(city);
-	    cityDao.addCity(city1);
-	    cityDao.addCity(city2);
-	} catch (MySqlException e)
-	{
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}}
+        defaultDatabaseCreator.initCities();
     }
     //TODO delete this 
     @RequestMapping(value="/rangechange", method= RequestMethod.POST)

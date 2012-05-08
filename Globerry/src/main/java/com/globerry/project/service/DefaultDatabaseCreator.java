@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
+import com.globerry.project.dao.ICityDao;
 import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
@@ -25,7 +26,17 @@ public class DefaultDatabaseCreator
     ITagDao tagDao;
     @Autowired
     IPropertyTypeDao propertyTypeDao;
+    @Autowired
+    ICityDao cityDao;
+
+    private boolean isTagInit = false;
+    private boolean isPropertyTypeInit = false;
+    private boolean isCitiesInit = false;
+    
     public void initTags(){
+	if (isTagInit)
+	    return;
+	isTagInit = true;
 	LinkedList<Tag> tagList = new LinkedList<Tag>();
 
 	tagList.addLast(new Tag());
@@ -85,6 +96,9 @@ public class DefaultDatabaseCreator
 	}
     }
     public void initPropertyType(){
+	if (isPropertyTypeInit)
+	    return;
+	isPropertyTypeInit = true;
 	LinkedList<PropertyType> propertyTypeList = new LinkedList<PropertyType>();
 	//temperature
 	propertyTypeList.add(new PropertyType());
@@ -164,7 +178,22 @@ public class DefaultDatabaseCreator
     }
     
     public void initCities(){
-	/*City[] cities = null;
+	if (isCitiesInit)
+	    return;
+	isCitiesInit = true;
+	
+	LinkedList<City> citiesList = new LinkedList<City>();
+	
+	citiesList.add(new City());
+	citiesList.getLast().setName("London");
+	citiesList.getLast().setLatitude((float)51.508);
+	citiesList.getLast().setLongitude((float)-0.12);
+	Set<Tag> tagList = new HashSet<Tag>();
+	tagList.add(tagDao.getTagById(1));
+	tagList.add(tagDao.getTagById(2));
+	tagList.add(tagDao.getTagById(6));
+	citiesList.getLast().setTagList(tagList);
+	/*
         City city = new City();
         city.setName("New York ");
         city.setId(1);
@@ -180,23 +209,17 @@ public class DefaultDatabaseCreator
         city2.setId(3);
         city2.setLatitude((float)60.505);
         city2.setLongitude((float)-5.09);
-            
-        if (cityDao.getCityById(1) == null || basebase ){
+        */    
         try
 	{
-            basebase = false;
-	    tagDao.addTag(tag1);
-	    tagDao.addTag(tag2);
-	    cityDao.addCity(city);
-	    cityDao.addCity(city1);
-	    cityDao.addCity(city2);
-	    //tagDao.addTag(tag1, city);
-	    //tagDao.addTag(tag2, city);
-	    propertyTypeDao.addPropertyType(propertyType);
+            Iterator<City> cityIterator = citiesList.iterator();
+            while (cityIterator.hasNext()){
+        	cityDao.addCity(cityIterator.next());
+            }
 	} catch (MySqlException e)
 	{
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	}}*/
+	}
     }
 }
