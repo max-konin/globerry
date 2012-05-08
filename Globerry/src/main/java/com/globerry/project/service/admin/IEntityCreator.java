@@ -39,7 +39,10 @@ public interface IEntityCreator
      */
     public Map<String, Object> getRelation(Map<String, Object> map, int id);
     /**
-     * 
+     * Функция получающая абсолютно все элементы. Нет зависимости от элемента
+     * @param map переменная, где всё хранится
+     * @return
      */
+    public void getRelation(Map<String, Object> map);
     
 }

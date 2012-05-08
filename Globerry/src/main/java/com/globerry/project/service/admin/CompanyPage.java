@@ -67,6 +67,13 @@ public class CompanyPage implements IEntityCreator
 	return map;
     }
 
+    @Override
+    public void getRelation(Map<String, Object> map)
+    {
+	// TODO Auto-generated method stub
+	
+    }
+
 
 
 }

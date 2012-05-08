@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
+import com.globerry.project.dao.EventDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 
@@ -14,7 +15,11 @@ import com.globerry.project.domain.Event;
 public class CityPage implements IEntityCreator
 {
     @Autowired
-    CityDao cityDao;
+    private CityDao cityDao;
+    @Autowired
+    private EventDao eventDao;
+    @Autowired
+    private 
     
 
     static final String JSPPAGE = "citypage";
@@ -61,6 +66,12 @@ public class CityPage implements IEntityCreator
 	map.put("propertyList", city.getPropertyList());
 	map.put("tagList",city.getTagList());
 	return map;
+    }
+    @Override
+    public void getRelation(Map<String, Object> map)
+    {
+	map.put("eventList", eventDao.getEventList());
+	
     }
 
     

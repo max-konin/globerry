@@ -57,6 +57,13 @@ public class WrongPage implements IEntityCreator
 	return null;
     }
 
+    @Override
+    public void getRelation(Map<String, Object> map)
+    {
+	// TODO Auto-generated method stub
+	
+    }
+
 
 
 }

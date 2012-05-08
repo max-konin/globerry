@@ -6,7 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -54,30 +54,49 @@
 			<td><form:label path="month">
 				<spring:message code="label.event_month" />
 			</form:label></td>
+
 			<td> <form:select path="month" size="1">
   					<form:options items="${months}"/>
 				</form:select>
 			</td>
-		</tr>
-	</table>
-	<c:if test="${!empty cityList}">
-	<table class="data">
-		<tr>
-			<th><spring:message code="label.id" /></th>
-			<th><spring:message code="label.name" /></th>
-		</tr>
-		<c:forEach items="${cityList}" var="cities">
-			<tr>
-				<td>${cities.id}</td>
-				<td>${cities.name}</td>
-				<td><a href="delete/${cities.id}"><spring:message code="label.delete" /></a></td>
-			</tr>
-		</c:forEach>
+		
 
+		</tr>
+		
 	</table>
-</c:if>
+	<form:select path="cities">
+		<form:option value="0" label="Select" />
+		<form:options items="${allCities}" itemValue="id" itemLabel="name" />
+	</form:select>
+ 	<c:if test="${!empty cityList}">
+		<table class="data">
+			<tr>
+				<th><spring:message code="label.id" /></th>
+				<th><spring:message code="label.name" /></th>
+			</tr>
+			<c:forEach items="${cityList}" var="cities">
+				<tr>
+					<td>${cities.id}</td>
+					<td>${cities.name}</td>
+					<td><a href="delete/${cities.id}"><spring:message code="label.delete" /></a></td>
+				</tr>
+			</c:forEach>
+	
+		</table>
+	</c:if> 
 	<input type="submit"
 				value="<spring:message code="label.addevent"/>" />
 </form:form>
+<%-- 			<td> <form:select path="city" size="10">
+					<c:if test="${!empty allCities}">
+							<c:forEach items="${allCities}" var="allcities">
+									<form:option value="${allcities.name}"/>
+  							</c:forEach>
+  					</c:if>
+				</form:select>
+			<c:forEach items="${allCities}" var="allcities">
+									<form:option value="${allcities.name}"/>
+  							</c:forEach> --%>
+
 </body>
 </html>

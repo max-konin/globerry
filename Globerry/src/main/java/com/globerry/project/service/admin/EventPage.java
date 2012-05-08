@@ -64,8 +64,15 @@ public class EventPage implements IEntityCreator
     {
 	Event event = eventDao.getEventById(id);
 	map.put("cityList", event.getCities());
-	map.put("allCities", cityDao.getCityList());
+	//map.put("allCities", cityDao.getCityList());
 	return map;
+    }
+
+    @Override
+    public void getRelation(Map<String, Object> map)
+    {
+	map.put("allCities", cityDao.getCityList());
+	
     }
 
 

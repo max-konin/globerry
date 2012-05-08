@@ -75,7 +75,7 @@ public class AdminController
 	return page.getJspListFile();
     }
     @RequestMapping("/delete/{id}")
-    public String removeCompany(@PathVariable("id") Integer id)
+    public String removeElement(@PathVariable("id") Integer id)
     {
 	page.removeElem(id);
 	return "redirect:/admin/" + url;
@@ -86,12 +86,13 @@ public class AdminController
     {
 	page.getElemById(map, id);
 	page.getRelation(map, id);
+	page.getRelation(map);
 	return page.getJspUpdateFile();
     }
 
     @RequestMapping(value = "/update/update", method = RequestMethod.POST)
-    public String addContact(@ModelAttribute("object") Object object, BindingResult result, Map<String, Object> map) {
-	map.put("months", Month.values());
+    public String addElement(@ModelAttribute("object") Object object, BindingResult result, Map<String, Object> map) {
+	//map.put("months", Month.values());
         page.updateElem(object);
         return "redirect:/admin/" + url;
     }
@@ -103,6 +104,7 @@ public class AdminController
     @RequestMapping(value="/getcities", method=RequestMethod.GET)
     public @ResponseBody List<City> getCities() {
 	//БЫДЛОКОД
+	//System.err.println("?????????????????????????????????????????????"+cityService.getCityList().size());
         return cityService.getCityList();
     }
     @RequestMapping(value="/getcompanies", method=RequestMethod.GET)
