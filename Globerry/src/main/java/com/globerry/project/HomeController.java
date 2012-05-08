@@ -40,6 +40,7 @@ import com.globerry.project.service.BlockItem;
 import com.globerry.project.service.BlockWhat;
 import com.globerry.project.service.BlockWho;
 import com.globerry.project.service.Calendar;
+import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.MyDate;
 import com.globerry.project.service.SliderData;
 import com.globerry.project.service.Sliders;
@@ -68,6 +69,8 @@ public class HomeController {
     TagDao tagDao;
     @Autowired
     Calendar calendar;
+    @Autowired
+    DefaultDatabaseCreator defaultDatabaseCreator;
     private boolean basebase = true;
  
     @RequestMapping(value = "/globerry")
@@ -82,7 +85,7 @@ public class HomeController {
     @RequestMapping(value="/getcities", method= RequestMethod.GET)
     public @ResponseBody City[] test() {
 	City[] cities = null;
-        City city = new City();
+        /*City city = new City();
         city.setName("New York ");
         city.setId(1);
         city.setLatitude((float)51.508);
@@ -113,24 +116,10 @@ public class HomeController {
         
         PropertyType propertyType = new PropertyType();
         propertyType.setName("prop");
-        
+        */
         if (cityDao.getCityById(1) == null || basebase ){
-        try
-	{
-            basebase = false;
-	    tagDao.addTag(tag1);
-	    tagDao.addTag(tag2);
-	    cityDao.addCity(city);
-	    cityDao.addCity(city1);
-	    cityDao.addCity(city2);
-	    /*tagDao.addTag(tag1, city);
-	    tagDao.addTag(tag2, city);*/
-	    propertyTypeDao.addPropertyType(propertyType);
-	} catch (MySqlException e)
-	{
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}}
+            this.cityInit();
+        }
         System.out.println("Запрос городов от клиента");
         List<City> cityList = userCityService.getCityList();
         cities = new City[cityList.size()];
@@ -157,12 +146,8 @@ public class HomeController {
         city2.setLatitude((float)60.505);
         city2.setLongitude((float)-5.09);
         
-        Tag tag1 = new Tag();
-        tag1.setName("ololo");
-        tag1.setTagsType(TagsType.WHO);
-        
-        PropertyType propertyType = new PropertyType();
-        propertyType.setName("prop");
+        defaultDatabaseCreator.initTags();
+        defaultDatabaseCreator.initPropertyType();
         
         if (cityDao.getCityById(1) == null || basebase ){
         try
@@ -171,8 +156,6 @@ public class HomeController {
 	    cityDao.addCity(city);
 	    cityDao.addCity(city1);
 	    cityDao.addCity(city2);
-	    tagDao.addTag(tag1);
-	    propertyTypeDao.addPropertyType(propertyType);
 	} catch (MySqlException e)
 	{
 	    // TODO Auto-generated catch block
@@ -187,15 +170,21 @@ public class HomeController {
     }
     @RequestMapping(value="/sliderchange", method= RequestMethod.POST)
     public void slider(SliderData sliderData) {
-        System.out.println("Сдвинули слайдер");
 	PropertyType type = propertyTypeDao.getById(sliderData.getId());
-	sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
+	if (type != null){
+	    System.out.println("Сдвинули слайдер: " + type.getName() +
+		    " Новые значения: ("+sliderData.getLeftValue()+","+sliderData.getLeftValue()+")");
+	    sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
+	}
+	else{
+	    System.out.println("Сдвинули несущестнующий слайдер. Проигнорировано");    
+	}
     }
     @RequestMapping(value="/tagchange", method= RequestMethod.POST)
     public void who(Tag tag) {    
 	tag = tagDao.getTagById(tag.getId());
 	if (tag !=null){
-	    System.out.println("выбрали тег: "+tag.getName());
+	    System.out.println("выбрали тег: " + tag.getName());
 	    if (tag.getTagsType() == TagsType.WHO)
 		blockWho.setSelected(tag);
 	    else
@@ -205,8 +194,8 @@ public class HomeController {
 	        System.out.println("выбрали несуществующий тег. изменение тега проигнорировано");
     }
     @RequestMapping(value="/monthchange", method= RequestMethod.POST)
-    public void month(MyDate myDate) {   
-        System.out.println("Выбрали месяц");
+    public void month(MyDate myDate) {
+        System.out.println("Выбрали месяц: " + myDate.getMonth());
 	calendar.changeMonth(myDate.getMonth());
     }
     

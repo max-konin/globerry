@@ -12,6 +12,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import com.globerry.project.dao.ContextLoaderListener;
+import com.globerry.project.service.interfaces.IUserCityService;
 /**
  * 
  * @author Sergey Krupin
@@ -28,7 +29,7 @@ import com.globerry.project.dao.ContextLoaderListener;
 public class UserCityServiceTest
 {
     @Autowired
-    UserCityService userCityService;
+    IUserCityService userCityService;
     @Test
     public void initTest(){
 	//TODO

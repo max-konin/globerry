@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CityRequest;
+import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.PropertySegment;
 import com.globerry.project.dao.PropertyTypeDao;
 import com.globerry.project.dao.Range;
@@ -19,6 +21,8 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.service.interfaces.ICalendar;
+import com.globerry.project.service.interfaces.ISliders;
 import com.globerry.project.service.interfaces.IUserCityService;
 /**
  * 
@@ -30,13 +34,13 @@ import com.globerry.project.service.interfaces.IUserCityService;
 public class UserCityService implements IUserCityService
 {
     @Autowired
-    private CityDao cityDao;
+    private ICityDao cityDao;
     @Autowired
-    private PropertyTypeDao propertyTypeDao;
+    private IPropertyTypeDao propertyTypeDao;
     @Autowired
-    private Sliders sliders;
+    private ISliders sliders;
     @Autowired
-    private Calendar calendar;
+    private ICalendar calendar;
     @Autowired
     private BlockWho blockWho;
     @Autowired
@@ -52,16 +56,13 @@ public class UserCityService implements IUserCityService
     public void clickOnPassiveCity()
     {
 	// TODO Auto-generated method stub
-	
     }
-
     @Override
     public void clickOnActiveCity()
     {
 	// TODO Auto-generated method stub
 	
     }
-
     @Override
     public void changeRange(Range newRange)
     {

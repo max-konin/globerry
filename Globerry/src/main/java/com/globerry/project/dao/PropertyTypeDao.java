@@ -23,19 +23,21 @@ public class PropertyTypeDao implements IPropertyTypeDao
     @Override
     public void addPropertyType(PropertyType propertyType) throws MySqlException
     {
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	try
 	{
-        	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
         	sessionFactory.getCurrentSession().save(propertyType);
         	tx.commit();
         	sessionFactory.close();
 	}
 	catch(ConstraintViolationException e)
 	{
-	       MySqlException mySqlExc = new MySqlException();
-	       mySqlExc.setMyClass(propertyType);
-	       mySqlExc.setDescription("propertyType name is dublicated");
-	       throw mySqlExc;
+	    tx.rollback();
+	    sessionFactory.close();
+	    MySqlException mySqlExc = new MySqlException();
+	    mySqlExc.setMyClass(propertyType);
+	    mySqlExc.setDescription("propertyType name is dublicated");
+	    throw mySqlExc;
 	}
 	
     }

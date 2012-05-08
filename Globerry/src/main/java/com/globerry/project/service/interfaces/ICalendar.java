@@ -14,4 +14,5 @@ public interface ICalendar
      * @param month
      */
     public void changeMonth(Month month);
+    public Month getMonth();
 }

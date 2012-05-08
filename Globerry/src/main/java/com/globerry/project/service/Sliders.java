@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-
+import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.PropertySegment;
-import com.globerry.project.dao.PropertyTypeDao;
-import com.globerry.project.domain.Property;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.service.interfaces.ISlider;
 import com.globerry.project.service.interfaces.ISliders;
@@ -27,7 +22,7 @@ import com.globerry.project.service.interfaces.ISliders;
 public class Sliders extends Observable implements ISliders
 {
     @Autowired
-    PropertyTypeDao propertyTypeDao;
+    IPropertyTypeDao propertyTypeDao;
     List<Slider> sliders = new ArrayList<Slider>();
     @Override
     public void blockItemOnClickHandler()
