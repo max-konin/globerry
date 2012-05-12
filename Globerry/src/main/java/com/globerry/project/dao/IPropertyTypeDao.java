@@ -14,4 +14,5 @@ public interface IPropertyTypeDao
     public void updatePropertyType(PropertyType propertyType);
     public void removePropertyType(PropertyType propertyType);
     public void removePropertyType(int id);
+    public PropertyType getById(int id);
 }

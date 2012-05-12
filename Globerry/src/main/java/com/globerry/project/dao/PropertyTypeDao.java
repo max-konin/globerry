@@ -85,7 +85,7 @@ public class PropertyTypeDao implements IPropertyTypeDao
     }
     public PropertyType getById(int id){
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	PropertyType propertyType = (PropertyType) sessionFactory.getCurrentSession().load(
+	PropertyType propertyType = (PropertyType) sessionFactory.getCurrentSession().get(
 		PropertyType.class, id);
 	tx.commit();
 	sessionFactory.close();

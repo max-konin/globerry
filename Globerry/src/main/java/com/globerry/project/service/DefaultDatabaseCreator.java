@@ -15,6 +15,7 @@ import com.globerry.project.dao.ICityDao;
 import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.Property;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
@@ -92,7 +93,8 @@ public class DefaultDatabaseCreator
             }
 	} catch (MySqlException e)
 	{
-	    e.printStackTrace();
+	    System.out.println("Tag add error");
+	    //e.printStackTrace();
 	}
     }
     public void initPropertyType(){
@@ -108,6 +110,14 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setMinValue(-35);
 	propertyTypeList.getLast().setMaxValue(+35);
 	propertyTypeList.getLast().setName("temperature");
+	//alcohol
+	propertyTypeList.add(new PropertyType());
+	propertyTypeList.getLast().setId(5);
+	propertyTypeList.getLast().setDependingMonth(false);
+	propertyTypeList.getLast().setBetterWhenLess(true);
+	propertyTypeList.getLast().setMinValue(0);
+	propertyTypeList.getLast().setMaxValue(30);
+	propertyTypeList.getLast().setName("alcohol");
 	//travel time
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(2);
@@ -132,14 +142,6 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(100);
 	propertyTypeList.getLast().setName("food");
-	//alcohol
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(5);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(true);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(30);
-	propertyTypeList.getLast().setName("alcohol");
 	//mood
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(6);
@@ -193,6 +195,12 @@ public class DefaultDatabaseCreator
 	tagList.add(tagDao.getTagById(2));
 	tagList.add(tagDao.getTagById(6));
 	citiesList.getLast().setTagList(tagList);
+	Set<Property> propertyList = new HashSet();
+	Property property = new Property();
+	property.setPropertyType(propertyTypeDao.getById(2));
+	property.setValue(1);
+	propertyList.add(property);
+	citiesList.getLast().setPropertyList(propertyList );
 	/*
         City city = new City();
         city.setName("New York ");

@@ -110,7 +110,7 @@ function slidersInitialization() {
 	    	$.post("/project/sliderchange", 
 	    			{id : idSlider,
 	    			leftValue : leftValueSlider,
-	    			rightValue : rightValue},
+	    			rightValue : rightValueSlider},
     	    	  null,
     	    	  "json");
 	    };

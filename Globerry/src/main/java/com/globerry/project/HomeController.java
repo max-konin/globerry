@@ -111,7 +111,7 @@ public class HomeController {
 	PropertyType type = propertyTypeDao.getById(sliderData.getId());
 	if (type != null){
 	    System.out.println("Сдвинули слайдер: " + type.getName() +
-		    " Новые значения: ("+sliderData.getLeftValue()+","+sliderData.getLeftValue()+")");
+		    " Новые значения: ("+sliderData.getLeftValue()+","+sliderData.getRightValue()+")");
 	    sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
 	}
 	else{

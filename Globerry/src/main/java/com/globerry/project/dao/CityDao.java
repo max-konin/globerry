@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Tour;
 
@@ -28,6 +29,8 @@ public class CityDao implements ICityDao
 {
     @Autowired
     SessionFactory sessionFactory;
+    @Autowired
+    PropertyTypeDao propertyTypeDao;
     @Override
     public void addCity(City city) throws MySqlException
     {
@@ -97,6 +100,11 @@ public class CityDao implements ICityDao
     @Override
     public List<City> getCityList(CityRequest request)
     {
+	Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
+	while(iteratorProperty.hasNext()){
+	    PropertyType propertyType = propertyTypeDao.getById(iteratorProperty.next().getPropertyType().getId());
+	}
+	
 	List<City> result;
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
@@ -111,19 +119,21 @@ public class CityDao implements ICityDao
         	.add(Restrictions.in("id", tagIdList));
 	}
 	//select by property
-	Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
+	iteratorProperty = request.getOption().iterator();
 	Criteria criteriaDmpList = null;
 	Criteria criteriaPropertyList = null;
 	while(iteratorProperty.hasNext()){
 	    PropertySegment propertySegment = iteratorProperty.next();
 	    if (propertySegment.getPropertyType().isDependingMonth()){
-		if (criteriaDmpList == null)
+		if (criteriaDmpList == null){
 		    criteriaDmpList = criteria.createCriteria("dmpList");
+		    criteriaDmpList.createAlias("propertyType", "propType");
+		}
 		criteriaDmpList
 		    .add(Restrictions.and(
 			Restrictions.eq(
-				"PropertyType",
-				propertySegment.getPropertyType()
+				"propType.id",
+				propertySegment.getPropertyType().getId()
 				),
 			Restrictions.and(
 				Restrictions.eq(
@@ -139,13 +149,15 @@ public class CityDao implements ICityDao
 			    )
 	    	);
 	    }else{
-		if (criteriaPropertyList == null)
+		if (criteriaPropertyList == null){
 		    criteriaPropertyList = criteria.createCriteria("propertyList");
+		    criteriaPropertyList.createAlias("propertyType", "propType");
+		}
 		criteriaPropertyList
 		    .add(Restrictions.and(
 			    Restrictions.eq(
-				    "PropertyType",
-				    propertySegment.getPropertyType()
+				    "propType.id",
+				    propertySegment.getPropertyType().getId()
 				    ),
 			    Restrictions.between(
 				    "value",
