@@ -112,34 +112,48 @@ public class CityDao implements ICityDao
 	}
 	//select by property
 	Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
+	Criteria criteriaDmpList = null;
+	Criteria criteriaPropertyList = null;
 	while(iteratorProperty.hasNext()){
 	    PropertySegment propertySegment = iteratorProperty.next();
 	    if (propertySegment.getPropertyType().isDependingMonth()){
-		criteria.createCriteria("dmpList")
-		    .add(Restrictions.eq(
-			"PropertyType",
-			propertySegment.getPropertyType()
-			))
-		    .add(Restrictions.eq(
-			"Month",
-			request.getMonth()
-			))
-		    .add(Restrictions.between(
-			"value",
-	    		propertySegment.getMinValue(),
-	    		propertySegment.getMaxValue()
-	    	));
+		if (criteriaDmpList == null)
+		    criteriaDmpList = criteria.createCriteria("dmpList");
+		criteriaDmpList
+		    .add(Restrictions.and(
+			Restrictions.eq(
+				"PropertyType",
+				propertySegment.getPropertyType()
+				),
+			Restrictions.and(
+				Restrictions.eq(
+					"Month",
+					request.getMonth()
+        			),
+        			Restrictions.between(
+        				"value",
+        				propertySegment.getMinValue(),
+        				propertySegment.getMaxValue()
+        				)
+				)
+			    )
+	    	);
 	    }else{
-		criteria.createCriteria("propertyList")
-		    .add(Restrictions.eq(
-			"PropertyType",
-			propertySegment.getPropertyType()
-			))
-		    .add(Restrictions.between(
-			"value",
-	    		propertySegment.getMinValue(),
-	    		propertySegment.getMaxValue()
-	    	));
+		if (criteriaPropertyList == null)
+		    criteriaPropertyList = criteria.createCriteria("propertyList");
+		criteriaPropertyList
+		    .add(Restrictions.and(
+			    Restrictions.eq(
+				    "PropertyType",
+				    propertySegment.getPropertyType()
+				    ),
+			    Restrictions.between(
+				    "value",
+				    propertySegment.getMinValue(),
+				    propertySegment.getMaxValue()
+				    )
+			)
+	    	);
 	    }
 	}
 	//select by range TODO
@@ -176,12 +190,15 @@ public class CityDao implements ICityDao
 		PropertySegment propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
 		if (propertyCity != null){
 		    //TODO
-		    float a,b;
+		    float a, b, sizeBetween;
+		    sizeBetween = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
+		    if (sizeBetween <= 0)
+			sizeBetween = (float)0.1 * (propertyCity.getMaxValue() - propertyCity.getMinValue());
 		    if (propertyRequest.getPropertyType().isBetterWhenLess()){
-			a = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
+			a = sizeBetween;
 			b = propertyCity.getMaxValue();
 		    }else{
-			a = (propertyRequest.getMaxValue() - propertyRequest.getMinValue())/2;
+			a = sizeBetween/(float)2.0;
 			b = Math.abs(propertyCity.getMaxValue()-a);
 		    }
 		    float k = b/a;
@@ -189,7 +206,8 @@ public class CityDao implements ICityDao
 		    city.setWeight(city.getWeight()*k);		    
 		}
 	    }
-	    city.setWeight((float) Math.pow(city.getWeight(),1/((double) request.getOption().size())));
+	    if (request.getOption().size() > 0)
+		city.setWeight((float) Math.pow(city.getWeight(),1/((double) request.getOption().size())));
 	}
     }
 
