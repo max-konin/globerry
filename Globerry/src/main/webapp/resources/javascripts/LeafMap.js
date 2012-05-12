@@ -7,9 +7,9 @@ function init() {
 	//version with normal map;
     var Width = $(document.getElementById("map")).width();
     var Height = $(document.getElementById("map")).height();
-    var arrln = 200, i, j;
-    if(Width < 1200)
-    	arrln = 100;
+    var arrln = 150, i, j;
+    //if(Width < 1200)
+    	arrln = 80;
     var myArray = new Array();
     var p = 2;
     var level = 1.6;
@@ -29,11 +29,13 @@ function init() {
     }
 
     var circle_counter;
+	var popupArray = new Array();
+	var popupCounter = 0;
     var my2Array = new Array();
     var i2, j2;
     var arrln2 = 3;
-    if(Width < 1200)
-    	arrln2 = 5;
+    //if(Width < 1200)
+    	arrln2 = 3;
     var littleBlockWidth = blockWidth / arrln2;
     var littleBlockHeight = blockHeight / arrln2;
 
@@ -42,9 +44,9 @@ function init() {
 
     var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png';
     var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
-    var cloudmade = new L.TileLayer(cloudmadeUrl, { maxZoom: 18, attribution: cloudmadeAttribution });
+    var cloudmade = new L.TileLayer(cloudmadeUrl, { maxZoom: 9, minZoom: 3, attribution: cloudmadeAttribution });
 
-    map.setView(new L.LatLng(51.505, -0.09), 13).addLayer(cloudmade); //London 13
+    map.setView(new L.LatLng(51.505, -0.09), 3).addLayer(cloudmade); //London 13
 	JSONContr.rangeChange();
 	
     //debag
@@ -58,7 +60,7 @@ function init() {
     };
     var polygonOptions = {
         //color: 'blue',
-        fillColor: 'blue',
+        fillColor: 'rgb(255, 132, 2)',
         fillOpacity: 0.3,
         //strokeOpacity: 0,
         weight: 100,
@@ -69,7 +71,16 @@ function init() {
 
     //-------------------------------------------------------------------------------------------------------
     function redraw(arrayOfCityes, size) {
+    	var numberOfCircles = 0;
+    	for(circle_counter in arrayOfCityes) {
+    		numberOfCircles++;
+    	}
+    	if(numberOfCircles > 10)
+    		level = 1.7;
+    	else
+    		level = 1.6;
     	//alert('123');
+    	popupCounter = 0;
         for (i2 = 0; i2 < arrln2 + 1; i2++) {
             my2Array[i2] = new Array();
             for (j2 = 0; j2 < arrln2 + 1; j2++) {
@@ -84,7 +95,7 @@ function init() {
         }
         
         //alert(map.getZoom());
-        R = 50*map.getZoom()/13;
+        R = 100*map.getZoom()/10;
         if(R < 30) R*=1.03;
         if(R < 20) R*=1.02;
         var circle_counter = 0;
@@ -97,7 +108,11 @@ function init() {
                 	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
                     var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - myCityX) * (i * blockWidth - myCityX) + (j * blockHeight - myCityY) * (j * blockHeight - myCityY)), p));
                     if (some_math_operations) {
-                        myArray[i][j] += (6 * (R*R) / some_math_operations - level);
+                    	var cityRadius = R*arrayOfCityes[circle_counter].weight;
+                    	//if(arrayOfCityes[circle_counter].weight == undefined)
+                    	cityRadius = R;
+                    	//alert(cityRadius);
+                        myArray[i][j] += (6 * (cityRadius*cityRadius) / some_math_operations - level);
                     }
                     else
                         myArray[i][j] += level * 10;
@@ -116,6 +131,18 @@ function init() {
             map.removeLayer(polygons[polygonsCounter]);
             polygons[polygonsCounter] = 0;
         }
+        for(popupCounter in popupArray){
+            map.removeLayer(popupArray[popupCounter]);
+            popupArray[popupCounter] = 0;
+        }
+        for (circle_counter in arrayOfCityes) {
+        	var cityLocation = new L.LatLng(arrayOfCityes[circle_counter].latitude , arrayOfCityes[circle_counter].longitude);
+        	popupArray[popupCounter] = new L.Popup();
+        	popupArray[popupCounter].setLatLng(cityLocation);
+        	popupArray[popupCounter].setContent(arrayOfCityes[circle_counter].name);
+        	map.addLayer(popupArray[popupCounter]);
+        	popupCounter++;
+        }
 
         var polygonsCounter = 0;
         var currentPolygon = 0;
@@ -128,13 +155,12 @@ function init() {
                 if (!((myArray[i][j] < 0) && (myArray[i + 1][j] < 0) && (myArray[i][j + 1] < 0) && (myArray[i + 1][j + 1] < 0))) {
                     if (((myArray[i][j] > 0) && (myArray[i + 1][j] > 0) && (myArray[i][j + 1] > 0) && (myArray[i + 1][j + 1] > 0))) {
                         var j0 = j;
-                        while (((myArray[i][j + 1] > 0) && (myArray[i + 1][j + 1] > 0) && (myArray[i][j + 2] > 0) && (myArray[i + 1][j + 2] > 0)) && (j < arrln)) j++;
-                   
+                        while (((myArray[i][j + 1] > 0) && (myArray[i + 1][j + 1] > 0) && (myArray[i][j + 2] > 0) && (myArray[i + 1][j + 2] > 0)) && (j < arrln)) 
+                        	j++;                   
                         polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight)),containerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight))];
                         polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
                         polygonPoints = [containerPointToLatLng(new L.Point(i * blockWidth, j0 * blockHeight)),containerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight + (j - j0 + 1) * blockHeight)), containerPointToLatLng(new L.Point(i * blockWidth + blockWidth, j0 * blockHeight))];
-                        polygons[polygonsCounter++] = new L.Polygon(polygonPoints);
-                        
+                        polygons[polygonsCounter++] = new L.Polygon(polygonPoints); 
                         j++;
                     } //if(4+)
                     for (i2 = 0; i2 < arrln2 + 1; i2++) {
@@ -153,7 +179,12 @@ function init() {
                                     	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
                                         var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - myCityX) * (i * blockWidth + i2 * littleBlockWidth - myCityX) + (j * blockHeight + j2 * littleBlockHeight - myCityY) * (j * blockHeight + j2 * littleBlockHeight - myCityY)), p));
                                         if (some_math_operations) {
-                                            my2Array[i2][j2] += (6 * (R*R) / some_math_operations - level);
+                                        	var cityRadius = R*arrayOfCityes[circle_counter].weight;
+                                        	//if(arrayOfCityes[circle_counter].weight == undefined)
+                                        	cityRadius = R;
+                                        	//var myCityRadiusFor2Array = R*arrayOfCityes[circle_counter].weight;
+                                        	//alert(arrayOfCityes[circle_counter].weight);
+                                            my2Array[i2][j2] += (6 * (cityRadius*cityRadius) / some_math_operations - level);
                                         }
                                         else
                                             my2Array[i2][j2] += level * 10;
@@ -266,12 +297,11 @@ function init() {
         }//for[i]
        
         for (polygonsCounter in polygons){
-            polygons[polygonsCounter].setStyle({stroke : false});
+            polygons[polygonsCounter].setStyle({stroke : false, color : 'rgb(255, 132, 2)', fillOpacity : 0.5});
             citiesLayer.addLayer(polygons[polygonsCounter]);
         }
         map.addLayer(citiesLayer);
         polygonsCounter = 0;
-
     }//draw
 
     JSONContr.cityRequest(1);
