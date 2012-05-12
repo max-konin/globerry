@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="resources/styles/bottom.css" type="text/css" />
 <link type="text/css" href="resources/styles/slidersCss.css" rel="stylesheet" media="all" />
 <link rel="stylesheet" href="resources/styles/head.css" type="text/css" />
+<link rel="stylesheet" href="resources/styles/map.css" type="text/css" />
 
 <script src="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min.js"></script>
@@ -41,7 +42,7 @@
 
 
 </HEAD>
-<BODY height='100%'>
+<BODY>
 <div id = 'top'>
 	<div id = 'invisibleHeadBlock'></div>
 	<div id = 'head'>
