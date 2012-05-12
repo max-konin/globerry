@@ -42,7 +42,8 @@ function init() {
 
     var map = new L.Map('map');
 
-    var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png';
+    //var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png';
+    cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
     var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
     var cloudmade = new L.TileLayer(cloudmadeUrl, { maxZoom: 9, minZoom: 3, attribution: cloudmadeAttribution });
 
