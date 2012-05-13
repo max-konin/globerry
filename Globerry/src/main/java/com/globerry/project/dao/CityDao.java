@@ -11,7 +11,10 @@ import org.apache.poi.util.SystemOutLogger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,6 +25,7 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.domain.TagsType;
 import com.globerry.project.domain.Tour;
 
 @Repository
@@ -110,13 +114,27 @@ public class CityDao implements ICityDao
 	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
 	// select by tag
 	if (request.getTags().size() > 0){
-            List<Integer> tagIdList = new ArrayList<Integer>();
+	    Criteria tagCriteria = criteria.createCriteria("tagList");
             Iterator<Tag> iteratorTag = request.getTags().iterator();
+            Criterion tagRestrictions = null;
             while(iteratorTag.hasNext()){
-        	tagIdList.add(iteratorTag.next().getId());
+    	    	Tag tag = iteratorTag.next();
+        	if (tagRestrictions == null){
+        	    tagRestrictions = Restrictions.or(
+        		    	Restrictions.eq("id", tag.getId()),
+        		    	Restrictions.eq("tagsType", (tag.getTagsType()==TagsType.WHERE)?TagsType.WHO:TagsType.WHERE)
+        		    	);
+        	}else{
+        	    tagRestrictions = Restrictions.and(
+        		    tagRestrictions,
+        		    Restrictions.or(
+                		    Restrictions.eq("id", tag.getId()),
+                		    Restrictions.eq("tagsType", (tag.getTagsType()==TagsType.WHERE)?TagsType.WHO:TagsType.WHERE)
+                		    )
+        		    );    
+        	}
             }
-            criteria.createCriteria("tagList")
-        	.add(Restrictions.in("id", tagIdList));
+            tagCriteria.add(tagRestrictions);
 	}
 	//select by property
 	iteratorProperty = request.getOption().iterator();
