@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.exception.ConstraintViolationException;
@@ -113,27 +114,34 @@ public class CityDao implements ICityDao
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
 	// select by tag
+	//TODO 
+	//this is hack for tag
 	if (request.getTags().size() > 0){
 	    Criteria tagCriteria = criteria.createCriteria("tagList");
-            Iterator<Tag> iteratorTag = request.getTags().iterator();
+	    Criterion tagRestrictions = Restrictions.eq("id", request.getTags().get(0).getId());
+	    /*Restrictions.or(
+		    	Restrictions.eq("id", request.getTags().get(0).getId()),
+		    	Restrictions.not(Restrictions.eq("tagsType", request.getTags().get(0).getTagsType()))
+		    	);*/
+            /*Iterator<Tag> iteratorTag = request.getTags().iterator();
             Criterion tagRestrictions = null;
             while(iteratorTag.hasNext()){
     	    	Tag tag = iteratorTag.next();
         	if (tagRestrictions == null){
         	    tagRestrictions = Restrictions.or(
         		    	Restrictions.eq("id", tag.getId()),
-        		    	Restrictions.eq("tagsType", (tag.getTagsType()==TagsType.WHERE)?TagsType.WHO:TagsType.WHERE)
+        		    	Restrictions.not(Restrictions.eq("tagsType", tag.getTagsType()))
         		    	);
         	}else{
         	    tagRestrictions = Restrictions.and(
         		    tagRestrictions,
         		    Restrictions.or(
                 		    Restrictions.eq("id", tag.getId()),
-                		    Restrictions.eq("tagsType", (tag.getTagsType()==TagsType.WHERE)?TagsType.WHO:TagsType.WHERE)
+                		    Restrictions.not(Restrictions.eq("tagsType", tag.getTagsType()))
                 		    )
         		    );    
         	}
-            }
+            }*/
             tagCriteria.add(tagRestrictions);
 	}
 	//select by property
@@ -204,10 +212,31 @@ public class CityDao implements ICityDao
     		"latitude",
     		request.getRange().getMinY() ,
     		request.getRange().getMaxY()));
+	
+	//criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	result = criteria.list();
-	weightCalculation(result,request);
 	tx.commit();
-	return result;
+	//TODO
+	//this is hack for tag
+	List<City> finalResult = new ArrayList();
+	Iterator<City> iteratorCity = result.iterator();
+	while (iteratorCity.hasNext()){
+	    City city = iteratorCity.next();
+	    //check second tag
+	    {
+		Iterator<Tag> iteratorTag = city.getTagList().iterator();
+		while(iteratorTag.hasNext()){
+		    if (iteratorTag.next().getId() == request.getTags().get(1).getId()){
+			//TODO hack for unique result
+			if(finalResult.size() == 0 || finalResult.get(finalResult.size()-1).getId() != city.getId())
+			    finalResult.add(city);
+		    }
+		}
+	    }
+	}
+	
+	weightCalculation(finalResult,request);
+	return finalResult;
     }
     private void weightCalculation(List<City> result, CityRequest request){
 	Iterator<City> itCity = result.iterator();

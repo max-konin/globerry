@@ -185,22 +185,42 @@ public class DefaultDatabaseCreator
 	isCitiesInit = true;
 	
 	LinkedList<City> citiesList = new LinkedList<City>();
+	Set<Tag> tagList;
+	Set<Property> propertyList;
+	Property property;
 	
 	citiesList.add(new City());
 	citiesList.getLast().setName("London");
 	citiesList.getLast().setLatitude((float)51.508);
 	citiesList.getLast().setLongitude((float)-0.12);
-	Set<Tag> tagList = new HashSet<Tag>();
+	tagList = new HashSet<Tag>();
 	tagList.add(tagDao.getTagById(1));
 	tagList.add(tagDao.getTagById(2));
 	tagList.add(tagDao.getTagById(6));
 	citiesList.getLast().setTagList(tagList);
-	Set<Property> propertyList = new HashSet();
-	Property property = new Property();
+	propertyList = new HashSet();
+	property = new Property();
 	property.setPropertyType(propertyTypeDao.getById(2));
 	property.setValue(1);
 	propertyList.add(property);
 	citiesList.getLast().setPropertyList(propertyList );
+	
+	citiesList.add(new City());
+	citiesList.getLast().setName("Paris");
+	citiesList.getLast().setLatitude((float)48.56);
+	citiesList.getLast().setLongitude((float)2.19);
+	tagList = new HashSet<Tag>();
+	tagList.add(tagDao.getTagById(1));
+	tagList.add(tagDao.getTagById(2));
+	tagList.add(tagDao.getTagById(6));
+	citiesList.getLast().setTagList(tagList);
+	propertyList = new HashSet();
+	property = new Property();
+	property.setPropertyType(propertyTypeDao.getById(2));
+	property.setValue(15);
+	propertyList.add(property);
+	citiesList.getLast().setPropertyList(propertyList );
+	
 	/*
         City city = new City();
         city.setName("New York ");
