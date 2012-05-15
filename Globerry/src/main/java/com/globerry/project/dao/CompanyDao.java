@@ -28,8 +28,8 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 public class CompanyDao implements ICompanyDao {
 
 
-    	private static final Integer ROLE_USER = 2;
-    	private static final Integer ROLE_ADMIN = 1;
+    	public static final Integer ROLE_USER = 2;
+    	public static final Integer ROLE_ADMIN = 1;
 	@Autowired
     	private SessionFactory sessionFactory;
 	
@@ -160,8 +160,11 @@ public class CompanyDao implements ICompanyDao {
 		System.err.println("LOGIN IS NOT EXIST");
 		e.printStackTrace();
 		return null;
+	    } catch(IndexOutOfBoundsException ioobe) {
+		System.err.println("LOGIN IS NOT EXIST");
+		ioobe.printStackTrace();
+		return null;
 	    }
-	    
 	    tx.commit();
 	    sessionFactory.close();
 	    return company;

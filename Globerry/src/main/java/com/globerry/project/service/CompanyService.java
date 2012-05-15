@@ -112,4 +112,10 @@ public class CompanyService implements ICompanyService
 	companyDao.removeCompany(id);
 	
     }
+    
+    @Override
+    public Company getCompany(String name) {
+	return companyDao.getCompanyByLogin(name);
+    }
+    
 }

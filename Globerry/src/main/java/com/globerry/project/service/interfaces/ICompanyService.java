@@ -30,5 +30,7 @@ public interface ICompanyService
     public void removeTour(Tour tour);
     
     public Set<Tour> getTourList(Company company);
+    
+    public Company getCompany(String name);
 
 }
