@@ -27,39 +27,40 @@ import com.globerry.project.domain.Tag;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
-@TestExecutionListeners({
+@TestExecutionListeners(
+{
 
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-    ContextLoaderListener.class
+DependencyInjectionTestExecutionListener.class,
+	DirtiesContextTestExecutionListener.class, ContextLoaderListener.class
 
 })
-
 public class CityDaoTest
 {
-    //TODO
+    // TODO
     @Autowired
     CityDao cityDao;
     @Autowired
     EventDao eventDao;
     @Autowired
     TagDao tagDao;
+
     /**
      * ��������� ��������� ��������
+     * 
      * @return ������
      */
     private String getStringGenerator()
-    {  
-	
-      final int LENGHT = 8;  
-      StringBuffer sb = new StringBuffer();  
-      for (int x = 0; x <LENGHT; x++)  
-      {  
-        sb.append((char)((int)(Math.random()*26)+97));  
-      }  
-      return sb.toString();  
-    } 
-    
+    {
+
+	final int LENGHT = 8;
+	StringBuffer sb = new StringBuffer();
+	for (int x = 0; x < LENGHT; x++)
+	{
+	    sb.append((char) ((int) (Math.random() * 26) + 97));
+	}
+	return sb.toString();
+    }
+
     @Test
     public void test() throws MySqlException
     {
@@ -67,7 +68,7 @@ public class CityDaoTest
 	Tag tag = new Tag();
 	tagDao.addTag(tag);
 	tagList.add(tag);
-	
+
 	City city = new City();
 	city.setName("Berlin");
 	city.getTagList().add(tag);
@@ -84,20 +85,18 @@ public class CityDaoTest
 	Event event = new Event();
 	event.setName("new year");
 	eventDao.addEvent(event, city);
-	
-	Range range = new Range(80,120,10,90);
-	
+
+	Range range = new Range(80, 120, 10, 90);
+
 	List<City> cities = cityDao.getCityList(
-		//CityRequest.CityRequestGenerate(new Range(), new ArrayList<Property>())
-		new CityRequest(
-			range, 
-			new ArrayList<PropertySegment>(),
-			tagList,
-			Month.APRIL
-		));
-	System.out.println(cities.iterator().next().getName());//*/
-	//fail("Not yet implemented");
+	// CityRequest.CityRequestGenerate(new Range(), new
+	// ArrayList<Property>())
+		new CityRequest(range, new ArrayList<PropertySegment>(),
+			tagList, Month.APRIL));
+	System.out.println(cities.iterator().next().getName());// */
+	// fail("Not yet implemented");
     }
+
     @Test
     public void deleteTest()
     {
@@ -114,7 +113,7 @@ public class CityDaoTest
 	int id = city.getId();
 	cityDao.removeCity(id);
     }
-    
+
     @Test
     public void deletePlusList()
     {
@@ -126,8 +125,7 @@ public class CityDaoTest
 	{
 	    cityDao.addCity(city1);
 	    cityDao.addCity(city2);
-	} 
-	catch (MySqlException e)
+	} catch (MySqlException e)
 	{
 	    e.printStackTrace();
 	}
@@ -138,17 +136,19 @@ public class CityDaoTest
 	eventDao.addEvent(ev);
 	cityDao.removeCity(city1);
 	cityDao.getCityList();
-	
+
     }
+
     @Test
     public void testList()
     {
 	List<City> cityList = cityDao.getCityList();
-	for(int i = 0; i < cityList.size(); i++)
+	for (int i = 0; i < cityList.size(); i++)
 	{
 	    System.out.println(cityList.get(i));
 	}
     }
+
     @Test
     public void testDamagedList()
     {
@@ -164,13 +164,12 @@ public class CityDaoTest
 	    cityDao.addCity(city1);
 	    cityDao.addCity(city2);
 	    cityDao.addCity(city3);
-	}
-	catch(MySqlException e)
+	} catch (MySqlException e)
 	{
 	    e.printStackTrace();
 	}
 	List<City> cityDamagedList = cityDao.getDamagedCities();
-	for(int i = 0; i < cityDamagedList.size(); i++)
+	for (int i = 0; i < cityDamagedList.size(); i++)
 	{
 	    System.out.println(cityDamagedList.get(i).getName());
 	}
@@ -179,27 +178,26 @@ public class CityDaoTest
     @Test
     public void deletePlusList2()
     {
- City city1 = new City();
- city1.setName("Bobryjsk1");
- City city2 = new City();
- city2.setName("Bobryjsk2");
- try
- {
-     cityDao.addCity(city1);
-     cityDao.addCity(city2);
- } 
- catch (MySqlException e)
- {
-     e.printStackTrace();
- }
- Event ev = new Event();
- ev.setName("Disnayland");
- eventDao.addEvent(ev, city1);
- System.out.println(ev.getId());
- eventDao.addEvent(ev, city2);
-  
- cityDao.removeCity(city1.getId());
- cityDao.getCityList();
- 
+	City city1 = new City();
+	city1.setName("Bobryjsk1");
+	City city2 = new City();
+	city2.setName("Bobryjsk2");
+	try
+	{
+	    cityDao.addCity(city1);
+	    cityDao.addCity(city2);
+	} catch (MySqlException e)
+	{
+	    e.printStackTrace();
+	}
+	Event ev = new Event();
+	ev.setName("Disnayland");
+	eventDao.addEvent(ev, city1);
+	System.out.println(ev.getId());
+	eventDao.addEvent(ev, city2);
+
+	cityDao.removeCity(city1.getId());
+	cityDao.getCityList();
+
     }
 }

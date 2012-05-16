@@ -2,41 +2,24 @@ package com.globerry.project;
 
 
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.CityRequest;
 import com.globerry.project.dao.PropertyTypeDao;
 import com.globerry.project.dao.Range;
 import com.globerry.project.dao.TagDao;
 import com.globerry.project.domain.City;
-import com.globerry.project.domain.Hotel;
-import com.globerry.project.domain.Month;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
-import com.globerry.project.service.BlockItem;
 import com.globerry.project.service.BlockWhat;
 import com.globerry.project.service.BlockWho;
 import com.globerry.project.service.Calendar;

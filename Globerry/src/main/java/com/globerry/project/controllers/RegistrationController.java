@@ -1,5 +1,7 @@
 package com.globerry.project.controllers;
 
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +35,7 @@ public class RegistrationController
     private CompanyService companyService; 
     
     protected static Logger logger = Logger.getLogger("controller");
-    
+    private static Date time = new Date(System.currentTimeMillis());
     
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String getRegistrationPage() {
@@ -46,11 +48,21 @@ public class RegistrationController
 	    @RequestParam(value = "pass", required = false) String password,
 	    @RequestParam(value = "cPass", required = false) String cPassword,
 	    ModelMap model) {
+	boolean timeout;
+	if(time.before(new Date(System.currentTimeMillis() - 1000))) {
+	    time = new Date(System.currentTimeMillis());
+	    timeout = false;
+	}
+	else 
+	    timeout = true;
 	Map<String,String> errorMap = new HashMap<String, String>();
 	Pattern regex = Pattern.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
 	if(name.isEmpty()) {
 	    errorMap.put("name", "Login is empty. Please fill it.");
 	}
+	Company temp = companyService.getCompany(name);
+	if(temp != null)
+	    errorMap.put("name", "Login already exsist.");
 	if(email.isEmpty() || !email.replaceAll(regex.pattern(), "").isEmpty()) {
 	    errorMap.put("email", "Error in email. Please fix it.");
 	}
@@ -60,12 +72,12 @@ public class RegistrationController
 	else if(!password.equals(cPassword)){
 	    errorMap.put("password", "Confirming password failed.");
 	}
-	if(errorMap.isEmpty())	{
+	if(errorMap.isEmpty() && !timeout)	{
 	    Company company = new Company();
 	    company.setName(name);
 	    company.setLogin(name);
 	    company.setEmail(email);
-	    company.setAccess(CompanyDao.ROLE_USER); // ???
+	    company.setAccess(CompanyDao.ROLE_USER);
 	    Md5PasswordEncoder md5 = new Md5PasswordEncoder();
 	    company.setPassword(md5.encodePassword(password, null));
 	    try {

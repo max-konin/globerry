@@ -20,7 +20,7 @@
 				default-target-url="/main/common"/>
 			
 		<security:logout 
-				invalidate-session="true" 
+				invalidate-session="true"
 				logout-success-url="/auth/login" 
 				logout-url="/auth/logout"/>
 	
@@ -37,6 +37,6 @@
 	<bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
 
 	<!-- A custom service where Spring will retrieve users and their corresponding access levels  -->
-	<bean id="customUserDetailsService" class="com.globerry.project.service.AgentService"/>
+	<bean id="customUserDetailsService" class="com.globerry.project.service.AgentService"/> 
 	
 </beans>

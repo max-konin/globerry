@@ -21,9 +21,9 @@ public class PropertyType
     private String name;
     @Column
     private boolean DependingMonth;
-    @Column
+    @Column(name = "maximumValue")
     private float maxValue;
-    @Column
+    @Column(name = "minimumValue")
     private float minValue;
     @Column
     private boolean betterWhenLess = true; 

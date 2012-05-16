@@ -42,6 +42,6 @@ public class CompanyAdminController
     {
 	cmpService.removeCompany(cityId);
 	return "redirect:/admin/" + url;
-    }//*/
+    }*/
 }
 //*/
