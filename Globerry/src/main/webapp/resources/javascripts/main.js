@@ -1,7 +1,7 @@
 window.onload = function () 
 {
-	slidersInitialization();
-    headerChange();
+	//slidersInitialization();
+    //headerChange();
 }
 
 $(document).ready(function() {
