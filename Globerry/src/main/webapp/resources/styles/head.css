@@ -438,6 +438,7 @@
     -khtml-border-radius:2px;
     -webkit-border-radius:2px;
     border-radius:2px;
+    display : none;
 }
 
 #alone
