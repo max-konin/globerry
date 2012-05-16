@@ -275,15 +275,6 @@ public class CityDao implements ICityDao
     public void updateCity(City city)
     {
 	   Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	   
-	  /* City excistingCity = (City) sessionFactory.getCurrentSession().get(City.class, city.getId());
-	   excistingCity.setDmpList(city.getDmpList());
-	   excistingCity.setName(city.getName());
-	   excistingCity.setPropertyList(city.getPropertyList());
-	   excistingCity.setProposals(city.getProposals());
-	   excistingCity.setRu_name(city.getRu_name());
-	   excistingCity.setTagList(city.getTagList());
-	   excistingCity.setEvents(city.getEvents());*/
 	   sessionFactory.getCurrentSession().update(city);
 	   tx.commit();
 	   sessionFactory.close();

@@ -59,6 +59,7 @@ public class City implements Serializable
     private Boolean isValid;
     @Column
     private String message;
+    
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToOne(

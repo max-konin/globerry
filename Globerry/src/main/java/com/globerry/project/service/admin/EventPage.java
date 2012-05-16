@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.EventDao;
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 
 @Service
@@ -72,6 +73,22 @@ public class EventPage implements IEntityCreator
     public void getRelation(Map<String, Object> map)
     {
 	map.put("allCities", cityDao.getCityList());
+	
+    }
+
+    @Override
+    public void addRelaion(Object type, int elementId, int itemId)
+    {
+	Event event = eventDao.getEventById(elementId);
+	City city = cityDao.getCityById(itemId);
+	event.getCities().add(city);
+	
+    }
+
+    @Override
+    public void removeRelation(Object type, int elementId, int itemId)
+    {
+	// TODO Auto-generated method stub
 	
     }
 

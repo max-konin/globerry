@@ -64,6 +64,18 @@ public class TourTest
     	
         }
         @Test(timeout=1000)
+        public void updateTour()
+        {
+        	Tour tour = new Tour();
+        	tourDao.addTour(tour);
+        	Tour tr1 = new Tour();
+        	tr1.setId(tour.getId());
+        	tr1.setDescription("shokoladnie batonchiky snikers");
+        	tr1.setName("Snikers");
+        	tourDao.updateTour(tour, tr1);
+    	
+        }
+        @Test(timeout=1000)
         public void getAndAddTour()
         {
             try{

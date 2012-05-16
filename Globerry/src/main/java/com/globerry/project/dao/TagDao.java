@@ -116,11 +116,7 @@ public class TagDao implements ITagDao
 	
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Session session = sessionFactory.getCurrentSession();
-	Tag existingTag = (Tag) session.get(Tag.class, newTag.getId());
-	existingTag.setImg(newTag.getImg());
-	existingTag.setName(newTag.getName());
-	existingTag.setCityList(newTag.getCityList());
-	session.update(existingTag);
+	session.update(newTag);
 	tx.commit();
 	
     }

@@ -89,7 +89,8 @@ public class AdminUploadController
       String filePath;
       try
       {
-	filePath = getProjectRoot() + "/../../../../../../resources/upload/" + uploadItem.getFileData().getOriginalFilename();
+	System.err.println(getProjectRoot());
+	filePath = getProjectRoot() + "/../../../../../../../resources/upload/" + uploadItem.getFileData().getOriginalFilename();
 	uploadItem.getFileData().transferTo(new File(filePath)); 
 	
 	try

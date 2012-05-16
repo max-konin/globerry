@@ -45,4 +45,8 @@ public interface IEntityCreator
      */
     public void getRelation(Map<String, Object> map);
     
+    public void addRelaion(Object type , int elementId, int itemId);
+    
+    public void removeRelation(Object type, int elementId, int itemId);
+    
 }

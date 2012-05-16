@@ -89,6 +89,7 @@ public class AdminController
 	page.getRelation(map);
 	return page.getJspUpdateFile();
     }
+    
 
     @RequestMapping(value = "/update/update", method = RequestMethod.POST)
     public String addElement(@ModelAttribute("object") Object object, BindingResult result, Map<String, Object> map) {

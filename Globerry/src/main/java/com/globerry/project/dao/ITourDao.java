@@ -37,6 +37,7 @@ public interface ITourDao
      * @param newTour новый тур
      */
     public void updateTour(Tour oldTour, Tour newTour);
+    public void updateTour(Tour tour);
     /**
      * Удаляет tour
      * @param tour тур

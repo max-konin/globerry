@@ -3,7 +3,6 @@
  */
 package com.globerry.project.service.admin;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,16 +16,17 @@ import org.springframework.stereotype.Service;
 import com.globerry.project.Excel;
 import com.globerry.project.ExcelParserException;
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.EventDao;
-import com.globerry.project.dao.PropertyTypeDao;
-import com.globerry.project.dao.TagDao;
+import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IEventDao;
+import com.globerry.project.dao.IPropertyTypeDao;
+import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.DependingMonthProperty;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.service.DefaultDatabaseCreator;
 
 /**
  * @author Artem
@@ -38,14 +38,15 @@ public class AdminParser implements IAdminParser
 
     
     @Autowired
-    private CityDao cityDao;
+    private ICityDao cityDao;
     @Autowired
-    private EventDao eventDao;
+    private IEventDao eventDao;
     @Autowired
-    private PropertyTypeDao propertyTypeDao;
+    private IPropertyTypeDao propertyTypeDao;
     @Autowired
-    private TagDao tagDao;
-    
+    private ITagDao tagDao;
+    @Autowired
+    private DefaultDatabaseCreator defaultDatabaseCreator;
     private Excel exc;
     
     protected static Logger logger = Logger.getLogger("service");
@@ -57,9 +58,10 @@ public class AdminParser implements IAdminParser
     {
 	
 	this.exc = exc;
+	defaultDatabaseCreator.initTags();
 	cityParse();
-	eventParse();
-	tagParse();
+	//eventParse();
+	//tagParse();
     }
     /**
      * Обновляет ВСЕ города в таблице. Обновляются area, lattitude, longitude, population 
@@ -133,6 +135,52 @@ public class AdminParser implements IAdminParser
 	
     }
     /**
+     * Извлекает и добавляет тэги к городу
+     * @param cell
+     */
+    private void stringToExcelDocumentToAddTag(City city, String cell)
+    {
+	String[] tagsString = cell.split(",");
+	try
+	{
+        	for(int i = 1; i < 5; i++)
+        	{
+        	    Tag tag = tagDao.getTagById(i);
+        	    city.getTagList().add(tag);
+        	}
+        	for(int i = 0; i < tagsString.length; i++)
+        	{
+        	    int number = Integer.parseInt(tagsString[i]) + 4;
+        	    Tag tag = tagDao.getTagById(number);
+        	    city.getTagList().add(tag);
+        	}
+	}
+	catch(Exception e)
+	{
+	    
+	}
+	
+    }
+    private void stringToExcelDocumentToAddTag(City city, Double cell)
+    {
+	int number = (int)Math.round(cell);
+	try
+	{
+        	for(int i = 1; i < 5; i++)
+        	{
+        	    Tag tag = tagDao.getTagById(i);
+        	    city.getTagList().add(tag);
+        	}
+        	Tag tag = tagDao.getTagById(number + 4);
+        	city.getTagList().add(tag);
+	}
+	catch(Exception e)
+	{
+	    
+	}
+	
+    }
+    /**
      * Функция которая парсит первую страницу 
      * @throws MySqlException в случае если property или city не уникально
      * @throws ExcelParserException Провал валидации файла. В определённых случаях в базу заноситься либо null либо -1
@@ -142,8 +190,9 @@ public class AdminParser implements IAdminParser
 	//Здесь создается таблица PropertyType. В качестве name берётся заголовок столбца в экселе
 	//БЫДЛОКОД.
 	final int sheetNumber = 0;
-	final int startPositionProperty = 3; //Стартовая позиция для property
-	final int devider = 10; // Перменная которая разделяет Property от DependingMonthProperty в excel. Cтартовая позиция для Dmp
+	final int startPositionProperty = 5; //Стартовая позиция для property
+	final int devider = 11; // Перменная которая разделяет Property от DependingMonthProperty в excel. Cтартовая позиция для Dmp
+	//final int tagsDevider = 47;//переменная которая отделяет dependingMonthProperty от tag.
 	
 	List<PropertyType> ptList = new ArrayList<PropertyType>(); 
 	List<PropertyType> ptDmpList = new ArrayList<PropertyType>(); 
@@ -161,6 +210,9 @@ public class AdminParser implements IAdminParser
 	    		    			+ exc.getSheetName(sheetNumber) + 
 	    		    			"line 0" +
 	    		    			"column" + j, j);
+	    	    System.err.println("Error in name of property sheet: " + exc.getSheetName(sheetNumber) + 
+	    			"line 0" +
+	    			"column" + j);
 	    	    throw excParseExc;
 	    	    
 	    	}
@@ -175,7 +227,7 @@ public class AdminParser implements IAdminParser
 			
 	}
 	//Создание propertyType для Dmp
-	for(int j = devider; j < exc.getRowLenght(0); j+=12)
+	for(int j = devider; j < exc.getRowLenght(sheetNumber); j+=12)
 	{
 	    PropertyType propType = new PropertyType();
 	    propType.setName(exc.getStringField(sheetNumber, 0, j));
@@ -193,6 +245,10 @@ public class AdminParser implements IAdminParser
 	    	    			+ exc.getSheetName(sheetNumber) + 
 	    	    			"line 0" +
 	    	    			"column" + j, j);
+	        System.err.println("Error in name of property sheet: " 
+	    			+ exc.getSheetName(sheetNumber) + 
+	    			"line 0" +
+	    			"column" + j);
 	        throw excParseExc;
 	        
 	    }
@@ -204,8 +260,17 @@ public class AdminParser implements IAdminParser
 	{
 	    	//Standart properties
 	    	City city = new City();
-		city.setName(exc.getName(i));
-		city.setRu_name(exc.getRussianName(i));
+	    	if(exc.getStringField(sheetNumber, i, 2) == "") continue;
+		city.setName(exc.getStringField(sheetNumber, i, 2));
+		city.setRu_name(exc.getStringField(sheetNumber, i, 3));
+		try
+		{
+		    stringToExcelDocumentToAddTag(city, exc.getStringField(sheetNumber, i, 4));
+		}
+		catch(IllegalStateException e)
+		{
+		    stringToExcelDocumentToAddTag(city, exc.getFloatField(sheetNumber, i, 4));
+		}
 		
 		//Properties
 	    	for(int j = startPositionProperty; j < devider; j++)
@@ -213,6 +278,7 @@ public class AdminParser implements IAdminParser
 	    	    Property prop = new Property();
 	    	    try
 	    	    {
+	    		//if()
 	    		prop.setValue((float)exc.getFloatField(sheetNumber, i, j));
 	    	    }
 	    	    catch(NullPointerException e)
@@ -234,7 +300,7 @@ public class AdminParser implements IAdminParser
 	       		    DependingMonthProperty dmpFunFactorType = new DependingMonthProperty();
 	       		    try
 	       		    {
-	       			dmpFunFactorType.setValue((float)exc.getFloatField(0, i, j + devider + 12*k)); // fun factor в файле начинается с 10
+	       			dmpFunFactorType.setValue((float)exc.getFloatField(sheetNumber, i, j + devider + 12*k)); // fun factor в файле начинается с 10
 	       		    }
 	       		    catch(NullPointerException e)
 	       		    {

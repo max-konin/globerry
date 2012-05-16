@@ -137,14 +137,7 @@ public class CompanyDao implements ICompanyDao {
 	{
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Session session = sessionFactory.getCurrentSession();
-		Company existingCompany = (Company) session.get(Company.class, newCompany.getId());
-		existingCompany.setLogin(newCompany.getLogin());
-		existingCompany.setName(newCompany.getName());
-		existingCompany.setDescription(newCompany.getDescription());
-		existingCompany.setEmail(newCompany.getEmail());
-		existingCompany.setPassword(newCompany.getPassword());
-		existingCompany.setTourList(newCompany.getTourList());
-		session.update(existingCompany);
+		session.update(newCompany);
 		tx.commit();
 	}
 	public Company getCompanyByLogin(String login)
