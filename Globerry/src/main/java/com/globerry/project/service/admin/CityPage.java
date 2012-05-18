@@ -73,6 +73,18 @@ public class CityPage implements IEntityCreator
 	map.put("eventList", eventDao.getEventList());
 	
     }
+    @Override
+    public void addRelaion(Object type, int elementId, int itemId)
+    {
+	// TODO Auto-generated method stub
+	
+    }
+    @Override
+    public void removeRelation(Object type, int elementId, int itemId)
+    {
+	// TODO Auto-generated method stub
+	
+    }
 
     
 

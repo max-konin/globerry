@@ -64,6 +64,20 @@ public class WrongPage implements IEntityCreator
 	
     }
 
+    @Override
+    public void addRelaion(Object type, int elementId, int itemId)
+    {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void removeRelation(Object type, int elementId, int itemId)
+    {
+	// TODO Auto-generated method stub
+	
+    }
+
 
 
 }

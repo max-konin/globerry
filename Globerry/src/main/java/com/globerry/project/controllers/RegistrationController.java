@@ -26,7 +26,16 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.domain.Company;
 import com.globerry.project.service.CompanyService;
+import com.globerry.project.utils.dropdown_menu.DropdownMenu;
+import com.globerry.project.utils.dropdown_menu.DropdownMenuItem;
 
+/**
+ * Registration controller - class for working with registration company,
+ * and registration form. 
+ * 
+ * @author signal
+ *
+ */
 @Controller
 @RequestMapping("/auth")
 public class RegistrationController 
@@ -35,13 +44,31 @@ public class RegistrationController
     private CompanyService companyService; 
     
     protected static Logger logger = Logger.getLogger("controller");
+    /**
+     * Attribute for control interval of registration
+     */
     private static Date time = new Date(System.currentTimeMillis());
     
+    /**
+     * Method for first access to /auth/registration
+     * 
+     * @return
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String getRegistrationPage() {
 	return "registrationpage";
     }
     
+    /**
+     * Method for registration or return errors if they exist.
+     * 
+     * @param name Name of company
+     * @param email Contact email
+     * @param password Company's password
+     * @param cPassword Confirming company's password
+     * @param model Standard model to put variables to .jsp
+     * @return
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String tryRegistration(@RequestParam(value = "name", required = false) String name,
 	    @RequestParam(value = "e-mail", required = false) String email,
@@ -95,6 +122,13 @@ public class RegistrationController
 	return "registrationpage";
     }
     
+    /**
+     * Method for answering ajax calling. 
+     * 
+     * @param name Parameter for name, and check it for existing. 
+     * @param map Standard model to put variables to .jsp
+     * @return
+     */
     @RequestMapping(value = "/ajax", method = RequestMethod.POST)
     public String ajaxHandler(@RequestParam(value = "name", required = true) String name, ModelMap map) {
 	String retValue = "";
@@ -104,4 +138,25 @@ public class RegistrationController
 	map.put("ajax", retValue);
 	return "ajax";
     }
+    
+    /**
+     * Test Method
+     * 
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String testRequest(ModelMap map) {
+	DropdownMenu ddm = new DropdownMenu();
+	DropdownMenuItem ddmi = new DropdownMenuItem("TestValue");
+	DropdownMenuItem ddmi2 = new DropdownMenuItem("Value");
+	ddm.setName("TestMenu");
+	ddm.addItemToRoot(ddmi);
+	ddm.addItem(ddmi2, ddmi);
+	map.put("logged", true);
+	map.put("loggedName", "admin");
+	map.put("menu", ddm);
+	return "admin/adminMainPage";
+    }
 }
+
