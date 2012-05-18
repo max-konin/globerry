@@ -113,7 +113,7 @@ function init() {
                     var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - myCityX) * (i * blockWidth - myCityX) + (j * blockHeight - myCityY) * (j * blockHeight - myCityY)), p));
                     if (some_math_operations) {
                     	var cityRadius = R*arrayOfCityes[circle_counter].weight;
-                    	if(arrayOfCityes[circle_counter].weight == undefined)
+                    	if(arrayOfCityes[circle_counter].weight == NaN)
                     		cityRadius = R;
                     	//alert(cityRadius);
                         myArray[i][j] += (6 * (cityRadius*cityRadius) / some_math_operations - level);
@@ -140,12 +140,19 @@ function init() {
             popupArray[popupCounter] = 0;
         }
         for (circle_counter in arrayOfCityes) {
+        	var delta = 30;
         	var cityLocation = new L.LatLng(arrayOfCityes[circle_counter].latitude , arrayOfCityes[circle_counter].longitude);
-        	popupArray[popupCounter] = new L.Popup();
-        	popupArray[popupCounter].setLatLng(cityLocation);
-        	popupArray[popupCounter].setContent(arrayOfCityes[circle_counter].name);
-        	map.addLayer(popupArray[popupCounter]);
-        	popupCounter++;
+        	var cityPoint = map.latLngToLayerPoint(cityLocation);
+        	var myCityX = (map.layerPointToContainerPoint(cityPoint)).x;
+        	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
+        	if(!((((($("#map").width() - myCityX)) < delta) || (myCityX < delta)) || (myCityY < delta) || (($("#map").height() - myCityY) < delta)))
+        	{
+	        	popupArray[popupCounter] = new L.Popup();
+	        	popupArray[popupCounter].setLatLng(cityLocation);
+	        	popupArray[popupCounter].setContent(arrayOfCityes[circle_counter].name);
+	        	map.addLayer(popupArray[popupCounter]);
+	        	popupCounter++;
+        	}
         }
 
         var polygonsCounter = 0;
@@ -183,9 +190,9 @@ function init() {
                                     	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
                                         var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth + i2 * littleBlockWidth - myCityX) * (i * blockWidth + i2 * littleBlockWidth - myCityX) + (j * blockHeight + j2 * littleBlockHeight - myCityY) * (j * blockHeight + j2 * littleBlockHeight - myCityY)), p));
                                         if (some_math_operations) {
-                                        	//var cityRadius = R*arrayOfCityes[circle_counter].weight;
-                                        	//if(arrayOfCityes[circle_counter].weight == undefined)
-                                        		cityRadius = R;
+                                        	var cityRadius = R*arrayOfCityes[circle_counter].weight;
+                                        	if(arrayOfCityes[circle_counter].weight == NaN)
+                                        		cityRadius = R*0.2;
                                         	//var myCityRadiusFor2Array = R*arrayOfCityes[circle_counter].weight;
                                         	//alert(arrayOfCityes[circle_counter].weight);
                                             my2Array[i2][j2] += (6 * (cityRadius*cityRadius) / some_math_operations - level);
@@ -314,7 +321,7 @@ function init() {
     	
         var JSONContr = new JsonController(); 
 
-        function mySlider(leftLimit, rightLimit, measure, div, leftInput, rightInput, pos) {
+        function mySlider(sliderId, leftLimit, rightLimit, measure, div, leftInput, rightInput, pos) {
         	var sliderId = 0;
     		var leftMeasure = "";
     		var rightMeasure = "";
@@ -326,8 +333,7 @@ function init() {
     		if(div == "alchSlider") sliderId = 2;
     		if(div == "timeSlider") sliderId = 3;
     		if(div == "LivSlider") sliderId = 4;
-    		if(div == "foodSlider") sliderId = 5;
-    		
+    		if(div == "foodSlider") sliderId = 5;/*due to some sstrange bag*/
             jQuery("#" + div).slider({
                 min: leftLimit,
                 max: rightLimit,
@@ -368,16 +374,30 @@ function init() {
             });
         };
 
+        function myOneHandledSlider(div, sliderId){
+        	jQuery("#" + div).slider({
+        		min :1,
+        		max : 3,
+        		value : 2,
+        		stop: function (event, ui) {
+        			//alert(sliderId);
+                    JSONContr.sliderChange(sliderId, jQuery("#" + div).slider("values", 0), jQuery("#" + div).slider("values", 1));
+                    JSONContr.cityRequest();
+        		}
+        	});
+        }
 
-
-        firstSL = new mySlider(-35, 35, "+", "tempSlider", "minCost", "maxCost", "l");
-        firstSL = new mySlider(0, 30, "$", "alchSlider", "alcMinCost", "alcMaxCost", "l");
-        firstSL = new mySlider(0, 24, " Ч", "timeSlider", "TimeMinV", "TimeMaxV", "r");
-        $("#MoodSlider").slider();
-        firstSL = new mySlider(0, 300, "$", "LivSlider", "LivMinV", "LivMaxV", "l");
-        $("#securitySlider").slider();
-        firstSL = new mySlider(0, 100, "$", "foodSlider", "FoodMinV", "FoodMaxV", "l");
-        $("#SexSlider").slider();
+        firstSL = new mySlider(1, -35, 35, "+", "tempSlider", "minCost", "maxCost", "l");
+        firstSL = new mySlider(2, 0, 30, "$", "alchSlider", "alcMinCost", "alcMaxCost", "l");
+        firstSL = new mySlider(3, 0, 24, " Ч", "timeSlider", "TimeMinV", "TimeMaxV", "r");
+        //$("#MoodSlider").slider();
+        firstSL = new myOneHandledSlider("MoodSlider", 6);
+        firstSL = new mySlider(4, 0, 300, "$", "LivSlider", "LivMinV", "LivMaxV", "l");
+       // $("#securitySlider").slider();
+        firstSL = new myOneHandledSlider("securitySlider", 7);
+        firstSL = new mySlider(5, 0, 100, "$", "foodSlider", "FoodMinV", "FoodMaxV", "l");
+        //$("#SexSlider").slider();
+        firstSL = new myOneHandledSlider("SexSlider", 8);
         
     }
     
@@ -755,7 +775,7 @@ function init() {
     });
     map.on('moveend', function() {
         //catches move end.
-    	//JSONContr.rangeChange();
+    	JSONContr.rangeChange();
         //JSONContr.cityRequest(1);
     });
    
