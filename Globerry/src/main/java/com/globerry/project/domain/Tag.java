@@ -46,13 +46,7 @@ public class Tag
     @Enumerated(EnumType.ORDINAL)
     private TagsType tagsType;
     
-    @ManyToMany(
-	    	fetch = FetchType.EAGER,
-	        cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
-	        mappedBy = "tagList",
-	        targetEntity = City.class
-	    )
-    private Set<City> cityList = new HashSet<City>();
+   
     public int getId()
     {
 	return id;
@@ -76,14 +70,6 @@ public class Tag
     public void setImg(String img)
     {
 	this.img = img;
-    }
-    public Set<City> getCityList()
-    {
-	return cityList;
-    }
-    public void setCityList(Set<City> cityList)
-    {
-	this.cityList = cityList;
     }
     public boolean equals(Tag tag)
     {

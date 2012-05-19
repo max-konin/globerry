@@ -60,8 +60,6 @@ public class HomeController {
         System.out.println("HomeController: Passing through...");
         model.addAttribute("hash", this.hashCode());
         return "home";
-        
-        
     }
     //TODO delete this 
     @RequestMapping(value="/getcities", method= RequestMethod.GET)
@@ -85,6 +83,7 @@ public class HomeController {
         defaultDatabaseCreator.initTags();
         defaultDatabaseCreator.initPropertyType();
         defaultDatabaseCreator.initCities();
+        System.out.println("/cityinit");
     }
     //TODO delete this 
     @RequestMapping(value="/rangechange", method= RequestMethod.POST)

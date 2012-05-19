@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
+import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.PropertyTypeDao;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.service.interfaces.IPropertyTypeService;
@@ -23,7 +24,7 @@ import com.globerry.project.MySqlException;
 public class PropertyTypeService implements IPropertyTypeService
 {
     @Autowired
-    private PropertyTypeDao propertyTypeDao;
+    private IPropertyTypeDao propertyTypeDao;
 
     /* (non-Javadoc)
      * @see com.globerry.project.service.IPropertyTypeService#getPropertyTypeList()

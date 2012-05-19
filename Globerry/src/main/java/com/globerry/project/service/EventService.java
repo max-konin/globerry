@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.dao.EventDao;
+import com.globerry.project.dao.IEventDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.Month;
@@ -23,7 +24,7 @@ import com.globerry.project.service.interfaces.IEventService;
 public class EventService implements IEventService
 {
     @Autowired
-    private EventDao eventDao;
+    private IEventDao eventDao;
 
     /* (non-Javadoc)
      * @see com.globerry.project.service.IEventService#getEventList()

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.dao.CityDao;
+import com.globerry.project.dao.ICityDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.service.interfaces.ICityService;
 
@@ -13,7 +14,7 @@ import com.globerry.project.service.interfaces.ICityService;
 public class CityService implements ICityService
 {
     @Autowired
-    private CityDao cityDao; 
+    private ICityDao cityDao; 
 
     @Override
     public List<City> getCityList()

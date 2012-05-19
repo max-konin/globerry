@@ -70,15 +70,21 @@ public Excel(String fileName)
  */
 public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException
 {
+    Cell currentCell;
 	try {
 		
 		org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
 		Row currentRow = sheet.getRow(rowNumber);
-		Cell currentCell = currentRow.getCell(cellNumber);
+		currentCell = currentRow.getCell(cellNumber);
 		return currentCell.getNumericCellValue();
 
 		}
 		catch (NullPointerException e) {
+		    return -1;
+		}
+		catch(IllegalStateException ie)
+		{
+		    System.out.println("CELLNUMBER:"+ cellNumber + "ROWNUMBER:"+ rowNumber);
 		    return -1;
 		}
 

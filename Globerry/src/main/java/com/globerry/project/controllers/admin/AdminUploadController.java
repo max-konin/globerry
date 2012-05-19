@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +76,7 @@ public class AdminUploadController
     }
    
     @RequestMapping(method = RequestMethod.POST)
-    public String create(UploadItem uploadItem, BindingResult result)
+    public String create(UploadItem uploadItem, BindingResult result, HttpServletRequest request)
     {
       if (result.hasErrors())
       {
@@ -89,13 +91,14 @@ public class AdminUploadController
       String filePath;
       try
       {
-	System.err.println(getProjectRoot());
-	filePath = getProjectRoot() + "/../../../../../../../resources/upload/" + uploadItem.getFileData().getOriginalFilename();
-	uploadItem.getFileData().transferTo(new File(filePath)); 
+	filePath = request.getSession().getServletContext().getRealPath("/resources/upload") + "/" + uploadItem.getFileData().getOriginalFilename();
+	File file = new File(filePath);
+	System.err.println(request.getSession().getServletContext().getRealPath("/"));
+	uploadItem.getFileData().transferTo(file); 
 	
 	try
 	{
-	    Excel exc = new Excel(filePath);
+	    Excel exc = new Excel(file.getAbsolutePath());
 	    adminParser.updateCities(exc);
 	    
 	} catch (MySqlException e)

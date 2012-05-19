@@ -797,7 +797,7 @@ function init() {
     	    		    constructor : objFactory
     	    		  };
     	    		};
-    	    	$.post("/project/selecttag", 
+    	    	$.post("/Globerry/selecttag", 
     	    		{
     	    		id : 1
     	    		}
@@ -809,7 +809,7 @@ function init() {
     	    	//jsonController.cityRequest(button);
     	    };
     	    this.rangeChange = function(){    	    	
-    	    	$.post("/project/rangechange", 
+    	    	$.post("/Globerry/rangechange", 
     	    			{minX : map.getBounds().getSouthWest().lng,
         	    		maxX : map.getBounds().getNorthEast().lng,
         	    		minY : map.getBounds().getSouthWest().lat,
@@ -818,20 +818,20 @@ function init() {
         	    	  "json");
     	    };
     	    this.tagChange = function(tagId){
-    	    	$.post("/project/tagchange", 
+    	    	$.post("/Globerry/tagchange", 
     	    			{id : tagId},
         	    	  null,
         	    	  "json");
     	    };
     	    this.mounthChange = function(monthName){
     	    	//monthName == JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
-    			$.post("/project/monthchange", 
+    			$.post("/Globerry/monthchange", 
     					{month : monthName},
     		    	  null,
     		    	  "json");
     	    };
     	    this.sliderChange = function(idSlider, leftValueSlider, rightValueSlider){
-    	    	$.post("/project/sliderchange", 
+    	    	$.post("/Globerry/sliderchange", 
     	    			{id : idSlider,
     	    			leftValue : leftValueSlider,
     	    			rightValue : rightValueSlider},
@@ -839,7 +839,7 @@ function init() {
         	    	  "json");
     	    };
     	    this.cityRequest = function(input){
-    	    	$.getJSON("/project/getcities",
+    	    	$.getJSON("/Globerry/getcities",
     	            function(data) {
     	    			redraw(data, 0);
     	                // do something with the data
