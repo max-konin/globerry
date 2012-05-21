@@ -74,7 +74,7 @@ public class HomeController {
         System.out.println("Найдено "+((Integer)cities.length).toString()+" города");
         System.out.println("Найдено "+cityList.size());
         for (int i = 0; i < cities.length; i++)
-            System.out.println(cities[i].getName());
+            System.out.println(cities[i].getName()+" weight: "+cities[i].getWeight());
         //System.out.println("Найдено "+((Integer)cities.length).toString()+" города");
         return cities;
     }

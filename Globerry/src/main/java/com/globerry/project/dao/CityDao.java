@@ -146,17 +146,12 @@ public class CityDao implements ICityDao
 	}
 	//select by property
 	iteratorProperty = request.getOption().iterator();
-	Criteria criteriaDmpList = null;
-	Criteria criteriaPropertyList = null;
+	Criterion criterionDmpList = null;
+	Criterion criterionPropertyList = null;
 	while(iteratorProperty.hasNext()){
 	    PropertySegment propertySegment = iteratorProperty.next();
 	    if (propertySegment.getPropertyType().isDependingMonth()){
-		if (criteriaDmpList == null){
-		    criteriaDmpList = criteria.createCriteria("dmpList");
-		    criteriaDmpList.createAlias("propertyType", "propType");
-		}
-		criteriaDmpList
-		    .add(Restrictions.and(
+		Criterion tmp = Restrictions.and(
 			Restrictions.eq(
 				"propType.id",
 				propertySegment.getPropertyType().getId()
@@ -172,15 +167,15 @@ public class CityDao implements ICityDao
         				propertySegment.getMaxValue()
         				)
 				)
-			    )
-	    	);
-	    }else{
-		if (criteriaPropertyList == null){
-		    criteriaPropertyList = criteria.createCriteria("propertyList");
-		    criteriaPropertyList.createAlias("propertyType", "propType");
+			    );
+		if (criterionDmpList == null){
+		    criterionDmpList = tmp;//criteria.createCriteria("dmpList");
+		    criterionDmpList = Restrictions.or(criterionDmpList, tmp);
+		    //criteriaDmpList.createAlias("propertyType", "propType");
 		}
-		criteriaPropertyList
-		    .add(Restrictions.and(
+	    }else{
+		Criterion tmp =
+		    Restrictions.and(
 			    Restrictions.eq(
 				    "propType.id",
 				    propertySegment.getPropertyType().getId()
@@ -190,9 +185,21 @@ public class CityDao implements ICityDao
 				    propertySegment.getMinValue(),
 				    propertySegment.getMaxValue()
 				    )
-			)
-	    	);
+			);
+		if (criterionPropertyList == null){
+		    criterionPropertyList = tmp;
+		    criterionPropertyList = Restrictions.or(criterionPropertyList, tmp);
+		    //criteriaPropertyList.createAlias("propertyType", "propType");
+		}
 	    }
+	}
+	if (criterionDmpList != null){
+	    Criteria criteriaDmpList = criteria.createCriteria("dmpList");
+	    criteriaDmpList.createAlias("propertyType", "propType");
+	}
+	if (criterionPropertyList != null){
+	    Criteria criteriaPropertyList = criteria.createCriteria("propertyList");
+	    criteriaPropertyList.createAlias("propertyType", "propType");
 	}
 	//select by range TODO
 	//longitude широта
@@ -239,6 +246,7 @@ public class CityDao implements ICityDao
 	return finalResult;
     }
     private void weightCalculation(List<City> result, CityRequest request){
+	List<City> cityForRemove = new ArrayList<City>();
 	Iterator<City> itCity = result.iterator();
 	while (itCity.hasNext()){
 	    City city = itCity.next();
@@ -248,6 +256,9 @@ public class CityDao implements ICityDao
 		PropertySegment propertyRequest = itProperty.next();
 		PropertySegment propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
 		if (propertyCity != null){
+		    if (propertyRequest.getMaxValue() < propertyCity.getMaxValue() 
+			    || propertyCity.getMaxValue()< propertyRequest.getMinValue())
+			cityForRemove.add(city);
 		    //TODO
 		    float a, b, sizeBetween;
 		    sizeBetween = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
@@ -255,18 +266,24 @@ public class CityDao implements ICityDao
 			sizeBetween = (float)0.1 * (propertyCity.getMaxValue() - propertyCity.getMinValue());
 		    if (propertyRequest.getPropertyType().isBetterWhenLess()){
 			a = sizeBetween;
-			b = propertyCity.getMaxValue();
+			b = propertyCity.getMaxValue() - propertyRequest.getMinValue();
 		    }else{
 			a = sizeBetween/(float)2.0;
-			b = Math.abs(propertyCity.getMaxValue()-a);
+			b = Math.abs((propertyCity.getMaxValue() - propertyRequest.getMinValue())-a);
 		    }
 		    float k = b/a;
 		    if (k < 0.2) k = (float) 0.2;
 		    city.setWeight(city.getWeight()*k);		    
+		}else{
+		    cityForRemove.add(city);
 		}
 	    }
 	    if (request.getOption().size() > 0)
 		city.setWeight((float) Math.pow(city.getWeight(),1/((double) request.getOption().size())));
+	}
+	Iterator<City> itCityRemove = cityForRemove.iterator();
+	while(itCityRemove.hasNext()){
+	    result.remove(itCityRemove.next());
 	}
     }
 

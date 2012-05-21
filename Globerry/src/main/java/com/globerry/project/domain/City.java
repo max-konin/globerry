@@ -282,12 +282,13 @@ public class City implements Serializable
 	this.weight = weight;
     }
     public PropertySegment getValueByPropertyType(PropertyType type){
+	PropertySegment propertySegment = null;
 	if (type.isDependingMonth()){
 	    Iterator<DependingMonthProperty> it = dmpList.iterator();
 	    while (it.hasNext()){
 		DependingMonthProperty property = it.next();
-		if (property.getPropertysType().getId() == type.getId()){
-		    PropertySegment propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
+		if (property.getPropertyType().getId() == type.getId()){
+		    propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
 		}
 	    }
 	}else{
@@ -295,11 +296,11 @@ public class City implements Serializable
 	    while (it.hasNext()){
 		Property property = it.next();
 		if (property.getPropertyType().getId() == type.getId()){
-		    PropertySegment propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
+		    propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
 		}
 	    }
 	}
-	return null;
+	return propertySegment;
 	
     }
 

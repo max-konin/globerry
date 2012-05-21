@@ -126,7 +126,7 @@ public class AdminParser implements IAdminParser
 		    DependingMonthProperty dmpProp = new DependingMonthProperty();
 		    dmpProp.setMonth(i);
 		    dmpProp.setValue(temperature[i]);
-		    dmpProp.setPropertysType(tempPropType);
+		    dmpProp.setPropertyType(tempPropType);
 		    city.getDmpList().add(dmpProp);
 		}
 	    }
@@ -311,7 +311,7 @@ public class AdminParser implements IAdminParser
 	       			throw excParseExc;
 	       		    }
 	       		    dmpFunFactorType.setMonth(j);
-	       		    dmpFunFactorType.setPropertysType(ptList.get(k));
+	       		    dmpFunFactorType.setPropertyType(ptList.get(k));
 	       		    city.getDmpList().add(dmpFunFactorType);
 	       	    	}
 	    	}

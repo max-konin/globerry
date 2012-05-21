@@ -71,11 +71,11 @@ public class DependingMonthProperty
     {
 	this.value = value;
     }
-    public PropertyType getPropertysType()
+    public PropertyType getPropertyType()
     {
 	return propertyType;
     }
-    public void setPropertysType(PropertyType propertyType)
+    public void setPropertyType(PropertyType propertyType)
     {
 	this.propertyType = propertyType;
     }

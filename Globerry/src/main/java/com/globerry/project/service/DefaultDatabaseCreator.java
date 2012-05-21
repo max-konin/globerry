@@ -15,6 +15,7 @@ import com.globerry.project.dao.ICityDao;
 import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.DependingMonthProperty;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
@@ -124,7 +125,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setDependingMonth(false);
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(300);
+	propertyTypeList.getLast().setMaxValue(24);
 	propertyTypeList.getLast().setName("travel time");
 	//cost of living
 	propertyTypeList.add(new PropertyType());
@@ -132,7 +133,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setDependingMonth(false);
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(10);
+	propertyTypeList.getLast().setMaxValue(300);
 	propertyTypeList.getLast().setName("cost of living");
 	//food
 	propertyTypeList.add(new PropertyType());
@@ -189,7 +190,7 @@ public class DefaultDatabaseCreator
 	Set<Property> propertyList;
 	Property property;
 	
-	citiesList.add(new City());
+	/*citiesList.add(new City());
 	citiesList.getLast().setName("London");
 	citiesList.getLast().setLatitude((float)51.508);
 	citiesList.getLast().setLongitude((float)-0.12);
@@ -219,25 +220,25 @@ public class DefaultDatabaseCreator
 	property.setPropertyType(propertyTypeDao.getById(2));
 	property.setValue(15);
 	propertyList.add(property);
-	citiesList.getLast().setPropertyList(propertyList );
+	citiesList.getLast().setPropertyList(propertyList );*/
 	
-	/*
-        City city = new City();
-        city.setName("New York ");
-        city.setId(1);
-        city.setLatitude((float)51.508);
-        city.setLongitude((float)-0.12);
-        City city1 = new City();
-        city1.setName("London ");
-        city1.setId(2);
-        city1.setLatitude((float)51.505);
-        city1.setLongitude((float)-0.09);
-        City city2 = new City();
-        city2.setName("Novosibirsk ");
-        city2.setId(3);
-        city2.setLatitude((float)60.505);
-        city2.setLongitude((float)-5.09);
-        */    
+	citiesList.add(generateCityWithPsevdoRandomProperties("London", (float)-0.12, (float)51.508));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Paris", (float)2.19, (float)48.56));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Praha", (float)14.40, (float)50.8));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Brussel", (float)4.35, (float)50.80));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Amsterdam", (float)4.90, (float)52.35));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Berlin", (float)13.40, (float)52.50));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Roma", (float)12.50, (float)41.90));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Torino", (float)7.70, (float)45.09));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Munchen", (float)11.55, (float)48.15));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Wien", (float)16.35, (float)48.20));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Warszawa", (float)21.05, (float)52.20));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Budapest", (float)19.08, (float)47.50));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Kopengagen", (float)12.58, (float)55.65));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Madrid", (float)-3.65, (float)40.35));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Barcelona", (float)2.15, (float)41.35));
+	citiesList.add(generateCityWithPsevdoRandomProperties("Buharest", (float)26.08, (float)44.38));
+	
         try
 	{
             Iterator<City> cityIterator = citiesList.iterator();
@@ -249,5 +250,62 @@ public class DefaultDatabaseCreator
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+    }
+    public City generateCityWithPsevdoRandomProperties(String name, float longitude, float latitude){
+	City city = new City();
+	city.setName(name);
+	city.setLongitude(longitude);
+	city.setLatitude(latitude);
+	int hash = Math.abs(((Float)longitude).hashCode()*((Float)latitude).hashCode()*name.hashCode());
+
+	Set<Tag> tagList = new HashSet<Tag>();
+	if (hash % 2 == 0)
+	    tagList.add(tagDao.getTagById(1));
+	if (hash % 2 == 1)
+	    tagList.add(tagDao.getTagById(2));
+	if (hash % 2 == 0)
+	    tagList.add(tagDao.getTagById(3));
+	if (hash % 2 == 1)
+	    tagList.add(tagDao.getTagById(4));
+	if (hash % 2 == 0)
+	    tagList.add(tagDao.getTagById(5));
+	if (hash % 2 == 1)
+	    tagList.add(tagDao.getTagById(6));
+	if (hash % 2 == 0)
+	    tagList.add(tagDao.getTagById(7));
+	if (hash % 2 == 1)
+	    tagList.add(tagDao.getTagById(8));
+	if (hash % 2 == 0)
+	    tagList.add(tagDao.getTagById(9));
+	city.setTagList(tagList);
+	
+	Set<Property> propertyList = new HashSet<Property>();
+	Set<DependingMonthProperty> dmpList = new HashSet<DependingMonthProperty>();
+	Property property;
+	DependingMonthProperty dmProperty;
+	
+	for(int i = 1; i < 8; i++){
+	    PropertyType propertyType = propertyTypeDao.getById(i);
+	    if (propertyType != null){
+		if (!propertyType.isDependingMonth()){
+		    property = new Property();
+		    property.setPropertyType(propertyType);
+		    property.setValue(hash%(propertyType.getMaxValue()-propertyType.getMinValue()));
+		    propertyList.add(property);
+		}else{
+		    for(int monthId = 0; monthId < 12; monthId++){
+        		    dmProperty = new DependingMonthProperty();
+        		    dmProperty.setPropertyType(propertyType);
+        		    dmProperty.setMonth(monthId);
+        		    dmProperty.setValue(hash%(propertyType.getMaxValue()-propertyType.getMinValue()));
+        		    dmpList.add(dmProperty);
+		    }
+		}
+	    }
+	}
+	city.setPropertyList(propertyList);
+	city.setDmpList(dmpList);
+	return city;
+	
     }
 }

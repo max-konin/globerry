@@ -53,7 +53,7 @@ public class DependingMonthPropertyTest
 	propertyType.setMaxValue(123);
 	propertyType.setMinValue(123);
 	
-	dependingMonthProperty.setPropertysType(propertyType);
+	dependingMonthProperty.setPropertyType(propertyType);
 	//add entity
 	{
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
