@@ -48,6 +48,8 @@ public interface ICompanyDao
     
     public Company getCompanyByLogin(String login);
     
+    public Company getCompanyByEmail(String email);
+    
     public Company getCompanyById(int id);
 
 }

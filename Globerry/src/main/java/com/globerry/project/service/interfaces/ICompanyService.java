@@ -31,6 +31,8 @@ public interface ICompanyService
     
     public Set<Tour> getTourList(Company company);
     
-    public Company getCompany(String name);
+    public Company getCompanyByName(String name);
+    
+    public Company getCompanyByEmail(String email);
 
 }

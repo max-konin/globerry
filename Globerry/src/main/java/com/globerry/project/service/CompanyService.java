@@ -114,8 +114,13 @@ public class CompanyService implements ICompanyService
     }
     
     @Override
-    public Company getCompany(String name) {
+    public Company getCompanyByName(String name) {
 	return companyDao.getCompanyByLogin(name);
+    }
+    
+    @Override
+    public Company getCompanyByEmail(String email) {
+	return companyDao.getCompanyByEmail(email);
     }
     
 }

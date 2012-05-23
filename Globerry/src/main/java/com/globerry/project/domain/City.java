@@ -89,7 +89,7 @@ public class City implements Serializable
     @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
 	    fetch = FetchType.EAGER,
-	    cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
+	    cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
 	    targetEntity = Tag.class
 	    )
     private Set<Tag> tagList = new HashSet<Tag>();

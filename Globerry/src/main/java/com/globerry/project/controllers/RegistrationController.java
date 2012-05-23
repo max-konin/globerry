@@ -55,23 +55,24 @@ public class RegistrationController
      * @return
      */
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String getRegistrationPage() {
+    public String getRegistrationPage(ModelMap map) {
 	return "registrationpage";
     }
     
     /**
      * Method for registration or return errors if they exist.
      * 
-     * @param name Name of company
-     * @param email Contact email
+     * @param nameVar Name of company
+     * @param emailVar Contact email
      * @param password Company's password
      * @param cPassword Confirming company's password
      * @param model Standard model to put variables to .jsp
      * @return
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String tryRegistration(@RequestParam(value = "name", required = false) String name,
-	    @RequestParam(value = "e-mail", required = false) String email,
+    public String tryRegistration(
+	    @RequestParam(value = "name", required = false) String nameVar,
+	    @RequestParam(value = "email", required = false) String emailVar,
 	    @RequestParam(value = "pass", required = false) String password,
 	    @RequestParam(value = "cPass", required = false) String cPassword,
 	    ModelMap model) {
@@ -84,14 +85,19 @@ public class RegistrationController
 	    timeout = true;
 	Map<String,String> errorMap = new HashMap<String, String>();
 	Pattern regex = Pattern.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
-	if(name.isEmpty()) {
+	if(nameVar.isEmpty()) {
 	    errorMap.put("name", "Login is empty. Please fill it.");
+	} else {
+	    Company temp = companyService.getCompanyByName(nameVar);
+	    if(temp != null)
+		errorMap.put("name", "Login already exsist.");
 	}
-	Company temp = companyService.getCompany(name);
-	if(temp != null)
-	    errorMap.put("name", "Login already exsist.");
-	if(email.isEmpty() || !email.replaceAll(regex.pattern(), "").isEmpty()) {
+	if(emailVar.isEmpty() || !emailVar.replaceAll(regex.pattern(), "").isEmpty()) {
 	    errorMap.put("email", "Error in email. Please fix it.");
+	} else {
+	    Company temp = companyService.getCompanyByEmail(emailVar);
+	    if(temp != null)
+		errorMap.put("email", "Email already registred.");
 	}
 	if(password.isEmpty()) {
 	    errorMap.put("password", "Password is empty. Please fill it");
@@ -101,15 +107,15 @@ public class RegistrationController
 	}
 	if(errorMap.isEmpty() && !timeout)	{
 	    Company company = new Company();
-	    company.setName(name);
-	    company.setLogin(name);
-	    company.setEmail(email);
+	    company.setName(nameVar);
+	    company.setLogin(nameVar);
+	    company.setEmail(emailVar);
 	    company.setAccess(CompanyDao.ROLE_USER);
 	    Md5PasswordEncoder md5 = new Md5PasswordEncoder();
 	    company.setPassword(md5.encodePassword(password, null));
 	    try {
 		companyService.addCompany(company);
-		String success = new String("Now you will registered by name : " + name + ", you can try <a href='/project/auth/login'>login</a>");
+		String success = new String("Now you will registered by name : " + nameVar + ", you can try <a href='/project/auth/login'>login</a>");
 		model.put("success", success);
 		return "registrationpage";
 	    } catch (MySqlException mse) {
@@ -117,8 +123,8 @@ public class RegistrationController
 	    }
 	}
 	model.put("errorList", errorMap);
-	model.put("Name", name);
-	model.put("Email", email);
+	model.put("Name", nameVar);
+	model.put("Email", emailVar);
 	return "registrationpage";
     }
     
@@ -130,11 +136,21 @@ public class RegistrationController
      * @return
      */
     @RequestMapping(value = "/ajax", method = RequestMethod.POST)
-    public String ajaxHandler(@RequestParam(value = "name", required = true) String name, ModelMap map) {
+    public String ajaxHandler(
+	    @RequestParam(value = "name", required = false) String name,
+	    @RequestParam(value = "email", required = false) String email, 
+	    ModelMap map) {
 	String retValue = "";
-	Company temp = companyService.getCompany(name);
-	if(temp != null)
-	    retValue = "Login already exist.";
+	if(name != null) {
+	    Company temp = companyService.getCompanyByName(name);
+	    if(temp != null)
+		retValue = "Login already exist.";
+	}
+	if(email != null) {
+	    Company temp = companyService.getCompanyByEmail(email);
+	    if(temp != null)
+		retValue = "Email already registred.";
+	}
 	map.put("ajax", retValue);
 	return "ajax";
     }
@@ -148,11 +164,11 @@ public class RegistrationController
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String testRequest(ModelMap map) {
 	DropdownMenu ddm = new DropdownMenu();
-	DropdownMenuItem ddmi = new DropdownMenuItem("TestValue");
-	DropdownMenuItem ddmi2 = new DropdownMenuItem("Value");
-	ddm.setName("TestMenu");
-	ddm.addItemToRoot(ddmi);
-	ddm.addItem(ddmi2, ddmi);
+	DropdownMenuItem ddmi1 = new DropdownMenuItem("Company");
+	DropdownMenuItem ddmi2 = new DropdownMenuItem("City");	
+	ddm.setName("AdminMenu");
+	ddm.addItemToRoot(ddmi1);	
+	ddm.addItemToRoot(ddmi2);	
 	map.put("logged", true);
 	map.put("loggedName", "admin");
 	map.put("menu", ddm);

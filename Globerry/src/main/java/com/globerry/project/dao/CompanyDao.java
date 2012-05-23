@@ -173,6 +173,29 @@ public class CompanyDao implements ICompanyDao {
 	    }
 	    return company;*/
 	}
+	
+	public Company getCompanyByEmail(String email) {
+	    Company company;
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    try
+	    {
+		company = (Company)sessionFactory.getCurrentSession().createQuery("FROM Company C WHERE C.email='" + email + "'").list().get(0);
+	    }
+	    catch(SQLGrammarException e)
+	    {
+		System.err.println("EMAIL IS NOT FOUND");
+		e.printStackTrace();
+		return null;
+	    } catch(IndexOutOfBoundsException ioobe) {
+		System.err.println("EMAIL IS NOT FOUND");
+		ioobe.printStackTrace();
+		return null;
+	    }
+	    tx.commit();
+	    sessionFactory.close();
+	    return company;
+	}
+	
 	public List<Company> TestDB()
 	{
 	    List<Company> companyList = new ArrayList<Company>();
