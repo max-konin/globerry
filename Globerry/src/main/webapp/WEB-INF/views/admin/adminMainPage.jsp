@@ -128,3 +128,5 @@ $(document).ready(function() {
   </div>
   </c:if>
 </div>
+<jsp:include page="adminBodyPage.jsp" />
+<jsp:include page="adminFooterPage.jsp" />

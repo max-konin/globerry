@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
+import com.globerry.project.service.CityService;
 import com.globerry.project.service.CompanyService;
 import com.globerry.project.utils.dropdown_menu.DropdownMenu;
 import com.globerry.project.utils.dropdown_menu.DropdownMenuItem;
@@ -41,7 +43,13 @@ import com.globerry.project.utils.dropdown_menu.DropdownMenuItem;
 public class RegistrationController 
 {
     @Autowired
-    private CompanyService companyService; 
+    private CompanyService companyService;
+    
+    /**
+     * Temp variable
+     */
+    @Autowired
+    private CityService cityService;
     
     protected static Logger logger = Logger.getLogger("controller");
     /**
@@ -164,11 +172,20 @@ public class RegistrationController
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String testRequest(ModelMap map) {
 	DropdownMenu ddm = new DropdownMenu();
-	DropdownMenuItem ddmi1 = new DropdownMenuItem("Company");
-	DropdownMenuItem ddmi2 = new DropdownMenuItem("City");	
+	DropdownMenuItem ddmiCompany = new DropdownMenuItem("Company");
+	DropdownMenuItem ddmiCity = new DropdownMenuItem("City");
+	DropdownMenuItem ddmiFor;
 	ddm.setName("AdminMenu");
-	ddm.addItemToRoot(ddmi1);	
-	ddm.addItemToRoot(ddmi2);	
+	ddm.addItemToRoot(ddmiCity);
+	for(City city : cityService.getCityList()) {
+	    ddmiFor = new DropdownMenuItem(city.getName());	    
+	    ddm.addItem(ddmiCity, ddmiFor);
+	}
+	ddm.addItemToRoot(ddmiCompany);
+	for(Company company : companyService.getCompanyList()) {
+	    ddmiFor = new DropdownMenuItem(company.getName());	    
+	    ddm.addItem(ddmiCompany, ddmiFor);
+	}
 	map.put("logged", true);
 	map.put("loggedName", "admin");
 	map.put("menu", ddm);
