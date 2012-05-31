@@ -2,6 +2,7 @@
 	pageEncoding="utf8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+<% String path = request.getContextPath().toString(); %>
 <HTML>
 <HEAD>
 
@@ -29,6 +30,11 @@
 <script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	init("<%=path%>");
+});
+</script>
 <!--
 <script type="text/javascript" src="resources/javascripts/raphael.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
@@ -129,7 +135,7 @@
                     <form action="#" method="post" >
 		                <div class="formCost">
 			                <input type="text" id="minCost" class ='left' value="-35" readonly />
-                            <div id='tempSText', class = 'sText'></div>
+                            <div id='tempSText' class = 'sText'></div>
 							<input type="text" id="maxCost" class ='right' value="+35" readonly />
 			            </div>
 			            <div class="sliderCont" id ="tSCont">
@@ -142,7 +148,7 @@
                     <form action="#" method="post" >
 			            <div class="formCost">
 				            <input type="text" id="alcMinCost" class ='left' value="$0" readonly />
-                            <div id='AlcoholSText', class = 'sText' ></div>
+                            <div id='AlcoholSText' class = 'sText' ></div>
 				            <input type="text" id="alcMaxCost" class ='right' value="$30" readonly />
 			            </div>
 			            <div class="sliderCont">
@@ -160,7 +166,7 @@
                     <form action="#" method="post" >
 			            <div class="formCost">
 				            <input type="text" id="TimeMinV" class ='left' value="0 Ч" readonly />
-                            <div id='TimeSText', class = 'sText'></div>
+                            <div id='TimeSText' class = 'sText'></div>
 				            <input type="text" id="TimeMaxV" class ='right' value="24 Ч" readonly />
 			            </div>
 			            <div class="sliderCont" id ="timeCont">
@@ -173,7 +179,7 @@
 					<form action="#" method="post" >
 			            <div class="formCost">
 				            <input type="text" class ='left' value="" readonly />
-                            <div id='Mood', class = 'sText' ></div>
+                            <div id='Mood' class = 'sText' ></div>
 				            <input type="text" class ='right' value="" readonly />
 			            </div>
 			            <div class="sliderCont">
@@ -187,7 +193,7 @@
                     <form action="#" method="post" >
 			            <div class="formCost">
 				            <input type="text" id="LivMinV" class ='left' value="$0" readonly />
-                            <div id='Living', class = 'sText'></div>
+                            <div id='Living' class = 'sText'></div>
 				            <input type="text" id="LivMaxV" class ='right' value="$300" readonly />
 			            </div>
 			            <div class="sliderCont" id ="LivCont">
@@ -200,7 +206,7 @@
                     <form action="#" method="post" >
 			            <div class="formCost">
 				            <input type="text" class ='left' value="" readonly />
-                            <div id='security', class = 'sText' ></div>
+                            <div id='security' class = 'sText' ></div>
 				            <input type="text" class ='right' value="" readonly />
 			            </div>
 			            <div class="sliderCont">
@@ -214,7 +220,7 @@
                     <form action="#" method="post" >
 			            <div class="formCost">
 				            <input type="text" id="FoodMinV" class ='left' value="$0" readonly />
-                            <div id='food', class = 'sText'></div>
+                            <div id='food' class = 'sText'></div>
 				            <input type="text" id="FoodMaxV" class ='right' value="$100" readonly />
 			            </div>
 			            <div class="sliderCont" id ="foodCont">
@@ -227,7 +233,7 @@
                     <form action="#" method="post" >
 			            <div class="formCost">
 				            <input type="text" class ='left' value="" readonly />
-                            <div id='Sex', class = 'sText' ></div>
+                            <div id='Sex' class = 'sText' ></div>
 				            <input type="text" class ='right' value="" readonly />
 			            </div>
 			            <div class="sliderCont">

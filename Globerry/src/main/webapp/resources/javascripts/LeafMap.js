@@ -2,9 +2,9 @@
     init();
 }
 */
-function init() {
-	headerChange();
-	slidersInitialization();
+function init(serverName) {
+	headerChange(serverName);
+	slidersInitialization(serverName);
 	//alert("123");
 	//version with normal map;
     var Width = $(document.getElementById("map")).width();
@@ -21,7 +21,7 @@ function init() {
     var polygons = new Array();
     var R = 50;
     
-    var JSONContr = new JsonController(); 
+    var JSONContr = new JsonController(serverName); 
 
     for (i = 0; i < arrln + 1; i++) {
         myArray[i] = new Array();
@@ -317,9 +317,9 @@ function init() {
 
     //JSONContr.cityRequest(1);
     //==================================slidersInitialization===================================
-    function slidersInitialization() {
+    function slidersInitialization(serverName) {
     	
-        var JSONContr = new JsonController(); 
+        var JSONContr = new JsonController(serverName); 
 
         function mySlider(sliderId, leftLimit, rightLimit, measure, div, leftInput, rightInput, pos) {
         	var sliderId = 0;
@@ -402,10 +402,10 @@ function init() {
     }
     
     //===========================================headerChange====================================
-    function headerChange()
+    function headerChange(serverName)
     {
     	
-        var JSONContr = new JsonController(); 
+        var JSONContr = new JsonController(serverName); 
     	WhoStr = new Array();
     	WhoStr[2] = "Мы с друзьями едем ";
     	WhoStr[3] = "Мы с семьей едем ";
@@ -790,14 +790,14 @@ function init() {
 
 
         //=========================JSON Controller===========================
-        function JsonController(){
+        function JsonController(serverName){
     	    this.buttonClick = function(button){
     	    	function objFactory(){
     	    		  return {
     	    		    constructor : objFactory
     	    		  };
     	    		};
-    	    	$.post("/Globerry/selecttag", 
+    	    	$.post(serverName + "/selecttag", 
     	    		{
     	    		id : 1
     	    		}
@@ -809,7 +809,7 @@ function init() {
     	    	//jsonController.cityRequest(button);
     	    };
     	    this.rangeChange = function(){    	    	
-    	    	$.post("/Globerry/rangechange", 
+    	    	$.post(serverName + "/rangechange", 
     	    			{minX : map.getBounds().getSouthWest().lng,
         	    		maxX : map.getBounds().getNorthEast().lng,
         	    		minY : map.getBounds().getSouthWest().lat,
@@ -818,20 +818,20 @@ function init() {
         	    	  "json");
     	    };
     	    this.tagChange = function(tagId){
-    	    	$.post("/Globerry/tagchange", 
+    	    	$.post(serverName + "/tagchange", 
     	    			{id : tagId},
         	    	  null,
         	    	  "json");
     	    };
     	    this.mounthChange = function(monthName){
     	    	//monthName == JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
-    			$.post("/Globerry/monthchange", 
+    			$.post(serverName + "/monthchange", 
     					{month : monthName},
     		    	  null,
     		    	  "json");
     	    };
     	    this.sliderChange = function(idSlider, leftValueSlider, rightValueSlider){
-    	    	$.post("/Globerry/sliderchange", 
+    	    	$.post(serverName + "/sliderchange", 
     	    			{id : idSlider,
     	    			leftValue : leftValueSlider,
     	    			rightValue : rightValueSlider},
@@ -839,7 +839,7 @@ function init() {
         	    	  "json");
     	    };
     	    this.cityRequest = function(input){
-    	    	$.getJSON("/Globerry/getcities",
+    	    	$.getJSON(serverName + "/getcities",
     	            function(data) {
     	    			redraw(data, 0);
     	                // do something with the data

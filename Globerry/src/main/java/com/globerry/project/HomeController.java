@@ -94,12 +94,12 @@ public class HomeController {
     @RequestMapping(value="/sliderchange", method= RequestMethod.POST)
     public void slider(SliderData sliderData) {
 	PropertyType type = propertyTypeDao.getById(sliderData.getId());
-	if (type != null){
+	if (type != null) {
 	    System.out.println("Сдвинули слайдер: " + type.getName() +
 		    " Новые значения: ("+sliderData.getLeftValue()+","+sliderData.getRightValue()+")");
 	    sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());       
 	}
-	else{
+	else {
 	    System.out.println("Сдвинули несущестнующий слайдер. Проигнорировано");    
 	}
     }

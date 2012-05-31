@@ -133,6 +133,7 @@ public class RegistrationController
 	model.put("errorList", errorMap);
 	model.put("Name", nameVar);
 	model.put("Email", emailVar);
+	model.put("title", "Globerry - registration");
 	return "registrationpage";
     }
     

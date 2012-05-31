@@ -1,4 +1,3 @@
-<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -17,17 +16,8 @@
 	<title>Insert title here</title>
 </head>
 <body>
-	<div class="registration">
-		<div id="header">
-			<table>
-				<tr>
-					<td align="left"><h1> Globerry - registration</h1></td>
-					<td><div>
-						<jsp:include page="loginpage.jsp" />
-					</div></td>
-				</tr>
-			</table>
-		</div>
+	<div id="registration">
+		<jsp:include page="common/header.jsp" />
 		<div id="body">
 			<img alt="Globerry - лучший способ провести отпуск!" src="../resources/img/funPic.png">
 			<c:if test="${empty success}">
@@ -96,6 +86,7 @@
 	resizeWindow = function() {
 		$("div.registration").css({ width : ($(window).width() < 1000) ? 1000 : $(window).width(),
 			height : ($(window).height() < 640) ? 640 : $(window).height() });
+		$("body").find("img").css({ width : $(window).width() - 730 });
 	};
 	
 	var _putErrorForVariable = _.throttle(putErrorForVariable_f, 1300);
@@ -104,6 +95,7 @@
 		function() {
 			$("div.registration").css({ width : ($(window).width() < 1000) ? 1000 : $(window).width(),
 				height : ($(window).height() < 640) ? 640 : $(window).height() });
+			$("body").find("img").css({ width : $(window).width() - 730 });
 			
 			$(window).wresize(resizeWindow);
 			

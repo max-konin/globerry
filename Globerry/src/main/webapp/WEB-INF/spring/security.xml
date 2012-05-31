@@ -15,14 +15,14 @@
 		<security:intercept-url pattern="/main/common" access="hasRole('ROLE_USER')"/>
 		
 		<security:form-login
-				login-page="/auth/login" 
+				login-page="/auth/login"
 				authentication-failure-url="/auth/login?error=true" 
 				default-target-url="/main/common"/>
 			
 		<security:logout 
 				invalidate-session="true"
 				logout-success-url="/auth/login" 
-				logout-url="/auth/logout"/>
+				logout-url="/auth/login"/>
 	
 	</security:http>
 	
