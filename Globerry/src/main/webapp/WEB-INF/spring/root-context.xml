@@ -18,8 +18,11 @@
 	<!-- Включаем опцию использования конфигурационных аннотаций (@Annotation-based configuration)
 	<context:component-scan base-package="net.schastny.contactmanager.dao" />
 	<context:component-scan base-package="net.schastny.contactmanager.service" />-->
-	<context:component-scan base-package="com.globerry.project.domain" />
 	<context:annotation-config />
+	<context:component-scan base-package="com.globerry.project.domain" />
+	<context:component-scan base-package="com.globerry.project.service" />
+	<context:component-scan base-package="com.globerry.project.dao" />
+	
 	
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
 
@@ -40,8 +43,6 @@
         <!-- one of the properties available; the maximum file size in bytes -->
        <property name="maxUploadSize" value="1000000"/>
     </bean>  
-    
-    
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<!-- <property name="basename" value="classpath:messages" /> -->

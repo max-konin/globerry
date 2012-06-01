@@ -43,7 +43,7 @@ public class Company
    // @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(
 	    	cascade=CascadeType.ALL,
-	    	fetch=FetchType.EAGER
+	    	fetch=FetchType.EAGER, orphanRemoval=true
 	    	)
     @JoinTable(
                name="CompanyTour",

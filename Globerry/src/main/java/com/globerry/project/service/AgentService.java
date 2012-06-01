@@ -2,6 +2,7 @@ package com.globerry.project.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -19,9 +20,11 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.dao.ITourDao;
+import com.globerry.project.dao.TourDao;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.interfaces.IAgentService;
+import org.springframework.context.annotation.Scope;
 
 /**
  * A custom service for retrieving users from a custom datasource, such as a database.
@@ -29,30 +32,53 @@ import com.globerry.project.service.interfaces.IAgentService;
  * This custom service must implement Spring's {@link UserDetailsService}
  */
 @Service("AgentService")
+@Scope("session")
 public class AgentService implements UserDetailsService, IAgentService {
 	
 	protected static Logger logger = Logger.getLogger("service");
 
-	//@Autowired
-	private ICompanyDao companyDao = new CompanyDao();
+	@Autowired
+	private CompanyDao companyDao;
 	
-	//@Autowired 
+	@Autowired 
 	private ITourDao tourDao;
 
-	private Company currentCompany;
-	    
+	private Company currentCompany;	    
+
+	
+	public Company TEST_METHOD()
+	{
+	    //System.err.println(companyDao.toString());
+	    currentCompany = companyDao.getCompanyById(1);
+	    return currentCompany;
+	}
+	
 	@Override
 	public void addTour(Tour tour)
 	{
 	    currentCompany.getTourList().add(tour);
+	    
 	    companyDao.updateCompany(currentCompany);
 	}
 	
 	@Override
 	public void updateTour(Tour oldTour, Tour newTour)
 	{
-	    if (currentCompany.getTourList().contains(oldTour))
+	    if (oldTour.getCompany().getId() == currentCompany.getId())
+	    {
+		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
+		while(iterator.hasNext())
+		{
+		    Tour _tour = iterator.next();
+		    if (_tour.getId() == oldTour.getId())
+		    {
+			oldTour = _tour;
+			break;
+		    }
+		}
 		tourDao.updateTour(oldTour, newTour);
+	    }
 	    else
 		throw new IllegalArgumentException();
 	}
@@ -60,15 +86,27 @@ public class AgentService implements UserDetailsService, IAgentService {
 	@Override
 	public void removeTour(Tour tour)
 	{
-	    if (currentCompany.getTourList().contains(tour))
+	    if (tour.getCompany().getId() == currentCompany.getId())
 	    {
-		currentCompany.getTourList().remove(tour);
+		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
+		while(iterator.hasNext())
+		{
+		    Tour _tour = iterator.next();
+		    if (_tour.getId() == tour.getId())
+		    {
+			//currentCompany.getTourList().remove(_tour);
+			iterator.remove();
+			//break;
+		    }
+		}
+		tourDao.removeTour(tour.getId());
 		companyDao.updateCompany(currentCompany);
 	    }
 	    else
 		throw new IllegalArgumentException();
 	}
-
+	
 	@Override
 	public Company returnCurrentCompany()
 	{

@@ -105,9 +105,9 @@ public class TourDao implements ITourDao
     @Override
     public void removeTour(int id)
     {
+	    Tour tour = getTour(id);
+	    System.err.println(tour.getId());
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    Tour tour = (Tour) sessionFactory.getCurrentSession().load(
-	                Tour.class, id);
 	    if (null != tour) {
 	            
 	            sessionFactory.getCurrentSession().delete(tour);

@@ -2,12 +2,19 @@ package com.globerry.project.domain;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 @Entity
 @Table(name = "Tour")
 public class Tour
@@ -30,8 +37,22 @@ public class Tour
     
     @Column(name = "dateEnd")
     private Date dateEnd;
+    
+    @ManyToOne( cascade = { CascadeType.PERSIST, CascadeType.REFRESH},
+	    fetch=FetchType.EAGER, targetEntity=Company.class)
+    @JoinTable(name="CompanyTour",
+    joinColumns = @JoinColumn(name="tour_id"),
+    inverseJoinColumns = @JoinColumn(name="company_id")
+	    )
+    private Company company;
 
     // <Гетеры сеттеры>
+    
+    public Company getCompany()
+    {
+	return company;
+    }
+    
     public int getId()
     {
 	return id;

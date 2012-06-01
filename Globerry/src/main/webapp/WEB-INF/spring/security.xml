@@ -28,7 +28,7 @@
 	
 	<!-- Declare an authentication-manager to use a custom userDetailsService -->
 	<security:authentication-manager>
-	        <security:authentication-provider user-service-ref="customUserDetailsService">
+	        <security:authentication-provider user-service-ref="AgentService">
 	        		<security:password-encoder ref="passwordEncoder"/>
 	        </security:authentication-provider>
 	</security:authentication-manager>
@@ -37,6 +37,6 @@
 	<bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
 
 	<!-- A custom service where Spring will retrieve users and their corresponding access levels  -->
-	<bean id="customUserDetailsService" class="com.globerry.project.service.AgentService"/> 
+	<bean id="AgentService" class="com.globerry.project.service.AgentService"/>
 	
 </beans>

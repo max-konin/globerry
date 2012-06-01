@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 
@@ -35,7 +36,11 @@ public class TourTest
 
         @Autowired
         private TourDao tourDao;
+        @Autowired
+        private CompanyDao companyDao;
+        
         Tour tour = new Tour();
+        
         @Test(timeout=1000)
         public void AddTest() throws Exception
         {
@@ -53,7 +58,7 @@ public class TourTest
         	tourDao.removeTour(tour1);
         }
         @Test(timeout=1000)
-        public void updateCompany()
+        public void updateTour()
         {
         	Tour tour = new Tour();
         	tourDao.addTour(tour);
@@ -63,7 +68,7 @@ public class TourTest
         	tourDao.updateTour(tour, tr1);
     	
         }
-        @Test(timeout=1000)
+        /*@Test(timeout=1000)
         public void updateTour()
         {
         	Tour tour = new Tour();
@@ -74,17 +79,31 @@ public class TourTest
         	tr1.setName("Snikers");
         	tourDao.updateTour(tour, tr1);
     	
-        }
+        }*/
         @Test(timeout=1000)
         public void getAndAddTour()
         {
             try{
-        	Tour tour = tourDao.getTour(14);
+        	Tour tour = tourDao.getTour(144);
         	tourDao.addTour(tour);
-        	fail("Откуда 14ый тур?О_о");
+        	fail("Откуда 144ый тур?О_о");
             }catch(Exception e){
         	
             }
+        }
+        @Test(timeout=1000)
+        public void removeCompanyTourTest() throws MySqlException
+        {
+        	Tour tour1 = new Tour();
+        	tour1.setDescription("DESCRIPTION1");
+        	Company company = new Company();
+        	tourDao.addTour(tour1);
+        	company.getTourList().add(tour1);
+        	companyDao.addCompany(company);
+        	System.err.println(tour1.getId());
+        	tourDao.removeTour(tour1.getId());
+        	//tourDao.removeTour(tour1);
+        	companyDao.updateCompany(company);
         }
 
 

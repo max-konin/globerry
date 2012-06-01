@@ -137,7 +137,15 @@ public class CompanyDao implements ICompanyDao {
 	{
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Session session = sessionFactory.getCurrentSession();
-		session.update(newCompany);
+		Company existingCompany = (Company) session.get(Company.class, newCompany.getId());
+		existingCompany.setLogin(newCompany.getLogin());
+		existingCompany.setName(newCompany.getName());
+		existingCompany.setDescription(newCompany.getDescription());
+		existingCompany.setEmail(newCompany.getEmail());
+		existingCompany.setPassword(newCompany.getPassword());
+		existingCompany.setTourList(newCompany.getTourList());
+		//session.update(existingCompany);
+		session.merge(existingCompany);
 		tx.commit();
 	}
 	public Company getCompanyByLogin(String login)
@@ -221,6 +229,7 @@ public class CompanyDao implements ICompanyDao {
 	@Override
 	public Company getCompanyById(int id)
 	{
+	    	System.err.println("SESSION FACTORY: "+(sessionFactory == null));
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Company company = (Company)sessionFactory.getCurrentSession().get(Company.class, id);
 		tx.commit();

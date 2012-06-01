@@ -23,7 +23,7 @@ import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.BlockWhat;
 import com.globerry.project.service.BlockWho;
 import com.globerry.project.service.Calendar;
-import com.globerry.project.service.DefaultDatabaseCreator;
+///////import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.MyDate;
 import com.globerry.project.service.SliderData;
 import com.globerry.project.service.Sliders;
@@ -52,8 +52,8 @@ public class HomeController {
     TagDao tagDao;
     @Autowired
     Calendar calendar;
-    @Autowired
-    DefaultDatabaseCreator defaultDatabaseCreator;
+///////    @Autowired
+///////    DefaultDatabaseCreator defaultDatabaseCreator;
  
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
@@ -64,7 +64,7 @@ public class HomeController {
     //TODO delete this 
     @RequestMapping(value="/getcities", method= RequestMethod.GET)
     public @ResponseBody City[] test() {
-        this.cityInit();
+///////        this.cityInit();
         
 	City[] cities = null;
         System.out.println("Запрос городов от клиента");
@@ -78,13 +78,12 @@ public class HomeController {
         //System.out.println("Найдено "+((Integer)cities.length).toString()+" города");
         return cities;
     }
-    @RequestMapping(value="/cityinit")
-    public void cityInit(){
+    /*public void cityInit(){
         defaultDatabaseCreator.initTags();
         defaultDatabaseCreator.initPropertyType();
         defaultDatabaseCreator.initCities();
         System.out.println("/cityinit");
-    }
+    }*/
     //TODO delete this 
     @RequestMapping(value="/rangechange", method= RequestMethod.POST)
     public void range(Range range) {
