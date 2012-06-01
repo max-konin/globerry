@@ -40,7 +40,7 @@
 				<td><label for="tourCost">Цена тура: </label></td>
 				<td><input id="tourCost" name="tourCost" type="text"
 					<c:if test="${Operation == \"Edit\"}">
-							Value=${Cost }
+							Value=${Cost}
 						</c:if> />
 				</td>
 			</tr>
@@ -73,7 +73,7 @@
 			<input  type="submit" value="Добавить тур"/>
 		</c:if>
 		<c:if test="${Operation == \"Edit\"}">
-			<input id="tourID" name="tourID" type="hidden" value=${Tourid } >
+			<input id="tourID" name="tourID" type="hidden" value="${Tourid}" >
 			<input  type="submit" value="Применить"/>
 		</c:if>
 		

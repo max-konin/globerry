@@ -14,6 +14,7 @@ import com.globerry.project.domain.Event;
 @Service
 public class CityPage implements IEntityCreator
 {
+
     @Autowired
     private CityDao cityDao;
     @Autowired
@@ -74,20 +75,18 @@ public class CityPage implements IEntityCreator
 	map.put("eventList", eventDao.getEventList());
 	
     }
-    @Override
-    public void addRelaion(Object type, int elementId, int itemId)
-    {
-	// TODO Auto-generated method stub
 	
-    }
     @Override
     public void removeRelation(Object type, int elementId, int itemId)
     {
-	// TODO Auto-generated method stub
-	
+		// TODO Auto-generated method stub
     }
 
     
+	@Override
+	public void addRelaion(String type, int elementId, int itemId) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
 
 
