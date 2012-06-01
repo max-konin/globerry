@@ -4,7 +4,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.globerry</groupId>
 	<artifactId>project</artifactId>
-	<name>abc</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -287,4 +286,5 @@
             </plugin>
         </plugins>
     </reporting>
+    <name>Globerry</name>
 </project>

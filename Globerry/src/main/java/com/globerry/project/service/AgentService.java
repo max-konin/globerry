@@ -66,7 +66,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	{
 	    if (oldTour.getCompany().getId() == currentCompany.getId())
 	    {
-		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		//TODO Р‘С‹РґР»СЏС‚СЃРєРёР№ С†РёРєР». РЅСѓР¶РЅРѕ РїРµСЂРµРґРµР»Р°С‚СЊ (Р° РґР»СЏ СЌС‚РѕРіРѕ РЅР°РґРѕ РїРµСЂРµРїРёСЃР°С‚СЊ Contains РёР»Рё Equals Сѓ С‚СѓСЂР»РёСЃС‚Р° РёР»Рё С‚СѓСЂР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ)
 		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
 		while(iterator.hasNext())
 		{
@@ -88,7 +88,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	{
 	    if (tour.getCompany().getId() == currentCompany.getId())
 	    {
-		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		//TODO Р‘С‹РґР»СЏС‚СЃРєРёР№ С†РёРєР». РЅСѓР¶РЅРѕ РїРµСЂРµРґРµР»Р°С‚СЊ (Р° РґР»СЏ СЌС‚РѕРіРѕ РЅР°РґРѕ РїРµСЂРµРїРёСЃР°С‚СЊ Contains РёР»Рё Equals Сѓ С‚СѓСЂР»РёСЃС‚Р° РёР»Рё С‚СѓСЂР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ)
 		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
 		while(iterator.hasNext())
 		{
