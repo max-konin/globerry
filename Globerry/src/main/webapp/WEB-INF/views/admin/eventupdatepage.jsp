@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form:form method="post" action="update" commandName="event">
+<form:form method="post" action="updateEvent" commandName="event">
 
 	<table>
 		<tr style="display: none">
@@ -64,10 +64,6 @@
 		</tr>
 		
 	</table>
-	<form:select path="cities">
-		<form:option value="0" label="Select" />
-		<form:options items="${allCities}" itemValue="id" itemLabel="name" />
-	</form:select>
  	<c:if test="${!empty cityList}">
 		<table class="data">
 			<tr>
@@ -85,6 +81,14 @@
 		</table>
 	</c:if> 
 	<input type="submit"
+				value="<spring:message code="label.addevent"/>" />
+</form:form>
+	<form:form method="get" action="join/city" commandName="event">
+		<form:select path="id">
+			<form:option value="0" label="Select" />
+			<form:options items="${allCities}" itemValue="id" itemLabel="name" />
+		</form:select>
+		<input type="submit"
 				value="<spring:message code="label.addevent"/>" />
 </form:form>
 <%-- 			<td> <form:select path="city" size="10">

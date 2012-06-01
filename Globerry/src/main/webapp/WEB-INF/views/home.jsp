@@ -8,7 +8,7 @@
 
 <meta charset="utf-8">
 
-<TITLE>Globerry (new design)</TITLE>
+<TITLE>Globerry (v1.0b)</TITLE>
 <!--
 
 

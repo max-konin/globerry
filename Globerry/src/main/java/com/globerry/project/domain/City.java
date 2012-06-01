@@ -38,7 +38,7 @@ import com.globerry.project.dao.PropertySegment;
 
 @Entity
 @Table(name = "City")
-public class City implements Serializable
+public class City implements Serializable, IRelationsQualifier
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

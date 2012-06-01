@@ -10,9 +10,16 @@
 <title>Admin update page:city</title>
 </head>
 <body>
-<form:form method="post" action="update" commandName="city">
+<form:form method="post" action="updateCity" commandName="city">
 
 	<table>
+		<tr style="display: none">
+			<td ><form:label path="id">
+
+			</form:label></td> 
+			<td><form:input path="id"/></td>
+		
+		</tr>
 		<tr>
 			<td><form:label path="name">
 				<spring:message code="label.name" />
@@ -86,12 +93,14 @@
 				<th><spring:message code="label.id" /></th>
 				<th><spring:message code="label.name" /></th>
 				<th><spring:message code="label.name" /></th>
+				<th><spring:message code="label.property" /></th>
 			</tr>
 			<c:forEach items="${dmpList}" var="dmp">
 				<tr>
 					<td>${dmp.id}</td>
 					<td>${dmp.month}</td>
 					<td>${dmp.value}</td>
+					<td>${dmp.propertyType.name} </td> 
 					<td><a href="delete/${dmp.id}"><spring:message code="label.delete" /></a></td>
 				</tr>
 			</c:forEach>

@@ -21,7 +21,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table
-public class DependingMonthProperty
+public class DependingMonthProperty implements IRelationsQualifier
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

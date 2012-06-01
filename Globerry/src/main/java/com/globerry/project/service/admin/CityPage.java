@@ -54,8 +54,9 @@ public class CityPage implements IEntityCreator
     @Override
     public void updateElem(Object object)
     {
-	City city = (City) object;
-	cityDao.updateCity(city);
+	//City city = (City) object;
+	System.err.println(object.getClass());
+	cityDao.updateCity((City) object);
     }
     @Override
     public Map<String, Object> getRelation(Map<String, Object> map, int id)

@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="Property")
-public class Property
+public class Property implements IRelationsQualifier
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

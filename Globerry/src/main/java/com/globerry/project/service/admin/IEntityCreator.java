@@ -26,13 +26,26 @@ public interface IEntityCreator
      */
     public void  setList(Map<String, Object> map);
     
-    
+    /**
+     * Удаляет элемент по id
+     * @param id
+     */
     public void removeElem(int id);
-    
+    /**
+     * Получает элемент по id и кладёт его в map
+     * @param map
+     * @param id
+     */
     public void getElemById(Map<String, Object> map, int id);
-    
+    /**
+     * Возвращает страницу для update
+     * @return
+     */
     public  String getJspUpdateFile();
-    
+    /**
+     * Обновляет объект в базе
+     * @param object
+     */
     public void updateElem(Object object);
     /**
      * Запихивает в map все list связанные с элементом
@@ -44,8 +57,13 @@ public interface IEntityCreator
      * @return
      */
     public void getRelation(Map<String, Object> map);
-    
-    public void addRelaion(Object type , int elementId, int itemId);
+    /**
+     * 
+     * @param type
+     * @param elementId
+     * @param itemId
+     */
+    public void addRelaion(String type , int elementId, int itemId);
     
     public void removeRelation(Object type, int elementId, int itemId);
     
