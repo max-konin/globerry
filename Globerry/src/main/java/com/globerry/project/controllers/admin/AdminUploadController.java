@@ -53,7 +53,10 @@ public class AdminUploadController
 
     
     private List<String> excList = new ArrayList<String>();
-    
+    /**
+     * Функция вычисляющая, где лежит проект
+     * @return путь к проекту
+     */
     public String getProjectRoot() {
 	URL u = this.getClass().getProtectionDomain().getCodeSource()
 			.getLocation();
@@ -67,7 +70,9 @@ public class AdminUploadController
 	    e.printStackTrace();
 	}
 	return null;
-}
+    }
+    //дальнейшие 2 функции были спёрты с интрнета, поэтому за их работу я не несу никакой ответственности
+    //Но они загружают файл и даже правильно
     @RequestMapping(method = RequestMethod.GET)
     public String getUploadForm(Model model)
     {
@@ -131,6 +136,11 @@ public class AdminUploadController
       
       return "redirect:upload";
     }
+    /**
+     * Кнопка, которая запускает парсер википедии
+     * @return отпарсенные города
+     * 
+     */
     @RequestMapping("wikiparse")
     public String wikiParseBtn()
     {

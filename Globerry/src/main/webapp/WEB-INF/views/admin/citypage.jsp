@@ -9,7 +9,7 @@
 	<meta http-equiv="Content-Type" content="text/html" charset="utf8">
 	<title><spring:message code="label.title" /></title>
 	<script type="text/javascript" src="../resources/javascripts/jquerry.js"></script>
-	<script type="text/javascript" src="../resources/javascripts/kendoui/source/js/kendo.web.js"></script>
+	<script type="text/javascript" src="../resources/javascripts/kendoui/js/kendo.web.min.js"></script>
     <link href="../resources/javascripts/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="../resources/javascripts/kendoui/styles/kendo.default.min.css" rel="stylesheet" />
 </head>

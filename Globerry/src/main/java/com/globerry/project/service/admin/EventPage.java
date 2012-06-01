@@ -77,12 +77,12 @@ public class EventPage implements IEntityCreator
     }
 
     @Override
-    public void addRelaion(Object type, int elementId, int itemId)
+    public void addRelaion(String type, int elementId, int itemId)
     {
 	Event event = eventDao.getEventById(elementId);
 	City city = cityDao.getCityById(itemId);
 	event.getCities().add(city);
-	
+	eventDao.updateEvent(event);
     }
 
     @Override

@@ -118,7 +118,7 @@ public class AdminParser implements IAdminParser
 	    System.err.println("-------------------------------------");
 	    System.err.println("city" + city.getIsValid());
 	    System.err.println("-------------------------------------");
-	    float[] temperature = cityWiki.getTemperature();
+/*	    float[] temperature = cityWiki.getTemperature();
 	    if(temperature != null)
 	    {
 		for(int i = 0; i < 12; i++)
@@ -129,11 +129,24 @@ public class AdminParser implements IAdminParser
 		    dmpProp.setPropertyType(tempPropType);
 		    city.getDmpList().add(dmpProp);
 		}
-	    }
+	    }*/
 		cityDao.updateCity(city);  
 	}
 	
     }
+/*    public void setRange(PropertyType prop)
+    {
+	string name = prop.getName();
+	switch(name)
+	{
+	case "":
+		prop.setDependingMonth(true);
+		prop.setBetterWhenLess(false);
+		prop.setMinValue(-35);
+		prop.getLast().setMaxValue(+35);
+	}
+	
+    }*/
     /**
      * Извлекает и добавляет тэги к городу
      * @param cell
@@ -188,7 +201,6 @@ public class AdminParser implements IAdminParser
     private void cityParse() throws MySqlException, ExcelParserException
     {
 	//Здесь создается таблица PropertyType. В качестве name берётся заголовок столбца в экселе
-	//БЫДЛОКОД.
 	final int sheetNumber = 0;
 	final int startPositionProperty = 5; //Стартовая позиция для property
 	final int devider = 11; // Перменная которая разделяет Property от DependingMonthProperty в excel. Cтартовая позиция для Dmp
@@ -196,10 +208,14 @@ public class AdminParser implements IAdminParser
 	
 	List<PropertyType> ptList = new ArrayList<PropertyType>(); 
 	List<PropertyType> ptDmpList = new ArrayList<PropertyType>(); 
-	
+	//-----------СОЗДАНИЕ PROPERTY и DEPENDING MONTH PROPERTY
+	PropertyType propType = new PropertyType(); //против Stack Overflow.
 	for(int j = startPositionProperty; j < devider; j++) //Количество столбцов property. В данном случае в эксельнике 8 столбцов property
 	{
-	    PropertyType propType = new PropertyType();
+	    	//PropertyType propType = new PropertyType();
+	    	propType.setDependingMonth(false);
+	    	propType.setMinValue(0);
+	    	propType.setMaxValue(20);
 	    	try
 	    	{
 	    	    propType.setName(exc.getStringField(sheetNumber, 0, j)); // j - startPositionProperty на ноль переход
@@ -229,8 +245,19 @@ public class AdminParser implements IAdminParser
 	//Создание propertyType для Dmp
 	for(int j = devider; j < exc.getRowLenght(sheetNumber); j+=12)
 	{
-	    PropertyType propType = new PropertyType();
+	    //PropertyType propType = new PropertyType();
 	    propType.setName(exc.getStringField(sheetNumber, 0, j));
+	    propType.setDependingMonth(true);
+	    if(exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("температура") || exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("temperature"))
+	    {
+		    propType.setMinValue(-35);
+		    propType.setMaxValue(35);
+	    }
+	    else
+	    {
+		propType.setMinValue(0);
+		propType.setMaxValue(150);
+	    }
 	    try
 	    {
 		ptDmpList.add(propType);
@@ -253,9 +280,10 @@ public class AdminParser implements IAdminParser
 	        
 	    }
 	}
-		
+	//ЗАПОЛНЕНИЕ БД
 	int i = 2;
 	//while(i<exc.getLenght(0))
+	//City city = new City(); // против Stack Overflow
 	while (i < exc.getLenght(0))
 	{
 	    	//Standart properties

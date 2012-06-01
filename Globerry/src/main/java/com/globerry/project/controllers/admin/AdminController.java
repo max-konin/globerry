@@ -1,6 +1,7 @@
 package com.globerry.project.controllers.admin;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,9 @@ import org.codehaus.jackson.map.util.JSONPObject;
 import org.codehaus.jackson.type.TypeReference;
 import org.junit.runner.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +39,7 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.IRelationsQualifier;
 import com.globerry.project.domain.Month;
 import com.globerry.project.service.CityService;
 import com.globerry.project.service.CompanyService;
@@ -44,12 +49,22 @@ import com.globerry.project.service.interfaces.ICityService;
 import com.globerry.project.service.interfaces.IEventService;
 
 
-
+/**
+ * 
+ * @author Artem
+ * Контроллер для админки. Содержит в себе маппинги и функции, которые запускаются при запросе
+ * Весь класс описан в маппинге "/admin", например "http://Globerry/admin/eventadminpage" 
+ * Большинство страниц работает через factory, т.е. чтобы класс определил что с каким предметом ей нужно работать
+ * надо зайти в одну из ссылок eventadminpage, companyadminpage, cityadminpage для Event, Company и city соответственно
+ * После этого определяется IEntityCreator page, и он вызывает нужный класс
+ */
 @Controller
 @RequestMapping("/admin")
 public class AdminController
 {
-   
+    /**
+     * Factory для определения сущности
+     */
     @Autowired
     private AbstractTypeFactory abstrFactory;
     
@@ -61,11 +76,20 @@ public class AdminController
     
     @Autowired
     private CompanyService companyService;
-    
+    /**
+     * Элемент, который может быть EventPage, CityPage, CompanyPage. Определяется в функции createForm
+     */
     private IEntityCreator page = null;
     
     private String url;
     
+    private int updatedElementId;
+    /**
+     * 
+     * @param _url Это адрес, который идёт после "/admin"
+     * @param map Элемент куда кладутся через фабрику нужные элементы.
+     * @return jsp файл, он получается через factory
+     */
     @RequestMapping("/{url}")
     public String createForm(@PathVariable("url") String _url, Map<String, Object> map)
     {
@@ -74,29 +98,60 @@ public class AdminController
 	page.setList(map);
 	return page.getJspListFile();
     }
+    /**
+     * Запрос на удаление элемента
+     * @param id id элемента
+     * @return возвращает ту страницу с которой был послан запрос
+     */
     @RequestMapping("/delete/{id}")
     public String removeElement(@PathVariable("id") Integer id)
     {
 	page.removeElem(id);
 	return "redirect:/admin/" + url;
     }
-    
+    /**
+     * Обновление элемента
+     * @param id id обновляемого элемента 
+     * @param map Сюда сливается сам элемент и его связи типа ManyToMany, OneToMany, ManyToOne
+     * @return jsp файл который отвечает за обновление
+     */
     @RequestMapping("/update/{id}")
     public String updateElement(@PathVariable("id") Integer id, Map<String, Object> map)
     {
+	updatedElementId = id;
 	page.getElemById(map, id);
 	page.getRelation(map, id);
 	page.getRelation(map);
 	return page.getJspUpdateFile();
     }
-    
-
-    @RequestMapping(value = "/update/update", method = RequestMethod.POST)
-    public String addElement(@ModelAttribute("object") Object object, BindingResult result, Map<String, Object> map) {
+    /**
+     * Метод для отправки запроса на сервер с данными обновлённого города. 
+     * Класс работает без фабрики
+     * @param city Город который нужно обновить
+     * @param result 
+     * @param map
+     * @return
+     */
+    //Дублирование кода, из-за того, что сринг не хочет нормально принимать файл типа Object, или какого то ещё
+    @RequestMapping(value = "/update/updateCity", method = RequestMethod.POST)
+    public String addCity(@ModelAttribute("city") City city, BindingResult result, Map<String, Object> map) {
 	//map.put("months", Month.values());
-        page.updateElem(object);
+        page.updateElem(city);
         return "redirect:/admin/" + url;
     }
+    @RequestMapping(value = "/update/updateEvent", method = RequestMethod.POST)
+    public String addEvent(@ModelAttribute("event") Event event, BindingResult result, Map<String, Object> map) {
+	//map.put("months", Month.values());
+        page.updateElem(event);
+        return "redirect:/admin/" + url;
+    }
+    @RequestMapping(value = "/update/updateCompany", method = RequestMethod.POST)
+    public String addCompany(@ModelAttribute("company") Company company, BindingResult result, Map<String, Object> map) {
+	//map.put("months", Month.values());
+        page.updateElem(company);
+        return "redirect:/admin/" + url;
+    }
+    //функции возвращающие все города/события/компании
     @RequestMapping(value="/getevents", method=RequestMethod.GET)
     public @ResponseBody List<Event> getEvents() {
 	//БЫДЛОКОД
@@ -105,7 +160,6 @@ public class AdminController
     @RequestMapping(value="/getcities", method=RequestMethod.GET)
     public @ResponseBody List<City> getCities() {
 	//БЫДЛОКОД
-	//System.err.println("?????????????????????????????????????????????"+cityService.getCityList().size());
         return cityService.getCityList();
     }
     @RequestMapping(value="/getcompanies", method=RequestMethod.GET)
@@ -117,6 +171,16 @@ public class AdminController
     public @ResponseBody Map<String, Object> getRelations(@PathVariable("id") Integer id, Map<String, Object> map) {
 	
          return page.getRelation(map, id);
+    }
+    @RequestMapping(value="/update/{type}/{relation}")
+    public String joinElem(@PathVariable("type") String type, @PathVariable("relation") String relation, HttpServletRequest request) 
+    {
+	if(type.toLowerCase().equals("join"))
+	{
+	    page.addRelaion(relation, updatedElementId, Integer.parseInt(request.getParameter("id")));
+	}
+	System.err.println(request.getParameter("id"));
+	return "redirect:/admin/update/" + updatedElementId;
     }
     /*HttpServletRequest request*/
     /*@RequestMapping(value="/delete", method=RequestMethod.GET)

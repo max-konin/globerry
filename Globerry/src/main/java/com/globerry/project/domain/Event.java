@@ -29,7 +29,7 @@ import org.hibernate.mapping.Collection;
 
 @Entity
 @Table
-public class Event
+public class Event implements IRelationsQualifier
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
