@@ -67,8 +67,8 @@ public class CompanyTest
     public void AddTest() throws Exception
     {
 	company.setDescription("Its yandex");
-	company.setEmail("yandex@yandex.ru");
-	company.setLogin("hello");
+	company.setEmail(getStringGenerator());
+	company.setLogin(getStringGenerator());
 	try
 	{
 	    companyDao.addCompany(company);

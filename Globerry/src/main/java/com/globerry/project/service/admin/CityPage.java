@@ -77,7 +77,7 @@ public class CityPage implements IEntityCreator
     }
 	
     @Override
-    public void removeRelation(Object type, int elementId, int itemId)
+    public void removeRelation(String type, int elementId, int itemId)
     {
 		// TODO Auto-generated method stub
     }

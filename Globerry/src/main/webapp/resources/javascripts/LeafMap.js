@@ -3,6 +3,7 @@
 }
 */
 function init(serverName) {
+	alert(serverName + "<---INIT()");
 	headerChange(serverName);
 	slidersInitialization(serverName);
 	//alert("123");
@@ -311,7 +312,9 @@ function init(serverName) {
             polygons[polygonsCounter].setStyle({stroke : false, color : 'rgb(255, 132, 2)', fillOpacity : 0.5});
             citiesLayer.addLayer(polygons[polygonsCounter]);
         }
-        map.addLayer(citiesLayer);
+        //******************видимо, это и есть то место, где вырисовывыются города************************
+        //UNCOMMENT NEXT LINE
+        //map.addLayer(citiesLayer);
         polygonsCounter = 0;
     }//draw
 
@@ -808,6 +811,7 @@ function init(serverName) {
     	    	
     	    	//jsonController.cityRequest(button);
     	    };
+    	    if(serverName == "undefined") serverName ="";
     	    this.rangeChange = function(){    	    	
     	    	$.post(serverName + "/rangechange", 
     	    			{minX : map.getBounds().getSouthWest().lng,

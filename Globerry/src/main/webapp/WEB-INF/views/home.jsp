@@ -32,7 +32,9 @@
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	
 	init("<%=path%>");
+
 });
 </script>
 <!--

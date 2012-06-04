@@ -78,13 +78,13 @@ public class TagTest
 		city.setName("Novosibirsk");
 		cityDao.addCity(city);
 		
-		tag2.getCityList().add(city);
+		//tag2.getCityList().add(city);
 		tagDao.addTag(tag2);
 		//cityDao.removeCity(city);
 		
 		int check = 0;
 		Tag test = new Tag();
-		test.setName("Monkey");
+		test.setName(getStringGenerator());
 		test.setImg("t");
 		tagDao.addTag(test);
 		Iterator<Tag> it = tagDao.getTagList().iterator();

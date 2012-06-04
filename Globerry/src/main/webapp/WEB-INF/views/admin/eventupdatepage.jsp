@@ -74,7 +74,7 @@
 				<tr>
 					<td>${cities.id}</td>
 					<td>${cities.name}</td>
-					<td><a href="delete/${cities.id}"><spring:message code="label.delete" /></a></td>
+					<td><a href="remove/city?id=${cities.id}"><spring:message code="label.delete" /></a></td>
 				</tr>
 			</c:forEach>
 	

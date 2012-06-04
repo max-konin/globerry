@@ -87,13 +87,14 @@ public class CityDaoTest
 	eventDao.addEvent(event, city);
 
 	Range range = new Range(80, 120, 10, 90);
-
+/*
 	List<City> cities = cityDao.getCityList(
 	// CityRequest.CityRequestGenerate(new Range(), new
 	// ArrayList<Property>())
 		new CityRequest(range, new ArrayList<PropertySegment>(),
 			tagList, Month.APRIL));
 	System.out.println(cities.iterator().next().getName());// */
+        
 	// fail("Not yet implemented");
     }
 

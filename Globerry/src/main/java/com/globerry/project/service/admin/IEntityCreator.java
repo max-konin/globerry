@@ -64,7 +64,12 @@ public interface IEntityCreator
      * @param itemId
      */
     public void addRelaion(String type , int elementId, int itemId);
-    
-    public void removeRelation(Object type, int elementId, int itemId);
+    /**
+     * Удаляет объект из списка связей у элемента
+     * @param type Тип удаляемого объекта
+     * @param elementId Идентефикатор объекта, у которого из списка нужно выкинуть связь
+     * @param itemId Идентефикатор объекта, который и нужно удалить
+     */
+    public void removeRelation(String type, int elementId, int itemId);
     
 }

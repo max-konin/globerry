@@ -57,6 +57,8 @@ import com.globerry.project.service.interfaces.IEventService;
  * Большинство страниц работает через factory, т.е. чтобы класс определил что с каким предметом ей нужно работать
  * надо зайти в одну из ссылок eventadminpage, companyadminpage, cityadminpage для Event, Company и city соответственно
  * После этого определяется IEntityCreator page, и он вызывает нужный класс
+ * 
+ * 
  */
 @Controller
 @RequestMapping("/admin")
@@ -172,12 +174,18 @@ public class AdminController
 	
          return page.getRelation(map, id);
     }
-    @RequestMapping(value="/update/{type}/{relation}")
+    @RequestMapping(value="/update/{type}/{relation}", method=RequestMethod.GET)
     public String joinElem(@PathVariable("type") String type, @PathVariable("relation") String relation, HttpServletRequest request) 
     {
 	if(type.toLowerCase().equals("join"))
 	{
 	    page.addRelaion(relation, updatedElementId, Integer.parseInt(request.getParameter("id")));
+	}
+	if(type.toLowerCase().equals("remove"))
+	{
+	    System.err.println("------------------------" + request.getParameter("id") + "----------------------");
+	    page.removeRelation(relation, updatedElementId, Integer.parseInt(request.getParameter("id")));
+	    System.err.println(request.getParameter("id"));
 	}
 	System.err.println(request.getParameter("id"));
 	return "redirect:/admin/update/" + updatedElementId;

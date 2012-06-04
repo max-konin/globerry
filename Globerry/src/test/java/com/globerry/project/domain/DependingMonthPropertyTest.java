@@ -42,6 +42,22 @@ public class DependingMonthPropertyTest
     final float value = (float) 123.321;
     final float valueNew = (float) 321.123;
     final String optionsTypeName = "population";
+        
+    /**
+     * Рандомный генератор стрингов
+     * @return стринг
+     */
+    private String getStringGenerator()
+    {  
+	
+      final int LENGHT = 8;  
+      StringBuffer sb = new StringBuffer();  
+      for (int x = 0; x <LENGHT; x++)  
+      {  
+        sb.append((char)((int)(Math.random()*26)+97));  
+      }  
+      return sb.toString();  
+    } 
     @Test
     public void test()
     {
@@ -49,7 +65,7 @@ public class DependingMonthPropertyTest
 	dependingMonthProperty.setMonth(month);
 	dependingMonthProperty.setValue(value);
 	PropertyType propertyType = new PropertyType();
-	propertyType.setName(optionsTypeName);
+	propertyType.setName(getStringGenerator());
 	propertyType.setMaxValue(123);
 	propertyType.setMinValue(123);
 	

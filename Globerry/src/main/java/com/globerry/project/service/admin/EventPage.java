@@ -86,9 +86,12 @@ public class EventPage implements IEntityCreator
     }
 
     @Override
-    public void removeRelation(Object type, int elementId, int itemId)
+    public void removeRelation(String type, int elementId, int itemId)
     {
-	// TODO Auto-generated method stub
+	Event event = eventDao.getEventById(elementId);
+	City city = cityDao.getCityById(itemId);
+	event.getCities().remove(city);
+	eventDao.updateEvent(event);
 	
     }
 

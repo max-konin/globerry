@@ -264,4 +264,12 @@ public class EventDaoTest
 	eventDao.updateEvent(newEvent);
 	System.err.println("------------" + oldEvent.getId());
     }
+    @Test
+    public void removeRelationTest()
+    {
+	Event event = new Event();
+	event.setName("Remove relationship from event");
+	City city = new City();
+	city.setName("testName");
+    }
     }
