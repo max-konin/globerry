@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.EventDao;
+import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IEventDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 
@@ -16,9 +16,9 @@ public class CityPage implements IEntityCreator
 {
 
     @Autowired
-    private CityDao cityDao;
+    private ICityDao cityDao;
     @Autowired
-    private EventDao eventDao;
+    private IEventDao eventDao;
     @Autowired
     private 
     

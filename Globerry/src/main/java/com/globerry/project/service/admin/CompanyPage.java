@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
 
 @Service
@@ -13,7 +13,7 @@ public class CompanyPage implements IEntityCreator
 {
 
     @Autowired
-    private CompanyDao companyDao;
+    private ICompanyDao companyDao;
 
     
     static final String JSPPAGE = "companypage";

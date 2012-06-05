@@ -38,7 +38,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	protected static Logger logger = Logger.getLogger("service");
 
 	@Autowired
-	private CompanyDao companyDao;
+	private ICompanyDao companyDao;
 	
 	@Autowired 
 	private ITourDao tourDao;

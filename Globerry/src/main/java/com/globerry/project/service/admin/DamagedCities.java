@@ -13,14 +13,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.globerry.project.dao.CityDao;
+import com.globerry.project.dao.ICityDao;
 import com.globerry.project.domain.City;
 
 @Service
 public class DamagedCities
 {
     @Autowired
-    private CityDao cityDao;
+    private ICityDao cityDao;
     
     private List<City> damagedCitiesList; 
     

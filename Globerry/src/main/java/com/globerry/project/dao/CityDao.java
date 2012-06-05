@@ -36,7 +36,7 @@ public class CityDao implements ICityDao
     @Autowired
     SessionFactory sessionFactory;
     @Autowired
-    PropertyTypeDao propertyTypeDao;
+    IPropertyTypeDao propertyTypeDao;
     @Override
     public void addCity(City city) throws MySqlException
     {

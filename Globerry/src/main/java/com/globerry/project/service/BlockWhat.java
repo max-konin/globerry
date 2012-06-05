@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.globerry.project.dao.TagDao;
+import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.interfaces.IOptionBlock;
@@ -19,7 +19,7 @@ import com.globerry.project.service.interfaces.IOptionBlock;
 public class BlockWhat extends IOptionBlock
 {
     @Autowired
-    TagDao tagDao;
+    ITagDao tagDao;
     @Override
     protected void tagsLoad(){
 	Set<Tag> tagList = tagDao.getTagList();

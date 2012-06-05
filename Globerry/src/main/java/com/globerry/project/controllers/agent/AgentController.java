@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.globerry.project.dao.TourDao;
+import com.globerry.project.dao.ITourDao;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.AgentService;
@@ -29,7 +29,7 @@ public class AgentController
     private AgentService agentService;
     
     @Autowired
-    private TourDao tourDao;
+    private ITourDao tourDao;
     
     
     @RequestMapping("/")

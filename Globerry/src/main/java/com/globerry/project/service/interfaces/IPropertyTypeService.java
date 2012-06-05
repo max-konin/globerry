@@ -35,4 +35,6 @@ public interface IPropertyTypeService
      * @param id
      */
     public void removePropertyType(int id);
+
+    public int getPropertyDaoHash();
 }

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.PropertyTypeDao;
+import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.Range;
-import com.globerry.project.dao.TagDao;
+import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
@@ -26,8 +26,8 @@ import com.globerry.project.service.Calendar;
 ///////import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.MyDate;
 import com.globerry.project.service.SliderData;
-import com.globerry.project.service.Sliders;
-import com.globerry.project.service.UserCityService;
+import com.globerry.project.service.interfaces.ISliders;
+import com.globerry.project.service.interfaces.IUserCityService;
 
  
 /**
@@ -37,19 +37,19 @@ import com.globerry.project.service.UserCityService;
 @Scope("session")
 public class HomeController {
     @Autowired
-    UserCityService userCityService;
+    IUserCityService userCityService;
     @Autowired
-    CityDao cityDao;
+    ICityDao cityDao;
     @Autowired
-    Sliders sliders;
+    ISliders sliders;
     @Autowired
-    PropertyTypeDao propertyTypeDao;
+    IPropertyTypeDao propertyTypeDao;
     @Autowired
     BlockWhat blockWhat;
     @Autowired
     BlockWho blockWho;
     @Autowired
-    TagDao tagDao;
+    ITagDao tagDao;
     @Autowired
     Calendar calendar;
 ///////    @Autowired

@@ -22,19 +22,19 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import com.globerry.project.Excel;
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.CompanyDao;
+import com.globerry.project.dao.ICityDao;
 import com.globerry.project.dao.ICompanyDao;
-import com.globerry.project.dao.TourDao;
+import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.ITourDao;
 //import com.globerry.project.dao.TourDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Tour;
-import com.globerry.project.service.CompanyService;
-import com.globerry.project.service.PropertyTypeService;
-import com.globerry.project.service.UserCityService;
+import com.globerry.project.service.interfaces.ICompanyService;
+import com.globerry.project.service.interfaces.IPropertyTypeService;
+import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.interfaces.ICompanyService;
 
 //TODO
@@ -45,9 +45,9 @@ public class CompanyController
     @Autowired
     private ICompanyService cmpService;
     @Autowired
-    private PropertyTypeService PrTService;
+    private IPropertyTypeService PrTService;
     @Autowired
-    private UserCityService UCService;
+    private IUserCityService UCService;
     @Autowired
     private LocaleResolver localeResolver;
     

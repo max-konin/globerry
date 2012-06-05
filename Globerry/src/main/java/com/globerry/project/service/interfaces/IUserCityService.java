@@ -12,7 +12,12 @@ import com.globerry.project.dao.Range;
 public interface IUserCityService extends ICityService, Observer
 {
     public void clickOnPassiveCity();
+    
     public void clickOnActiveCity();
+    
     public void changeRange(Range newRange);
+    
     public void sliderOnChangeHandler();
+
+    public int getPropertyDaoHash();
 }

@@ -27,7 +27,7 @@ import com.globerry.project.dao.CompanyDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.service.CityService;
-import com.globerry.project.service.CompanyService;
+import com.globerry.project.service.interfaces.ICompanyService;
 import com.globerry.project.utils.dropdown_menu.DropdownMenu;
 import com.globerry.project.utils.dropdown_menu.DropdownMenuItem;
 
@@ -43,7 +43,7 @@ import com.globerry.project.utils.dropdown_menu.DropdownMenuItem;
 public class RegistrationController 
 {
     @Autowired
-    private CompanyService companyService;
+    private ICompanyService companyService;
     
     /**
      * Temp variable

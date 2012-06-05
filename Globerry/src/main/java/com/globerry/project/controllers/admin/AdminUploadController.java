@@ -26,17 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.globerry.project.Excel;
 import com.globerry.project.ExcelParserException;
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.EventDao;
-import com.globerry.project.dao.PropertyTypeDao;
-import com.globerry.project.dao.TagDao;
-import com.globerry.project.domain.City;
-import com.globerry.project.domain.Event;
-import com.globerry.project.domain.Month;
-import com.globerry.project.domain.Property;
-import com.globerry.project.domain.PropertyType;
-import com.globerry.project.domain.Tag;
-import com.globerry.project.domain.DependingMonthProperty;
 import com.globerry.project.domain.UploadItem;
 import com.globerry.project.service.admin.AdminParser;
 

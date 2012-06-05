@@ -41,11 +41,11 @@ import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.IRelationsQualifier;
 import com.globerry.project.domain.Month;
-import com.globerry.project.service.CityService;
-import com.globerry.project.service.CompanyService;
+import com.globerry.project.service.interfaces.ICityService;
+import com.globerry.project.service.interfaces.ICompanyService;
 import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.IEntityCreator;
-import com.globerry.project.service.interfaces.ICityService;
+import com.globerry.project.service.CityService;
 import com.globerry.project.service.interfaces.IEventService;
 
 
@@ -77,7 +77,7 @@ public class AdminController
     private CityService cityService;
     
     @Autowired
-    private CompanyService companyService;
+    private ICompanyService companyService;
     /**
      * Элемент, который может быть EventPage, CityPage, CompanyPage. Определяется в функции createForm
      */

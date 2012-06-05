@@ -10,11 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.globerry.project.dao.CompanyDao;
-import com.globerry.project.domain.City;
-import com.globerry.project.service.CompanyService;
-import com.globerry.project.service.admin.CityPage;
-import com.globerry.project.service.admin.CompanyPage;
 
 /**
  * @author Artem
