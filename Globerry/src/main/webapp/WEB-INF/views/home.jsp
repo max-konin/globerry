@@ -51,6 +51,12 @@ $(document).ready(function() {
 
 </HEAD>
 <BODY>
+<!--
+	The idea is to have an non resizable block in the center of the page(by x), and it should be in the 
+	center all the time, so I created some invisible block's that are used to set the header and the bottom
+	on the center.
+	Also note, that all elements with identifier BG, are background element's for the elements with same id, except BG.
+ -->
 <div id = 'top'>
 	<div id = 'invisibleHeadBlock'></div>
 	<div id = 'head'>
