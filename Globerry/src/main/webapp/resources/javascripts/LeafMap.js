@@ -146,6 +146,15 @@ function init(serverName) {
             map.removeLayer(popupArray[popupCounter]);
             popupArray[popupCounter] = 0;
         }
+        /*
+         *Refactor: На мой взгляд, этот код нужно прорефакторить, и выкинуть из цикла все 
+         *определения переменных. Так при большом количестве городов может выскочить 
+         *какой-нибудь StackOverFlow. Не знаю как в javascript, но в java или C#
+         *точно рано или поздно была бы ошибка
+         *
+         *Код будет закоментен, чтобы спрятать города. 
+         *Удалить следующию строчку*/
+        /*
 		
 		// here goes the part that disposes the cities names.
         for (circle_counter in arrayOfCityes) {
@@ -164,7 +173,7 @@ function init(serverName) {
 	        	map.addLayer(popupArray[popupCounter]);
 	        	popupCounter++;
         	}
-        }
+        }//*/
 
         var polygonsCounter = 0;
         var currentPolygon = 0;
@@ -329,6 +338,7 @@ function init(serverName) {
 		// Yep, not apparently, for sure all curves are drawn here.(author comment)
         //UNCOMMENT NEXT LINE
         //map.addLayer(citiesLayer);
+        map.addLayer(citiesLayer);
         polygonsCounter = 0;
     }//draw
 

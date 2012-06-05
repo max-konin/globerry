@@ -31,11 +31,9 @@
 <script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-	
+	alert("<%=path%>");
 	init("<%=path%>");
 
-});
 </script>
 <!--
 <script type="text/javascript" src="resources/javascripts/raphael.js"></script>

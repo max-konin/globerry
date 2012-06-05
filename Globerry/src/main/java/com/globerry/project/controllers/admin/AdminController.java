@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.Element;
 import javax.xml.ws.Response;
+import org.apache.log4j.Logger;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
@@ -49,6 +50,7 @@ import com.globerry.project.service.CityService;
 import com.globerry.project.service.interfaces.IEventService;
 
 
+
 /**
  * 
  * @author Artem
@@ -84,6 +86,8 @@ public class AdminController
     private IEntityCreator page = null;
     
     private String url;
+    
+    private static final Logger logger = Logger.getLogger(AdminController.class);
     
     private int updatedElementId;
     /**
@@ -177,15 +181,18 @@ public class AdminController
     @RequestMapping(value="/update/{type}/{relation}", method=RequestMethod.GET)
     public String joinElem(@PathVariable("type") String type, @PathVariable("relation") String relation, HttpServletRequest request) 
     {
+	logger.info("Hello worlds");
 	if(type.toLowerCase().equals("join"))
 	{
 	    page.addRelaion(relation, updatedElementId, Integer.parseInt(request.getParameter("id")));
 	}
 	if(type.toLowerCase().equals("remove"))
 	{
-	    System.err.println("------------------------" + request.getParameter("id") + "----------------------");
+            logger.info("------------------------" + request.getParameter("id") + "----------------------");
+	    //System.err.println("------------------------" + request.getParameter("id") + "----------------------");
 	    page.removeRelation(relation, updatedElementId, Integer.parseInt(request.getParameter("id")));
-	    System.err.println(request.getParameter("id"));
+            logger.info(request.getParameter("id"));
+	  //  System.err.println(request.getParameter("id"));
 	}
 	System.err.println(request.getParameter("id"));
 	return "redirect:/admin/update/" + updatedElementId;
