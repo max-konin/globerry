@@ -3,27 +3,30 @@
 }
 */
 function init(serverName) {
+	/*
+	 * To draw the curves I used http://en.wikipedia.org/wiki/Marching_squares algorithm,
+	 * also, there are some changes in it, to draw curves faster. 
+	 * */
 	alert(serverName + "<---INIT()");
-	headerChange(serverName);
+	headerChange(serverName); //for switching header.
 	slidersInitialization(serverName);
 	//alert("123");
 	//version with normal map;
     var Width = $(document.getElementById("map")).width();
     var Height = $(document.getElementById("map")).height();
-    var arrln = 150, i, j;
-    //if(Width < 1200)
-    	arrln = 80;
+    var arrln = 80, i, j; //arrln 150 for prettier curves.
     var myArray = new Array();
     var p = 2;
-    var level = 1.6;
+    var level = 1.6; //level on which curves are drawing(not map level (read about matching squares if you're interested in this variable)), this level is used by default
     var begLevel = level;
     var blockWidth = Width / arrln;
     var blockHeight = Height / arrln;
-    var polygons = new Array();
+    var polygons = new Array(); // due to the fact that each curve consist of large amount of object's htey are all stored in an array, to simplify styling, deleting and searching thow them
     var R = 50;
     
-    var JSONContr = new JsonController(serverName); 
+    var JSONContr = new JsonController(serverName);  	//object that is used to control all of the interactions between server and customer.
 
+	//memst array by 0
     for (i = 0; i < arrln + 1; i++) {
         myArray[i] = new Array();
         for (j = 0; j < arrln + 1; j++) {
@@ -32,30 +35,31 @@ function init(serverName) {
     }
 
     var circle_counter;
-	var popupArray = new Array();
+	var popupArray = new Array(); 	//unfortunately, LeafMap.js dowsn't provide it's own way to type something on a map, so I used styled popups( for information about it's style see styles\map.css)
 	var popupCounter = 0;
-    var my2Array = new Array();
-    var i2, j2;
+    var my2Array = new Array(); // here goes some modification of the presented algorithm, I created two arrays, one of them(first) draws only squares, and another(my2Array) draws borders. 
+								// each time when it's seen that we have to draw a border in first array block(square) we divide it into parts and use the algorithm for this block, by using second array, thus we have
+								// less amount of shapes(objects) where they are less needed, and large amount of shapes where they are more useful(on the borders), also the total amount of shapes is decreased by this modification, and the algorithm works faster.
+    var i2, j2;	//just reusable counters for second array.
     var arrln2 = 3;
-    //if(Width < 1200)
-    	arrln2 = 3;
-    var littleBlockWidth = blockWidth / arrln2;
+
+    var littleBlockWidth = blockWidth / arrln2; //for second array
     var littleBlockHeight = blockHeight / arrln2;
 
 
     var map = new L.Map('map');
 
+	//previous map had url:
     //var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png';
     cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
     var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
     var cloudmade = new L.TileLayer(cloudmadeUrl, { maxZoom: 8, minZoom: 3, attribution: cloudmadeAttribution });
 
     map.setView(new L.LatLng(51.505, -0.09), 3).addLayer(cloudmade); //London 13
-	JSONContr.rangeChange();
+	JSONContr.rangeChange();//we make the server aware that map is created.
 	
-    //debag
-    //var cir = [[100, 100, 50], [150, 200, 50], [100, 300, 50]];
-    //debag
+	//note that unfortunately, changes only in that options won't affect the image, but, also, if u dont change them u wont see any changes at all
+	// to see any changes make them here and in the options in the end of draw function(where curves are actually drawn)
     var circleOptions = {
         color: 'blue',
         fillColor: 'blue',
@@ -63,12 +67,9 @@ function init(serverName) {
         stroke: false
     };
     var polygonOptions = {
-        //color: 'blue',
         fillColor: 'rgb(255, 132, 2)',
         fillOpacity: 0.3,
-        //strokeOpacity: 0,
         weight: 100,
-        //stroke: false
     };
     bounds = map.getBounds();
     var polygons = new Array();
@@ -80,26 +81,27 @@ function init(serverName) {
     	for(circle_counter in arrayOfCityes) {
     		numberOfCircles++;
     	}
+		// when there are less then 10 cities it looks pretty with 1.6 level, but it shouldn't with many circles, so we have to test it and make clustering before deciding what should represent when there are more than 10 cities 
     	if(numberOfCircles > 10)
     		level = 1.7;
     	else
     		level = 1.6;
-    	//alert('123');
     	popupCounter = 0;
+		//memset null
         for (i2 = 0; i2 < arrln2 + 1; i2++) {
             my2Array[i2] = new Array();
             for (j2 = 0; j2 < arrln2 + 1; j2++) {
                 my2Array[i2][j2] = 0;
             }
         }
-        
+        //memset null
         for (i = 0; i < arrln + 1; i++) {
             for (j = 0; j < arrln + 1; j++) {
                 myArray[i][j] = 0;
             }
         }
         
-        //alert(map.getZoom());
+        //city radius.
         R = 100*map.getZoom()/10;
         if(R < 30) R*=1.03;
         if(R < 20) R*=1.02;
@@ -107,10 +109,12 @@ function init(serverName) {
         for (i = 0; i < arrln + 1; i++) {
             for (j = 0; j < arrln + 1; j++) {
                 for (circle_counter in arrayOfCityes) {
+				//changing our coordinates(from server) to coordinates on the screen.
                 	var cityLocation = new L.LatLng(arrayOfCityes[circle_counter].latitude , arrayOfCityes[circle_counter].longitude);
                 	var cityPoint = map.latLngToLayerPoint(cityLocation);
                 	var myCityX = (map.layerPointToContainerPoint(cityPoint)).x;
                 	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
+					// see the algorithm to understand this.
                     var some_math_operations = (Math.pow(Math.sqrt((i * blockWidth - myCityX) * (i * blockWidth - myCityX) + (j * blockHeight - myCityY) * (j * blockHeight - myCityY)), p));
                     if (some_math_operations) {
                     	var cityRadius = R*arrayOfCityes[circle_counter].weight;
@@ -119,7 +123,7 @@ function init(serverName) {
                     	//alert(cityRadius);
                         myArray[i][j] += (6 * (cityRadius*cityRadius) / some_math_operations - level);
                     }
-                    else
+                    else //if, for some mythical reasons we get division by zero of some other unexpected change, we are just saying that that city is very large.
                         myArray[i][j] += level * 10;
                         
                 }//for[circles]
@@ -129,9 +133,11 @@ function init(serverName) {
 
         draw(arrayOfCityes);
     }
+	
     var citiesLayer = new L.LayerGroup();
     function draw(arrayOfCityes) {
     	citiesLayer.clearLayers();
+		//clearing previous array and memset(without it, js doesn't always works correctly Oo)
         for (polygonsCounter in polygons) {
             map.removeLayer(polygons[polygonsCounter]);
             polygons[polygonsCounter] = 0;
@@ -140,12 +146,16 @@ function init(serverName) {
             map.removeLayer(popupArray[popupCounter]);
             popupArray[popupCounter] = 0;
         }
+		
+		// here goes the part that disposes the cities names.
         for (circle_counter in arrayOfCityes) {
-        	var delta = 30;
+        	var delta = 30;//for fixing bug.
+			//changing coordinates from server to our, guess it should be in a individual function.
         	var cityLocation = new L.LatLng(arrayOfCityes[circle_counter].latitude , arrayOfCityes[circle_counter].longitude);
         	var cityPoint = map.latLngToLayerPoint(cityLocation);
         	var myCityX = (map.layerPointToContainerPoint(cityPoint)).x;
         	var myCityY = (map.layerPointToContainerPoint(cityPoint)).y;
+			//that "if" fixes magic bug that we've seen mostly in Opera, but, I've caught it in Chrome several times too.
         	if(!((((($("#map").width() - myCityX)) < delta) || (myCityX < delta)) || (myCityY < delta) || (($("#map").height() - myCityY) < delta)))
         	{
 	        	popupArray[popupCounter] = new L.Popup();
@@ -181,6 +191,7 @@ function init(serverName) {
                          }
                     }//memset(my2Array, 0, ..);
 
+					 //algorithm with some changes.
                     for (i2 = 0; i2 < arrln2 + 1; i2++) {
                         for (j2 = 0; j2 < arrln2 + 1; j2++) {
                             for (circle_counter in arrayOfCityes) {                            	
@@ -204,6 +215,7 @@ function init(serverName) {
                         }//for[j]
                     }//for[i]
 
+                    //here goes the change of the algoritm that was said above.
                     for (i2 = 0; i2 < arrln2; i2++) {
                         for (j2 = 0; j2 < arrln2; j2++) {                            
                             if ((my2Array[i2][j2] > 0) && (my2Array[i2 + 1][j2] > 0) && (my2Array[i2][j2 + 1] > 0) && (my2Array[i2 + 1][j2 + 1] > 0)) {
@@ -308,11 +320,13 @@ function init(serverName) {
             }//for[j]
         }//for[i]
        
+	   //all polygons addings are here, also if you want to change curves styling make it here and int the top of the document.
         for (polygonsCounter in polygons){
             polygons[polygonsCounter].setStyle({stroke : false, color : 'rgb(255, 132, 2)', fillOpacity : 0.5});
             citiesLayer.addLayer(polygons[polygonsCounter]);
         }
         //******************видимо, это и есть то место, где вырисовывыются города************************
+		// Yep, not apparently, for sure all curves are drawn here.(author comment)
         //UNCOMMENT NEXT LINE
         //map.addLayer(citiesLayer);
         polygonsCounter = 0;
@@ -324,7 +338,10 @@ function init(serverName) {
     	
         var JSONContr = new JsonController(serverName); 
 
+		//object that is stwo handeled slider, I used JQuerry slider plagin for it.
         function mySlider(sliderId, leftLimit, rightLimit, measure, div, leftInput, rightInput, pos) {
+			//div is div id, pos is the position of measure symbol and can be "l" for left position of "r" fo
+			// rigth postion for example +30 has "r" for plus and $150 has "l" fo $  
         	var sliderId = 0;
     		var leftMeasure = "";
     		var rightMeasure = "";
@@ -332,11 +349,13 @@ function init(serverName) {
     			leftMeasure = measure;
     		if(pos == "r")
     			rightMeasure = measure;
+			//should be a parametr of cunstructor too. But as comment downsatairs says due to some strage bug, it's here.
     		if(div == "tempSlider") sliderId = 1;
     		if(div == "alchSlider") sliderId = 2;
     		if(div == "timeSlider") sliderId = 3;
     		if(div == "LivSlider") sliderId = 4;
     		if(div == "foodSlider") sliderId = 5;/*due to some sstrange bag*/
+			//actually slider.
             jQuery("#" + div).slider({
                 min: leftLimit,
                 max: rightLimit,
@@ -376,7 +395,8 @@ function init(serverName) {
                 }
             });
         };
-
+		
+		//one handled slider is much easier to understand, so if, u are interested in the way how sliders works, look first here, and read about Jquerry slider plugin on jquerry plugin page.
         function myOneHandledSlider(div, sliderId){
         	jQuery("#" + div).slider({
         		min :1,
@@ -389,26 +409,28 @@ function init(serverName) {
         		}
         	});
         }
-
+		//initialisation of sliders
         firstSL = new mySlider(1, -35, 35, "+", "tempSlider", "minCost", "maxCost", "l");
         firstSL = new mySlider(2, 0, 30, "$", "alchSlider", "alcMinCost", "alcMaxCost", "l");
         firstSL = new mySlider(3, 0, 24, " Ч", "timeSlider", "TimeMinV", "TimeMaxV", "r");
-        //$("#MoodSlider").slider();
         firstSL = new myOneHandledSlider("MoodSlider", 6);
         firstSL = new mySlider(4, 0, 300, "$", "LivSlider", "LivMinV", "LivMaxV", "l");
-       // $("#securitySlider").slider();
         firstSL = new myOneHandledSlider("securitySlider", 7);
         firstSL = new mySlider(5, 0, 100, "$", "foodSlider", "FoodMinV", "FoodMaxV", "l");
-        //$("#SexSlider").slider();
         firstSL = new myOneHandledSlider("SexSlider", 8);
-        
     }
     
     //===========================================headerChange====================================
+    // Some overwiew about list's. I didn't find any plugin for list's consisted of images(actually,
+    // I've searched only for few hours coz it was faster to write my own image based list, than search
+    // more time), so if you want change list's form image based to text based, u may change all the logic of
+    // interaction with them, including changing of header text, or,  u may just replace images in my lists with text,
+    // coz they work normal.
     function headerChange(serverName)
     {
     	
         var JSONContr = new JsonController(serverName); 
+        //string constants.
     	WhoStr = new Array();
     	WhoStr[2] = "Мы с друзьями едем ";
     	WhoStr[3] = "Мы с семьей едем ";
@@ -437,14 +459,16 @@ function init(serverName) {
     	WhenStr[12] = "в декабре!";
 
     	
-    	var prevBotBut;
+    	var prevBotBut; //bottom buttoms
     	var bottomActive = false;
     	
+    	// function for sliding the second header down and for hiding the first header.
     	$(".headerButton").click(function (event) {
     		configureText();
-    		$(prevList).animate({height:0}, "fast");
+    		$(prevList).animate({height:0}, "fast"); // switchs list off
     		SelectActive = false;
     		$("#headContent1").animate({height:0},"slow", function() {
+    			//animation to represent changes.
     			$("#headContent1").hide();
     			$("#headContent2").show();
     			$("#headText").show();
@@ -456,15 +480,15 @@ function init(serverName) {
     			$("#HeaderButtonUp").animate({opacity:1}, "slow");
     			$("#headContent2").animate({height:100}, "slow", function (){
     				$("#calendar").show();
-    				//TODO fix bag with strange calendar
     				$("#calendar").animate({height:26}, "slow", function(){				
-    					//$("#calendar").animate({height:26}, "normal");
+    					//here I wanted to fix bug with ctrange appearance of the calendar.
     				});
-    				//$("#calendar").slideToggle();
     			});
     		});
     	});	
+    	// as previous function this hides the second header and shows the first, with aimation.
     	$(".headerUpSwitcher").click(function (event) {
+    		//animation.
     		$("#headText").hide();
     		$("#calendar").animate({height:0}, "normal", function (){
     			$("#calendar").hide();
@@ -481,6 +505,7 @@ function init(serverName) {
     	});	
     	
     	prev = "#JanBG";	//first;
+    	// changes calendar buttons(div's actually), all stuff here consists of divs.
     	$(".upperClicableCaendar").click(function (event) {
     		if(prev!= ("#" + this.id + "G")){
     			$(prev).animate({opacity:0}, "fast");
@@ -532,6 +557,7 @@ function init(serverName) {
     	SelectActive = false;
     	var prevList;
     	var SelectActiveNumber;
+    	// List's about them there was written above, also, I think, it's better to rewrite them in object based style.
     	$(".ListButton").click(function (event) {
     	if(this.id == "WhoSelect"){
     		SelectActiveNumber = 1;
@@ -544,6 +570,7 @@ function init(serverName) {
     	}	
     	//alert(this.id);
     		if(SelectActive == false){
+    				//animation
     				prevList = "#" + this.id + "BG";
     				a = $(prevList).css("max-height");
     				$(prevList).show();
@@ -551,6 +578,7 @@ function init(serverName) {
     				SelectActive = true;
     			} else
     			{
+				    //animaion
     				if(prevList != "#" + this.id + "BG"){
     					$(prevList).animate({height:0}, "slow");
     					prevList = "#" + this.id + "BG";
@@ -566,6 +594,7 @@ function init(serverName) {
     				}
     			}
     	}); 
+    	// inititalisation of selects
     	prevSelect = new Array();
     	prevSelect[1] = "#aloneSelected";
     	prevSelect[2] = "#tanSelected";
@@ -573,6 +602,7 @@ function init(serverName) {
     	TextSelectorWho = 1;
     	TextSelectorWhat = 1;
     	TextSelectorWhen = 1;
+    	// animatin on click in the inner space of the list.
     	$(".selectItem").click(function (event) { 
     	if(SelectActiveNumber != 0){
     			$(prevSelect[SelectActiveNumber]).hide();
@@ -624,8 +654,9 @@ function init(serverName) {
     		configureText();
     		//JSONContr.cityRequest();
     	});
-
+    	// switch the bottom on and off, and changes the state of the buttom.
     	$(".bottomButton").click(function(){
+    		//animation for switching bottoms.
     		if( bottomActive == false){
     			if(prevBotBut != undefined){
     				prevBotBut.style.background = 'rgb(37, 46, 64)';
@@ -658,6 +689,9 @@ function init(serverName) {
     			}
     		}
     	});
+		
+    	//function that configures text that is presented in the upper space if the header(rigth to globerry image)
+    	//it's based on the id's of the list blocks, that are currently selected.
     	function configureText(){
     		var prevSelectInFirst = TextSelectorWho;
     		if(prevSelect[1] == "#aloneSelected"){
@@ -768,6 +802,7 @@ function init(serverName) {
     }
 
     //======================================Map novigation==================
+    //fires event's on map changing, and make server aware about them.
     map.on('viewreset', function() {
         //catches view reset e.g. zooming or any of unexpected resets(!)    	
     	JSONContr.rangeChange();
@@ -793,6 +828,7 @@ function init(serverName) {
 
 
         //=========================JSON Controller===========================
+       //wasnt written by me, so have no idea how it works.
         function JsonController(serverName){
     	    this.buttonClick = function(button){
     	    	function objFactory(){
@@ -851,11 +887,13 @@ function init(serverName) {
     	          });
     	    };
     	};
+		
+    	//===================================================================
+    	
+    	// I dunno why leafmap libary doesnt have this function by default, but so it is Oo.
     	function containerPointToLatLng(point){
     		return map.layerPointToLatLng((map.containerPointToLayerPoint(point)));
     	};
-
-
 }
 
 
