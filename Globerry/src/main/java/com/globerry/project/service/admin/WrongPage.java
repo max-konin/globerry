@@ -72,10 +72,10 @@ public class WrongPage implements IEntityCreator
 	
     }
 
-	@Override
-	public void addRelaion(String type, int elementId, int itemId) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    @Override
+    public void addRelaion(String type, int elementId, int itemId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 	
 

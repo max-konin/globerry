@@ -4,16 +4,22 @@ import java.util.Observable;
 
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.service.interfaces.ISlider;
+import com.globerry.project.utils.PropertySegment;
 
 public class Slider extends Observable implements ISlider
 {
-    private float state;
-    private float stateSecond;
-    private PropertyType type;
+    /*
+     * @author max
+     * Добавил одно поле вмето 3
+     * private float minValue;
+     * private float maxValue;
+     * private PropertyType type;
+     */
+   
+    private PropertySegment propertySegment;
     public Slider(PropertyType type){
-	this.type = type;
-	this.state = type.getMinValue();
-	this.stateSecond = type.getMaxValue();
+        propertySegment = new PropertySegment(type);
+	
     }
     @Override
     @Deprecated
@@ -21,37 +27,50 @@ public class Slider extends Observable implements ISlider
     {
 	if (!isStateCorrectly(newState))
 	    return;
-	state = newState;
+	getPropertySegment().setMinValue(newState);
 	super.notifyObservers(new EventUI(this));
     }
     @Deprecated
-    public float getState()
+    public float getMinValue()
     {
-	return state;
+	return getPropertySegment().getMinValue();
     }
     public PropertyType getType()
     {
-	return type;
+	return getPropertySegment().getPropertyType();
     }
     @Override
     public void onChange(float newStateLeft, float newStateRight)
     {
 	if (!(isStateCorrectly(newStateLeft)&&isStateCorrectly(newStateRight)&&(newStateLeft<=newStateRight)))
 	    return;
-	state = newStateLeft;
-	stateSecond = newStateRight;
+	getPropertySegment().setMinValue(newStateLeft);
+	getPropertySegment().setMaxValue(newStateRight);
     }
     public float getStateLeft()
     {
-	return state;
+	return getPropertySegment().getMinValue();
     }
     public float getStateRight()
     {
-	// TODO Auto-generated method stub
-	return stateSecond;
+	return getPropertySegment().getMaxValue();
     }
     private boolean isStateCorrectly(float newState){
-	return (newState <= type.getMaxValue()&& newState >= type.getMinValue())?true:false;
+	return (newState <= getPropertySegment().getPropertyType().getMaxValue()&& newState >= getPropertySegment().getPropertyType().getMinValue())?true:false;
+    }
+
+    /**
+     * @return the propertySegment
+     */
+    public PropertySegment getPropertySegment() {
+        return propertySegment;
+    }
+
+    /**
+     * @param propertySegment the propertySegment to set
+     */
+    public void setPropertySegment(PropertySegment propertySegment) {
+        this.propertySegment = propertySegment;
     }
 
 }

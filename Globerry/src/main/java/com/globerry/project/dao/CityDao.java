@@ -1,5 +1,6 @@
 package com.globerry.project.dao;
 
+import com.globerry.project.utils.PropertySegment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -251,36 +252,43 @@ public class CityDao implements ICityDao
 	while (itCity.hasNext()){
 	    City city = itCity.next();
 	    city.setWeight(1);
-	    Iterator<PropertySegment> itProperty = request.getOption().iterator();
+	  
+           
+            Iterator<PropertySegment> itProperty = request.getOption().iterator();
 	    while (itProperty.hasNext()){
 		PropertySegment propertyRequest = itProperty.next();
-		PropertySegment propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
-		if (propertyCity != null){
-		    if (propertyRequest.getMaxValue() < propertyCity.getMaxValue() 
-			    || propertyCity.getMaxValue()< propertyRequest.getMinValue())
+                try{
+                    float propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());		
+		    if (propertyRequest.getMaxValue() < propertyCity 
+			    || propertyCity< propertyRequest.getMinValue())
 			cityForRemove.add(city);
-		    //TODO
+		    
 		    float a, b, sizeBetween;
+                    
+                    // Очередня быдло арифметика                    
 		    sizeBetween = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
 		    if (sizeBetween <= 0)
-			sizeBetween = (float)0.1 * (propertyCity.getMaxValue() - propertyCity.getMinValue());
+			sizeBetween = (float)0.1 * (propertyCity - propertyCity); 
 		    if (propertyRequest.getPropertyType().isBetterWhenLess()){
 			a = sizeBetween;
-			b = propertyCity.getMaxValue() - propertyRequest.getMinValue();
+			b = propertyCity - propertyRequest.getMinValue();
 		    }else{
 			a = sizeBetween/(float)2.0;
-			b = Math.abs((propertyCity.getMaxValue() - propertyRequest.getMinValue())-a);
+			b = Math.abs((propertyCity - propertyRequest.getMinValue())-a);
 		    }
 		    float k = b/a;
 		    if (k < 0.2) k = (float) 0.2;
 		    city.setWeight(city.getWeight()*k);		    
-		}else{
+		}
+                catch (IllegalArgumentException e)
+                {
 		    cityForRemove.add(city);
 		}
 	    }
 	    if (request.getOption().size() > 0)
 		city.setWeight((float) Math.pow(city.getWeight(),1/((double) request.getOption().size())));
 	}
+        
 	Iterator<City> itCityRemove = cityForRemove.iterator();
 	while(itCityRemove.hasNext()){
 	    result.remove(itCityRemove.next());

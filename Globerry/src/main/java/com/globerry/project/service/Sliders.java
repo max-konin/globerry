@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.PropertySegment;
+import com.globerry.project.utils.PropertySegment;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.service.interfaces.ISlider;
 import com.globerry.project.service.interfaces.ISliders;
@@ -76,11 +76,7 @@ public class Sliders extends Observable implements ISliders
 	Iterator<Slider> it = sliders.iterator();
 	while(it.hasNext()){
 	    Slider slider = it.next();
-	    PropertySegment propertySegment = new PropertySegment(
-		    slider.getType(),
-		    slider.getStateLeft(),
-		    slider.getStateRight());
-	    listPropertySegments.add(propertySegment);
+	    listPropertySegments.add(slider.getPropertySegment());
 	}
 	return listPropertySegments;
     }

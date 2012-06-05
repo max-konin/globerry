@@ -1,5 +1,6 @@
 package com.globerry.project.dao;
 
+import com.globerry.project.utils.PropertySegment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;

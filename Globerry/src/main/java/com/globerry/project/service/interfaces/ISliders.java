@@ -3,7 +3,7 @@ package com.globerry.project.service.interfaces;
 import java.util.List;
 import java.util.Observer;
 
-import com.globerry.project.dao.PropertySegment;
+import com.globerry.project.utils.PropertySegment;
 
 /**
  * 

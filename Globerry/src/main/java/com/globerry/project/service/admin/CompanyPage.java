@@ -73,20 +73,20 @@ public class CompanyPage implements IEntityCreator
 	// TODO Auto-generated method stub
 	
     }
+    
 
    
     @Override
     public void removeRelation(String type, int elementId, int itemId)
     {
 	// TODO Auto-generated method stub
-	
     }
-
+	
     @Override
     public void addRelaion(String type, int elementId, int itemId) {
-		throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-	
+  
 
 }

@@ -34,7 +34,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.mapping.Collection;
 
-import com.globerry.project.dao.PropertySegment;
+import com.globerry.project.utils.PropertySegment;
 
 @Entity
 @Table(name = "City")
@@ -281,14 +281,18 @@ public class City implements Serializable, IRelationsQualifier
     {
 	this.weight = weight;
     }
-    public PropertySegment getValueByPropertyType(PropertyType type){
-	PropertySegment propertySegment = null;
+    /*
+     * @throws IllegalArgumentException если не найдено сваоство заданного типа.
+     */
+    public float getValueByPropertyType(PropertyType type)  
+    {
+	
 	if (type.isDependingMonth()){
 	    Iterator<DependingMonthProperty> it = dmpList.iterator();
 	    while (it.hasNext()){
 		DependingMonthProperty property = it.next();
 		if (property.getPropertyType().getId() == type.getId()){
-		    propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
+		    return property.getValue();
 		}
 	    }
 	}else{
@@ -296,11 +300,11 @@ public class City implements Serializable, IRelationsQualifier
 	    while (it.hasNext()){
 		Property property = it.next();
 		if (property.getPropertyType().getId() == type.getId()){
-		    propertySegment = new PropertySegment(type, property.getValue(), property.getValue());
+		     return property.getValue();
 		}
 	    }
 	}
-	return propertySegment;
+        throw new IllegalArgumentException("City with id = " + this.id + "hasn't property of property type" + type.getName());
 	
     }
 

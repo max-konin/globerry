@@ -14,7 +14,7 @@ import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.CityRequest;
 import com.globerry.project.dao.ICityDao;
 import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.PropertySegment;
+import com.globerry.project.utils.PropertySegment;
 import com.globerry.project.dao.PropertyTypeDao;
 import com.globerry.project.dao.Range;
 import com.globerry.project.domain.City;
