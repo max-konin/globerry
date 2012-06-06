@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <% 
 	String path = request.getContextPath().toString();
+	String test = (String)request.getAttribute("title");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,7 +18,9 @@
 </head>
 <body>
 	<div id="registration">
-		<jsp:include page="common/header.jsp" />
+		<jsp:include page="common/header.jsp">
+			<jsp:param name="title" value="<%=test%>" />
+		</jsp:include>
 		<div id="body">
 			<img alt="Globerry - лучший способ провести отпуск!" src="../resources/img/funPic.png">
 			<c:if test="${empty success}">
@@ -84,18 +87,16 @@
 	};
 	
 	resizeWindow = function() {
-		$("div.registration").css({ width : ($(window).width() < 1000) ? 1000 : $(window).width(),
+		$("div#registration").css({ width : ($(window).width() < 1000) ? 1000 : $(window).width(),
 			height : ($(window).height() < 640) ? 640 : $(window).height() });
-		$("body").find("img").css({ width : $(window).width() - 730 });
 	};
 	
 	var _putErrorForVariable = _.throttle(putErrorForVariable_f, 1300);
 	
 	$(document).ready(
 		function() {
-			$("div.registration").css({ width : ($(window).width() < 1000) ? 1000 : $(window).width(),
+			$("div#registration").css({ width : ($(window).width() < 1000) ? 1000 : $(window).width(),
 				height : ($(window).height() < 640) ? 640 : $(window).height() });
-			$("body").find("img").css({ width : $(window).width() - 730 });
 			
 			$(window).wresize(resizeWindow);
 			

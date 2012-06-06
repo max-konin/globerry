@@ -1,4 +1,3 @@
-
 package com.globerry.project.controllers;
 
 
@@ -21,6 +20,8 @@ public class LoginLogoutController {
 	/**
 	 * Handles and retrieves the login JSP page
 	 * 
+	 * @param error
+	 * @param model
 	 * @return the name of the JSP page
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -44,7 +45,6 @@ public class LoginLogoutController {
 			model.put("error", "");
 		}
 		
-		// This will resolve to /WEB-INF/jsp/loginpage.jsp
 		return "loginpage";
 	}
 	
