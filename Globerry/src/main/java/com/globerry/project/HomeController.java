@@ -4,6 +4,8 @@ package com.globerry.project;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,9 @@ import com.globerry.project.service.interfaces.IUserCityService;
 @Controller
 @Scope("session")
 public class HomeController {
+    
+    public static final Logger logger = Logger.getLogger(HomeController.class);
+    
     @Autowired
     IUserCityService userCityService;
     @Autowired
@@ -57,6 +62,7 @@ public class HomeController {
  
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
+        logger.info("This is logger!!!HomeController: Passing through...");
         System.out.println("HomeController: Passing through...");
         model.addAttribute("hash", this.hashCode());
         return "home";
