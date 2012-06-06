@@ -22,12 +22,7 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
-import com.globerry.project.service.BlockWhat;
-import com.globerry.project.service.BlockWho;
-import com.globerry.project.service.Calendar;
-///////import com.globerry.project.service.DefaultDatabaseCreator;
-import com.globerry.project.service.MyDate;
-import com.globerry.project.service.SliderData;
+import com.globerry.project.service.*;
 import com.globerry.project.service.interfaces.ISliders;
 import com.globerry.project.service.interfaces.IUserCityService;
 
@@ -57,13 +52,24 @@ public class HomeController {
     ITagDao tagDao;
     @Autowired
     Calendar calendar;
-///////    @Autowired
-///////    DefaultDatabaseCreator defaultDatabaseCreator;
- 
+    @Autowired
+    DefaultDatabaseCreator defaultDatabaseCreator;
+    
+    /*
+     * Only for debug mode
+     */
+    @RequestMapping(value = "/CreateDefaultDatabase")
+    public String CreateDefaultDatabase()
+    {
+    
+        defaultDatabaseCreator.initPropertyType();
+        defaultDatabaseCreator.initTags();
+        defaultDatabaseCreator.initCities();
+        return "home";
+    }
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
-        logger.info("This is logger!!!HomeController: Passing through...");
-        System.out.println("HomeController: Passing through...");
+        logger.info("HomeController: Passing through...");        
         model.addAttribute("hash", this.hashCode());
         return "home";
     }

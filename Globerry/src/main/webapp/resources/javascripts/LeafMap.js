@@ -6,10 +6,12 @@ function init(serverName) {
 	/*
 	 * To draw the curves I used http://en.wikipedia.org/wiki/Marching_squares algorithm,
 	 * also, there are some changes in it, to draw curves faster. 
-	 * */
+	 * */     
+        serverName = "";
 	alert(serverName + "<---INIT()");
 	headerChange(serverName); //for switching header.
 	slidersInitialization(serverName);
+       
 	//alert("123");
 	//version with normal map;
     var Width = $(document.getElementById("map")).width();

@@ -2,7 +2,7 @@
 	pageEncoding="utf8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
-<% String path = request.getContextPath().toString(); %>
+<% String path = request.getContextPath(); %>
 <HTML>
 <HEAD>
 
@@ -32,7 +32,7 @@
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
 <script type="text/javascript">
 	alert("<%=path%>");
-	init("<%=path%>");
+	init_globerry("<%=path%>");
 
 </script>
 <!--
