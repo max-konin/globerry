@@ -31,8 +31,8 @@
 <script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
 <script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
 <script type="text/javascript">
-	alert("<%=path%>");
-	init_globerry("<%=path%>");
+	//alert("<%=path%>");
+	init("<%=path%>");
 
 </script>
 <!--
