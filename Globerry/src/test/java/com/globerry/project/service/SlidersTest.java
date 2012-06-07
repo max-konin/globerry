@@ -17,9 +17,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.BeforeTransaction;
 
 import com.globerry.project.dao.ContextLoaderListener;
-import com.globerry.project.dao.PropertySegment;
+
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.service.interfaces.ISlider;
+import com.globerry.project.utils.PropertySegment;
 /**
  * 
  * @author Sergey Krupin
