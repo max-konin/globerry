@@ -68,14 +68,14 @@ public class CompanyController
 	company.setLogin("login");
 	company.setEmail("email");
 	company.setPassword("555555");
-	try
+	/*try
 	{
-	    cmpService.addCompany(company);
+	 //   cmpService.addCompany(company);
 	}
 	catch(MySqlException e)
 	{
 
-	}
+	}*/
 	
 	
 	map.put("FIRSTHASH",PrTService.getPropertyDaoHash());

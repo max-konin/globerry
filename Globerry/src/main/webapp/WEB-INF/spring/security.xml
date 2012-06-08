@@ -11,25 +11,31 @@
 	<security:http auto-config="true" use-expressions="true" access-denied-page="/auth/denied" >
 	
 		<security:intercept-url pattern="/auth/login" access="permitAll"/>
-		<security:intercept-url pattern="/main/admin" access="hasRole('ROLE_ADMIN')"/>
-		<security:intercept-url pattern="/main/common" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/admin/cityadminpage" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/admin/eventadminpage" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/admin/companyadminpage" access="hasRole('ROLE_ADMIN')"/>
+		<!-- <security:intercept-url pattern="/main/common" access="hasRole('ROLE_USER')"/> -->
 		
 		<security:form-login
 			login-page="/auth/login"
 			authentication-failure-url="/auth/login?error=true" 
-			default-target-url="/globerry"/>
+			default-target-url="/"/>
 			
 		<security:logout 
 			invalidate-session="true"
 			logout-success-url="/globerry" 
-			logout-url="/auth/login"/>
+			logout-url="/logout"/>
 	
 	</security:http>
 	
 	<!-- Declare an authentication-manager to use a custom userDetailsService -->
 	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="AgentService">
-			<security:password-encoder ref="passwordEncoder"/>
+		<security:authentication-provider>
+		<!-- <security:authentication-provider user-service-ref="AgentService"> -->
+			<!-- <security:password-encoder ref="passwordEncoder"/> -->
+			<security:user-service>
+				<security:user name="admin" password="pass" authorities="ROLE_ADMIN"/>
+			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
 	

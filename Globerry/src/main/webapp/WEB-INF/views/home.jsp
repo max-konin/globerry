@@ -25,7 +25,7 @@
 
 <script src="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="resources/javascripts/main.js"></script>
+<script type="text/javascript" src="resources/javascripts/main.js"></script> 
 <script type="text/javascript" src="resources/javascripts/headerSwitch.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
 <script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
