@@ -28,6 +28,7 @@ import com.globerry.project.utils.PropertySegment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
@@ -62,8 +63,14 @@ public class CityDaoTest {
 		return sb.toString();
 	}
 
+	@Before
+	public void beforeTest() {
+		
+	}
+	
 	@Test
 	@Rollback(true)
+	@DirtiesContext
 	public void test() throws MySqlException {
 		List<Tag> tagList = new ArrayList<Tag>();
 		Tag tag = new Tag();
@@ -71,7 +78,7 @@ public class CityDaoTest {
 		tagList.add(tag);
 
 		City city = new City();
-		city.setName("Berlin");
+		city.setName("Berlin_temp");
 		city.getTagList().add(tag);
 		city.setLongitude(90);
 		city.setLatitude(30);
@@ -92,6 +99,7 @@ public class CityDaoTest {
 
 	@Test
 	@Rollback(true)
+	@DirtiesContext
 	public void deleteTest() {
 		City city = new City();
 		city.setName(getStringGenerator());
@@ -106,6 +114,7 @@ public class CityDaoTest {
 
 	@Test
 	@Rollback(true)
+	@DirtiesContext
 	public void deletePlusList() {
 		City city1 = new City();
 		city1.setName("Bobryjsk1");
@@ -128,6 +137,7 @@ public class CityDaoTest {
 
 	@Test
 	@Rollback(true)
+	@DirtiesContext
 	public void testList() {
 		List<City> cityList = cityDao.getCityList();
 		for (int i = 0; i < cityList.size(); i++) {
@@ -137,6 +147,7 @@ public class CityDaoTest {
 
 	@Test
 	@Rollback(true)
+	@DirtiesContext
 	public void testDamagedList() {
 		City city1 = new City();
 		city1.setName("Murmansk");
@@ -160,6 +171,7 @@ public class CityDaoTest {
 
 	@Test
 	@Rollback(true)
+	@DirtiesContext
 	public void deletePlusList2() {
 		City city1 = new City();
 		city1.setName("Bobryjsk1");
