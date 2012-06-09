@@ -5,5 +5,5 @@ window.onload = function ()
 }
 
 $(document).ready(function() {
-	init("/project");
+	//init("/project");
 });
