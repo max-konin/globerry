@@ -357,6 +357,7 @@ function initLeafMap(serverName) {
 		var JSONContr = new JsonController(serverName); 
 
 		//object that is stwo handeled slider, I used JQuerry slider plagin for it.
+                //Название функции - отстой!
 		function mySlider(sliderId, leftLimit, rightLimit, measure, div, leftInput, rightInput, pos) {
 			//div is div id, pos is the position of measure symbol and can be "l" for left position of "r" fo
 			// rigth postion for example +30 has "r" for plus and $150 has "l" fo $  
@@ -415,7 +416,8 @@ function initLeafMap(serverName) {
 		};
 		
 		//one handled slider is much easier to understand, so if, u are interested in the way how sliders works, look first here, and read about Jquerry slider plugin on jquerry plugin page.
-		function myOneHandledSlider(div, sliderId){
+		//Название - говно!
+                function myOneHandledSlider(div, sliderId){
 			jQuery("#" + div).slider({
 				min :1,
 				max : 3,
@@ -428,14 +430,15 @@ function initLeafMap(serverName) {
 			});
 		}
 		//initialisation of sliders
+                //Закомментил ибо говно какое то а не код и не работает. Почему сладеры разными функциями инициализируются
 		firstSL = new mySlider(1, -35, 35, "+", "tempSlider", "minCost", "maxCost", "l");
 		firstSL = new mySlider(2, 0, 30, "$", "alchSlider", "alcMinCost", "alcMaxCost", "l");
 		firstSL = new mySlider(3, 0, 24, " Ч", "timeSlider", "TimeMinV", "TimeMaxV", "r");
-		firstSL = new myOneHandledSlider("MoodSlider", 6);
+		//firstSL = new myOneHandledSlider("MoodSlider", 6);
 		firstSL = new mySlider(4, 0, 300, "$", "LivSlider", "LivMinV", "LivMaxV", "l");
-		firstSL = new myOneHandledSlider("securitySlider", 7);
+		//firstSL = new myOneHandledSlider("securitySlider", 7);
 		firstSL = new mySlider(5, 0, 100, "$", "foodSlider", "FoodMinV", "FoodMaxV", "l");
-		firstSL = new myOneHandledSlider("SexSlider", 8);
+		//firstSL = new myOneHandledSlider("SexSlider", 8);
 	}
     
 	//===========================================headerChange====================================
