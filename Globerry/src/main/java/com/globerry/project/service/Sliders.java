@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,30 @@ public class Sliders extends Observable implements ISliders
     @Autowired
     IPropertyTypeDao propertyTypeDao;
     List<Slider> sliders = new ArrayList<Slider>();
+    @Override
+    public void init()
+    {
+	for(int i = 1; i < 6; i++)
+	{
+	    PropertyType type = propertyTypeDao.getById(i);
+	    if(type != null)
+	    {
+		Slider slider = new Slider(type);
+		this.addSlider(slider);
+	    }
+	    
+	}
+	
+	//помоему все параметры совпадают с DefaultDataBaseCreator
+	/*createSlider(true, -35, 35, "temperature");
+	createSlider(false, 0, 30, "alcohol");
+	createSlider(false, 0, 24, "travel time");
+	createSlider(false, 0, 300, "cost of living");
+	createSlider(false, 0, 100, "food");
+	createSlider(false, 0, 10, "mood");
+	createSlider(false, 0, 10, "security");
+	createSlider(false, 0, 10, "sex");*/
+    }
     @Override
     public void blockItemOnClickHandler()
     {
@@ -79,6 +105,27 @@ public class Sliders extends Observable implements ISliders
 	    listPropertySegments.add(slider.getPropertySegment());
 	}
 	return listPropertySegments;
+    }
+    /**
+     * @author: Artem
+     * 
+     * Функция для инициализации слайдеров
+     * @param dependingMonth true|false 
+     * @param minValue минимальное значение
+     * @param maxValue максимальное значение
+     * @param name Название свойства 
+     */
+    private void createSlider(Boolean dependingMonth, int minValue, int maxValue, String name)
+    {
+	PropertyType propertyType = new PropertyType();
+	propertyType.setDependingMonth(dependingMonth);
+	propertyType.setMaxValue(maxValue);
+	propertyType.setMinValue(minValue);
+	propertyType.setName(name);
+	
+	Slider slider = new Slider(propertyType);
+	sliders.add(slider);
+	
     }
 
 }
