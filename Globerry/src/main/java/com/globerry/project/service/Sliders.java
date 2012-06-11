@@ -29,6 +29,7 @@ public class Sliders extends Observable implements ISliders
     @Override
     public void init()
     {
+	sliders.clear();
 	for(int i = 1; i < 6; i++)
 	{
 	    PropertyType type = propertyTypeDao.getById(i);
@@ -40,15 +41,6 @@ public class Sliders extends Observable implements ISliders
 	    
 	}
 	
-	//помоему все параметры совпадают с DefaultDataBaseCreator
-	/*createSlider(true, -35, 35, "temperature");
-	createSlider(false, 0, 30, "alcohol");
-	createSlider(false, 0, 24, "travel time");
-	createSlider(false, 0, 300, "cost of living");
-	createSlider(false, 0, 100, "food");
-	createSlider(false, 0, 10, "mood");
-	createSlider(false, 0, 10, "security");
-	createSlider(false, 0, 10, "sex");*/
     }
     @Override
     public void blockItemOnClickHandler()
@@ -106,26 +98,6 @@ public class Sliders extends Observable implements ISliders
 	}
 	return listPropertySegments;
     }
-    /**
-     * @author: Artem
-     * 
-     * Функция для инициализации слайдеров
-     * @param dependingMonth true|false 
-     * @param minValue минимальное значение
-     * @param maxValue максимальное значение
-     * @param name Название свойства 
-     */
-    private void createSlider(Boolean dependingMonth, int minValue, int maxValue, String name)
-    {
-	PropertyType propertyType = new PropertyType();
-	propertyType.setDependingMonth(dependingMonth);
-	propertyType.setMaxValue(maxValue);
-	propertyType.setMinValue(minValue);
-	propertyType.setName(name);
-	
-	Slider slider = new Slider(propertyType);
-	sliders.add(slider);
-	
-    }
+
 
 }
