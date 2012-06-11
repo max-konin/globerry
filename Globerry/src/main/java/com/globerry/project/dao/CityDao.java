@@ -94,8 +94,7 @@ public class CityDao implements ICityDao {
 	@Override
 	public void removeCity(int id) {
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-		City city = (City) sessionFactory.getCurrentSession().load(City.class,
-				id);
+		City city = (City) sessionFactory.getCurrentSession().load(City.class,id);
 		removeCity(city);
 
 	}
@@ -104,7 +103,8 @@ public class CityDao implements ICityDao {
 	public List<City> getCityList(CityRequest request) {
 		Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
 		while (iteratorProperty.hasNext()) {
-			PropertyType propertyType = propertyTypeDao.getById(iteratorProperty.next().getPropertyType().getId());
+                    PropertyType propertyType = 
+                            propertyTypeDao.getById(iteratorProperty.next().getPropertyType().getId());
 		}
 
 		List<City> result;
@@ -219,7 +219,9 @@ public class CityDao implements ICityDao {
 				while (iteratorTag.hasNext()) {
 					if (iteratorTag.next().getId() == request.getTags().get(1).getId()) {
 						//TODO hack for unique result
-						if (finalResult.size() == 0 || finalResult.get(finalResult.size() - 1).getId() != city.getId()) {
+						if (finalResult.size() == 0 || 
+                                                    finalResult.get(finalResult.size() - 1).getId() != city.getId()) 
+                                                {
 							finalResult.add(city);
 						}
 					}
@@ -235,46 +237,57 @@ public class CityDao implements ICityDao {
 		List<City> cityForRemove = new ArrayList<City>();
 		Iterator<City> itCity = result.iterator();
 		while (itCity.hasNext()) {
-			City city = itCity.next();
-			city.setWeight(1);
+                    City city = itCity.next();
+                    city.setWeight(1);
+                    Iterator<PropertySegment> itProperty = request.getOption().iterator();
+                    while (itProperty.hasNext()) {
+                        PropertySegment propertyRequest = itProperty.next();
+                        float propertyCity;
+                        try 
+                        {
+                            propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
 
 
-			Iterator<PropertySegment> itProperty = request.getOption().iterator();
-			while (itProperty.hasNext()) {
-				PropertySegment propertyRequest = itProperty.next();
-				try {
-					float propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
-					if (propertyRequest.getMaxValue() < propertyCity
-							|| propertyCity < propertyRequest.getMinValue()) {
-						cityForRemove.add(city);
-					}
+                            if (propertyRequest.getMaxValue() < propertyCity
+                                            || propertyCity < propertyRequest.getMinValue()) {
+                                    cityForRemove.add(city);
+                            }
 
-					float a, b, sizeBetween;
+                            float a, b, sizeBetween;
 
-					// Очередня быдло арифметика                    
-					sizeBetween = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
-					if (sizeBetween <= 0) {
-						sizeBetween = (float) 0.1 * (propertyCity - propertyCity);
-					}
-					if (propertyRequest.getPropertyType().isBetterWhenLess()) {
-						a = sizeBetween;
-						b = propertyCity - propertyRequest.getMinValue();
-					} else {
-						a = sizeBetween / (float) 2.0;
-						b = Math.abs((propertyCity - propertyRequest.getMinValue()) - a);
-					}
-					float k = b / a;
-					if (k < 0.2) {
-						k = (float) 0.2;
-					}
-					city.setWeight(city.getWeight() * k);
-				} catch (IllegalArgumentException e) {
-					cityForRemove.add(city);
-				}
-			}
-			if (request.getOption().size() > 0) {
-				city.setWeight((float) Math.pow(city.getWeight(), 1 / ((double) request.getOption().size())));
-			}
+                            // Очередня быдло арифметика                    
+                            sizeBetween = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
+                            if (sizeBetween <= 0) {
+                                    sizeBetween = (float) 0.1 * (propertyCity - propertyCity);
+                            }
+                            if (propertyRequest.getPropertyType().isBetterWhenLess()) {
+                                    a = sizeBetween;
+                                    b = propertyCity - propertyRequest.getMinValue();
+                            } else {
+                                    a = sizeBetween / (float) 2.0;
+                                    b = Math.abs((propertyCity - propertyRequest.getMinValue()) - a);
+                            }
+                            float k = b / a;
+                            if (k < 0.2) {
+                                    k = (float) 0.2;
+                            }
+                            city.setWeight(city.getWeight() * k);
+
+
+                            if (request.getOption().size() > 0) {
+                                    city.setWeight((float) Math.pow(city.getWeight(), 
+                                                   1 / ((double) request.getOption().size()))
+                                                   );
+                            }
+                        }
+                        catch (IllegalArgumentException e) 
+                        {
+                                //For release mode
+                                //cityForRemove.add(city);     
+                                //For debug mode
+                                // propertyCity = (propertyRequest.getMaxValue() + propertyRequest.getMinValue() / 2);
+                        }
+                    }
 		}
 
 		Iterator<City> itCityRemove = cityForRemove.iterator();

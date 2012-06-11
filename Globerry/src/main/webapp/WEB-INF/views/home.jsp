@@ -8,7 +8,7 @@
 
 <meta charset="utf-8">
 
-<TITLE>Globerry (v1.0b)</TITLE>
+<TITLE>Globerry (v1.0b) <%= application.getMajorVersion()%>  <%= application.getMinorVersion() %></TITLE>
 <!--
 
 
