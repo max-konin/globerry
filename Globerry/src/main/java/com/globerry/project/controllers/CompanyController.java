@@ -81,6 +81,7 @@ public class CompanyController
 	map.put("FIRSTHASH",PrTService.getPropertyDaoHash());
 	map.put("SECONDHASH",UCService.getPropertyDaoHash());
 	map.put("locale",locale);
+        map.put("hash", this.hashCode());
 	return "company";
     }
     

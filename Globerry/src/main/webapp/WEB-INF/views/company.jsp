@@ -29,6 +29,10 @@
 		
 			<td>${SECONDHASH}</td>
 		</tr>
+                <tr>
+		
+			<td>${hash}</td>
+		</tr>
 		
 	</table>
 
@@ -37,6 +41,58 @@
 <h3><spring:message code="label.logout" /></h3>
 	
 
-
+<button onclick="test_slider()">
+   Test Slider Values
+</button>
+<button onclick="test_input()">
+   Test Input Values
+</button>
+<button onclick="test_array()">
+   Test Array
+</button>
+<spring:url value="/some/link"/>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>
+    
+    function test_slider() {
+        var request = {id : '8', value : {leftValue : 10, rightValue: 20}};
+        $.ajax({
+            url: '/feature_test',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify(request),
+            contentType: "application/json",
+            success: function (response) {
+                alert("OK");
+            }
+        });
+    }
+    function test_input() {
+        var request = {id : '3', value : {value : 3}};
+        $.ajax({
+            url: '/feature_test',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify(request),
+            contentType: "application/json",
+            success: function (response) {
+                alert("OK");
+            }
+        });
+    }
+    function test_array() {
+        var request = [{id : '3', value : {value : 6}}, {id : '8', value : {leftValue : 10, rightValue: 20}}];
+        $.ajax({
+            url: '/feature_test',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify(request),
+            contentType: "application/json",
+            success: function (response) {
+                alert("OK");
+            }
+        });
+    }
+</script>
 </html>

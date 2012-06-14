@@ -23,6 +23,7 @@ import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.*;
 import com.globerry.project.service.interfaces.ISliders;
 import com.globerry.project.service.interfaces.IUserCityService;
+import com.globerry.project.service.service_classes.GloberryGuiContext;
 import javax.xml.ws.Dispatch;
 import org.springframework.web.bind.annotation.*;
 
