@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,22 @@ public class Sliders extends Observable implements ISliders
     @Autowired
     IPropertyTypeDao propertyTypeDao;
     List<Slider> sliders = new ArrayList<Slider>();
+    @Override
+    public void init()
+    {
+	sliders.clear();
+	for(int i = 1; i < 6; i++)
+	{
+	    PropertyType type = propertyTypeDao.getById(i);
+	    if(type != null)
+	    {
+		Slider slider = new Slider(type);
+		this.addSlider(slider);
+	    }
+	    
+	}
+	
+    }
     @Override
     public void blockItemOnClickHandler()
     {
@@ -80,5 +98,6 @@ public class Sliders extends Observable implements ISliders
 	}
 	return listPropertySegments;
     }
+
 
 }

@@ -13,6 +13,7 @@ import com.globerry.project.utils.PropertySegment;
  */
 public interface ISliders extends Observer
 {
+    public void init();
     public void blockItemOnClickHandler();
     public void onChange();
     public void addSlider(ISlider slider);

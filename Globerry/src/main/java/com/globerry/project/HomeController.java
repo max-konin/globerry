@@ -23,6 +23,9 @@ import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.*;
 import com.globerry.project.service.interfaces.ISliders;
 import com.globerry.project.service.interfaces.IUserCityService;
+import com.globerry.project.service.service_classes.GloberryGuiContext;
+import javax.xml.ws.Dispatch;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Handles requests for the application home page.
@@ -60,12 +63,22 @@ public class HomeController {
 		defaultDatabaseCreator.initPropertyType();
 		defaultDatabaseCreator.initTags();
 		defaultDatabaseCreator.initCities();
-		return "home";
+		return "redirect:/globerry";
 	}
 
 	@RequestMapping(value = "/globerry")
 	public String home(Model model) {
 		logger.info("HomeController: Passing through...");
+		//---Инициализация тэгов----
+		Tag withWhoTag = tagDao.getTagById(1);
+		Tag whereTag = tagDao.getTagById(5);
+		if(withWhoTag != null && whereTag != null)
+		{
+		    who(withWhoTag);
+		    who(whereTag);
+		}
+		//---Инициализация слайдеров
+		sliders.init();
 		model.addAttribute("hash", this.hashCode());
 		return "home";
 	}
@@ -74,7 +87,7 @@ public class HomeController {
 	@RequestMapping(value = "/getcities", method = RequestMethod.GET)
 	public @ResponseBody
 	City[] test() {
-		this.cityInit();
+		//this.cityInit();
 
 		City[] cities = null;
 		System.out.println("Запрос городов от клиента");
@@ -106,10 +119,12 @@ public class HomeController {
 
 	@RequestMapping(value = "/sliderchange", method = RequestMethod.POST)
 	public void slider(SliderData sliderData) {
+	    	//sliders.init();
 		PropertyType type = propertyTypeDao.getById(sliderData.getId());
 		if (type != null) {
 			System.out.println("Сдвинули слайдер: " + type.getName()
-					+ " Новые значения: (" + sliderData.getLeftValue() + "," + sliderData.getRightValue() + ")");
+					+ " Новые значения: (" + sliderData.getLeftValue() + "," 
+                                                               + sliderData.getRightValue() + ")");
 			sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());
 		} else {
 			System.out.println("Сдвинули несущестнующий слайдер. Проигнорировано");
@@ -136,4 +151,10 @@ public class HomeController {
 		System.out.println("Выбрали месяц: " + myDate.getMonth());
 		calendar.changeMonth(myDate.getMonth());
 	}
+        @RequestMapping(value = "/feature_test", method = RequestMethod.POST)
+        public void testSmth(@RequestBody com.globerry.project.service.service_classes.Request[] request) {
+            for(com.globerry.project.service.service_classes.Request r: request) 
+                System.out.println(r.getValue());
+            
+        }
 }

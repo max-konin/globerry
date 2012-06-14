@@ -233,6 +233,17 @@
 	  <version>3.7</version>
 	  <scope>provided</scope>
 	 </dependency>
+	 <dependency>
+	  <groupId>org.codehaus.mojo</groupId>
+	  <artifactId>mojo-parent</artifactId>
+	  <version>21</version>
+	  <type>pom</type>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.codehaus.mojo</groupId>
+	  <artifactId>aspectj-maven-plugin</artifactId>
+	  <version>1.2</version>
+	 </dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -276,6 +287,7 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
+                        
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-release-plugin</artifactId>
