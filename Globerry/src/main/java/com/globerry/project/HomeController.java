@@ -23,6 +23,8 @@ import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.*;
 import com.globerry.project.service.interfaces.ISliders;
 import com.globerry.project.service.interfaces.IUserCityService;
+import javax.xml.ws.Dispatch;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Handles requests for the application home page.
@@ -120,7 +122,8 @@ public class HomeController {
 		PropertyType type = propertyTypeDao.getById(sliderData.getId());
 		if (type != null) {
 			System.out.println("Сдвинули слайдер: " + type.getName()
-					+ " Новые значения: (" + sliderData.getLeftValue() + "," + sliderData.getRightValue() + ")");
+					+ " Новые значения: (" + sliderData.getLeftValue() + "," 
+                                                               + sliderData.getRightValue() + ")");
 			sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());
 		} else {
 			System.out.println("Сдвинули несущестнующий слайдер. Проигнорировано");
@@ -147,4 +150,10 @@ public class HomeController {
 		System.out.println("Выбрали месяц: " + myDate.getMonth());
 		calendar.changeMonth(myDate.getMonth());
 	}
+        @RequestMapping(value = "/feature_test", method = RequestMethod.POST)
+        public void testSmth(@RequestBody com.globerry.project.service.service_classes.Request[] request) {
+            for(com.globerry.project.service.service_classes.Request r: request) 
+                System.out.println(r.getValue());
+            
+        }
 }
