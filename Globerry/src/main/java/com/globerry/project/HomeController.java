@@ -62,7 +62,7 @@ public class HomeController {
 
 		defaultDatabaseCreator.initPropertyType();
 		defaultDatabaseCreator.initTags();
-		defaultDatabaseCreator.initCities();
+		defaultDatabaseCreator.initCities();                
 		return "redirect:/globerry";
 	}
 
