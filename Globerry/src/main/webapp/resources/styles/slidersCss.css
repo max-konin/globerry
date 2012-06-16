@@ -1,0 +1,273 @@
+form {
+	min-width: 155px;
+	width : 79%;
+	position: relative;
+	margin-left: 2%;
+}
+
+.formCost 
+{
+	position: relative;
+	height: 100%;
+	min-width : 175px;
+	width : 84%;
+	float: left;
+	margin-bottom: 0px;
+	height : 28px;
+}
+
+.sliderCont {
+	min-width: 155px;
+	width : 23%;
+	height: 15px;
+	float: left;
+	margin-left : 19px;
+}		
+
+#slider {
+	width: 79%;
+}
+
+.ui-slider {
+	position: relative;
+}
+.ui-slider .ui-slider-handle {
+	position: absolute;
+	z-index: 4;
+	width: 5px;
+	height: 12px;
+	background: url(leftsliderhandler.png) no-repeat;
+	cursor: pointer
+}
+.ui-slider .ui-slider-range {
+	position: absolute;
+	z-index: 3;
+	font-size: .7em;
+	display: block;
+	border: 0;
+	overflow: hidden;
+	height: 3px;
+	border : none;
+}
+.ui-slider-horizontal {
+	 height: 3px;
+}
+.ui-slider-horizontal .ui-slider-handle { 
+	top: -5px;
+	margin-left: -4px;
+}
+.ui-slider-horizontal .ui-slider-range {
+	top: 0;
+	height: 4px;
+}
+.ui-slider-horizontal .ui-slider-range-min { 
+	left: 0;
+}
+.ui-slider-horizontal .ui-slider-range-max {
+	right: 0;
+}
+.ui-widget-content { 
+	border: 1px solid #444;/**/
+	background: url(../img/SliderMainBG.png);
+	/height : 7px;
+	/background: rgb(27, 33, 46);
+	margin-top: 2px;
+	opacity : 1;
+	cursor: pointer;
+}
+.ui-widget-header { 
+	cursor: pointer;
+	border : none;
+	height : 3px;
+	background: url(../img/BlinkBG.png), url(../img/SliderBG.png) no-repeat;
+	opacity : 1;
+}
+.ui-corner-all {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+a{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+
+.sText
+{
+	 margin-top: 9px;
+	 margin-left: 2px;
+     /font-family :Helvetica;
+     /min-width : 92px;
+	 /width : 49%;
+     position:relative;
+     /text-align :center;
+     float:left;
+ 	 /color:rgb(0, 216, 255);
+	 cursor :default;
+}
+
+#TimeSText
+{
+     min-width : 96px;
+}
+#TimeMaxV
+{
+	width: 30px;
+}
+#TimeMinV
+{
+	width: 30px;
+}
+#Living
+{
+	margin-left: 1px;
+}
+
+#LivMaxV
+{
+	width: 33px;
+}
+
+.left
+{
+	float: left;
+	margin-left : 18px;
+	position:relative;
+	font-size: 12px;
+	color: #ddd;
+	width: 32px;
+	background: none;
+	border: none;
+	text-align: left;
+	font-size: 14px;
+	margin-top: 9px;
+	cursor: default;
+}
+
+.right
+{
+	/margin-right: 16px;
+	float: right;
+	position:relative;
+	font-size: 12px;
+	color: #ddd;
+	width: 32px;
+	background: none;
+	border: none;
+	text-align: right;
+	font-size: 14px;
+	margin-top: 9px;
+	cursor: default;
+}
+.sliderCont
+{
+	padding-bottom : 0px;
+	padding-top : 3px;
+}
+#rightSliderHeandlerTemp
+{
+	background: url(../img/TempSliderRightHeandler.png);
+}
+#leftSliderHeandlerTemp
+{
+	background: url(../img/TempSliderLeftHeandler.png);
+}
+#tempSText
+{
+	background: url(../img/temperatureSliderText.png) no-repeat;
+	width : 82px;
+	height : 20px;
+}
+#AlcoholSText
+{
+	background: url(../img/AlchSliderText.png) no-repeat;
+	width : 66px;
+	height : 19px;
+	margin-left: 12px;
+}
+#TimeSText
+{
+	background: url(../img/TimeSliderText.png) no-repeat;
+	width : 80px;
+	height : 20px;
+	margin-left: 6px;
+	min-width:0px;
+}
+
+#Mood
+{
+	background: url(../img/MoodText.png) no-repeat;
+	width : 82px;
+	height : 19px;
+	margin-left: 5px;	
+}
+#Living
+{
+	background: url(../img/LivingSliderText.png) no-repeat;
+	width : 79px;
+	height : 20px;
+	margin-left: 0px;
+}
+#security
+{
+	background: url(../img/SecuritySliderText.png) no-repeat;
+	width : 83px;
+	height : 19px;
+	margin-left: 0px;
+}
+#food
+{
+	background: url(../img/FoodSliderText.png) no-repeat;
+	width : 34px;
+	height : 20px;
+	margin-left: 23px;
+}
+#Sex
+{
+	background: url(../img/SexSliderText.png) no-repeat;
+	width : 34px;
+	height : 19px;
+	margin-left: 26px;
+}
+
+
+#rightSliderHeandlerAlc
+{
+	background: url(../img/SliderNTrightHeandler.png);
+}
+#rightSliderHeandlerTime
+{
+	background: url(../img/SliderNTrightHeandler.png);
+}
+#rightSliderHeandlerLiv
+{
+	background: url(../img/SliderNTrightHeandler.png);
+}
+#rightSliderHeandlerFood
+{
+	background: url(../img/SliderNTrightHeandler.png);
+}
+#MoodHeandler
+{
+	width: 10px;
+	height: 12px;
+	background: url(../img/OneHadlerSliderHandler.png);
+}
+#SecurityHeandler
+{
+	width: 10px;
+	height: 12px;
+	background: url(../img/OneHadlerSliderHandler.png);
+}
+#FoodHeandler
+{
+	width: 10px;
+	height: 12px;
+	background: url(../img/OneHadlerSliderHandler.png);
+}
