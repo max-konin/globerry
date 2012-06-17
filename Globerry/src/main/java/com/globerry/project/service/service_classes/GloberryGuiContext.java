@@ -9,6 +9,7 @@ import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.HashMap;
+import org.springframework.stereotype.Component;
 
 /**
  * Класс, который содержит в себе информацию о состоянии элементов в приложении. Соответствие между элементами на
@@ -16,6 +17,7 @@ import java.util.HashMap;
  * @see http://grwe.ru/ids.png .
  * @author Ed
  */
+@Component
 public class GloberryGuiContext implements IApplicationContext {
 
     SelectBox whoTag, whenTag, whatTag;
@@ -42,7 +44,7 @@ public class GloberryGuiContext implements IApplicationContext {
         
         whenTag = new SelectBox(2);
         for(int i = 1; i < 13; i++)
-            whatTag.addValue(i);
+            whenTag.addValue(i);
         componentsMap.put(3, whenTag);
         
         temperatureSlider = new Slider(4, -35, +35);
@@ -102,8 +104,21 @@ public class GloberryGuiContext implements IApplicationContext {
     }
 
     @Override
-    public IGuiComponent getObjectById(int id) {
-        return componentsMap.get(id);
+    public IGuiComponent getObjectById(int id) throws IllegalArgumentException {
+        IGuiComponent ret = componentsMap.get(id);
+        if(ret == null)
+            throw new IllegalArgumentException("Element with such id doesn't exist");
+        return ret;
+    }
+    
+    @Override
+    public String toString() {
+        
+        return String.format("Selects: who %s, when: %s, what: %s; sliders: alcohol: %s, travel time: %s, living cost: "
+                + "%s, food cost: %s.",
+                whoTag, whenTag, whatTag, alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider,
+                temperatureSlider);
+        
     }
     
 }

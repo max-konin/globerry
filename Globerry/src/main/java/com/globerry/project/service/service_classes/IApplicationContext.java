@@ -26,5 +26,5 @@ public interface IApplicationContext {
     Slider getLivingCostSlider();
     Slider getFoodCostSlider();
     
-    IGuiComponent getObjectById(int id);
+    IGuiComponent getObjectById(int id) throws IllegalArgumentException;
 }

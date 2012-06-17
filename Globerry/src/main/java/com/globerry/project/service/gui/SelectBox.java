@@ -76,7 +76,9 @@ public class SelectBox implements ISelectBox {
         return values.get(currentIndex);
     }
     
-    
-
+    @Override
+    public String toString() {
+        return "Select value " + values.get(currentIndex) + ", current index " + currentIndex;
+    }
     
 }
