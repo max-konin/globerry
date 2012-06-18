@@ -5,6 +5,7 @@ package com.globerry.project.dao;
 
 import static org.junit.Assert.*;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import com.globerry.project.domain.Tour;
 public class TourTest
 {
 
+    	final Logger logger = Logger.getRootLogger();
         @Autowired
         private TourDao tourDao;
         @Autowired
@@ -100,7 +102,7 @@ public class TourTest
         	tourDao.addTour(tour1);
         	company.getTourList().add(tour1);
         	companyDao.addCompany(company);
-        	System.err.println(tour1.getId());
+        	logger.info(tour1.getId());
         	tourDao.removeTour(tour1.getId());
         	//tourDao.removeTour(tour1);
         	companyDao.updateCompany(company);

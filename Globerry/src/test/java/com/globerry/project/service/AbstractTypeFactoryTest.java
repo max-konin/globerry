@@ -46,8 +46,7 @@ public class AbstractTypeFactoryTest
     {
 	String coord = "55°45′0″";
 	
-	
-	System.err.println(adminParser.coordsTransform(coord));
+
     }
     
 }

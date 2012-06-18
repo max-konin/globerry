@@ -101,6 +101,7 @@ public class CityDao implements ICityDao {
 
 	@Override
 	public List<City> getCityList(CityRequest request) {
+	    	//кусок кода который нифига не делает
 		Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
 		while (iteratorProperty.hasNext()) {
                     PropertyType propertyType = 
@@ -113,17 +114,19 @@ public class CityDao implements ICityDao {
 		// select by tag
 		//TODO 
 		//this is hack for tag
+		//Что за фигня? Закоментил этот if и ничего не поменялось
+		//для чего это? Коммент, "this is hack for tag" - божественнен. После него я сразу всё понял
 		if (request.getTags().size() > 0) {
 			Criteria tagCriteria = criteria.createCriteria("tagList");
 			Criterion tagRestrictions = Restrictions.eq("id", request.getTags().get(0).getId());
-			/*
-			 * Restrictions.or( Restrictions.eq("id",
+			
+		/* Restrictions.or( Restrictions.eq("id",
 			 * request.getTags().get(0).getId()),
 			 * Restrictions.not(Restrictions.eq("tagsType",
 			 * request.getTags().get(0).getTagsType()))
 		    	);
-			 */
-			/*
+			 
+			
 			 * Iterator<Tag> iteratorTag = request.getTags().iterator();
 			 * Criterion tagRestrictions = null; while(iteratorTag.hasNext()){
 			 * Tag tag = iteratorTag.next(); if (tagRestrictions == null){
@@ -133,8 +136,8 @@ public class CityDao implements ICityDao {
 			 * tagRestrictions, Restrictions.or( Restrictions.eq("id",
 			 * tag.getId()), Restrictions.not(Restrictions.eq("tagsType",
 			 * tag.getTagsType())) ) ); }
-            }
-			 */
+            }*/
+			 
 			tagCriteria.add(tagRestrictions);
 		}
 		//select by property
@@ -145,17 +148,21 @@ public class CityDao implements ICityDao {
 			PropertySegment propertySegment = iteratorProperty.next();
 			if (propertySegment.getPropertyType().isDependingMonth()) {
 				Criterion tmp = Restrictions.and(
-						Restrictions.eq(
-						"propType.id",
-						propertySegment.getPropertyType().getId()),
-						Restrictions.and(
-						Restrictions.eq(
-						"Month",
-						request.getMonth()),
-						Restrictions.between(
-						"value",
-						propertySegment.getMinValue(),
-						propertySegment.getMaxValue())));
+							Restrictions.eq(
+								"propType.id",
+								propertySegment.getPropertyType().getId()
+								),
+							Restrictions.and(
+								Restrictions.eq(
+									"Month",
+									request.getMonth()
+									),
+								Restrictions.between(
+									"value",
+									propertySegment.getMinValue(),
+									propertySegment.getMaxValue())
+									)
+								);
 				if (criterionDmpList == null) {
 					criterionDmpList = tmp;//criteria.createCriteria("dmpList");
 					criterionDmpList = Restrictions.or(criterionDmpList, tmp);
@@ -164,13 +171,16 @@ public class CityDao implements ICityDao {
 			} else {
 				Criterion tmp =
 						Restrictions.and(
-						Restrictions.eq(
-						"propType.id",
-						propertySegment.getPropertyType().getId()),
-						Restrictions.between(
-						"value",
-						propertySegment.getMinValue(),
-						propertySegment.getMaxValue()));
+							Restrictions.eq(
+								"propType.id",
+								propertySegment.getPropertyType().getId()
+								),
+							Restrictions.between(
+								"value",
+								propertySegment.getMinValue(),
+								propertySegment.getMaxValue()
+								)
+							);
 				if (criterionPropertyList == null) {
 					criterionPropertyList = tmp;
 					criterionPropertyList = Restrictions.or(criterionPropertyList, tmp);
@@ -178,6 +188,7 @@ public class CityDao implements ICityDao {
 				}
 			}
 		}
+		
 		if (criterionDmpList != null) {
 			Criteria criteriaDmpList = criteria.createCriteria("dmpList");
 			criteriaDmpList.createAlias("propertyType", "propType");
@@ -231,6 +242,28 @@ public class CityDao implements ICityDao {
 
 		weightCalculation(finalResult, request);
 		return finalResult;
+	}
+	public List<City> getCityList2(CityRequest request)
+	{
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
+	    for(PropertySegment elem: request.getOption())
+	    {
+		
+	    }
+	   
+	    return null;
+	}
+	
+	public Criternion createPropertyCriteria(CityRequest request)
+	{
+	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
+	    for(PropertySegment elem: request.getOption())
+	    {
+		
+	    }
+	   
+	    return null;
 	}
 
 	private void weightCalculation(List<City> result, CityRequest request) {

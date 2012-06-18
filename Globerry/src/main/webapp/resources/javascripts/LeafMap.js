@@ -889,14 +889,14 @@ function initLeafMap(serverName) {
 		JSONContr.rangeChange();
 	//JSONContr.cityRequest(1);
 	});
-	$('#map').mouseup(function(){
+	/*$('#map').mouseup(function(){
 		JSONContr.rangeChange();
 	});
 	map.on('moveend', function() {
 		//catches move end.
 		JSONContr.rangeChange();
 	//JSONContr.cityRequest(1);
-	});
+	});*/
    
 	map.on('click', function(e) {
 		//this function may be useful for debagging

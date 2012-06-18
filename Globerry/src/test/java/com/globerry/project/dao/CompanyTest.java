@@ -17,6 +17,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ContextLoaderListener;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.internal.runners.statements.Fail;
@@ -44,6 +45,7 @@ import junit.framework.TestCase;
 //*/
 public class CompanyTest
 {
+    final Logger logger = Logger.getRootLogger();
     @Autowired
     private CompanyDao companyDao;
     Company company = new Company();
@@ -117,7 +119,7 @@ public class CompanyTest
 	}
 	catch(MySqlException e)
 	{
-	    System.out.println(e.getDescription());
+	    logger.info(e.getDescription());
 	    
 	}
 	catch (Exception e)
@@ -144,11 +146,11 @@ public class CompanyTest
 	}
 	
 	String login = newCompany.getLogin();
-	System.err.println(login);//*/
+	logger.info(login);//*/
 	Company company = companyDao.getCompanyByLogin(login);
 	if(company != null)
 	{
-	    System.err.println(company.getDescription());
+	    logger.info(company.getDescription());
 	}
     }
 }

@@ -64,8 +64,9 @@ public class UserCityService implements IUserCityService {
 
 	@Override
 	public void changeRange(Range newRange) {
-		this.currentRange = newRange;
+		//this.currentRange = newRange;
 	}
+	
 
 	@Override
 	public void sliderOnChangeHandler() {
