@@ -84,7 +84,7 @@
     function test_array() {
         var request = [{id : '3', value : {value : 6}}, {id : '8', value : {leftValue : 10, rightValue: 20}}];
         $.ajax({
-            url: '/feature_test',
+            url: '/gui_changed',
             dataType: 'json',
             type: 'POST',
             data: JSON.stringify(request),

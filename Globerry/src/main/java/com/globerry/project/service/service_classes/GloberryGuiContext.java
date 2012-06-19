@@ -42,7 +42,7 @@ public class GloberryGuiContext implements IApplicationContext {
             whatTag.addValue(i);
         componentsMap.put(2, whatTag);
         
-        whenTag = new SelectBox(2);
+        whenTag = new SelectBox(3);
         for(int i = 1; i < 13; i++)
             whenTag.addValue(i);
         componentsMap.put(3, whenTag);
@@ -114,8 +114,14 @@ public class GloberryGuiContext implements IApplicationContext {
     @Override
     public String toString() {
         
-        return String.format("Selects: who %s, when: %s, what: %s; sliders: alcohol: %s, travel time: %s, living cost: "
-                + "%s, food cost: %s.",
+        return String.format("Selects: Who   %s,\n"
+                +            "         When: %s\n"
+                +            "         What: %s\n"
+                +            "Sliders: Alcohol: %s\n"
+                +            "         travel time: %s\n"
+                +            "         living cost: %s\n"
+                +            "         food cost: %s\n"
+                +            "         temperature: %s",
                 whoTag, whenTag, whatTag, alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider,
                 temperatureSlider);
         

@@ -87,5 +87,11 @@ public class Slider implements ISlider {
         
         return "Slider, left value: " + leftValue + " right value:" + rightValue;
     }
+    public float getMinValue() {
+        return minValue;
+    }
+    public float getMaxValue() {
+        return maxValue;
+    }
     
 }

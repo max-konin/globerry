@@ -5,6 +5,7 @@
 package com.globerry.project.service.gui;
 
 import java.util.*;
+import org.dom4j.IllegalAddException;
 
 /**
  *
@@ -60,10 +61,15 @@ public class SelectBox implements ISelectBox {
 
     @Override
     public void сopyValues(IGuiComponent component) throws IllegalArgumentException {
-        ISelectBox selectBox = (ISelectBox) component;
-        if(selectBox == null) throw new IllegalArgumentException("Passed paremeter isn't instance if ISlider.");
+        try {
+            ISelectBox selectBox = (ISelectBox) component;
+            setValue(selectBox.getValue());
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("Not instance of select box " + e.getMessage());
+        }
     }
 
+    public ArrayList<Integer> getOptionAvaliable() {return values;}
     
     public int getCurrentIndex() {
         return currentIndex;
