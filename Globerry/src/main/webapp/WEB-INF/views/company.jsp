@@ -39,7 +39,7 @@
 
 <h3>	${locale.getLanguage()}</h3>
 <h3><spring:message code="label.logout" /></h3>
-	
+
 
 <button onclick="test_slider()">
    Test Slider Values

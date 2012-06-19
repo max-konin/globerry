@@ -29,6 +29,7 @@ import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
 import com.globerry.project.domain.Tour;
+import org.apache.log4j.Logger;
 
 @Repository
 public class CityDao implements ICityDao {
@@ -37,7 +38,7 @@ public class CityDao implements ICityDao {
 	SessionFactory sessionFactory;
 	@Autowired
 	IPropertyTypeDao propertyTypeDao;
-
+        public static final Logger logger = Logger.getLogger(CityDao.class);
 	@Override
 	public void addCity(City city) throws MySqlException {
 		Transaction tx = null;
@@ -62,23 +63,23 @@ public class CityDao implements ICityDao {
 	public void removeCity(City city) {
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
-		System.out.print("\n------------ID--------------->" + city.getId() + " \n\n");
-		System.out.print("\n-------------LISTSIZE-------------->" + city.getEvents().size() + " \n\n");
+		logger.debug("\n------------ID--------------->" + city.getId() + " \n\n");
+		logger.debug("\n-------------LISTSIZE-------------->" + city.getEvents().size() + " \n\n");
 		Object object = sessionFactory.getCurrentSession().get(City.class, city.getId());
 		City citytest = null;
 		if (object != null) {
 			citytest = (City) object;
 		}
-		System.out.print("\n------------IDхуя--------------->" + citytest.getId() + " \n\n");
-		System.out.print("\n-------------LISTSIZEхуя-------------->" + citytest.getEvents().size() + " \n\n");
+		logger.debug("\n------------IDхуя--------------->" + citytest.getId() + " \n\n");
+		logger.debug("\n-------------LISTSIZEхуя-------------->" + citytest.getEvents().size() + " \n\n");
 		city = citytest;
 		Iterator<Event> it = city.getEvents().iterator();
 		while (it.hasNext()) {
 			Event event = it.next();
 			city.getEvents().remove(event);
-			System.out.print("\n------------количество_ХУев_В_ЕВЕНТЕ--------------->" + event.getCities().size() + " \n\n");
+			logger.debug("\n------------количество_ХУев_В_ЕВЕНТЕ--------------->" + event.getCities().size() + " \n\n");
 			if (event.getCities().size() < 2) {
-				System.out.print("\n------------ИМЯ_ХУЯ--------------->" + event.getName() + " \n\n");
+				logger.debug("\n------------ИМЯ_ХУЯ--------------->" + event.getName() + " \n\n");
 				sessionFactory.getCurrentSession().delete(event);
 			} else {
 				event.getCities().remove(city);
@@ -255,7 +256,7 @@ public class CityDao implements ICityDao {
 	    return null;
 	}
 	
-	public Criternion createPropertyCriteria(CityRequest request)
+	/*public Criternion createPropertyCriteria(CityRequest request)
 	{
 	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
 	    for(PropertySegment elem: request.getOption())
@@ -264,7 +265,7 @@ public class CityDao implements ICityDao {
 	    }
 	   
 	    return null;
-	}
+	}*/
 
 	private void weightCalculation(List<City> result, CityRequest request) {
 		List<City> cityForRemove = new ArrayList<City>();

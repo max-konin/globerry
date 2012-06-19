@@ -20,6 +20,7 @@ import com.globerry.project.domain.Property;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
+import org.apache.log4j.Logger;
 
 @Service
 public class DefaultDatabaseCreator
@@ -30,7 +31,8 @@ public class DefaultDatabaseCreator
     IPropertyTypeDao propertyTypeDao;
     @Autowired
     ICityDao cityDao;
-
+    
+    protected static Logger logger = Logger.getLogger(DefaultDatabaseCreator.class);
     private boolean isTagInit = false;
     private boolean isPropertyTypeInit = false;
     private boolean isCitiesInit = false;
@@ -94,7 +96,7 @@ public class DefaultDatabaseCreator
             }
 	} catch (MySqlException e)
 	{
-	    System.out.println("Tag add error");
+	    logger.error("Tag add error");
 	    //e.printStackTrace();
 	}
     }

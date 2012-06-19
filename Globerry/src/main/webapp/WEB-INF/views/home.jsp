@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=utf8"
 	pageEncoding="utf8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%> 
 <%@ page session="false" %>
 <% String path = request.getContextPath(); %>
+
 <HTML>
 <HEAD>
 
 <meta charset="utf-8">
 
-<TITLE>Globerry (v1.0b) <%= application.getMajorVersion()%>  <%= application.getMinorVersion() %></TITLE>
+<TITLE>Globerry (v1.0-b1) </TITLE>
 <!--
 
 

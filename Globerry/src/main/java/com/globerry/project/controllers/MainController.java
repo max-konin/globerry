@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/main")
 public class MainController {
 
-	protected static Logger logger = Logger.getLogger("controller");
+	protected static Logger logger = Logger.getLogger(MainController.class);
 	
 	/**
 	 * Company Service for admin page.
