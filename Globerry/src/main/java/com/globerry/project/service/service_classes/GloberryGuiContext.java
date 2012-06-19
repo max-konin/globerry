@@ -35,6 +35,7 @@ public class GloberryGuiContext implements IApplicationContext {
         whoTag.addValue(1);
         whoTag.addValue(2);
         whoTag.addValue(3);
+        whoTag.addValue(4);
         componentsMap.put(1, whoTag);
         
         whatTag = new SelectBox(2);
