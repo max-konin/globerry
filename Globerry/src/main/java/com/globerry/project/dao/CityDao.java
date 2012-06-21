@@ -8,13 +8,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.util.SystemOutLogger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.exception.ConstraintViolationException;
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
+import com.globerry.project.domain.Property;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
@@ -246,25 +250,86 @@ public class CityDao implements ICityDao {
 	}
 	public List<City> getCityList2(CityRequest request)
 	{
+	    List<City> resultCityList;
+	    logger.info(createPropertyQuery(request));
+	    String queryString = "select city from City city " + createPropertyQuery(request);
+	    logger.info(queryString);
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
-	    for(PropertySegment elem: request.getOption())
-	    {
-		
-	    }
-	   
+	    //Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
+	    resultCityList = sessionFactory.getCurrentSession().createQuery(queryString).list(); 
+		    //criteria.createCriteria("propertyList").add(Restrictions.conjunction().add(createPropertyCriteria(request))).list();
+	    tx.commit();
+	    sessionFactory.close();
+	    //logger.info(resultCityList.get(0));
+	    logger.info(createPropertyQuery(request));
+	    
 	    return null;
 	}
-	
-	/*public Criternion createPropertyCriteria(CityRequest request)
+	private String createPropertyQuery(CityRequest request)
 	{
-	    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
+	    String dmpQuery = "";//= "inner join city.dmpList dmpList where";
+	    String propQuery = "";//= "inner join city.propertyList propList where ";
+	    for(PropertySegment elem: request.getOption())
+	    {
+		String singleDmpQuery= "";
+		String singlePropertyQuery = "";
+		PropertyType propertyType = elem.getPropertyType();
+		//очень грубая зависимость от DependingMonth. Везде должно стоять всё правильно
+		//Ситуацию осложняет то, что гибернейт не умеет маппать булеаны и их приходится менять в ручную через phpMyAdmin
+		if(propertyType.isDependingMonth())
+		{	
+		    singleDmpQuery = "(dmpList.propertyType.id =" + propertyType.getId() +
+			    " and dmpList.month = " + request.getMonth() +
+			    "and (dmpList.value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+		}
+		else
+		{
+		    singlePropertyQuery = "(propList.propertyType.id = " + propertyType.getId() +
+			    " and (propList.value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+		}
+		
+		if(dmpQuery == "" && singleDmpQuery != "")
+		{
+		    dmpQuery = "inner join city.dmpList dmpList where " + singleDmpQuery;
+		}
+		else
+		{
+		    dmpQuery = dmpQuery + singleDmpQuery;
+		}
+		if(propQuery == "" && singlePropertyQuery != "")
+		{
+		    propQuery = "inner join city.propertyList propList where " + singlePropertyQuery;
+		}
+		else
+		{
+		    propQuery = propQuery + singlePropertyQuery;
+		}
+	    }
+	    return dmpQuery.concat(propQuery);
+	}
+	private Criterion createPropertyCriteria(CityRequest request)
+	{
+	    Criterion criterion = null;
+	    //Criteria PropertyTypeCriteria = sessionFactory.getCurrentSession().createCriteria(Property.class);
 	    for(PropertySegment elem: request.getOption())
 	    {
 		
+		PropertyType propertyType = elem.getPropertyType();
+		logger.error(propertyType.getId());
+		Criterion propertyCriterion = Restrictions.eq("propertyType.id", propertyType.getId());
+		logger.info(propertyCriterion.toString());	
+		if(criterion == null)
+		{
+		    criterion = propertyCriterion;
+		}
+		else
+		{
+		    criterion = Restrictions.and(criterion, propertyCriterion);
+		}
+
 	    }
-	   
-	    return null;
+	    logger.info(criterion.toString());
+	    return criterion;
 	}*/
 
 	private void weightCalculation(List<City> result, CityRequest request) {
