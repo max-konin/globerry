@@ -21,11 +21,11 @@ import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.*;
-//import com.globerry.project.service.gui.IGuiComponent;
+import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.interfaces.ISliders;
 import com.globerry.project.service.interfaces.IUserCityService;
-//import com.globerry.project.service.service_classes.GloberryGuiContext;
-//import com.globerry.project.service.service_classes.IApplicationContext;
+import com.globerry.project.service.service_classes.GloberryGuiContext;
+import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.Map;
 import java.util.ArrayList;
 import javax.xml.ws.Dispatch;
@@ -200,5 +200,9 @@ public class HomeController {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
         }
         System.out.println(appContext);
+    }
+    @RequestMapping(value = "/bezier")
+    public String bezier() {
+        return "bezier";
     }
 }

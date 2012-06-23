@@ -330,7 +330,7 @@ public class CityDao implements ICityDao {
 	    }
 	    logger.info(criterion.toString());
 	    return criterion;
-	}*/
+	}
 
 	private void weightCalculation(List<City> result, CityRequest request) {
 		List<City> cityForRemove = new ArrayList<City>();
