@@ -10,8 +10,8 @@
 
 <meta charset="utf-8">
 
-<TITLE>Globerry (v1.0-b1) </TITLE>
-<!--
+<TITLE>Globerry (v<spring:message code="buildNumber"/>) </TITLE>
+<!--v1.0-b1
 
 
 
