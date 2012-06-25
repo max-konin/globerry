@@ -1,0 +1,937 @@
+ #div_container
+{
+	width:100%;
+	height : 100%; 
+	position : absolute;
+	min-width : 900px;
+	min-height : 600px;
+	scrolling : auto;
+	/*background-color:#333;*/
+}
+
+#map
+{
+	bottom : 0%;
+	right: 0%;
+	width: 100%;
+	min-width : 900px;
+	min-height : 600px;
+	height : 100%; 
+	position : absolute;
+	margin: 0 auto;
+	z-index : 0;
+	background-color: white;
+}
+
+#top
+{
+	top : 0%;
+	left: 0%;
+	width: 100%;
+	height : 2px; 
+	position : absolute;
+	margin: 0 auto;
+	z-index : 1;
+	background-color:#333;
+}
+
+#invisibleHeadBlock
+{
+	margin-left : -450px;
+	width: 50%;
+	height : 100%; 
+	position : relative;
+	z-index : 1;
+	background-color:#777;
+	float : left;
+}
+
+#head
+{
+	width: 900px;
+	height : 2px; 
+	position : relative;
+	z-index : 1;
+	background-color:red;
+	float : left;
+	overflow : visible;
+}
+
+#header
+{
+	margin-bottom:-163px;
+	width: 900px;
+	height : 95px; 
+	position : relative;
+	z-index : 1;
+	/*background-color:orange;*/
+}
+
+#headTop
+{
+	width: 900px;
+	height : 39px; 
+	position : relative;
+	z-index : 1;
+	background: url(../img/GloberryTitleBG.png) no-repeat;
+}
+#GloberryTitle
+{
+	position: relative;
+	width: 178px;
+	height: 39px;
+	float: left;
+        font-weight: bold;
+        font-size: 32px;
+        font-family: arial;
+        padding-left: 20px;
+        color: #4c2e2e;
+	/*background: url(../img/GloberryTitle.png) no-repeat;*/
+}
+
+#headContent1
+{
+	width: 900px;
+	height : 38px; 
+	position : relative;
+	z-index : 1;
+	background: url(../img/FirstHeaderBGSmall.png) no-repeat;
+	opacity: 0.95;
+	overflow : visible;
+}
+
+#headContent2
+{
+	width: 900px;
+	height : 0px; 
+	position : relative;
+	z-index : 1;
+	display:none;
+	background: url(../img/SecondHeaderBG.png) no-repeat;
+	opacity: 0.95;
+}
+#headBottom
+{
+	width: 900px;
+	height : 17px; 
+	position : relative;
+	z-index : 1;
+	background: url(../img/GloberryFirstHeaderBottom.png) no-repeat;
+	border-bottom-left-radius: 3.8px;
+	border-bottom-right-radius: 3.8px;
+	overflow : visible;
+	display : block;
+}
+#calendar
+{
+	width: 876px;
+	margin-left: 23px;
+	height : 0px; /*26px*/
+	position : relative;
+	z-index : 1;
+	/*background: url(../img/GloberryFirstHeaderBottom.png) no-repeat;*/
+	opacity: 0.95;
+	display: none;
+}
+#menuNumber
+{
+    padding-left: 20px;
+    padding-top: 10px;
+    color: #00d8ff;
+    font-family: arial;
+    font-size: 16px;
+    font-weight: normal;
+}
+#WhoText
+{
+    padding-top: 10px;
+    padding-left: 5px;
+    font-family: arial;
+    font-size: 16px;
+    /*width: 141px;*/
+    width: 135px;
+    color: white;
+    /*background: url(../img/WhoReqText.png) no-repeat;*/
+        
+}
+
+#WhatText
+{
+    padding-top: 10px;
+    padding-left: 5px;
+    font-family: arial;
+    font-size: 16px;
+    color: white;
+    
+    width: 145px;
+	padding-left: 20px;
+    /*margin-left: 118px;*/
+    /*background: url(../img/WhatReqText.png) no-repeat;*/
+}
+#WhenText
+{
+    padding-top: 10px;
+    padding-left: 10px;
+    font-family: arial;
+    font-size: 16px;
+    color: white;
+
+    width: 100px;
+	padding-left: 20px;
+    /*margin-left: 116px;*/
+    /*background: url(../img/WhenReqText.png) no-repeat;*/
+}
+.requestText
+{
+	height : 38px; 
+	position : relative;
+	float: left;
+	z-index : 1;
+}
+#HeaderButton
+{
+	width: 146px;
+	height : 38px; 
+	position : relative;
+	float: left;
+	
+	margin-right: -30px;
+	margin-left: 30px;
+	/*margin-left: 120px;*/
+	z-index : 1;
+	background: url(../img/GoButtonWithBg.png) no-repeat;
+}
+
+#HeaderButtonText
+{
+    color: black;
+    font-family: arial;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 4px;
+    /*background: url(../img/GoButtonWithoutBg.png) no-repeat;*/
+    z-index:3;
+    cursor : pointer;
+}
+#HeaderButtonTBackGround
+{
+	background: url(../img/GoButtonBg.png) no-repeat;
+	-moz-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+	z-index:2;
+	cursor : pointer;
+}
+
+.headerButton
+{
+	position: absolute;
+	width: 109px;
+	height : 24px; 	
+	left: 17px;
+	top : 7px;
+}
+#HeaderButtonUp
+{
+	width: 83px;
+	height : 17px; 
+	position : relative;
+	float: right;
+	margin-right: 19px;
+	z-index : 2;
+	background: url(../img/SecondHeaderUpButton.png) no-repeat;
+	opacity : 0;
+	display:none;
+	cursor: pointer;
+}
+
+#UpperHeaderBlockWithCircle
+{
+	width: 81px;
+	/*height : 39px; */
+	position : relative;
+	/*float: right;*/
+	margin-right: 20px;
+	z-index : 2;
+	background: url(../img/SecondHeaderUpperBlockWithoutCircle.png) no-repeat;
+	opacity : 0;
+	display:none;
+}
+
+#circle
+{
+	position: absolute;
+	width: 10px;
+	height : 10px; 	
+	left: 36px;
+	top : 20px;
+	cursor: pointer;
+	background: url(../img/SecondHeaderUpperBlockCircle.png) no-repeat;
+}
+
+.secondHeaderBlocks
+{
+	position : relative;
+	float : left;
+	height : 100px;
+	width : 200px;
+}
+
+#FifthBlock
+{
+	width: 80px;
+}
+
+#FifthBlockText
+{
+	position : relative;
+	float : left;
+	height : 100px;
+	width : 55px;
+	background: url(../img/SecondHeaderUpperRightBlockTextVisLang.png) no-repeat;
+	margin-left: 4px;
+}
+
+#VisaButtonActive
+{
+	position: absolute;
+	width: 13px;
+	height : 13px; 	
+	left: 55px;
+	top : 24px;
+	cursor: pointer;
+	/*background: url(../img/LangVisaButtonActive.png) no-repeat;*/
+}
+
+#LangButtonActive
+{
+	position: absolute;
+	width: 13px;
+	height : 13px; 	
+	left: 55px;
+	bottom : 24px;
+	cursor: pointer;
+	/*background: url(../img/LangVisaButtonActive.png) no-repeat;*/
+}
+
+#CalendarIMG
+{
+	position : absolute;
+	left: 0px;
+	height : 26px;
+	width : 854px;
+	background: url(../img/CalendarBase.png) no-repeat;
+	border-bottom-left-radius: 3.8px;
+	border-bottom-right-radius: 3.8px;
+	opacity: 0.95;
+	z-index: 2;
+}
+#calendarText
+{
+	position: absolute;
+	width: 820px;
+	height : 26px; 	
+	left: 34px;
+	cursor: pointer;
+	/*background: url(../img/CalendarMainText.png) no-repeat;*/
+	z-index:4;
+}
+
+.upperClicableCaendar
+{
+	height: 26px;
+	position : absolute;
+	cursor: pointer;
+	z-index:5;	
+}
+.upperClicableCaendarBG
+{
+/*
+	height: 26px;
+	position : absolute;
+	cursor: pointer;
+	z-index:3;
+	background: url(../img/MonthBgActive.png);
+	*/
+	/*opacity: 0;*/
+}
+.months
+{
+	height: 26px;
+	float:left;
+	font-family: arial;
+    color: white;
+    font-size: 12px;
+    
+    /*padding-top: 5px;*/
+	/*padding-left:10px;*/
+    opacity: 1;
+    left: 34px;
+    position:relative;
+	z-index: 2;
+}
+.month
+{
+	float:left;
+	width: 68px;
+	text-align: center;
+	position:relative;
+	/*background: url(../img/MonthBgActive.png);*/
+	
+	height:22px;
+	padding-top: 5px;
+	/*border:1px solid;*/
+	cursor: pointer;
+}
+.activeMonth
+{
+	background: url(../img/MonthBgActive.png);
+	width:68px;
+	
+}
+#Jan, #JanBG
+{
+	left:3px;
+/*
+    font-family: arial;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 5px;
+    left: 34px;
+    width: 71px;
+	*/
+}
+#Feb, #FebBG
+{
+	left:6px;
+/*
+	left:8px;
+
+	left: 105px;
+	width: 72px;
+	*/
+}
+#Mar, #MarBG
+{
+	left:3px;
+/*	left:6px;
+
+	left: 177px;
+	width: 63px;
+	*/
+}
+#Apr, #AprBG
+{
+	left:4px;
+/*
+	left: 240px;
+	width: 70px;	
+	*/
+}
+#May, #MayBG
+{
+
+	left:3px;
+/*
+	left: 310px;
+	width: 68px;
+	*/
+}
+#Jun, #JunBG
+{
+/*
+	left: 378px;
+	width: 66px;
+	*/
+}
+#Jul, #JulBG
+{
+	left:2px;
+/*
+	left: 444px;
+	width: 66px;
+	*/
+}
+#Aug, #AugBG
+{
+/*
+	left: 510px;
+	width: 68px;
+	*/
+}
+#Sep, #SepBG
+{
+/*
+	left: 578px;
+	width: 67px;
+	*/
+}
+#Oct, #OctBG
+{
+	right:2px;
+/*
+	left: 645px;
+	width: 67px;
+	*/
+}
+#Nov, #NovBG
+{
+	right:3px;
+/*
+	left: 712px;
+	width: 66px;
+	*/
+}
+#Dec, #DecBG
+{
+	right:5px;
+/*
+	left: 778px;
+	width: 76px;
+	*/
+	border-bottom-right-radius: 3.8px;
+}
+#JanBG
+{
+/*
+	opacity: 1;
+	*/
+}
+
+#WhoSelectListBG
+{
+	left : 141px;
+}
+#WhatSelectListBG
+{
+	left : 410px;
+}
+#WhenSelectListBG
+{
+	left : 634px;
+}
+.ListBG
+{
+	position: absolute;
+	margin-top : 10px;
+	width: 100px;
+	height: 22px;
+	background: url(../img/DroppingListMain.png);
+}
+.ListButton
+{
+	position: absolute;
+	margin-top : 2px;
+	margin-left : 80px;
+	width: 18px;
+	height: 18px;
+	opacity : none;
+	background: url(../img/lay-selectMoreButton.png);
+	cursor : pointer;
+	overflow: visible;
+}
+#WhoSelectBG
+{
+	max-height : 94px;
+	background: url(../img/WhoSelcetBG.png);
+}
+#WhatSelectBG
+{
+	max-height : 114px;
+	background: url(../img/WhatSelcetBG.png);
+}
+#WhenSelectBG
+{
+	max-height : 260px;
+	background: url(../img/WhenSelcetBG.png);
+}
+
+.SelectLargeImage
+{
+	position: relative;
+	margin-top : 24px;
+	left : 141px;
+	z-index: 100;
+	width: 100px;
+	height : 0px;
+	cursor : pointer;
+	-moz-border-radius:2px;
+    -khtml-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    display : none;
+}
+
+#alone
+{
+	padding-top : 8px;
+}
+
+.selectItem
+{
+	margin-top : 2px;
+	position : relative;
+	width : 100px;
+	height: 21px;
+	cursor : pointer;
+}
+
+.selected
+{
+	position: absolute;
+	margin-top : 2px;
+	margin-left : 0px;
+	width: 82px;
+	height: 21px;
+	opacity : none;
+	cursor : pointer;
+	overflow: visible;
+}
+
+#aloneSelected
+{
+	background: url(../img/AloneText.png) no-repeat;
+}
+
+#WithFriendsSelected
+{
+	background: url(../img/WithFriends.png) no-repeat;
+	display : none;
+}
+
+#WithFamilySelected
+{
+	background: url(../img/WithFamliy.png) no-repeat;
+	display : none;	
+}
+
+#CoupleSelected
+{
+	background: url(../img/CoupleText.png) no-repeat;
+	display : none;	
+}
+#Couple
+{
+	height : 18px;
+}
+
+#tanSelected
+{
+	background: url(../img/tanText.png) no-repeat;
+}
+
+#skiSelected
+{
+	background: url(../img/skiText.png) no-repeat;
+	display : none;
+}
+
+#watchSelected
+{
+	background: url(../img/WatchText.png) no-repeat;
+	display : none;	
+}
+
+#shoppingSelected
+{
+	background: url(../img/shoppingText.png) no-repeat;
+	display : none;	
+}
+#cruiseSelected
+{
+	background: url(../img/cruiseText.png) no-repeat;
+	display : none;	
+}
+#jan
+{
+	/*padding-top : 6px;*/
+	/*height : 18px;*/
+}
+#may
+{
+	margin-top: 0px;
+}
+#jun
+{
+	/*height : 16px;*/
+	margin-top: 0px;	
+}
+#sep
+{
+	/*height : 16px;*/
+	margin-top: 0px;	
+}
+#janSelected
+{
+	/*background: url(../img/janText.png) no-repeat;*/
+}
+#febSelected
+{
+	background: url(../img/febText.png) no-repeat;
+	display : none;	
+}
+#marSelected
+{
+	background: url(../img/marText.png) no-repeat;
+	display : none;	
+}
+
+#aprSelected
+{
+	background: url(../img/aprText.png) no-repeat;
+	display : none;	
+}
+
+#maySelected
+{
+	background: url(../img/mayText.png) no-repeat;
+	display : none;	
+}
+
+#junSelected
+{
+	background: url(../img/junText.png) no-repeat;
+	display : none;	
+}
+
+#julSelected
+{
+	background: url(../img/julText.png) no-repeat;
+	display : none;	
+}
+#augSelected
+{
+	background: url(../img/augText.png) no-repeat;
+	display : none;	
+}
+#sepSelected
+{
+	background: url(../img/sepText.png) no-repeat;
+	display : none;	
+}
+#octSelected
+{
+	background: url(../img/octText.png) no-repeat;
+	display : none;	
+}
+#novSelected
+{
+	background: url(../img/novText.png) no-repeat;
+	display : none;	
+}
+#decSelected
+{
+	background: url(../img/decText.png) no-repeat;
+	display : none;	
+}
+#headText
+{
+	position:relative;
+	width: 610px;
+	height : 39px;
+	margin-left: 5px;
+	display : none;
+	
+	font-size:18px;
+	color:white;
+	font-family:arial;
+	font-weight:bold;
+	padding-left:350px;
+	padding-top:10px;
+	
+}
+#headerText
+{
+	font-size:18px;
+	color:white;
+	font-family:arial;
+	font-weight:bold;
+	padding-left:350px;
+	padding-top:10px;
+}
+#HText
+{
+	margin-top: 10px;
+	width: 100%;
+	height: 22px;
+	background: transparent;
+	border: none;
+	text-align : center;
+	color: white;
+	font-size: 18px;
+	cursor: default;
+}
+
+.WhoWhatWhenDropDownList
+{
+    float: left;
+	width:100px;
+	padding-top:5px;
+
+}
+#WhoDropDownList
+{
+    
+}
+#WhatDropDownList
+{
+	
+}
+#WhenDropDownList
+{	
+	
+}
+
+#WhoSelect
+{
+	width:100px;
+}
+
+.sliderBlocks
+{
+	float:left;
+	width:100px;
+}
+.blocksText
+{
+	margin-left:10px;
+	margin-top:10px;
+	float: left;
+	color: #94d8fb;
+	font-size:12px;
+	font-family:arial;
+	opacity: 0.8;
+	
+}
+.slider-range
+{
+	min-width: 155px;
+	height: 15px;
+	float:left;
+	margin-left: 19px;
+}
+.ui-widget-header
+{
+	background:green;
+}
+
+#temperature-slider
+{
+	position: relative;
+}
+#temperatureBlock
+{
+	float:left;
+}
+#VisaText, #LanguageText
+{
+	margin-top: 25px;
+	margin-left: 20px;
+}
+#LanguageText
+{
+	
+}
+.k-widget
+{
+	border-color: #4E5056;
+	background-color: #84B8D5;
+}
+
+/******************************************/
+/**********Стили для слайдеров*************/
+/******************************************/
+ /* Ширина слайдера */
+#slider-range {
+	width: 200px;
+}
+/* Контейнер слайдера */
+.ui-slider-range {
+	position: relative;
+}
+/* Ползунок */
+.ui-slider-range .ui-slider-handle-range {
+	position: absolute;
+	z-index: 2;
+	width: 13px;   /* Задаем нужную ширину */
+	height: 13px;  /* и высоту */
+	background: url(../img/slider.png) no-repeat; /* картинка изображающая ползунок. Или можно залить цветом, задать бордюр и скругления */
+	cursor: pointer
+}
+.ui-slider-handle
+{
+	background: url(resources\styles\sliderhandler.png) no-repeat;
+}
+
+.ui-slider .ui-slider-range {
+	position: absolute;
+	z-index: 1;
+	font-size: .7em;
+	display: block;
+	border: 0;
+	overflow: hidden;
+}
+/* горизонтальный слайдер (сама полоса по которой бегает ползунок) */
+.ui-slider-horizontal {
+	 height: 3px; /* задаем высоту согласно дизайна */
+}
+/* позиционируем ползунки */
+.ui-slider-horizontal .ui-slider-handle { 
+	top: -5px;
+	margin-left: -6px;
+}
+.ui-slider-horizontal .ui-slider-range {
+	top: 0;
+	height: 100%;
+}
+.ui-slider-horizontal .ui-slider-range-min { 
+	left: 0;
+}
+.ui-slider-horizontal .ui-slider-range-max {
+	right: 0;
+}
+/* оформление полосы по которой ходит ползунок */
+/*.ui-widget-content { 
+	border: 1px solid #D4D4D4;
+	background: #fff;
+}*/
+/* оформление активного участка (между двумя ползунками) */
+.ui-widget-header { 
+	border: 1px solid #D4D4D4;
+	background: #ff5e00;
+	
+}
+/* скругление для полосы слайдера */
+.ui-corner-all {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+/**/
+
+#foodText, #sexText
+{
+	margin-left: 30px;
+}
+.bottomLineInBlocks
+{
+	padding-top:10px;
+}
+.k-textbox
+{
+	background-color: #1B1097;
+}
+#visaInput
+{
+	background-color: #e78113;
+}
+.input
+{
+	background-color: #e78113;
+}
+.k-combobox
+{
+	font-family: arial;
+}

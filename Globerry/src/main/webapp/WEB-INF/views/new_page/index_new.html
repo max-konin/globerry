@@ -1,0 +1,235 @@
+<HTML>
+<HEAD>
+<meta charset="utf-8">
+<TITLE>Globerry (v1.0b)</TITLE>
+<link rel="stylesheet" href="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.css" />
+<link rel="stylesheet" href="resources/styles/bottom.css" type="text/css" />
+<link type="text/css" href="resources/styles/slidersCss.css" rel="stylesheet" media="all" />
+<link rel="stylesheet" href="resources/styles/head.css" type="text/css" />
+<link rel="stylesheet" href="resources/styles/map.css" type="text/css" />
+
+<script src="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.js"></script>
+<script type="text/javascript" src="resources/javascripts/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="resources/javascripts/main.js"></script>
+<script type="text/javascript" src="resources/javascripts/headerSwitch.js"></script>
+<script type="text/javascript" src="resources/javascripts/jquery.main.js"></script>
+<script type="text/javascript" src="resources/javascripts/LeafMap.js"></script>
+
+<!--In the header of your page, paste the following for Kendo UI Web styles-->
+<link href="resources/javascripts/kendoui/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+<link href="resources/javascripts/kendoui/styles/kendo.default.min.css" rel="stylesheet" type="text/css" />
+
+<!--Then paste the following for Kendo UI Web scripts-->
+<script src="resources/javascripts/kendoui/js/kendo.web.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
+
+<script type="text/javascript" src="resources/javascripts/goButton.js"></script>
+<script type="text/javascript" src="resources/javascripts/sliders.js"></script>
+<script type="text/javascript" src="resources/javascripts/comboboxes.js"></script>
+<script type="text/javascript" src="resources/javascripts/bottomButtonsSlide.js"></script>
+<script type="text/javascript" src="resources/javascripts/activeMonth.js"></script>
+
+
+<script type="text/javascript">
+
+</script>
+<style type="text/css">
+</style>
+</HEAD>
+<BODY>
+<div id = 'top'>
+	<div id = 'invisibleHeadBlock'></div>
+	<div id='head'>
+		<div id='header'>
+			<div id='headTop'>
+				<div id="GloberryTitle">GLOBERRY</div>
+				<div id='headText'>Я один еду загорать в январе!</div>
+				<!--<div id ="UpperHeaderBlockWithCircle">
+                        <div id = 'circle'></div>
+                    </div>
+					-->
+			</div>
+			<div id='headContent1' class ='headSwitcharable'>
+				<div id ='WhoText' class = 'requestText'><span id="menuNumber">01.</span>Кто едет?</div>
+				<div id='WhoDropDownList' class='WhoWhatWhenDropDownList'>
+					<select id='WhoSelect'  style="width:100px">
+						<option id='WhoSelect' class = 'ListButton'></option>
+						<option id='aloneSelected' class ='selected' selected>Я один</option>
+						<option id='WithFriendsSelected' class ='selected'>С друзьями</option>
+						<option id='WithFamilySelected' class ='selected'>Семьей</option>
+						<option id='CoupleSelected' class ='selected'>Вдвоем</option>
+					</select>
+				</div>
+				<div id ='WhatText' class = 'requestText'><span id="menuNumber">02.</span>Что делать?</div>
+				<div id='WhatDropDownList' class='WhoWhatWhenDropDownList' >
+					<select id='WhatSelect' style="width:100px">
+						<option id='WhoSelect' class = 'ListButton'></option>
+						<option id='tanSelected' class ='selected' selected>Загорать</option>
+						<option id='skiSelected' class ='selected'>Кататься</option>
+						<option id='watchSelected' class ='selected'>Смотреть</option>
+						<option id='shoppingSelected' class ='selected'>Шопинг</option>
+						<option id='cruiseSelected' class ='selected'>В круиз</option>
+					</select>
+				</div>
+				<div id ='WhenText' class = 'requestText'><span id="menuNumber">03.</span>Когда?</div>
+				<div id='WhenDropDownList' class='WhoWhatWhenDropDownList'>
+					<select id='WhenSelect' style="width:100px">
+						<option id='janSelected' class = 'selected'>Январь</option>
+						<option id='febSelected' class = 'selected'>Февраль</option>
+						<option id='marSelected' class = 'selected'>Март</option>
+						<option id='aprSelected' class = 'selected'>Апрель</option>
+						<option id='maySelected' class = 'selected'>Май</option>
+						<option id='junSelected' class = 'selected'>Июнь</option>
+						<option id='julSelected' class = 'selected'>Июль</option>
+						<option id='augSelected' class = 'selected'>Август</option>
+						<option id='sepSelected' class = 'selected'>Сентябрь</option>
+						<option id='octSelected' class = 'selected'>Октябрь</option>
+						<option id='novSelected' class = 'selected'>Ноябрь</option>
+						<option id='decSelected' class = 'selected'>Декабрь</option>
+					</select>
+				</div>
+				<div id ='HeaderButton'>
+						<div id ='HeaderButtonText' class = 'headerButton'>Поехали</div>
+						<div id ='HeaderButtonTBackGround' class = 'headerButton'></div>
+				</div>
+			</div>
+			<div id='headContent2' class ='headSwitcharable'>
+			<div id="FirstBlock" class="secondHeaderBlocks">
+				<div id='temperatureBlock' class='sliderBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="minCost" class="left" value="-35" readonly />
+						<div id='temperatureText' class='blocksText' >Температура</div>
+						<input type="text" id="maxCost" class="right" value="35" readonly />
+					</div>
+					<div id='temperature-slider' class='slider-range'></div>
+				</div>
+				<div id='alcBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="alcMinCost" class ='left' value="$0" readonly />
+						<div id='alcText' class='blocksText' >Алкоголь</div>
+						<input type="text" id="alcMaxCost" class ='right' value="$30" readonly />
+					</div>
+					<div id='alc-slider' class='slider-range'></div>
+				</div>
+			</div>
+			<div id="SecondBlock" class="secondHeaderBlocks">
+				<div id='timeInPathBlock' class='sliderBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="TimeMinV" class ='left' value="0 Ч" readonly />
+						<div id='timeInPathText' class='blocksText' >Время в пути</div>
+						<input type="text" id="TimeMaxV" class ='right' value="24 Ч" readonly />
+					</div>
+					<div id='time-slider' class='slider-range'></div>
+				</div>
+				<div id='moodBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="moodMin" class ='left' value="0" readonly />
+						<div id='moodText' class='blocksText' >Настроение</div>
+						<input type="text" id="moodMax" class ='right' value="100" readonly />
+					</div>
+					<div id='mood-slider' class='slider-range'></div>
+				</div>
+			</div>
+			<div id="ThirdBlock" class="secondHeaderBlocks">
+				<div id='liveCostBlock' class='sliderBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="LivMinV" class ='left' value="$0" readonly />
+						<div id='liveText' class='blocksText' >Проживание</div>
+						<input type="text" id="LivMaxV" class ='right' value="$300" readonly />
+					</div>
+					<div id='livecost-slider' class='slider-range'></div>
+				</div>
+					<div id='securityBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="securityMin" class ='left' value="0" readonly />
+						<div id='securityText' class='blocksText' >Безопасность</div>
+						<input type="text" id="securityMax" class ='right' value="100" readonly />
+					</div>
+					<div id='security-slider' class='slider-range'></div>
+				</div>
+			</div>
+			<div id="ForthBlock" class="secondHeaderBlocks">
+				<div id='foodBlock' class='sliderBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="FoodMinV" class ='left' value="$0" readonly />
+						<div id='foodText' class='blocksText' >Еда</div>
+						<input type="text" id="FoodMaxV" class ='right' value="$100" readonly />
+					</div>
+					<div id='food-slider' class='slider-range'></div>
+				</div>
+				<div id='sexBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
+					<div class="formCost">
+						<input type="text" id="sexMin" class ='left' value="0" readonly />
+						<div id='sexText' class='blocksText' >Секс</div>
+						<input type="text" id="sexMax" class ='right' value="100" readonly />
+					</div>
+					<div id='sex-slider' class='slider-range'></div>
+				</div>
+			</div>
+			<div id="FifthBlock" class="secondHeaderBlocks">
+				<div id="VisaText" class="blocksText">Виза
+				<div id="VisaButtonActive">
+					<input id="visaInput" class="input" type="checkbox" value="" name="visaChecked">
+				</div>
+				</div>
+				
+				<br />
+				<div id="LanguageText" class="blocksText">Язык
+				<div id="LangButtonActive">
+					<input id="languageInput" class="input" type="checkbox" value="" name="languageChecked">
+				</div>
+				</div>
+			</div>
+			</div>
+			<div id='headBottom'>
+				<div id = 'HeaderButtonUp' class='headerUpSwitcher'></div>
+			</div>
+			<div id="calendar" style="display: none; height: 26px; ">
+				<div id="CalendarIMG"></div>
+				<div id='allMonths' class='months'>
+					<div id="Jan" class="upperClicableCaendarBG month">Январь</div>
+					<div id="Feb" class="upperClicableCaendarBG month">Февраль</div>
+					<div id="Mar" class="upperClicableCaendarBG month">Март</div>
+					<div id="Apr" class="upperClicableCaendarBG month">Апрель</div>
+					<div id="May" class="upperClicableCaendarBG month">Май</div>
+					<div id="Jun" class="upperClicableCaendarBG month">Июнь</div>
+					<div id="Jul" class="upperClicableCaendarBG month">Июль</div>
+					<div id="Aug" class="upperClicableCaendarBG month">Август</div>
+					<div id="Sep" class="upperClicableCaendarBG month">Сентябрь</div>
+					<div id="Oct" class="upperClicableCaendarBG month">Октябрь</div>
+					<div id="Nov" class="upperClicableCaendarBG month">Ноябрь</div>
+					<div id="Dec" class="upperClicableCaendarBG month">Декабрь</div>
+				</div>
+			</div>
+	</div>
+	</div>
+</div>
+<div id="bottomContainer">
+	<div id="invisibleBottom"></div>
+	<div id="bottom" class="roundBorder" style="display: block; ">
+	<div id="bottomButtons">
+		<div id="Tour" class="bottomButton">
+			<div class="bottomHeadText">Туры</div>
+		</div>
+		<div id="Avia" class="bottomButton">
+			<div class="bottomHeadText">Авиабилеты</div>
+		</div>
+		<div id="Hotel" class="bottomButton">
+			<div class="bottomHeadText">Отели</div>
+		</div>
+		<div id="Auto" class="bottomButton">
+			<div class="bottomHeadText">Авто</div>
+		</div>
+	</div>
+	<div id="gradLine"></div>
+	<div id="WhiteBottom">
+		<div id="TourB" class="bottomB">Туры</div>
+		<div id="AviaB" class="bottomB">Авиа</div>
+		<div id="HotelB" class="bottomB">Отели</div>
+		<div id="AutoB" class="bottomB">Авто</div>
+	</div>	
+	</div>
+</div>
+<div id='map'></div>
+</BODY>
+</HTML>
