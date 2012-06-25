@@ -35,7 +35,7 @@ import org.springframework.context.annotation.Scope;
 @Scope("session")
 public class AgentService implements UserDetailsService, IAgentService {
 	
-	protected static Logger logger = Logger.getLogger("service");
+	protected static Logger logger = Logger.getLogger(AgentService.class);
 
 	@Autowired
 	private ICompanyDao companyDao;

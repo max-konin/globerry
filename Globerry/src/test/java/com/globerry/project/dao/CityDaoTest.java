@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
+import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.utils.PropertySegment;
 import org.junit.After;
@@ -48,6 +50,10 @@ public class CityDaoTest {
 	EventDao eventDao;
 	@Autowired
 	TagDao tagDao;
+	@Autowired
+	PropertyTypeDao propertyTypeDao;
+	
+	private final Logger logger = Logger.getLogger("black");
 
 	/**
 	 * Create a random string contains 8 characters.
@@ -193,4 +199,33 @@ public class CityDaoTest {
 		cityDao.getCityList();
 
 	}
+	@Test(timeout = 100000)
+	public void getCityList2test()
+	{
+	    List<PropertySegment> propSegmentList = new ArrayList<PropertySegment>();
+	    PropertyType prop;
+	    try
+	    {
+		//PropertySegment segment = new PropertySegment(propertyTypeDao.getById(1));
+		PropertySegment segment2 = new PropertySegment(propertyTypeDao.getById(2));
+		//segment.setMaxValue(35);
+		//segment.setMaxValue(-35);
+		//segment.setPropertyType(prop);
+		//propSegmentList.add(segment);
+		propSegmentList.add(segment2);
+	    }
+	    catch(Exception e)
+	    {}
+	    CityRequest request = new CityRequest(null, propSegmentList, null, null);
+	    List<City> cityResult2 = cityDao.getCityList2(request);
+	    List<City> cityResult = cityDao.getCityList(request);
+	    //logger.info(cityResult2.size() + "<------MyCityCount");
+	    for(City elem: cityResult2)
+	    {
+		logger.info(elem.getName());
+                logger.info(elem.hashCode());
+	    }//*/	    
+	    
+	}
+	
 }

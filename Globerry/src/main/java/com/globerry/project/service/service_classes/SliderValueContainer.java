@@ -52,4 +52,28 @@ public class SliderValueContainer implements ISlider {
     public String toString() {
         return "Slider container. Left: " + left + " Right: " + right;
     }
+    
+    /**
+     * Метод для нормальной работы с рефлексией, т.к. Java не счтает типы float и Float одинаковыми.
+     * @param value значение левого ползунка
+     */
+    public void setLeftValue(Float value) {
+        this.left = value;
+    }
+    
+    /**
+     * Метод для нормальной работы с рефлексией, т.к. Java не счтает типы float и Float одинаковыми.
+     * @param value значенте правого ползунка
+     */
+    public void setRightValue(Float value) {
+        this.right = value;
+    }
+    
+    public void setLeftValue(Integer value) {
+        this.left = value;
+    }
+    
+    public void setRightValue(Integer value) {
+        this.right = value;
+    }
 }

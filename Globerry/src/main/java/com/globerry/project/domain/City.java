@@ -63,7 +63,7 @@ public class City implements Serializable, IRelationsQualifier
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToOne(
-	    fetch = FetchType.LAZY,
+	    fetch = FetchType.EAGER,
 	    cascade = CascadeType.ALL
 	    )
     @PrimaryKeyJoinColumn

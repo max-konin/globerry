@@ -14,6 +14,7 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Tour;
+import org.apache.log4j.Logger;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -32,7 +33,7 @@ public class CompanyDao implements ICompanyDao {
     	public static final Integer ROLE_ADMIN = 1;
 	@Autowired
     	private SessionFactory sessionFactory;
-	
+	protected static final Logger logger = Logger.getLogger(CompanyDao.class);
 	@Override
 	public void addCompany(Company company) throws MySqlException
 	{
@@ -158,11 +159,11 @@ public class CompanyDao implements ICompanyDao {
 	    }
 	    catch(SQLGrammarException e)
 	    {
-		System.err.println("LOGIN IS NOT EXIST");
+		logger.error("LOGIN IS NOT EXIST");
 		e.printStackTrace();
 		return null;
 	    } catch(IndexOutOfBoundsException ioobe) {
-		System.err.println("LOGIN IS NOT EXIST");
+		logger.error("LOGIN IS NOT EXIST");
 		ioobe.printStackTrace();
 		return null;
 	    }
@@ -191,11 +192,11 @@ public class CompanyDao implements ICompanyDao {
 	    }
 	    catch(SQLGrammarException e)
 	    {
-		System.err.println("EMAIL IS NOT FOUND");
+		logger.error("EMAIL IS NOT FOUND");
 		e.printStackTrace();
 		return null;
 	    } catch(IndexOutOfBoundsException ioobe) {
-		System.err.println("EMAIL IS NOT FOUND");
+		logger.error("EMAIL IS NOT FOUND");
 		ioobe.printStackTrace();
 		return null;
 	    }
@@ -229,7 +230,7 @@ public class CompanyDao implements ICompanyDao {
 	@Override
 	public Company getCompanyById(int id)
 	{
-	    	System.err.println("SESSION FACTORY: "+(sessionFactory == null));
+	    	logger.error("SESSION FACTORY: "+(sessionFactory == null));
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Company company = (Company)sessionFactory.getCurrentSession().get(Company.class, id);
 		tx.commit();

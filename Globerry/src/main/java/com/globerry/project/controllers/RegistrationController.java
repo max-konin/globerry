@@ -44,7 +44,7 @@ public class RegistrationController {
 
 	@Autowired
 	private ICompanyService companyService;
-	protected static Logger logger = Logger.getLogger("controller");
+	protected static Logger logger = Logger.getLogger(RegistrationController.class);
 	
 	/**
 	 * Attribute for control interval of registration

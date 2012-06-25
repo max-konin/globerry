@@ -9,6 +9,7 @@ import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.HashMap;
+import org.springframework.stereotype.Component;
 
 /**
  * Класс, который содержит в себе информацию о состоянии элементов в приложении. Соответствие между элементами на
@@ -16,6 +17,7 @@ import java.util.HashMap;
  * @see http://grwe.ru/ids.png .
  * @author Ed
  */
+@Component
 public class GloberryGuiContext implements IApplicationContext {
 
     SelectBox whoTag, whenTag, whatTag;
@@ -33,6 +35,7 @@ public class GloberryGuiContext implements IApplicationContext {
         whoTag.addValue(1);
         whoTag.addValue(2);
         whoTag.addValue(3);
+        whoTag.addValue(4);
         componentsMap.put(1, whoTag);
         
         whatTag = new SelectBox(2);
@@ -40,9 +43,9 @@ public class GloberryGuiContext implements IApplicationContext {
             whatTag.addValue(i);
         componentsMap.put(2, whatTag);
         
-        whenTag = new SelectBox(2);
+        whenTag = new SelectBox(3);
         for(int i = 1; i < 13; i++)
-            whatTag.addValue(i);
+            whenTag.addValue(i);
         componentsMap.put(3, whenTag);
         
         temperatureSlider = new Slider(4, -35, +35);
@@ -102,8 +105,27 @@ public class GloberryGuiContext implements IApplicationContext {
     }
 
     @Override
-    public IGuiComponent getObjectById(int id) {
-        return componentsMap.get(id);
+    public IGuiComponent getObjectById(int id) throws IllegalArgumentException {
+        IGuiComponent ret = componentsMap.get(id);
+        if(ret == null)
+            throw new IllegalArgumentException("Element with such id doesn't exist");
+        return ret;
+    }
+    
+    @Override
+    public String toString() {
+        
+        return String.format("Selects: Who   %s,\n"
+                +            "         When: %s\n"
+                +            "         What: %s\n"
+                +            "Sliders: Alcohol: %s\n"
+                +            "         travel time: %s\n"
+                +            "         living cost: %s\n"
+                +            "         food cost: %s\n"
+                +            "         temperature: %s",
+                whoTag, whenTag, whatTag, alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider,
+                temperatureSlider);
+        
     }
     
 }

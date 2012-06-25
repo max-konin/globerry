@@ -15,6 +15,10 @@ public class SelectBoxValueContainer implements ISelectBox {
 
     int value;
     int id;
+    
+    public void setValue(Integer value) {
+        this.value = value;
+    }
     @Override
     public void setValue(int value) {
         this.value = value;

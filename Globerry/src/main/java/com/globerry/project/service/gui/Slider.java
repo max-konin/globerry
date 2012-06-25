@@ -31,7 +31,7 @@ public class Slider implements ISlider {
         this.leftValue = Math.min(leftValue, rightValue);
         this.rightValue = Math.max(leftValue, rightValue);
         this.minValue = Math.min(this.leftValue, minValue);
-        this.rightValue = Math.max(this.rightValue, maxValue);    
+        this.maxValue = Math.max(this.rightValue, maxValue);    
     }
     
     /**
@@ -71,17 +71,27 @@ public class Slider implements ISlider {
     @Override
     public void setRightValue(float rightValue) {
         if(rightValue > maxValue)
-            throw new IllegalArgumentException("Right value shorld be lower or equal maxValue");
+            throw new IllegalArgumentException("Right value should be lower or equal maxValue");
         this.rightValue = rightValue;
     }
 
     @Override
-    public void сopyValues(IGuiComponent component) throws IllegalArgumentException {
-        ISlider slider = (Slider) component;
-        if(slider == null)
-            throw new IllegalArgumentException("Passed value isn't ISlider entity");
+    public void сopyValues(IGuiComponent component) {
+        ISlider slider = (ISlider) component;
         this.setLeftValue(slider.getLeftValue());
         this.setRightValue(slider.getRightValue());
+    }
+    
+    @Override
+    public String toString() {
+        
+        return "Slider, left value: " + leftValue + " right value:" + rightValue;
+    }
+    public float getMinValue() {
+        return minValue;
+    }
+    public float getMaxValue() {
+        return maxValue;
     }
     
 }
