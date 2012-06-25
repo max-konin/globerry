@@ -187,8 +187,7 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
-    @ResponseBody
-    public void guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request) {
+    public @ResponseBody City[] guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request) {
         try
         {
             for (com.globerry.project.service.service_classes.Request r : request) {
@@ -200,6 +199,7 @@ public class HomeController {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
         }
         System.out.println(appContext);
+        return this.test();
     }
     @RequestMapping(value = "/bezier")
     public String bezier() {

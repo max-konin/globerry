@@ -957,16 +957,32 @@ function initLeafMap(serverName) {
 			null,
 			"json");
 		};
-		this.sliderChange = function(idSlider, leftValueSlider, rightValueSlider){
-			$.post(serverName + "/sliderchange", 
-			{
-				id : idSlider,
-				leftValue : leftValueSlider,
-				rightValue : rightValueSlider
-			},
-			null,
-			"json");
-		};
+		this.sliderChange = function(idSlider, leftValueSlider,rightValueSlider)
+				{
+			/*
+			 * $.post(serverName + "/sliderchange", { id : idSlider, leftValue :
+			 * leftValueSlider, rightValue : rightValueSlider }, null, "json");
+			 * //OLD VERSION
+			 */
+			alert("HUI1");
+            var request = [{id : idSlider, value : {leftValue : leftValueSlider, rightValue : rightValueSlider}}];
+            alert("HUI2");
+            $.ajax({
+                url: serverName + "/gui_changed",
+                dataType: 'json',
+                type: 'POST',
+                data: JSON.stringify(request),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log("OK");
+                    console.log(response);
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+
+		});
+				};
 		this.cityRequest = function(input){
 			$.getJSON(serverName + "/getcities",
 				function(data) {
