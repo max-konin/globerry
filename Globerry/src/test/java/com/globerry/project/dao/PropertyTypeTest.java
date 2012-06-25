@@ -15,6 +15,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ContextLoaderListener;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.runner.RunWith;
@@ -40,6 +41,7 @@ public class PropertyTypeTest
 {
     @Autowired
     private IPropertyTypeDao PropertyTypeDao;
+    //private final Logger logger = Logger.getLogger(PropertyTypeTest.class);
     /**
      * Рандомный генератор стрингов
      * @return стринг
@@ -117,4 +119,18 @@ public class PropertyTypeTest
     }
     
 }
+    @Test
+    public void getPropertyTypeByNameTest()
+    {
+	PropertyType pt = PropertyTypeDao.getPropertyTypeByName("alcohol");
+	if(pt != null)
+	{
+	    System.err.println(pt.getName());
+	    //logger.info(pt.getName());
+	}
+	else
+	{
+	    fail("PropertyType with such name doesnt exist");
+	}
+    }
 }

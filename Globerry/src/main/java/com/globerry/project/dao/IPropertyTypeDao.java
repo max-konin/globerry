@@ -15,4 +15,11 @@ public interface IPropertyTypeDao
     public void removePropertyType(PropertyType propertyType);
     public void removePropertyType(int id);
     public PropertyType getById(int id);
+    /**
+     * Функция которая возвращает PropertyType из названия
+     * @param name название PropertyType 
+     * @return propertyType или null, если его не существует
+     * 
+     */
+    public PropertyType getPropertyTypeByName(String name);
 }

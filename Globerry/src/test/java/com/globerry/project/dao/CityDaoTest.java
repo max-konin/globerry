@@ -147,7 +147,19 @@ public class CityDaoTest {
 	public void testList() {
 		List<City> cityList = cityDao.getCityList();
 		for (int i = 0; i < cityList.size(); i++) {
-			System.out.println(cityList.get(i));
+			Set<Property> values = cityList.get(i).getPropertyList();
+			for(Property value: values)
+			{
+			    try
+			    {
+				if(value.getPropertyType().getId() == 2)
+				    logger.info(cityList.get(i).getName() + ":" + value.getValue());
+			    }
+			    catch(Exception e)
+			    {
+				
+			    }
+			}
 		}
 	}
 
@@ -203,23 +215,29 @@ public class CityDaoTest {
 	public void getCityList2test()
 	{
 	    List<PropertySegment> propSegmentList = new ArrayList<PropertySegment>();
+	    List<Tag> tagList = new ArrayList<Tag>();
 	    PropertyType prop;
 	    try
 	    {
 		//PropertySegment segment = new PropertySegment(propertyTypeDao.getById(1));
 		PropertySegment segment2 = new PropertySegment(propertyTypeDao.getById(2));
+		//Tag tag = tagDao.getTagById(1);
+		Tag tag2 = tagDao.getTagById(4);
 		//segment.setMaxValue(35);
 		//segment.setMaxValue(-35);
 		//segment.setPropertyType(prop);
 		//propSegmentList.add(segment);
 		propSegmentList.add(segment2);
+		//tagList.add(tag);
+		tagList.add(tag2);
 	    }
 	    catch(Exception e)
 	    {}
-	    CityRequest request = new CityRequest(null, propSegmentList, null, null);
+	    CityRequest request = new CityRequest(null, propSegmentList, tagList, null);
 	    List<City> cityResult2 = cityDao.getCityList2(request);
-	    List<City> cityResult = cityDao.getCityList(request);
+	    //List<City> cityResult = cityDao.getCityList(request);
 	    //logger.info(cityResult2.size() + "<------MyCityCount");
+	    logger.info(cityResult2.size());
 	    for(City elem: cityResult2)
 	    {
 		logger.info(elem.getName());

@@ -123,6 +123,7 @@
 				<tr>
 					<td>${property.id}</td>
 					<td>${property.value}</td>
+					<td>${property.propertyType.name}</td>
 					<td><a href="delete/${property.id}"><spring:message code="label.delete" /></a></td>
 				</tr>
 			</c:forEach>

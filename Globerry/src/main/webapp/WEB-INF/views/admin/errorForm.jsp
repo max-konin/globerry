@@ -12,7 +12,7 @@
 			<c:forEach items="${excList}" var="item">
 			
 				<div>
-				"${item}"
+				"${item.toSting()}"
 				</div>
 		</c:forEach>
 </body>
