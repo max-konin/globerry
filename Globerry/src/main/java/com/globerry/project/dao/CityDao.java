@@ -108,149 +108,7 @@ public class CityDao implements ICityDao {
 
 	}
 
-	public List<City> __getCityList(CityRequest request) {
-	    	//кусок кода который нифига не делает
-		Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
-		while (iteratorProperty.hasNext()) {
-                    PropertyType propertyType = 
-                            propertyTypeDao.getById(iteratorProperty.next().getPropertyType().getId());
-		}
-
-		List<City> result;
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
-		// select by tag
-		//TODO 
-		//this is hack for tag
-		//Что за фигня? Закоментил этот if и ничего не поменялось
-		//для чего это? Коммент, "this is hack for tag" - божественнен. После него я сразу всё понял
-		if (request.getTags().size() > 0) {
-			Criteria tagCriteria = criteria.createCriteria("tagList");
-			Criterion tagRestrictions = Restrictions.eq("id", request.getTags().get(0).getId());
-			
-		/* Restrictions.or( Restrictions.eq("id",
-			 * request.getTags().get(0).getId()),
-			 * Restrictions.not(Restrictions.eq("tagsType",
-			 * request.getTags().get(0).getTagsType()))
-		    	);
-			 
-			
-			 * Iterator<Tag> iteratorTag = request.getTags().iterator();
-			 * Criterion tagRestrictions = null; while(iteratorTag.hasNext()){
-			 * Tag tag = iteratorTag.next(); if (tagRestrictions == null){
-			 * tagRestrictions = Restrictions.or( Restrictions.eq("id",
-			 * tag.getId()), Restrictions.not(Restrictions.eq("tagsType",
-			 * tag.getTagsType())) ); }else{ tagRestrictions = Restrictions.and(
-			 * tagRestrictions, Restrictions.or( Restrictions.eq("id",
-			 * tag.getId()), Restrictions.not(Restrictions.eq("tagsType",
-			 * tag.getTagsType())) ) ); }
-            }*/
-			 
-			tagCriteria.add(tagRestrictions);
-		}
-		//select by property
-		iteratorProperty = request.getOption().iterator();
-		Criterion criterionDmpList = null;
-		Criterion criterionPropertyList = null;
-		while (iteratorProperty.hasNext()) {
-			PropertySegment propertySegment = iteratorProperty.next();
-			if (propertySegment.getPropertyType().isDependingMonth()) {
-				Criterion tmp = Restrictions.and(
-							Restrictions.eq(
-								"propType.id",
-								propertySegment.getPropertyType().getId()
-								),
-							Restrictions.and(
-								Restrictions.eq(
-									"Month",
-									request.getMonth()
-									),
-								Restrictions.between(
-									"value",
-									propertySegment.getMinValue(),
-									propertySegment.getMaxValue())
-									)
-								);
-				if (criterionDmpList == null) {
-					criterionDmpList = tmp;//criteria.createCriteria("dmpList");
-					criterionDmpList = Restrictions.or(criterionDmpList, tmp);
-					//criteriaDmpList.createAlias("propertyType", "propType");
-				}
-			} else {
-				Criterion tmp =
-						Restrictions.and(
-							Restrictions.eq(
-								"propType.id",
-								propertySegment.getPropertyType().getId()
-								),
-							Restrictions.between(
-								"value",
-								propertySegment.getMinValue(),
-								propertySegment.getMaxValue()
-								)
-							);
-				if (criterionPropertyList == null) {
-					criterionPropertyList = tmp;
-					criterionPropertyList = Restrictions.or(criterionPropertyList, tmp);
-					//criteriaPropertyList.createAlias("propertyType", "propType");
-				}
-			}
-		}
-		
-		if (criterionDmpList != null) {
-			Criteria criteriaDmpList = criteria.createCriteria("dmpList");
-			criteriaDmpList.createAlias("propertyType", "propType");
-		}
-		if (criterionPropertyList != null) {
-			Criteria criteriaPropertyList = criteria.createCriteria("propertyList");
-			criteriaPropertyList.createAlias("propertyType", "propType");
-		}
-		//select by range TODO
-		//longitude широта
-		if (request.getRange().getMinX() < request.getRange().getMaxX()) {
-			criteria.add(Restrictions.between(
-					"longitude",
-					request.getRange().getMinX(),
-					request.getRange().getMaxX()));
-		} else {
-			criteria.add(Restrictions.or(
-					Restrictions.le("longitude", request.getRange().getMinX()),
-					Restrictions.ge("longitude", request.getRange().getMaxX())));
-		}
-		//latitude долгота
-		criteria.add(Restrictions.between(
-				"latitude",
-				request.getRange().getMinY(),
-				request.getRange().getMaxY()));
-
-		//criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		result = criteria.list();
-		tx.commit();
-		//TODO
-		//this is hack for tag
-		List<City> finalResult = new ArrayList();
-		Iterator<City> iteratorCity = result.iterator();
-		while (iteratorCity.hasNext()) {
-			City city = iteratorCity.next();
-			//check second tag
-			{
-				Iterator<Tag> iteratorTag = city.getTagList().iterator();
-				while (iteratorTag.hasNext()) {
-					if (iteratorTag.next().getId() == request.getTags().get(1).getId()) {
-						//TODO hack for unique result
-						if (finalResult.size() == 0 || 
-                                                    finalResult.get(finalResult.size() - 1).getId() != city.getId()) 
-                                                {
-							finalResult.add(city);
-						}
-					}
-				}
-			}
-		}
-
-		//weightCalculation(finalResult, request);
-		return finalResult;
-	}
+	@Override
 	public List<City> getCityList(CityRequest request)
 	{
 	    List<City> resultCityList;
@@ -258,7 +116,7 @@ public class CityDao implements ICityDao {
 	    //Query Generation Block for Properties
 	    
 	    String multipleDmpQuery = "";
-	    String multiplePropertyQuery = "";
+	    String multiplePropertyQuery = "";  
 	    String finalPropertyQuery = "";
 	    String joinPropertiesQuery = ""; //for part of query, that provides table joins
 	    int i = 0;//property join counter
