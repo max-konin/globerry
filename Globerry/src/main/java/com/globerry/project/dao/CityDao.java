@@ -254,9 +254,6 @@ public class CityDao implements ICityDao {
 	public List<City> getCityList(CityRequest request)
 	{
 	    List<City> resultCityList;
-	    logger.info(createPropertyQuery(request));
-	    String queryString = "select city from City city " + createPropertyQuery(request);
-	    logger.info(queryString);
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    //Query Generation Block for Properties
 	    
