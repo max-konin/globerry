@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.apache.poi.util.SystemOutLogger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
@@ -43,6 +44,9 @@ public class CityDao implements ICityDao {
 	@Autowired
 	IPropertyTypeDao propertyTypeDao;
         public static final Logger logger = Logger.getLogger(CityDao.class);
+        
+        final String dmpQuery = " inner join city.dmpList dmpList"; //Strings For creating HQL request in getCityList Method
+        final String propQuery= " inner join city.propertyList propList";
 	@Override
 	public void addCity(City city) throws MySqlException {
 		Transaction tx = null;
@@ -75,13 +79,13 @@ public class CityDao implements ICityDao {
 			citytest = (City) object;
 		}
 		logger.debug("\n------------IDхуя--------------->" + citytest.getId() + " \n\n");
-		logger.debug("\n-------------LISTSIZEхуя-------------->" + citytest.getEvents().size() + " \n\n");
+		logger.debug("\n-------------LISTSIZEвторой-------------->" + citytest.getEvents().size() + " \n\n");
 		city = citytest;
 		Iterator<Event> it = city.getEvents().iterator();
 		while (it.hasNext()) {
 			Event event = it.next();
 			city.getEvents().remove(event);
-			logger.debug("\n------------количество_ХУев_В_ЕВЕНТЕ--------------->" + event.getCities().size() + " \n\n");
+			logger.debug("\n------------количество_ччч_В_ЕВЕНТЕ--------------->" + event.getCities().size() + " \n\n");
 			if (event.getCities().size() < 2) {
 				logger.debug("\n------------ИМЯ_ХУЯ--------------->" + event.getName() + " \n\n");
 				sessionFactory.getCurrentSession().delete(event);
@@ -104,8 +108,7 @@ public class CityDao implements ICityDao {
 
 	}
 
-	@Override
-	public List<City> getCityList(CityRequest request) {
+	public List<City> __getCityList(CityRequest request) {
 	    	//кусок кода который нифига не делает
 		Iterator<PropertySegment> iteratorProperty = request.getOption().iterator();
 		while (iteratorProperty.hasNext()) {
@@ -245,156 +248,91 @@ public class CityDao implements ICityDao {
 			}
 		}
 
-		weightCalculation(finalResult, request);
+		//weightCalculation(finalResult, request);
 		return finalResult;
 	}
-	public List<City> getCityList2(CityRequest request)
+	public List<City> getCityList(CityRequest request)
 	{
 	    List<City> resultCityList;
 	    logger.info(createPropertyQuery(request));
 	    String queryString = "select city from City city " + createPropertyQuery(request);
 	    logger.info(queryString);
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    //Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
-	    resultCityList = sessionFactory.getCurrentSession().createQuery(queryString).list(); 
-		    //criteria.createCriteria("propertyList").add(Restrictions.conjunction().add(createPropertyCriteria(request))).list();
-	    tx.commit();
-	    sessionFactory.close();
-	    //logger.info(resultCityList.get(0));
-	    logger.info(createPropertyQuery(request));
+	    //Query Generation Block for Properties
 	    
-	    return null;
-	}
-	private String createPropertyQuery(CityRequest request)
-	{
-	    String dmpQuery = "";//= "inner join city.dmpList dmpList where";
-	    String propQuery = "";//= "inner join city.propertyList propList where ";
+	    String multipleDmpQuery = "";
+	    String multiplePropertyQuery = "";
+	    String finalPropertyQuery = "";
+	    String joinPropertiesQuery = ""; //for part of query, that provides table joins
+	    int i = 0;//property join counter
+	    int j = 0;//depending month property join counter
+	    int month = 0;
 	    for(PropertySegment elem: request.getOption())
 	    {
 		String singleDmpQuery= "";
 		String singlePropertyQuery = "";
+
 		PropertyType propertyType = elem.getPropertyType();
-		//очень грубая зависимость от DependingMonth. Везде должно стоять всё правильно
-		//Ситуацию осложняет то, что гибернейт не умеет маппать булеаны и их приходится менять в ручную через phpMyAdmin
 		if(propertyType.isDependingMonth())
 		{	
-		    singleDmpQuery = "(dmpList.propertyType.id =" + propertyType.getId() +
-			    " and dmpList.month = " + request.getMonth() +
-			    "and (dmpList.value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+		    j++;
+		    joinPropertiesQuery+=dmpQuery + j + " ";
+		    if(request.getMonth() == null)
+		    {
+			month = 1;
+		    }
+		    else
+		    {
+			month = request.getMonth().ordinal();
+		    }
+		    singleDmpQuery = "(dmpList" + j + ".propertyType.id =" + propertyType.getId() +
+			    " and dmpList" + j + ".month = " + month +
+			    " and(dmpList" + j + ".value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
 		}
 		else
 		{
-		    singlePropertyQuery = "(propList.propertyType.id = " + propertyType.getId() +
-			    " and (propList.value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+		    i++;
+		    joinPropertiesQuery+=propQuery + i + " ";
+		    singlePropertyQuery = "(propList" + i + ".propertyType.id = " + propertyType.getId() +
+			    " and(propList" + i + ".value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
 		}
-		
-		if(dmpQuery == "" && singleDmpQuery != "")
+		if(multipleDmpQuery.equals(""))
 		{
-		    dmpQuery = "inner join city.dmpList dmpList where " + singleDmpQuery;
-		}
-		else
-		{
-		    dmpQuery = dmpQuery + singleDmpQuery;
-		}
-		if(propQuery == "" && singlePropertyQuery != "")
-		{
-		    propQuery = "inner join city.propertyList propList where " + singlePropertyQuery;
+		    multipleDmpQuery = singleDmpQuery;
 		}
 		else
 		{
-		    propQuery = propQuery + singlePropertyQuery;
+		    if(singleDmpQuery.equals(""))
+			multipleDmpQuery = multipleDmpQuery + singleDmpQuery;
+		    else
+			multipleDmpQuery = multipleDmpQuery + " and " + singleDmpQuery;
+		}
+		if(multiplePropertyQuery.equals(""))
+		{
+		    multiplePropertyQuery = singlePropertyQuery;
+		}
+		else
+		{
+		    if(singlePropertyQuery.equals(""))
+			 multiplePropertyQuery = multiplePropertyQuery  + singlePropertyQuery;
+		    else
+			multiplePropertyQuery = multiplePropertyQuery + " and " + singlePropertyQuery;
 		}
 	    }
-	    return dmpQuery.concat(propQuery);
+	    if(multipleDmpQuery.equals("") || multiplePropertyQuery.equals(""))
+		finalPropertyQuery = " (" + multipleDmpQuery + multiplePropertyQuery + ")";
+	    else 
+		finalPropertyQuery = " (" + multipleDmpQuery + " and " + multiplePropertyQuery + ")";
+	    //end of Properties Query Generation Block
+	    Iterator<Tag> it = request.getTags().iterator();
+	    String stringQuery = "select distinct city from City city inner join city.tagList t1 inner join city.tagList t2 " + joinPropertiesQuery
+		    + "where t1.id=" +it.next().getId() + " and t2.id="+ it.next().getId()+ " and" + finalPropertyQuery;// + " and " + createPropertyQuery(request);//createTagQuery(request);//+ ") and " +;inner join city.tagList t 
+	    logger.debug(stringQuery);
+	    Query query = sessionFactory.getCurrentSession().createQuery(stringQuery);
+	    List<City> cityList =  query.list();
+	    tx.commit();
+	    return cityList;
 	}
-	private Criterion createPropertyCriteria(CityRequest request)
-	{
-	    Criterion criterion = null;
-	    //Criteria PropertyTypeCriteria = sessionFactory.getCurrentSession().createCriteria(Property.class);
-	    for(PropertySegment elem: request.getOption())
-	    {
-		
-		PropertyType propertyType = elem.getPropertyType();
-		logger.error(propertyType.getId());
-		Criterion propertyCriterion = Restrictions.eq("propertyType.id", propertyType.getId());
-		logger.info(propertyCriterion.toString());	
-		if(criterion == null)
-		{
-		    criterion = propertyCriterion;
-		}
-		else
-		{
-		    criterion = Restrictions.and(criterion, propertyCriterion);
-		}
-
-	    }
-	    logger.info(criterion.toString());
-	    return criterion;
-	}
-
-	private void weightCalculation(List<City> result, CityRequest request) {
-		List<City> cityForRemove = new ArrayList<City>();
-		Iterator<City> itCity = result.iterator();
-		while (itCity.hasNext()) {
-                    City city = itCity.next();
-                    city.setWeight(1);
-                    Iterator<PropertySegment> itProperty = request.getOption().iterator();
-                    while (itProperty.hasNext()) {
-                        PropertySegment propertyRequest = itProperty.next();
-                        float propertyCity;
-                        try 
-                        {
-                            propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
-
-
-                            if (propertyRequest.getMaxValue() < propertyCity
-                                            || propertyCity < propertyRequest.getMinValue()) {
-                                    cityForRemove.add(city);
-                            }
-
-                            float a, b, sizeBetween;
-
-                            // Очередня быдло арифметика                    
-                            sizeBetween = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
-                            if (sizeBetween <= 0) {
-                                    sizeBetween = (float) 0.1 * (propertyCity - propertyCity);
-                            }
-                            if (propertyRequest.getPropertyType().isBetterWhenLess()) {
-                                    a = sizeBetween;
-                                    b = propertyCity - propertyRequest.getMinValue();
-                            } else {
-                                    a = sizeBetween / (float) 2.0;
-                                    b = Math.abs((propertyCity - propertyRequest.getMinValue()) - a);
-                            }
-                            float k = b / a;
-                            if (k < 0.2) {
-                                    k = (float) 0.2;
-                            }
-                            city.setWeight(city.getWeight() * k);
-
-
-                            if (request.getOption().size() > 0) {
-                                    city.setWeight((float) Math.pow(city.getWeight(), 
-                                                   1 / ((double) request.getOption().size()))
-                                                   );
-                            }
-                        }
-                        catch (IllegalArgumentException e) 
-                        {
-                                //For release mode
-                                //cityForRemove.add(city);     
-                                //For debug mode
-                                // propertyCity = (propertyRequest.getMaxValue() + propertyRequest.getMinValue() / 2);
-                        }
-                    }
-		}
-
-		Iterator<City> itCityRemove = cityForRemove.iterator();
-		while (itCityRemove.hasNext()) {
-			result.remove(itCityRemove.next());
-		}
-	}
-
 	@Override
 	public void updateCity(City city) {
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();

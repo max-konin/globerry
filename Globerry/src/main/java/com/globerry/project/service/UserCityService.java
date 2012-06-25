@@ -1,6 +1,7 @@
 package com.globerry.project.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -84,6 +85,7 @@ public class UserCityService implements IUserCityService {
 				tags,
 				calendar.getMonth());
 		List<City> resultRequest = cityDao.getCityList(request);
+		weightCalculation(resultRequest, request);
 		return resultRequest;
 	}
 
@@ -97,7 +99,59 @@ public class UserCityService implements IUserCityService {
 
 	}
 
-	public int getPropertyDaoHash() {
+	public int getPropertyDaoHash()
+	{
 		return this.propertyTypeDao.hashCode();
+	}
+	private void weightCalculation(List<City> result, CityRequest request)
+	{
+		Iterator<City> itCity = result.iterator();
+		while (itCity.hasNext()) {
+	            City city = itCity.next();
+	            city.setWeight(1);
+	            Iterator<PropertySegment> itProperty = request.getOption().iterator();
+	            while (itProperty.hasNext()) {
+	                PropertySegment propertyRequest = itProperty.next();
+	                float propertyCity;
+	                try 
+	                {
+	                    propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
+
+	                    float a, b, sizeBetween;
+
+	                    // Очередня быдло арифметика                    
+	                    sizeBetween = propertyRequest.getMaxValue() - propertyRequest.getMinValue();
+	                    if (sizeBetween <= 0) {
+	                            sizeBetween = (float) 0.1 * (propertyCity - propertyCity);
+	                    }
+	                    if (propertyRequest.getPropertyType().isBetterWhenLess()) {
+	                            a = sizeBetween;
+	                            b = propertyCity - propertyRequest.getMinValue();
+	                    } else {
+	                            a = sizeBetween / (float) 2.0;
+	                            b = Math.abs((propertyCity - propertyRequest.getMinValue()) - a);
+	                    }
+	                    float k = b / a;
+	                    if (k < 0.2) {
+	                            k = (float) 0.2;
+	                    }
+	                    city.setWeight(city.getWeight() * k);
+
+
+	                    if (request.getOption().size() > 0) {
+	                            city.setWeight((float) Math.pow(city.getWeight(), 
+	                                           1 / ((double) request.getOption().size()))
+	                                           );
+	                    }
+	                }
+	                catch (IllegalArgumentException e) 
+	                {
+	                        //For release mode
+	                        //cityForRemove.add(city);     
+	                        //For debug mode
+	                        // propertyCity = (propertyRequest.getMaxValue() + propertyRequest.getMinValue() / 2);
+	                }
+	            }
+		}
 	}
 }
