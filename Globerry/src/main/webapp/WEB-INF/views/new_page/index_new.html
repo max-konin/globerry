@@ -28,9 +28,126 @@
 <script type="text/javascript" src="resources/javascripts/comboboxes.js"></script>
 <script type="text/javascript" src="resources/javascripts/bottomButtonsSlide.js"></script>
 <script type="text/javascript" src="resources/javascripts/activeMonth.js"></script>
-
+<script type="text/javascript" src="resources/javascripts/visaLangCheckboxes.js"></script>
 
 <script type="text/javascript">
+$(document).ready(function(){
+$(".change_header_by_click").click(function() {
+//function headerChange(serverName)
+	//{
+		//var JSONContr = new JsonController(serverName); 
+		//string constants.
+		WhoStr = new Array();
+		WhoStr['Я один'] = "Я один еду ";
+		WhoStr['С друзьями'] = "Мы с друзьями едем ";
+		WhoStr['Семьей'] = "Мы с семьей едем ";
+		WhoStr['Вдвоем'] = "Мы вдвоем едем ";
+		/*
+		WhoStr[2] = "Мы с друзьями едем ";
+		WhoStr[3] = "Мы с семьей едем ";
+		WhoStr[1] = "Я один еду ";
+		WhoStr[4] = "Мы вдвоем едем ";
+    	*/
+		
+		WhatStr = new Array();
+		WhatStr['Загорать'] = "загорать ";
+		WhatStr['Кататься'] = "кататься ";
+		WhatStr['Смотреть'] = "смотреть достопримечательности ";
+		WhatStr['Шопинг'] = "за покупками ";
+		WhatStr['В круиз'] = "в круиз ";
+		/*
+		WhatStr[1] = "загорать ";
+		WhatStr[2] = "кататься ";
+		WhatStr[3] = "смотреть достопримечательности ";
+		WhatStr[4] = "за покупками ";
+		WhatStr[5] = "в круиз ";
+    	*/
+		WhenStr = new Array();
+		WhenStr['Январь'] = "в январе!";
+		WhenStr['Февраль'] = "в феврале!";
+		WhenStr['Март'] = "в марте!";
+		WhenStr['Апрель'] = "в апреле!";
+		WhenStr['Май'] = "в мае!";
+		WhenStr['Июнь'] = "в июне!";
+		WhenStr['Июль'] = "в июле!";
+		WhenStr['Август'] = "в августе!";
+		WhenStr['Сентябрь'] = "в сентябре!";
+		WhenStr['Октябрь'] = "в октябре!";
+		WhenStr['Ноябрь'] = "в ноябре!";
+		WhenStr['Декабрь'] = "в декабре!";
+		/*
+		WhenStr[1] = "в январе!";
+		WhenStr[2] = "в феврале!";
+		WhenStr[3] = "в марте!";
+		WhenStr[4] = "в апреле!";
+		WhenStr[5] = "в мае!";
+		WhenStr[6] = "в июне!";
+		WhenStr[7] = "в июле!";
+		WhenStr[8] = "в августе!";
+		WhenStr[9] = "в сентябре!";
+		WhenStr[10] = "в октябре!";
+		WhenStr[11] = "в ноябре!";
+		WhenStr[12] = "в декабре!";
+		*/
+		
+		/*получаем значения select'а из комбобокса*/
+		var who = $("#WhoSelect").data("kendoComboBox")._old;
+		var what = $("#WhatSelect").data("kendoComboBox")._old
+		var when = $("#WhenSelect").data("kendoComboBox")._old
+		
+		/*
+		if (who == "Я один")
+			resultHeader = WhoStr[1];
+		if (who == "С друзьями")
+			resultHeader = WhoStr[2];
+    	if (who == "Семьей")
+			resultHeader = WhoStr[3];
+		if (who == "Вдвоем")
+			resultHeader = WhoStr[4];
+		
+		if (what == "Загорать")
+			resultHeader += WhatStr[1]
+		if (what == "Кататься")
+			resultHeader += WhatStr[2]
+		if (what == "Смотреть")
+			resultHeader += WhatStr[3]
+		if (what == "Шопинг")
+			resultHeader += WhatStr[4]
+		if (what == "В круиз")
+			resultHeader += WhatStr[5]
+		 
+		if (when == "Январь")
+			resultHeader += WhenStr[1]
+		if (when == "Февраль")
+			resultHeader += WhenStr[1]
+		if (when == "Март")
+			resultHeader += WhenStr[1]
+		if (when == "Апрель")
+			resultHeader += WhenStr[1]
+		if (when == "Май")
+			resultHeader += WhenStr[1]
+		if (when == "Июнь")
+			resultHeader += WhenStr[1]
+		if (when == "Июль")
+			resultHeader += WhenStr[1]
+		if (when == "Август")
+			resultHeader += WhenStr[1]
+		if (when == "Сентябрь")
+			resultHeader += WhenStr[1]
+		if (when == "Октябрь")
+			resultHeader += WhenStr[1]
+		if (when == "Ноябрь")
+			resultHeader += WhenStr[1]
+		if (when == "Декабрь")
+			resultHeader += WhenStr[1]
+		 */
+		var resultHeader = WhoStr[who] + WhatStr[what] + WhenStr[when];
+		//$('#headText').val(resultHeader);
+		$('#HText').val(resultHeader);
+		
+	//}
+})
+});
 
 </script>
 <style type="text/css">
@@ -43,17 +160,18 @@
 		<div id='header'>
 			<div id='headTop'>
 				<div id="GloberryTitle">GLOBERRY</div>
-				<div id='headText'>Я один еду загорать в январе!</div>
+				<div id='headText'><input type="text" id="HText" value="" readonly=""></div>
+				
 				<!--<div id ="UpperHeaderBlockWithCircle">
                         <div id = 'circle'></div>
                     </div>
 					-->
 			</div>
-			<div id='headContent1' class ='headSwitcharable'>
+			<div id='headContent1' class ='headSwitcharable change_header_by_click'>
 				<div id ='WhoText' class = 'requestText'><span id="menuNumber">01.</span>Кто едет?</div>
 				<div id='WhoDropDownList' class='WhoWhatWhenDropDownList'>
 					<select id='WhoSelect'  style="width:100px">
-						<option id='WhoSelect' class = 'ListButton'></option>
+						<option id='' class = 'ListButton'></option>
 						<option id='aloneSelected' class ='selected' selected>Я один</option>
 						<option id='WithFriendsSelected' class ='selected'>С друзьями</option>
 						<option id='WithFamilySelected' class ='selected'>Семьей</option>
@@ -63,7 +181,7 @@
 				<div id ='WhatText' class = 'requestText'><span id="menuNumber">02.</span>Что делать?</div>
 				<div id='WhatDropDownList' class='WhoWhatWhenDropDownList' >
 					<select id='WhatSelect' style="width:100px">
-						<option id='WhoSelect' class = 'ListButton'></option>
+						<option id='' class = 'ListButton'></option>
 						<option id='tanSelected' class ='selected' selected>Загорать</option>
 						<option id='skiSelected' class ='selected'>Кататься</option>
 						<option id='watchSelected' class ='selected'>Смотреть</option>
@@ -166,19 +284,28 @@
 					<div id='sex-slider' class='slider-range'></div>
 				</div>
 			</div>
+			<!--
+			Чекбоксы для Виза и Язык.
+			input'ы скрыты, вместо них div'ы
+			value в input задаются в JS 0 и 1 для unchecked и checked соответственно
+			-->
 			<div id="FifthBlock" class="secondHeaderBlocks">
 				<div id="VisaText" class="blocksText">Виза
-				<div id="VisaButtonActive">
-					<input id="visaInput" class="input" type="checkbox" value="" name="visaChecked">
+					<div id="VisaButtonActive">
+						<div class="check" id="visa_checkbox">
+							<input name="sample-check" id="visa_check_input" value="0" type="checkbox" />
+						</div>
+					</div>
 				</div>
-				</div>
-				
 				<br />
 				<div id="LanguageText" class="blocksText">Язык
-				<div id="LangButtonActive">
-					<input id="languageInput" class="input" type="checkbox" value="" name="languageChecked">
+					<div id="LangButtonActive">
+						<div class="check" id="lang_checkbox">
+							<input name="sample-check" id="lang_check_input" value="0" type="checkbox" />
+						</div>
+					</div>
 				</div>
-				</div>
+				
 			</div>
 			</div>
 			<div id='headBottom'>
@@ -186,7 +313,7 @@
 			</div>
 			<div id="calendar" style="display: none; height: 26px; ">
 				<div id="CalendarIMG"></div>
-				<div id='allMonths' class='months'>
+				<div id='allMonths' class='months change_header_by_click'>
 					<div id="Jan" class="upperClicableCaendarBG month">Январь</div>
 					<div id="Feb" class="upperClicableCaendarBG month">Февраль</div>
 					<div id="Mar" class="upperClicableCaendarBG month">Март</div>

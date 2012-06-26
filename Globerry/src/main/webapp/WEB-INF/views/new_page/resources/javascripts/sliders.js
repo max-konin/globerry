@@ -1,4 +1,4 @@
-/*слайдер температуры*/
+/*СЃР»Р°Р№РґРµСЂ С‚РµРјРїРµСЂР°С‚СѓСЂС‹*/
 $(document).ready(function(){
 	$("#temperature-slider").slider({
 		min: -35,
@@ -15,7 +15,7 @@ $(document).ready(function(){
 		}
 	});
 });
-/*слайдер время в пути*/
+/*СЃР»Р°Р№РґРµСЂ РІСЂРµРјСЏ РІ РїСѓС‚Рё*/
 $(document).ready(function(){
 	$("#time-slider").slider({
 		min: 0,
@@ -23,18 +23,18 @@ $(document).ready(function(){
 		values: [0,24],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0)+' Ч');
-			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1)+' Ч');
+			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0)+' Р§');
+			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1)+' Р§');
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0)+' Ч');
-			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1)+' Ч');
+			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0)+' Р§');
+			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1)+' Р§');
 		}
 	});
 });
 
-/*слайдер проживание*/
+/*СЃР»Р°Р№РґРµСЂ РїСЂРѕР¶РёРІР°РЅРёРµ*/
 $(document).ready(function(){
 	$("#livecost-slider").slider({
 		min: 0,
@@ -52,7 +52,7 @@ $(document).ready(function(){
 		}
 	});
 });
-/*слайдер еда*/
+/*СЃР»Р°Р№РґРµСЂ РµРґР°*/
 $(document).ready(function(){
 	$("#food-slider").slider({
 		min: 0,
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		}
 	});
 });
-/*слайдер алкоголь*/
+/*СЃР»Р°Р№РґРµСЂ Р°Р»РєРѕРіРѕР»СЊ*/
 $(document).ready(function(){
 	$("#alc-slider").slider({
 		min: 0,
@@ -89,7 +89,7 @@ $(document).ready(function(){
 	});
 });
 
-/*слайдер настроение*/
+/*СЃР»Р°Р№РґРµСЂ РЅР°СЃС‚СЂРѕРµРЅРёРµ*/
 $(document).ready(function(){
 	$("#mood-slider").slider({
 		min: 0,
@@ -108,7 +108,7 @@ $(document).ready(function(){
 	});
 });
 
-/*слайдер безопасность*/
+/*СЃР»Р°Р№РґРµСЂ Р±РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ*/
 $(document).ready(function(){
 	$("#security-slider").slider({
 		min: 0,
@@ -127,7 +127,7 @@ $(document).ready(function(){
 	});
 });
 
-/*слайдер секс*/
+/*СЃР»Р°Р№РґРµСЂ СЃРµРєСЃ*/
 $(document).ready(function(){
 	$("#sex-slider").slider({
 		min: 0,

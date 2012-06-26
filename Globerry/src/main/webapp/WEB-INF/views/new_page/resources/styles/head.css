@@ -753,12 +753,12 @@
 }
 #HText
 {
-	margin-top: 10px;
+	/*margin-top: 10px;*/
 	width: 100%;
 	height: 22px;
 	background: transparent;
 	border: none;
-	text-align : center;
+	/*text-align : center;*/
 	color: white;
 	font-size: 18px;
 	cursor: default;
@@ -773,15 +773,15 @@
 }
 #WhoDropDownList
 {
-    
+    margin-top: 2px;
 }
 #WhatDropDownList
 {
-	
+	margin-top: 2px;
 }
 #WhenDropDownList
 {	
-	
+	margin-top: 2px;
 }
 
 #WhoSelect
@@ -841,23 +841,23 @@
 }
 
 /******************************************/
-/**********Стили для слайдеров*************/
+/**********РЎС‚РёР»Рё РґР»СЏ СЃР»Р°Р№РґРµСЂРѕРІ*************/
 /******************************************/
- /* Ширина слайдера */
+ /* РЁРёСЂРёРЅР° СЃР»Р°Р№РґРµСЂР° */
 #slider-range {
 	width: 200px;
 }
-/* Контейнер слайдера */
+/* РљРѕРЅС‚РµР№РЅРµСЂ СЃР»Р°Р№РґРµСЂР° */
 .ui-slider-range {
 	position: relative;
 }
-/* Ползунок */
+/* РџРѕР»Р·СѓРЅРѕРє */
 .ui-slider-range .ui-slider-handle-range {
 	position: absolute;
 	z-index: 2;
-	width: 13px;   /* Задаем нужную ширину */
-	height: 13px;  /* и высоту */
-	background: url(../img/slider.png) no-repeat; /* картинка изображающая ползунок. Или можно залить цветом, задать бордюр и скругления */
+	width: 13px;   /* Р—Р°РґР°РµРј РЅСѓР¶РЅСѓСЋ С€РёСЂРёРЅСѓ */
+	height: 13px;  /* Рё РІС‹СЃРѕС‚Сѓ */
+	background: url(../img/slider.png) no-repeat; /* РєР°СЂС‚РёРЅРєР° РёР·РѕР±СЂР°Р¶Р°СЋС‰Р°СЏ РїРѕР»Р·СѓРЅРѕРє. РР»Рё РјРѕР¶РЅРѕ Р·Р°Р»РёС‚СЊ С†РІРµС‚РѕРј, Р·Р°РґР°С‚СЊ Р±РѕСЂРґСЋСЂ Рё СЃРєСЂСѓРіР»РµРЅРёСЏ */
 	cursor: pointer
 }
 .ui-slider-handle
@@ -873,11 +873,11 @@
 	border: 0;
 	overflow: hidden;
 }
-/* горизонтальный слайдер (сама полоса по которой бегает ползунок) */
+/* РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Р№ СЃР»Р°Р№РґРµСЂ (СЃР°РјР° РїРѕР»РѕСЃР° РїРѕ РєРѕС‚РѕСЂРѕР№ Р±РµРіР°РµС‚ РїРѕР»Р·СѓРЅРѕРє) */
 .ui-slider-horizontal {
-	 height: 3px; /* задаем высоту согласно дизайна */
+	 height: 3px; /* Р·Р°РґР°РµРј РІС‹СЃРѕС‚Сѓ СЃРѕРіР»Р°СЃРЅРѕ РґРёР·Р°Р№РЅР° */
 }
-/* позиционируем ползунки */
+/* РїРѕР·РёС†РёРѕРЅРёСЂСѓРµРј РїРѕР»Р·СѓРЅРєРё */
 .ui-slider-horizontal .ui-slider-handle { 
 	top: -5px;
 	margin-left: -6px;
@@ -892,18 +892,18 @@
 .ui-slider-horizontal .ui-slider-range-max {
 	right: 0;
 }
-/* оформление полосы по которой ходит ползунок */
+/* РѕС„РѕСЂРјР»РµРЅРёРµ РїРѕР»РѕСЃС‹ РїРѕ РєРѕС‚РѕСЂРѕР№ С…РѕРґРёС‚ РїРѕР»Р·СѓРЅРѕРє */
 /*.ui-widget-content { 
 	border: 1px solid #D4D4D4;
 	background: #fff;
 }*/
-/* оформление активного участка (между двумя ползунками) */
+/* РѕС„РѕСЂРјР»РµРЅРёРµ Р°РєС‚РёРІРЅРѕРіРѕ СѓС‡Р°СЃС‚РєР° (РјРµР¶РґСѓ РґРІСѓРјСЏ РїРѕР»Р·СѓРЅРєР°РјРё) */
 .ui-widget-header { 
 	border: 1px solid #D4D4D4;
 	background: #ff5e00;
 	
 }
-/* скругление для полосы слайдера */
+/* СЃРєСЂСѓРіР»РµРЅРёРµ РґР»СЏ РїРѕР»РѕСЃС‹ СЃР»Р°Р№РґРµСЂР° */
 .ui-corner-all {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -934,4 +934,43 @@
 .k-combobox
 {
 	font-family: arial;
+}
+
+/*РЎС‚РёР»Рё РґР»СЏ С‡РµРєР±РѕРєСЃРѕРІ Р’РёР·Р° Рё РЇР·С‹Рє*/
+/*
+.has-js .label_check,
+.has-js .label_radio { padding-left: 34px; }
+.has-js .label_radio { background: url(radio-off.png) no-repeat; }
+.has-js .label_check { background: url(resources/img/LangVisaButtonNotActive.png) no-repeat; }
+.has-js label.c_on { background: url(resources/img/LangVisaButtonActive.png) no-repeat; }
+.has-js label.r_on { background: url(radio-on.png) no-repeat; }
+.has-js .label_check input,
+.has-js .label_radio input { position: absolute; left: -9999px; }
+
+
+.c_on { background: url(resources/img/LangVisaButtonActive.png) no-repeat; }
+
+.visa_check, .lang_check
+{
+	height: 20px;
+}*/
+
+.check
+{
+	margin-top: 3px;
+	background: url(../../resources/img/LangVisaButtonNotActive.png) no-repeat;
+	height: 20px;
+}
+.check_on
+{
+	background: url(../../resources/img/LangVisaButtonActive.png) no-repeat;
+}
+.check input
+{
+	/*position: absolute; left: -9999px; */
+	display:none;
+}
+#visa_checkbox, #lang_checkbox
+{
+	opacity:1;
 }
