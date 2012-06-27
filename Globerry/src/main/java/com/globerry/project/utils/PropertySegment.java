@@ -63,5 +63,10 @@ public class PropertySegment
     public void setRightValue(float RightValue) {
         this.rightValue = RightValue;
     }
+    public String toString()
+    {
+        return String.format("Type: %s    LeftValue: %4.1f    RightValue: %4.1f\n", 
+                                    propertyType.getName(), leftValue, rightValue);
+    }
 
 }

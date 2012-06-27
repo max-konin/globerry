@@ -283,16 +283,17 @@ public class City implements Serializable, IRelationsQualifier
 	this.weight = weight;
     }
     /*
-     * @throws IllegalArgumentException если не найдено сваоство заданного типа.
+     * Возвращает значения свойство по типу свойства и месяцу
+     * Если Свойство не найденно то вернется Float.MAX_VALUE
      */
-    public float getValueByPropertyType(PropertyType type)  
+    public float getValueByPropertyType(PropertyType type, Month month)  
     {
 	
 	if (type.isDependingMonth()){
 	    Iterator<DependingMonthProperty> it = dmpList.iterator();
 	    while (it.hasNext()){
 		DependingMonthProperty property = it.next();
-		if (property.getPropertyType().getId() == type.getId()){
+		if ((property.getPropertyType().getId() == type.getId()) && (property.getMonth() == month)){
 		    return property.getValue();
 		}
 	    }
@@ -305,10 +306,7 @@ public class City implements Serializable, IRelationsQualifier
 		}
 	    }
 	}
-        throw new IllegalArgumentException("City with id = " + 
-                                            this.id + 
-                                            "hasn't property of property type" + 
-                                            type.getName());
+        return Float.MAX_VALUE;
 	
     }
     public String toString(){
@@ -348,7 +346,7 @@ public class City implements Serializable, IRelationsQualifier
                                                                                + "OCTOBER  |NOVEMBER |DECEMBER \n";
         for(String propName: propertyTable.keySet())
         {
-            str +=   String.format("            |%20s|%9.1f|%9.1f|%9f.1|%9.1f|%9.1f|%9.1f"
+            str +=   String.format("            |%20s|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f"
                                                                             + "|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|\n", 
                                            propName,
                                            propertyTable.get(propName).get(Month.JANUARY).getValue(),

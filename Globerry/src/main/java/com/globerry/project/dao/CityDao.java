@@ -118,7 +118,7 @@ public class CityDao implements ICityDao {
 	    List<City> resultCityList;
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    //Query Generation Block for Properties
-	    
+	   
 	    String multipleDmpQuery = "";
 	    String multiplePropertyQuery = "";  
 	    String finalPropertyQuery = "";
@@ -135,17 +135,21 @@ public class CityDao implements ICityDao {
 	    List<City> cityList =  query.list();            
 	    tx.commit();
             
-            String str = "Befor property filter:\n";
-            int cityCount = 0;
-            for(City city: cityList)
+                        
+            List<City> cityForRemove = new ArrayList<City>();
+            for(PropertySegment prop: request.getOption())
             {
-                str += city.toString();
-                cityCount++;
+                for(City city: cityList)
+                {
+                    float val = city.getValueByPropertyType(prop.getPropertyType(), request.getMonth());
+                    if (
+                            (val > prop.getRightValue()) ||
+                            (val < prop.getLeftValue())
+                        )
+                        cityForRemove.add(city);
+                }
             }
-            logger.debug(str);
-            logger.debug("Count: " + cityCount);
-            
-           
+            cityList.removeAll(cityForRemove);                        
             
             return cityList;
 	}

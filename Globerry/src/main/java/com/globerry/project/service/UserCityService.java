@@ -148,7 +148,8 @@ public class UserCityService implements IUserCityService {
 	                float propertyCity;
 	                try 
 	                {
-	                    propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType());
+	                    propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType(),
+                                                                       request.getMonth());
 
 	                    float a, b, sizeBetween;
 

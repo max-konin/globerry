@@ -65,4 +65,19 @@ public class CityRequest
     {
 	this.month = month;
     }
+    public String toString()
+    {
+        
+        String str = String.format("Request:\n" +
+                                   "        Month: %s\n", month);
+         str += "      Tags:\n";     
+        for(Tag tag: tags)
+            str += "            " + tag.toString();
+            
+        str += "      Properties:\n";  
+        for(PropertySegment segment: properties)
+            str += "            " + segment.toString();
+                   
+        return str;     
+    }
 }
