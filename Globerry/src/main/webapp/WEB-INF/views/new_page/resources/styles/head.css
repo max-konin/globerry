@@ -767,8 +767,9 @@
 .WhoWhatWhenDropDownList
 {
     float: left;
-	width:100px;
+	/*width:100px;*/
 	padding-top:5px;
+	margin-left: -5px;
 
 }
 #WhoDropDownList
@@ -796,8 +797,9 @@
 }
 .blocksText
 {
-	margin-left:10px;
-	margin-top:10px;
+	text-align: center;
+	/*margin-left:-5px;*/
+	margin-top:12px;
 	float: left;
 	color: #94d8fb;
 	font-size:12px;
@@ -973,4 +975,28 @@
 #visa_checkbox, #lang_checkbox
 {
 	opacity:1;
+}
+.bucks
+{
+	font-family:arial;
+	color: white;
+	float: left;
+	position: relative;
+	/*margin-left: 20px;*/
+	margin-top: 10px;
+	opacity: 0.8;
+	font-size: 14px;
+}
+.rightBucks
+{
+	float:right;
+}
+.bucksInputPosition
+{
+	/*color:red;*/
+	margin-left: -5px;
+}
+#timeInPathText
+{
+	margin-left: 20px;
 }

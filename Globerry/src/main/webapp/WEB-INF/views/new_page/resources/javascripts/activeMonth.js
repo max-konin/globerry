@@ -3,5 +3,7 @@ $(document).ready(function(){
 		$('.month').removeClass('activeMonth');
 		$('#'+this.id).addClass('activeMonth'); 
 		
+		alert('id='+this.id+'  activeMonth='+$('.activeMonth').text());
+		$(".WhenSelect option:selected").val()
 	});
 });

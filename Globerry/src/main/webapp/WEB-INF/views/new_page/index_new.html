@@ -1,4 +1,4 @@
-﻿<HTML>
+<HTML>
 <HEAD>
 <meta charset="utf-8">
 <TITLE>Globerry (v1.0b)</TITLE>
@@ -27,14 +27,14 @@
 <script type="text/javascript" src="resources/javascripts/sliders.js"></script>
 <script type="text/javascript" src="resources/javascripts/comboboxes.js"></script>
 <script type="text/javascript" src="resources/javascripts/bottomButtonsSlide.js"></script>
-<script type="text/javascript" src="resources/javascripts/activeMonth.js"></script>
+<!--<script type="text/javascript" src="resources/javascripts/activeMonth.js"></script>-->
 <script type="text/javascript" src="resources/javascripts/visaLangCheckboxes.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
 $(".change_header_by_click").click(function() {
 //function headerChange(serverName)
-	//{
+//	{
 		//var JSONContr = new JsonController(serverName); 
 		//string constants.
 		WhoStr = new Array();
@@ -42,26 +42,14 @@ $(".change_header_by_click").click(function() {
 		WhoStr['С друзьями'] = "Мы с друзьями едем ";
 		WhoStr['Семьей'] = "Мы с семьей едем ";
 		WhoStr['Вдвоем'] = "Мы вдвоем едем ";
-		/*
-		WhoStr[2] = "Мы с друзьями едем ";
-		WhoStr[3] = "Мы с семьей едем ";
-		WhoStr[1] = "Я один еду ";
-		WhoStr[4] = "Мы вдвоем едем ";
-    	*/
-		
+
 		WhatStr = new Array();
 		WhatStr['Загорать'] = "загорать ";
 		WhatStr['Кататься'] = "кататься ";
 		WhatStr['Смотреть'] = "смотреть достопримечательности ";
 		WhatStr['Шопинг'] = "за покупками ";
 		WhatStr['В круиз'] = "в круиз ";
-		/*
-		WhatStr[1] = "загорать ";
-		WhatStr[2] = "кататься ";
-		WhatStr[3] = "смотреть достопримечательности ";
-		WhatStr[4] = "за покупками ";
-		WhatStr[5] = "в круиз ";
-    	*/
+
 		WhenStr = new Array();
 		WhenStr['Январь'] = "в январе!";
 		WhenStr['Февраль'] = "в феврале!";
@@ -75,80 +63,51 @@ $(".change_header_by_click").click(function() {
 		WhenStr['Октябрь'] = "в октябре!";
 		WhenStr['Ноябрь'] = "в ноябре!";
 		WhenStr['Декабрь'] = "в декабре!";
-		/*
-		WhenStr[1] = "в январе!";
-		WhenStr[2] = "в феврале!";
-		WhenStr[3] = "в марте!";
-		WhenStr[4] = "в апреле!";
-		WhenStr[5] = "в мае!";
-		WhenStr[6] = "в июне!";
-		WhenStr[7] = "в июле!";
-		WhenStr[8] = "в августе!";
-		WhenStr[9] = "в сентябре!";
-		WhenStr[10] = "в октябре!";
-		WhenStr[11] = "в ноябре!";
-		WhenStr[12] = "в декабре!";
-		*/
 		
 		/*получаем значения select'а из комбобокса*/
-		var who = $("#WhoSelect").data("kendoComboBox")._old;
-		var what = $("#WhatSelect").data("kendoComboBox")._old
-		var when = $("#WhenSelect").data("kendoComboBox")._old
+		var who = $(".WhoSelect option:selected").text();
+		var what = $(".WhatSelect option:selected").text();
+		var when = $(".WhenSelect option:selected").text();
 		
-		/*
-		if (who == "Я один")
-			resultHeader = WhoStr[1];
-		if (who == "С друзьями")
-			resultHeader = WhoStr[2];
-    	if (who == "Семьей")
-			resultHeader = WhoStr[3];
-		if (who == "Вдвоем")
-			resultHeader = WhoStr[4];
+		/*выбранный месяц сделать активным*/
+		var activeMonthId = $(".WhenSelect option:selected").val();
 		
-		if (what == "Загорать")
-			resultHeader += WhatStr[1]
-		if (what == "Кататься")
-			resultHeader += WhatStr[2]
-		if (what == "Смотреть")
-			resultHeader += WhatStr[3]
-		if (what == "Шопинг")
-			resultHeader += WhatStr[4]
-		if (what == "В круиз")
-			resultHeader += WhatStr[5]
-		 
-		if (when == "Январь")
-			resultHeader += WhenStr[1]
-		if (when == "Февраль")
-			resultHeader += WhenStr[1]
-		if (when == "Март")
-			resultHeader += WhenStr[1]
-		if (when == "Апрель")
-			resultHeader += WhenStr[1]
-		if (when == "Май")
-			resultHeader += WhenStr[1]
-		if (when == "Июнь")
-			resultHeader += WhenStr[1]
-		if (when == "Июль")
-			resultHeader += WhenStr[1]
-		if (when == "Август")
-			resultHeader += WhenStr[1]
-		if (when == "Сентябрь")
-			resultHeader += WhenStr[1]
-		if (when == "Октябрь")
-			resultHeader += WhenStr[1]
-		if (when == "Ноябрь")
-			resultHeader += WhenStr[1]
-		if (when == "Декабрь")
-			resultHeader += WhenStr[1]
-		 */
-		var resultHeader = WhoStr[who] + WhatStr[what] + WhenStr[when];
-		//$('#headText').val(resultHeader);
+		
+		when = $('.activeMonth').text();
 		$('#HText').val(resultHeader);
+		var resultHeader = WhoStr[who] + WhatStr[what] + WhenStr[when];
+		//alert(resultHeader);
+		
+		/*выбранный месяц вписывать в заголовок*/
+		$('.activeMonth').val(when);
 		
 	//}
 })
 });
 
+
+
+//все combobox'ы readonly
+$(document).ready(function(){
+	$('.WhoWhatWhenDropDownList .k-input').attr('readonly','readonly');
+});
+
+//
+$(document).ready(function(){
+	$(".month").click(function() {
+		$('.month').removeClass('activeMonth');
+		$('#'+this.id).addClass('activeMonth'); 
+		//id месяца в календаре
+		alert('id='+this.id+'  activeMonth='+$('.activeMonth').text());
+		
+	});
+	$("#WhenDropDownList").change(function() {
+		//03.когда
+		$(".WhenSelect option:selected").val()
+		alert('Month val = '+$(".WhenSelect option:selected").val());
+	});
+	
+});
 </script>
 <style type="text/css">
 </style>
@@ -170,40 +129,38 @@ $(".change_header_by_click").click(function() {
 			<div id='headContent1' class ='headSwitcharable change_header_by_click'>
 				<div id ='WhoText' class = 'requestText'><span id="menuNumber">01.</span>Кто едет?</div>
 				<div id='WhoDropDownList' class='WhoWhatWhenDropDownList'>
-					<select id='WhoSelect'  style="width:100px">
-						<option id='' class = 'ListButton'></option>
-						<option id='aloneSelected' class ='selected' selected>Я один</option>
-						<option id='WithFriendsSelected' class ='selected'>С друзьями</option>
-						<option id='WithFamilySelected' class ='selected'>Семьей</option>
-						<option id='CoupleSelected' class ='selected'>Вдвоем</option>
+					<select id='' class='WhoSelect'  style="width:112px" >
+						<option value='1' id='aloneSelected' class ='selected' selected>Я один</option>
+						<option value='2' id='WithFriendsSelected' class ='selected'>С друзьями</option>
+						<option value='3' id='WithFamilySelected' class ='selected'>Семьей</option>
+						<option value='4' id='CoupleSelected' class ='selected'>Вдвоем</option>
 					</select>
 				</div>
 				<div id ='WhatText' class = 'requestText'><span id="menuNumber">02.</span>Что делать?</div>
 				<div id='WhatDropDownList' class='WhoWhatWhenDropDownList' >
-					<select id='WhatSelect' style="width:100px">
-						<option id='' class = 'ListButton'></option>
-						<option id='tanSelected' class ='selected' selected>Загорать</option>
-						<option id='skiSelected' class ='selected'>Кататься</option>
-						<option id='watchSelected' class ='selected'>Смотреть</option>
-						<option id='shoppingSelected' class ='selected'>Шопинг</option>
-						<option id='cruiseSelected' class ='selected'>В круиз</option>
+					<select id='' class='WhatSelect' style="width:100px">
+						<option value='1' id='tanSelected' class ='selected' selected>Загорать</option>
+						<option value='2' id='skiSelected' class ='selected'>Кататься</option>
+						<option value='3' id='watchSelected' class ='selected'>Смотреть</option>
+						<option value='4' id='shoppingSelected' class ='selected'>Шопинг</option>
+						<option value='5' id='cruiseSelected' class ='selected'>В круиз</option>
 					</select>
 				</div>
 				<div id ='WhenText' class = 'requestText'><span id="menuNumber">03.</span>Когда?</div>
 				<div id='WhenDropDownList' class='WhoWhatWhenDropDownList'>
-					<select id='WhenSelect' style="width:100px">
-						<option id='janSelected' class = 'selected'>Январь</option>
-						<option id='febSelected' class = 'selected'>Февраль</option>
-						<option id='marSelected' class = 'selected'>Март</option>
-						<option id='aprSelected' class = 'selected'>Апрель</option>
-						<option id='maySelected' class = 'selected'>Май</option>
-						<option id='junSelected' class = 'selected'>Июнь</option>
-						<option id='julSelected' class = 'selected'>Июль</option>
-						<option id='augSelected' class = 'selected'>Август</option>
-						<option id='sepSelected' class = 'selected'>Сентябрь</option>
-						<option id='octSelected' class = 'selected'>Октябрь</option>
-						<option id='novSelected' class = 'selected'>Ноябрь</option>
-						<option id='decSelected' class = 'selected'>Декабрь</option>
+					<select id='' class='WhenSelect' style="width:100px">
+						<option value='1' id='Jan' class = 'selected'>Январь</option>
+						<option value='2' id='Feb' class = 'selected'>Февраль</option>
+						<option value='3' id='Mar' class = 'selected'>Март</option>
+						<option value='4' id='Apr' class = 'selected'>Апрель</option>
+						<option value='5' id='May' class = 'selected'>Май</option>
+						<option value='6' id='Jun' class = 'selected'>Июнь</option>
+						<option value='7' id='Jul' class = 'selected'>Июль</option>
+						<option value='8' id='Aug' class = 'selected'>Август</option>
+						<option value='9' id='Sep' class = 'selected'>Сентябрь</option>
+						<option value='10' id='Oct' class = 'selected'>Октябрь</option>
+						<option value='11' id='Nov' class = 'selected'>Ноябрь</option>
+						<option value='12' id='Dec' class = 'selected'>Декабрь</option>
 					</select>
 				</div>
 				<div id ='HeaderButton'>
@@ -214,18 +171,26 @@ $(".change_header_by_click").click(function() {
 			<div id='headContent2' class ='headSwitcharable'>
 			<div id="FirstBlock" class="secondHeaderBlocks">
 				<div id='temperatureBlock' class='sliderBlocks' style='width:150px;'>
-					<div class="formCost">
-						<input type="text" id="minCost" class="left" value="-35" readonly />
-						<div id='temperatureText' class='blocksText' >Температура</div>
-						<input type="text" id="maxCost" class="right" value="35" readonly />
-					</div>
-					<div id='temperature-slider' class='slider-range'></div>
+						<div class="formCost">
+							<div class="bucks">
+								<input type="text" id="minCost" class="left" value="-35" readonly />
+							</div>
+							<div id='temperatureText' class='blocksText' >Температура</div>
+							<div class="bucks rightBucks">
+								<input type="text" id="maxCost" class="right" value="35" readonly />
+							</div>
+						</div>
+						<div id='temperature-slider' class='slider-range'></div>
 				</div>
-				<div id='alcBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
+				<div id='alcBlock' class='sliderBlocks bottomLineInBlocks' style='width:200px;'>
 					<div class="formCost">
-						<input type="text" id="alcMinCost" class ='left' value="$0" readonly />
+						<div class="bucks">$
+							<input type="text" id="alcMinCost" class ='left bucksInputPosition' value="0" readonly />
+						</div>
 						<div id='alcText' class='blocksText' >Алкоголь</div>
-						<input type="text" id="alcMaxCost" class ='right' value="$30" readonly />
+						<div class="bucks rightBucks">$
+							<input type="text" id="alcMaxCost" class ='right bucksInputPosition' value="30" readonly />
+						</div>
 					</div>
 					<div id='alc-slider' class='slider-range'></div>
 				</div>
@@ -233,17 +198,27 @@ $(".change_header_by_click").click(function() {
 			<div id="SecondBlock" class="secondHeaderBlocks">
 				<div id='timeInPathBlock' class='sliderBlocks' style='width:150px;'>
 					<div class="formCost">
-						<input type="text" id="TimeMinV" class ='left' value="0 Ч" readonly />
+						<div class="bucks">
+							<input type="text" id="TimeMinV" class ='left' value="0" readonly />
+							Ч
+						</div>
 						<div id='timeInPathText' class='blocksText' >Время в пути</div>
-						<input type="text" id="TimeMaxV" class ='right' value="24 Ч" readonly />
+						<div class="bucks rightBucks">
+							<input type="text" id="TimeMaxV" class ='right' value="24" readonly />
+							Ч
+						</div>
 					</div>
 					<div id='time-slider' class='slider-range'></div>
 				</div>
 				<div id='moodBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
 					<div class="formCost">
-						<input type="text" id="moodMin" class ='left' value="0" readonly />
+						<div class="bucks">$
+							<input type="text" id="moodMin" class ='left' value="0" readonly />
+						</div>
 						<div id='moodText' class='blocksText' >Настроение</div>
-						<input type="text" id="moodMax" class ='right' value="100" readonly />
+						<div class="bucks rightBucks">$
+							<input type="text" id="moodMax" class ='right' value="100" readonly />
+						</div>
 					</div>
 					<div id='mood-slider' class='slider-range'></div>
 				</div>
@@ -251,17 +226,25 @@ $(".change_header_by_click").click(function() {
 			<div id="ThirdBlock" class="secondHeaderBlocks">
 				<div id='liveCostBlock' class='sliderBlocks' style='width:150px;'>
 					<div class="formCost">
-						<input type="text" id="LivMinV" class ='left' value="$0" readonly />
-						<div id='liveText' class='blocksText' >Проживание</div>
-						<input type="text" id="LivMaxV" class ='right' value="$300" readonly />
+						<div class="bucks">$
+							<input type="text" id="LivMinV" class ='left bucksInputPosition' value="0" readonly />
+						</div>
+						<div id='liveText' class='blocksText ' >Проживание</div>
+						<div class="bucks rightBucks">$
+							<input type="text" id="LivMaxV" class ='right bucksInputPosition' value="300" readonly />
+						</div>
 					</div>
 					<div id='livecost-slider' class='slider-range'></div>
 				</div>
 					<div id='securityBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
 					<div class="formCost">
-						<input type="text" id="securityMin" class ='left' value="0" readonly />
+						<div class="bucks">$
+							<input type="text" id="securityMin" class ='left bucksInputPosition' value="0" readonly />
+						</div>
 						<div id='securityText' class='blocksText' >Безопасность</div>
-						<input type="text" id="securityMax" class ='right' value="100" readonly />
+						<div class="bucks rightBucks">$
+							<input type="text" id="securityMax" class ='right bucksInputPosition' value="100" readonly />
+						</div>
 					</div>
 					<div id='security-slider' class='slider-range'></div>
 				</div>
@@ -269,17 +252,25 @@ $(".change_header_by_click").click(function() {
 			<div id="ForthBlock" class="secondHeaderBlocks">
 				<div id='foodBlock' class='sliderBlocks' style='width:150px;'>
 					<div class="formCost">
-						<input type="text" id="FoodMinV" class ='left' value="$0" readonly />
+						<div class="bucks">$
+							<input type="text" id="FoodMinV" class ='left bucksInputPosition' value="0" readonly />
+						</div>
 						<div id='foodText' class='blocksText' >Еда</div>
-						<input type="text" id="FoodMaxV" class ='right' value="$100" readonly />
+						<div class="bucks rightBucks">$
+							<input type="text" id="FoodMaxV" class ='right bucksInputPosition' value="100" readonly />
+						</div>
 					</div>
 					<div id='food-slider' class='slider-range'></div>
 				</div>
 				<div id='sexBlock' class='sliderBlocks bottomLineInBlocks' style='width:150px;'>
 					<div class="formCost">
-						<input type="text" id="sexMin" class ='left' value="0" readonly />
+						<div class="bucks">$
+							<input type="text" id="sexMin" class ='left bucksInputPosition' value="0" readonly />
+						</div>
 						<div id='sexText' class='blocksText' >Секс</div>
-						<input type="text" id="sexMax" class ='right' value="100" readonly />
+						<div class="bucks rightBucks">$
+							<input type="text" id="sexMax" class ='right bucksInputPosition' value="100" readonly />
+						</div>
 					</div>
 					<div id='sex-slider' class='slider-range'></div>
 				</div>
@@ -314,18 +305,18 @@ $(".change_header_by_click").click(function() {
 			<div id="calendar" style="display: none; height: 26px; ">
 				<div id="CalendarIMG"></div>
 				<div id='allMonths' class='months change_header_by_click'>
-					<div id="Jan" class="upperClicableCaendarBG month">Январь</div>
-					<div id="Feb" class="upperClicableCaendarBG month">Февраль</div>
-					<div id="Mar" class="upperClicableCaendarBG month">Март</div>
-					<div id="Apr" class="upperClicableCaendarBG month">Апрель</div>
-					<div id="May" class="upperClicableCaendarBG month">Май</div>
-					<div id="Jun" class="upperClicableCaendarBG month">Июнь</div>
-					<div id="Jul" class="upperClicableCaendarBG month">Июль</div>
-					<div id="Aug" class="upperClicableCaendarBG month">Август</div>
-					<div id="Sep" class="upperClicableCaendarBG month">Сентябрь</div>
-					<div id="Oct" class="upperClicableCaendarBG month">Октябрь</div>
-					<div id="Nov" class="upperClicableCaendarBG month">Ноябрь</div>
-					<div id="Dec" class="upperClicableCaendarBG month">Декабрь</div>
+					<div id="Jan" class="upperClicableCaendarBG month Jan">Январь</div>
+					<div id="Feb" class="upperClicableCaendarBG month Feb">Февраль</div>
+					<div id="Mar" class="upperClicableCaendarBG month Mar">Март</div>
+					<div id="Apr" class="upperClicableCaendarBG month Apr">Апрель</div>
+					<div id="May" class="upperClicableCaendarBG month May">Май</div>
+					<div id="Jun" class="upperClicableCaendarBG month Jun">Июнь</div>
+					<div id="Jul" class="upperClicableCaendarBG month Jul">Июль</div>
+					<div id="Aug" class="upperClicableCaendarBG month Aug">Август</div>
+					<div id="Sep" class="upperClicableCaendarBG month Sep">Сентябрь</div>
+					<div id="Oct" class="upperClicableCaendarBG month Oct">Октябрь</div>
+					<div id="Nov" class="upperClicableCaendarBG month Nov">Ноябрь</div>
+					<div id="Dec" class="upperClicableCaendarBG month Dec">Декабрь</div>
 				</div>
 			</div>
 	</div>

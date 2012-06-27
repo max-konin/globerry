@@ -23,13 +23,13 @@ $(document).ready(function(){
 		values: [0,24],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0)+' Ч');
-			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1)+' Ч');
+			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0));
+			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1));
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0)+' Ч');
-			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1)+' Ч');
+			jQuery("input#TimeMinV").val(jQuery("#time-slider").slider("values",0));
+			jQuery("input#TimeMaxV").val(jQuery("#time-slider").slider("values",1));
 		}
 	});
 });
@@ -42,13 +42,13 @@ $(document).ready(function(){
 		values: [0,300],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#LivMinV").val('$'+jQuery("#livecost-slider").slider("values",0));
-			jQuery("input#LivMaxV").val('$'+jQuery("#livecost-slider").slider("values",1));
+			jQuery("input#LivMinV").val(jQuery("#livecost-slider").slider("values",0));
+			jQuery("input#LivMaxV").val(jQuery("#livecost-slider").slider("values",1));
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#LivMinV").val('$'+jQuery("#livecost-slider").slider("values",0));
-			jQuery("input#LivMaxV").val('$'+jQuery("#livecost-slider").slider("values",1));
+			jQuery("input#LivMinV").val(jQuery("#livecost-slider").slider("values",0));
+			jQuery("input#LivMaxV").val(jQuery("#livecost-slider").slider("values",1));
 		}
 	});
 });
@@ -60,13 +60,13 @@ $(document).ready(function(){
 		values: [0,100],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#FoodMinV").val('$'+jQuery("#food-slider").slider("values",0));
-			jQuery("input#FoodMaxV").val('$'+jQuery("#food-slider").slider("values",1));
+			jQuery("input#FoodMinV").val(jQuery("#food-slider").slider("values",0));
+			jQuery("input#FoodMaxV").val(jQuery("#food-slider").slider("values",1));
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#FoodMinV").val('$'+jQuery("#food-slider").slider("values",0));
-			jQuery("input#FoodMaxV").val('$'+jQuery("#food-slider").slider("values",1));
+			jQuery("input#FoodMinV").val(jQuery("#food-slider").slider("values",0));
+			jQuery("input#FoodMaxV").val(jQuery("#food-slider").slider("values",1));
 		}
 	});
 });
@@ -78,13 +78,13 @@ $(document).ready(function(){
 		values: [0,30],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#alcMinCost").val('$'+jQuery("#alc-slider").slider("values",0));
-			jQuery("input#alcMaxCost").val('$'+jQuery("#alc-slider").slider("values",1));
+			jQuery("input#alcMinCost").val(jQuery("#alc-slider").slider("values",0));
+			jQuery("input#alcMaxCost").val(jQuery("#alc-slider").slider("values",1));
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#alcMinCost").val('$'+jQuery("#alc-slider").slider("values",0));
-			jQuery("input#alcMaxCost").val('$'+jQuery("#alc-slider").slider("values",1));
+			jQuery("input#alcMinCost").val(jQuery("#alc-slider").slider("values",0));
+			jQuery("input#alcMaxCost").val(jQuery("#alc-slider").slider("values",1));
 		}
 	});
 });
@@ -97,13 +97,13 @@ $(document).ready(function(){
 		values: [0,100],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#moodMin").val('$'+jQuery("#mood-slider").slider("values",0));
-			jQuery("input#moodMax").val('$'+jQuery("#mood-slider").slider("values",1));
+			jQuery("input#moodMin").val(jQuery("#mood-slider").slider("values",0));
+			jQuery("input#moodMax").val(jQuery("#mood-slider").slider("values",1));
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#moodMin").val('$'+jQuery("#mood-slider").slider("values",0));
-			jQuery("input#moodMax").val('$'+jQuery("#mood-slider").slider("values",1));
+			jQuery("input#moodMin").val(jQuery("#mood-slider").slider("values",0));
+			jQuery("input#moodMax").val(jQuery("#mood-slider").slider("values",1));
 		}
 	});
 });
@@ -116,13 +116,13 @@ $(document).ready(function(){
 		values: [0,100],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#securityMin").val('$'+jQuery("#security-slider").slider("values",0));
-			jQuery("input#securityMax").val('$'+jQuery("#security-slider").slider("values",1));
+			jQuery("input#securityMin").val(jQuery("#security-slider").slider("values",0));
+			jQuery("input#securityMax").val(jQuery("#security-slider").slider("values",1));
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#securityMin").val('$'+jQuery("#security-slider").slider("values",0));
-			jQuery("input#securityMax").val('$'+jQuery("#security-slider").slider("values",1));
+			jQuery("input#securityMin").val(jQuery("#security-slider").slider("values",0));
+			jQuery("input#securityMax").val(jQuery("#security-slider").slider("values",1));
 		}
 	});
 });
@@ -135,13 +135,13 @@ $(document).ready(function(){
 		values: [0,100],
 		range: true,
 		stop: function(event, ui) {
-			jQuery("input#sexMin").val('$'+jQuery("#sex-slider").slider("values",0));
-			jQuery("input#sexMax").val('$'+jQuery("#sex-slider").slider("values",1));
+			jQuery("input#sexMin").val(jQuery("#sex-slider").slider("values",0));
+			jQuery("input#sexMax").val(jQuery("#sex-slider").slider("values",1));
 			
 		},
 		slide: function(event, ui){
-			jQuery("input#sexMin").val('$'+jQuery("#sex-slider").slider("values",0));
-			jQuery("input#sexMax").val('$'+jQuery("#sex-slider").slider("values",1));
+			jQuery("input#sexMin").val(jQuery("#sex-slider").slider("values",0));
+			jQuery("input#sexMax").val(jQuery("#sex-slider").slider("values",1));
 		}
 	});
 });
