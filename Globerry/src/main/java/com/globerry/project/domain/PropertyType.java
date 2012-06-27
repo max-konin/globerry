@@ -20,7 +20,7 @@ public class PropertyType
     @Column(name = "name", unique = true)
     private String name;
     @Column
-    private boolean DependingMonth;
+    private boolean dependingMonth;
     @Column(name = "maximumValue")
     private float maxValue;
     @Column(name = "minimumValue")
@@ -54,11 +54,11 @@ public class PropertyType
     }
     public boolean isDependingMonth()
     {
-	return DependingMonth;
+	return dependingMonth;
     }
     public void setDependingMonth(boolean dependingMonth)
     {
-	DependingMonth = dependingMonth;
+	this.dependingMonth = dependingMonth;
     }
     public float getMaxValue()
     {

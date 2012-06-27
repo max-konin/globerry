@@ -189,16 +189,19 @@ public class HomeController {
         map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());
         map.put("what", appContext.getWhatTag());        
-               
+        
+        List<City> cities = userCityService.getCityList(appContext);
+        map.put("cities", cities);
         for(String sliderName: appContext.getSliders().keySet())
             map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
                 
         //return "home_new";
-        return "homepage";
+        return "home_new_design";
     }
     
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
-    public @ResponseBody City[] guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request){
+    @ResponseBody
+    public City[] guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request){
         try
         {
             for (com.globerry.project.service.service_classes.Request r : request) {
@@ -209,17 +212,16 @@ public class HomeController {
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
         }
-        logger.debug("GUI State:" + appContext.toString());
-        City[] cities = null;
         logger.debug("Запрос городов от клиента");
         List<City> cityList = userCityService.getCityList(appContext);
-        cities = new City[cityList.size()];
+        City[] cities = new City[cityList.size()];
         cityList.toArray(cities);
         logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
         logger.debug("Найдено " + cityList.size());
         for (int i = 0; i < cities.length; i++) {
             logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
-        }      
+        }
+        logger.debug(appContext.toString());
         return cities;
     }
     @RequestMapping(value = "/bezier")

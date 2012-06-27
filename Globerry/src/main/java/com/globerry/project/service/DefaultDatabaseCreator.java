@@ -131,7 +131,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(24);
-	propertyTypeList.getLast().setName("travel time");
+	propertyTypeList.getLast().setName("travelTime");
 	//cost of living
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(3);
@@ -139,7 +139,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(300);
-	propertyTypeList.getLast().setName("cost of living");
+	propertyTypeList.getLast().setName("livingCost");
 	//food
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(4);
@@ -147,7 +147,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(100);
-	propertyTypeList.getLast().setName("food");
+	propertyTypeList.getLast().setName("foodCost");
 	//mood
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(6);
