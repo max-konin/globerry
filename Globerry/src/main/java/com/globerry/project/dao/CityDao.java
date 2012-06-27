@@ -142,14 +142,14 @@ public class CityDao implements ICityDao {
 		    }
 		    singleDmpQuery = "(dmpList" + j + ".propertyType.id =" + propertyType.getId() +
 			    " and dmpList" + j + ".month = " + month +
-			    " and(dmpList" + j + ".value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+			    " and(dmpList" + j + ".value between " + elem.getLeftValue() +" and " + elem.getRightValue() + ")) ";
 		}
 		else
 		{
 		    i++;
 		    joinPropertiesQuery+=propQuery + i + " ";
 		    singlePropertyQuery = "(propList" + i + ".propertyType.id = " + propertyType.getId() +
-			    " and(propList" + i + ".value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+			    " and(propList" + i + ".value between " + elem.getLeftValue() +" and " + elem.getRightValue() + ")) ";
 		}
 		if(multipleDmpQuery.equals(""))
 		{

@@ -4,6 +4,8 @@
  */
 package com.globerry.project.service.gui;
 
+import com.globerry.project.utils.PropertySegment;
+
 /**
  *
  * @author Ed
@@ -11,7 +13,10 @@ package com.globerry.project.service.gui;
 public interface ISlider extends IGuiComponent{
     
     float getLeftValue();
+    
     float getRightValue();
+    
     void setLeftValue(float value);
-    void setRightValue(float value);
+    
+    void setRightValue(float value);  
 }

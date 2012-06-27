@@ -18,7 +18,7 @@ public class GuiMap {
         
         if(id >= 1 && id <= 3)
             return new SelectBoxValueContainer();
-        if(id >= 4 && id <= 8)
+        if(id >= 4 && id <= 12)
             return new SliderValueContainer();
         return null;
     }

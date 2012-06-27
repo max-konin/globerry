@@ -85,7 +85,7 @@ public class AdminParser implements IAdminParser
 	catch(Exception e)
 	{
 	    e.printStackTrace();
-	    Set <PropertyType> listPT = propertyTypeDao.getPropertyTypeList();
+	    List<PropertyType> listPT = propertyTypeDao.getPropertyTypeList();
 	    Iterator<PropertyType> it = listPT.iterator();
 	    while(it.hasNext())
 	    {

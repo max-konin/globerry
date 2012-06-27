@@ -4,6 +4,9 @@
  */
 package com.globerry.project.service.gui;
 
+import com.globerry.project.domain.PropertyType;
+import com.globerry.project.utils.PropertySegment;
+
 /**
  * Класс, представляющий компонент типа Slider. Имеет значение слева и справа, а также минимальное и максимальное
  * значение.
@@ -12,7 +15,7 @@ package com.globerry.project.service.gui;
 public class Slider implements ISlider {
 
     private int id;
-    private float leftValue, rightValue, maxValue, minValue;
+    private PropertySegment state;
     
     /**
      * Создает новый компонент типа {@link Slider} с заданными значениями.
@@ -22,27 +25,21 @@ public class Slider implements ISlider {
      * @param id уникальный идентификатор элемента.
      * @param leftValue значение ползунка слева, которое будет задано.
      * @param rightValue значение ползунка справа, которое будет задано.
-     * @param maxValue минимальное значение ползунков для данного экземпляра.
-     * @param minValue максимальное значение ползунков для данного экземпляра.
-     * 
+     * @param propertyType тип слайдера из бд
      */
-    public Slider(int id, float leftValue, float rightValue, float minValue, float maxValue){
+    public Slider(int id, float leftValue, float rightValue, PropertyType propertyType){
         this.id = id;
-        this.leftValue = Math.min(leftValue, rightValue);
-        this.rightValue = Math.max(leftValue, rightValue);
-        this.minValue = Math.min(this.leftValue, minValue);
-        this.maxValue = Math.max(this.rightValue, maxValue);    
+        state = new PropertySegment(propertyType, Math.min(leftValue, rightValue), Math.max(leftValue, rightValue));        
     }
     
     /**
-     * Создает новый компонент типа {@link Slider} с заданными значениями minValue и maxValue. Текущие значения ползунков
+     * Создает новый компонент типа {@link Slider} с заданным propertyType. Текущие значения ползунков
      * устанавливаются на уровне minValue и maxValue.
      * @param id уникальный идентификатор элемента.
-     * @param minValue
-     * @param maxValue 
+     *  @param propertyType тип слайдера из бд
      */
-    public Slider(int id, float minValue, float maxValue) {
-        this(id, minValue, maxValue, minValue, maxValue);
+    public Slider(int id, PropertyType propertyType) {
+        this(id, propertyType.getMinValue(),  propertyType.getMaxValue(), propertyType);
     }
     
     @Override
@@ -53,26 +50,26 @@ public class Slider implements ISlider {
     
     @Override
     public float getLeftValue() {
-        return leftValue;
+        return getState().getLeftValue();
     }
 
     @Override
     public void setLeftValue(float leftValue) {
-        if(leftValue < minValue)
+        if(leftValue <  getState().getPropertyType().getMinValue())
             throw new IllegalArgumentException("Left value should be upper or equal minValue");
-        this.leftValue = leftValue;
+        getState().setLeftValue(leftValue);
     }
 
     @Override
     public float getRightValue() {
-        return rightValue;
+        return getState().getRightValue();
     }
 
     @Override
     public void setRightValue(float rightValue) {
-        if(rightValue > maxValue)
+        if(rightValue > getState().getPropertyType().getMaxValue())
             throw new IllegalArgumentException("Right value should be lower or equal maxValue");
-        this.rightValue = rightValue;
+        getState().setRightValue(rightValue);
     }
 
     @Override
@@ -85,13 +82,27 @@ public class Slider implements ISlider {
     @Override
     public String toString() {
         
-        return "Slider, left value: " + leftValue + " right value:" + rightValue;
+        return "Slider, left value: " + getState().getLeftValue() + " right value:" + getState().getRightValue();
     }
     public float getMinValue() {
-        return minValue;
+        return getState().getPropertyType().getMinValue();
     }
     public float getMaxValue() {
-        return maxValue;
+        return getState().getPropertyType().getMaxValue();
+    }
+
+    /**
+     * @return the propertyType
+     */
+    public PropertyType getPropertyType() {
+        return getState().getPropertyType();
+    }
+
+    /**
+     * @return the state
+     */
+    public PropertySegment getState() {
+        return state;
     }
     
 }

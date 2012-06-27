@@ -70,7 +70,7 @@ public class PropertyTypeTest
 	test.setName(getStringGenerator());
 	PropertyTypeDao.addPropertyType(test);
 	//add + list test
-	Set<PropertyType> propertyTypeList = PropertyTypeDao.getPropertyTypeList();
+	List<PropertyType> propertyTypeList = PropertyTypeDao.getPropertyTypeList();
 	Iterator<PropertyType> it = propertyTypeList.iterator();
 	while(it.hasNext())
 	{

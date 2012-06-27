@@ -19,7 +19,7 @@ public interface IPropertyTypeService
      * Получает лист PropertyType
      * @return
      */
-    public Set<PropertyType> getPropertyTypeList();
+    public List<PropertyType> getPropertyTypeList();
     /**
      * Добавляет PropertyType
      * @param propertyType

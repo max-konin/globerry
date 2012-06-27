@@ -4,11 +4,21 @@
  */
 package com.globerry.project.service.service_classes;
 
-import com.globerry.project.service.gui.IGuiComponent;
-import com.globerry.project.service.gui.SelectBox;
+import com.globerry.project.dao.IPropertyTypeDao;
+import com.globerry.project.dao.ITagDao;
+import com.globerry.project.domain.PropertyType;
+import com.globerry.project.domain.Tag;
+import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.gui.Slider;
+import com.globerry.project.service.gui.IGuiComponent;
+import com.globerry.project.service.gui.ISlider;
+import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,21 +33,25 @@ public class GloberryGuiContext implements IApplicationContext {
     SelectBox whoTag, whenTag, whatTag;
     Slider alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider, temperatureSlider;
     HashMap<Integer, IGuiComponent> componentsMap;
+    HashMap<String, Slider> sliders;
+    @Autowired
+    ITagDao tagDao;    
+    @Autowired
+    IPropertyTypeDao propertyTypeDao;
     
     /**
      * Инициализирует новый экземпляр контекста приложения. Хранит в себе состояние всех контроллов в приложении.
      * Какой id чему соответствует можно посмотреть здесь @see http://grwe.ru/ids.png .
      */
     public GloberryGuiContext() {
-        componentsMap = new HashMap<Integer, IGuiComponent>();
+       /* componentsMap = new HashMap<String, IGuiComponent>();
         
         whoTag = new SelectBox(1);
         whoTag.addValue(1);
         whoTag.addValue(2);
         whoTag.addValue(3);
         whoTag.addValue(4);
-        componentsMap.put(1, whoTag);
-        
+        componentsMap.put(1, whoTag);        
         whatTag = new SelectBox(2);
         for(int i = 1; i < 5; i++)
             whatTag.addValue(i);
@@ -62,8 +76,49 @@ public class GloberryGuiContext implements IApplicationContext {
         
         alcoholSlider = new Slider(8, 0, 30);
         componentsMap.put(8, alcoholSlider);
+        * *
+        */
     }
     
+    
+    public void init()
+    {        
+        componentsMap = new  HashMap<Integer, IGuiComponent>();
+        sliders = new  HashMap<String, Slider>();
+        
+        List<Tag> tags = tagDao.getTagList();
+        whoTag = new SelectBox(1);
+        whatTag = new SelectBox(2);
+        for(Tag tag: tags)
+        {            
+            if(tag.getTagsType() == TagsType.WHO)
+                whoTag.addValue(tag.getId());
+            else
+                whatTag.addValue(tag.getId());
+                
+        }
+        componentsMap.put(1, whoTag);      
+        componentsMap.put(2, whoTag);  
+        
+        whenTag = new SelectBox(3);        
+        for(int i = 1; i < 13; i++)
+            whenTag.addValue(i);
+        componentsMap.put(3, whenTag);
+        
+        List<PropertyType> properyTypes = propertyTypeDao.getPropertyTypeList();
+        
+        int i = 4;
+        Slider slider;
+        for(PropertyType type: properyTypes)
+        {
+            slider = new Slider(i, type);
+            sliders.put(type.getName(), slider);
+            componentsMap.put(i,slider);
+            i++;
+        }       
+        
+    }
+        
     @Override
     public SelectBox getWhoTag() {
         return whoTag;
@@ -78,7 +133,10 @@ public class GloberryGuiContext implements IApplicationContext {
     public SelectBox getWhatTag() {
         return whatTag;
     }
-
+    @Override
+    public Slider getSlidersByName(String name){
+        return  getSliders().get(name);
+    }
     @Override
     public Slider getTemperatureSlider() {
         return temperatureSlider;
@@ -114,8 +172,16 @@ public class GloberryGuiContext implements IApplicationContext {
     
     @Override
     public String toString() {
-        
-        return String.format("Selects: Who   %s,\n"
+        String str = String.format("\nSelects: "
+                +                  "         Who:   %s,\n"
+                +                  "         When: %s\n"
+                +                  "         What: %s\n"
+                +                  "Sliders:" ,      
+                whoTag, whenTag, whatTag);
+        for(String name: sliders.keySet())
+            str +=   String.format("\n         " + name + ":  %s\n", sliders.get(name));          
+        return str;
+        /*return String.format("Selects: Who   %s,\n"
                 +            "         When: %s\n"
                 +            "         What: %s\n"
                 +            "Sliders: Alcohol: %s\n"
@@ -125,7 +191,15 @@ public class GloberryGuiContext implements IApplicationContext {
                 +            "         temperature: %s",
                 whoTag, whenTag, whatTag, alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider,
                 temperatureSlider);
+                */
         
+    }
+
+    /**
+     * @return the sliders
+     */
+    public HashMap<String, Slider> getSliders() {
+        return sliders;
     }
     
 }

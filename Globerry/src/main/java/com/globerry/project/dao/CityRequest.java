@@ -32,15 +32,7 @@ public class CityRequest
 	this.tags = tags;
 	this.month = month;
     }
-    @Deprecated
-    public static CityRequest CityRequestGenerate(Range range, List<Property> properties){
-	Iterator<Property> iteratorProperties = properties.iterator();
-	List<PropertySegment> propertySegment = new ArrayList<PropertySegment>();
-	while(iteratorProperties.hasNext()){
-	    propertySegment.add(new PropertySegment(iteratorProperties.next()));
-	}
-	return new CityRequest(range,propertySegment, new ArrayList<Tag>(), Month.APRIL);
-    }
+    
     public Range getRange()
     {
 	return range;

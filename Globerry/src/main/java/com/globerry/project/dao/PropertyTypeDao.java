@@ -47,10 +47,10 @@ public class PropertyTypeDao implements IPropertyTypeDao
     }
 
     @Override
-    public Set<PropertyType> getPropertyTypeList()
+    public List<PropertyType> getPropertyTypeList()
     {
 	 Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	 Set <PropertyType> list = new HashSet(sessionFactory.getCurrentSession().createQuery("from PropertyType").list());
+	 List<PropertyType> list = sessionFactory.getCurrentSession().createQuery("from PropertyType").list();
 	 tx.commit();
 	 sessionFactory.close();
 	 return list;

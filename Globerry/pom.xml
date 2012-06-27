@@ -285,7 +285,7 @@
                     <artifactId>buildnumber-maven-plugin</artifactId>
                     <version>1.0</version>
                     <configuration>                                
-                        <format>{0}-r{1}-{2,date,dd.MM.yyyy}</format>
+                        <format>{0}-{2,date,dd.MM.yyyy}</format>
                         <items>
                             <item>${project.version}</item>
                             <item>${scm.revision}</item>

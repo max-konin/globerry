@@ -234,7 +234,7 @@ public class CityDaoTest {
 	    catch(Exception e)
 	    {}
 	    CityRequest request = new CityRequest(null, propSegmentList, tagList, null);
-	    List<City> cityResult2 = cityDao.getCityList2(request);
+	    List<City> cityResult2 = cityDao.getCityList(request);
 	    //List<City> cityResult = cityDao.getCityList(request);
 	    //logger.info(cityResult2.size() + "<------MyCityCount");
 	    logger.info(cityResult2.size());

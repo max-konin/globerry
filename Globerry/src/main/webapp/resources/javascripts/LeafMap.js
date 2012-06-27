@@ -369,7 +369,7 @@ function initLeafMap(serverName) {
 			if(pos == "r")
 				rightMeasure = measure;
 			//should be a parametr of cunstructor too. But as comment downsatairs says due to some strage bug, it's here.
-			if(div == "tempSlider") sliderId = 1;
+			if(div == "tempSlider") sliderId = 12;
 			if(div == "alchSlider") sliderId = 2;
 			if(div == "timeSlider") sliderId = 3;
 			if(div == "LivSlider") sliderId = 4;
@@ -957,32 +957,31 @@ function initLeafMap(serverName) {
 			null,
 			"json");
 		};
-		this.sliderChange = function(idSlider, leftValueSlider,rightValueSlider)
-				{
+		this.sliderChange = function(idSlider, leftValueSlider,rightValueSlider){
 			/*
 			 * $.post(serverName + "/sliderchange", { id : idSlider, leftValue :
 			 * leftValueSlider, rightValue : rightValueSlider }, null, "json");
 			 * //OLD VERSION
 			 */
-			alert("HUI1");
-            var request = [{id : idSlider, value : {leftValue : leftValueSlider, rightValue : rightValueSlider}}];
-            alert("HUI2");
-            $.ajax({
-                url: serverName + "/gui_changed",
-                dataType: 'json',
-                type: 'POST',
-                data: JSON.stringify(request),
-                contentType: "application/json",
-                success: function (response) {
-                    console.log("OK");
-                    console.log(response);
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-
-		});
-				};
+			alert("HUI1" + idSlider);
+                        var request = [{id : idSlider, 
+                                        value : {leftValue : leftValueSlider, rightValue : rightValueSlider}}];
+                        alert(request.toString);
+                        $.ajax({
+                                    url: serverName + "/gui_changed",
+                                    dataType: 'json',
+                                    type: 'POST',
+                                    data: JSON.stringify(request),
+                                    contentType: "application/json",
+                                    success: function (response) {
+                                        console.log("OK");
+                                        console.log(response);
+                                    },
+                                    error: function(response) {
+                                        console.log(response);
+                                    }
+                                });
+                        };
 		this.cityRequest = function(input){
 			$.getJSON(serverName + "/getcities",
 				function(data) {
