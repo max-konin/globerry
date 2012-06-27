@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IDatabaseManager;
 import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
@@ -31,6 +32,8 @@ public class DefaultDatabaseCreator
     IPropertyTypeDao propertyTypeDao;
     @Autowired
     ICityDao cityDao;
+    @Autowired
+    private IDatabaseManager databaseManager;
     
     protected static Logger logger = Logger.getLogger(DefaultDatabaseCreator.class);
     private boolean isTagInit = false;
@@ -309,5 +312,9 @@ public class DefaultDatabaseCreator
 	city.setDmpList(dmpList);
 	return city;
 	
+    }
+    public void clearDatabase()
+    {
+	databaseManager.cleanDatabase();
     }
 }

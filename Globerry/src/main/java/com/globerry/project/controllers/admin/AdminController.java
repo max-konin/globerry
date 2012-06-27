@@ -47,6 +47,7 @@ import com.globerry.project.service.interfaces.ICompanyService;
 import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.IEntityCreator;
 import com.globerry.project.service.CityService;
+import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.interfaces.IEventService;
 
 
@@ -71,6 +72,9 @@ public class AdminController
      */
     @Autowired
     private AbstractTypeFactory abstrFactory;
+    
+    @Autowired
+    private DefaultDatabaseCreator databaseCreator;
     
     @Autowired
     private IEventService eventService;
@@ -196,6 +200,11 @@ public class AdminController
 	}
 	System.err.println(request.getParameter("id"));
 	return "redirect:/admin/update/" + updatedElementId;
+    }
+    @RequestMapping(value="/clearDatabase")
+    public void clearDatabase()
+    {
+	databaseCreator.clearDatabase();
     }
     /*HttpServletRequest request*/
     /*@RequestMapping(value="/delete", method=RequestMethod.GET)

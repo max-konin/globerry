@@ -45,13 +45,13 @@ public class CityDaoTest {
 	// TODO
 
 	@Autowired
-	CityDao cityDao;
+	ICityDao cityDao;
 	@Autowired
-	EventDao eventDao;
+	IEventDao eventDao;
 	@Autowired
-	TagDao tagDao;
+	ITagDao tagDao;
 	@Autowired
-	PropertyTypeDao propertyTypeDao;
+	IPropertyTypeDao propertyTypeDao;
 	
 	private final Logger logger = Logger.getLogger("black");
 
@@ -237,7 +237,7 @@ public class CityDaoTest {
 	    List<City> cityResult2 = cityDao.getCityList(request);
 	    //List<City> cityResult = cityDao.getCityList(request);
 	    //logger.info(cityResult2.size() + "<------MyCityCount");
-	    logger.info(cityResult2.size());
+	   /* logger.info(cityResult2.size());
 	    for(City elem: cityResult2)
 	    {
 		logger.info(elem.getName());

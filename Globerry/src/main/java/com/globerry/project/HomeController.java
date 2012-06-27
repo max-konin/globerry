@@ -193,7 +193,8 @@ public class HomeController {
         for(String sliderName: appContext.getSliders().keySet())
             map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
                 
-        return "home_new";
+        //return "home_new";
+        return "homepage";
     }
     
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
