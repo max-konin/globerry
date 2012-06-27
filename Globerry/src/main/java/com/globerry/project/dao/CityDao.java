@@ -107,9 +107,50 @@ public class CityDao implements ICityDao {
 		removeCity(city);
 
 	}
-
-	@Override
+        /*
+         * Возвращает список городов.
+         * Из бд достаются города, подходящие только по тегам. Фильтрация по Property проходит в цикле.
+         * @param request запрос
+         */
+        @Override
 	public List<City> getCityList(CityRequest request)
+	{
+	    List<City> resultCityList;
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    //Query Generation Block for Properties
+	    
+	    String multipleDmpQuery = "";
+	    String multiplePropertyQuery = "";  
+	    String finalPropertyQuery = "";
+	    String joinPropertiesQuery = ""; //for part of query, that provides table joins
+	    int i = 0;//property join counter
+	    int j = 0;//depending month property join counter
+	    int month = 0;
+            
+	    Iterator<Tag> it = request.getTags().iterator();
+	    String stringQuery = "select distinct city from City city inner join city.tagList t1 inner join city.tagList t2 " 
+		    + "where t1.id=" +it.next().getId() + " and t2.id="+ it.next().getId();
+	    logger.debug(stringQuery);
+	    Query query = sessionFactory.getCurrentSession().createQuery(stringQuery);
+	    List<City> cityList =  query.list();            
+	    tx.commit();
+            
+            String str = "Befor property filter:\n";
+            int cityCount = 0;
+            for(City city: cityList)
+            {
+                str += city.toString();
+                cityCount++;
+            }
+            logger.debug(str);
+            logger.debug("Count: " + cityCount);
+            
+           
+            
+            return cityList;
+	}
+	//@Override
+	public List<City> getCityListOneQuery(CityRequest request)
 	{
 	    List<City> resultCityList;
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();

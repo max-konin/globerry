@@ -79,4 +79,5 @@ public class DependingMonthProperty implements IRelationsQualifier
     {
 	this.propertyType = propertyType;
     }
+   
 }
