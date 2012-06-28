@@ -117,13 +117,14 @@ public class UserCityService implements IUserCityService {
                  tagChanged = false;
             }
             boolean f;
+            List<PropertySegment> sliderState = new ArrayList<PropertySegment>();
             for(City city: cityList)
             {
                 f = true;
                 for(String sliderName: appContext.getSliders().keySet())                
                 {
-                PropertySegment prop = appContext.getSlidersByName(sliderName).getState();
-                
+                    PropertySegment prop = appContext.getSlidersByName(sliderName).getState();
+                    sliderState.add(prop);
                     float val = city.getValueByPropertyType(prop.getPropertyType(), 
                                                             Month.values()[appContext.getWhenTag().getValue()]);
                     if (
@@ -134,7 +135,7 @@ public class UserCityService implements IUserCityService {
                 }
                 if (f) resultRequest.add(city);
             }
-                    
+            weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);      
             return resultRequest;
         }
        
@@ -169,7 +170,7 @@ public class UserCityService implements IUserCityService {
          
             List<City> resultRequest = cityDao.getCityList(request);
             
-            weightCalculation(resultRequest, request);
+            weightCalculation(resultRequest, sliderState, request.getMonth());
             return resultRequest;
         }
 	public void update(Observable o, Object arg) {
@@ -186,20 +187,20 @@ public class UserCityService implements IUserCityService {
 	{
 		return this.propertyTypeDao.hashCode();
 	}
-	private void weightCalculation(List<City> result, CityRequest request)
+	private void weightCalculation(List<City> result, List<PropertySegment> propRequest, Month month)
 	{
 		Iterator<City> itCity = result.iterator();
 		while (itCity.hasNext()) {
 	            City city = itCity.next();
 	            city.setWeight(1);
-	            Iterator<PropertySegment> itProperty = request.getOption().iterator();
+	            Iterator<PropertySegment> itProperty = propRequest.iterator();
 	            while (itProperty.hasNext()) {
 	                PropertySegment propertyRequest = itProperty.next();
 	                float propertyCity;
 	                try 
 	                {
 	                    propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType(),
-                                                                       request.getMonth());
+                                                                       month);
 
 	                    float a, b, sizeBetween;
 
@@ -222,9 +223,9 @@ public class UserCityService implements IUserCityService {
 	                    city.setWeight(city.getWeight() * k);
 
 
-	                    if (request.getOption().size() > 0) {
+	                    if (propRequest.size() > 0) {
 	                            city.setWeight((float) Math.pow(city.getWeight(), 
-	                                           1 / ((double) request.getOption().size()))
+	                                           1 / ((double) propRequest.size()))
 	                                           );
 	                    }
 	                }
