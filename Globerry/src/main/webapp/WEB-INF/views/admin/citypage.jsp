@@ -19,7 +19,12 @@
 	<spring:message code="label.logout" />
 </a>
 
-  
+<div style="float:right">
+<p><a href="initTags">Инициализировать тэги</a></p>
+<p><a href="initProperties">Инициализировать проперти</a></p>
+<p><a href="initCities">Инициализировать города</a></p>
+<p><a href="clearDatabase">Удалить всё</a></p>
+</div>  
 <h2><spring:message code="label.title" /></h2>
   <div id="example" class="k-content">
             <div id="clientsDb">

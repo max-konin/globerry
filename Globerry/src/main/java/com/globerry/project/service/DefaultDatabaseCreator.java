@@ -104,12 +104,30 @@ public class DefaultDatabaseCreator
 	}
     }
     public void initPropertyType(){
-	if (isPropertyTypeInit)
-	    return;
-	isPropertyTypeInit = true;
-	LinkedList<PropertyType> propertyTypeList = new LinkedList<PropertyType>();
+
+	/*id	DependingMonth	betterWhenLess	maximumValue	minimumValue	name
+	1		0		1		20		0	cost
+	2		0		1		20		0	alcohol
+	3		0		1		20		0	russian
+	4		0		1		20		0	visa
+	5		0		1		20		0	sex
+	6		0		1		20		0	security
+	7		1		1		300		0	livingCost
+	8		1		1		300		0	mood
+	9		1		1		35		-35	temperature*/
+	
+	createPropertyType("cost", 0, 30, false, true);
+	createPropertyType("alcohol", 0, 30, false, true);
+	createPropertyType("russian", 0, 1, false, true);
+	createPropertyType("visa", 0, 1, false, true);
+	createPropertyType("sex", 0, 3, false, true);
+	createPropertyType("security", 0, 3, false, true);
+	createPropertyType("livingCost", 0, 300, true, true);
+	createPropertyType("mood", 0, 300, true, true);
+	createPropertyType("temperature", -35, 35, true, true);
+	
 	//temperature
-	propertyTypeList.add(new PropertyType());
+	/*propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(1);
 	propertyTypeList.getLast().setDependingMonth(true);
 	propertyTypeList.getLast().setBetterWhenLess(false);
@@ -171,9 +189,9 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setBetterWhenLess(false);
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(10);
-	propertyTypeList.getLast().setName("sex");
+	propertyTypeList.getLast().setName("sex");*/
 	
-        try
+/*        try
 	{
             Iterator<PropertyType> propertyTypeIterator = propertyTypeList.iterator();
             while (propertyTypeIterator.hasNext()){
@@ -182,18 +200,16 @@ public class DefaultDatabaseCreator
 	} catch (MySqlException e)
 	{
 	    e.printStackTrace();
-	}
+	}*/
     }
     
     public void initCities(){
-	if (isCitiesInit)
-	    return;
-	isCitiesInit = true;
 	
 	LinkedList<City> citiesList = new LinkedList<City>();
-	Set<Tag> tagList;
-	Set<Property> propertyList;
-	Property property;
+	List<Tag> tagList = tagDao.getTagList();
+	List<PropertyType> propertyList = propertyTypeDao.getPropertyTypeList();
+	if(tagList.isEmpty()) initTags();
+	if(propertyList.isEmpty()) initPropertyType();
 	
 	/*citiesList.add(new City());
 	citiesList.getLast().setName("London");
@@ -316,5 +332,23 @@ public class DefaultDatabaseCreator
     public void clearDatabase()
     {
 	databaseManager.cleanDatabase();
+    }
+    private void createPropertyType(String name, int minValue, int maxValue, Boolean dependingMonth, Boolean betterWhenLess)
+    {
+	if(propertyTypeDao.getPropertyTypeByName(name) != null) return;
+	PropertyType propertyType = new PropertyType();
+	propertyType.setDependingMonth(dependingMonth);
+	propertyType.setBetterWhenLess(betterWhenLess);
+	propertyType.setMinValue(minValue);
+	propertyType.setMaxValue(maxValue);
+	propertyType.setName(name);
+	try
+	{
+	    propertyTypeDao.addPropertyType(propertyType);
+	} catch (MySqlException e)
+	{
+	    e.printStackTrace();
+	}
+	
     }
 }
