@@ -107,9 +107,54 @@ public class CityDao implements ICityDao {
 		removeCity(city);
 
 	}
-
-	@Override
+        /*
+         * Возвращает список городов.
+         * Из бд достаются города, подходящие только по тегам. Фильтрация по Property проходит в цикле.
+         * @param request запрос
+         */
+        @Override
 	public List<City> getCityList(CityRequest request)
+	{
+	    List<City> resultCityList;
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	    //Query Generation Block for Properties
+	   
+	    String multipleDmpQuery = "";
+	    String multiplePropertyQuery = "";  
+	    String finalPropertyQuery = "";
+	    String joinPropertiesQuery = ""; //for part of query, that provides table joins
+	    int i = 0;//property join counter
+	    int j = 0;//depending month property join counter
+	    int month = 0;
+            
+	    Iterator<Tag> it = request.getTags().iterator();
+	    String stringQuery = "select distinct city from City city inner join city.tagList t1 inner join city.tagList t2 " 
+		    + "where t1.id=" +it.next().getId() + " and t2.id="+ it.next().getId();
+	    logger.debug(stringQuery);
+	    Query query = sessionFactory.getCurrentSession().createQuery(stringQuery);
+	    List<City> cityList =  query.list();            
+	    tx.commit();
+            
+                        
+            List<City> cityForRemove = new ArrayList<City>();
+            for(PropertySegment prop: request.getOption())
+            {
+                for(City city: cityList)
+                {
+                    float val = city.getValueByPropertyType(prop.getPropertyType(), request.getMonth());
+                    if (
+                            (val > prop.getRightValue()) ||
+                            (val < prop.getLeftValue())
+                        )
+                        cityForRemove.add(city);
+                }
+            }
+            cityList.removeAll(cityForRemove);                        
+            
+            return cityList;
+	}
+	//@Override
+	public List<City> getCityListOneQuery(CityRequest request)
 	{
 	    List<City> resultCityList;
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
@@ -142,14 +187,14 @@ public class CityDao implements ICityDao {
 		    }
 		    singleDmpQuery = "(dmpList" + j + ".propertyType.id =" + propertyType.getId() +
 			    " and dmpList" + j + ".month = " + month +
-			    " and(dmpList" + j + ".value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+			    " and(dmpList" + j + ".value between " + elem.getLeftValue() +" and " + elem.getRightValue() + ")) ";
 		}
 		else
 		{
 		    i++;
 		    joinPropertiesQuery+=propQuery + i + " ";
 		    singlePropertyQuery = "(propList" + i + ".propertyType.id = " + propertyType.getId() +
-			    " and(propList" + i + ".value between " + elem.getMinValue() +" and " + elem.getMaxValue() + ")) ";
+			    " and(propList" + i + ".value between " + elem.getLeftValue() +" and " + elem.getRightValue() + ")) ";
 		}
 		if(multipleDmpQuery.equals(""))
 		{

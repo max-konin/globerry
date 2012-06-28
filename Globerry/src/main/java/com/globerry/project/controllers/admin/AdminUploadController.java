@@ -104,6 +104,11 @@ public class AdminUploadController
 	    excList.add(e.getDescription());
 	    System.out.println(e.getDescription());
 	}
+	catch(Exception e)
+	{
+	    excList.add(e.getLocalizedMessage() + ", " + e.getMessage());
+	    e.printStackTrace();
+	}
 	if(excList.size() != 0)
 	{
 	    for(int i = 0; i < excList.size(); i++)

@@ -4,9 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,8 @@ public class PropertyTypeDao implements IPropertyTypeDao
 {
     @Autowired
     private SessionFactory sessionFactory;
+    
+    private final Logger logger = Logger.getLogger(PropertyTypeDao.class);
 
     @Override
     public void addPropertyType(PropertyType propertyType) throws MySqlException
@@ -43,10 +47,10 @@ public class PropertyTypeDao implements IPropertyTypeDao
     }
 
     @Override
-    public Set<PropertyType> getPropertyTypeList()
+    public List<PropertyType> getPropertyTypeList()
     {
 	 Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	 Set <PropertyType> list = new HashSet(sessionFactory.getCurrentSession().createQuery("from PropertyType").list());
+	 List<PropertyType> list = sessionFactory.getCurrentSession().createQuery("from PropertyType").list();
 	 tx.commit();
 	 sessionFactory.close();
 	 return list;
@@ -83,10 +87,34 @@ public class PropertyTypeDao implements IPropertyTypeDao
 	sessionFactory.close();
 	
     }
+    @Override
     public PropertyType getById(int id){
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	PropertyType propertyType = (PropertyType) sessionFactory.getCurrentSession().get(
 		PropertyType.class, id);
+	tx.commit();
+	sessionFactory.close();
+	return propertyType;
+    }
+    @Override
+    public PropertyType getPropertyTypeByName(String name)
+    {
+	PropertyType propertyType;
+	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	try
+	{
+	    propertyType = (PropertyType)sessionFactory.getCurrentSession().createQuery("FROM PropertyType pt WHERE pt.name='" + name + "'").list().get(0);
+	}
+	catch(SQLGrammarException e)
+	{
+	    logger.error("PropertyType is not exist");
+	    e.printStackTrace();
+	    return null;
+	} catch(IndexOutOfBoundsException ioobe) {
+	    logger.error("PropertyType is not exist");
+	    ioobe.printStackTrace();
+	    return null;
+	}
 	tx.commit();
 	sessionFactory.close();
 	return propertyType;

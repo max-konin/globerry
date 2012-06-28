@@ -7,6 +7,7 @@ package com.globerry.project.service.service_classes;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
+import java.util.HashMap;
 
 /**
  *
@@ -19,12 +20,13 @@ public interface IApplicationContext {
     SelectBox getWhoTag();
     SelectBox getWhenTag();
     SelectBox getWhatTag();
-    
+    Slider getSlidersByName(String name);
     Slider getTemperatureSlider();
     Slider getAlcoholSlider();
     Slider getTravelTimeSlider();
     Slider getLivingCostSlider();
     Slider getFoodCostSlider();
-    
+    public HashMap<String, Slider> getSliders();
     IGuiComponent getObjectById(int id) throws IllegalArgumentException;
+    public void init();
 }

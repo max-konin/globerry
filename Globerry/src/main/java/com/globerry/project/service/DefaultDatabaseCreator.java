@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IDatabaseManager;
 import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
@@ -31,6 +32,8 @@ public class DefaultDatabaseCreator
     IPropertyTypeDao propertyTypeDao;
     @Autowired
     ICityDao cityDao;
+    @Autowired
+    private IDatabaseManager databaseManager;
     
     protected static Logger logger = Logger.getLogger(DefaultDatabaseCreator.class);
     private boolean isTagInit = false;
@@ -128,7 +131,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(24);
-	propertyTypeList.getLast().setName("travel time");
+	propertyTypeList.getLast().setName("travelTime");
 	//cost of living
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(3);
@@ -136,7 +139,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(300);
-	propertyTypeList.getLast().setName("cost of living");
+	propertyTypeList.getLast().setName("livingCost");
 	//food
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(4);
@@ -144,7 +147,7 @@ public class DefaultDatabaseCreator
 	propertyTypeList.getLast().setBetterWhenLess(true);
 	propertyTypeList.getLast().setMinValue(0);
 	propertyTypeList.getLast().setMaxValue(100);
-	propertyTypeList.getLast().setName("food");
+	propertyTypeList.getLast().setName("foodCost");
 	//mood
 	propertyTypeList.add(new PropertyType());
 	propertyTypeList.getLast().setId(6);
@@ -309,5 +312,9 @@ public class DefaultDatabaseCreator
 	city.setDmpList(dmpList);
 	return city;
 	
+    }
+    public void clearDatabase()
+    {
+	databaseManager.cleanDatabase();
     }
 }

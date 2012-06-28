@@ -10,30 +10,23 @@ import com.globerry.project.domain.PropertyType;
 public class PropertySegment
 {
     private PropertyType propertyType;
-    private float minValue;
-    private float maxValue;
-    public PropertySegment(Property property){
-	this.propertyType = property.getPropertyType();
-	this.setValue(property.getValue());
-    }
+    private float leftValue;
+    private float rightValue;
+    
     /*
      * @author max
      * Сомнительный метод, учитывая то, что в PropertyType есть мин и макс значения
      */
-    public PropertySegment(PropertyType propertyType, float minValue, float maxValue){
+    public PropertySegment(PropertyType propertyType, float leftValue, float rightValue){
 	this.propertyType = propertyType;
-	this.minValue = minValue;
-	this.maxValue = maxValue;
+	this.leftValue = leftValue;
+	this.rightValue = rightValue;
     }
-    /*
-     * @author max
-     * Написал аналог того что выше.
-     */
+    
     public PropertySegment(PropertyType propertyType){
-	this.propertyType = propertyType;
-	this.minValue = propertyType.getMinValue();
-	this.maxValue = propertyType.getMaxValue();
+	this(propertyType, propertyType.getMinValue(), propertyType.getMaxValue());
     }
+    
     public PropertyType getPropertyType()
     {
 	return propertyType;
@@ -42,24 +35,38 @@ public class PropertySegment
     {
 	this.propertyType = propertyType;
     }
-    public float getMinValue()
-    {
-	return minValue;
+
+    /**
+     * @return the leftValue
+     */
+    public float getLeftValue() {
+        return leftValue;
     }
-    public void setMinValue(float minValue)
-    {
-	this.minValue = minValue;
+
+    /**
+     * @param leftValue the leftValue to set
+     */
+    public void setLeftValue(float leftValue) {
+        this.leftValue = leftValue;
     }
-    public float getMaxValue()
-    {
-	return maxValue;
+
+    /**
+     * @return the rightValue
+     */
+    public float getRightValue() {
+        return rightValue;
     }
-    public void setMaxValue(float maxValue)
-    {
-	this.maxValue = maxValue;
+
+    /**
+     * @param rightValue the rightValue to set
+     */
+    public void setRightValue(float RightValue) {
+        this.rightValue = RightValue;
     }
-    public void setValue(float Value)
+    public String toString()
     {
-	//TODO for single slider
+        return String.format("Type: %s    LeftValue: %4.1f    RightValue: %4.1f\n", 
+                                    propertyType.getName(), leftValue, rightValue);
     }
+
 }

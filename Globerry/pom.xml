@@ -7,10 +7,9 @@
 	<packaging>war</packaging>
 	<version>1.0-b2</version>
         <scm>
-            <connection>scm:svn:http://cloud.grwe.ru/globerry</connection>
-            <developerConnection>scm:svn:http://cloud.grwe.ru/globerry</developerConnection>
-            <tag>HEAD</tag>
-            <url>http://cloud.grwe.ru/globerry</url>
+            <connection>scm:svn:http://cloud.grwe.ru/globerry/branches/develop</connection>
+            <developerConnection>scm:svn:http://cloud.grwe.ru/globerry/branches/develop</developerConnection>
+            
         </scm>
 	<properties>
             <java-version>1.6</java-version>
@@ -262,7 +261,7 @@
                 <version>3.7</version>
                 <scope>provided</scope>
             </dependency>
-            
+           
             <dependency>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>mojo-parent</artifactId>
@@ -320,8 +319,12 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <configuration>
                             <warName>Globerry</warName>
+                            <manifest>
+                                <addDefaultImplementionEntries>true</addDefaultImplementionEntries>
+                            </manifest>
                             <manifestEntries>
-                            <Version>${buildNumber}</Version>
+                                <Version>${buildNumber}</Version>
+                                <Implemantion-Build>${buildNumber}</Implemantion-Build>                               
                             </manifestEntries>
                     </configuration>
                 </plugin>

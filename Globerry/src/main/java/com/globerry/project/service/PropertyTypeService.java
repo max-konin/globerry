@@ -30,7 +30,7 @@ public class PropertyTypeService implements IPropertyTypeService
      * @see com.globerry.project.service.IPropertyTypeService#getPropertyTypeList()
      */
     @Override
-    public Set<PropertyType> getPropertyTypeList()
+    public List<PropertyType> getPropertyTypeList()
     {
 	// TODO Auto-generated method stub
 	return propertyTypeDao.getPropertyTypeList();

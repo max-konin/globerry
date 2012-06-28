@@ -31,11 +31,11 @@ public class TagDao implements ITagDao
 
     @SuppressWarnings("unchecked")
     @Override
-    public Set<Tag> getTagList()
+    public List<Tag> getTagList()
     {
-	Set<Tag> tagsList;
+	List<Tag> tagsList;
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	tagsList = new HashSet<Tag>(sessionFactory.getCurrentSession().createQuery("from Tag").list());
+	tagsList = sessionFactory.getCurrentSession().createQuery("from Tag").list();
 	tx.commit();
 	sessionFactory.close();
 	return tagsList;
@@ -154,7 +154,7 @@ public class TagDao implements ITagDao
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Tag tag = (Tag)sessionFactory.getCurrentSession().get(Tag.class, id);
 	tx.commit();
-	sessionFactory.close();
+	//sessionFactory.close();
 	return tag;
     }
 

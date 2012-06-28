@@ -27,13 +27,13 @@ public class Slider extends Observable implements ISlider
     {
 	if (!isStateCorrectly(newState))
 	    return;
-	getPropertySegment().setMinValue(newState);
+	getPropertySegment().setLeftValue(newState);
 	super.notifyObservers(new EventUI(this));
     }
     @Deprecated
     public float getMinValue()
     {
-	return getPropertySegment().getMinValue();
+	return getPropertySegment().getLeftValue();
     }
     public PropertyType getType()
     {
@@ -44,16 +44,16 @@ public class Slider extends Observable implements ISlider
     {
 	if (!(isStateCorrectly(newStateLeft)&&isStateCorrectly(newStateRight)&&(newStateLeft<=newStateRight)))
 	    return;
-	getPropertySegment().setMinValue(newStateLeft);
-	getPropertySegment().setMaxValue(newStateRight);
+	getPropertySegment().setLeftValue(newStateLeft);
+	getPropertySegment().setRightValue(newStateRight);
     }
     public float getStateLeft()
     {
-	return getPropertySegment().getMinValue();
+	return getPropertySegment().getLeftValue();
     }
     public float getStateRight()
     {
-	return getPropertySegment().getMaxValue();
+	return getPropertySegment().getRightValue();
     }
     private boolean isStateCorrectly(float newState){
 	return (newState <= getPropertySegment().getPropertyType().getMaxValue()&& newState >= getPropertySegment().getPropertyType().getMinValue())?true:false;

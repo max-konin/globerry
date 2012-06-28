@@ -10,9 +10,16 @@ import com.globerry.project.domain.PropertyType;
 public interface IPropertyTypeDao
 {
     public void addPropertyType(PropertyType propertyType) throws MySqlException;
-    public Set<PropertyType> getPropertyTypeList();
+    public List<PropertyType> getPropertyTypeList();
     public void updatePropertyType(PropertyType propertyType);
     public void removePropertyType(PropertyType propertyType);
     public void removePropertyType(int id);
     public PropertyType getById(int id);
+    /**
+     * Функция которая возвращает PropertyType из названия
+     * @param name название PropertyType 
+     * @return propertyType или null, если его не существует
+     * 
+     */
+    public PropertyType getPropertyTypeByName(String name);
 }

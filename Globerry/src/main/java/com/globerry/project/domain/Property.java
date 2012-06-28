@@ -63,6 +63,9 @@ public class Property implements IRelationsQualifier
     {
 	this.propertyType = propertyType;
     }
- 
+    public String toString()
+    {
+        return String.format("id: %d; value: %f; Type: %s \n", id, value, propertyType.getName());
+    }
 
 }

@@ -21,7 +21,7 @@ public class BlockWho extends IOptionBlock
     ITagDao tagDao;
     @Override
     protected void tagsLoad(){
-	Set<Tag> tagList = tagDao.getTagList();
+	List<Tag> tagList = tagDao.getTagList();
 	Iterator<Tag> tagIterator = tagList.iterator();
 	while (tagIterator.hasNext()){
 	    Tag tag = tagIterator.next();

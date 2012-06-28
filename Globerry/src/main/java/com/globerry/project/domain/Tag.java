@@ -104,4 +104,8 @@ public class Tag
 	// TODO Auto-generated method stub
 	
     }
+    public String toString()
+    {
+        return String.format("id: %d; name: %s;\n", id, name);
+    }
 }

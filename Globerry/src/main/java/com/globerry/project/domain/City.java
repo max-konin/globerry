@@ -35,6 +35,7 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.mapping.Collection;
 
 import com.globerry.project.utils.PropertySegment;
+import java.util.*;
 
 @Entity
 @Table(name = "City")
@@ -282,16 +283,17 @@ public class City implements Serializable, IRelationsQualifier
 	this.weight = weight;
     }
     /*
-     * @throws IllegalArgumentException если не найдено сваоство заданного типа.
+     * Возвращает значения свойство по типу свойства и месяцу
+     * Если Свойство не найденно то вернется Float.MAX_VALUE
      */
-    public float getValueByPropertyType(PropertyType type)  
+    public float getValueByPropertyType(PropertyType type, Month month)  
     {
 	
 	if (type.isDependingMonth()){
 	    Iterator<DependingMonthProperty> it = dmpList.iterator();
 	    while (it.hasNext()){
 		DependingMonthProperty property = it.next();
-		if (property.getPropertyType().getId() == type.getId()){
+		if ((property.getPropertyType().getId() == type.getId()) && (property.getMonth() == month)){
 		    return property.getValue();
 		}
 	    }
@@ -304,8 +306,66 @@ public class City implements Serializable, IRelationsQualifier
 		}
 	    }
 	}
-        throw new IllegalArgumentException("City with id = " + this.id + "hasn't property of property type" + type.getName());
+        return Float.MAX_VALUE;
 	
+    }
+    public String toString(){
+        String str = new String();
+        str = String.format("City:  %s-----------------------------------------------------------------------------\n"+
+                            "       id:         %d\n" +
+                            "       area:       %f\n" +
+                            "       longitude:  %f\n" + 
+                            "       message:    %s\n" +
+                            "       population: %d\n" +
+                            "       latitude:   %f\n" +
+                            "       isValid:    %s\n", 
+                            name, id, area, longitude, message, population,latitude, isValid.toString());
+        
+        str += "       Tags:\n";
+        for(Tag tag: tagList)
+            str += "            " + tag.toString();
+        
+        str += "       Property:\n";      
+        
+        for(Property prop: propertyList)
+        {
+            str += "            " + prop.toString();
+        } 
+        HashMap<String, HashMap<Month, DependingMonthProperty>> propertyTable = 
+                                                       new  HashMap<String, HashMap<Month, DependingMonthProperty>>(); 
+        for(DependingMonthProperty prop: dmpList)
+        {
+            if (!propertyTable.containsKey(prop.getPropertyType().getName()))
+                propertyTable.put(prop.getPropertyType().getName(), new HashMap<Month, DependingMonthProperty>());
+            propertyTable.get(prop.getPropertyType().getName()).put(prop.getMonth(), prop);           
+        }
+        
+        str += "       Depending month property:\n";   
+            str += "            |propName            |JANUARY  |FEBRUARY |MARCH    |APRIL    |MAY      |JUNE     |JULY     "
+                                                                              + "|AUGUST   |SEPTEMBER|"
+                                                                               + "OCTOBER  |NOVEMBER |DECEMBER \n";
+        for(String propName: propertyTable.keySet())
+        {
+            str +=   String.format("            |%20s|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f"
+                                                                            + "|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|\n", 
+                                           propName,
+                                           propertyTable.get(propName).get(Month.JANUARY).getValue(),
+                                           propertyTable.get(propName).get(Month.FEBRUARY).getValue(),
+                                           propertyTable.get(propName).get(Month.MARCH).getValue(),
+                                           propertyTable.get(propName).get(Month.APRIL).getValue(),
+                                           propertyTable.get(propName).get(Month.MAY).getValue(),
+                                           propertyTable.get(propName).get(Month.JUNE).getValue(),
+                                           propertyTable.get(propName).get(Month.JULY).getValue(),
+                                           propertyTable.get(propName).get(Month.AUGUST).getValue(),
+                                           propertyTable.get(propName).get(Month.SEPTEMBER).getValue(),
+                                           propertyTable.get(propName).get(Month.OCTOBER).getValue(),
+                                           propertyTable.get(propName).get(Month.NOVEMBER).getValue(),
+                                           propertyTable.get(propName).get(Month.DECEMBER).getValue()
+                                );
+          
+        }
+        return str + "END CITY-----------------------------------------------------------------------------\n";                
+              
     }
 
 }

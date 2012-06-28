@@ -1,0 +1,497 @@
+body, html 
+{
+     height:100%;
+     margin:0px;
+     padding:0px;
+}
+
+ #div_container
+{
+	width:100%;
+	height : 100%; 
+	position : absolute;
+	min-width : 900px;
+	min-height : 600px;
+	scrolling : auto;
+	/*background-color:#333;*/
+}
+
+ #head
+{
+	top:45px;
+	width:92%;
+	/*height: 8%;*/
+	/*min-height : 55px;*/
+	right : 4%;
+	position : absolute;
+	min-width : 860px;
+	scrolling : auto;
+    border: none;
+	box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
+	-webkit-box-shadow: 0px 0px 10px #888;
+    -moz-border-radius:4px;
+    -khtml-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+	z-index : 1;
+	display:block;
+	max-height : 60px;
+}
+#GLIMG
+{
+	height:100%;
+	margin-left:18px;
+	padding-top : 12px;
+	float: left;
+}
+#SliderRequest
+{
+	top: 45px;
+	width:92%;
+	/*height: 20%;
+	min-height : 170px;*/
+	right : 4%;
+	position : absolute;
+	min-width : 860px;
+	scrolling : auto;
+    border: none;
+	display:none;
+	z-index : 1;
+}
+
+
+ #globerryImg
+{
+	width:92%;
+	height: 45px;
+	right : 4%;
+	position : absolute;
+	min-width : 860px;
+	scrolling : auto;
+    border: none;
+     
+	box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
+	-webkit-box-shadow: 0px 0px 10px #888;
+	z-index : 2;
+
+}
+
+ #Request
+{
+	margin-bottom: 0.2%;
+	width:100%;
+	height : 45px; 
+	position : relative;
+	background-color:rgb(37, 46, 64);
+	/*overflow :hidden;*/
+	border: 1px;
+	border-color: black;
+	display:block;
+}
+#SliderRequestContent
+{
+	/*padding-top: 5px;*/
+	width:100%;
+	height : 140px; 
+	position : relative;
+	background-color:rgb(37, 46, 64);
+	opacity : 0.9;
+	overflow :hidden;
+	border: 1px;
+	border-color: black;
+	box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
+	-webkit-box-shadow: 0px 0px 10px #888;
+
+}
+#SliderRequestBottom
+{
+	width:100%;
+	height : 5%;
+	min-height : 20px; 
+	position : relative;
+	overflow :hidden;
+	border: 1px;
+	border-color: black;
+    border-bottom-right-radius:4px;
+    border-bottom-left-radius: 4px;
+	box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
+	-webkit-box-shadow: 0px 0px 10px #888;
+	z-index:2;
+}
+
+#LetsGo
+{
+	float:right;
+	/*background-color:#777;
+	padding-left:2%;*/
+	padding-right:0%;
+	padding-top:0.9em;
+	margin-left:0%;
+	margin-right:1.8%;
+}
+
+#bottomToggle
+{
+	min-height : 20px; 
+}
+
+#map
+{
+	bottom : 0%;
+	right: 0%;
+	width: 100%;
+	min-width : 900px;
+	min-height : 600px;
+	height : 100%; 
+	position : absolute;
+	margin: 0 auto;
+	z-index : 0;
+}
+
+.roundBorder
+{
+     background: rgb(255, 122, 2); /* Для старых браузров */
+     background: -moz-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); /* Firefox 3.6+  fefcea */
+     background: -webkit-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0));
+     background: -o-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); /* Opera 11.10+ */
+     background: -ms-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); /* IE10 */
+     background: linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); /* CSS3 */ 
+ }
+ 
+ .textRequests
+ {
+	height : 100%; 
+	position : relative;
+	margin-left:1.8%;
+	padding-right:1.8%;
+	/*background-color:#eee;*/
+	overflow :visible;
+	float: left;
+ }
+ 
+ .reqMenu
+ {
+	height : 100%; /**/
+	position : relative;
+	/*background-color:#777;*/
+	float: left;
+	overflow :visible;
+	padding-right:1.8%;
+	border-right: 1px solid #777;
+ }
+ 
+ .textInRequests
+ {
+ 	padding-top : 0%;
+ 	margin-top : 16px;
+ 	/*height : 100%;*/
+	color:White;
+	font-size:12pt;
+    font-family :sans-serif;
+	cursor :default;
+ }
+ 
+ .number
+ {
+ 	color:rgb(0, 216, 255);
+	cursor :default;
+ }
+ 
+ .button
+ { 
+     display: inline-block;
+     white-space: nowrap;
+     background-color: rgb(254, 105, 0);
+     border: 1px solid Black;
+     padding: 0.16em 0.9em;
+     /*margin: 0.5em;*/
+     font-family :sans-serif;
+     text-decoration: none;
+     color: Black;
+     -moz-border-radius: .2em;
+     -webkit-border-radius: .2em;
+     border-radius: .2em;
+     /*width : 50px;*/
+ }
+#buttonHeadSwitcher:hover
+{
+     background-color: rgb(252, 63, 0);
+     /*width : 50px;*/
+}
+
+#bottomToggle:hover
+{
+    background-color: rgb(252, 63, 0);
+	cursor: pointer;
+}
+
+.shadow
+{
+	box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
+	-webkit-box-shadow: 0px 0px 10px #888;
+}
+
+.toggels
+{
+	height : 100%; 
+	width: 6.8%;
+	margin-right: 1.8%;
+	position : relative;
+	box-shadow: 0px -4px -1px #333;
+	-moz-box-shadow: 0px -1px 4px #333;
+	-webkit-box-shadow: 0px -1px 4px #333;
+	background-color:rgb(255, 119, 4);
+	overflow :hidden;
+	float: right;
+	display:none;
+	z-index:2;
+}
+
+#Sliders
+{
+     height: 100%;
+}
+
+#secondBlock
+{
+	border-left: 1px solid #777;
+	padding-left: 1.8%;
+}
+
+#thirdBlock
+{
+	border-left: 1px solid #777;
+	padding-left: 1.8%;
+}
+#forthBlock
+{
+	border-left: 1px solid #777;
+	padding-left: 1.8%;
+	
+}
+#fifthBlock
+{
+	border-left: 1px solid #777;
+	width: 6.8%;
+	min-width : 20px;
+	float:right;
+	padding-right: 1.8%;
+	margin-left :0%;
+}
+
+.blocks
+{
+	position:relative;
+	float:left;
+	width : 161px;/*
+	max-width : 180px;
+	min-width: 150px;*/
+	height:100%;
+	margin-left :1.8%;
+}
+
+#arrowcw
+{
+	margin-left: -12px;
+	min-height : 20px; 
+	position:relative;
+	float:left;
+	width:50%;
+	height:100%;
+}
+#arrow
+{
+	padding-top: 6px;
+	position:relative;
+	float:left;
+}
+
+#circlecw
+{
+	margin-left: -5px;
+	position:relative;
+	float:left;
+	width:50%;
+	height:100%;
+}
+#circlech
+{
+	margin-top: -16px;
+	position:relative;
+	float:left;
+	width:50%;
+	height:100%;
+}
+
+#circle
+{
+	position: relative;
+	float: left;
+	width: 10px;
+	height:10px;
+	border : 2px solid white;
+	border-radius:50%;
+}
+
+#calenrarimg
+{
+	padding-top: 6px;
+	padding-left:8px;
+	position: relative;
+	float: left;
+	height:100%;
+	min-height : 25px; 
+	/*padding-right : 4px;*/
+	border-right : 1px solid #777;
+	width: 100%;
+	z-index:1;
+}
+
+.calMonth
+{
+	padding-top: 6px;
+	position: relative;
+	min-height : 25px; 
+	float: left;
+	height:100%;
+	font-size: 12px;
+	/*padding-right : 1%;*/
+	border-right : 1px solid #777;
+    font-family :sans-serif;
+    color: White;
+	width:7.65%;
+	text-align:center;
+	background-color:rgb(37, 46, 64);
+	box-shadow: 5px 0px 10px #888;
+	-moz-box-shadow: 5px 0px 10px #888;
+	-webkit-box-shadow: 5px 0px 10px #888;
+	cursor: pointer;
+	z-index:1;
+}
+
+#dec
+{
+    border-bottom-right-radius: 4px;
+	box-shadow: 1px 1px 3px #888;
+	-moz-box-shadow: 1px 1px 3px #888;
+	-webkit-box-shadow: 1px 1px 3px #888;
+}
+#jan
+{
+	border-left : 1px solid #777;
+}
+#jan
+{
+	background-color:rgb(236, 72, 7);
+}
+
+#monthes
+{
+	width:3%;/**/
+	margin-left:1.8%;
+	height : 5%;
+	min-width: 32px;
+	min-height : 25px; 
+	position : relative;
+	float:left;
+	overflow :hidden;
+	border: 1px;
+	border-color: black;
+	background-color:rgb(37, 46, 64);
+    border-bottom-left-radius: 4px;
+	box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
+	-webkit-box-shadow: 0px 0px 10px #888;
+}
+
+#monthContainer
+{
+	width:93%;
+	height : 5%;
+	min-height : 25px; 
+	position : relative;
+	float:left;
+	overflow :hidden;
+	border: 1px;
+	border-color: black;
+	background-color:rgb(37, 46, 64);
+    border-bottom-right-radius:4px;
+	box-shadow: 0px 0px 10px #888;
+	-moz-box-shadow: 0px 0px 10px #888;
+	-webkit-box-shadow: 0px 0px 10px #888;
+}
+
+#Visa
+{
+	position : relative;
+	float:left;
+	padding-top: 25px;
+	padding-left:8px;
+}
+
+#VisaAc
+{
+	top: 30px;
+}
+
+#Lang
+{
+	position : absolute;
+	top: 90px;
+	left:8px;
+}
+
+#LangAc
+{
+	top: 95px;
+}
+
+.VLBut
+{
+	position : absolute;
+	left:54px;
+	width: 10px;
+	height: 10px;
+	background-color:rgb(255, 119, 4);
+	border: 1px solid black;
+	cursor : pointer;
+	-moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+.fbText
+{
+ 	color:rgb(0, 216, 255);
+	font-size:12pt;
+    font-family :sans-serif;
+	cursor :default;
+}
+
+#whoReq
+{
+	display:block;
+}/**/
+#headText
+{
+	padding-top: 12px;
+	width : 70%;/**/
+	position : relative;
+	float : left;
+	text-align : center;
+	padding-left : 0px;
+}
+#HText
+{
+	text-align : center;
+	width : 100%;/**/
+	opacity : 1;
+	border: none;
+	background : transparent;
+	color : white;
+	font-size : 14pt;
+}

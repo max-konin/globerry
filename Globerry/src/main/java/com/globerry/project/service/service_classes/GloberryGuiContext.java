@@ -4,16 +4,27 @@
  */
 package com.globerry.project.service.service_classes;
 
-import com.globerry.project.service.gui.IGuiComponent;
-import com.globerry.project.service.gui.SelectBox;
+import com.globerry.project.dao.IPropertyTypeDao;
+import com.globerry.project.dao.ITagDao;
+import com.globerry.project.domain.PropertyType;
+import com.globerry.project.domain.Tag;
+import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.gui.Slider;
+import com.globerry.project.service.gui.IGuiComponent;
+import com.globerry.project.service.gui.ISlider;
+import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
  * Класс, который содержит в себе информацию о состоянии элементов в приложении. Соответствие между элементами на
  * сервере и в этом классе необходимо держать в актуальном состоянии.
+ *
  * @see http://grwe.ru/ids.png .
  * @author Ed
  */
@@ -23,47 +34,59 @@ public class GloberryGuiContext implements IApplicationContext {
     SelectBox whoTag, whenTag, whatTag;
     Slider alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider, temperatureSlider;
     HashMap<Integer, IGuiComponent> componentsMap;
-    
+    HashMap<String, Slider> sliders;
+    @Autowired
+    ITagDao tagDao;
+    @Autowired
+    IPropertyTypeDao propertyTypeDao;
+
     /**
-     * Инициализирует новый экземпляр контекста приложения. Хранит в себе состояние всех контроллов в приложении.
-     * Какой id чему соответствует можно посмотреть здесь @see http://grwe.ru/ids.png .
+     * Инициализирует новый экземпляр контекста приложения. Хранит в себе состояние всех контроллов в приложении. Какой
+     * id чему соответствует можно посмотреть здесь
+     *
+     * @see http://grwe.ru/ids.png .
      */
-    public GloberryGuiContext() {
+    @Override
+    public void init() {
         componentsMap = new HashMap<Integer, IGuiComponent>();
-        
+        sliders = new HashMap<String, Slider>();
+
+        List<Tag> tags = tagDao.getTagList();
         whoTag = new SelectBox(1);
-        whoTag.addValue(1);
-        whoTag.addValue(2);
-        whoTag.addValue(3);
-        whoTag.addValue(4);
-        componentsMap.put(1, whoTag);
-        
         whatTag = new SelectBox(2);
-        for(int i = 1; i < 5; i++)
-            whatTag.addValue(i);
-        componentsMap.put(2, whatTag);
-        
+        for (Tag tag : tags) {
+            if (tag.getTagsType() == TagsType.WHO) {
+                whoTag.addValue(tag.getId());
+            } else {
+                whatTag.addValue(tag.getId());
+            }
+        }
+        componentsMap.put(1, whoTag);
+        componentsMap.put(2, whoTag);
+
         whenTag = new SelectBox(3);
-        for(int i = 1; i < 13; i++)
+        for (int i = 1; i < 13; i++) {
             whenTag.addValue(i);
+        }
         componentsMap.put(3, whenTag);
-        
-        temperatureSlider = new Slider(4, -35, +35);
-        componentsMap.put(4, temperatureSlider);
-        
-        travelTimeSlider = new Slider(5, 0, 24);
-        componentsMap.put(5, travelTimeSlider);
-        
-        livingCostSlider = new Slider(6, 0 , 300);
-        componentsMap.put(6, livingCostSlider);
-        
-        foodCostSlider = new Slider(7, 0, 100);
-        componentsMap.put(7, foodCostSlider);
-        
-        alcoholSlider = new Slider(8, 0, 30);
-        componentsMap.put(8, alcoholSlider);
+
+        List<PropertyType> properyTypes = propertyTypeDao.getPropertyTypeList();
+
+        int i = 4;
+        Slider slider;
+        for (PropertyType type : properyTypes) {
+            slider = new Slider(i, type);
+            sliders.put(type.getName(), slider);
+            componentsMap.put(i, slider);
+            i++;
+            //TODO Затычка для dependingMounth.
+            if (slider.getPropertyType().getId() >= 7) {
+                slider.getPropertyType().setDependingMonth(true);
+            }
+        }
+
     }
-    
+
     @Override
     public SelectBox getWhoTag() {
         return whoTag;
@@ -77,6 +100,11 @@ public class GloberryGuiContext implements IApplicationContext {
     @Override
     public SelectBox getWhatTag() {
         return whatTag;
+    }
+
+    @Override
+    public Slider getSlidersByName(String name) {
+        return getSliders().get(name);
     }
 
     @Override
@@ -107,25 +135,36 @@ public class GloberryGuiContext implements IApplicationContext {
     @Override
     public IGuiComponent getObjectById(int id) throws IllegalArgumentException {
         IGuiComponent ret = componentsMap.get(id);
-        if(ret == null)
+        if (ret == null) {
             throw new IllegalArgumentException("Element with such id doesn't exist");
+        }
         return ret;
     }
-    
+
     @Override
     public String toString() {
-        
-        return String.format("Selects: Who   %s,\n"
-                +            "         When: %s\n"
-                +            "         What: %s\n"
-                +            "Sliders: Alcohol: %s\n"
-                +            "         travel time: %s\n"
-                +            "         living cost: %s\n"
-                +            "         food cost: %s\n"
-                +            "         temperature: %s",
-                whoTag, whenTag, whatTag, alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider,
-                temperatureSlider);
-        
+        String str = String.format("\nSelects: "
+                + "         Who:   %s,\n"
+                + "         When: %s\n"
+                + "         What: %s\n"
+                + "Sliders:",
+                whoTag, whenTag, whatTag);
+        for (String name : sliders.keySet()) {
+            str += String.format("\n         " + name + ":  %s\n", sliders.get(name));
+        }
+        return str;
+        /*
+         * return String.format("Selects: Who %s,\n" + " When: %s\n" + " What: %s\n" + "Sliders: Alcohol: %s\n" + "
+         * travel time: %s\n" + " living cost: %s\n" + " food cost: %s\n" + " temperature: %s", whoTag, whenTag,
+         * whatTag, alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider, temperatureSlider);
+         */
+
     }
-    
+
+    /**
+     * @return the sliders
+     */
+    public HashMap<String, Slider> getSliders() {
+        return sliders;
+    }
 }

@@ -22,6 +22,7 @@ import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.*;
 import com.globerry.project.service.gui.IGuiComponent;
+import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.interfaces.ISliders;
 import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.service_classes.GloberryGuiContext;
@@ -84,6 +85,7 @@ public class HomeController {
             who(whereTag);
         }
         //---Инициализация слайдеров
+        appContext.init();
         sliders.init();
         model.addAttribute("hash", this.hashCode());
         return "home";
@@ -94,18 +96,17 @@ public class HomeController {
     public @ResponseBody
     City[] test() {
         //this.cityInit();
-
+        logger.debug("GUI State:" + appContext.toString());
         City[] cities = null;
-        System.out.println("Запрос городов от клиента");
-        List<City> cityList = userCityService.getCityList();
+        logger.debug("Запрос городов от клиента");
+        List<City> cityList = userCityService.getCityList(appContext);
         cities = new City[cityList.size()];
         cityList.toArray(cities);
-        System.out.println("Найдено " + ((Integer) cities.length).toString() + " города");
-        System.out.println("Найдено " + cityList.size());
+        logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
+        logger.debug("Найдено " + cityList.size());
         for (int i = 0; i < cities.length; i++) {
-            System.out.println(cities[i].getName() + " weight: " + cities[i].getWeight());
-        }
-        //System.out.println("Найдено "+((Integer)cities.length).toString()+" города");
+            logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
+        }      
         return cities;
     }
 
@@ -173,8 +174,9 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/globerry_new")
-    public String home(Map<String,Object> map) {   
-        map.put("who", appContext.getWhoTag());
+    public String home(Map<String,Object> map) {
+        
+       /* map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());
         map.put("what", appContext.getWhatTag());
         
@@ -182,13 +184,24 @@ public class HomeController {
         map.put("travelTime", appContext.getTravelTimeSlider());
         map.put("livingCost", appContext.getLivingCostSlider());
         map.put("foodCost", appContext.getFoodCostSlider());
-        map.put("temperature", appContext.getTemperatureSlider());
-        return "home_new";
+        map.put("temperature", appContext.getTemperatureSlider());*/
+        appContext.init();
+        map.put("who", appContext.getWhoTag());
+        map.put("when", appContext.getWhenTag());
+        map.put("what", appContext.getWhatTag());        
+        
+        List<City> cities = userCityService.getCityList(appContext);
+        map.put("cities", cities);
+        for(String sliderName: appContext.getSliders().keySet())
+            map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
+                
+        //return "home_new";
+        return "home_new_design";
     }
     
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
     @ResponseBody
-    public void guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request) {
+    public City[] guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request){
         try
         {
             for (com.globerry.project.service.service_classes.Request r : request) {
@@ -199,7 +212,17 @@ public class HomeController {
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
         }
-        System.out.println(appContext);
+        logger.debug("Запрос городов от клиента");
+        List<City> cityList = userCityService.getCityList(appContext);
+        City[] cities = new City[cityList.size()];
+        cityList.toArray(cities);
+        logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
+        logger.debug("Найдено " + cityList.size());
+        for (int i = 0; i < cities.length; i++) {
+            logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
+        }
+        logger.debug(appContext.toString());
+        return cities;
     }
     @RequestMapping(value = "/bezier")
     public String bezier() {

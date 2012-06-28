@@ -48,8 +48,13 @@ public class AdminParser implements IAdminParser
     @Autowired
     private DefaultDatabaseCreator defaultDatabaseCreator;
     private Excel exc;
+    //Здесь создается таблица PropertyType. В качестве name берётся заголовок столбца в экселе
+    final int sheetNumber = 0;
+    final int startPositionProperty = 5; //Стартовая позиция для property
+    final int devider = 11; // Перменная которая разделяет Property от DependingMonthProperty в excel. Cтартовая позиция для Dmp
+	//final int tagsDevider = 47;//переменная которая отделяет dependingMonthProperty от tag.
     
-    protected static Logger logger = Logger.getLogger("service");
+    protected static Logger logger = Logger.getLogger(AdminParser.class);
     /* (non-Javadoc)
      * @see com.globerry.project.service.IAdminParser#updateCities()
      */
@@ -80,7 +85,7 @@ public class AdminParser implements IAdminParser
 	catch(Exception e)
 	{
 	    e.printStackTrace();
-	    Set <PropertyType> listPT = propertyTypeDao.getPropertyTypeList();
+	    List<PropertyType> listPT = propertyTypeDao.getPropertyTypeList();
 	    Iterator<PropertyType> it = listPT.iterator();
 	    while(it.hasNext())
 	    {
@@ -102,10 +107,10 @@ public class AdminParser implements IAdminParser
 	    }
 	    catch(NullPointerException e)
 	    {
-		System.err.println("Обработанный эксепшн");
+		logger.error("Обработанный эксепшн");
 		break;
 	    }
-	    System.out.println(cityWiki.getLatitude());
+	    logger.info(cityWiki.getLatitude());
 	    city.setLatitude(coordsTransform(cityWiki.getLatitude()));
 	    city.setLongitude(coordsTransform(cityWiki.getLongitude()));
 	    city.setPopulation(cityWiki.getPopulation());
@@ -113,11 +118,11 @@ public class AdminParser implements IAdminParser
 	    city.setMessage(cityWiki.getMessage());
 	    city.setIsValid(cityWiki.getIsValid());
 	    
-	    System.err.println("-------------------------------------");
-	    System.err.println("cityWiki: " + cityWiki.getIsValid());
-	    System.err.println("-------------------------------------");
-	    System.err.println("city" + city.getIsValid());
-	    System.err.println("-------------------------------------");
+	    logger.info("-------------------------------------");
+	    logger.info("cityWiki: " + cityWiki.getIsValid());
+	    logger.info("-------------------------------------");
+	    logger.info("city" + city.getIsValid());
+	    logger.info("-------------------------------------");
 /*	    float[] temperature = cityWiki.getTemperature();
 	    if(temperature != null)
 	    {
@@ -200,86 +205,11 @@ public class AdminParser implements IAdminParser
      */
     private void cityParse() throws MySqlException, ExcelParserException
     {
-	//Здесь создается таблица PropertyType. В качестве name берётся заголовок столбца в экселе
-	final int sheetNumber = 0;
-	final int startPositionProperty = 5; //Стартовая позиция для property
-	final int devider = 11; // Перменная которая разделяет Property от DependingMonthProperty в excel. Cтартовая позиция для Dmp
-	//final int tagsDevider = 47;//переменная которая отделяет dependingMonthProperty от tag.
+
 	
-	List<PropertyType> ptList = new ArrayList<PropertyType>(); 
-	List<PropertyType> ptDmpList = new ArrayList<PropertyType>(); 
-	//-----------СОЗДАНИЕ PROPERTY и DEPENDING MONTH PROPERTY
-	PropertyType propType = new PropertyType(); //против Stack Overflow.
-	for(int j = startPositionProperty; j < devider; j++) //Количество столбцов property. В данном случае в эксельнике 8 столбцов property
-	{
-	    	//PropertyType propType = new PropertyType();
-	    	propType.setDependingMonth(false);
-	    	propType.setMinValue(0);
-	    	propType.setMaxValue(20);
-	    	try
-	    	{
-	    	    propType.setName(exc.getStringField(sheetNumber, 0, j)); // j - startPositionProperty на ноль переход
-	    	}
-	    	catch(NullPointerException e)
-	    	{
-	    	    ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-	    		    			+ exc.getSheetName(sheetNumber) + 
-	    		    			"line 0" +
-	    		    			"column" + j, j);
-	    	    System.err.println("Error in name of property sheet: " + exc.getSheetName(sheetNumber) + 
-	    			"line 0" +
-	    			"column" + j);
-	    	    throw excParseExc;
-	    	    
-	    	}
-		try
-		{
-		    ptList.add(propType);
-		    propertyTypeDao.addPropertyType(propType);
-		} catch (MySqlException e)
-		{
-	   	    throw e;
-		} // чтобы лист начинался с 0
-			
-	}
-	//Создание propertyType для Dmp
-	for(int j = devider; j < exc.getRowLenght(sheetNumber); j+=12)
-	{
-	    //PropertyType propType = new PropertyType();
-	    propType.setName(exc.getStringField(sheetNumber, 0, j));
-	    propType.setDependingMonth(true);
-	    if(exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("температура") || exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("temperature"))
-	    {
-		    propType.setMinValue(-35);
-		    propType.setMaxValue(35);
-	    }
-	    else
-	    {
-		propType.setMinValue(0);
-		propType.setMaxValue(150);
-	    }
-	    try
-	    {
-		ptDmpList.add(propType);
-		propertyTypeDao.addPropertyType(propType);
-	    } catch (MySqlException e)
-	    {
-		throw e;
-	    }// получение 10 + j в случае и записывание в list[j]
-	    catch(NullPointerException e)
-	    {
-	        ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-	    	    			+ exc.getSheetName(sheetNumber) + 
-	    	    			"line 0" +
-	    	    			"column" + j, j);
-	        System.err.println("Error in name of property sheet: " 
-	    			+ exc.getSheetName(sheetNumber) + 
-	    			"line 0" +
-	    			"column" + j);
-	        throw excParseExc;
-	        
-	    }
-	}
+	List<PropertyType> ptList = createPropertyTypeList(); 
+	List<PropertyType> ptDmpList = createDependingMonthPropertyList(); 
+	
 	//ЗАПОЛНЕНИЕ БД
 	int i = 2;
 	//while(i<exc.getLenght(0))
@@ -328,7 +258,7 @@ public class AdminParser implements IAdminParser
 	       		    DependingMonthProperty dmpFunFactorType = new DependingMonthProperty();
 	       		    try
 	       		    {
-	       			dmpFunFactorType.setValue((float)exc.getFloatField(sheetNumber, i, j + devider + 12*k)); // fun factor в файле начинается с 10
+	       			dmpFunFactorType.setValue((float)exc.getFloatField(sheetNumber, i, j + devider + 12*k)); 
 	       		    }
 	       		    catch(NullPointerException e)
 	       		    {
@@ -339,7 +269,7 @@ public class AdminParser implements IAdminParser
 	       			throw excParseExc;
 	       		    }
 	       		    dmpFunFactorType.setMonth(j);
-	       		    dmpFunFactorType.setPropertyType(ptList.get(k));
+	       		    dmpFunFactorType.setPropertyType(ptDmpList.get(k));
 	       		    city.getDmpList().add(dmpFunFactorType);
 	       	    	}
 	    	}
@@ -379,7 +309,7 @@ public class AdminParser implements IAdminParser
 	    city.setValid(cityFromWiki.getIsValid());
 	    city.setMessage(cityFromWiki.getMessage());
 	    logger.error("City Valid:" + cityFromWiki.getIsValid());
-	    System.err.println("City Valid:" + cityFromWiki.getIsValid());
+	    logger.error("City Valid:" + cityFromWiki.getIsValid());
 	}
     }*/
     /**
@@ -563,8 +493,111 @@ public class AdminParser implements IAdminParser
 	}
 	else
 	    return -(splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600);
-    }//*/
+    }
+    /**
+     * Функция заполняющая PropertyType. Свойства находятся в том же порядке что и столбцы в экселе
+     * @return Возвращает список свойст
+     * @throws ExcelParserException Вызывается при ошибке парсера, какая то ошибка в экселе
+     * @throws MySqlException
+     */
+    private List<PropertyType> createPropertyTypeList() throws ExcelParserException, MySqlException
+    {
+	List<PropertyType> ptList = new ArrayList<PropertyType>();
+	PropertyType propType = new PropertyType(); //против Stack Overflow.
+	for(int j = startPositionProperty; j < devider; j++) //Количество столбцов property. В данном случае в эксельнике 8 столбцов property
+	{
+	    	
+	    try
+	    {
+		if(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j))!= null)
+		{
+		    ptList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
+		}
+		else
+		{
+		    propType.setName(exc.getStringField(sheetNumber, 0, j)); // j - startPositionProperty на ноль переход
+		    propType.setDependingMonth(false);
+		    propType.setMinValue(0);
+		    propType.setMaxValue(20);
+		    try
+		    {
+			propertyTypeDao.addPropertyType(propType);
+			ptList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
+		    } catch (MySqlException e)
+		    {
+		      throw e;
+		    } // чтобы лист начинался с 0
+		}
+	    }
+	    catch(NullPointerException e)
+	    {
+		ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
+			+ exc.getSheetName(sheetNumber) + 
+			"line 0" +
+			"column" + j, j);
+		logger.error("Error in name of property sheet: " + exc.getSheetName(sheetNumber) + 
+			"line 0" +
+			"column" + j);
+		throw excParseExc;
+	    	    
+	    }			
+	}
+	return ptList;
+    }
+    private List<PropertyType> createDependingMonthPropertyList() throws MySqlException, ExcelParserException
+    {
+	List<PropertyType> ptDmpList = new ArrayList<PropertyType>(); 
+	PropertyType propType;
+	//Создание propertyType для Dmp
+	for(int j = devider; j < exc.getRowLenght(sheetNumber); j+=12)
+	{
+	    propType = new PropertyType();
+	    if(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)) != null)
+	    {
+		ptDmpList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
+	    }
+	    else
+	    {
+		propType.setName(exc.getStringField(sheetNumber, 0, j));
+        	propType.setDependingMonth(true);
+        	if(exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("температура") || exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("temperature"))
+        	{
+        	    propType.setMinValue(-35);
+        	    propType.setMaxValue(35);
+        	}
+        	else
+        	{
+        	    propType.setMinValue(0);
+        	    propType.setMaxValue(300);
+        	}
+        	
+        	try
+        	{
+        	    propertyTypeDao.addPropertyType(propType);
+        	    ptDmpList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
+        	}         	
+        	catch (MySqlException e)
+        	{
+        	    throw e;
+        	}// получение 10 + j в случае и записывание в list[j]
+        	catch(NullPointerException e)
+        	{
+        	    ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
+        		    + exc.getSheetName(sheetNumber) + 
+        		    	"line 0" +
+        		    	"column" + j, j);
+        	    logger.error("Error in name of property sheet: " 
+        		    		+ exc.getSheetName(sheetNumber) + 
+        		    		"line 0" +
+        		    		"column" + j);
+        	    throw excParseExc;
+        		        
+        	}
+    	}
+	
+    }
+return ptDmpList;
 
-
+    }
 }
 
