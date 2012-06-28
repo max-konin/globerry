@@ -60,7 +60,8 @@ public class HomeController {
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
     @Autowired
-    IApplicationContext appContext;
+    IApplicationContext appContext;   
+    
 
     /*
      * Only for debug mode
@@ -96,14 +97,21 @@ public class HomeController {
     public @ResponseBody
     City[] test() {
         //this.cityInit();
-        logger.debug("GUI State:" + appContext.toString());
+        logger.debug("GUI State: " + appContext.toString());
+        
         City[] cities = null;
+        
         logger.debug("Запрос городов от клиента");
+        
         List<City> cityList = userCityService.getCityList(appContext);
         cities = new City[cityList.size()];
         cityList.toArray(cities);
+        
         logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
         logger.debug("Найдено " + cityList.size());
+        
+        
+        
         for (int i = 0; i < cities.length; i++) {
             logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
         }      
@@ -184,7 +192,7 @@ public class HomeController {
         map.put("travelTime", appContext.getTravelTimeSlider());
         map.put("livingCost", appContext.getLivingCostSlider());
         map.put("foodCost", appContext.getFoodCostSlider());
-        map.put("temperature", appContext.getTemperatureSlider());*/
+        map.put("temperature", appContext.getTemperatureSlider());*/       
         appContext.init();
         map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());
@@ -196,7 +204,7 @@ public class HomeController {
             map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
                 
         //return "home_new";
-        return "home_new_design";
+        return "home_new";
     }
     
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
@@ -208,16 +216,20 @@ public class HomeController {
                 //appContext.getObjectById(r.getId()).сopyValues((IGuiComponent) r.getValue());
                 IGuiComponent component = appContext.getObjectById(r.getId());
                 component.сopyValues((IGuiComponent) r.getValue());
+                if (r.getId() <= 2) userCityService.onTagChangeHandler();
             }
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
         }
         logger.debug("Запрос городов от клиента");
+       
         List<City> cityList = userCityService.getCityList(appContext);
+       
         City[] cities = new City[cityList.size()];
         cityList.toArray(cities);
         logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
-        logger.debug("Найдено " + cityList.size());
+        logger.debug("Найдено " + cityList.size());        
+       
         for (int i = 0; i < cities.length; i++) {
             logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
         }

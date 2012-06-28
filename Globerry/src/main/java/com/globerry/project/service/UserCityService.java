@@ -40,14 +40,14 @@ public class UserCityService implements IUserCityService {
 	private IPropertyTypeDao propertyTypeDao;
         @Autowired
 	private ITagDao tagDao;
-	@Autowired
-	private ISliders sliders;
-	@Autowired
-	private ICalendar calendar;
-	@Autowired
-	private BlockWho blockWho;
-	@Autowired
-	private BlockWhat blockWhat;
+        
+        private boolean tagChanged = true;
+        
+        /*
+         * Массив городов, удовлетворяющий условиям на теги
+         */
+        private List<City> cityList;
+	
 	private Range currentRange = new Range(-180, 180, -90, 90);
         
         protected static final Logger logger = Logger.getLogger(UserCityService.class);
@@ -82,21 +82,67 @@ public class UserCityService implements IUserCityService {
 	}
 
 	@Override
-	public List<City> getCityList() {
-            List<Tag> tags_l = new ArrayList<Tag>();
-            tags_l.add(blockWho.getSelected());
-            tags_l.add(blockWhat.getSelected());
-            CityRequest request = new CityRequest(
-                            currentRange,
-                            sliders.getProperties(),
-                            tags_l,
-                            calendar.getMonth());
-            List<City> resultRequest = cityDao.getCityList(request);
-            weightCalculation(resultRequest, request);
-            return resultRequest;
+	public List<City> getCityList() {           
+             return cityDao.getCityList();   
 	}
+        
         @Override
-        public List<City> getCityList(IApplicationContext appContext){
+        public void onTagChangeHandler(){
+            tagChanged = true;
+        }
+        
+        /*
+         * Сохраняет города, подходящие по тэгам в массив cityList. Самостоятельно фильтрут по параметрам.
+         * @param appContext Контекст приложения
+         * @throw IllegalArgumentException when appContext == null
+         */
+        @Override
+        public List<City> getCityList(IApplicationContext appContext)
+        {           
+            if (appContext == null) throw new IllegalArgumentException("parameter 'appContext' cannot be null");
+            
+            if(tags == null)
+            {
+                tags = new HashMap<Integer, Tag> ();
+                for(Tag tag: tagDao.getTagList())
+                    tags.put(tag.getId(), tag);
+            }
+            
+            List<City> resultRequest = new ArrayList<City>();
+            if (tagChanged){
+                 List<Tag> tagsToRequest = new ArrayList<Tag>();
+                 tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
+                 tagsToRequest.add(tags.get(appContext.getWhoTag().getValue()));  
+                 cityList = cityDao.getCityListByTagsOnly(tagsToRequest);
+                 tagChanged = false;
+            }
+            boolean f;
+            for(City city: cityList)
+            {
+                f = true;
+                for(String sliderName: appContext.getSliders().keySet())                
+                {
+                PropertySegment prop = appContext.getSlidersByName(sliderName).getState();
+                
+                    float val = city.getValueByPropertyType(prop.getPropertyType(), 
+                                                            Month.values()[appContext.getWhenTag().getValue()]);
+                    if (
+                            (val > prop.getRightValue()) ||
+                            (val < prop.getLeftValue())
+                        )
+                        f = false; 
+                }
+                if (f) resultRequest.add(city);
+            }
+                    
+            return resultRequest;
+        }
+       
+        /*
+         * Не сохроняет города. Каждый раз вне зависимости от того изменились тэги или нет делает запрос к DAO
+         */
+        @Override
+        public List<City> getCityListWithoutSaveCity(IApplicationContext appContext){
             
             if(tags == null)
             {

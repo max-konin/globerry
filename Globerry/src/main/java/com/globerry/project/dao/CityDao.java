@@ -107,14 +107,48 @@ public class CityDao implements ICityDao {
 		removeCity(city);
 
 	}
+        
+        /*
+         * Делает запрос к бд и возвращает список городов учтывая только теги
+         * @param tags список значений тегов. Не должен быть равенн null
+         * @throw IllegalArgumentException when tags == null
+         */ 
+        @Override
+        public List<City> getCityListByTagsOnly(List<Tag> tags)
+        {
+            
+           if (tags == null) throw new IllegalArgumentException("Parameter 'tags' cannot be null");
+           
+           String fromClause = " from City city";
+           String whereClause = "";
+           int i = 1;
+           for(Tag tag: tags)
+           {
+                fromClause += " inner join city.tagList t" + i;
+                if  (whereClause == "")
+                        whereClause = " where t" + i + ".id=" + tag.getId();
+                else whereClause += " and t" + i + ".id=" + tag.getId();         
+                i++;        
+           }
+           Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+           Query query = sessionFactory.getCurrentSession().createQuery("select distinct city" + fromClause 
+                                                                                               + whereClause);
+	   List<City> cityList =  query.list();        
+           tx.commit();
+           return cityList;
+        }
+        
         /*
          * Возвращает список городов.
          * Из бд достаются города, подходящие только по тегам. Фильтрация по Property проходит в цикле.
          * @param request запрос
+         * @throw IllegalArgumentException when request == null
          */
         @Override
 	public List<City> getCityList(CityRequest request)
 	{
+            if (request == null) throw new IllegalArgumentException("Parameter 'request' cannot be null");
+            
 	    List<City> resultCityList;
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    //Query Generation Block for Properties
@@ -128,30 +162,36 @@ public class CityDao implements ICityDao {
 	    int month = 0;
             
 	    Iterator<Tag> it = request.getTags().iterator();
-	    String stringQuery = "select distinct city from City city inner join city.tagList t1 inner join city.tagList t2 " 
-		    + "where t1.id=" +it.next().getId() + " and t2.id="+ it.next().getId();
+	    String stringQuery = "select distinct city from City city "
+                                                         + "inner join city.tagList t1 "
+                                                         + "inner join city.tagList t2 " 
+                                                + "where t1.id=" +it.next().getId() + " and t2.id="+ it.next().getId();
 	    logger.debug(stringQuery);
 	    Query query = sessionFactory.getCurrentSession().createQuery(stringQuery);
 	    List<City> cityList =  query.list();            
 	    tx.commit();
             
                         
-            List<City> cityForRemove = new ArrayList<City>();
-            for(PropertySegment prop: request.getOption())
+            List<City> cityToReturn = new ArrayList<City>();
+            boolean f;
+            for(City city: cityList)            
             {
-                for(City city: cityList)
+                f = true;
+                for(PropertySegment prop: request.getOption())
                 {
                     float val = city.getValueByPropertyType(prop.getPropertyType(), request.getMonth());
                     if (
                             (val > prop.getRightValue()) ||
                             (val < prop.getLeftValue())
                         )
-                        cityForRemove.add(city);
+                        f = false;
                 }
+                if (f) cityToReturn.add(city);
+                
             }
-            cityList.removeAll(cityForRemove);                        
+                                
             
-            return cityList;
+            return cityToReturn;
 	}
 	//@Override
 	public List<City> getCityListOneQuery(CityRequest request)

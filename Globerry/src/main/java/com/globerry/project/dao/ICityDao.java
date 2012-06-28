@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.Tag;
 /**
  * @author Сергей Крупин
  *
@@ -45,4 +46,6 @@ public interface ICityDao
      * @return list<City> городов
      */
     public List<City> getDamagedCities();
+    
+    public List<City> getCityListByTagsOnly(List<Tag> tags);
 }
