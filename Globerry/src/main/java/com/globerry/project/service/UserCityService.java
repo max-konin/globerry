@@ -23,6 +23,7 @@ import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.*;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -49,6 +50,7 @@ public class UserCityService implements IUserCityService {
 	private BlockWhat blockWhat;
 	private Range currentRange = new Range(-180, 180, -90, 90);
         
+        protected static final Logger logger = Logger.getLogger(UserCityService.class);
         /*
          * Затычка, чтобы тэги потстоянно из бд не дергать. Пока не решим, что делать с SelectBox-ами
          */
@@ -117,8 +119,10 @@ public class UserCityService implements IUserCityService {
                             currentRange,
                             sliderState,
                             tagsToRequest,
-                            Month.values()[appContext.getWhenTag().getValue()]);        
+                            Month.values()[appContext.getWhenTag().getValue()]); 
+         
             List<City> resultRequest = cityDao.getCityList(request);
+            
             weightCalculation(resultRequest, request);
             return resultRequest;
         }
