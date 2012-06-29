@@ -44,8 +44,8 @@ public class AbstractTypeFactoryTest
     @Test 
     public void testAdmin()
     {
-	String coord = "55°45′0″";
-	
+	String coord = "20 - 250";
+	System.err.println(adminParser.getAverageValue(coord));
 
     }
     

@@ -14,6 +14,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,7 @@ public class AdminUploadController
 {
     @Autowired
     private AdminParser adminParser;
-
+    private final Logger logger = Logger.getLogger(AdminUploadController.class);
     
     private List<String> excList = new ArrayList<String>();
     /**
@@ -76,7 +77,7 @@ public class AdminUploadController
       {
         for(ObjectError error : result.getAllErrors())
         {
-          System.err.println("Error: " + error.getCode() +  " - " + error.getDefaultMessage());
+          logger.error("Error: " + error.getCode() +  " - " + error.getDefaultMessage());
         }
         return "admin/uploadForm";
       }
@@ -98,11 +99,11 @@ public class AdminUploadController
 	} catch (MySqlException e)
 	{
 	   excList.add(e.getDescription());
-	   System.out.println(e.getDescription());
+	   logger.error(e.getDescription());
 	} catch (ExcelParserException e)
 	{
 	    excList.add(e.getDescription());
-	    System.out.println(e.getDescription());
+	    logger.error(e.getDescription());
 	}
 	catch(Exception e)
 	{
@@ -113,18 +114,17 @@ public class AdminUploadController
 	{
 	    for(int i = 0; i < excList.size(); i++)
 	    {
-		System.err.println(excList.get(i));
+		logger.error(excList.get(i));
 	    }
 	    return "admin/errorForm";   
 	}
       }
       catch (IllegalStateException e)
       {
-	  System.err.println("Hello World--------------------------------------------------");
+	  logger.info("Hello World--------------------------------------------------");
 	e.printStackTrace();
       } catch (IOException e)
       {
-	  System.err.println("IOEXC--------------------------------------------------");
 	e.printStackTrace();
       }
       
