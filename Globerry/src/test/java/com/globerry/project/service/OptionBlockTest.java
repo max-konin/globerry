@@ -55,12 +55,12 @@ public class OptionBlockTest
 	Tag tagWhat = new Tag();
 	tagWhat.setName("testTagWhat"+getStringGenerator());
 	tagWhat.setImg("");
-	tagWhat.setTagsType(TagsType.WHERE);
+	tagWhat.setTagsType(TagsType.WHAT);
 	
 	Tag tagWhat2 = new Tag();
 	tagWhat2.setName("testTagWhat2"+getStringGenerator());
 	tagWhat2.setImg("");
-	tagWhat2.setTagsType(TagsType.WHERE);
+	tagWhat2.setTagsType(TagsType.WHAT);
 	
 	Tag tagWho = new Tag();
 	tagWho.setName("testTagWho"+getStringGenerator());

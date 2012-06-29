@@ -183,16 +183,7 @@ public class HomeController {
     
     @RequestMapping(value = "/globerry_new")
     public String home(Map<String,Object> map) {
-        
-       /* map.put("who", appContext.getWhoTag());
-        map.put("when", appContext.getWhenTag());
-        map.put("what", appContext.getWhatTag());
-        
-        map.put("alcohol", appContext.getAlcoholSlider());
-        map.put("travelTime", appContext.getTravelTimeSlider());
-        map.put("livingCost", appContext.getLivingCostSlider());
-        map.put("foodCost", appContext.getFoodCostSlider());
-        map.put("temperature", appContext.getTemperatureSlider());*/       
+      
         appContext.init();
         map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());
@@ -206,6 +197,23 @@ public class HomeController {
         //return "home_new";
         return "home_new";
     }
+    @RequestMapping(value = "/globerry_new_design")
+    public String homeNewDesign(Map<String,Object> map) {
+      
+        appContext.init();
+        map.put("who", appContext.getWhoTag());
+        map.put("when", appContext.getWhenTag());
+        map.put("what", appContext.getWhatTag());        
+        
+        List<City> cities = userCityService.getCityList(appContext);
+        map.put("cities", cities);
+        for(String sliderName: appContext.getSliders().keySet())
+            map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
+                
+        //return "home_new";
+        return "home_new_design";
+    }
+    
     
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
     @ResponseBody
