@@ -178,6 +178,7 @@
             $('select.gui_element').change(function() {
                 var selectValue = $(this).select().val();
                 var request = [{id : $(this).attr('id'), value : {value : parseInt(selectValue)}}];
+                console.log(request);
                 $.ajax({
                     url: path + '/gui_changed',
                     dataType: 'json',

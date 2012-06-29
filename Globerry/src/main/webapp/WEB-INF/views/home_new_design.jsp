@@ -178,15 +178,15 @@
                             <div id='livecostSlider' class='slider-range'></div>
                         </div>
                         <div id='securityBlock' class='sliderBlocks bottomLineInBlocks gui_element' style='width:150px;'
-                             guiId="${securidy.getId()}">
+                             guiId="${security.getId()}">
                             <div class="formCost">
-                                <div class="bucks">$
+                                <div class="bucks">
                                     <input type="text" id="securityMin" class ='left bucksInputPosition'
                                            value="<fmt:formatNumber value="${security.getMinValue()}"
                                                              minFractionDigits="0" maxFractionDigits="0"/>" readonly />
                                 </div>
                                 <div id='securityText' class='blocksText' ><spring:message code="label.security"/></div>
-                                <div class="bucks rightBucks">$
+                                <div class="bucks rightBucks">
                                     <input type="text" id="securityMax" class ='right bucksInputPosition'
                                            value="<fmt:formatNumber value="${security.getMaxValue()}"
                                                              minFractionDigits="0" maxFractionDigits="0"/>" readonly />
@@ -197,7 +197,7 @@
                     </div>
                     <div id="forthBlock" class="secondHeaderBlocks">
                         <div id='foodBlock' class='sliderBlocks gui_element' style='width:150px;'
-                             guiId="${food.getId()}">
+                             guiId="${cost.getId()}">
                             <div class="formCost">
                                 <div class="bucks">$
                                     <input type="text" id="foodMinV" class ='left bucksInputPosition'
@@ -213,7 +213,8 @@
                             </div>
                             <div id='foodSlider' class='slider-range'></div>
                         </div>
-                        <div id='sexBlock' class='sliderBlocks bottomLineInBlocks gui_element' style='width:150px;' guiId="${sex.getId()}">
+                        <div id='sexBlock' class='sliderBlocks bottomLineInBlocks gui_element' style='width:150px;'
+                             guiId="${sex.getId()}">
                             <div class="formCost">
                                 <div class="bucks">
                                     <input type="text" id="sexMin" class ='left bucksInputPosition'
@@ -317,15 +318,16 @@
 <   ![endif]-->
 <script type="text/javascript">
     var path = '<%= request.getContextPath() %>';
-        var initCities = [
-        <c:forEach items="${cities}" var="city">
-                {"id":${city.getId()},"name":"${city.getName()}","ru_name":"${city.getRu_name()}","area":${city.getArea()},
-                    "population":${city.getPopulation()},"longitude":${city.getLongitude()},
-                    "latitude":${city.getLatitude()},"isValid":${city.getIsValid()},"message":"${city.getMessage()}",
-                    "weight":${city.getWeight()}
-                },
-        </c:forEach>
-        ];
+    var initCities = [
+    <c:forEach items="${cities}" var="city">
+            {"id":${city.getId()},"name":"${city.getName()}","ru_name":"${city.getRu_name()}","area":${city.getArea()},
+                "population":${city.getPopulation()},"longitude":${city.getLongitude()},
+                "latitude":${city.getLatitude()},"isValid":${city.getIsValid()},"message":"${city.getMessage()}",
+                "weight":${city.getWeight()}
+            },
+    </c:forEach>
+    ];
+    var bubbles;
     $(document).ready(function() {
         
         /*******************************************************************************/
@@ -335,15 +337,13 @@
                 return;
             $('.activeMonth').removeClass('activeMonth');
             $(this).addClass('activeMonth');
-            alert($(this).attr('value'));
+            sendRequest($(this).parent().attr('guiId'), {value : parseInt($(this).attr('value'))});
 
         });
-        $("#whenDropDownList").change(function() {
-            //03.когда
-            $(".whenSelect option:selected").val()
-            alert('Month val = '+$(".whenSelect option:selected").val());
-        });
 
+        $('select.gui_element').change(function() {
+            sendRequest($(this).attr('guiId'), {value : parseInt($(this).select().val())})
+        });
         
 
         //обработка чекбоксов виза и язык
@@ -361,11 +361,6 @@
             }
         });
 
-
-        /*******************************************************************************/
-        //все combobox'ы readonly
-        $('.whoWhatWhenDropDownList .k-input').attr('readonly','readonly');
-
         /*******************************************************************************/
         //слайдеры
         $(".slider-range").each(function(){
@@ -377,7 +372,9 @@
                 max: maxVal,
                 values: [ minVal, maxVal ],
                 step : 1,
-                /*				stop : sliderStopCallback,*/
+                stop : function(event, ui) {
+                        sendRequest($(this).parent().attr('guiId') ,{leftValue : ui.values[0],rightValue : ui.values[1]})
+                    },
                 slide : function(event, ui) {
                     $(this).parent().find('input:first').val(ui.values[0]);
                     $(this).parent().find('input:last').val(ui.values[1]);
@@ -399,7 +396,7 @@
         map.setView(new L.LatLng(51.505, -0.09), 3).addLayer(cloudmade);
             
         var canvas = BubbleFieldProvider(map);
-        var bubbles = BubblesInit(canvas, initCities);
+        bubbles = BubblesInit(canvas, initCities);
             
             
         bubbles.draw();
@@ -407,7 +404,26 @@
         appendSVGGradientData();
             
     });
-
+    
+    function sendRequest(id, data) {
+        
+        var request = [{id : id, value : data}];
+        
+        console.log(request);
+        $.ajax({
+            url: path +  '/gui_changed',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify(request),
+            contentType: "application/json",
+            success: function (response) {
+                bubbles.update(response)
+            },
+            error: function(response) {
+                
+            }
+        });
+    }
 
 </script>
 </html>

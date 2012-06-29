@@ -66,6 +66,9 @@ $(document).ready(function(){
         height: 1000
     });
     /*******************************************************************************/
+    /*******************************************************************************/
+    //все combobox'ы readonly
+    $('.whoWhatWhenDropDownList .k-input').attr('readonly','readonly');
 });
 $(document).ready(function(){
     $(".changeHeaderByClick").click(function() {
