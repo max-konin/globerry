@@ -13,10 +13,10 @@ $(document).ready(function() {
             prevBotBut = this;
             $("#bottom").animate({
                 bottom:147
-            },"slow");
+            },100);
             $("#whiteBottom").animate({
                 height:147
-            },"slow", function () {
+            },100, function () {
                 $(("#" +prevBotBut.id + "B")).show();
             });			
             this.style.background = 'rgb(255, 122, 2)';
@@ -30,11 +30,11 @@ $(document).ready(function() {
             if(prevBotBut == this){
                 $("#bottom").animate({
                     bottom:0
-                },"slow");
+                },100);
                 $(("#" +prevBotBut.id + "B")).hide();
-                $("#WhiteBottom").animate({
+                $("#whiteBottom").animate({
                     height:0
-                },"slow");
+                },100);
                 this.style.background = 'rgb(37, 46, 64)';
                 $(this).animate({
                     width:120
@@ -55,7 +55,22 @@ $(document).ready(function() {
             }
         }
     });
+    $('#map').click(function(){
+    if(bottomActive == true){
+                $("#bottom").animate({
+                    bottom:0
+                },100);
+                $(("#" +prevBotBut.id + "B")).hide();
+                $("#whiteBottom").animate({
+                    height:0
+                },100);
+                bottomActive = false;
+            } 
+    });
 });
+
+//$('#bottomContainer').click(function(){alert('click')})
+
 $(document).ready(function(){
     
     /*******************************************************************************/
@@ -102,14 +117,15 @@ $(document).ready(function(){
         /*получаем значения select'а из комбобокса*/
         var who = $(".whoSelect option:selected").val();
         var what = $(".whatSelect option:selected").val();
-        var when = $(".whenSelect option:selected").val();
+        var tmp = $('.activeMonth').attr('value');
+        var when = parseInt(tmp)//$(".whenSelect option:selected").val() || tmp;
 		
         /*выбранный месяц сделать активным*/
-        var activeMonthId = $(".whenSelect option:selected").val();
+        /*var activeMonthId = $(".whenSelect option:selected").val();
         if ($('.activeMonth').text().length > 0)//месяц в календаре не выбран
         {
             when = $('.activeMonth').text();
-        }
+        }*/
 		
         var resultHeader = WhoStr[who] + WhatStr[what] + WhenStr[when];
         $('#hText').val(resultHeader);
@@ -120,32 +136,33 @@ $(document).ready(function(){
 });
 $(document).ready(function(){
     /*******************************************************************************/
+    var speed = "normal"
     /*обработка кнопки "Поехали"*/
     $(".headerButton").click(function (event) {
         SelectActive = false;
         $("#headContent1").animate({
             height:0
-        },"slow", function() {
+        },speed, function() {
             $("#headContent1").hide();
             $("#headContent2").show();
             $("#headText").show();
-            $("#bottomToggle").slideToggle("slow");
+            $("#bottomToggle").slideToggle(speed);
             $("#bottom").show();
             $("#headerButtonUp").show();
             $("#UpperHeaderBlockWithCircle").show();
             $("#UpperHeaderBlockWithCircle").animate({
                 opacity:1
-            }, "slow");
+            }, 100);
             $("#headerButtonUp").animate({
                 opacity:1
-            }, "slow");
+            }, speed);
             $("#headContent2").animate({
                 height:100
-            }, "slow", function (){
+            }, speed, function (){
                 $("#calendar").show();
                 $("#calendar").animate({
                     height:26
-                }, "slow", function(){				
+                }, speed, function(){				
                     //here I wanted to fix bug with ctrange appearance of the calendar.
                     });
             });
@@ -157,24 +174,24 @@ $(document).ready(function(){
         $("#headText").hide();
         $("#calendar").animate({
             height:0
-        }, "normal", function (){
+        }, speed, function (){
             $("#calendar").hide();
             $("#headerButtonUp").animate({
                 opacity:0
-            }, "slow");
+            }, speed);
             $("#UpperHeaderBlockWithCircle").animate({
                 opacity:0
-            }, "slow");
+            }, speed);
             $("#headContent2").animate({
                 height:0
-            },"slow", function() {
+            },speed, function() {
                 $("#headerButtonUp").hide();
                 $("#UpperHeaderBlockWithCircle").hide();
                 $("#headContent2").hide();
                 $("#headContent1").show();
                 $("#headContent1").animate({
                     height:38
-                }, "slow");
+                }, speed);
             });
         });
     });
