@@ -963,10 +963,10 @@ function initLeafMap(serverName) {
 			 * leftValueSlider, rightValue : rightValueSlider }, null, "json");
 			 * //OLD VERSION
 			 */
-			alert("HUI1" + idSlider);
+			
                         var request = [{id : idSlider, 
                                         value : {leftValue : leftValueSlider, rightValue : rightValueSlider}}];
-                        alert(request.toString);
+                       
                         $.ajax({
                                     url: serverName + "/gui_changed",
                                     dataType: 'json',

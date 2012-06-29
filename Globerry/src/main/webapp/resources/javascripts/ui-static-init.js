@@ -57,6 +57,17 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function(){
+    
+    /*******************************************************************************/
+    //создаем комбобоксы
+    $(".whoSelect").kendoComboBox({});
+    $(".whatSelect").kendoComboBox();
+    $(".whenSelect").kendoComboBox({
+        height: 1000
+    });
+    /*******************************************************************************/
+});
+$(document).ready(function(){
     $(".changeHeaderByClick").click(function() {
         WhoStr = new Array();
         WhoStr[1] = "Я один еду ";

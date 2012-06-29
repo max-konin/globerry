@@ -260,23 +260,12 @@
                 <div id="calendar" style="display: none; height: 26px; ">
                     <div id="calendarIMG"></div>
                     <div id='allMonths' class='months changeHeaderByClick gui_element' guiId="${when.getId()}">
-                        <div id="jan" class="upperClickableCaendarBG month jan">Январь</div>
-                        <div id="feb" class="upperClickableCaendarBG month feb">Февраль</div>
-                        <div id="mar" class="upperClickableCaendarBG month mar">Март</div>
-                        <div id="apr" class="upperClickableCaendarBG month apr">Апрель</div>
-                        <div id="may" class="upperClickableCaendarBG month may">Май</div>
-                        <div id="jun" class="upperClickableCaendarBG month jun">Июнь</div>
-                        <div id="jul" class="upperClickableCaendarBG month jul">Июль</div>
-                        <div id="aug" class="upperClickableCaendarBG month aug">Август</div>
-                        <div id="sep" class="upperClickableCaendarBG month sep">Сентябрь</div>
-                        <div id="oct" class="upperClickableCaendarBG month oct">Октябрь</div>
-                        <div id="nov" class="upperClickableCaendarBG month nov">Ноябрь</div>
-                        <div id="dec" class="upperClickableCaendarBG month dec">Декабрь</div>
-                        <!--<c:forEach items="${when.getOptionAvaliable()}" var="value">
-                                <div class="upperClickableCaendarBG month">
+                        
+                        <c:forEach items="${when.getOptionAvaliable()}" var="value">
+                                <div value="${value}" class="upperClickableCaendarBG month">
                                     <spring:message code="label.m${value}"/>
                                 </div>
-                        </c:forEach>-->
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -310,8 +299,33 @@
     </div>
     <div id='map'></div>
 </body>
-
+<script>
+        /**
+         * Стиль заливки кругов.
+         **/
+        var circleOptions = {
+            color: 'url(#grad1)',
+            opacity: 0,
+            fillOpacity : 0.8
+        }
+    </script>
+    <!--[if lte IE 9]>
+    <script>
+        /**Специально для эксплореров.**/
+        circleOptions = {color: 'orange', opacity: 0, fillOpacity: 0.2}
+    </script>
+<   ![endif]-->
 <script type="text/javascript">
+    var path = '<%= request.getContextPath() %>';
+        var initCities = [
+        <c:forEach items="${cities}" var="city">
+                {"id":${city.getId()},"name":"${city.getName()}","ru_name":"${city.getRu_name()}","area":${city.getArea()},
+                    "population":${city.getPopulation()},"longitude":${city.getLongitude()},
+                    "latitude":${city.getLatitude()},"isValid":${city.getIsValid()},"message":"${city.getMessage()}",
+                    "weight":${city.getWeight()}
+                },
+        </c:forEach>
+        ];
     $(document).ready(function() {
         
         /*******************************************************************************/
@@ -321,7 +335,7 @@
                 return;
             $('.activeMonth').removeClass('activeMonth');
             $(this).addClass('activeMonth');
-            alert('id='+this.id+'  activeMonth='+$('.activeMonth').text());
+            alert($(this).attr('value'));
 
         });
         $("#whenDropDownList").change(function() {
@@ -332,14 +346,6 @@
 
         
 
-        /*******************************************************************************/
-        //создаем комбобоксы
-        $(".whoSelect").kendoComboBox({});
-        $(".whatSelect").kendoComboBox();
-        $(".whenSelect").kendoComboBox({
-            height: 1000
-        });	
-        /*******************************************************************************/
         //обработка чекбоксов виза и язык
         $(".check").click(function() {
             if ($('#'+this.id).hasClass('checkOn'))
@@ -393,7 +399,7 @@
         map.setView(new L.LatLng(51.505, -0.09), 3).addLayer(cloudmade);
             
         var canvas = BubbleFieldProvider(map);
-        var bubbles = BubblesInit(canvas);
+        var bubbles = BubblesInit(canvas, initCities);
             
             
         bubbles.draw();
