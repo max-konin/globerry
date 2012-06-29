@@ -172,16 +172,7 @@ public class UserCityService implements IUserCityService {
             
             weightCalculation(resultRequest, sliderState, request.getMonth());
             return resultRequest;
-        }
-	public void update(Observable o, Object arg) {
-		if (arg.getClass() == EventUI.class) {
-			EventUI eventUI = (EventUI) arg;
-			if (eventUI.getParent().getClass() == Slider.class) {
-				sliderOnChangeHandler();
-			}
-		}
-
-	}
+        }	
 
 	public int getPropertyDaoHash()
 	{

@@ -45,18 +45,10 @@ public class HomeController {
     IUserCityService userCityService;
     @Autowired
     ICityDao cityDao;
-    @Autowired
-    ISliders sliders;
+    
     @Autowired
     IPropertyTypeDao propertyTypeDao;
-    @Autowired
-    BlockWhat blockWhat;
-    @Autowired
-    BlockWho blockWho;
-    @Autowired
-    ITagDao tagDao;
-    @Autowired
-    Calendar calendar;
+ 
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
     @Autowired
@@ -77,22 +69,13 @@ public class HomeController {
 
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
-        logger.info("HomeController: Passing through...");
-        //---Инициализация тэгов----
-        Tag withWhoTag = tagDao.getTagById(1);
-        Tag whereTag = tagDao.getTagById(5);
-        if (withWhoTag != null && whereTag != null) {
-            who(withWhoTag);
-            who(whereTag);
-        }
-        //---Инициализация слайдеров
-        appContext.init();
-        sliders.init();
+        logger.info("HomeController: Passing through...");        
+        appContext.init();       
         model.addAttribute("hash", this.hashCode());
         return "home";
     }
+    
     //TODO delete this 
-
     @RequestMapping(value = "/getcities", method = RequestMethod.GET)
     public @ResponseBody
     City[] test() {
@@ -124,48 +107,7 @@ public class HomeController {
         defaultDatabaseCreator.initCities();
         System.out.println("/cityinit");
     }
-    //TODO delete this 
-
-    @RequestMapping(value = "/rangechange", method = RequestMethod.POST)
-    public void range(Range range) {
-        System.out.println("Передвинули карту");
-        userCityService.changeRange(range);
-    }
-
-    @RequestMapping(value = "/sliderchange", method = RequestMethod.POST)
-    public void slider(SliderData sliderData) {
-        //sliders.init();
-        PropertyType type = propertyTypeDao.getById(sliderData.getId());
-        if (type != null) {
-            System.out.println("Сдвинули слайдер: " + type.getName()
-                    + " Новые значения: (" + sliderData.getLeftValue() + ","
-                    + sliderData.getRightValue() + ")");
-            sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());
-        } else {
-            System.out.println("Сдвинули несущестнующий слайдер. Проигнорировано");
-        }
-    }
-
-    @RequestMapping(value = "/tagchange", method = RequestMethod.POST)
-    public void who(Tag tag) {
-        tag = tagDao.getTagById(tag.getId());
-        if (tag != null) {
-            System.out.println("выбрали тег: " + tag.getName());
-            if (tag.getTagsType() == TagsType.WHO) {
-                blockWho.setSelected(tag);
-            } else {
-                blockWhat.setSelected(tag);
-            }
-        } else {
-            System.out.println("выбрали несуществующий тег. изменение тега проигнорировано");
-        }
-    }
-
-    @RequestMapping(value = "/monthchange", method = RequestMethod.POST)
-    public void month(MyDate myDate) {
-        System.out.println("Выбрали месяц: " + myDate.getMonth());
-        calendar.changeMonth(myDate.getMonth());
-    }
+    //TODO delete this    
 
     @RequestMapping(value = "/feature_test", method = RequestMethod.POST)
     public void testSmth(@RequestBody com.globerry.project.service.service_classes.Request[] request) {
@@ -182,24 +124,7 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/globerry_new")
-    public String home(Map<String,Object> map) {
-      
-        appContext.init();
-        map.put("who", appContext.getWhoTag());
-        map.put("when", appContext.getWhenTag());
-        map.put("what", appContext.getWhatTag());        
-        
-        List<City> cities = userCityService.getCityList(appContext);
-        map.put("cities", cities);
-        for(String sliderName: appContext.getSliders().keySet())
-            map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
-                
-        //return "home_new";
-        return "home_new";
-    }
-    @RequestMapping(value = "/globerry_new_design")
-    public String homeNewDesign(Map<String,Object> map) {
-      
+    public String home(Map<String,Object> map) {          
         appContext.init();
         map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());

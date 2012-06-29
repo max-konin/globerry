@@ -19,6 +19,16 @@
             <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
         
+        <distributionManagement>        
+            <repository>
+                <id>NetGen</id>
+                <name>NetGen-releases</name>
+                <url>http://grwe.ru:8081/ext-release-local</url>
+            </repository>
+        </distributionManagement>
+
+
+        
 	<dependencies>
             <!-- Spring -->
             <dependency>
@@ -227,40 +237,14 @@
                 <artifactId>spring-security-core</artifactId>
                 <version>3.1.0.RELEASE</version>
             </dependency>
-            
-            <dependency>
-                <groupId>com.globerry</groupId>
-                <artifactId>CityParser</artifactId>
-                <version>1.0</version>
-                <scope>provided</scope>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.apache</groupId>
-                <artifactId>poi</artifactId>
-                <version>3.7</version>
-                <scope>provided</scope>
-            </dependency>
+
             
             <dependency>
                 <groupId>org.apache</groupId>
                 <artifactId>ooxml-schemas</artifactId>
-                <version>1.1</version>
-                <scope>provided</scope>
+                <version>1.1</version>                
             </dependency>
-            
-            <dependency>
-                <groupId>org.apache</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>3.7</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.apache</groupId>
-                <artifactId>poi-ooxml-shemas</artifactId>
-                <version>3.7</version>
-                <scope>provided</scope>
-            </dependency>
+
            
             <dependency>
                 <groupId>org.codehaus.mojo</groupId>
@@ -274,8 +258,25 @@
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.2</version>
             </dependency>
-            
-        </dependencies>
+	 <dependency>
+	  <groupId>org.apache</groupId>
+	  <artifactId>poi-ooxml</artifactId>
+	  <version>3.7</version>
+	  <type>jar</type>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.apache</groupId>
+	  <artifactId>poi</artifactId>
+	  <version>3.7</version>
+	  <type>jar</type>
+	 </dependency>
+	 <dependency>
+	  <groupId>com.globerry</groupId>
+	  <artifactId>CityParser</artifactId>
+	  <version>1.0</version>
+	  <type>jar</type>
+	 </dependency>
+	</dependencies>
         
 	<build>
             <plugins>
@@ -311,6 +312,7 @@
                             <source>${java-version}</source>
                             <target>${java-version}</target>
                             <encoding>${project.build.sourceEncoding}</encoding>
+                         <debug>false</debug>
                     </configuration>
                 </plugin>
 

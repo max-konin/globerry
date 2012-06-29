@@ -12,7 +12,7 @@ import java.util.List;
  * @author Сергей Крупин
  *
  */
-public interface IUserCityService extends ICityService, Observer
+public interface IUserCityService extends ICityService 
 {
     public void clickOnPassiveCity();
     
