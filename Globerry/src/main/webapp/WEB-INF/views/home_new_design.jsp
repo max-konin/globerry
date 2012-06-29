@@ -5,11 +5,10 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
-    <!DOCTYPE html>
     <meta charset="utf-8">
     <TITLE>Globerry (v<spring:message code="buildNumber"/>)</TITLE>
 
@@ -83,7 +82,7 @@
                 <div id='headContent2' class ='headSwitcharable'>
                     <div id="firstBlock" class="secondHeaderBlocks">
                         <div id='temperatureBlock' class='sliderBlocks gui_element' guiId="${temperature.getId()}"
-                             style='width:150px;'>
+                             >
                             <div class="formCost">
                                 <div class="bucks">
                                     <input type="text" id="minCost" class="left" 
@@ -340,7 +339,7 @@
             sendRequest($(this).parent().attr('guiId'), {value : parseInt($(this).attr('value'))});
 
         });
-
+				
         $('select.gui_element').change(function() {
             sendRequest($(this).attr('guiId'), {value : parseInt($(this).select().val())})
         });
