@@ -12,7 +12,7 @@ import java.util.List;
  * @author Сергей Крупин
  *
  */
-public interface IUserCityService extends ICityService, Observer
+public interface IUserCityService extends ICityService 
 {
     public void clickOnPassiveCity();
     
@@ -25,4 +25,8 @@ public interface IUserCityService extends ICityService, Observer
     public int getPropertyDaoHash();
     
     public List<City> getCityList(IApplicationContext appContext);
+    
+    public void onTagChangeHandler();
+    
+    public List<City> getCityListWithoutSaveCity(IApplicationContext appContext);
 }

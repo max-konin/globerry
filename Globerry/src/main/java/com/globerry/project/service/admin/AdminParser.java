@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.hibernate.NonUniqueObjectException;
@@ -78,20 +80,13 @@ public class AdminParser implements IAdminParser
 	PropertyType tempPropType = new PropertyType();
 	try
 	{
-	    tempPropType.setName("Temperature");
+	    tempPropType.setName("temperature");
 	    tempPropType.setDependingMonth(true);
 	    propertyTypeDao.addPropertyType(tempPropType);
 	}
 	catch(Exception e)
 	{
-	    e.printStackTrace();
-	    List<PropertyType> listPT = propertyTypeDao.getPropertyTypeList();
-	    Iterator<PropertyType> it = listPT.iterator();
-	    while(it.hasNext())
-	    {
-		PropertyType pt = it.next();
-		if(pt.getName().equals("Temperature")) tempPropType = pt;
-	    }
+	    propertyTypeDao.getPropertyTypeByName("temperature");
 	}
 
 	List<City> cityList = new ArrayList<City>();
@@ -123,7 +118,7 @@ public class AdminParser implements IAdminParser
 	    logger.info("-------------------------------------");
 	    logger.info("city" + city.getIsValid());
 	    logger.info("-------------------------------------");
-/*	    float[] temperature = cityWiki.getTemperature();
+	    float[] temperature = cityWiki.getTemperature();
 	    if(temperature != null)
 	    {
 		for(int i = 0; i < 12; i++)
@@ -134,7 +129,7 @@ public class AdminParser implements IAdminParser
 		    dmpProp.setPropertyType(tempPropType);
 		    city.getDmpList().add(dmpProp);
 		}
-	    }*/
+	    }
 		cityDao.updateCity(city);  
 	}
 	
@@ -154,6 +149,10 @@ public class AdminParser implements IAdminParser
     }*/
     /**
      * Извлекает и добавляет тэги к городу
+     * Добавляем к городу тег Один Если секс от 1 до 3, безопасность от 1 до 3, настроение от 2 до 3
+	Добавляем к городу тег Вдвоем Если секс от 2 до 3, безопасность от 1 до 3, настроение от 1 до 3
+	Добавляем к городу тег Семья - секс от 1 до 3, безопасность 3, настроение от 1 до 3
+	Добавляем к городу тег компания - секс от 2 до 3, настроение от 2 до 3, безопасность от 1 до 3
      * @param cell
      */
     private void stringToExcelDocumentToAddTag(City city, String cell)
@@ -161,11 +160,30 @@ public class AdminParser implements IAdminParser
 	String[] tagsString = cell.split(",");
 	try
 	{
-        	for(int i = 1; i < 5; i++)
-        	{
-        	    Tag tag = tagDao.getTagById(i);
-        	    city.getTagList().add(tag);
-        	}
+	    Set<Property> propertyListOfCity = city.getPropertyList();
+	    float security = 0;
+	    float sex = 0;
+	    for(Property elem: propertyListOfCity)
+	    {
+		if(elem.getPropertyType().getName().toLowerCase().equals("security")) security = elem.getValue();
+		if(elem.getPropertyType().getName().toLowerCase().equals("sex")) sex = elem.getValue();
+	    }
+	    //Добавляем к городу тег Один Если секс от 1 до 3, безопасность от 1 до 3, настроение от 2 до 3
+	    Tag tagAlone = tagDao.getTagById(1);
+	    city.getTagList().add(tagAlone);
+	    
+	    if(sex > 1) 
+	    {
+		Tag tagCouple = tagDao.getTagById(4);
+		Tag tagFriends = tagDao.getTagById(2);
+		city.getTagList().add(tagFriends);
+		city.getTagList().add(tagCouple);
+	    }
+	    if(security == 3)
+	    {
+		Tag tagFamily = tagDao.getTagById(3);
+		city.getTagList().add(tagFamily);
+	    }
         	for(int i = 0; i < tagsString.length; i++)
         	{
         	    int number = Integer.parseInt(tagsString[i]) + 4;
@@ -221,14 +239,7 @@ public class AdminParser implements IAdminParser
 	    	if(exc.getStringField(sheetNumber, i, 2) == "") continue;
 		city.setName(exc.getStringField(sheetNumber, i, 2));
 		city.setRu_name(exc.getStringField(sheetNumber, i, 3));
-		try
-		{
-		    stringToExcelDocumentToAddTag(city, exc.getStringField(sheetNumber, i, 4));
-		}
-		catch(IllegalStateException e)
-		{
-		    stringToExcelDocumentToAddTag(city, exc.getFloatField(sheetNumber, i, 4));
-		}
+
 		
 		//Properties
 	    	for(int j = startPositionProperty; j < devider; j++)
@@ -236,7 +247,7 @@ public class AdminParser implements IAdminParser
 	    	    Property prop = new Property();
 	    	    try
 	    	    {
-	    		//if()
+
 	    		prop.setValue((float)exc.getFloatField(sheetNumber, i, j));
 	    	    }
 	    	    catch(NullPointerException e)
@@ -255,10 +266,21 @@ public class AdminParser implements IAdminParser
 	    	{
 	       	    	for(int j = 0; j < 12; j++)
 	       	    	{
-	       		    DependingMonthProperty dmpFunFactorType = new DependingMonthProperty();
+	       		    DependingMonthProperty dmpType = new DependingMonthProperty();
 	       		    try
 	       		    {
-	       			dmpFunFactorType.setValue((float)exc.getFloatField(sheetNumber, i, j + devider + 12*k)); 
+	       			try
+	       			{
+	       			    String cell = exc.getStringField(sheetNumber, i, j + devider + 12*k);
+	       			    logger.info(cell);
+	       			    logger.info(getAverageValue(cell));
+	       			    dmpType.setValue(getAverageValue(cell));  
+	       			}
+	       			catch(IllegalStateException e)
+	       			{
+	       			    dmpType.setValue((float)exc.getFloatField(sheetNumber, i, j + devider + 12*k)); 
+	       			}
+	       		
 	       		    }
 	       		    catch(NullPointerException e)
 	       		    {
@@ -268,11 +290,19 @@ public class AdminParser implements IAdminParser
 	    	    			"column" + j, j);
 	       			throw excParseExc;
 	       		    }
-	       		    dmpFunFactorType.setMonth(j);
-	       		    dmpFunFactorType.setPropertyType(ptDmpList.get(k));
-	       		    city.getDmpList().add(dmpFunFactorType);
+	       		    dmpType.setMonth(j);
+	       		    dmpType.setPropertyType(ptDmpList.get(k));
+	       		    city.getDmpList().add(dmpType);
 	       	    	}
 	    	}
+		try
+		{
+		    stringToExcelDocumentToAddTag(city, exc.getStringField(sheetNumber, i, 4));
+		}
+		catch(IllegalStateException e)
+		{
+		    stringToExcelDocumentToAddTag(city, exc.getFloatField(sheetNumber, i, 4));
+		}
 		
 
 		try
@@ -596,8 +626,21 @@ public class AdminParser implements IAdminParser
     	}
 	
     }
-return ptDmpList;
+    return ptDmpList;
 
+    }
+    public Float getAverageValue(String cell)
+    {
+	Pattern pattern = Pattern.compile("\\d{1,3}\\s?-\\s?\\d{1,4}");
+	Matcher matcher = pattern.matcher(cell);
+	float result;
+	if(matcher.find())
+	{
+	    String[] devider = cell.split("-");
+	    result = (Float.parseFloat(devider[0]) + Float.parseFloat(devider[1]))/2;
+	}
+	else result = Float.parseFloat(cell);
+	return result;
     }
 }
 

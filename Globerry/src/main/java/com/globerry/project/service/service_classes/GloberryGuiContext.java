@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Component;
  * @author Ed
  */
 @Component
+@Scope("session")
 public class GloberryGuiContext implements IApplicationContext {
 
     SelectBox whoTag, whenTag, whatTag;

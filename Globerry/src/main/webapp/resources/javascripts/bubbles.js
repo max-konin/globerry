@@ -35,7 +35,8 @@ function appendSVGGradientData() {
     gradient.appendChild(stop);*/
     
     var svg = document.getElementsByTagName('svg')[0];
-    svg.appendChild(defs);
+    if(svg)
+        svg.appendChild(defs);
     
     
     

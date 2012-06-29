@@ -20,10 +20,12 @@
                 stroke: black;
                 stroke-width: 1;
             }
+            .connect {
+                fill:#888888; stroke:none
+            }
         </style>
     </head>
     <body>
-        <h1>Hello World!</h1>
         <div id="pic"></div>
     </body>
     <script>
@@ -38,142 +40,147 @@
         function createElement(name) {
             return document.createElementNS(NS,name);
         }
-        function SVG(h, w) {
-            var NS="http://www.w3.org/2000/svg";
-            var svg=createElement('svg')
-            svg.width=w;
-            svg.height=h;
-            return svg;
+        function foo(x) {
+            return Math.sin(x);
         }
-        
-        function createAxis(w, h, scaleX, scaleY) {
-            
-            var pix = 40, axisOffset = 10;
-            var horizontalCount = w/pix, verticalCount = h/pix;
-            var g = createElement('g');
-            var linesPath = ""
-            var text = createElement('text');
-            var tspan;
-            var tspanScaled;
-            var axisPath = "M 0 0 h " + w + "M 0 0 v " + h + "M 0 " + h + " h "+ w + "M " + w + " 0" + "v " + h;
-            for(var i = 1; i < horizontalCount; i++) {
-                linesPath += "M " + i*pix + " 0";
-                linesPath += "v " + h;
-                tspan = createElement('tspan');
-                tspan.setAttribute('x', i*pix - 10);
-                tspan.setAttribute('y', h + 3*axisOffset);
-                tspan.textContent = i*pix;
-                text.appendChild(tspan);
-                
-                tspanScaled = createElement('tspan');
-                tspanScaled.setAttribute('x', i*pix - 10);
-                tspanScaled.setAttribute('y', h + axisOffset);
-                tspanScaled.textContent = scaleX*i*pix/w;
-                text.appendChild(tspanScaled);
-            }
-            for(var i = 1; i < verticalCount; i++) {
-                linesPath += "M " + "0 " + i*pix;
-                linesPath += "h " + w;
-                
-                tspan = createElement('tspan');
-                tspan.setAttribute('x', w + 5*axisOffset);
-                tspan.setAttribute('y', i*pix + 5);
-                tspan.textContent = i*pix;
-                text.appendChild(tspan);
-                
-                tspanScaled = createElement('tspan');
-                tspanScaled.setAttribute('x', w + axisOffset);
-                tspanScaled.setAttribute('y', i*pix + 5);
-                tspanScaled.textContent = scaleY*i*pix/h;
-                text.appendChild(tspanScaled);
-                
-                text.appendChild(tspanScaled);
-            }
-            var lines = createElement('path');
-            lines.setAttribute('class', 'lines');
-            lines.setAttribute('d', linesPath);
-            
-            var axis = createElement('path');
-            axis.setAttribute('class', 'axis');
-            axis.setAttribute('d', axisPath);
-            
-            
-            g.appendChild(lines);
-            g.appendChild(axis);
-            text.setAttribute('font-size', '10px');
-            text.setAttribute('font-weight', 'lighter');
-            g.appendChild(text);
-            return g;
-        }
-        
-        
-        function calc(x) {
-            var y = Math.sin(x);
-            var x_ = 1;
-            var y_ = (Math.sin(x + 0.01) - Math.sin(x))/0.01;
-            return [new Point(x, y), new Point(x_ , y_)];
-        }
-        
-        function viz() {
-            
-        }
-        
         $(document).ready(function() {
-            var w = 500, h = 500;
-            var svg=SVG(w, h);
-            var g = createElement('g');
-            
-            
-            var path = createElement('path');
-            
-            var defs = createElement('defs');
-            svg.appendChild(defs);
-            
-            g.appendChild(path);
-            svg.appendChild(g);
-            
-            var axis = createAxis(w, h, 2, 2);
-            
-            
-            
-            var gradient = createElement('radialGradient');
-            defs.appendChild(gradient);
-            gradient.setAttribute('id', 'grad1');
-            
-            gradient.setAttribute('cx', '50%');
-            gradient.setAttribute('cy', '50%');
-            gradient.setAttribute('r', '50%');
-            gradient.setAttribute('fx', '50%');
-            gradient.setAttribute('fy', '50%');
-            
-            var stop = createElement('stop');
-            stop.setAttribute('offset', '0%');
-            stop.setAttribute('style', 'stop-color:orange;stop-opacity:1');
-            gradient.appendChild(stop);
-            
-            stop = createElement('stop');
-            stop.setAttribute('offset', '95%');
-            stop.setAttribute('style', 'stop-color:orange;stop-opacity:0');
-            gradient.appendChild(stop);
-            stop = createElement('stop');
-            stop.setAttribute('offset', '100%');
-            stop.setAttribute('style', 'stop-color:orange;stop-opacity:0.5');
-            gradient.appendChild(stop);
-            
-            
-            svg.appendChild(axis);
-            
-            var circle = createElement('circle');
-            circle.setAttribute('cx', 100);
-            circle.setAttribute('cy', 100);
-            circle.setAttribute('r', 50);
-            circle.setAttribute('fill', 'url(#grad1)');
-            
-            g.appendChild(circle);
-            
-            $('#pic').append(svg);
+            var graph = Graph(600,500,-4,4,-3,3,50);
+            graph.draw(foo, 0.1);
+            graph.drawBezier();
+            $('#pic').append(graph.svg);
             
         });
         
+        function Graph(w, h, _minX, _maxX, _minY, _maxY, step) {
+            var width = w, height = h, minX = _minX, maxX = _maxX, maxY = _maxY, minY = _minY;
+            var svg = createElement('svg');
+            svg.appendChild(createAxis(step));
+            
+            function createAxis(step) {
+                var textOffset = 10;
+                var g = createElement('g');
+                var linesPath = ""
+                var text = createElement('text');
+                var tspan;
+                var axisPath = "M 0 0 h " + w + "M 0 0 v " + h + "M 0 " + h + " h "+ w + "M " + w + " 0" + "v " + h;
+                
+                for(var i = 0; i <= width/step; i++) {
+                    linesPath += "M" + i*step + " 0v" +height; 
+                    tspan = createElement('tspan');
+                    tspan.setAttribute('x', i*step);
+                    tspan.setAttribute('y', height + textOffset*3);
+                    tspan.textContent = i*step;
+                    text.appendChild(tspan);
+                    
+                    tspan = createElement('tspan');
+                    tspan.setAttribute('x', i*step);
+                    tspan.setAttribute('y', height + textOffset);
+                    var val = step*i*(maxX - minX)/width + minX;
+                    tspan.textContent = val.toFixed(2);
+                    text.appendChild(tspan);
+                }
+                
+                for(var i = 1; i <= height/step; i++) {
+                    linesPath += "M0 "+i*step + "h" + width;
+                    tspan = createElement('tspan');
+                    tspan.setAttribute('x', width + textOffset*5);
+                    tspan.setAttribute('y', i*step);
+                    tspan.textContent = i*step;
+                    text.appendChild(tspan);
+                    
+                    tspan = createElement('tspan');
+                    tspan.setAttribute('x', width + textOffset);
+                    tspan.setAttribute('y', i*step);
+                    
+                    tspan.textContent = (i*step*(maxY - minY)/height + minY).toFixed(2);
+                    text.appendChild(tspan);
+                }
+                
+                var lines = createElement('path');
+                lines.setAttribute('class', 'lines');
+                lines.setAttribute('d', linesPath);
+            
+                var axis = createElement('path');
+                axis.setAttribute('class', 'axis');
+                axis.setAttribute('d', axisPath);
+            
+            
+                g.appendChild(lines);
+                g.appendChild(axis);
+                text.setAttribute('font-size', '10px');
+                text.setAttribute('font-weight', 'lighter');
+                g.appendChild(text);
+                return g;
+            }
+            function projectX(x) {
+                return parseInt(width*(x - minX)/(maxX - minX));
+            }
+            function projectY(y) {
+                return parseInt(height*(y - minY)/(maxY - minY));
+            }
+            function projectPoint(p) {
+                return Point(projectX(p.x), projectY(p.y));
+            }
+            function projectXY(x, y){
+                return Point(parseInt(width*(x - minX)/(maxX - minX)), parseInt(height*(y - minY)/(maxY - minY)));
+            }
+            function draw(func, step) {
+                
+                var rx = projectX(minX), ry = projectY(func(minX));
+                var path = "M" + rx + " " + ry;
+                for(var x = minX; x<=maxX; x += step) {
+                    y = func(x);
+                    rx = projectX(x);
+                    ry = projectY(y);
+                    path += "L" + rx + " " + ry;
+                }
+                var gr = createElement('path');
+                gr.setAttribute('d', path);
+                gr.setAttribute('fill', 'none');
+                gr.setAttribute('stroke', 'green');
+                gr.setAttribute('stroke-width',1);
+                svg.appendChild(gr);   
+            }
+            function drawBezier(func, step) {
+                var pi = 3.1415926;
+                var rx = projectX(-pi), ry = projectY(0);
+                
+                var path = "M" + rx + " " + ry;
+                
+                var c = projectXY(-pi/2,-1);
+                var d = 2;
+                var c1 = projectXY(d*1/3 - pi, d*-1/3);
+                var c2 = projectXY(-pi/2 - d*1/3, -1);
+                path += "C" + c1.x + " " + c1.y + " " +  c2.x + " " + c2.y + " " + c.x + " " + c.y;
+                
+                var gr = createElement('path');
+                gr.setAttribute('d', path);
+                gr.setAttribute('fill', 'none');
+                gr.setAttribute('stroke', 'red');
+                gr.setAttribute('stroke-width',1);
+                
+                var circle = createElement('circle');
+                circle.setAttribute('class', 'connect');
+                circle.setAttribute('cx', c1.x);
+                circle.setAttribute('cy', c1.y);
+                circle.setAttribute('r', 5);
+                svg.appendChild(circle);
+                
+                circle = createElement('circle');
+                circle.setAttribute('class', 'connect');
+                circle.setAttribute('cx', c2.x);
+                circle.setAttribute('cy', c2.y);
+                circle.setAttribute('r', 5);
+                svg.appendChild(circle);
+                
+                svg.appendChild(gr);   
+            }
+            var me = {svg : svg, draw : draw, drawBezier : drawBezier};
+            return me;
+        }
+        
+        function Point(x, y) {
+            return {x:x,y:y};
+        }
     </script>
 </html>

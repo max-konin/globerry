@@ -202,9 +202,28 @@ public class AdminController
 	return "redirect:/admin/update/" + updatedElementId;
     }
     @RequestMapping(value="/clearDatabase")
-    public void clearDatabase()
+    public String clearDatabase()
     {
 	databaseCreator.clearDatabase();
+	return "redirect:/admin/" + url;
+    }
+    @RequestMapping(value="/initTags")
+    public String initTags()
+    {
+	databaseCreator.initTags();
+	return "redirect:/admin/" + url;
+    }
+    @RequestMapping(value="/initProperties")
+    public String initProperties()
+    {
+	databaseCreator.initPropertyType();
+	return "redirect:/admin/" + url;
+    }
+    @RequestMapping(value="/initCities")
+    public String initCities()
+    {
+	databaseCreator.initCities();
+	return "redirect:/admin/" + url;
     }
     /*HttpServletRequest request*/
     /*@RequestMapping(value="/delete", method=RequestMethod.GET)

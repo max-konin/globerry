@@ -45,22 +45,15 @@ public class HomeController {
     IUserCityService userCityService;
     @Autowired
     ICityDao cityDao;
-    @Autowired
-    ISliders sliders;
+    
     @Autowired
     IPropertyTypeDao propertyTypeDao;
-    @Autowired
-    BlockWhat blockWhat;
-    @Autowired
-    BlockWho blockWho;
-    @Autowired
-    ITagDao tagDao;
-    @Autowired
-    Calendar calendar;
+ 
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
     @Autowired
-    IApplicationContext appContext;
+    IApplicationContext appContext;   
+    
 
     /*
      * Only for debug mode
@@ -76,34 +69,32 @@ public class HomeController {
 
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
-        logger.info("HomeController: Passing through...");
-        //---Инициализация тэгов----
-        Tag withWhoTag = tagDao.getTagById(1);
-        Tag whereTag = tagDao.getTagById(5);
-        if (withWhoTag != null && whereTag != null) {
-            who(withWhoTag);
-            who(whereTag);
-        }
-        //---Инициализация слайдеров
-        appContext.init();
-        sliders.init();
+        logger.info("HomeController: Passing through...");        
+        appContext.init();       
         model.addAttribute("hash", this.hashCode());
         return "home";
     }
+    
     //TODO delete this 
-
     @RequestMapping(value = "/getcities", method = RequestMethod.GET)
     public @ResponseBody
     City[] test() {
         //this.cityInit();
-        logger.debug("GUI State:" + appContext.toString());
+        logger.debug("GUI State: " + appContext.toString());
+        
         City[] cities = null;
+        
         logger.debug("Запрос городов от клиента");
+        
         List<City> cityList = userCityService.getCityList(appContext);
         cities = new City[cityList.size()];
         cityList.toArray(cities);
+        
         logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
         logger.debug("Найдено " + cityList.size());
+        
+        
+        
         for (int i = 0; i < cities.length; i++) {
             logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
         }      
@@ -116,55 +107,14 @@ public class HomeController {
         defaultDatabaseCreator.initCities();
         System.out.println("/cityinit");
     }
-    //TODO delete this 
-
-    @RequestMapping(value = "/rangechange", method = RequestMethod.POST)
-    public void range(Range range) {
-        System.out.println("Передвинули карту");
-        userCityService.changeRange(range);
-    }
-
-    @RequestMapping(value = "/sliderchange", method = RequestMethod.POST)
-    public void slider(SliderData sliderData) {
-        //sliders.init();
-        PropertyType type = propertyTypeDao.getById(sliderData.getId());
-        if (type != null) {
-            System.out.println("Сдвинули слайдер: " + type.getName()
-                    + " Новые значения: (" + sliderData.getLeftValue() + ","
-                    + sliderData.getRightValue() + ")");
-            sliders.changeOrCreate(type, sliderData.getLeftValue(), sliderData.getRightValue());
-        } else {
-            System.out.println("Сдвинули несущестнующий слайдер. Проигнорировано");
-        }
-    }
-
-    @RequestMapping(value = "/tagchange", method = RequestMethod.POST)
-    public void who(Tag tag) {
-        tag = tagDao.getTagById(tag.getId());
-        if (tag != null) {
-            System.out.println("выбрали тег: " + tag.getName());
-            if (tag.getTagsType() == TagsType.WHO) {
-                blockWho.setSelected(tag);
-            } else {
-                blockWhat.setSelected(tag);
-            }
-        } else {
-            System.out.println("выбрали несуществующий тег. изменение тега проигнорировано");
-        }
-    }
-
-    @RequestMapping(value = "/monthchange", method = RequestMethod.POST)
-    public void month(MyDate myDate) {
-        System.out.println("Выбрали месяц: " + myDate.getMonth());
-        calendar.changeMonth(myDate.getMonth());
-    }
+    //TODO delete this    
 
     @RequestMapping(value = "/feature_test", method = RequestMethod.POST)
     public void testSmth(@RequestBody com.globerry.project.service.service_classes.Request[] request) {
         try
         {
             for (com.globerry.project.service.service_classes.Request r : request) {
-                appContext.getObjectById(r.getId()).сopyValues((IGuiComponent) r.getValue());
+                appContext.getObjectById(r.getId()).setValues((IGuiComponent) r.getValue());
             }
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
@@ -174,17 +124,7 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/globerry_new")
-    public String home(Map<String,Object> map) {
-        
-       /* map.put("who", appContext.getWhoTag());
-        map.put("when", appContext.getWhenTag());
-        map.put("what", appContext.getWhatTag());
-        
-        map.put("alcohol", appContext.getAlcoholSlider());
-        map.put("travelTime", appContext.getTravelTimeSlider());
-        map.put("livingCost", appContext.getLivingCostSlider());
-        map.put("foodCost", appContext.getFoodCostSlider());
-        map.put("temperature", appContext.getTemperatureSlider());*/
+    public String home(Map<String,Object> map) {          
         appContext.init();
         map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());
@@ -199,6 +139,7 @@ public class HomeController {
         return "home_new_design";
     }
     
+    
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
     @ResponseBody
     public City[] guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request){
@@ -207,17 +148,21 @@ public class HomeController {
             for (com.globerry.project.service.service_classes.Request r : request) {
                 //appContext.getObjectById(r.getId()).сopyValues((IGuiComponent) r.getValue());
                 IGuiComponent component = appContext.getObjectById(r.getId());
-                component.сopyValues((IGuiComponent) r.getValue());
+                component.setValues((IGuiComponent) r.getValue());
+                if (r.getId() <= 2) userCityService.onTagChangeHandler();
             }
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
         }
         logger.debug("Запрос городов от клиента");
+       
         List<City> cityList = userCityService.getCityList(appContext);
+       
         City[] cities = new City[cityList.size()];
         cityList.toArray(cities);
         logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
-        logger.debug("Найдено " + cityList.size());
+        logger.debug("Найдено " + cityList.size());        
+       
         for (int i = 0; i < cities.length; i++) {
             logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
         }

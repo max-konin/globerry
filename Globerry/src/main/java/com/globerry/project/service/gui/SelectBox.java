@@ -60,7 +60,7 @@ public class SelectBox implements ISelectBox {
     }
 
     @Override
-    public void сopyValues(IGuiComponent component) throws IllegalArgumentException {
+    public void setValues(IGuiComponent component) throws IllegalArgumentException {
         try {
             ISelectBox selectBox = (ISelectBox) component;
             setValue(selectBox.getValue());

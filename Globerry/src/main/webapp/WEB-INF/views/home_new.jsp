@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Globerry <spring:message code="buildNumber"></spring:message></title>
         <link type="text/css" href="resources/lib/jquery-ui-1.8.21/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
         <link rel="stylesheet" href="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.css" />
         <script src="resources/javascripts/CloudMade-Leaflet-538dfb4/debug/leaflet-include.js"></script>
@@ -48,6 +48,9 @@
                 margin: 0;
                 padding: 0;
             }
+            td {
+                padding: 10px;
+            }
         </style>
     </head>
     <body>
@@ -56,7 +59,7 @@
                 <tr>
                     <td>
                         <spring:message code="label.who"></spring:message>
-                        <select id="${who.getId()}" class="gui_element">
+                        <select id="${who.getId()}" class="gui_element" guiId="${who.getId()}">
                             <c:forEach items="${who.getOptionAvaliable()}" var="value">
                                 <option value="${value}">
                                     <spring:message code="label.who${value}"/>
@@ -66,7 +69,7 @@
                     </td>
                     <td>
                         <spring:message code="label.what"></spring:message>
-                        <select id="${what.getId()}" class="gui_element">
+                        <select id="${what.getId()}" class="gui_element" guiId="${what.getId()}">
                             <c:forEach items="${what.getOptionAvaliable()}" var="value">
                                 <option value="${value}">
                                     <spring:message code="label.what${value}"/>
@@ -120,10 +123,10 @@
                 <tr>
                     <td>
                         <spring:message code="label.food"></spring:message>
-                        <div class="slider" id="${foodCost.getId()}">
-                            <input value="<fmt:formatNumber value="${foodCost.getMinValue()}"
+                        <div class="slider" id="${cost.getId()}">
+                            <input value="<fmt:formatNumber value="${cost.getMinValue()}"
                                               minFractionDigits="0" maxFractionDigits="0"/>">
-                            <input value="<fmt:formatNumber value="${foodCost.getMaxValue()}"
+                            <input value="<fmt:formatNumber value="${cost.getMaxValue()}"
                                               minFractionDigits="0" maxFractionDigits="0"/>">
                             <div></div>
                         </div>
@@ -144,19 +147,46 @@
         <div id ="map"/>
     </body>
     <script>
+        /**
+         * Стиль заливки кругов.
+         **/
+        var circleOptions = {
+            color: 'url(#grad1)',
+            opacity: 0,
+            fillOpacity : 0.8
+        }
+    </script>
+    <!--[if lte IE 9]>
+    <script>
+        /**Специально для эксплореров.**/
+        circleOptions = {color: 'orange', opacity: 0, fillOpacity: 0.2}
+    </script>
+<   ![endif]-->
+    <script>
+        var path = '<%= request.getContextPath() %>';
+        var initCities = [
+        <c:forEach items="${cities}" var="city">
+                {"id":${city.getId()},"name":"${city.getName()}","ru_name":"${city.getRu_name()}","area":${city.getArea()},
+                    "population":${city.getPopulation()},"longitude":${city.getLongitude()},
+                    "latitude":${city.getLatitude()},"isValid":${city.getIsValid()},"message":"${city.getMessage()}",
+                    "weight":${city.getWeight()}
+                },
+        </c:forEach>
+        ];
+        var bubbles;
         $(document).ready(function(){
             $('select.gui_element').change(function() {
                 var selectValue = $(this).select().val();
                 var request = [{id : $(this).attr('id'), value : {value : parseInt(selectValue)}}];
-                
+                console.log(request);
                 $.ajax({
-                    url: '/gui_changed',
+                    url: path + '/gui_changed',
                     dataType: 'json',
                     type: 'POST',
                     data: JSON.stringify(request),
                     contentType: "application/json",
                     success: function (response) {
-                        alert("OK");
+                        bubbles.update(response);
                     }
                 });
             }
@@ -189,14 +219,13 @@
             var id = $(this).parent().attr('id');
             var request = [{id : id, value : {leftValue : ui.values[0], rightValue : ui.values[1]}}];
             $.ajax({
-                url: '/gui_changed',
+                url: path +  '/gui_changed',
                 dataType: 'json',
                 type: 'POST',
                 data: JSON.stringify(request),
                 contentType: "application/json",
                 success: function (response) {
-                    console.log("OK");
-                    console.log(response);
+                    bubbles.update(response)
                 },
                 error: function(response) {
                     console.log(response);
@@ -207,22 +236,24 @@
             var map = new L.Map('map');
             cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
             var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+            
             var cloudmade = new L.TileLayer(cloudmadeUrl, {
                 maxZoom: 8, 
                 minZoom: 3, 
-                attribution: cloudmadeAttribution
+                attribution: cloudmadeAttribution,
+                maxBounds : bounds
             });
-            map.setView(new L.LatLng(51.505, -0.09), 3).addLayer(cloudmade);
+            map.setView(new L.LatLng(0, 0), 4).addLayer(cloudmade);
             
             var canvas = BubbleFieldProvider(map);
-            var bubbles = BubblesInit(canvas);
+            bubbles = BubblesInit(canvas, initCities);
             
             
             bubbles.draw();
             //Запиливаем тэг defs к svg, чтобы была возможность рисовать круги с градиентом.
             appendSVGGradientData();
-            
         }
+        
     );
     </script>
 </html>

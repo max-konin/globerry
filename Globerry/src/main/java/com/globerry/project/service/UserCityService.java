@@ -40,14 +40,14 @@ public class UserCityService implements IUserCityService {
 	private IPropertyTypeDao propertyTypeDao;
         @Autowired
 	private ITagDao tagDao;
-	@Autowired
-	private ISliders sliders;
-	@Autowired
-	private ICalendar calendar;
-	@Autowired
-	private BlockWho blockWho;
-	@Autowired
-	private BlockWhat blockWhat;
+        
+        private boolean tagChanged = true;
+        
+        /*
+         * Массив городов, удовлетворяющий условиям на теги
+         */
+        private List<City> cityList;
+	
 	private Range currentRange = new Range(-180, 180, -90, 90);
         
         protected static final Logger logger = Logger.getLogger(UserCityService.class);
@@ -82,21 +82,68 @@ public class UserCityService implements IUserCityService {
 	}
 
 	@Override
-	public List<City> getCityList() {
-            List<Tag> tags_l = new ArrayList<Tag>();
-            tags_l.add(blockWho.getSelected());
-            tags_l.add(blockWhat.getSelected());
-            CityRequest request = new CityRequest(
-                            currentRange,
-                            sliders.getProperties(),
-                            tags_l,
-                            calendar.getMonth());
-            List<City> resultRequest = cityDao.getCityList(request);
-            weightCalculation(resultRequest, request);
-            return resultRequest;
+	public List<City> getCityList() {           
+             return cityDao.getCityList();   
 	}
+        
         @Override
-        public List<City> getCityList(IApplicationContext appContext){
+        public void onTagChangeHandler(){
+            tagChanged = true;
+        }
+        
+        /*
+         * Сохраняет города, подходящие по тэгам в массив cityList. Самостоятельно фильтрут по параметрам.
+         * @param appContext Контекст приложения
+         * @throw IllegalArgumentException when appContext == null
+         */
+        @Override
+        public List<City> getCityList(IApplicationContext appContext)
+        {           
+            if (appContext == null) throw new IllegalArgumentException("parameter 'appContext' cannot be null");
+            
+            if(tags == null)
+            {
+                tags = new HashMap<Integer, Tag> ();
+                for(Tag tag: tagDao.getTagList())
+                    tags.put(tag.getId(), tag);
+            }
+            
+            List<City> resultRequest = new ArrayList<City>();
+            if (tagChanged){
+                 List<Tag> tagsToRequest = new ArrayList<Tag>();
+                 tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
+                 tagsToRequest.add(tags.get(appContext.getWhoTag().getValue()));  
+                 cityList = cityDao.getCityListByTagsOnly(tagsToRequest);
+                 tagChanged = false;
+            }
+            boolean f;
+            List<PropertySegment> sliderState = new ArrayList<PropertySegment>();
+            for(City city: cityList)
+            {
+                f = true;
+                for(String sliderName: appContext.getSliders().keySet())                
+                {
+                    PropertySegment prop = appContext.getSlidersByName(sliderName).getState();
+                    sliderState.add(prop);
+                    float val = city.getValueByPropertyType(prop.getPropertyType(), 
+                                                            Month.values()[appContext.getWhenTag().getValue()]);
+                    if (
+                            (val > prop.getRightValue()) ||
+                            (val < prop.getLeftValue())
+                        )
+                        f = false; 
+                }
+                if (f) resultRequest.add(city);
+            }
+            weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);      
+            return resultRequest;
+        }
+       
+        /*
+         * Не сохроняет города. Каждый раз вне зависимости от того изменились тэги или нет делает запрос к DAO
+         */
+        @Override
+        public List<City> getCityListWithoutSaveCity(IApplicationContext appContext){
             
             if(tags == null)
             {
@@ -123,37 +170,28 @@ public class UserCityService implements IUserCityService {
          
             List<City> resultRequest = cityDao.getCityList(request);
             
-            weightCalculation(resultRequest, request);
+            weightCalculation(resultRequest, sliderState, request.getMonth());
             return resultRequest;
-        }
-	public void update(Observable o, Object arg) {
-		if (arg.getClass() == EventUI.class) {
-			EventUI eventUI = (EventUI) arg;
-			if (eventUI.getParent().getClass() == Slider.class) {
-				sliderOnChangeHandler();
-			}
-		}
-
-	}
+        }	
 
 	public int getPropertyDaoHash()
 	{
 		return this.propertyTypeDao.hashCode();
 	}
-	private void weightCalculation(List<City> result, CityRequest request)
+	private void weightCalculation(List<City> result, List<PropertySegment> propRequest, Month month)
 	{
 		Iterator<City> itCity = result.iterator();
 		while (itCity.hasNext()) {
 	            City city = itCity.next();
 	            city.setWeight(1);
-	            Iterator<PropertySegment> itProperty = request.getOption().iterator();
+	            Iterator<PropertySegment> itProperty = propRequest.iterator();
 	            while (itProperty.hasNext()) {
 	                PropertySegment propertyRequest = itProperty.next();
 	                float propertyCity;
 	                try 
 	                {
 	                    propertyCity = city.getValueByPropertyType(propertyRequest.getPropertyType(),
-                                                                       request.getMonth());
+                                                                       month);
 
 	                    float a, b, sizeBetween;
 
@@ -176,9 +214,9 @@ public class UserCityService implements IUserCityService {
 	                    city.setWeight(city.getWeight() * k);
 
 
-	                    if (request.getOption().size() > 0) {
+	                    if (propRequest.size() > 0) {
 	                            city.setWeight((float) Math.pow(city.getWeight(), 
-	                                           1 / ((double) request.getOption().size()))
+	                                           1 / ((double) propRequest.size()))
 	                                           );
 	                    }
 	                }
