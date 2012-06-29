@@ -66,7 +66,7 @@
                     </div>
                     <div id ='whenText' class = 'requestText'><span id="menuNumber">03.</span><spring:message code="label.when"/></div>
                     <div id='whenDropDownList' class='whoWhatWhenDropDownList'>
-                        <select id='' class='whenSelect gui_element' style="width:100px" guiId="${when.getId()}">
+                        <select id='whenSelect' class='whenSelect gui_element' style="width:100px" guiId="${when.getId()}">
                             <c:forEach items="${when.getOptionAvaliable()}" var="value">
                                 <option value="${value}">
                                     <spring:message code="label.m${value}"/>
@@ -262,7 +262,7 @@
                     <div id='allMonths' class='months changeHeaderByClick gui_element' guiId="${when.getId()}">
                         
                         <c:forEach items="${when.getOptionAvaliable()}" var="value">
-                                <div value="${value}" class="upperClickableCaendarBG month">
+                                <div value="${value}" id="month${value}" class="upperClickableCaendarBG month">
                                     <spring:message code="label.m${value}"/>
                                 </div>
                         </c:forEach>
@@ -328,21 +328,29 @@
     ];
     var bubbles;
     $(document).ready(function() {
-        
-        /*******************************************************************************/
+        //Устанавливаем январь активным в выдвигающимся меню.
+        $('#allMonths>div:first').addClass('activeMonth');
+        /***************************************************/
         //выбор месяца
+        
         $(".month").click(function() {
             if($(this).hasClass('activeMonth'))
                 return;
             $('.activeMonth').removeClass('activeMonth');
             $(this).addClass('activeMonth');
-            sendRequest($(this).parent().attr('guiId'), {value : parseInt($(this).attr('value'))});
-
+            var value = $(this).attr('value');
+            var comboBox = $('#whenSelect').data("kendoComboBox");
+            comboBox.select(parseInt(value) - 1);
+            sendRequest($(this).parent().attr('guiId'), {value : parseInt(value)});
         });
 				
         $('select.gui_element').change(function() {
-            sendRequest($(this).attr('guiId'), {value : parseInt($(this).select().val())})
+            var value = $(this).select().val();
+            sendRequest($(this).attr('guiId'), {value : parseInt(value)});
+            $('.activeMonth').removeClass('activeMonth');
+            $('#month' + value).addClass('activeMonth');
         });
+        
         
 
         //обработка чекбоксов виза и язык

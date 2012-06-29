@@ -102,14 +102,15 @@ $(document).ready(function(){
         /*получаем значения select'а из комбобокса*/
         var who = $(".whoSelect option:selected").val();
         var what = $(".whatSelect option:selected").val();
-        var when = $(".whenSelect option:selected").val();
+        var tmp = $('.activeMonth').attr('value');
+        var when = parseInt(tmp)//$(".whenSelect option:selected").val() || tmp;
 		
         /*выбранный месяц сделать активным*/
-        var activeMonthId = $(".whenSelect option:selected").val();
+        /*var activeMonthId = $(".whenSelect option:selected").val();
         if ($('.activeMonth').text().length > 0)//месяц в календаре не выбран
         {
             when = $('.activeMonth').text();
-        }
+        }*/
 		
         var resultHeader = WhoStr[who] + WhatStr[what] + WhenStr[when];
         $('#hText').val(resultHeader);
