@@ -16,9 +16,9 @@
     <link rel="stylesheet" href="resources/styles/globerry.css" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.css" />
+    <link rel="stylesheet" href="resources/lib/leaflet-v0.3.1/dist/leaflet.css" />
     <!--<script src="resources/javascripts/CloudMade-Leaflet-538dfb4/debug/leaflet-include.js"></script>-->
-    <script src="resources/javascripts/CloudMade-Leaflet-538dfb4/dist/leaflet.js"></script>
+    <script src="resources/lib/leaflet-v0.3.1/debug/leaflet-include.js"></script>
 
     <script src="resources/javascripts/bubbles.js"></script>
     <script type="text/javascript" src="resources/javascripts/ui-static-init.js"></script>
@@ -385,15 +385,20 @@
     });
     
     $(document).ready(function(){ 
-        var map = new L.Map('map');
+        
         cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
         var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+        var southWest = new L.LatLng(-75, -180); 
+        var northEast = new L.LatLng(75, 180);
+        var restrictBounds = new L.LatLngBounds(southWest, northEast);
+        var map = new L.Map('map', {maxBounds : restrictBounds});
         var cloudmade = new L.TileLayer(cloudmadeUrl, {
             maxZoom: 8, 
             minZoom: 3, 
             attribution: cloudmadeAttribution
+            
         });
-        map.setView(new L.LatLng(51.505, -0.09), 3).addLayer(cloudmade);
+        map.setView(new L.LatLng(51.505, -0.09), 5).addLayer(cloudmade);
             
         var canvas = BubbleFieldProvider(map);
         bubbles = BubblesInit(canvas, initCities);

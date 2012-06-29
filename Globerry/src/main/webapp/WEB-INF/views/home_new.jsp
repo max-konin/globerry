@@ -236,12 +236,14 @@
             var map = new L.Map('map');
             cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
             var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+            
             var cloudmade = new L.TileLayer(cloudmadeUrl, {
                 maxZoom: 8, 
                 minZoom: 3, 
-                attribution: cloudmadeAttribution
+                attribution: cloudmadeAttribution,
+                maxBounds : bounds
             });
-            map.setView(new L.LatLng(51.505, -0.09), 3).addLayer(cloudmade);
+            map.setView(new L.LatLng(0, 0), 4).addLayer(cloudmade);
             
             var canvas = BubbleFieldProvider(map);
             bubbles = BubblesInit(canvas, initCities);

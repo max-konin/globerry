@@ -39,7 +39,7 @@ public class SelectBoxValueContainer implements ISelectBox {
     }
     
     @Override
-    public void сopyValues(IGuiComponent component) throws IllegalArgumentException {
+    public void setValues(IGuiComponent component) throws IllegalArgumentException {
         throw new UnsupportedOperationException("Not supported for this element");
     }
     

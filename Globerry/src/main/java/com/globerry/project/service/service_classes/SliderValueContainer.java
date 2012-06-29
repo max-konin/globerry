@@ -44,7 +44,7 @@ public class SliderValueContainer implements ISlider {
         this.id = id;
     }
     @Override
-    public void сopyValues(IGuiComponent component) throws IllegalArgumentException {
+    public void setValues(IGuiComponent component) throws IllegalArgumentException {
         throw new UnsupportedOperationException("Not supported for this class.");
     }
     

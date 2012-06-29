@@ -14,10 +14,11 @@ public interface IGuiComponent {
     int getId();
     
     /**
-     * Копирует значения из переданного компонента. После выполнения этого метода значения у текущего и переданного
+     * Устанавливает значения у компонента, такие же как и у переданного.
+     * После выполнения этого метода значения у текущего и переданного
      * копонентов должны совпадать либо должно сработать исключение.
      * @param component компонент, значентия которого необходимо скопировать.
      */
-    void сopyValues(IGuiComponent component) throws IllegalArgumentException;
+    void setValues(IGuiComponent component) throws IllegalArgumentException;
     
 }

@@ -73,7 +73,7 @@ public class Slider implements ISlider {
     }
 
     @Override
-    public void сopyValues(IGuiComponent component) {
+    public void setValues(IGuiComponent component) {
         ISlider slider = (ISlider) component;
         this.setLeftValue(slider.getLeftValue());
         this.setRightValue(slider.getRightValue());

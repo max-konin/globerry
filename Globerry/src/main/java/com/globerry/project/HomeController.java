@@ -114,7 +114,7 @@ public class HomeController {
         try
         {
             for (com.globerry.project.service.service_classes.Request r : request) {
-                appContext.getObjectById(r.getId()).сopyValues((IGuiComponent) r.getValue());
+                appContext.getObjectById(r.getId()).setValues((IGuiComponent) r.getValue());
             }
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
@@ -148,7 +148,7 @@ public class HomeController {
             for (com.globerry.project.service.service_classes.Request r : request) {
                 //appContext.getObjectById(r.getId()).сopyValues((IGuiComponent) r.getValue());
                 IGuiComponent component = appContext.getObjectById(r.getId());
-                component.сopyValues((IGuiComponent) r.getValue());
+                component.setValues((IGuiComponent) r.getValue());
                 if (r.getId() <= 2) userCityService.onTagChangeHandler();
             }
         } catch (IllegalArgumentException e) {
