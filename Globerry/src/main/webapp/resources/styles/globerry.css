@@ -385,7 +385,7 @@
 	background: url(../img/MonthBgActive.png);
 	width:68px;
 }
-#Jan, #JanBG, #month1
+#Jan, #JanBG
 {
 	left:3px;
 /*
@@ -398,7 +398,7 @@
     width: 71px;
 	*/
 }
-#Feb, #FebBG, #month2
+#Feb, #FebBG
 {
 	left:6px;
 	/*
@@ -406,7 +406,7 @@
 	width: 72px;
 	*/
 }
-#Mar, #MarBG, #month3
+#Mar, #MarBG
 {
 	left:3px;
 /*	left:6px;
@@ -414,7 +414,7 @@
 	width: 63px;
 	*/
 }
-#Apr, #AprBG, #month4
+#Apr, #AprBG
 {
 	left:4px;
 	/*
@@ -422,7 +422,7 @@
 	width: 70px;	
 	*/
 }
-#May, #MayBG, #month5
+#May, #MayBG
 {
 
 	left:3px;
@@ -431,14 +431,14 @@
 	width: 68px;
 	*/
 }
-#Jun, #JunBG, #month6
+#Jun, #JunBG
 {
 /*
 	left: 378px;
 	width: 66px;
 	*/
 }
-#Jul, #JulBG, #month7
+#Jul, #JulBG
 {
 	left:2px;
 /*
@@ -446,21 +446,21 @@
 	width: 66px;
 	*/
 }
-#Aug, #AugBG, #month8
+#Aug, #AugBG
 {
 /*
 	left: 510px;
 	width: 68px;
 	*/
 }
-#Sep, #SepBG, #month9
+#Sep, #SepBG
 {
 /*
 	left: 578px;
 	width: 67px;
 	*/
 }
-#Oct, #OctBG, #month10
+#Oct, #OctBG
 {
 	right:2px;
 /*
@@ -468,7 +468,7 @@
 	width: 67px;
 	*/
 }
-#Nov, #NovBG, #month11
+#Nov, #NovBG
 {
 	right:3px;
 /*
@@ -476,7 +476,7 @@
 	width: 66px;
 	*/
 }
-#Dec, #DecBG, #month12
+#Dec, #DecBG
 {
 	right:5px;
 /*

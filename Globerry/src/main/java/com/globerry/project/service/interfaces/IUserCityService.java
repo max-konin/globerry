@@ -21,12 +21,8 @@ public interface IUserCityService extends ICityService
     public void changeRange(Range newRange);
     
     public void sliderOnChangeHandler();
-
-    public int getPropertyDaoHash();
     
     public List<City> getCityList(IApplicationContext appContext);
     
     public void onTagChangeHandler();
-    
-    public List<City> getCityListWithoutSaveCity(IApplicationContext appContext);
 }

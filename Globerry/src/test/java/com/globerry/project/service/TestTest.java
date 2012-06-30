@@ -5,17 +5,22 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.jndi.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ContextLoaderListener;
-import com.globerry.project.service.admin.DamagedCities;
+import com.globerry.project.dao.TagDao;
+import com.globerry.project.domain.Tag;
+
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
+@ContextConfiguration("classpath:/META-INF/spring/serviceTestContext.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,
@@ -23,14 +28,22 @@ import com.globerry.project.service.admin.DamagedCities;
     ContextLoaderListener.class
 
 }) 
-public class DamagedCitiesTest
+public class TestTest
 {
     @Autowired
-    DamagedCities damagedCities;
+    private TagDao tagDao;
     @Test
-    public void createFile()
+    public void test()
     {
-	//damagedCities.createFile();
+	Tag tag = new Tag();
+	try
+	{
+	    tagDao.addTag(tag);
+	}
+	catch(MySqlException e)
+	{
+	    
+	}
     }
 
 }

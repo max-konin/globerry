@@ -21,19 +21,6 @@
 			<td colspan="2"><input type="submit"
 				value="Кнопка" /></td>
 		</tr>
-		<tr>
-		
-			<td>${FIRSTHASH}</td>
-		</tr>
-		<tr>
-		
-			<td>${SECONDHASH}</td>
-		</tr>
-                <tr>
-		
-			<td>${hash}</td>
-		</tr>
-		
 	</table>
 
 

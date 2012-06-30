@@ -55,7 +55,7 @@ $(document).ready(function() {
             }
         }
     });
-    $('#map').mousedown(function(){
+    $('#map').click(function(){
     if(bottomActive == true){
                 $("#bottom").animate({
                     bottom:0
