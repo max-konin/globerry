@@ -43,10 +43,12 @@
         function foo(x) {
             return Math.sin(x);
         }
+        
+        
         $(document).ready(function() {
-            var graph = Graph(600,500,-4,4,-3,3,50);
+            var graph = Graph(600,500,0,10,-2,2,50);
             graph.draw(foo, 0.1);
-            graph.drawBezier();
+            graph.drawBezier(foo, 2);
             $('#pic').append(graph.svg);
             
         });
@@ -55,6 +57,9 @@
             var width = w, height = h, minX = _minX, maxX = _maxX, maxY = _maxY, minY = _minY;
             var svg = createElement('svg');
             svg.appendChild(createAxis(step));
+            var defs = createElement('defs');
+            svg.appendChild(defs);
+            var marker = createElement('marker');
             
             function createAxis(step) {
                 var textOffset = 10;
@@ -142,24 +147,55 @@
                 svg.appendChild(gr);   
             }
             function drawBezier(func, step) {
-                var pi = 3.1415926;
-                var rx = projectX(-pi), ry = projectY(0);
                 
-                var path = "M" + rx + " " + ry;
-                
-                var c = projectXY(-pi/2,-1);
-                var d = 2;
-                var c1 = projectXY(d*1/3 - pi, d*-1/3);
-                var c2 = projectXY(-pi/2 - d*1/3, -1);
-                path += "C" + c1.x + " " + c1.y + " " +  c2.x + " " + c2.y + " " + c.x + " " + c.y;
-                
+                var factor = 0.5;
+                var path = "M" + projectX(minX) + " " + projectY(func(minX)), d = minX+0.05*step;
+                var currentPoint = Point(minX, func(minX)), tmp = Point(d, foo(d));
+                var currentTangent = Point((tmp.x - currentPoint.x)/d, (tmp.y - currentPoint.y)/d);
+                var nextPoint, nextTangent, ray1, ray2, c1, c2;
+                for(var x = minX + step; x <= maxX ; x+= step) {
+                    d = x + 0.05*step;
+                    tmp = Point(d, foo(d));
+                    nextPoint = Point(x, foo(x));
+                    nextTangent = Point(tmp.x, tmp.y);
+                    ray1 = Ray(currentPoint, currentTangent), ray2 = Ray(nextPoint, nextTangent);
+                    var p = ray1.getPoint(1);
+                    //path += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + 
+                    //     "L " + projectX(p.x) + " " + projectY(p.y);
+                    
+                    var t = ray1.cross(ray2);
+                    if(t >= 0) {
+                        c1 = ray1.getPoint(t);
+                        c2 = c1;
+                        //;
+                        var circle = createElement('circle');
+                        circle.setAttribute('class', 'connect');
+                        circle.setAttribute('cx', projectX(c1.x));
+                        circle.setAttribute('cy', projectY(c1.y));
+                        circle.setAttribute('r', 5);
+                        svg.appendChild(circle);
+                    } else if(t <= 0) {
+                        c1 = ray1.getPoint(factor);
+                        c2 = ray2.getPoint(factor);
+                    }
+                    path += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + "C " + projectX(c1.x) + " " + projectY(c1.y) + " "
+                            + projectX(c2.x) + " " + projectY(c2.y) + " "
+                            + projectX(nextPoint.x) + " " + projectY(nextPoint.y);
+                    currentPoint = nextPoint;
+                    currentTangent = nextTangent;
+                }
+                var s1 = Point(3, 3), s2 = Point(0,0), d1 = Point(3,0), d2 = Point(-5,0);
+                var ray1 = Ray(s1, d1), ray2 = Ray(s2, d2);
+                var t = ray1.cross(ray2);
+                console.log(t);
+                console.log(ray1.getPoint(t));
                 var gr = createElement('path');
                 gr.setAttribute('d', path);
                 gr.setAttribute('fill', 'none');
                 gr.setAttribute('stroke', 'red');
                 gr.setAttribute('stroke-width',1);
                 
-                var circle = createElement('circle');
+                /*var circle = createElement('circle');
                 circle.setAttribute('class', 'connect');
                 circle.setAttribute('cx', c1.x);
                 circle.setAttribute('cy', c1.y);
@@ -171,16 +207,65 @@
                 circle.setAttribute('cx', c2.x);
                 circle.setAttribute('cy', c2.y);
                 circle.setAttribute('r', 5);
-                svg.appendChild(circle);
+                svg.appendChild(circle);*/
                 
                 svg.appendChild(gr);   
+            }
+            function draw3D(func) {
+                
             }
             var me = {svg : svg, draw : draw, drawBezier : drawBezier};
             return me;
         }
         
-        function Point(x, y) {
-            return {x:x,y:y};
+        function Point(X, Y) {
+            var x = X, y = Y;
+            function distance(point) {
+                return Math.sqrt((x - point.x)*(x - point.x) + (y - point.y)*(y - point.y));
+            }
+            function distanceSqr(point) {
+                return (x - point.x)*(x - point.x) + (y - point.y)*(y - point.y);
+            }
+            function length() {
+                return Math.sqrt(x*x + y*y);
+            }
+            function setX(X) {x = X};
+            function setY(Y) {y = Y};
+            function setXY(X, Y) {x = X, y = Y};
+            var me = {
+                x : x,
+                y : y,
+                distance : distance,
+                distanceSqr : distanceSqr,
+                setX : setX,
+                setY : setY,
+                setXY : setXY
+                };
+            return me;
+        }
+        function Ray(p1/*Начало*/, p2/*Вектор направления*/) {
+            var start = Point(p1.x, p1.y), direction;
+            var distance = p2.distance(p1);
+            direction = Point((p2.x - p1.x)/distance, (p2.y - p1.y)/distance);
+            function getPoint(t) {
+                return Point(start.x + t*direction.x, start.y + t*direction.y);
+            }
+            function cross(ray) {
+                var znamenatel = ray.direction.y*direction.x - ray.direction.x*direction.y;
+                if (znamenatel == 0) {
+                    return null;
+                }
+                var chislitel = ray.direction.y*(ray.start.x - start.x) 
+                    + ray.direction.x*(start.y - ray.start.y);
+                return chislitel/znamenatel;
+            }
+            return {
+                start : start,
+                direction : direction,
+                getPoint : getPoint,
+                cross: cross
+            };
+            
         }
     </script>
 </html>
