@@ -134,9 +134,7 @@ public class HomeController {
         map.put("cities", cities);
         for(String sliderName: appContext.getSliders().keySet())
             map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
-                
-        //return "home_new";
-        return "home_new_design";
+        return "home_new";
     }
     
     
