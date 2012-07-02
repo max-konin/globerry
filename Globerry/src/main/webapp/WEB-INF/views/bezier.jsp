@@ -56,10 +56,10 @@
         }
         
         $(document).ready(function() {
-            var graph = Graph(500,500,-2,2,-2,2,50);
+            var graph = Graph(1500,500,-2,50,-2,2,50);
             $('#pic').append(graph.svg);
-            //graph.draw(foo, 0.1);
-            //graph.drawFunc(foo, 2);
+            graph.draw(foo, 0.1);
+            graph.drawFunc(foo, 2);
             var points = [];
             var point = Point(-1, 2);
             point.weight = 1;
@@ -91,7 +91,7 @@
             ray = Ray(Point(0, -1), Point(1,-1));
             rays.push(ray);
             
-            graph.drawRays(rays);
+            //graph.drawRays(rays);
             
             $('#wolfram').append(plotString(points));
         });
