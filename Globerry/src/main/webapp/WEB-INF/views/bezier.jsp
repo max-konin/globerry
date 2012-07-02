@@ -26,6 +26,7 @@
         </style>
     </head>
     <body>
+        <div id="wolfram"></div>
         <div id="pic"></div>
     </body>
     <script>
@@ -42,15 +43,57 @@
         }
         function foo(x) {
             return Math.sin(x) * Math.sin(x) + Math.cos(x) + 1/2*Math.sin(x*1.2) + 1/2*Math.cos(x*1.3)*Math.cos(x)*Math.cos(x);
+            //return Math.sin(1/2*x);
+        }
+        function plotString(points) {
+            var ret = "plot(";
+            for(var i = 0, l = points.length; i < l; i++) {
+                ret += points[i].weight + "/sqrt((x-" + points[i].x + ")^2 + (y - " + points[i].y + ")^2)";
+                if(i != l-1) ret += "+";
+            }
+            ret += ")";
+            return ret;
         }
         
-        
         $(document).ready(function() {
-            var graph = Graph(1500,500,0,50,-2,2,50);
-            graph.draw(foo, 0.1);
-            graph.drawBezier(foo, 2);
+            var graph = Graph(500,500,-2,2,-2,2,50);
             $('#pic').append(graph.svg);
+            //graph.draw(foo, 0.1);
+            //graph.drawFunc(foo, 2);
+            var points = [];
+            var point = Point(-1, 2);
+            point.weight = 1;
+            points.push(point);
             
+            point = Point(0, 2);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(1, 0);
+            point.weight = 1;
+            points.push(point);
+            
+            
+            point = Point(2, 2);
+            point.weight = 2;
+            points.push(point);
+            
+            var rays = [];
+            var ray = Ray(Point(1, 0), Point(1,1));
+            rays.push(ray);
+            
+            ray = Ray(Point(0, 1), Point(-1,1));
+            rays.push(ray);
+            
+            ray = Ray(Point(-1, 0), Point(-1,-1));
+            rays.push(ray);
+            
+            ray = Ray(Point(0, -1), Point(1,-1));
+            rays.push(ray);
+            
+            graph.drawRays(rays);
+            
+            $('#wolfram').append(plotString(points));
         });
         
         function Graph(w, h, _minX, _maxX, _minY, _maxY, step) {
@@ -145,22 +188,31 @@
                 gr.setAttribute('stroke-width',1);
                 svg.appendChild(gr);   
             }
-            function drawBezier(func, step) {
-                
-                var factor = 0.5;
-                var path = "M" + projectX(minX) + " " + projectY(func(minX)), d = minX+0.05*step;
-                var pathVect = "";
-                var currentPoint = Point(minX, func(minX)), ray1 = Ray(currentPoint, Point(d, func(d)));
-                var nextPoint, ray2, c1, c2, prevT = factor;
-                var factor = 1, factor2 = 3;
-                for(var x = minX + step; x <= maxX ; x+= step) {
-                    d = x + 0.03*step;
-                    nextPoint = Point(x, func(x));
-                    ray2 = Ray(nextPoint, Point(d, func(d)));
-                    
+            function drawFunc(func, step) {
+                var rays = [];
+                for(var x = minX; x <= maxX ; x+= step) {
+                    var d = x + 0.05*step;
+                    rays.push(Ray(Point(x, func(x)),Point(d, func(d))));
+                }
+                drawRays(rays);
+            }
+            function drawRays(arr/*Массив лучей, начало луча - точка функции, направление - касетельная в этой точке*/) {
+                if(arr.length <= 1)
+                    return;
+                var ray1 = arr[0], ray2, c1, c2, factor = 1, prevT = null;
+                var path = "", pathVect = "";
+                for(var i = 1, l = arr.length; i < l; i++) {
+                    ray2 = arr[i];
                     var t1 = ray1.cross(ray2);
                     var t2 = ray2.cross(ray1);
-                    
+                    if(prevT == null) {
+                        if(t1 >= 0 && t2 <= 0) {
+                            c1 = ray1.getPoint(t1);
+                            c2 = c1;
+                            prevT = -t2;
+                        }
+                    }
+                       
                     if(t1 >= 0 && t2 <= 0) {
                         c1 = ray1.getPoint(prevT*0.7);
                         c2 = ray2.getPoint(t2);
@@ -189,13 +241,8 @@
                     
                     appendCircle(c1);
                     appendCircle(c2);
-                    appendCircle(ray1.start)
+                    appendCircle(ray1.start);
                 }
-                var s1 = Point(3, 3), s2 = Point(0,0), d1 = Point(3,0), d2 = Point(-5,0);
-                var ray1 = Ray(s1, d1), ray2 = Ray(s2, d2);
-                var t = ray1.cross(ray2);
-                console.log(t);
-                console.log(ray1.getPoint(t));
                 var gr = createElement('path');
                 gr.setAttribute('d', path);
                 gr.setAttribute('fill', 'none');
@@ -210,10 +257,8 @@
                 gr.setAttribute('stroke-width',1);
                 
                 
-                svg.appendChild(gr);   
-            }
-            function draw3D(func) {
-                
+                svg.appendChild(gr);
+            
             }
             function appendCircle(point) {
                 var circle = createElement('circle');
@@ -223,7 +268,27 @@
                 circle.setAttribute('r', 3);
                 svg.appendChild(circle)
             }
-            var me = {svg : svg, draw : draw, drawBezier : drawBezier};
+            function draw3D(points, level) {
+                function Z(x, y) {
+                    var val = 0;
+                    for(var i = 0, l = points.length; i < l; i++) {
+                        var point = points[i];
+                        val += point.weight/(Math.sqrt((point.x - x)*(point.x - x) + (point.y - y)*(point.y - y)));
+                    }
+                    return val;
+                }
+                //var x = (maxX - minX)/2, y = (maxY - minY)/2;
+                var eps = 0.2, d = 1;
+                var point = points[0];
+                var x = point.x, y = point.y;
+                var dx, dy;
+                var z = Z(x,y);
+                while(z > level - eps) {
+                    
+                }
+                
+            }
+            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, draw3D : draw3D, drawRays : drawRays};
             return me;
         }
         
