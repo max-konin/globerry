@@ -90,8 +90,8 @@ $(document).ready(function(){
         WhoStr = new Array();
         WhoStr[1] = "Я один еду ";
         WhoStr[2] = "Мы с друзьями едем ";
-        WhoStr[2] = "Мы с семьей едем ";
-        WhoStr[3] = "Мы вдвоем едем ";
+        WhoStr[3] = "Мы с семьей едем ";
+        WhoStr[4] = "Мы вдвоем едем ";
 
         WhatStr = new Array();
         WhatStr[5] = "загорать ";
