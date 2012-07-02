@@ -48,6 +48,8 @@ public class UserCityServiceTest
     DefaultDatabaseCreator databaseCreator;
     @Autowired
     DatabaseManager databaseManager;
+    @Autowired
+    IApplicationContext app;
     @Test
     public void initTest(){
 	//TODO
@@ -73,8 +75,6 @@ public class UserCityServiceTest
     @Test
     public void getCityList()
     {
-	
-	IApplicationContext app = new GloberryGuiContext();
 	app.init();
 	
 	Random rand = new Random();
@@ -102,7 +102,7 @@ public class UserCityServiceTest
 	
 	
 	//food
-	Slider foodSlider = app.getSlidersByName("food");
+	Slider foodSlider = app.getSlidersByName("cost");
 	foodSlider.setLeftValue(10);
 	foodSlider.setRightValue(30);
 	value = city.getValueByPropertyType(foodSlider.getPropertyType(),Month.APRIL);
@@ -136,7 +136,7 @@ public class UserCityServiceTest
 	
 	
 	//temperature
-	Slider temperatureSlider = app.getSlidersByName("livingCost");
+	Slider temperatureSlider = app.getSlidersByName("temperature");
 	temperatureSlider.setLeftValue(-15);
 	temperatureSlider.setRightValue(15);
 	value = city.getValueByPropertyType(temperatureSlider.getPropertyType(),Month.APRIL);

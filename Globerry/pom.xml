@@ -19,16 +19,6 @@
             <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
         
-        <distributionManagement>        
-            <repository>
-                <id>NetGen</id>
-                <name>NetGen-releases</name>
-                <url>http://grwe.ru:8081/ext-release-local</url>
-            </repository>
-        </distributionManagement>
-
-
-        
 	<dependencies>
             <!-- Spring -->
             <dependency>
@@ -72,7 +62,17 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId> 
                 <version>${org.springframework-version}</version>
-            </dependency>		
+            </dependency>	
+            
+            
+            <dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-mock</artifactId>
+				<version>2.0.8</version>
+			</dependency>	
+			
+			
+            		
 
             <!-- Jackson JSON Mapper -->
             <dependency>
@@ -207,6 +207,18 @@
                 <artifactId>hibernate-commons-annotations</artifactId>
                 <version>3.2.0.Final</version>
             </dependency> 
+            <!-- Test Databases Libraries -->
+            <dependency>
+				<groupId>hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>1.8.0.10</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.3.167</version>
+			</dependency>            
 
             <dependency>
                 <groupId>javassist</groupId>
@@ -237,15 +249,41 @@
                 <artifactId>spring-security-core</artifactId>
                 <version>3.1.0.RELEASE</version>
             </dependency>
-
+            <!-- 
+            <dependency>
+                <groupId>com.globerry</groupId>
+                <artifactId>CityParser</artifactId>
+                <version>1.0</version>
+                <scope>provided</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache</groupId>
+                <artifactId>poi</artifactId>
+                <version>3.7</version>
+                <scope>provided</scope>
+            </dependency>
             
             <dependency>
                 <groupId>org.apache</groupId>
                 <artifactId>ooxml-schemas</artifactId>
-                <version>1.1</version>                
+                <version>1.1</version>
+                <scope>provided</scope>
             </dependency>
-
-           
+            
+            <dependency>
+                <groupId>org.apache</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>3.7</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache</groupId>
+                <artifactId>poi-ooxml-shemas</artifactId>
+                <version>3.7</version>
+                <scope>provided</scope>
+            </dependency>
+            -->
             <dependency>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>mojo-parent</artifactId>
@@ -258,25 +296,8 @@
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.2</version>
             </dependency>
-	 <dependency>
-	  <groupId>org.apache</groupId>
-	  <artifactId>poi-ooxml</artifactId>
-	  <version>3.7</version>
-	  <type>jar</type>
-	 </dependency>
-	 <dependency>
-	  <groupId>org.apache</groupId>
-	  <artifactId>poi</artifactId>
-	  <version>3.7</version>
-	  <type>jar</type>
-	 </dependency>
-	 <dependency>
-	  <groupId>com.globerry</groupId>
-	  <artifactId>CityParser</artifactId>
-	  <version>1.0</version>
-	  <type>jar</type>
-	 </dependency>
-	</dependencies>
+            
+        </dependencies>
         
 	<build>
             <plugins>
@@ -312,7 +333,6 @@
                             <source>${java-version}</source>
                             <target>${java-version}</target>
                             <encoding>${project.build.sourceEncoding}</encoding>
-                         <debug>false</debug>
                     </configuration>
                 </plugin>
 

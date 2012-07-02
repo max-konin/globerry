@@ -29,7 +29,7 @@ import com.globerry.project.domain.Tour;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
+@ContextConfiguration("classpath:/META-INF/spring/daoTestContext.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,
