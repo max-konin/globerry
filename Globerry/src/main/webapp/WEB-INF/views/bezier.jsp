@@ -41,12 +41,12 @@
             return document.createElementNS(NS,name);
         }
         function foo(x) {
-            return Math.sin(x);
+            return Math.sin(x) * Math.sin(x) + Math.cos(x) + 1/2*Math.sin(x*1.2) + 1/2*Math.cos(x*1.3)*Math.cos(x)*Math.cos(x);
         }
         
         
         $(document).ready(function() {
-            var graph = Graph(600,500,0,10,-2,2,50);
+            var graph = Graph(1500,500,0,50,-2,2,50);
             graph.draw(foo, 0.1);
             graph.drawBezier(foo, 2);
             $('#pic').append(graph.svg);
@@ -60,7 +60,6 @@
             var defs = createElement('defs');
             svg.appendChild(defs);
             var marker = createElement('marker');
-            
             function createAxis(step) {
                 var textOffset = 10;
                 var g = createElement('g');
@@ -150,39 +149,47 @@
                 
                 var factor = 0.5;
                 var path = "M" + projectX(minX) + " " + projectY(func(minX)), d = minX+0.05*step;
-                var currentPoint = Point(minX, func(minX)), tmp = Point(d, foo(d));
-                var currentTangent = Point((tmp.x - currentPoint.x)/d, (tmp.y - currentPoint.y)/d);
-                var nextPoint, nextTangent, ray1, ray2, c1, c2;
+                var pathVect = "";
+                var currentPoint = Point(minX, func(minX)), ray1 = Ray(currentPoint, Point(d, func(d)));
+                var nextPoint, ray2, c1, c2, prevT = factor;
+                var factor = 1, factor2 = 3;
                 for(var x = minX + step; x <= maxX ; x+= step) {
-                    d = x + 0.05*step;
-                    tmp = Point(d, foo(d));
-                    nextPoint = Point(x, foo(x));
-                    nextTangent = Point(tmp.x, tmp.y);
-                    ray1 = Ray(currentPoint, currentTangent), ray2 = Ray(nextPoint, nextTangent);
-                    var p = ray1.getPoint(1);
-                    //path += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + 
-                    //     "L " + projectX(p.x) + " " + projectY(p.y);
+                    d = x + 0.03*step;
+                    nextPoint = Point(x, func(x));
+                    ray2 = Ray(nextPoint, Point(d, func(d)));
                     
-                    var t = ray1.cross(ray2);
-                    if(t >= 0) {
-                        c1 = ray1.getPoint(t);
-                        c2 = c1;
-                        //;
-                        var circle = createElement('circle');
-                        circle.setAttribute('class', 'connect');
-                        circle.setAttribute('cx', projectX(c1.x));
-                        circle.setAttribute('cy', projectY(c1.y));
-                        circle.setAttribute('r', 5);
-                        svg.appendChild(circle);
-                    } else if(t <= 0) {
-                        c1 = ray1.getPoint(factor);
-                        c2 = ray2.getPoint(factor);
+                    var t1 = ray1.cross(ray2);
+                    var t2 = ray2.cross(ray1);
+                    
+                    if(t1 >= 0 && t2 <= 0) {
+                        c1 = ray1.getPoint(prevT*0.7);
+                        c2 = ray2.getPoint(t2);
+                        prevT = -t2;
+                    } else if(t1 >= 0 && t2 >= 0) {
+                        c1 = ray1.getPoint(prevT);
+                        c2 = ray2.getPoint(-factor);
+                        prevT = factor;
+                    } else if(t1 < 0 && t2 < 0) {
+                        c1 = ray1.getPoint(prevT);
+                        c2 = ray2.getPoint(-factor/2);
+                        prevT = factor/2;
+                    } else if(t1 < 0 && t2 >0) {
+                        c1 = ray1.getPoint(prevT);
+                        c2 = ray2.getPoint(-factor);
+                        prevT = factor;
                     }
+                    
+                    pathVect += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + "L " + 
+                        projectX(c1.x) + " " + projectY(c1.y) +
+                        "L " + projectX(c2.x) + " " + projectY(c2.y) + "L " + projectX(ray2.start.x) + " " + projectY(ray2.start.y);
                     path += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + "C " + projectX(c1.x) + " " + projectY(c1.y) + " "
                             + projectX(c2.x) + " " + projectY(c2.y) + " "
-                            + projectX(nextPoint.x) + " " + projectY(nextPoint.y);
-                    currentPoint = nextPoint;
-                    currentTangent = nextTangent;
+                            + projectX(ray2.start.x) + " " + projectY(ray2.start.y);
+                    ray1 = ray2;
+                    
+                    appendCircle(c1);
+                    appendCircle(c2);
+                    appendCircle(ray1.start)
                 }
                 var s1 = Point(3, 3), s2 = Point(0,0), d1 = Point(3,0), d2 = Point(-5,0);
                 var ray1 = Ray(s1, d1), ray2 = Ray(s2, d2);
@@ -193,26 +200,28 @@
                 gr.setAttribute('d', path);
                 gr.setAttribute('fill', 'none');
                 gr.setAttribute('stroke', 'red');
+                gr.setAttribute('stroke-width',3);
+                svg.appendChild(gr);
+                
+                gr = createElement('path');
+                gr.setAttribute('d', pathVect);
+                gr.setAttribute('fill', 'none');
+                gr.setAttribute('stroke', 'black');
                 gr.setAttribute('stroke-width',1);
                 
-                /*var circle = createElement('circle');
-                circle.setAttribute('class', 'connect');
-                circle.setAttribute('cx', c1.x);
-                circle.setAttribute('cy', c1.y);
-                circle.setAttribute('r', 5);
-                svg.appendChild(circle);
-                
-                circle = createElement('circle');
-                circle.setAttribute('class', 'connect');
-                circle.setAttribute('cx', c2.x);
-                circle.setAttribute('cy', c2.y);
-                circle.setAttribute('r', 5);
-                svg.appendChild(circle);*/
                 
                 svg.appendChild(gr);   
             }
             function draw3D(func) {
                 
+            }
+            function appendCircle(point) {
+                var circle = createElement('circle');
+                circle.setAttribute('class', 'connect');
+                circle.setAttribute('cx', projectX(point.x));
+                circle.setAttribute('cy', projectY(point.y));
+                circle.setAttribute('r', 3);
+                svg.appendChild(circle)
             }
             var me = {svg : svg, draw : draw, drawBezier : drawBezier};
             return me;
