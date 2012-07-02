@@ -119,7 +119,7 @@ public class UserCityService implements IUserCityService {
          * Возвращает те города которые соответвуют запрашиваемым параметрам, вызывает функцию расчета веса города
          * @param appContext Контекст приложения
          */
-        public List<City> getCitiesWithRequestedProperties(IApplicationContext appContext)
+        public List<City> getCitiesWithRequestedProperties(IApplicationContext appContext) 
         {
             boolean f;
             List<City> resultRequest = new ArrayList<City>();
