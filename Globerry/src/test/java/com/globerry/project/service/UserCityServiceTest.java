@@ -71,12 +71,11 @@ public class UserCityServiceTest
     {
 	databaseCreator.initPropertyType();
 	databaseCreator.initTags();
+	app.init();
     }
     @Test
     public void getCityList()
     {
-	app.init();
-	
 	Random rand = new Random();
 	
 	City city = databaseCreator.generateCityWithPsevdoRandomProperties("City1", rand.nextInt(180), rand.nextInt(180));
