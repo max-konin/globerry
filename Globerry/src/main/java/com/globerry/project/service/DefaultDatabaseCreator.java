@@ -272,7 +272,8 @@ public class DefaultDatabaseCreator
 	    e.printStackTrace();
 	}
     }
-    public City generateCityWithPsevdoRandomProperties(String name, float longitude, float latitude){
+    public City generateCityWithPsevdoRandomProperties(String name, float longitude, float latitude)
+    {
 	City city = new City();
 	city.setName(name);
 	city.setLongitude(longitude);
@@ -306,7 +307,7 @@ public class DefaultDatabaseCreator
 	DependingMonthProperty dmProperty;
 	
 	for(int i = 1; i < 8; i++){
-	    PropertyType propertyType = propertyTypeDao.getById(i);
+	    PropertyType propertyType = propertyTypeDao.getById(i);// БЫДЛЯТИНА 8 обращений к базе, нужно вытаскивать лист и с ним работать
 	    if (propertyType != null){
 		if (!propertyType.isDependingMonth()){
 		    property = new Property();
@@ -335,7 +336,7 @@ public class DefaultDatabaseCreator
     }
     private void createPropertyType(String name, int minValue, int maxValue, Boolean dependingMonth, Boolean betterWhenLess)
     {
-	if(propertyTypeDao.getPropertyTypeByName(name) != null) return;
+	if(propertyTypeDao.getPropertyTypeByName(name) != null) return;//строчка бажит если в базе 
 	PropertyType propertyType = new PropertyType();
 	propertyType.setDependingMonth(dependingMonth);
 	propertyType.setBetterWhenLess(betterWhenLess);

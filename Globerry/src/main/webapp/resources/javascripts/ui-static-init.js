@@ -90,8 +90,8 @@ $(document).ready(function(){
         WhoStr = new Array();
         WhoStr[1] = "Я один еду ";
         WhoStr[2] = "Мы с друзьями едем ";
-        WhoStr[2] = "Мы с семьей едем ";
-        WhoStr[3] = "Мы вдвоем едем ";
+        WhoStr[3] = "Мы с семьей едем ";
+        WhoStr[4] = "Мы вдвоем едем ";
 
         WhatStr = new Array();
         WhatStr[5] = "загорать ";
@@ -101,18 +101,18 @@ $(document).ready(function(){
         WhatStr[9] = "в круиз ";
 
         WhenStr = new Array();
-        WhenStr[1] = "в январе!";
-        WhenStr[2] = "в феврале!";
-        WhenStr[3] = "в марте!";
-        WhenStr[4] = "в апреле!";
-        WhenStr[5] = "в мае!";
-        WhenStr[6] = "в июне!";
-        WhenStr[7] = "в июле!";
-        WhenStr[8] = "в августе!";
-        WhenStr[9] = "в сентябре!";
-        WhenStr[10] = "в октябре!";
-        WhenStr[11] = "в ноябре!";
-        WhenStr[12] = "в декабре!";
+        WhenStr[0] = "в январе!";
+        WhenStr[1] = "в феврале!";
+        WhenStr[2] = "в марте!";
+        WhenStr[3] = "в апреле!";
+        WhenStr[4] = "в мае!";
+        WhenStr[5] = "в июне!";
+        WhenStr[6] = "в июле!";
+        WhenStr[7] = "в августе!";
+        WhenStr[8] = "в сентябре!";
+        WhenStr[9] = "в октябре!";
+        WhenStr[10] = "в ноябре!";
+        WhenStr[11] = "в декабре!";
 		
         /*получаем значения select'а из комбобокса*/
         var who = $(".whoSelect option:selected").val();

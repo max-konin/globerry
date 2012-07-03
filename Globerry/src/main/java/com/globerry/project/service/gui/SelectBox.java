@@ -16,7 +16,8 @@ public class SelectBox implements ISelectBox {
     ArrayList<Integer> values;
     int id, currentIndex;
     
-    public SelectBox(int id, Collection<Integer> initialValues) {
+    public SelectBox(int id, Collection<Integer> initialValues) 
+    {
         this.id = id;
         this.currentIndex = 0;
         values = new ArrayList<Integer>(initialValues);

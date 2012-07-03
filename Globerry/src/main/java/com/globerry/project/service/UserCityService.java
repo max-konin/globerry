@@ -81,10 +81,6 @@ public class UserCityService implements IUserCityService {
 		//TODO
 	}
 
-	@Override
-	public List<City> getCityList() {           
-             return cityDao.getCityList();   
-	}
         
         @Override
         public void onTagChangeHandler(){
@@ -108,7 +104,7 @@ public class UserCityService implements IUserCityService {
                     tags.put(tag.getId(), tag);
             }
             
-            List<City> resultRequest = new ArrayList<City>();
+            List<City> resultRequest;
             if (tagChanged){
                  List<Tag> tagsToRequest = new ArrayList<Tag>();
                  tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
@@ -116,7 +112,17 @@ public class UserCityService implements IUserCityService {
                  cityList = cityDao.getCityListByTagsOnly(tagsToRequest);
                  tagChanged = false;
             }
+            resultRequest = getCitiesWithRequestedProperties(appContext);   
+            return resultRequest;
+        }
+        /*
+         * Возвращает те города которые соответвуют запрашиваемым параметрам, вызывает функцию расчета веса города
+         * @param appContext Контекст приложения
+         */
+        public List<City> getCitiesWithRequestedProperties(IApplicationContext appContext) 
+        {
             boolean f;
+            List<City> resultRequest = new ArrayList<City>();
             List<PropertySegment> sliderState = new ArrayList<PropertySegment>();
             for(City city: cityList)
             {
@@ -135,49 +141,10 @@ public class UserCityService implements IUserCityService {
                 }
                 if (f) resultRequest.add(city);
             }
-            weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);      
+            weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);
             return resultRequest;
         }
-       
-        /*
-         * Не сохроняет города. Каждый раз вне зависимости от того изменились тэги или нет делает запрос к DAO
-         */
-        @Override
-        public List<City> getCityListWithoutSaveCity(IApplicationContext appContext){
-            
-            if(tags == null)
-            {
-                tags = new HashMap<Integer, Tag> ();
-                for(Tag tag: tagDao.getTagList())
-                    tags.put(tag.getId(), tag);
-            }
-           // tags.add(appContext.getWhoTag().getCurrentIndex());
-            //tags.add(blockWhat.getSelected());
-            List<Tag> tagsToRequest = new ArrayList<Tag>();
-            tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
-            tagsToRequest.add(tags.get(appContext.getWhoTag().getValue()));
-            
-            List<PropertySegment> sliderState = new ArrayList<PropertySegment>();
-            for(String sliderName: appContext.getSliders().keySet())
-            {
-                sliderState.add(appContext.getSlidersByName(sliderName).getState());
-            }
-            CityRequest request = new CityRequest(
-                            currentRange,
-                            sliderState,
-                            tagsToRequest,
-                            Month.values()[appContext.getWhenTag().getValue()]); 
-         
-            List<City> resultRequest = cityDao.getCityList(request);
-            
-            weightCalculation(resultRequest, sliderState, request.getMonth());
-            return resultRequest;
-        }	
-
-	public int getPropertyDaoHash()
-	{
-		return this.propertyTypeDao.hashCode();
-	}
+        
 	private void weightCalculation(List<City> result, List<PropertySegment> propRequest, Month month)
 	{
 		Iterator<City> itCity = result.iterator();
@@ -229,5 +196,16 @@ public class UserCityService implements IUserCityService {
 	                }
 	            }
 		}
+	}
+
+	@Override
+	public List<City> getCityList()
+	{
+	    // TODO Auto-generated method stub
+	    return null;
+	}
+	public void setCityList(List<City> list) // for Tests
+	{
+	    cityList = list;
 	}
 }

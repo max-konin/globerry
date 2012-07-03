@@ -86,6 +86,7 @@ function BubbleFieldProvider(/*Это объект L.Map*/lmap) {
     var map = lmap;
     var mapObjects = [];
     var zoomNormalizer = {
+        2 : 150000,
         3 : 200000,
         4 : 200000,
         5 : 100000,

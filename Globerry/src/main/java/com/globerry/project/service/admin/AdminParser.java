@@ -65,7 +65,8 @@ public class AdminParser implements IAdminParser
     {
 	
 	this.exc = exc;
-	defaultDatabaseCreator.initTags();
+	if(tagDao.getTagList().isEmpty())
+	    defaultDatabaseCreator.initTags();
 	cityParse();
 	//eventParse();
 	//tagParse();
@@ -169,17 +170,19 @@ public class AdminParser implements IAdminParser
 		if(elem.getPropertyType().getName().toLowerCase().equals("sex")) sex = elem.getValue();
 	    }
 	    //Добавляем к городу тег Один Если секс от 1 до 3, безопасность от 1 до 3, настроение от 2 до 3
-	    Tag tagAlone = tagDao.getTagById(1);
-	    city.getTagList().add(tagAlone);
-	    
-	    if(sex > 1) 
+	    if(sex > 0 && security > 0)
+	    {
+		Tag tagAlone = tagDao.getTagById(1);
+		city.getTagList().add(tagAlone);
+	    }
+	    if(sex > 1 && security > 0) 
 	    {
 		Tag tagCouple = tagDao.getTagById(4);
 		Tag tagFriends = tagDao.getTagById(2);
 		city.getTagList().add(tagFriends);
 		city.getTagList().add(tagCouple);
 	    }
-	    if(security == 3)
+	    if(security == 3 && sex > 0)
 	    {
 		Tag tagFamily = tagDao.getTagById(3);
 		city.getTagList().add(tagFamily);
@@ -533,6 +536,19 @@ public class AdminParser implements IAdminParser
     private List<PropertyType> createPropertyTypeList() throws ExcelParserException, MySqlException
     {
 	List<PropertyType> ptList = new ArrayList<PropertyType>();
+	List<PropertyType> createdList = propertyTypeDao.getPropertyTypeList();
+	if(!createdList.isEmpty())
+	{
+	    for(int i = 0; i <createdList.size(); i++)
+	    {
+		if(!createdList.get(i).isDependingMonth())
+		{
+		    ptList.add(createdList.get(i));
+		}
+	    }
+	    return ptList;
+	}
+	
 	PropertyType propType = new PropertyType(); //против Stack Overflow.
 	for(int j = startPositionProperty; j < devider; j++) //Количество столбцов property. В данном случае в эксельнике 8 столбцов property
 	{
@@ -577,6 +593,18 @@ public class AdminParser implements IAdminParser
     private List<PropertyType> createDependingMonthPropertyList() throws MySqlException, ExcelParserException
     {
 	List<PropertyType> ptDmpList = new ArrayList<PropertyType>(); 
+	List<PropertyType> createdList = propertyTypeDao.getPropertyTypeList();
+	if(createdList.size() > 6)
+	{
+	    for(int i = 0; i <createdList.size(); i++)
+	    {
+		if(createdList.get(i).isDependingMonth())
+		{
+		    ptDmpList.add(createdList.get(i));
+		}
+	    }
+	    return ptDmpList;
+	}
 	PropertyType propType;
 	//Создание propertyType для Dmp
 	for(int j = devider; j < exc.getRowLenght(sheetNumber); j+=12)

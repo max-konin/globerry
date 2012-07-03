@@ -24,14 +24,13 @@ public class DatabaseManager implements IDatabaseManager
     @Autowired
     private SessionFactory sessionFactory;
     private final Logger logger = Logger.getLogger(DatabaseManager.class);
-    @Override
-    public void cleanDatabase()
+    public void cleanDatabase(String name)
     {
 
 	
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Session session = sessionFactory.getCurrentSession();
-	List<String> tableNames = session.createSQLQuery("select table_name from INFORMATION_SCHEMA.tables WHERE TABLE_SCHEMA = 'globerry'").list();
+	List<String> tableNames = session.createSQLQuery("select table_name from INFORMATION_SCHEMA.tables WHERE TABLE_SCHEMA = '"+name+"'").list();
 
 	for(int i = 0; i < tableNames.size(); i++)
 	{
@@ -47,13 +46,17 @@ public class DatabaseManager implements IDatabaseManager
 		Query query = sessionFactory.getCurrentSession().createSQLQuery("delete from " + tableNames.get(i));
 		query.executeUpdate();
 		logger.info(tableNames.get(i));
-		continue;
+		continue;//вот зачем тут это стоит?
 	    }
 	    
 	}
 	tx.commit();
 	sessionFactory.close();
-
+    }
+    @Override
+    public void cleanDatabase()
+    {
+	cleanDatabase("globerry");
     }
 
 }

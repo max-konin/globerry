@@ -6,6 +6,7 @@ package com.globerry.project.service.service_classes;
 
 import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.ITagDao;
+import com.globerry.project.domain.Month;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
@@ -64,12 +65,12 @@ public class GloberryGuiContext implements IApplicationContext {
             }
         }
         componentsMap.put(1, whoTag);
-        componentsMap.put(2, whoTag);
+        componentsMap.put(2, whatTag);
 
         whenTag = new SelectBox(3);
-        for (int i = 1; i < 13; i++) {
-            whenTag.addValue(i);
-        }
+        for(Month month : Month.values()) 
+            whenTag.addValue(month.ordinal());
+        
         componentsMap.put(3, whenTag);
 
         List<PropertyType> properyTypes = propertyTypeDao.getPropertyTypeList();

@@ -306,7 +306,7 @@ public class City implements Serializable, IRelationsQualifier
 		}
 	    }
 	}
-        return Float.MAX_VALUE;
+        return Float.MAX_VALUE;// что за отстой? Exception нет?
 	
     }
     public String toString(){
