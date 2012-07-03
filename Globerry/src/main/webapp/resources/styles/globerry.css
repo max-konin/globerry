@@ -3,7 +3,7 @@ body
     /*min-width: 970px;*/
     min-width: 900px;
     min-height: 600px;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 #div_container
 {
@@ -54,6 +54,7 @@ body
 	position : relative;
 	z-index : 1;
 	background-color:#777;
+/*        opacity: */
 	float : left;
 }
 
