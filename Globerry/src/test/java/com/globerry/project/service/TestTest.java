@@ -20,7 +20,7 @@ import com.globerry.project.domain.Tag;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/META-INF/spring/serviceTestContext.xml")
+@ContextConfiguration("/WEB-INF/configuration/test/serviceTestContext.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,
