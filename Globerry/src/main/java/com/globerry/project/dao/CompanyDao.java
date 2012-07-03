@@ -81,15 +81,14 @@ public class CompanyDao implements ICompanyDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Company> getCompanyList()
+	public List<Company> getCompanyList()
 	{
 	    List<Company> companiesList;
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	    companiesList = sessionFactory.getCurrentSession().createQuery("from Company")
-	            .list();
+	    companiesList = sessionFactory.getCurrentSession().createQuery("from Company").list();
 	    tx.commit();
 	    sessionFactory.close();
-	    return new HashSet<Company>(companiesList);
+	    return companiesList;
 	}
 
 
@@ -149,6 +148,8 @@ public class CompanyDao implements ICompanyDao {
 		session.merge(existingCompany);
 		tx.commit();
 	}
+	
+	@Override
 	public Company getCompanyByLogin(String login)
 	{
 	    Company company;

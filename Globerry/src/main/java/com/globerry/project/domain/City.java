@@ -262,8 +262,12 @@ public class City implements Serializable, IRelationsQualifier
     {
 	this.message = message;
     }
-    public boolean equals(City city)
+	@Override
+    public boolean equals(Object cityObj)
     {
+		if(!(cityObj instanceof City))
+			return false;
+		City city = (City)cityObj;
 	if(this.getId() == city.getId() &&
 		this.getName().equals(city.getName()) &&
 		this.getRu_name().equals(city.getRu_name()) &&

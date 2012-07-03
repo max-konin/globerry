@@ -24,100 +24,112 @@ import org.hibernate.annotations.NotFoundAction;
 
 @Entity
 @Table(name = "Company")
-public class Company
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "email", unique=true)
-    private String email;
-    @Column(name = "login", unique=true)
-    private String login;
-    @Column(name = "password")
-    private String password;
-    @Column(name = "description")
-    private String description;
-    
-   // @NotFound(action = NotFoundAction.IGNORE)
-    @OneToMany(
-	    	cascade=CascadeType.ALL,
-	    	fetch=FetchType.EAGER, orphanRemoval=true
-	    	)
-    @JoinTable(
-               name="CompanyTour",
-               joinColumns = @JoinColumn( name="company_id"),
-               inverseJoinColumns = @JoinColumn( name="tour_id")
-	    	)
-    private Set<Tour> tourList = new HashSet<Tour>();
+public class Company {
 
-    private Integer access;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	@Column(name = "name")
+	private String name;
+	@Column(name = "email", unique = true)
+	private String email;
+	@Column(name = "login", unique = true)
+	private String login;
+	@Column(name = "password")
+	private String password;
+	@Column(name = "description")
+	private String description;
+	// @NotFound(action = NotFoundAction.IGNORE)
+	@OneToMany(cascade = CascadeType.ALL,
+	fetch = FetchType.EAGER, orphanRemoval = true)
+	@JoinTable(name = "CompanyTour",
+	joinColumns =
+	@JoinColumn(name = "company_id"),
+	inverseJoinColumns =
+	@JoinColumn(name = "tour_id"))
+	private Set<Tour> tourList = new HashSet<Tour>();
+	private Integer access;
 
-    public Integer getAccess()
-    {
-	return access;
-    }
+	public Integer getAccess() {
+		return access;
+	}
 
-    public void setAccess(Integer access)
-    {
-	this.access = access;
-    }
-    public int getId()
-    {
-	return id;
-    }
-    public void setId(int id)
-    {
-	this.id = id;
-    }
-    public String getName()
-    {
-	return name;
-    }
-    public void setName(String name)
-    {
-	this.name = name;
-    }
-    public String getEmail()
-    {
-	return email;
-    }
-    public void setEmail(String email)
-    {
-	this.email = email;
-    }
-    public String getLogin()
-    {
-	return login;
-    }
-    public void setLogin(String login)
-    {
-	this.login = login;
-    }
-    public String getPassword()
-    {
-	return password;
-    }
-    public void setPassword(String password)
-    {
-	this.password = password;
-    }
-    public String getDescription()
-    {
-	return description;
-    }
-    public void setDescription(String description)
-    {
-	this.description = description;
-    }
-    public Set<Tour> getTourList()
-    {
-	return tourList;
-    }
-    public void setTourList(Set<Tour> tourList)
-    {
-	this.tourList = tourList;
-    }
+	public void setAccess(Integer access) {
+		this.access = access;
+	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Set<Tour> getTourList() {
+		return tourList;
+	}
+
+	public void setTourList(Set<Tour> tourList) {
+		this.tourList = tourList;
+	}
+
+	@Override
+	public boolean equals(Object companyObj) {
+		if(!(companyObj instanceof Company))
+			return false;
+		Company company = (Company)companyObj;
+		if(this.access == company.access &&
+				this.description.equals(company.description) &&
+				this.email.equals(company.email) && 
+				this.id == company.id &&
+				this.login.equals(company.login) &&
+				this.name.equals(company.name) &&
+				this.password.equals(company.password) &&
+				this.tourList.equals(company.tourList))
+			return true;
+		return false;
+	}
+	
+	
 }
