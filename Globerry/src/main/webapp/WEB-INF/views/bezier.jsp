@@ -56,27 +56,25 @@
         }
         
         $(document).ready(function() {
-            var graph = Graph(1500,500,-2,50,-2,2,50);
+            var graph = Graph(1000,1000,-4,4,-4,4,50);
             $('#pic').append(graph.svg);
-            graph.draw(foo, 0.1);
-            graph.drawFunc(foo, 2);
+            //graph.draw(foo, 0.1);
+            //graph.drawFunc(foo, 2);
             var points = [];
-            var point = Point(-1, 2);
-            point.weight = 1;
-            points.push(point);
-            
-            point = Point(0, 2);
-            point.weight = 1;
-            points.push(point);
-            
-            point = Point(1, 0);
-            point.weight = 1;
-            points.push(point);
-            
-            
-            point = Point(2, 2);
+            var point = Point(0, 0);
             point.weight = 2;
             points.push(point);
+            
+            point = Point(2, 1.5);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(2, 0);
+            point.weight = 1;
+            points.push(point);
+            
+            
+            
             
             var rays = [];
             var ray = Ray(Point(1, 0), Point(1,1));
@@ -92,6 +90,8 @@
             rays.push(ray);
             
             //graph.drawRays(rays);
+            graph.draw3D(points, 3);
+            //graph.drawPoints(points);
             
             $('#wolfram').append(plotString(points));
         });
@@ -188,6 +188,25 @@
                 gr.setAttribute('stroke-width',1);
                 svg.appendChild(gr);   
             }
+            function drawPoints(points) {
+                if(points.length <= 1)
+                    return;
+                var x = points[0].x,y = points[0].y;
+                var path = "M" + projectX(x) + " " + projectY(y);
+                for(var i = 0, l = points.length; i < l; i++) {
+                    path += "L " + projectX(points[i].x) + " " + projectY(points[i].y);
+                }
+                path += "z";
+                appendPath(path, 'red', '4');
+            }
+            function appendPath(path, color, width) {
+                var gr = createElement('path');
+                gr.setAttribute('d', path);
+                gr.setAttribute('fill', 'none');
+                gr.setAttribute('stroke', color || 'green');
+                gr.setAttribute('stroke-width',width || '2');
+                svg.appendChild(gr);
+            }
             function drawFunc(func, step) {
                 var rays = [];
                 for(var x = minX; x <= maxX ; x+= step) {
@@ -199,9 +218,12 @@
             function drawRays(arr/*Массив лучей, начало луча - точка функции, направление - касетельная в этой точке*/) {
                 if(arr.length <= 1)
                     return;
-                var ray1 = arr[0], ray2, c1, c2, factor = 1, prevT = null;
-                var path = "", pathVect = "";
+                var ray1 = arr[0], ray2, c1, c2, factor = 0.5, prevT = null;
+                var path = "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y), pathVect = "";
                 for(var i = 1, l = arr.length; i < l; i++) {
+                    if(i == 5) {
+                        console.log("hello");
+                    }
                     ray2 = arr[i];
                     var t1 = ray1.cross(ray2);
                     var t2 = ray2.cross(ray1);
@@ -213,11 +235,11 @@
                         }
                     }
                        
-                    if(t1 >= 0 && t2 <= 0) {
-                        c1 = ray1.getPoint(prevT*0.7);
+                    if(t1 >= 0 && t2 <= 0.01) {
+                        c1 = ray1.getPoint(prevT);
                         c2 = ray2.getPoint(t2);
                         prevT = -t2;
-                    } else if(t1 >= 0 && t2 >= 0) {
+                    } else if(t1 >= 0 && t2 >= 0.01) {
                         c1 = ray1.getPoint(prevT);
                         c2 = ray2.getPoint(-factor);
                         prevT = factor;
@@ -234,7 +256,10 @@
                     pathVect += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + "L " + 
                         projectX(c1.x) + " " + projectY(c1.y) +
                         "L " + projectX(c2.x) + " " + projectY(c2.y) + "L " + projectX(ray2.start.x) + " " + projectY(ray2.start.y);
-                    path += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + "C " + projectX(c1.x) + " " + projectY(c1.y) + " "
+                    /*path += "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + "C " + projectX(c1.x) + " " + projectY(c1.y) + " "
+                            + projectX(c2.x) + " " + projectY(c2.y) + " "
+                            + projectX(ray2.start.x) + " " + projectY(ray2.start.y);*/
+                    path += "C " + projectX(c1.x) + " " + projectY(c1.y) + " "
                             + projectX(c2.x) + " " + projectY(c2.y) + " "
                             + projectX(ray2.start.x) + " " + projectY(ray2.start.y);
                     ray1 = ray2;
@@ -243,6 +268,7 @@
                     appendCircle(c2);
                     appendCircle(ray1.start);
                 }
+                path += ' z';
                 var gr = createElement('path');
                 gr.setAttribute('d', path);
                 gr.setAttribute('fill', 'none');
@@ -260,13 +286,22 @@
                 svg.appendChild(gr);
             
             }
-            function appendCircle(point) {
+            function appendCircle(point, r) {
                 var circle = createElement('circle');
                 circle.setAttribute('class', 'connect');
                 circle.setAttribute('cx', projectX(point.x));
                 circle.setAttribute('cy', projectY(point.y));
-                circle.setAttribute('r', 3);
+                circle.setAttribute('r', r || '5');
                 svg.appendChild(circle)
+            }
+            function appendText(x, y, text) {
+                var t = createElement('text');
+                var tspan = createElement('tspan');
+                tspan.setAttribute('x', projectX(x));
+                tspan.setAttribute('y', projectY(y));
+                tspan.textContent = text;
+                t.appendChild(tspan);
+                svg.appendChild(t);
             }
             function draw3D(points, level) {
                 function Z(x, y) {
@@ -277,18 +312,81 @@
                     }
                     return val;
                 }
+                function Z_shtrih(x, y) {
+                    var dx = 0, dy = 0;
+                    for(var i = 0, l = points.length; i < l; i++) {
+                        var point = points[i];
+                        var a = point.x, b = point.y;
+                        //Нужно чтобы не вычилять три раза корень из (x-x_i)^2+(y-y_i)^2 при возведении в куб
+                        var bigSqrt = Math.sqrt((x - a)*(x - a) + (y - b)*(y - b))
+                        var znamenatel = bigSqrt * bigSqrt * bigSqrt / point.weight;
+                        dx += (a - x)/znamenatel;
+                        dy += (b - y)/znamenatel;
+                    }
+                    return Point(dx, dy);
+                }
+                //Движется в направлении градиента или антиградиента к заданному уровню (level).
+                function gradientDescent(fromX, fromY) {
+                    var x = fromX, y = fromY;
+                    var z = Z(x, y);
+                    var count = 0;
+                    if(z < level)
+                        direction = 1;
+                    else
+                        direction - 1;
+                    while(direction*z < direction*level) {
+                        
+                        var zshtr = Z_shtrih(x, y);
+                        var newX = x + direction*zshtr.x*dxdy.x;
+                        var newY = y + direction*zshtr.y*dxdy.y;
+                        
+                        z = Z(newX,newY);
+                        //console.log('New Z: ' + z + ", Z'= (" +zshtr.x+" "+zshtr.y+"), step from (" + x + ' ' + y + ') to ' + ' (' + newX + ' '+ newY + ')');
+                        console.log("New Z=" + z.toFixed(2) + ", Z'=" + zshtr + ", step from (" + x.toFixed(2) + 
+                            ' ' + y.toFixed(2) + ') to ' + ' (' + newX.toFixed(2) + ' '+ newY.toFixed(2) + ')');
+                        x = newX;
+                        y = newY;
+                        if(count > 50)
+                            break;
+                        count++;
+                    }
+                    return Point(x,y);
+                }
                 //var x = (maxX - minX)/2, y = (maxY - minY)/2;
-                var eps = 0.2, d = 1;
+                var eps = 0.1, d = 1, dxdy = Point(0.03, 0.03) //Шаг в алгоритме скорейшего спуска.;
                 var point = points[0];
-                var x = point.x, y = point.y;
-                var dx, dy;
-                var z = Z(x,y);
-                while(z > level - eps) {
+                var stepX = 0.3, stepY = 0.3;
+                var x = 0, y = -2;
+                var path = "M "+projectX(x)+" "+projectY(y);
+                var tangentPath = "";
+                var direction;
+                var rays = [];
+                for(var i = 0; i < 13; i++) {
+                    var newPoint = gradientDescent(x, y);
+                    var zshtrih = Z_shtrih(newPoint.x, newPoint.y);
+                    zshtrih.normalize();
+                    var ray = Ray(newPoint, Point(- direction*zshtrih.getY(),direction*zshtrih.getX()), true);
+                    rays.push(ray);
+                    x = newPoint.x - direction*zshtrih.getY();
+                    y = newPoint.y + direction*zshtrih.getX();
+                    
+                    var zCurrent = Z(newPoint.x,newPoint.y);
+                    console.log(zCurrent +" - current Z");
+                    
+                    path += "L " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(x) + " " + projectY(y);
+                    tangentPath += "M " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(newPoint.x+zshtrih.getX()) + " " + projectY(newPoint.y+zshtrih.getY());
+                    appendText(newPoint.x + 0.1, newPoint.y, zCurrent.toFixed(2));
+                    appendCircle(newPoint, 15);
                     
                 }
                 
+                appendPath(path,'green', 3);
+                //appendPath(tangentPath,'red',1);
+                drawRays(rays);
+                //gradientDescent(0, -1.1);
+                
             }
-            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, draw3D : draw3D, drawRays : drawRays};
+            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, draw3D : draw3D, drawRays : drawRays, drawPoints : drawPoints};
             return me;
         }
         
@@ -303,9 +401,27 @@
             function length() {
                 return Math.sqrt(x*x + y*y);
             }
+            function normalize() {
+                var length = Math.sqrt(x*x + y*y), X, Y;
+                X = x/length;
+                Y = y/length;
+                x=X;
+                y=Y;
+            }
             function setX(X) {x = X};
             function setY(Y) {y = Y};
             function setXY(X, Y) {x = X, y = Y};
+            function getX() { return x; }
+            function getY() { return y; }
+            function normal(direction) {
+                if(direction > 0)
+                    return Point(-y, x);
+                else 
+                    return Point(y, -x);
+            }
+            function toString() {
+                return "("+x.toFixed(4)+ ","+y.toFixed(4)+")"
+            }
             var me = {
                 x : x,
                 y : y,
@@ -313,14 +429,25 @@
                 distanceSqr : distanceSqr,
                 setX : setX,
                 setY : setY,
-                setXY : setXY
+                setXY : setXY,
+                toString : toString,
+                normalize : normalize,
+                getX : getX,
+                getY : getY,
+                normal : normal,
+                length :length
                 };
             return me;
         }
-        function Ray(p1/*Начало*/, p2/*Вектор направления*/) {
+        function Ray(p1/*Начало*/, p2/*Вектор направления*/, flag /*Отсчитывать вектор напавления от нуля - true или от p1 - false*/) {
             var start = Point(p1.x, p1.y), direction;
-            var distance = p2.distance(p1);
-            direction = Point((p2.x - p1.x)/distance, (p2.y - p1.y)/distance);
+            if(flag) {
+                var length = p2.length();
+                direction = Point(p2.x/length, p2.y/length);
+            } else {
+                var distance = p2.distance(p1);
+                direction = Point((p2.x - p1.x)/distance, (p2.y - p1.y)/distance);
+            }
             function getPoint(t) {
                 return Point(start.x + t*direction.x, start.y + t*direction.y);
             }
