@@ -19,13 +19,13 @@
             <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
         
-    <repositories>
-        <repository>
-            <id>NetGen</id>
-            <name>NetGen-releases</name>
-            <url>http://grwe.ru:8081/artifactory/ext-release-local/</url>
-        </repository>
-    </repositories>
+        <repositories>
+            <repository>
+                <id>NetGen</id>
+                <name>NetGen-releases</name>
+                <url>http://grwe.ru:8081/artifactory/ext-release-local/</url>
+            </repository>
+        </repositories>
 
 	<dependencies>
             <!-- Spring -->
@@ -268,7 +268,11 @@
                 <version>3.7</version>
                 <classifier>20101029</classifier>
             </dependency>
-
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.2.1</version> 
+            </dependency>
             
             
         </dependencies>
@@ -357,7 +361,7 @@
                                 <outputDirectory>${project.build.outputDirectory}</outputDirectory>                           
                                 <resources>                        
                                     <resource>
-                                        <directory>src/main/webapp/WEB-INF/</directory>
+                                        <directory>src/main/webapp/WEB-INF/messages</directory>
                                         <filtering>true</filtering>
                                         <includes>
                                             <include>**/*.properties</include>

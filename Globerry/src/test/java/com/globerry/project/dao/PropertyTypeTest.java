@@ -28,7 +28,7 @@ import com.globerry.project.domain.PropertyType;
 import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/META-INF/spring/daoTestContext.xml")
+@ContextConfiguration("/WEB-INF/configuration/test/daoTestContext.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,

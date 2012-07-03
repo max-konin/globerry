@@ -36,7 +36,7 @@ import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/META-INF/spring/daoTestContext.xml")
+@ContextConfiguration("/WEB-INF/configuration/test/daoTestContext.xml")
 @TestExecutionListeners({
 	DependencyInjectionTestExecutionListener.class,
 	DirtiesContextTestExecutionListener.class, ContextLoaderListener.class
