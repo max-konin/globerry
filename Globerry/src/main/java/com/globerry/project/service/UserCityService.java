@@ -134,8 +134,9 @@ public class UserCityService implements IUserCityService {
                     float val = city.getValueByPropertyType(prop.getPropertyType(), 
                                                             Month.values()[appContext.getWhenTag().getValue()]);
                     if (
-                            (val > prop.getRightValue()) ||
-                            (val < prop.getLeftValue())
+                            ((val > prop.getRightValue()) || (val < prop.getLeftValue())) ||
+                            (prop.getPropertyType().getName().equals("temperature") && (val < 10) && (appContext.getWhatTag().getValue() == 5)) ||
+                            (prop.getPropertyType().getName().equals("temperature") && (val > 5) && (appContext.getWhatTag().getValue() == 6))
                         )
                         f = false; 
                 }
