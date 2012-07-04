@@ -29,7 +29,7 @@ import com.globerry.project.domain.Tour;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/daoTestContext.xml")
+@ContextConfiguration("/serviceTestContext.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,

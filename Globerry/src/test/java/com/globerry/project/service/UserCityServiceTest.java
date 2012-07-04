@@ -33,7 +33,7 @@ import java.util.Random;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/daoTestContext.xml")
+@ContextConfiguration("/serviceTestContext.xml")
 @TestExecutionListeners({
     WebContextTestExecutionListener.class,
     DependencyInjectionTestExecutionListener.class,

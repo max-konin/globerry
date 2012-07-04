@@ -28,7 +28,7 @@ import com.globerry.project.service.admin.AdminParser;
  *
 */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/app-context.xml")
+@ContextConfiguration("/serviceTestContext.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,
