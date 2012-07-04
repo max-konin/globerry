@@ -15,7 +15,7 @@ import com.globerry.project.dao.ContextLoaderListener;
 import com.globerry.project.service.admin.DamagedCities;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/WEB-INF/configuration/test/app-context.xml")
+@ContextConfiguration("/app-context.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,

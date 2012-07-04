@@ -21,7 +21,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.codehaus.jackson.type.TypeReference;
-import org.junit.runner.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -173,7 +172,7 @@ public class AdminController
         return cityService.getCityList();
     }
     @RequestMapping(value="/getcompanies", method=RequestMethod.GET)
-    public @ResponseBody Set<Company> getCompanies() {
+    public @ResponseBody List<Company> getCompanies() {
 	//БЫДЛОКОД
         return companyService.getCompanyList();
     }

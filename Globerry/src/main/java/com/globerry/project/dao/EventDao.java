@@ -1,7 +1,6 @@
 package com.globerry.project.dao;
 
 import java.lang.reflect.Field;
-import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
 import java.util.Iterator;
