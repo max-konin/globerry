@@ -139,6 +139,7 @@ $(document).ready(function(){
     var speed = "normal"
     /*обработка кнопки "Поехали"*/
     $(".headerButton").click(function (event) {
+        
         SelectActive = false;
         $("#headContent1").animate({
             height:0
@@ -148,6 +149,8 @@ $(document).ready(function(){
             $("#headText").show();
             $("#bottomToggle").slideToggle(speed);
             $("#bottom").show();
+            //отображаем кнопки внизу
+            $("#bottomContainer").show();
             $("#headerButtonUp").show();
             $("#UpperHeaderBlockWithCircle").show();
             $("#UpperHeaderBlockWithCircle").animate({
@@ -185,6 +188,8 @@ $(document).ready(function(){
             $("#headContent2").animate({
                 height:0
             },speed, function() {
+                //скрываем кнопки внизу
+                $("#bottomContainer").hide();
                 $("#headerButtonUp").hide();
                 $("#UpperHeaderBlockWithCircle").hide();
                 $("#headContent2").hide();

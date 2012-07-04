@@ -19,7 +19,7 @@ public interface ICompanyService
     
     public void removeCompany(int id);
     
-    public Set<Company> getCompanyList();
+    public List<Company> getCompanyList();
     
     public void update();
     

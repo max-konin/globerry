@@ -67,6 +67,9 @@ public class AdminParser implements IAdminParser
 	this.exc = exc;
 	if(tagDao.getTagList().isEmpty())
 	    defaultDatabaseCreator.initTags();
+	if(propertyTypeDao.getPropertyTypeList().isEmpty())
+	    defaultDatabaseCreator.initPropertyType();
+	
 	cityParse();
 	//eventParse();
 	//tagParse();

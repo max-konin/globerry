@@ -15,104 +15,84 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name = "Tour")
-public class Tour
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-        
-    @Column(name = "name")
-    private String name;
-    
-    @Column(name = "cost")
-    private float cost;
-    
-    @Column(name = "description")
-    private String description;
-    
-    @Column(name = "dateStart")
-    private Date dateStart;
-    
-    @Column(name = "dateEnd")
-    private Date dateEnd;
-    
-    @ManyToOne( cascade = { CascadeType.PERSIST, CascadeType.REFRESH},
-	    fetch=FetchType.EAGER, targetEntity=Company.class)
-    @JoinTable(name="CompanyTour",
-    joinColumns = @JoinColumn(name="tour_id"),
-    inverseJoinColumns = @JoinColumn(name="company_id")
-	    )
-    private Company company;
+public class Tour {
 
-    // <Гетеры сеттеры>
-    
-    public Company getCompany()
-    {
-	return company;
-    }
-    
-    public int getId()
-    {
-	return id;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	@Column(name = "name")
+	private String name;
+	@Column(name = "cost")
+	private float cost;
+	@Column(name = "description")
+	private String description;
+	@Column(name = "dateStart")
+	private Date dateStart;
+	@Column(name = "dateEnd")
+	private Date dateEnd;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH},
+	fetch = FetchType.EAGER, targetEntity = Company.class)
+	@JoinTable(name = "CompanyTour",
+	joinColumns =
+	@JoinColumn(name = "tour_id"),
+	inverseJoinColumns =
+	@JoinColumn(name = "company_id"))
+	private Company company;
 
-    public void setId(int id)
-    {
-	this.id = id;
-    }
+	// <Гетеры сеттеры>
+	public Company getCompany() {
+		return company;
+	}
 
-    public String getName()
-    {
-	return name;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setName(String name)
-    {
-	this.name = name;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public float getCost()
-    {
-	return cost;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setCost(float cost)
-    {
-	this.cost = cost;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getDescription()
-    {
-	return description;
-    }
+	public float getCost() {
+		return cost;
+	}
 
-    public void setDescription(String description)
-    {
-	this.description = description;
-    }
+	public void setCost(float cost) {
+		this.cost = cost;
+	}
 
-    public Date getDateStart()
-    {
-	return dateStart;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDateStart(Date dateStart)
-    {
-	this.dateStart = dateStart;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public Date getDateEnd()
-    {
-	return dateEnd;
-    }
+	public Date getDateStart() {
+		return dateStart;
+	}
 
-    public void setDateEnd(Date dateEnd)
-    {
-	this.dateEnd = dateEnd;
-    }
-    
- // </Гетеры сеттеры>
+	public void setDateStart(Date dateStart) {
+		this.dateStart = dateStart;
+	}
 
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+	// </Гетеры сеттеры>
 }

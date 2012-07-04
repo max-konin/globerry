@@ -144,6 +144,7 @@ public class CityDao implements ICityDao {
          * @throw IllegalArgumentException when request == null
          */
         @Override
+		@Deprecated
 	public List<City> getCityList(CityRequest request)
 	{
             if (request == null) throw new IllegalArgumentException("Parameter 'request' cannot be null");

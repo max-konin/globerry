@@ -44,7 +44,7 @@ public class CompanyService implements ICompanyService
     }
     
     
-    public Set<Company> getCompanyList(){
+    public List<Company> getCompanyList(){
 	return companyDao.getCompanyList();
     }
 

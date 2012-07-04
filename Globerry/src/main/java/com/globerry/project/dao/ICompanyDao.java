@@ -31,7 +31,7 @@ public interface ICompanyDao
      * 
      * @return Возвращает список копаний
      */
-    public Set<Company> getCompanyList();
+    public List<Company> getCompanyList();
     /**
      * Заменяет oldCompany на newCompany
      * @param oldCompany

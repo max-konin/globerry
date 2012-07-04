@@ -43,7 +43,7 @@
                         <spring:message code="label.who"/>
                     </div>
                     <div id='whoDropDownList' class='whoWhatWhenDropDownList'>
-                        <select id='' class='whoSelect gui_element'  style="width:112px" guiId="${who.getId()}">
+                        <select id='' class='whoSelect gui_element'  style="width:120px" guiId="${who.getId()}">
                             <c:forEach items="${who.getOptionAvaliable()}" var="value">
                                 <option value="${value}">
                                     <spring:message code="label.who${value}"/>
@@ -340,7 +340,8 @@
             $(this).addClass('activeMonth');
             var value = $(this).attr('value');
             var comboBox = $('#whenSelect').data("kendoComboBox");
-            comboBox.select(parseInt(value) - 1);
+//            comboBox.select(parseInt(value) - 1);
+            comboBox.select(parseInt(value));
             sendRequest($(this).parent().attr('guiId'), {value : parseInt(value)});
         });
 				
