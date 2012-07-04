@@ -348,8 +348,17 @@
         $('select.gui_element').change(function() {
             var value = $(this).select().val();
             sendRequest($(this).attr('guiId'), {value : parseInt(value)});
-            $('.activeMonth').removeClass('activeMonth');
-            $('#month' + value).addClass('activeMonth');
+            var guiid = $(this).attr('guiId');
+            //если изменено значение "кто едет"
+            if (guiid == 1){ }
+            //если изменено значение "что делать"
+            if (guiid == 2){ }
+            //если изменено значение "когда"
+            if (guiid == 3){
+                $('.activeMonth').removeClass('activeMonth');
+                $('#month' + value).addClass('activeMonth');
+            }
+            
         });
         
         

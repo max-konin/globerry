@@ -5,7 +5,6 @@ $(document).ready(function() {
     var prevBotBut; //bottom buttoms
     var bottomActive = false;
     $(".bottomButton").click(function(){
-        //animation for switching bottoms.
         if( bottomActive == false){
             if(prevBotBut != undefined){
                 prevBotBut.style.background = 'rgb(37, 46, 64)';
@@ -55,7 +54,8 @@ $(document).ready(function() {
             }
         }
     });
-    $('#map').click(function(){
+    //нижняя панель (если открыта) скрывается при нажатии по карте
+    $('#map').mousedown(function(){
     if(bottomActive == true){
                 $("#bottom").animate({
                     bottom:0
@@ -119,6 +119,8 @@ $(document).ready(function(){
         var what = $(".whatSelect option:selected").val();
         var tmp = $('.activeMonth').attr('value');
         var when = parseInt(tmp)//$(".whenSelect option:selected").val() || tmp;
+        
+//        var guiid = $('select.whenSelect').attr('guiid');
 		
         /*выбранный месяц сделать активным*/
         /*var activeMonthId = $(".whenSelect option:selected").val();
