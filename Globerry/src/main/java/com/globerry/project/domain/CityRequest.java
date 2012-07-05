@@ -31,18 +31,19 @@ public class CityRequest implements ICityRequest
     {
 	if(tags!=null)
 	{
+	    String joinClause = "";
 	    String whereClause = "";
 	    int i = 1;
 	    for (Tag tag : tags)
 	    {
-		fromClause += " inner join city.tagList t" + i;
+		joinClause += " inner join city.tagList t" + i;
 		if (whereClause == "")
 		    whereClause = " where t" + i + ".id=" + tag.getId();
 		else
 		    whereClause += " and t" + i + ".id=" + tag.getId();
 		i++;
 	    }
-	    return queryBase + whereClause;
+	    return queryBase + joinClause + whereClause;
 	}
 	else
 	    return queryBase;
