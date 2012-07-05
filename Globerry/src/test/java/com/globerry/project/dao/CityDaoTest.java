@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,11 @@ import com.globerry.project.domain.*;
 import com.globerry.project.utils.PropertySegment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
+
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.Hibernate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/daoTestContext.xml")
@@ -30,17 +36,18 @@ import org.springframework.test.annotation.DirtiesContext;
 public class CityDaoTest {
 	// TODO
 
-	@Autowired
-	ICityDao cityDao;
-	@Autowired
-	IEventDao eventDao;
-	@Autowired
-	ITagDao tagDao;
-	@Autowired
-	IPropertyTypeDao propertyTypeDao;
-	
-	private final Logger logger = Logger.getLogger("black");
+    @Autowired
+    ICityDao cityDao;
+    @Autowired
+    IEventDao eventDao;
+    @Autowired
+    ITagDao tagDao;
+    @Autowired
+    IPropertyTypeDao propertyTypeDao;
+    @Autowired
+    SessionFactory sessionFactory;
 
+    private final Logger logger = Logger.getLogger("black");
 	/**
 	 * Create a random string contains 8 characters.
 	 *
@@ -176,5 +183,37 @@ public class CityDaoTest {
 		assertTrue(cityDao.getCityById(city.getId()).getName().equals(city.getName()));
 		assertTrue(cityDao.getCityById(32) == null);
 	}
-	
+
+    @Test
+    @Transactional(readOnly = false)
+    public void LazyTest()
+    {
+	City city1 = new City();
+	city1.setName("Bobryjsk1");
+	try
+	{
+	    cityDao.addCity(city1);
+	} catch (MySqlException e)
+	{
+	    e.printStackTrace(System.err);
+	}
+	Event ev = new Event();
+	ev.setName("Disnayland");
+	eventDao.addEvent(ev, city1);
+	ev = new Event();
+	ev.setName("Disnayland5");
+	eventDao.addEvent(ev, city1);
+	System.err.println("1");
+	city1 = cityDao.getCityById(city1.getId());
+	System.err.println("2");
+	System.err.println(Hibernate.isInitialized(city1.getEvents()));
+	Iterator<Event> it = city1.getEvents().iterator();
+	System.err.println("3");
+	ev = it.next();
+	System.err.println(ev.getName());
+	ev = new Event();
+	ev.setName("Disnayland55");
+	eventDao.addEvent(ev, city1);
+    }
+
 }

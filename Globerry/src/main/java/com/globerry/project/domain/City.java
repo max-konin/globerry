@@ -73,23 +73,21 @@ public class City implements Serializable, IRelationsQualifier
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
-	    	fetch = FetchType.EAGER,
+	    	fetch = FetchType.LAZY,
 	    	cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
-	    	targetEntity = Event.class,
-	    	mappedBy = "cityList"
+	    	targetEntity = Event.class
 	    )
-   /* @JoinTable(
+    	@JoinTable(
 	           name="CityEvent",
 	           joinColumns = @JoinColumn( name="city_id"),
 	           inverseJoinColumns = @JoinColumn( name="event_id")
-		    )*/
-    
+	   	)
     private Set<Event> eventList = new HashSet<Event>();
     //-------------------------------------------------------
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
-	    fetch = FetchType.EAGER,
+	    fetch = FetchType.LAZY,
 	    cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
 	    targetEntity = Tag.class
 	    )

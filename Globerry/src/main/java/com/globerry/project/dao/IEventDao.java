@@ -30,8 +30,8 @@ public interface IEventDao
      * @param oldEvent старое событие
      * @param newEvent новое событие
      */
-    public void updateEvent(Event oldEvent, Event newEvent);
     public void updateEvent(Event newEvent);
+    public void saveOrUpdateEvent(Event newEvent);
     /**
      * Возвращает лист событий по месяцу
      * @param month месяц
@@ -40,4 +40,5 @@ public interface IEventDao
     public List<Event> getEventList();
     int addEvent(Event event);
     public Event getEventById(int id);
+    
 }

@@ -49,7 +49,7 @@ public class Event implements IRelationsQualifier
     private Month month;
     @JsonIgnore
     @ManyToMany(
-	    fetch = FetchType.EAGER,
+	    fetch = FetchType.LAZY,
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH},
 	        targetEntity = City.class
 	    )
