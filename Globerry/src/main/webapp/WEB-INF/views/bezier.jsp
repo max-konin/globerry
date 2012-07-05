@@ -10,6 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
+        <link type="text/css" href="resources/lib/jquery-ui-1.8.21/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
         <title>JSP Page</title>
         <style>
             .lines {
@@ -26,33 +28,65 @@
         </style>
     </head>
     <body>
-        <div id="wolfram"></div>
-        <div id="z">
-            Z=<input id="minVal" type="text" value="3" size="4"/>
-        </div>
+        <table>
+            <tr>
+                <td><div id="wolfram"></div></td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="z">
+                        Z=<input id="minVal" type="text" value="2.7" size="4"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" id="input"/></td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="slider"/>
+                    
+                </td>
+            </tr>
+        </table>
         <div id="pic"></div>
+        
+        
+        
+        
     </body>
     <script>
+        
         var graph, points;
-        $(document).ready($('#minVal').change(function(){
-            //alert($(this).val());
-            var value = parseFloat($(this).val());
+        $(document).ready($('#slider').slider({
+            min : 1,
+            max : 6,
+            step : 0.1,
+            value : 2.7,
+            slide : function(event, ui) {
+                    $('#minVal').val(ui.value);
+                    redraw();
+                }
+        }
+            ))
+       
+       function redraw() {
+            var value = parseFloat($('#minVal').val());
             if(!value) {
                 alert("Ты кто такой? Давай, до свидания!");
                 return;
             }
-            if(value <= 0 || value >= 6) {
+            if(value <= 0 || value >= 7) {
                 alert("Не стоит значения такие вводить вводить, юный падаван! Яваскрипт уйдет на бесконечность и вернется врядли.");
                 return;
             }
-                
             $('.curve').remove();
             graph.draw3D(points, value);
-            
-        }));
-        
+        }
+       
         var NS = "http://www.w3.org/2000/svg";
         
+       
         function Point(x, y) {;
             this.x = x;
             this.y = y;
@@ -76,16 +110,16 @@
         }
         
         $(document).ready(function() {
-            graph = Graph(1000,1000,-4,4,-4,4,50);
+            graph = Graph(1000,1000,-4,4,-2,4,50);
             $('#pic').append(graph.svg);
             //graph.draw(foo, 0.1);
             //graph.drawFunc(foo, 2);
             points = [];
             var point = Point(0, 0);
-            point.weight = 2;
+            point.weight = 1;
             points.push(point);
             
-            point = Point(2, 1.5);
+            point = Point(1, 1.5);
             point.weight = 1;
             points.push(point);
             
@@ -94,7 +128,7 @@
             points.push(point);
             
             //graph.drawRays(rays);
-            graph.draw3D(points, 3);
+            graph.draw3D(points, parseFloat($('#minVal').val()));
             //graph.drawPoints(points);
             
             $('#wolfram').append(plotString(points));
@@ -203,12 +237,15 @@
                 path += "z";
                 appendPath(path, 'red', '4');
             }
-            function appendPath(path, color, width) {
+            function appendPath(path, color, width, clazz) {
                 var gr = createElement('path');
                 gr.setAttribute('d', path);
                 gr.setAttribute('fill', 'none');
                 gr.setAttribute('stroke', color || 'green');
                 gr.setAttribute('stroke-width',width || '2');
+                if(clazz) {
+                    gr.setAttribute('class', clazz);
+                }
                 svg.appendChild(gr);
             }
             function drawFunc(func, step) {
@@ -225,9 +262,6 @@
                 var ray1 = arr[0], ray2, c1, c2, factor = 0.3, prevT = null, factor2 = 0.7;
                 var path = "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y), pathVect = "";
                 for(var i = 1, l = arr.length; i < l; i++) {
-                    if(i == 4) {
-                        console.log("hello");
-                    }
                     ray2 = arr[i];
                     var t1 = ray1.cross(ray2);
                     var t2 = ray2.cross(ray1);
@@ -286,27 +320,32 @@
                     gr.setAttribute('fill', 'none');
                     gr.setAttribute('stroke', 'black');
                     gr.setAttribute('stroke-width',1);
+                    gr.setAttribute('class', 'curve');
                 }
                 
                 
                 svg.appendChild(gr);
             
             }
-            function appendCircle(point, r) {
+            function appendCircle(point, r, clazz) {
                 var circle = createElement('circle');
                 circle.setAttribute('class', 'connect');
                 circle.setAttribute('cx', projectX(point.x));
                 circle.setAttribute('cy', projectY(point.y));
                 circle.setAttribute('r', r || '5');
+                if(clazz)
+                    circle.setAttribute('class', clazz);
                 svg.appendChild(circle)
             }
-            function appendText(x, y, text) {
+            function appendText(x, y, text, clazz) {
                 var t = createElement('text');
                 var tspan = createElement('tspan');
                 tspan.setAttribute('x', projectX(x));
                 tspan.setAttribute('y', projectY(y));
                 tspan.textContent = text;
                 t.appendChild(tspan);
+                if(clazz)
+                    t.setAttribute('class', clazz);
                 svg.appendChild(t);
             }
             function draw3D(points, level) {
@@ -331,7 +370,6 @@
                     }
                     return Point(dx, dy);
                 }
-                
                 //Движется в направлении градиента или антиградиента к заданному уровню (level).
                 function gradientDescent(fromX, fromY) {
                     var x1 = fromX, y1 = fromY, x2, y2;
@@ -358,41 +396,66 @@
                         
                         x1 = x2, y1 = y2, z1 = z2;
                         count++;
-                        if(count > 50)
+                        if(count > 70)
                             break;
                     }
                     return Point(x2,y2);
                 }
                 //var x = (maxX - minX)/2, y = (maxY - minY)/2;
+                
+                function checkSedlo() {
+                    var d = 0.005;
+                    var zshtrih2 = Z_shtrih(expectedX, expectedY);
+                    if(zshtrih.x*zshtrih2.x < 0 && zshtrih.y*zshtrih2.y < 0)
+                        return true;
+                    return false;
+                }
                 var eps = 0.1, d = 1, dxdy = Point(0.05, 0.05) //Шаг в алгоритме скорейшего спуска.;
                 var point = points[0];
-                var stepX = 1, stepY = 1;
+                var stepX = 0.6, stepY = 0.6;
                 var x = 0, y = -0.4;
                 var path = "M "+projectX(x)+" "+projectY(y);
                 var tangentPath = "";
                 var direction;
                 var rays = [];
                 var firstPoint = gradientDescent(x,y);
-                for(var i = 0; i < 50; i++) {
-                    var newPoint = gradientDescent(x, y);
+                var expectedX, expectedY;
+                var newPoint, zshtrih;
+                for(var i = 0; i < 40; i++) {
                     
-                    var zshtrih = Z_shtrih(newPoint.x, newPoint.y);
+                    newPoint = gradientDescent(x, y);
+                    zshtrih = Z_shtrih(newPoint.x, newPoint.y);
+                    var len = zshtrih.length();
                     zshtrih.normalize();
                     var ray = Ray(newPoint, Point(-zshtrih.getY(), zshtrih.getX()), true);
+                   
                     rays.push(ray);
-                    x = newPoint.x - zshtrih.getY()*stepX;
-                    y = newPoint.y + zshtrih.getX()*stepY;
+                    path = "M" + projectX(x) + " " + projectY(y);
+                    for(var j = 1; j < 10; j++) {
+                        expectedX = newPoint.x - zshtrih.getY()*stepX/j;
+                        expectedY = newPoint.y + zshtrih.getX()*stepY/j;
+                        var sedlo = checkSedlo();
+                        if(!sedlo)
+                            break;
+                    }
+                    
+                    x = expectedX;
+                    y = expectedY;
                     
                     var zCurrent = Z(newPoint.x,newPoint.y);
                     console.log(zCurrent +" - current Z");
                     
                     path += "L " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(x) + " " + projectY(y);
-                    tangentPath += "M " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(newPoint.x+zshtrih.getX()) + " " + projectY(newPoint.y+zshtrih.getY());
                     
-                    //appendText(newPoint.x + 0.1, newPoint.y, zCurrent.toFixed(2));
-                    //appendText(newPoint.x - 0.3, newPoint.y, i);
-                    //appendCircle(newPoint, 7);
+                    tangentPath = "M " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(newPoint.x+zshtrih.getX()) + " " + projectY(newPoint.y+zshtrih.getY());
                     
+                    appendText(newPoint.x + 0.1, newPoint.y, zCurrent.toFixed(2), 'curve');
+                    appendText(newPoint.x - 0.3, newPoint.y, i, 'curve');
+                    appendCircle(newPoint, 7, 'curve');
+                    appendPath(path,'green', 3, 'curve');
+                    //appendPath(tangentPath,'red',1,'curve');
+                    if($('#alert').attr('checked'))
+                        alert(sedlo);
                     //Ооооочень корявый критерий останова.
                     if(firstPoint.distance(newPoint) < 0.4)
                         if(i!=0)
@@ -400,9 +463,9 @@
                     
                 }
                 
-                //appendPath(path,'green', 3);
+                //appendPath(path,'green', 3, 'curve');
                 //appendPath(tangentPath,'red',1);
-                drawRays(rays, false);
+                drawRays(rays, false, 'curve');
                 //gradientDescent(0, -1.1);
                 
             }
