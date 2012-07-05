@@ -15,6 +15,7 @@ import com.globerry.project.domain.City;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.domain.ICityRequest;
 
 @Repository
 public class CityDao implements ICityDao
@@ -106,26 +107,10 @@ public class CityDao implements ICityDao
      * @throw IllegalArgumentException when tags == null
      */
     @Override
-    public List<City> getCityListByTagsOnly(List<Tag> tags)
+    public List<City> getCityListByTagsOnly(ICityRequest cityRequest)
     {
-
-	if (tags == null)
-	    throw new IllegalArgumentException("Parameter 'tags' cannot be null");
-
-	String fromClause = " from City city";
-	String whereClause = "";
-	int i = 1;
-	for (Tag tag : tags)
-	{
-	    fromClause += " inner join city.tagList t" + i;
-	    if (whereClause == "")
-		whereClause = " where t" + i + ".id=" + tag.getId();
-	    else
-		whereClause += " and t" + i + ".id=" + tag.getId();
-	    i++;
-	}
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-	Query query = sessionFactory.getCurrentSession().createQuery("select distinct city" + fromClause + whereClause);
+	Query query = sessionFactory.getCurrentSession().createQuery(cityRequest.getHQLQuery());
 	List<City> cityList = query.list();
 	tx.commit();
 	return cityList;

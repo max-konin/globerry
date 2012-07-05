@@ -126,7 +126,7 @@ public class CityDaoTest {
 		assertTrue(cityDaoList.equals(cityList));	
 	}
 	
-	@Test
+	/*@Test
 	public void getCityListByTagsOnlyTest() {
 		City city = new City();
 		city.setName(getGeneratedString());
@@ -155,7 +155,7 @@ public class CityDaoTest {
 		listOfTags.add(tag2);
 		assertFalse(cityDao.getCityListByTagsOnly(listOfTags).size() >= 1);
 		
-	}
+	}*/
 	
 	@Test
 	public void updateCityTest() {

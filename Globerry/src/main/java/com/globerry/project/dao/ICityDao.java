@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.ICityRequest;
 import com.globerry.project.domain.Tag;
 /**
  * @author Сергей Крупин
@@ -49,5 +50,5 @@ public interface ICityDao
      */
     public List<City> getDamagedCities();
     
-    public List<City> getCityListByTagsOnly(List<Tag> tags);
+    public List<City> getCityListByTagsOnly(ICityRequest cityRequest);
 }
