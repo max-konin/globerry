@@ -55,4 +55,24 @@ public class Air
     {
 	this.date = date;
     }
+    @Override
+    public boolean equals(Object obj)
+    {
+	if(obj == null) return false;
+	if(!(obj instanceof Air)) return false;
+	Air air = (Air) obj;
+	if(!(air.getCost() == this.getCost())) return false;
+	if(!((this.date == null && air.getDate() == null) || air.getDate().equals(this.getDate()))) return false;
+	if(!((this.name == null && air.getName() == null) || air.getName().equals(this.getName()))) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 4;
+	result = 3*result + Float.floatToIntBits(cost);
+	result = 3*result + (date == null ? 0 : date.hashCode());
+	result = 3*result + (name == null ? 0 : name.hashCode());
+	return result;
+    }
 }

@@ -94,5 +94,30 @@ public class Tour {
 	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
 	}
-	// </Гетеры сеттеры>
+	@Override
+	public boolean equals(Object obj)
+	{
+	    if(obj == null) return false;
+	    if(!(obj instanceof Tour)) return false;
+	    Tour tour = (Tour) obj;
+	    if(!((this.name == null && tour.getName() == null) || this.name.equals(tour.getName()))) return false; 
+	    if(!(tour.getCost() == this.getCost())) return false;
+	    if(!((this.description == null && tour.getDescription() == null) || this.description.equals(tour.getDescription()))) return false;
+	    if(!((this.dateStart == null && tour.getDateStart() == null) || this.dateStart.equals(tour.getDateStart()))) return false;
+	    if(!((this.dateEnd == null && tour.getDateEnd() == null) || this.dateEnd.equals(tour.getDateEnd()))) return false;
+	    if(!((this.company == null && tour.getClass() == null) || this.company.equals(tour.getCompany()))) return false;
+	    return true;
+	}
+	@Override
+	public int hashCode()
+	{
+	    int result = 14;
+	    result = 3*result + (name == null ? 0 : name.hashCode());
+	    result = 3*result + Float.floatToIntBits(cost);
+	    result = 3*result + (description == null ? 0 : description.hashCode());
+	    result = 3*result + (dateStart == null ? 0 : dateStart.hashCode());
+	    result = 3*result + (dateEnd == null ? 0 : dateEnd.hashCode());
+	    result = 3*result + (company == null ? 0 : company.hashCode());
+	    return result;
+	}
 }

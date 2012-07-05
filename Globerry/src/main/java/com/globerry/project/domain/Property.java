@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="Property")
-public class Property implements IRelationsQualifier
+public class Property
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,6 +66,25 @@ public class Property implements IRelationsQualifier
     public String toString()
     {
         return String.format("id: %d; value: %f; Type: %s \n", id, value, propertyType.getName());
+    }
+    @Override
+    public boolean equals(Object obj)
+    {
+	if(obj == null) return false;
+	if(!(obj instanceof Property)) return false;
+	Property property = (Property) obj;
+	if(!((this.propertyType == null && property.getPropertyType() == null) || this.propertyType.equals(property.getPropertyType()))) return false;
+	if(!(value == property.getValue())) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 10;
+	result = 3 * result + (propertyType == null ? 0 : propertyType.hashCode());
+	result = 3 * result + Float.floatToIntBits(value);
+	return result;
+	
     }
 
 }

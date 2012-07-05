@@ -33,4 +33,22 @@ public class UploadItem
     {
       this.fileData = fileData;
     }
+    @Override
+    public boolean equals(Object obj)
+    {
+	if(obj == null) return false;
+	if(!(obj instanceof UploadItem)) return false;
+	UploadItem item = (UploadItem) obj;
+	if(!((this.name == null && item.getName() == null) || this.name.equals(item.getName()))) return false;
+	if(!((this.fileData == null && item.getFileData() == null) || this.fileData.equals(item.getFileData()))) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 15;
+	result = 3*result + (name == null ? 0 : name.hashCode());
+	result = 3*result + (fileData == null ? 0 : fileData.hashCode());
+	return result;
+    }
 }

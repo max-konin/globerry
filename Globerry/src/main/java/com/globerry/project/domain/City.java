@@ -39,7 +39,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "City")
-public class City implements Serializable, IRelationsQualifier
+public class City implements Serializable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -260,21 +260,55 @@ public class City implements Serializable, IRelationsQualifier
     {
 	this.message = message;
     }
-	@Override
-    public boolean equals(Object cityObj)
+    //Поля IsValid, id, message - игнорированы, у меня есть большие сомнения что они теперь нужны
+    @Override
+    public boolean equals(Object obj)
     {
-		if(!(cityObj instanceof City))
-			return false;
-		City city = (City)cityObj;
-	if(this.getId() == city.getId() &&
-		this.getName().equals(city.getName()) &&
-		this.getRu_name().equals(city.getRu_name()) &&
-		this.getArea() == city.getArea() &&
-		this.getPopulation() == city.getPopulation() &&
-		this.getLatitude() == city.getLatitude() &&
-		this.getLongitude() == city.getLongitude())
-	    return true;
-	else return false;
+	if(obj == null) return false;
+	if(!(obj instanceof City)) return false;
+	City city = (City) obj;
+	if(!((this.name == null && city.getName() == null) || this.name.equals(city.getName()))) return false; 
+	if(!((this.ru_name == null && city.getRu_name() == null) || this.ru_name.equals(city.getRu_name()))) return false;
+	if(!(this.area == city.getArea())) return false;
+	if(!(this.population == city.getPopulation())) return false;
+	if(!(this.getLatitude() == city.getLatitude())) return false;
+	if(!(this.getLongitude() == city.getLongitude())) return false;
+	if(!((this.proposals == null && city.getProposals() == null) || this.proposals.equals(city.getProposals()))) return false;
+	if(!((this.dmpList == null && city.getDmpList() == null) || this.dmpList.equals(city.getDmpList()))) return false;
+	if(!((this.propertyList == null && city.getPropertyList() == null) || this.propertyList.equals(city.getPropertyList()))) return false;
+	if(!((this.eventList == null && city.getEvents() == null) || this.eventList.equals(city.getEvents()))) return false;
+	if(!((this.tagList == null && city.getTagList() == null) || this.tagList.equals(city.getTagList()))) return false;
+	return true;
+
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 5;
+	result = 3*result + (name == null ? 0 : name.hashCode());
+	result = 3*result + (ru_name == null ? 0 :ru_name.hashCode());
+	result = 3*result + Float.floatToIntBits(area);
+	result = 3*result + population;
+	result = 3*result + Float.floatToIntBits(longitude);
+	result = 3*result + Float.floatToIntBits(latitude);
+	result = 3 * result + proposals.hashCode();
+	for(DependingMonthProperty elem: dmpList)
+	{
+	    result = result + elem.hashCode();
+	}
+	for(Property elem: propertyList)
+	{
+	    result = result + elem.hashCode();
+	}
+	for(Event elem: eventList)
+	{
+	    result = result + elem.hashCode();
+	}
+	for(Tag elem: tagList)
+	{
+	    result = result + elem.hashCode();
+	}
+	return result;
     }
     public float getWeight()
     {

@@ -216,4 +216,16 @@ public class CityDaoTest {
 	eventDao.addEvent(ev, city1);
     }
 
+	@Test(timeout = 10000)
+	public void isEqualTest()
+	{
+	    
+	    City city1 = new City();
+	    City city2 = new City();
+	    logger.info(city1.hashCode());
+	    logger.info(city2.hashCode());
+	    assertEquals(city1, city2);
+	    
+	}
+	
 }
