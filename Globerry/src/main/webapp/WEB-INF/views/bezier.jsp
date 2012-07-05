@@ -35,49 +35,48 @@
             <tr>
                 <td>
                     <div id="z">
-                        Z=<input id="minVal" type="text" value="2.7" size="4"/>
+                        Z=<input id="minVal" type="text" value="2.7" size="4"/> step:<input id="step" readonly="true" size ="4"/>
                     </div>
                 </td>
             </tr>
             <tr>
-                <td><input type="checkbox" id="input"/></td>
+                <td><input type="checkbox" id="alert"/></td>
+            </tr>
+            <tr>
+                <td><button onclick="redraw()">Перерисовать</button></td>
             </tr>
             <tr>
                 <td>
                     <div id="slider"/>
-                    
+
                 </td>
             </tr>
         </table>
         <div id="pic"></div>
-        
-        
-        
-        
+
+
+
+
     </body>
     <script>
         
         var graph, points;
         $(document).ready($('#slider').slider({
             min : 1,
-            max : 6,
-            step : 0.1,
+            max : 10,
+            step : 0.02,
             value : 2.7,
             slide : function(event, ui) {
-                    $('#minVal').val(ui.value);
-                    redraw();
-                }
+                $('#minVal').val(ui.value);
+                redraw();
+            }
         }
-            ))
+    ))
        
-       function redraw() {
+        function redraw() {
             var value = parseFloat($('#minVal').val());
             if(!value) {
                 alert("Ты кто такой? Давай, до свидания!");
-                return;
-            }
-            if(value <= 0 || value >= 7) {
-                alert("Не стоит значения такие вводить вводить, юный падаван! Яваскрипт уйдет на бесконечность и вернется врядли.");
                 return;
             }
             $('.curve').remove();
@@ -110,7 +109,7 @@
         }
         
         $(document).ready(function() {
-            graph = Graph(1000,1000,-4,4,-2,4,50);
+            graph = Graph(1000,1000,-4,4,-4,4,50);
             $('#pic').append(graph.svg);
             //graph.draw(foo, 0.1);
             //graph.drawFunc(foo, 2);
@@ -127,6 +126,17 @@
             point.weight = 1;
             points.push(point);
             
+            /*point = Point(3,1)
+            point.weight = 4;
+            points.push(point);
+            
+            point = Point(1.5,1)
+            point.weight = 2;
+            points.push(point);
+            
+            point = Point(-1, -3);
+            point.weight = 2;
+            points.push(point);*/
             //graph.drawRays(rays);
             graph.draw3D(points, parseFloat($('#minVal').val()));
             //graph.drawPoints(points);
@@ -259,7 +269,7 @@
             function drawRays(arr/*Массив лучей, начало луча - точка функции, направление - касетельная в этой точке*/, flag/*Рисовать опорные точки*/) {
                 if(arr.length <= 1)
                     return;
-                var ray1 = arr[0], ray2, c1, c2, factor = 0.3, prevT = null, factor2 = 0.7;
+                var ray1 = arr[0], ray2, c1, c2, factor = 0.3, prevT = null, factor2 = 0.6;
                 var path = "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y), pathVect = "";
                 for(var i = 1, l = arr.length; i < l; i++) {
                     ray2 = arr[i];
@@ -298,8 +308,8 @@
                             + projectX(c2.x) + " " + projectY(c2.y) + " "
                             + projectX(ray2.start.x) + " " + projectY(ray2.start.y);*/
                     path += "C " + projectX(c1.x) + " " + projectY(c1.y) + " "
-                            + projectX(c2.x) + " " + projectY(c2.y) + " "
-                            + projectX(ray2.start.x) + " " + projectY(ray2.start.y);
+                        + projectX(c2.x) + " " + projectY(c2.y) + " "
+                        + projectX(ray2.start.x) + " " + projectY(ray2.start.y);
                     ray1 = ray2;
                     
                     //appendCircle(c1);
@@ -375,6 +385,7 @@
                     var x1 = fromX, y1 = fromY, x2, y2;
                     var z1 = Z(x1, y1), z2;
                     var count = 0;
+                    var travelLength = 0;
                     if(z1 < level)
                         direction = 1;
                     else
@@ -382,23 +393,34 @@
                     while(true) {
                         zshtrih = Z_shtrih(x1, y1);
                         zshtrih.normalize();
-                        x2 = x1 + direction*zshtrih.getX()*dxdy.x;
-                        y2 = y1 + direction*zshtrih.getY()*dxdy.y;
+                        var dx = direction*zshtrih.getX()*dxdy.x;
+                        var dy = direction*zshtrih.getY()*dxdy.y;
+                        travelLength += Math.sqrt(dx*dx + dy*dy);
+                        x2 = x1 + dx;
+                        y2 = y1 + dy;
                         z2 = Z(x2, y2);
                         if(z2*direction > direction*level) {
                             if(Math.abs(z2 - level) > eps) {
                                 x2 = (level - z1)/(z2 - z1)*(x2 - x1) + x1;
                                 y2 = (level - z1)/(z2 - z1)*(y2 - y1) + y1;
-                                console.log("Upating point from " + z2 + " to " + Z(x2, y2));
+                                //console.log("Upating point from " + z2 + " to " + Z(x2, y2));
                             }
                             break;
                         }
                         
                         x1 = x2, y1 = y2, z1 = z2;
                         count++;
-                        if(count > 70)
+                        if(count > 100)
                             break;
                     }
+                    if(travelLength < stepFactor) {
+                        stepX += stepX*dStep;
+                        stepY += stepY*dStep;
+                    } else {
+                        stepX -= stepX*dStep;
+                        stepY -= stepY*dStep;
+                    }
+                        
                     return Point(x2,y2);
                 }
                 //var x = (maxX - minX)/2, y = (maxY - minY)/2;
@@ -411,24 +433,28 @@
                     return false;
                 }
                 var eps = 0.1, d = 1, dxdy = Point(0.05, 0.05) //Шаг в алгоритме скорейшего спуска.;
+                var dStep = 0.2;//Число, с которым увеличивается stepX, stepY.
+                var stepFactor = 0.4;
                 var point = points[0];
-                var stepX = 0.6, stepY = 0.6;
-                var x = 0, y = -0.4;
+                var stepX = 0.5, stepY = 0.5;
+                //var x = 0, y = -0.4;
+                var x = point.x + 0.1, y = point.y + 0.1;
                 var path = "M "+projectX(x)+" "+projectY(y);
                 var tangentPath = "";
                 var direction;
                 var rays = [];
-                var firstPoint = gradientDescent(x,y);
+                var firstPoint = gradientDescent(x,y), newPoint = firstPoint, zshtrih = Z_shtrih(newPoint.x, newPoint.y);
                 var expectedX, expectedY;
-                var newPoint, zshtrih;
-                for(var i = 0; i < 40; i++) {
+                var firstRay;
+                for(var i = 0; i < 50; i++) {
                     
                     newPoint = gradientDescent(x, y);
                     zshtrih = Z_shtrih(newPoint.x, newPoint.y);
                     var len = zshtrih.length();
                     zshtrih.normalize();
                     var ray = Ray(newPoint, Point(-zshtrih.getY(), zshtrih.getX()), true);
-                   
+                    if(!firstRay)
+                        firstRay = ray
                     rays.push(ray);
                     path = "M" + projectX(x) + " " + projectY(y);
                     for(var j = 1; j < 10; j++) {
@@ -438,7 +464,7 @@
                         if(!sedlo)
                             break;
                     }
-                    
+                    var currentRay = ray;
                     x = expectedX;
                     y = expectedY;
                     
@@ -454,13 +480,23 @@
                     appendCircle(newPoint, 7, 'curve');
                     appendPath(path,'green', 3, 'curve');
                     //appendPath(tangentPath,'red',1,'curve');
+                    
                     if($('#alert').attr('checked'))
                         alert(sedlo);
-                    //Ооооочень корявый критерий останова.
-                    if(firstPoint.distance(newPoint) < 0.4)
+                    
+                    var currentRay = Ray(Point(x,y), Point(-zshtrih.getY(), zshtrih.getX()));
+                    var t1 = firstRay.cross(ray), t2 = ray.cross(firstRay);
+                    console.log(t1 +" "+t2);
+                    if(t1 > -1 && t1 < 1 && t2 < 1 && t2 > 0.1 && i > 2)
+                        break;
+                    if(t1 > -0.2 && t1 < 0 && t2 < 0 && t2 > -0.2)
+                        break;
+                    
+                    /*if(firstPoint.distance(newPoint) < 0.3)
                         if(i!=0)
                             break;
-                    
+                    */
+                   
                 }
                 
                 //appendPath(path,'green', 3, 'curve');
@@ -518,7 +554,7 @@
                 getY : getY,
                 normal : normal,
                 length :length
-                };
+            };
             return me;
         }
         function Ray(p1/*Начало*/, p2/*Вектор направления*/, flag /*Отсчитывать вектор напавления от нуля - true или от p1 - false*/) {
