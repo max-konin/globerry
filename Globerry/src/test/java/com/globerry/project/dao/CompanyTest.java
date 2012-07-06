@@ -115,12 +115,7 @@ public class CompanyTest
 	cmpn1.setPassword("Kotiki");
 	try
 	{
-	    companyDao.updateCompany(company, cmpn1);
-	}
-	catch(MySqlException e)
-	{
-	    logger.info(e.getDescription());
-	    
+	    companyDao.updateCompany(cmpn1);
 	}
 	catch (Exception e)
 	{

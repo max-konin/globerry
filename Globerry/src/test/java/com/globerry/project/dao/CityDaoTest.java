@@ -19,18 +19,21 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.domain.*;
 import com.globerry.project.utils.PropertySegment;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Iterator;
 
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.hibernate.Hibernate;
+import org.junit.BeforeClass;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/daoTestContext.xml")
 @TestExecutionListeners({
 	DependencyInjectionTestExecutionListener.class,
-	DirtiesContextTestExecutionListener.class, ContextLoaderListener.class
+	DirtiesContextTestExecutionListener.class,
+	ContextLoaderListener.class
 })
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CityDaoTest {
@@ -48,12 +51,38 @@ public class CityDaoTest {
     SessionFactory sessionFactory;
 
     private final Logger logger = Logger.getLogger("black");
+	
+	private static City city1;
+	private static City city2;
+	
+	@BeforeClass
+	public static void BeforeClassTestInitialize() {
+		city1 = new City();
+		city2 = new City();
+		city1.setName(getGeneratedString());
+		city1.setRu_name(getGeneratedString());
+		city1.setArea(50);
+		city1.setEvents(new HashSet<Event>());
+		city1.setIsValid(Boolean.TRUE);
+		city1.setLatitude(5);
+		city1.setLongitude(30);
+		city1.setMessage(null);
+		city2.setName(getGeneratedString());
+		city2.setRu_name(getGeneratedString());
+		city2.setArea(50);
+		city2.setEvents(new HashSet<Event>());
+		city2.setIsValid(Boolean.TRUE);
+		city2.setLatitude(50);
+		city2.setLongitude(10);
+		city2.setMessage(getGeneratedString());
+	}
+	
 	/**
 	 * Create a random string contains 8 characters.
 	 *
 	 * @return Random String
 	 */
-	private String getGeneratedString() {
+	private static String getGeneratedString() {
 		final int LENGHT = 8;
 		StringBuilder sb = new StringBuilder();
 		for (int x = 0; x < LENGHT; x++) {
@@ -64,54 +93,39 @@ public class CityDaoTest {
 	
 	@Test
 	public void addCityTest() {
-		City city = new City();
-		city.setName(getGeneratedString());
-		city.setRu_name(getGeneratedString());
 		try {
-			cityDao.addCity(city);
+			cityDao.addCity(city1);
 		} catch (MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		assertFalse(cityDao.getCityList().isEmpty());
-		assertTrue(cityDao.getCityById(city.getId()).getName().equals(city.getName()));
-		assertTrue(cityDao.getCityList().contains(city));
+		assertTrue(cityDao.getCityList().contains(city1));
 	}
 	
 	@Test
 	public void removeCityByCityTest() {
-		City city = new City();
-		city.setName(getGeneratedString());
 		try {
-			cityDao.addCity(city);
+			cityDao.addCity(city1);
 		} catch (MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		cityDao.removeCity(city);
+		cityDao.removeCity(city1);
 		assertTrue(cityDao.getCityList().isEmpty());
 	}
 	
 	@Test
 	public void removeCityByIdTest() {
-		City city = new City();
-		city.setName(getGeneratedString());
 		try {
-			cityDao.addCity(city);
+			cityDao.addCity(city1);
 		} catch (MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		int id = city.getId();
+		int id = city1.getId();
 		cityDao.removeCity(id);
 		assertTrue(cityDao.getCityList().isEmpty());
 	}
 	
 	@Test
 	public void getCityListTest() {
-		City city1 = new City();
-		City city2 = new City();
-		city1.setName(getGeneratedString());
-		city2.setName(getGeneratedString());
-		city1.setRu_name(getGeneratedString());
-		city2.setRu_name(getGeneratedString());
 		List<City> cityList = new ArrayList();
 		cityList.add(city1);
 		cityList.add(city2);
@@ -159,28 +173,24 @@ public class CityDaoTest {
 	
 	@Test
 	public void updateCityTest() {
-		City city = new City();
-		city.setName(getGeneratedString());
 		try {
-			cityDao.addCity(city);
+			cityDao.addCity(city1);
 		} catch(MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		city.setName("ChangedName");
-		cityDao.updateCity(city);
-		assertTrue(cityDao.getCityById(city.getId()).getName().equals(city.getName()));
+		city1.setName("ChangedName");
+		cityDao.updateCity(city1);
+		assertTrue(cityDao.getCityList().contains(city1));
 	}
 	
 	@Test
 	public void getCityByIdTest() {
-		City city = new City();
-		city.setName(getGeneratedString());
 		try {
-			cityDao.addCity(city);
+			cityDao.addCity(city1);
 		} catch(MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		assertTrue(cityDao.getCityById(city.getId()).getName().equals(city.getName()));
+		assertTrue(cityDao.getCityById(city1.getId()).equals(city1));
 		assertTrue(cityDao.getCityById(32) == null);
 	}
 

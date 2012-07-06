@@ -65,16 +65,7 @@ public class CompanyService implements ICompanyService
     @Override
     public void companyUpdate(Company oldCompany, Company newCompany) throws MySqlException
     {
-
-	    try
-	    {
-			companyDao.updateCompany(newCompany);
-	    } catch (MySqlException e)
-	    {
-		// TODO Auto-generated catch block
-		throw e;
-	    }
-
+		companyDao.updateCompany(newCompany);
     }
 
     @Override
@@ -86,11 +77,7 @@ public class CompanyService implements ICompanyService
 	    companyDao.addCompany(company);
 	} catch (MySqlException e)
 	{
-		try {
-			companyDao.updateCompany(company);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);			
-		}
+		companyDao.updateCompany(company);		
 	}
 	
     }

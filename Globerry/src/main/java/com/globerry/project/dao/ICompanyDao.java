@@ -36,7 +36,7 @@ public interface ICompanyDao
      * Обновляет newCompany по id
      * @param newCompany
      */
-    public void updateCompany(Company newCompany) throws MySqlException;
+    public void updateCompany(Company newCompany);
     /**
      * Функция для получения списка туров
      * @param company компания

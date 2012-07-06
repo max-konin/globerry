@@ -58,11 +58,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	public void addTour(Tour tour)
 	{
 	    currentCompany.getTourList().add(tour);
-	    try {
-			companyDao.updateCompany(currentCompany);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+		companyDao.updateCompany(currentCompany);
 	}
 	
 	@Override
@@ -107,11 +103,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 		    }
 		}
 		tourDao.removeTour(tour.getId());
-		try {
-			companyDao.updateCompany(currentCompany);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+		companyDao.updateCompany(currentCompany);
 	    }
 	    else
 		throw new IllegalArgumentException();
@@ -126,11 +118,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	@Override
 	public void companyUpdate(Company company) throws MySqlException
 	{
-		try {
-			companyDao.updateCompany(company);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+		companyDao.updateCompany(company);
 	    currentCompany = company;
 	}
 	

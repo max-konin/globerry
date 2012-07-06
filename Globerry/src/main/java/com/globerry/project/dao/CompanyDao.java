@@ -94,31 +94,17 @@ public class CompanyDao implements ICompanyDao {
 
 
 	@Override
-	public void updateCompany(Company oldCompany, Company newCompany) throws MySqlException
+	public void updateCompany(Company newCompany)
 	{
-	    if(oldCompany == null) 
-	    {
-		MySqlException mySqlExc = new MySqlException();
-		mySqlExc.setMyClass(oldCompany);
-		mySqlExc.setDescription("Old company is null");
-		throw mySqlExc;
-	    }
-	    oldCompany.setDescription(newCompany.getDescription());
-	    oldCompany.setEmail(newCompany.getEmail());
-	    oldCompany.setLogin(newCompany.getLogin());
-	    oldCompany.setName(newCompany.getName());
-	    oldCompany.setPassword(newCompany.getPassword());
-	    oldCompany.setTourList(newCompany.getTourList());
 	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    Session session = sessionFactory.getCurrentSession();
-    	    session.update(oldCompany);
+    	session.update(newCompany);
 	    tx.commit();
-	    //ПОЧЕМУ У МЕНЯ ОНА РУГАЕТСЯ ЧТО СЕССИЯ ЗАКРЫТА КОГДА Я ЕЁ НЕ ЗАКРЫЛ?!?!?!?!
 	}
 
 
 	@Override
-	public Set<Tour> getCompanyTourList(Company company)
+	public List<Tour> getCompanyTourList(Company company)
 	{
 	    
 	   /* Session session = sessionFactory.getCurrentSession();
@@ -130,23 +116,6 @@ public class CompanyDao implements ICompanyDao {
 	    // Retrieve all
 	    return  new ArrayList<CreditCard>(person.getCreditCards());//*/
 	    return null;
-	}
-
-	@Override
-	public void updateCompany(Company newCompany)
-	{
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
-		Session session = sessionFactory.getCurrentSession();
-		Company existingCompany = (Company) session.get(Company.class, newCompany.getId());
-		existingCompany.setLogin(newCompany.getLogin());
-		existingCompany.setName(newCompany.getName());
-		existingCompany.setDescription(newCompany.getDescription());
-		existingCompany.setEmail(newCompany.getEmail());
-		existingCompany.setPassword(newCompany.getPassword());
-		existingCompany.setTourList(newCompany.getTourList());
-		//session.update(existingCompany);
-		session.merge(existingCompany);
-		tx.commit();
 	}
 	
 	@Override
