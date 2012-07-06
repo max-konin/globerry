@@ -150,8 +150,8 @@ public class CompanyDaoTest {
 		} catch(MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		assertTrue(companyDao.getCompanyByEmail(company1.getLogin()).equals(company1));
-		assertTrue(companyDao.getCompanyByEmail("UnexistedLogin") == null);
+		assertTrue(companyDao.getCompanyByEmail(company1.getEmail()).equals(company1));
+		assertTrue(companyDao.getCompanyByEmail("UnexistedEmail") == null);
 	}
 	
 	@Test
@@ -161,8 +161,8 @@ public class CompanyDaoTest {
 		} catch(MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		assertTrue(companyDao.getCompanyByLogin(company1.getLogin()).equals(company1));
-		assertTrue(companyDao.getCompanyByLogin("UnexistedLogin") == null);
+		assertTrue(companyDao.getCompanyById(company1.getId()).equals(company1));
+		assertTrue(companyDao.getCompanyById(999) == null);
 	}
 
 }
