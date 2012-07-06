@@ -27,7 +27,8 @@ import com.globerry.project.service.interfaces.IAgentService;
 import org.springframework.context.annotation.Scope;
 
 /**
- * A custom service for retrieving users from a custom datasource, such as a database.
+ * A custom service for retrieving users from a custom datasource, such as a
+ * database.
  * <p>
  * This custom service must implement Spring's {@link UserDetailsService}
  */
@@ -57,8 +58,11 @@ public class AgentService implements UserDetailsService, IAgentService {
 	public void addTour(Tour tour)
 	{
 	    currentCompany.getTourList().add(tour);
-	    
-	    companyDao.updateCompany(currentCompany);
+	    try {
+			companyDao.updateCompany(currentCompany);
+		} catch(MySqlException mse) {
+			mse.printStackTrace(System.err);
+		}
 	}
 	
 	@Override
@@ -66,7 +70,8 @@ public class AgentService implements UserDetailsService, IAgentService {
 	{
 	    if (oldTour.getCompany().getId() == currentCompany.getId())
 	    {
-		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать 
+			//Contains или Equals у турлиста или тура соответственно)
 		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
 		while(iterator.hasNext())
 		{
@@ -88,7 +93,8 @@ public class AgentService implements UserDetailsService, IAgentService {
 	{
 	    if (tour.getCompany().getId() == currentCompany.getId())
 	    {
-		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать
+			//Contains или Equals у турлиста или тура соответственно)
 		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
 		while(iterator.hasNext())
 		{
@@ -101,7 +107,11 @@ public class AgentService implements UserDetailsService, IAgentService {
 		    }
 		}
 		tourDao.removeTour(tour.getId());
-		companyDao.updateCompany(currentCompany);
+		try {
+			companyDao.updateCompany(currentCompany);
+		} catch(MySqlException mse) {
+			mse.printStackTrace(System.err);
+		}
 	    }
 	    else
 		throw new IllegalArgumentException();
@@ -116,7 +126,11 @@ public class AgentService implements UserDetailsService, IAgentService {
 	@Override
 	public void companyUpdate(Company company) throws MySqlException
 	{
-	    companyDao.updateCompany(currentCompany, company);
+		try {
+			companyDao.updateCompany(company);
+		} catch(MySqlException mse) {
+			mse.printStackTrace(System.err);
+		}
 	    currentCompany = company;
 	}
 	

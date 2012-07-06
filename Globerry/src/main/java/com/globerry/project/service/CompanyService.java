@@ -68,7 +68,7 @@ public class CompanyService implements ICompanyService
 
 	    try
 	    {
-		companyDao.updateCompany(oldCompany, newCompany);
+			companyDao.updateCompany(newCompany);
 	    } catch (MySqlException e)
 	    {
 		// TODO Auto-generated catch block
@@ -86,7 +86,11 @@ public class CompanyService implements ICompanyService
 	    companyDao.addCompany(company);
 	} catch (MySqlException e)
 	{
-	    companyDao.updateCompany(company);
+		try {
+			companyDao.updateCompany(company);
+		} catch(MySqlException mse) {
+			mse.printStackTrace(System.err);			
+		}
 	}
 	
     }
