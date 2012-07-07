@@ -27,6 +27,24 @@
     <!--Then paste the following for Kendo UI Web scripts-->
     <script src="resources/javascripts/kendoui/js/kendo.web.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
+    
+    
+    <!--   стили для таблицы параметров     -->
+<!--        <link type="text/css" href="resources/lib/colorpicker/lib/jquery-ui-1.8.21/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />-->
+        <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/layout.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/colorpicker.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/mystyle.css" />
+        <!--   /стили для таблицы параметров     -->
+        <!--   скрипты для  таблицы параметров   -->
+<!--        <script type="text/javascript" src="resources/lib/colorpicker/js/jquery.js"></script>-->
+        <script type="text/javascript" src="resources/lib/colorpicker/js/colorpicker.js"></script>
+        <script type="text/javascript" src="resources/lib/colorpicker/js/eye.js"></script>
+        <script type="text/javascript" src="resources/lib/colorpicker/js/utils.js"></script>
+        <script type="text/javascript" src="resources/lib/colorpicker/js/layout.js"></script>
+<!--        <script type="text/javascript" src="resources/lib/colorpicker/lib/jquery-ui-1.8.21/js/jquery.ui-slider.js"></script>-->
+        <script type="text/javascript" src="resources/lib/colorpicker/lib/jquery.tabSlideOut.v1.3.js"></script>
+        <script type="text/javascript" src="resources/lib/colorpicker/js/paramsTable.js"></script>
+        <!--   /скрипты для  таблицы параметров   -->
 </head>
 <body>
     <div id = 'top'>
@@ -298,6 +316,7 @@
         </div>
     </div>
     <div id='map'></div>
+     <jsp:include page="paramsTable.jsp" />
 </body>
 <script>
         /**

@@ -39,7 +39,7 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Event;
-import com.globerry.project.domain.IRelationsQualifier;
+//import com.globerry.project.domain.IRelationsQualifier;
 import com.globerry.project.domain.Month;
 import com.globerry.project.service.interfaces.ICityService;
 import com.globerry.project.service.interfaces.ICompanyService;
