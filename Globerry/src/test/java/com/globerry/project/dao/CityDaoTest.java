@@ -102,6 +102,7 @@ public class CityDaoTest {
 	}
 	
 	@Test
+	@Transactional
 	public void removeCityByCityTest() {
 		try {
 			cityDao.addCity(city1);
@@ -113,14 +114,14 @@ public class CityDaoTest {
 	}
 	
 	@Test
+	@Transactional
 	public void removeCityByIdTest() {
 		try {
 			cityDao.addCity(city1);
 		} catch (MySqlException mse) {
 			mse.printStackTrace(System.err);
 		}
-		int id = city1.getId();
-		cityDao.removeCity(id);
+		cityDao.removeCity(city1.getId());
 		assertTrue(cityDao.getCityList().isEmpty());
 	}
 	
@@ -194,7 +195,7 @@ public class CityDaoTest {
 		assertTrue(cityDao.getCityById(32) == null);
 	}
 
-    @Test
+    /*@Test
     @Transactional(readOnly = false)
     public void LazyTest()
     {
@@ -224,18 +225,16 @@ public class CityDaoTest {
 	ev = new Event();
 	ev.setName("Disnayland55");
 	eventDao.addEvent(ev, city1);
-    }
+    }*/
 
-	@Test(timeout = 10000)
+	/*@Test(timeout = 10000)
 	public void isEqualTest()
 	{
 	    
-	    City city1 = new City();
-	    City city2 = new City();
 	    logger.info(city1.hashCode());
 	    logger.info(city2.hashCode());
 	    assertEquals(city1, city2);
 	    
-	}
+	}*/
 	
 }
