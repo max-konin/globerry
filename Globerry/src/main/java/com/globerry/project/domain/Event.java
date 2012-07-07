@@ -141,12 +141,26 @@ public class Event
 	if(obj == null) return false;
 	if(!(obj instanceof Event)) return false;
 	Event event = (Event) obj;
+	
+	if(this.description == null ^ event.getDescription() == null) return false;
 	if(!((this.description == null && event.getDescription() == null) || this.getDescription().equals(event.getDescription()))) return false;
+	
+	if(this.name == null ^ event.getName() == null) return false;
 	if(!((this.name == null && event.getName() == null) || this.name.equals(event.getName()))) return false;
-	if(!((this.image == null && event.getName() == null) || this.image.equals(event.getImage()))) return false;
+
+	if(this.image == null ^ event.getImage() == null) return false;
+	if(!((this.image == null && event.getImage() == null) || this.image.equals(event.getImage()))) return false;
+
+	if(this.month == null ^ event.getMonth() == null) return false;
 	if(!((this.month == null && event.getMonth() == null) || this.month.equals(event.getMonth()))) return false;
+
+	if(this.ru_name == null ^ event.getRu_name() == null) return false;
 	if(!((this.ru_name == null && event.getRu_name() == null) || this.ru_name.equals(event.getRu_name()))) return false;
+	
+	if(this.ru_description == null ^ event.getRu_description() == null) return false;
 	if(!((this.ru_description == null && event.getRu_description() == null) || this.ru_description.equals(event.getRu_description()))) return false;
+	
+	if(this.cityList == null ^ event.getCities() == null) return false;
 	if(!((this.cityList == null && event.getCities() == null) || this.cityList.equals(event.getCities()))) return false;
 	return true;
     }

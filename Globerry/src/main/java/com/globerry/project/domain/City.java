@@ -267,16 +267,30 @@ public class City implements Serializable
 	if(obj == null) return false;
 	if(!(obj instanceof City)) return false;
 	City city = (City) obj;
-	if(!((this.name == null && city.getName() == null) || this.name.equals(city.getName()))) return false; 
+	if(this.getName() == null ^ city.getName()== null) return false;
+	if(!((this.getName() == null && city.getName() == null)|| city.getName().equals(this.getName()))) return false;
+	
+	if(this.ru_name == null ^ city.getRu_name() == null) return false;
 	if(!((this.ru_name == null && city.getRu_name() == null) || this.ru_name.equals(city.getRu_name()))) return false;
+	
 	if(!(this.area == city.getArea())) return false;
 	if(!(this.population == city.getPopulation())) return false;
 	if(!(this.getLatitude() == city.getLatitude())) return false;
 	if(!(this.getLongitude() == city.getLongitude())) return false;
+	
+	if(this.proposals == null ^ city.getProposals() == null) return false;
 	if(!((this.proposals == null && city.getProposals() == null) || this.proposals.equals(city.getProposals()))) return false;
+	
+	if(this.dmpList == null ^ city.getDmpList() == null) return false;
 	if(!((this.dmpList == null && city.getDmpList() == null) || this.dmpList.equals(city.getDmpList()))) return false;
+	
+	if(this.propertyList == null ^ city.getPropertyList() == null) return false;
 	if(!((this.propertyList == null && city.getPropertyList() == null) || this.propertyList.equals(city.getPropertyList()))) return false;
+	
+	if(this.eventList == null ^ city.getEvents() == null) return false;
 	if(!((this.eventList == null && city.getEvents() == null) || this.eventList.equals(city.getEvents()))) return false;
+	
+	if(this.tagList == null ^ city.getTagList() == null) return false;
 	if(!((this.tagList == null && city.getTagList() == null) || this.tagList.equals(city.getTagList()))) return false;
 	return true;
 
@@ -291,7 +305,7 @@ public class City implements Serializable
 	result = 3*result + population;
 	result = 3*result + Float.floatToIntBits(longitude);
 	result = 3*result + Float.floatToIntBits(latitude);
-	result = 3 * result + proposals.hashCode();
+	result = 3 * result + (proposals == null ? 0 :proposals.hashCode());
 	for(DependingMonthProperty elem: dmpList)
 	{
 	    result = result + elem.hashCode();

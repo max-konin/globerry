@@ -62,7 +62,11 @@ public class Air
 	if(!(obj instanceof Air)) return false;
 	Air air = (Air) obj;
 	if(!(air.getCost() == this.getCost())) return false;
+	
+	if(this.date == null ^ air.getDate() == null) return false;
 	if(!((this.date == null && air.getDate() == null) || air.getDate().equals(this.getDate()))) return false;
+	
+	if(this.name == null ^ air.getName() == null) return false;
 	if(!((this.name == null && air.getName() == null) || air.getName().equals(this.getName()))) return false;
 	return true;
     }

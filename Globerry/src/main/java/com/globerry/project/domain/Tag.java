@@ -77,8 +77,14 @@ public class Tag
 	if(obj == null) return false;
 	if(!(obj instanceof Tag)) return false;
 	Tag tag = (Tag) obj;
+	
+	if(this.name == null ^ tag.getName() == null) return false;
 	if(!((this.name == null && tag.getName() == null) || this.name.equals(tag.getName()))) return false; 
+	
+	if(this.img == null ^ tag.getImg() == null) return false;
 	if(!((this.img == null && tag.getImg() == null) || this.img.equals(tag.getImg()))) return false;
+	
+	if(this.tagsType == null ^ tag.getTagsType() == null) return false;
 	if(!((this.tagsType == null && tag.getTagsType() == null) || this.tagsType.equals(tag.getTagsType()))) return false;
 	return true;
     }

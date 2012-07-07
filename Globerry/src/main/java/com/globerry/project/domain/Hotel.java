@@ -35,6 +35,8 @@ public class Hotel
 	if(obj == null) return false;
 	if(!(obj instanceof Hotel)) return false;
 	Hotel hotel = (Hotel) obj;
+	
+	if(this.name == null ^ hotel.getName() == null) return false;
 	if(!((this.name == null && hotel.getName() == null) || this.name.equals(hotel.getName()))) return false;
 	if(!(this.cost == hotel.getCost())) return false;
 	return true;

@@ -100,11 +100,22 @@ public class Tour {
 	    if(obj == null) return false;
 	    if(!(obj instanceof Tour)) return false;
 	    Tour tour = (Tour) obj;
-	    if(!((this.name == null && tour.getName() == null) || this.name.equals(tour.getName()))) return false; 
+	    
+	    if(this.name == null ^ tour.getName() == null) return false;
+	    if(!((this.name == null && tour.getName() == null) || this.name.equals(tour.getName()))) return false;
+	    
 	    if(!(tour.getCost() == this.getCost())) return false;
+	    
+	    if(this.description == null ^ tour.getDescription() == null) return false;
 	    if(!((this.description == null && tour.getDescription() == null) || this.description.equals(tour.getDescription()))) return false;
+	    
+	    if(this.dateStart == null ^ tour.getDateStart() == null) return false;
 	    if(!((this.dateStart == null && tour.getDateStart() == null) || this.dateStart.equals(tour.getDateStart()))) return false;
+	    
+	    if(this.dateEnd == null ^ tour.getDateEnd() == null) return false;
 	    if(!((this.dateEnd == null && tour.getDateEnd() == null) || this.dateEnd.equals(tour.getDateEnd()))) return false;
+	    
+	    if(this.company == null ^ tour.getClass() == null) return false;
 	    if(!((this.company == null && tour.getClass() == null) || this.company.equals(tour.getCompany()))) return false;
 	    return true;
 	}

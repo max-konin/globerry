@@ -85,7 +85,11 @@ public class DependingMonthProperty
 	if(obj == null) return false;
 	if(!(obj instanceof DependingMonthProperty)) return false;
 	DependingMonthProperty dmp = (DependingMonthProperty) obj;
+	
+	if(this.month == null ^ dmp.getMonth() == null) return false;
 	if(!((this.month == null && dmp.getMonth() == null) || this.month.equals(dmp.getMonth()))) return false;
+	
+	if(this.propertyType == null ^ dmp.getPropertyType() == null)
 	if(!((this.propertyType == null && dmp.getPropertyType() == null) || this.propertyType.equals(dmp.getPropertyType()))) return false;
 	if(!(this.value == dmp.getValue())) return false;
 	return true;

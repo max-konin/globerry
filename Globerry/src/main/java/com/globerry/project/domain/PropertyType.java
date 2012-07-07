@@ -82,7 +82,10 @@ public class PropertyType
 	if(obj == null) return false;
 	if(!(obj instanceof PropertyType)) return false;
 	PropertyType propertyType = (PropertyType) obj;
+	
+	if(this.name == null ^ propertyType.getName() == null) return false;
 	if(!((this.name == null && propertyType.getName() == null) || this.name.equals(propertyType.getName()))) return false; 
+	
 	if(!(this.dependingMonth == propertyType.isDependingMonth())) return false;
 	if(!(this.maxValue == propertyType.getMaxValue())) return false;
 	if(!(this.minValue == propertyType.getMinValue())) return false;

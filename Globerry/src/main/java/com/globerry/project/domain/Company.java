@@ -63,12 +63,27 @@ public class Company {
 	if(obj == null) return false;
 	if(!(obj instanceof Company)) return false;
 	Company company = (Company) obj;
+	
+	if(this.name == null ^ company.getName() == null) return false;
 	if(!((this.name == null && company.getName() == null) || this.name.equals(company.getName()))) return false;
+	
+	if(this.description == null ^ company.getDescription() == null) return false;
 	if(!((this.description == null && company.getDescription() == null) || this.description.equals(company.getDescription()))) return false;
+	
+	if(this.email == null ^ company.getEmail() == null) return false;
 	if(!((this.email == null && company.getEmail() == null) || this.email.equals(company.getEmail()))) return false;
+	
+	if(this.login == null ^ company.getLogin() == null) return false;
 	if(!((this.login == null && company.getLogin() == null) || this.login.equals(company.getLogin()))) return false;
+	
+	if(this.password == null ^ company.getPassword() == null) return false;
 	if(!((this.password == null && company.getPassword() == null) || this.password.equals(company.getPassword()))) return false;
+	
+	if(this.access == null ^ company.getAccess() == null) return false;
 	if(!((this.access == null && company.getAccess() == null) || this.getAccess().equals(company.getAccess()))) return false;
+	
+	if(this.tourList == null ^ company.getTourList() == null) return false;
+	if(!((this.tourList == null && company.getTourList() == null) || this.tourList.equals(company.getTourList()))) return false;
 	if(!this.getTourList().equals(company.getTourList())) return false;
 	return true;
     }

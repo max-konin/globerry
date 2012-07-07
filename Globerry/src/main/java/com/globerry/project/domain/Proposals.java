@@ -72,7 +72,11 @@ public class Proposals
 	if(obj == null) return false;
 	if(!(obj instanceof Proposals)) return false;
 	Proposals proposals = (Proposals) obj;
+	
+	if(this.city == null ^ proposals.getCity() == null) return false;
 	if(!((this.city == null && proposals.getCity() == null) || this.city.equals(proposals.getCity()))) return false;
+	
+	if(this.tourList == null ^ proposals.getTourList() == null) return false;
 	if(!((this.tourList == null && proposals.getTourList() == null) || this.tourList.equals(proposals.getTourList()))) return false;
 	return true;
     }
@@ -81,10 +85,11 @@ public class Proposals
     {
 	int result = 12;
 	result = 3 * result + (city == null ? 0 : city.hashCode());
-	for(Tour tour: tourList)
-	{
-	    result = result + tour.hashCode();
-	}
+	if(tourList != null)
+        	for(Tour tour: tourList)
+        	{
+        	    result = result + tour.hashCode();
+        	}
 	return result;
     }
 

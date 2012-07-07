@@ -36,6 +36,8 @@ public class Auto
 	if(!(obj instanceof Auto)) return false;
 	Auto auto = (Auto) obj;
 	if(!(auto.getCost() == this.getCost())) return false;
+	
+	if(this.name == null ^ auto.getName() == null) return false;
 	if(!((this.name == null && auto.getName() == null) || auto.getName().equals(this.getName()))) return false;
 	return true;
     }
@@ -44,7 +46,7 @@ public class Auto
     {
 	int result = 5;
 	result = 3*result + Float.floatToIntBits(cost);
-	result = 3*result + name == null ? 0 :name.hashCode();
+	result = 3*result + (name == null ? 0 : name.hashCode());
 	return result;
     }
 

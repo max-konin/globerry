@@ -39,7 +39,11 @@ public class UploadItem
 	if(obj == null) return false;
 	if(!(obj instanceof UploadItem)) return false;
 	UploadItem item = (UploadItem) obj;
+	
+	if(this.name == null ^ item.getName() == null) return false;
 	if(!((this.name == null && item.getName() == null) || this.name.equals(item.getName()))) return false;
+	
+	if(this.fileData == null ^ item.getFileData() == null) return false;
 	if(!((this.fileData == null && item.getFileData() == null) || this.fileData.equals(item.getFileData()))) return false;
 	return true;
     }

@@ -48,4 +48,29 @@ public class CityRequest implements ICityRequest
 	else
 	    return queryBase;
     }
+    @Override
+    public boolean equals(Object obj)
+    {
+	if(obj == null) return false;
+	if(!(obj instanceof CityRequest)) return false;
+	CityRequest cityRequest = (CityRequest) obj;
+	
+	if(this.tags == null ^ cityRequest.getTags() == null) return false;
+	if(!((this.tags == null && cityRequest.getTags() == null) || this.tags.equals(cityRequest.getTags()))) return false;
+	
+	if(this.queryBase == null ^ cityRequest.getHQLQuery() == null) return false;
+	if(!((this.queryBase == null && cityRequest.getHQLQuery() == null) || this.queryBase.equals(cityRequest.getHQLQuery()))) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 17;
+	result = 3 * result + (queryBase == null ? 0 : queryBase.hashCode());
+	for(Tag elem: tags)
+	{
+	    result = result + elem.hashCode();
+	}
+	return result;
+    }
 }

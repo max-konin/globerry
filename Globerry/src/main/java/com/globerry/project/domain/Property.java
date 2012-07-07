@@ -73,6 +73,8 @@ public class Property
 	if(obj == null) return false;
 	if(!(obj instanceof Property)) return false;
 	Property property = (Property) obj;
+	
+	if(this.propertyType == null ^ property.getPropertyType() == null) return false;
 	if(!((this.propertyType == null && property.getPropertyType() == null) || this.propertyType.equals(property.getPropertyType()))) return false;
 	if(!(value == property.getValue())) return false;
 	return true;
