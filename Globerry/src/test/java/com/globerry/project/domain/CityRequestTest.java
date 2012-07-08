@@ -47,7 +47,11 @@ public class CityRequestTest
 	tag.setId(5);
 	tagList.add(tag);
 	ICityRequest cityRequest = new CityRequest(tagList);
-	assertEquals(true,cityRequest.getHQLQuery().equalsIgnoreCase("select distinct city from City city inner join city.tagList t1 inner join city.tagList t2 where t1.id=1 and t2.id=5"));
+	assertEquals(true,cityRequest.getHQLQuery().equalsIgnoreCase( "select distinct city "
+                                                                    + "from City city "
+                                                                        + "inner join city.tagList t1 "
+                                                                        + "inner join city.tagList t2 "
+                                                                    + "where t1.id=1 and t2.id=5"));
 	List<Tag> nuLL=null;
 	cityRequest.setTags(nuLL);
 	assertEquals(true ,cityRequest.getHQLQuery().equalsIgnoreCase("select distinct city from City city"));
