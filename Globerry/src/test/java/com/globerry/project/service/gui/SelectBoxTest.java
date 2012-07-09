@@ -14,29 +14,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.jndi.*;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import com.globerry.project.MySqlException;
-import com.globerry.project.dao.ContextLoaderListener;
-import com.globerry.project.dao.TagDao;
-import com.globerry.project.domain.Tag;
 
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/META-INF/spring/app-context.xml")
-@TestExecutionListeners({
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-    ContextLoaderListener.class
 
-}) 
+
 public class SelectBoxTest
 {
     private SelectBox selectBox;
