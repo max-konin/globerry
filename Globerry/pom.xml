@@ -209,10 +209,10 @@
             </dependency> 
             
             <dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>1.0.60</version>
-			</dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.0.60</version>
+            </dependency>
             
 
             <dependency>

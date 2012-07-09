@@ -81,8 +81,7 @@
 			<value>org.hibernate.cfg.AnnotationConfiguration</value>
 		</property>
 		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.show_sql">true</prop>
+			<props>				
 				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
 				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
 				<prop key="hibernate.connection.charSet">UTF-8</prop>
