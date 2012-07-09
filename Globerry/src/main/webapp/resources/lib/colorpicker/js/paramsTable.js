@@ -32,8 +32,10 @@ $(document).ready(function() {
     });  
 
     //ColorPicker встраиваемый
-    var colorSelectorId = '#myColorSelector1';
-    $(colorSelectorId).ColorPicker({
+    var colorSelectorId = '.colorSelector';
+    $(colorSelectorId).each(function(){
+        var thisDiv = $(this).find('div');
+        $(this).ColorPicker({
         color: '#0000ff',
         onShow: function (colpkr) {
             $(colpkr).fadeIn(100);
@@ -44,12 +46,47 @@ $(document).ready(function() {
             return false;
         },
         onChange: function (hsb, hex, rgb) {
-            $(colorSelectorId+' div').css('backgroundColor', '#' + hex);
-            console.log('myColorSelector change');
-        },
-        onSubmit: function () {
-            $(colorSelectorId+' div').css('backgroundColor', '#' + hex);
-            console.log('myColorSelector submit')
+
+            thisDiv.css('backgroundColor', '#' + hex);
         }
-    });
+    })
+        });
 });
+function createParamTableObject() {
+    var events = {
+        eventsArray :  {
+            onStartColorChanged : [],
+            onFinishColorChanged : [],
+            onStartOpacityChanged :[],
+            onFinishOpacityChanged : [],
+            onRadiusChanged : []
+        },
+        bind : function(evtName, callback) {
+            var eventQueue = events[evtName];
+            if(!eventQueue)
+                return;
+            eventQueue.push(callback);
+        },
+        trigger : function(evtName, params) {
+            var eventsQueue = events[evtName];
+            if(!eventsQueue)
+                return;
+            for(var i = 0, l = eventsQueue.length; i < l; i++) {
+                eventsQueue[i].apply(window, params);
+            }
+        }
+    }
+    function getStartColor() {
+        return $('#gradient_start_color').css('background-color');
+    }
+    function getFinishColor() {
+        return $('#gradient_finish_color').css('background-color');
+    }
+    function getStartOpacity() {
+        return parseFloat($('#gradiet_opacity_start').val());
+    }
+    function getFinishOpacity() {
+        return parseFloat($('#gradiet_opacity_finish').val());
+    }
+    
+}

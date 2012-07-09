@@ -65,7 +65,7 @@
             min : 1,
             max : 10,
             step : 0.02,
-            value : 2.7,
+            value : 3.84,
             slide : function(event, ui) {
                 $('#minVal').val(ui.value);
                 redraw();
@@ -123,7 +123,7 @@
             points.push(point);
             
             point = Point(2, 0);
-            point.weight = 1;
+            point.weight = 2;
             points.push(point);
             
             /*point = Point(3,1)
@@ -138,7 +138,7 @@
             point.weight = 2;
             points.push(point);*/
             //graph.drawRays(rays);
-            graph.draw3D(points, parseFloat($('#minVal').val()));
+            graph.draw3D(points, 3.84);
             //graph.drawPoints(points);
             
             $('#wolfram').append(plotString(points));
@@ -271,10 +271,12 @@
                     return;
                 var ray1 = arr[0], ray2, c1, c2, factor = 0.3, prevT = null, factor2 = 0.6;
                 var path = "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y), pathVect = "";
+                var t1, t2;
+                arr.push(arr[0]);
                 for(var i = 1, l = arr.length; i < l; i++) {
                     ray2 = arr[i];
-                    var t1 = ray1.cross(ray2);
-                    var t2 = ray2.cross(ray1);
+                    t1 = ray1.cross(ray2);
+                    t2 = ray2.cross(ray1);
                     if(prevT == null) {
                         if(t1 >= 0 && t2 <= 0) {
                             c1 = ray1.getPoint(t1);
@@ -316,6 +318,7 @@
                     //appendCircle(c2);
                     //appendCircle(ray1.start);
                 }
+                
                 path += ' z';
                 var gr = createElement('path');
                 gr.setAttribute('d', path);
@@ -358,6 +361,70 @@
                     t.setAttribute('class', clazz);
                 svg.appendChild(t);
             }
+            
+            function drawIsoline(points, level) {
+                function Z(x, y) {
+                    var val = 0;
+                    for(var i = 0, l = points.length; i < l; i++) {
+                        var point = points[i];
+                        val += point.weight/(Math.sqrt((point.x - x)*(point.x - x) + (point.y - y)*(point.y - y)));
+                    }
+                    return val;
+                }
+                function dZdxy(x, y) {
+                    var dx = 0, dy = 0;
+                    for(var i = 0, l = points.length; i < l; i++) {
+                        var point = points[i];
+                        var a = point.x, b = point.y;
+                        //Нужно чтобы не вычилять три раза корень из (x-x_i)^2+(y-y_i)^2 при возведении в куб
+                        var bigSqrt = Math.sqrt((x - a)*(x - a) + (y - b)*(y - b))
+                        var znamenatel = bigSqrt * bigSqrt * bigSqrt / point.weight;
+                        dx += (a - x)/znamenatel;
+                        dy += (b - y)/znamenatel;
+                    }
+                    return Point(dx, dy);
+                }
+                function findSedlo(fromX, fromY) {
+                    var z_shtrih = dZdxy(fromX, fromY);
+                    var len = z_shtrih.length(), prevLen;
+                    var count = 0;
+                    var x = fromX, y = fromY, prevX, prevY;
+                    while(len > 0.03) {
+                        prevX = x;
+                        prevY = y;
+                        x += z_shtrih.getX();
+                        y += z_shtrih.getY();
+                        prevLen = len;
+                        len = dZdxy(x,y);
+                        if(len > prevLen) {
+                            return Point(prevX, prevY)
+                        }
+                    }
+                    return Point(x, y);
+                }
+                function gradientDescent() {
+                    
+                }
+                //Переменные алгоритма
+                var z,z_shtrih, x, y, zAside, xAside, yAside, zAside_shtrih, zNew, zNew_shtrih, xNew, yNew, count;
+                var saddlePoints = []; // Найденные седловые точки
+                //Константы алгортима
+                var dxdy = Point(0.05, 0.05), step = Point(1,1), eps = 0.05, sedloFactor = 0.8;/*Если модуль градиента меньше этого значения, то ищем седло*/
+                //Возвращаемые значения
+                var rays = [];
+                
+                xAside = points[0].x + 0.1, yAside = points[0].y + 0.1;
+                zAside = Z(xAside, yAside);
+                zAside_shtrih = dZdxy(xAside, yAside);
+                while(true) {
+                    
+                    count++;
+                    if(count > 100)
+                    break;
+                }
+                
+            }
+            
             function draw3D(points, level) {
                 function Z(x, y) {
                     var val = 0;
@@ -380,12 +447,14 @@
                     }
                     return Point(dx, dy);
                 }
+                
                 //Движется в направлении градиента или антиградиента к заданному уровню (level).
                 function gradientDescent(fromX, fromY) {
                     var x1 = fromX, y1 = fromY, x2, y2;
                     var z1 = Z(x1, y1), z2;
                     var count = 0;
                     var travelLength = 0;
+                    var prevDirection = direction;
                     if(z1 < level)
                         direction = 1;
                     else
@@ -414,17 +483,63 @@
                             break;
                     }
                     if(travelLength < stepFactor) {
-                        stepX += stepX*dStep;
-                        stepY += stepY*dStep;
+                            stepX += stepX*dStep;
+                            stepY += stepY*dStep;
                     } else {
-                        stepX -= stepX*dStep;
-                        stepY -= stepY*dStep;
+                        stepX = initStep;
+                        stepY = initStep;
                     }
                         
                     return Point(x2,y2);
                 }
                 //var x = (maxX - minX)/2, y = (maxY - minY)/2;
-                
+                function findSedlo(fromX, fromY) {
+                    var z_shtrih = Z_shtrih(fromX, fromY);
+                    var z_shtrihPrev = z_shtrih;
+                    var len = z_shtrih.length(), prevLen;
+                    var count = 0;
+                    var x = fromX, y = fromY, prevX, prevY;
+                    var path = "";
+                    var signX = 1, signY = 1;
+                    var sign = 1;
+                    var flag = false;
+                    var stepX = 0.1, stepY = 0.1;
+                    if(z_shtrih.x*z_shtrih.y > 0)
+                        return;
+                    function foobar() {
+                        x = prevX + z_shtrihPrev.x*stepX;
+                        y = prevY + z_shtrihPrev.y*stepY;
+                        z_shtrih = Z_shtrih(x,y);
+                    }
+                    while(len > 0.1) {
+                        z_shtrihPrev = z_shtrih;
+                        prevX = x, prevY = y;
+                        
+                        
+                        foobar();
+                        if(z_shtrih.x*z_shtrih.y > 0) {
+                            sign *= -1;
+                            foobar();
+                        }
+                        if(z_shtrih.length() > z_shtrihPrev.length()) {
+                            stepX *= -1;
+                            stepY *= -1;
+                            foobar();
+                        }
+                        path = "M " +projectX(prevX) + " "+projectY(prevY)+"L "+projectX(x) + " "+projectY(y);
+                        appendPath(path,'red', 'curve');
+                        alert(z_shtrih);
+                        /*if(!signChangedY) {
+                            signChangedY = z_shtrih.x * z_shtrihPrev.x <= 0;
+                        }*/
+                        len = z_shtrih.length();
+                        count++;
+                        //alert(x);
+                        if(count > 50)
+                            break;
+                    }
+                    return Point(x, y);
+                }
                 function checkSedlo() {
                     var d = 0.005;
                     var zshtrih2 = Z_shtrih(expectedX, expectedY);
@@ -433,20 +548,28 @@
                     return false;
                 }
                 var eps = 0.1, d = 1, dxdy = Point(0.05, 0.05) //Шаг в алгоритме скорейшего спуска.;
-                var dStep = 0.2;//Число, с которым увеличивается stepX, stepY.
-                var stepFactor = 0.4;
-                var point = points[0];
-                var stepX = 0.5, stepY = 0.5;
+                var dStep = 0.1;//Число, с которым увеличивается stepX, stepY.
+                var stepFactor = 0.3;
+                var point = points[2];
+                var initStep = 0.5;
+                var stepX = 0.7, stepY = 0.7;
                 //var x = 0, y = -0.4;
-                var x = point.x + 0.1, y = point.y + 0.1;
+                var x = point.x - 0.05, y = point.y - 0.05;
                 var path = "M "+projectX(x)+" "+projectY(y);
                 var tangentPath = "";
                 var direction;
                 var rays = [];
                 var firstPoint = gradientDescent(x,y), newPoint = firstPoint, zshtrih = Z_shtrih(newPoint.x, newPoint.y);
+                var firstTangent = Z_shtrih(firstPoint.x, firstPoint.y);
                 var expectedX, expectedY;
                 var firstRay;
-                for(var i = 0; i < 50; i++) {
+                var travelVect = Point(-firstPoint.x, -firstPoint.y);
+                
+                for(var i = 0; i<points.length; i++) {
+                    appendCircle(points[i],  points[i].weight * 5,'black');
+                    appendText(points[i].x+0.1, points[i].y,i);
+                }
+                for(var i = 0; i < 1000; i++) {
                     
                     newPoint = gradientDescent(x, y);
                     zshtrih = Z_shtrih(newPoint.x, newPoint.y);
@@ -457,45 +580,62 @@
                         firstRay = ray
                     rays.push(ray);
                     path = "M" + projectX(x) + " " + projectY(y);
-                    for(var j = 1; j < 10; j++) {
-                        expectedX = newPoint.x - zshtrih.getY()*stepX/j;
-                        expectedY = newPoint.y + zshtrih.getX()*stepY/j;
+                    
+                    travelVect.setX(travelVect.getX() + newPoint.getX() - x);
+                    travelVect.setY(travelVect.getY() + newPoint.getY() - y);
+                    var j = 1
+                    for(; j < 10; j++) {
+                        var delitel = j;
+                        if(len < 0.9) {
+                            var P = findSedlo(newPoint.x, newPoint.y);
+                            if(P)
+                                appendCircle(P, 7, 'curve');
+                            delitel *= 1.5;
+                    
+                        }
+                        expectedX = newPoint.x - zshtrih.getY()*stepX/delitel;
+                        expectedY = newPoint.y + zshtrih.getX()*stepY/delitel;
                         var sedlo = checkSedlo();
                         if(!sedlo)
                             break;
                     }
+                    
                     var currentRay = ray;
+                    
+                    travelVect.setX(travelVect.getX() + expectedX - newPoint.getX());
+                    travelVect.setY(travelVect.getY() + expectedY - newPoint.getY());
+                    
                     x = expectedX;
                     y = expectedY;
                     
                     var zCurrent = Z(newPoint.x,newPoint.y);
-                    console.log(zCurrent +" - current Z");
+                    //console.log(zCurrent +" - current Z");
                     
                     path += "L " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(x) + " " + projectY(y);
                     
                     tangentPath = "M " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(newPoint.x+zshtrih.getX()) + " " + projectY(newPoint.y+zshtrih.getY());
                     
-                    appendText(newPoint.x + 0.1, newPoint.y, zCurrent.toFixed(2), 'curve');
-                    appendText(newPoint.x - 0.3, newPoint.y, i, 'curve');
-                    appendCircle(newPoint, 7, 'curve');
+                    //appendText(newPoint.x + 0.1, newPoint.y, zCurrent.toFixed(2), 'curve');
+                    //appendText(newPoint.x - 0.3, newPoint.y, i, 'curve');
+                    //appendCircle(newPoint, 7, 'curve');
                     appendPath(path,'green', 3, 'curve');
                     //appendPath(tangentPath,'red',1,'curve');
                     
                     if($('#alert').attr('checked'))
-                        alert(sedlo);
+                        alert(len);
                     
                     var currentRay = Ray(Point(x,y), Point(-zshtrih.getY(), zshtrih.getX()));
                     var t1 = firstRay.cross(ray), t2 = ray.cross(firstRay);
-                    console.log(t1 +" "+t2);
-                    if(t1 > -1 && t1 < 1 && t2 < 1 && t2 > 0.1 && i > 2)
-                        break;
-                    if(t1 > -0.2 && t1 < 0 && t2 < 0 && t2 > -0.2)
-                        break;
+                    console.log(travelVect.length());
                     
-                    /*if(firstPoint.distance(newPoint) < 0.3)
-                        if(i!=0)
-                            break;
-                    */
+                    
+                    if(t1 > -1 && t1 < 1 && t2 > 0 && t2 < 1 && i > 3) {
+                        break;
+                    }
+                        
+                    if(i > 2 && travelVect.length() < 1) {
+                        break;
+                    }
                    
                 }
                 
@@ -505,7 +645,7 @@
                 //gradientDescent(0, -1.1);
                 
             }
-            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, draw3D : draw3D, drawRays : drawRays, drawPoints : drawPoints};
+            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, draw3D : draw3D, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline};
             return me;
         }
         function Point(X, Y) {
