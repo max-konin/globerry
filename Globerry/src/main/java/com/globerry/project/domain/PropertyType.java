@@ -43,15 +43,7 @@ public class PropertyType
     {
 	this.name = name;
     }
-    public boolean equals(PropertyType propertyType)
-    {
-	if(
-	(this.getId() == propertyType.getId())&&
-	(this.getName().equals(propertyType.getName())))
-	    return true;
-	else 
-	    return false;
-    }
+
     public boolean isDependingMonth()
     {
 	return dependingMonth;
@@ -83,5 +75,32 @@ public class PropertyType
     public void setBetterWhenLess(boolean betterWhenLess)
     {
 	this.betterWhenLess = betterWhenLess;
+    }
+    @Override
+    public boolean equals(Object obj)
+    {
+	if(obj == null) return false;
+	if(!(obj instanceof PropertyType)) return false;
+	PropertyType propertyType = (PropertyType) obj;
+	
+	if(this.name == null ^ propertyType.getName() == null) return false;
+	if(!((this.name == null && propertyType.getName() == null) || this.name.equals(propertyType.getName()))) return false; 
+	
+	if(!(this.dependingMonth == propertyType.isDependingMonth())) return false;
+	if(!(this.maxValue == propertyType.getMaxValue())) return false;
+	if(!(this.minValue == propertyType.getMinValue())) return false;
+	if(!(this.betterWhenLess == propertyType.isBetterWhenLess())) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 11;
+	result = 3 * result + (name == null ? 0 : name.hashCode());
+	result = 3 * result + (dependingMonth ? 0 : 1);
+	result = 3 * result + (betterWhenLess ? 0 : 1);
+	result = 3 * result + Float.floatToIntBits(maxValue);
+	result = 3 * result + Float.floatToIntBits(minValue);
+	return result;
     }
 }

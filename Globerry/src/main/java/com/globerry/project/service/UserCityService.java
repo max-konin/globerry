@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.globerry.project.utils.PropertySegment;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.CityRequest;
+import com.globerry.project.domain.ICityRequest;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.Tag;
@@ -87,6 +89,14 @@ public class UserCityService implements IUserCityService {
             tagChanged = true;
         }
         
+        private ICityRequest createCityRequest(IApplicationContext appContext)
+        {
+            List<Tag> tagsToRequest = new ArrayList<Tag>();
+            tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
+            tagsToRequest.add(tags.get(appContext.getWhoTag().getValue()));
+            return new CityRequest(tagsToRequest);
+        }
+        
         /*
          * Сохраняет города, подходящие по тэгам в массив cityList. Самостоятельно фильтрут по параметрам.
          * @param appContext Контекст приложения
@@ -105,11 +115,10 @@ public class UserCityService implements IUserCityService {
             }
             
             List<City> resultRequest;
-            if (tagChanged){
-                 List<Tag> tagsToRequest = new ArrayList<Tag>();
-                 tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
-                 tagsToRequest.add(tags.get(appContext.getWhoTag().getValue()));  
-                 cityList = cityDao.getCityListByTagsOnly(tagsToRequest);
+            if (tagChanged)
+            {
+                 ICityRequest cityRequest = this.createCityRequest(appContext);
+                 cityList = cityDao.getCityListByTagsOnly(cityRequest);
                  tagChanged = false;
             }
             resultRequest = getCitiesWithRequestedProperties(appContext);   
@@ -134,12 +143,12 @@ public class UserCityService implements IUserCityService {
                     float val = city.getValueByPropertyType(prop.getPropertyType(), 
                                                             Month.values()[appContext.getWhenTag().getValue()]);
                     if (
-                            ((val > prop.getRightValue()) || (val < prop.getLeftValue())) ||
+                            ((val >= prop.getRightValue()) || (val <= prop.getLeftValue())) ||
                             (prop.getPropertyType().getName().equals("temperature") 
-                                    && (val < 10) 
+                                    && (val <= 10) 
                                     && (appContext.getWhatTag().getValue() == 5)) ||
                             (prop.getPropertyType().getName().equals("temperature") 
-                                    && (val > 5) 
+                                    && (val >= 5) 
                                     && (appContext.getWhatTag().getValue() == 6))
                         )
                         f = false; 

@@ -27,7 +27,8 @@ import com.globerry.project.service.interfaces.IAgentService;
 import org.springframework.context.annotation.Scope;
 
 /**
- * A custom service for retrieving users from a custom datasource, such as a database.
+ * A custom service for retrieving users from a custom datasource, such as a
+ * database.
  * <p>
  * This custom service must implement Spring's {@link UserDetailsService}
  */
@@ -57,8 +58,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	public void addTour(Tour tour)
 	{
 	    currentCompany.getTourList().add(tour);
-	    
-	    companyDao.updateCompany(currentCompany);
+		companyDao.updateCompany(currentCompany);
 	}
 	
 	@Override
@@ -66,7 +66,8 @@ public class AgentService implements UserDetailsService, IAgentService {
 	{
 	    if (oldTour.getCompany().getId() == currentCompany.getId())
 	    {
-		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать 
+			//Contains или Equals у турлиста или тура соответственно)
 		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
 		while(iterator.hasNext())
 		{
@@ -88,7 +89,8 @@ public class AgentService implements UserDetailsService, IAgentService {
 	{
 	    if (tour.getCompany().getId() == currentCompany.getId())
 	    {
-		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать Contains или Equals у турлиста или тура соответственно)
+		//TODO Быдлятский цикл. нужно переделать (а для этого надо переписать
+			//Contains или Equals у турлиста или тура соответственно)
 		Iterator<Tour> iterator = currentCompany.getTourList().iterator();
 		while(iterator.hasNext())
 		{
@@ -116,7 +118,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	@Override
 	public void companyUpdate(Company company) throws MySqlException
 	{
-	    companyDao.updateCompany(currentCompany, company);
+		companyDao.updateCompany(company);
 	    currentCompany = company;
 	}
 	

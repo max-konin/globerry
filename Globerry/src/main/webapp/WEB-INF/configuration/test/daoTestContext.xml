@@ -26,7 +26,7 @@
 	<!-- Настройки бина dataSource будем хранить в отдельном файле -->
   <bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-		p:location="/WEB-INF/configuration/test/jdbc.properties" />
+		p:location="/jdbc.properties" />
 
 	<!-- Непосредственно бин dataSource -->
 	<bean id="dataSource"
@@ -43,7 +43,7 @@
 		
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation">
-			<value>/WEB-INF/configuration/test/hibernate.cfg.xml</value>
+			<value>/hibernate.cfg.xml</value>
 		</property>
 		<property name="configurationClass">
 			<value>org.hibernate.cfg.AnnotationConfiguration</value>
@@ -51,9 +51,8 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.current_session_context_class">thread</prop>
 				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>	
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
 				<prop key="hibernate.connection.charSet">UTF-8</prop>
 			</props>
 		</property>

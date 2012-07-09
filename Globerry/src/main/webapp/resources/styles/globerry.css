@@ -1,9 +1,7 @@
 body
 {
-    /*min-width: 970px;*/
-    min-width: 900px;
-    min-height: 600px;
-    overflow: hidden;
+    margin: 0 auto;
+    overflow-y: hidden;
 }
 #div_container
 {
@@ -18,18 +16,20 @@ body
 
 #map
 {
-	bottom : 0%;
-	right: 0%;
-	width: 100%;
-/*	min-width : 900px;*/
-/*	min-height : 600px;*/
+    top: 0%;
+    bottom : 0%;
+    left: 0%;
+    right: 0%;
+    width: 100%;
+    height : 100%;
+    min-width : 1000px;
+    min-height : 600px;
 
-	height : 100%; 
-	position : absolute;
-	margin: 0 auto;
-	z-index : 0;
-	background-color: white;
-        overflow: visible;
+    position : absolute;
+    margin: 0 auto;
+    z-index : 0;
+    background-color: white;
+    overflow: hidden;
 }
 
 #top
@@ -37,11 +37,9 @@ body
 	top : 0%;
 	left: 0%;
 	width: 100%;
-        min-width: 100%;
+        min-width: 1000px;
 	height : 2px; 
 	position : absolute;
-	/*margin: 0 auto;*/
-        margin-left: 50px;
 	z-index : 1;
 	background-color:#333;
 }
@@ -54,7 +52,6 @@ body
 	position : relative;
 	z-index : 1;
 	background-color:#777;
-/*        opacity: */
 	float : left;
 }
 
@@ -204,7 +201,7 @@ body
 }
 #headerButton
 {
-	width: 146px;
+	width: 100px;
 	height : 38px; 
 	position : relative;
 	float: left;
@@ -312,7 +309,7 @@ body
 	position: absolute;
 	width: 13px;
 	height : 13px; 	
-	left: 55px;
+	left: 60px;
 	top : 24px;
 	cursor: pointer;
 	/*background: url(../img/LangVisaButtonActive.png) no-repeat;*/
@@ -323,7 +320,7 @@ body
 	position: absolute;
 	width: 13px;
 	height : 13px; 	
-	left: 55px;
+	left: 60px;
 	bottom : 24px;
 	cursor: pointer;
 	/*background: url(../img/LangVisaButtonActive.png) no-repeat;*/
@@ -505,57 +502,6 @@ body
 	opacity: 1;
 	*/
 }
-/*
-#WhoSelectListBG
-{
-	left : 141px;
-}
-#WhatSelectListBG
-{
-	left : 410px;
-}
-#WhenSelectListBG
-{
-	left : 634px;
-}
-*/
-/*
-.ListBG
-{
-	position: absolute;
-	margin-top : 10px;
-	width: 100px;
-	height: 22px;
-	background: url(../img/DroppingListMain.png);
-}
-.ListButton
-{
-	position: absolute;
-	margin-top : 2px;
-	margin-left : 80px;
-	width: 18px;
-	height: 18px;
-	opacity : none;
-	background: url(../img/lay-selectMoreButton.png);
-	cursor : pointer;
-	overflow: visible;
-}
-#WhoSelectBG
-{
-	max-height : 94px;
-	background: url(../img/WhoSelcetBG.png);
-}
-#WhatSelectBG
-{
-	max-height : 114px;
-	background: url(../img/WhatSelcetBG.png);
-}
-#WhenSelectBG
-{
-	max-height : 260px;
-	background: url(../img/WhenSelcetBG.png);
-}
-*/
 .SelectLargeImage
 {
 	position: relative;
@@ -597,62 +543,6 @@ body
 	cursor : pointer;
 	overflow: visible;
 }
-/*
-#aloneSelected
-{
-	background: url(../img/AloneText.png) no-repeat;
-}
-
-#WithFriendsSelected
-{
-	background: url(../img/WithFriends.png) no-repeat;
-	display : none;
-}
-
-#WithFamilySelected
-{
-	background: url(../img/WithFamliy.png) no-repeat;
-	display : none;	
-}
-
-#CoupleSelected
-{
-	background: url(../img/CoupleText.png) no-repeat;
-	display : none;	
-}
-#Couple
-{
-	height : 18px;
-}
-
-#tanSelected
-{
-	background: url(../img/tanText.png) no-repeat;
-}
-
-#skiSelected
-{
-	background: url(../img/skiText.png) no-repeat;
-	display : none;
-}
-
-#watchSelected
-{
-	background: url(../img/WatchText.png) no-repeat;
-	display : none;	
-}
-
-#shoppingSelected
-{
-	background: url(../img/shoppingText.png) no-repeat;
-	display : none;	
-}
-#cruiseSelected
-{
-	background: url(../img/cruiseText.png) no-repeat;
-	display : none;	
-}
-*/
 #jan
 {
 	/*padding-top : 6px;*/
@@ -673,84 +563,20 @@ body
 	margin-top: 0px;	
 }
 
-#janSelected
-{
-	/*background: url(../img/janText.png) no-repeat;*/
-}
-/*
-#febSelected
-{
-	background: url(../img/febText.png) no-repeat;
-	display : none;	
-}
-#marSelected
-{
-	background: url(../img/marText.png) no-repeat;
-	display : none;	
-}
-
-#aprSelected
-{
-	background: url(../img/aprText.png) no-repeat;
-	display : none;	
-}
-
-#maySelected
-{
-	background: url(../img/mayText.png) no-repeat;
-	display : none;	
-}
-
-#junSelected
-{
-	background: url(../img/junText.png) no-repeat;
-	display : none;	
-}
-
-#julSelected
-{
-	background: url(../img/julText.png) no-repeat;
-	display : none;	
-}
-#augSelected
-{
-	background: url(../img/augText.png) no-repeat;
-	display : none;	
-}
-#sepSelected
-{
-	background: url(../img/sepText.png) no-repeat;
-	display : none;	
-}
-#octSelected
-{
-	background: url(../img/octText.png) no-repeat;
-	display : none;	
-}
-#novSelected
-{
-	background: url(../img/novText.png) no-repeat;
-	display : none;	
-}
-#decSelected
-{
-	background: url(../img/decText.png) no-repeat;
-	display : none;	
-}
-*/
 #headText
 {
 	position:relative;
-	width: 610px;
+	width: 580px;
 	height : 39px;
-	margin-left: 5px;
+/*	margin-left: 5px;*/
+        margin-left: 200px;
 	display : none;
-	
-	font-size:18px;
+
+        font-size:18px;
 	color:white;
 	font-family:arial;
 	font-weight:bold;
-	padding-left:350px;
+/*	padding-left:350px;*/
 	padding-top:10px;
 	
 }
@@ -770,18 +596,17 @@ body
 	height: 22px;
 	background: transparent;
 	border: none;
-	/*text-align : center;*/
+	text-align : center;
 	color: white;
 	font-size: 18px;
 	cursor: default;
+        overflow: visible;
 }
 
 .whoWhatWhenDropDownList
 {
     float: left;
-	/*width:100px;*/
-	margin-top:5px;
-/*	margin-left: -5px;*/
+    margin-top:5px;
 
 }
 #whoDropDownList
@@ -800,550 +625,551 @@ body
 
 #whoSelect
 {
-	width:120px;
+    width:120px;
 }
 
 .sliderBlocks
 {
-	float:left;
-	width:100px;
+    float:left;
+    width:100px;
 }
 .blocksText
 {
-	text-align: center;
-	/*margin-left:-5px;*/
-	margin-top:12px;
-	float: left;
-	color: #94d8fb;
-	font-size:12px;
-	font-family:arial;
-	opacity: 0.8;
-	width: 50%;
+    text-align: center;
+    margin-top:12px;
+    float: left;
+    color: #94d8fb;
+    font-size:12px;
+    font-family:arial;
+    opacity: 0.8;
+    width: 50%;
 	
 }
 .slider-range
 {
-	min-width: 155px;
-	height: 15px;
-	float:left;
-	margin-left: 19px;
+    min-width: 155px;
+    height: 15px;
+    float:left;
+    margin-left: 19px;
 }
 .ui-widget-header
 {
-	background:green;
+    background:green;
 }
 
 #temperatureSlider
 {
-	position: relative;
+    position: relative;
 }
 #temperatureBlock
 {
-	float:left;
-	width: 100%;
+    float:left;
+    width: 100%;
 }
 #visaText, #languageText
 {
-	margin-top: 25px;
-	margin-left: 20px;
+    margin-top: 25px;
+    margin-left: 20px;
 }
 
 .k-widget
 {
-	border-color: #4E5056;
-	background-color: #84B8D5;
+    border-color: #4E5056;
+    background-color: #84B8D5;
 }
 
 /******************************************/
 /**********Стили для слайдеров*************/
  /* Ширина слайдера */
 #sliderRange {
-	width: 200px;
+    width: 200px;
 }
 /* Контейнер слайдера */
 .ui-slider-range {
-	position: relative;
+    position: relative;
 }
 /* Ползунок */
 .ui-slider-range .ui-slider-handle-range {
-	position: absolute;
-	z-index: 2;
-	width: 13px;   /* Задаем нужную ширину */
-	height: 13px;  /* и высоту */
-	background: url(../img/slider.png) no-repeat; /* картинка изображающая ползунок. Или можно залить цветом, задать бордюр и скругления */
-	cursor: pointer
+    position: absolute;
+    z-index: 2;
+    width: 13px;   /* Задаем нужную ширину */
+    height: 13px;  /* и высоту */
+    background: url(../img/slider.png) no-repeat; /* картинка изображающая ползунок. Или можно залить цветом, задать бордюр и скругления */
+    cursor: pointer
 }
 .ui-slider-handle
 {
-	background: url(resources\styles\sliderhandler.png) no-repeat;
+    background: url(resources\styles\sliderhandler.png) no-repeat;
 }
 
 .ui-slider .ui-slider-range {
-	position: absolute;
-	z-index: 1;
-	font-size: .7em;
-	display: block;
-	border: 0;
-	overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    font-size: .7em;
+    display: block;
+    border: 0;
+    overflow: hidden;
 }
 /* горизонтальный слайдер (сама полоса по которой бегает ползунок) */
 .ui-slider-horizontal {
-	 height: 3px; /* задаем высоту согласно дизайна */
+        height: 3px; /* задаем высоту согласно дизайна */
 }
 /* позиционируем ползунки */
 .ui-slider-horizontal .ui-slider-handle { 
-	top: -5px;
-	margin-left: -6px;
+    top: -5px;
+    margin-left: -6px;
 }
 .ui-slider-horizontal .ui-slider-range {
-	top: 0;
-	height: 100%;
+    top: 0;
+    height: 100%;
 }
 .ui-slider-horizontal .ui-slider-range-min { 
-	left: 0;
+    left: 0;
 }
 .ui-slider-horizontal .ui-slider-range-max {
-	right: 0;
+    right: 0;
 }
 
 /* оформление активного участка (между двумя ползунками) */
 .ui-widget-header { 
-	border: 1px solid #D4D4D4;
-	background: #ff5e00;
-	
+    border: 1px solid #D4D4D4;
+    background: #ff5e00;
+
 }
 /* скругление для полосы слайдера */
 .ui-corner-all {
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
 }
 
 #foodText, #sexText
 {
-	/*margin-left: 30px;*/
+    /*margin-left: 30px;*/
 }
 .bottomLineInBlocks
 {
-	padding-top:10px;
+    padding-top:10px;
 }
 #visaInput
 {
-	background-color: #e78113;
+    background-color: #e78113;
 }
 .input
 {
-	background-color: #e78113;
+    background-color: #e78113;
 }
 .check
 {
-	margin-top: 3px;
-	background: url(../../resources/img/LangVisaButtonNotActive.png) no-repeat;
-	height: 20px;
+    margin-top: 3px;
+    background: url(../../resources/img/LangVisaButtonNotActive.png) no-repeat;
+    height: 20px;
+/*    margin-left: 5px;*/
 }
 .checkOn
 {
-	background: url(../../resources/img/LangVisaButtonActive.png) no-repeat;
+    background: url(../../resources/img/LangVisaButtonActive.png) no-repeat;
 }
 .check input
 {
-	/*position: absolute; left: -9999px; */
-	display:none;
+    /*position: absolute; left: -9999px; */
+    display:none;
 }
 #visaCheckbox, #langCheckbox
 {
-	opacity:1;
+    opacity:1;
 }
 .bucks
 {
-	font-family:arial;
-	color: white;
-	float: left;
-	position: relative;
-	margin-top: 10px;
-	opacity: 0.8;
-	font-size: 14px;
-	/*width:40px;*/
-	
+    font-family:arial;
+    color: white;
+    float: left;
+    position: relative;
+    margin-top: 10px;
+    opacity: 0.8;
+    font-size: 14px;
+    /*width:40px;*/
+
 }
 .rightBucks
 {
-	float:right;
+    float:right;
 }
 .bucksInputPosition
 {
-	margin-left: -5px;
+    margin-left: -5px;
 }
 #timeInPathText
 {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 /**********************************************************************/
 /*Стили для слайдеров*/
 .formCost 
 {
-	position: relative;
-	height: 100%;
-	min-width : 165px;
-	width: 70%;
-	float: left;
-	margin-bottom: 3px;
-	height : 28px;
-	left:20px;
-	/*margin-left: 18px;*/
+    position: relative;
+    height: 100%;
+    min-width : 165px;
+    width: 70%;
+    float: left;
+    margin-bottom: 3px;
+    height : 28px;
+    left:20px;
+    /*margin-left: 18px;*/
 }
 
 .sliderCont {
-	min-width: 155px;
-	width : 23%;
-	height: 15px;
-	float: left;
-	margin-left : 19px;
+    min-width: 155px;
+    width : 23%;
+    height: 15px;
+    float: left;
+    margin-left : 19px;
 }		
 
 #slider {
-	width: 79%;
+    width: 79%;
 }
 
 .ui-slider {
-	position: relative;
+    position: relative;
 }
 .ui-slider .ui-slider-handle {
-	position: absolute;
-	z-index: 4;
-	width: 5px;
-	height: 12px;
-	background: url(../img/sliderhandler.png) no-repeat;
-	cursor: pointer
+    position: absolute;
+    z-index: 4;
+    width: 5px;
+    height: 12px;
+    background: url(../img/sliderhandler.png) no-repeat;
+    cursor: pointer
 }
 .ui-slider .ui-slider-range {
-	position: absolute;
-	z-index: 3;
-	font-size: .7em;
-	display: block;
-	border: 0;
-	overflow: hidden;
-	height: 3px;
-	border : none;
+    position: absolute;
+    z-index: 3;
+    font-size: .7em;
+    display: block;
+    border: 0;
+    overflow: hidden;
+    height: 3px;
+    border : none;
 }
 .ui-slider-horizontal {
-	 height: 3px;
+        height: 3px;
 }
 .ui-slider-horizontal .ui-slider-handle { 
-	top: -5px;
-	margin-left: -4px;
+    top: -5px;
+    margin-left: -4px;
 }
 .ui-slider-horizontal .ui-slider-range {
-	
-	top: 0;
-	height: 4px;
+
+    top: 0;
+    height: 4px;
 }
 .ui-slider-horizontal .ui-slider-range-min { 
-	left: 0;
+    left: 0;
 }
 .ui-slider-horizontal .ui-slider-range-max {
-	right: 0;
+    right: 0;
 }
 .ui-widget-content { 
-	border: 1px solid #444;
-	background: url(../img/SliderMainBG.png);
-	margin-top: 2px;
-	opacity : 1;
-	cursor: pointer;
+    border: 1px solid #444;
+    background: url(../img/SliderMainBG.png);
+    margin-top: 2px;
+    opacity : 1;
+    cursor: pointer;
 }
 .ui-widget-header { 
-	cursor: pointer;
-	border : none;
-	height : 3px;
-	background: url(../img/BlinkBG.png), url(../img/SliderBG.png) no-repeat;
-	opacity : 1;
+    cursor: pointer;
+    border : none;
+    height : 3px;
+    background: url(../img/BlinkBG.png), url(../img/SliderBG.png) no-repeat;
+    opacity : 1;
 }
 .ui-corner-all {
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
 }
 a{
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	vertical-align: baseline;
-	background: transparent;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
 }
 #timeSText
 {
-     min-width : 96px;
+    min-width : 96px;
 }
 #timeMaxV
 {
-	width: 30px;
-	margin-right: -15px;
+    width: 30px;
+    margin-right: -15px;
 }
 #timeMinV
 {
-	width: 30px;
-	margin-right: -15px;
-	
+    width: 30px;
+    margin-right: -15px;
+
 }
 #living
 {
-	margin-left: 1px;
+    margin-left: 1px;
 }
 
 #livMaxV
 {
-	width: 33px;
+    width: 33px;
 }
 
 .left
 {
-	/*margin-left : -5px;*/
-	position:relative;
-	font-size: 12px;
-	color: #ddd;
-	width: 32px;
-	background: none;
-	border: none;
-	text-align: left;
-	font-size: 14px;
-	cursor: default;
+    /*margin-left : -5px;*/
+    position:relative;
+    font-size: 12px;
+    color: #ddd;
+    width: 32px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 14px;
+    cursor: default;
 }
 
 .right
 {
-	/*margin-left : -5px;*/
-	position:relative;
-	font-size: 12px;
-	color: #ddd;
-	width: 32px;
-	background: none;
-	border: none;
-	font-size: 14px;
-	cursor: default;
+    /*margin-left : -5px;*/
+    position:relative;
+    font-size: 12px;
+    color: #ddd;
+    width: 32px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: default;
 }
 #rightSliderHeandlerTemp
 {
-	background: url(../img/TempSliderRightHeandler.png);
+    background: url(../img/TempSliderRightHeandler.png);
 }
 #leftSliderHeandlerTemp
 {
-	background: url(../img/TempSliderLeftHeandler.png);
+    background: url(../img/TempSliderLeftHeandler.png);
 }
 #tempSText
 {
-	background: url(../img/temperatureSliderText.png) no-repeat;
-	width : 82px;
-	height : 20px;
+    background: url(../img/temperatureSliderText.png) no-repeat;
+    width : 82px;
+    height : 20px;
 }
 #alcoholSText
 {
-	background: url(../img/AlchSliderText.png) no-repeat;
-	width : 66px;
-	height : 19px;
-	margin-left: 12px;
+    background: url(../img/AlchSliderText.png) no-repeat;
+    width : 66px;
+    height : 19px;
+    margin-left: 12px;
 }
 #timeSText
 {
-	background: url(../img/TimeSliderText.png) no-repeat;
-	width : 80px;
-	height : 20px;
-	margin-left: 6px;
-	min-width:0px;
+    background: url(../img/TimeSliderText.png) no-repeat;
+    width : 80px;
+    height : 20px;
+    margin-left: 6px;
+    min-width:0px;
 }
 
 #mood
 {
-	background: url(../img/MoodText.png) no-repeat;
-	width : 82px;
-	height : 19px;
-	margin-left: 5px;	
+    background: url(../img/MoodText.png) no-repeat;
+    width : 82px;
+    height : 19px;
+    margin-left: 5px;	
 }
 #living
 {
-	background: url(../img/LivingSliderText.png) no-repeat;
-	width : 79px;
-	height : 20px;
-	margin-left: 0px;
+    background: url(../img/LivingSliderText.png) no-repeat;
+    width : 79px;
+    height : 20px;
+    margin-left: 0px;
 }
 #security
 {
-	background: url(../img/SecuritySliderText.png) no-repeat;
-	width : 83px;
-	height : 19px;
-	margin-left: 0px;
+    background: url(../img/SecuritySliderText.png) no-repeat;
+    width : 83px;
+    height : 19px;
+    margin-left: 0px;
 }
 #food
 {
-	background: url(../img/FoodSliderText.png) no-repeat;
-	width : 34px;
-	height : 20px;
-	margin-left: 23px;
+    background: url(../img/FoodSliderText.png) no-repeat;
+    width : 34px;
+    height : 20px;
+    margin-left: 23px;
 }
 #sex
 {
-	background: url(../img/SexSliderText.png) no-repeat;
-	width : 34px;
-	height : 19px;
-	margin-left: 26px;
+    background: url(../img/SexSliderText.png) no-repeat;
+    width : 34px;
+    height : 19px;
+    margin-left: 26px;
 }
 
 
 #rightSliderHeandlerAlc
 {
-	background: url(../img/SliderNTrightHeandler.png);
+    background: url(../img/SliderNTrightHeandler.png);
 }
 #rightSliderHeandlerTime
 {
-	background: url(../img/SliderNTrightHeandler.png);
+    background: url(../img/SliderNTrightHeandler.png);
 }
 #rightSliderHeandlerLiv
 {
-	background: url(../img/SliderNTrightHeandler.png);
+    background: url(../img/SliderNTrightHeandler.png);
 }
 #rightSliderHeandlerFood
 {
-	background: url(../img/SliderNTrightHeandler.png);
+    background: url(../img/SliderNTrightHeandler.png);
 }
 #moodHeandler
 {
-	width: 10px;
-	height: 12px;
-	background: url(../img/OneHadlerSliderHandler.png);
+    width: 10px;
+    height: 12px;
+    background: url(../img/OneHadlerSliderHandler.png);
 }
 #securityHeandler
 {
-	width: 10px;
-	height: 12px;
-	background: url(../img/OneHadlerSliderHandler.png);
+    width: 10px;
+    height: 12px;
+    background: url(../img/OneHadlerSliderHandler.png);
 }
 #foodHeandler
 {
-	width: 10px;
-	height: 12px;
-	background: url(../img/OneHadlerSliderHandler.png);
+    width: 10px;
+    height: 12px;
+    background: url(../img/OneHadlerSliderHandler.png);
 }
 /**********************************************************************/
 /*Стили для панели внизу*/
 #bottomContainer
 {
-        /*по умолчанию скрыт*/
-        display: none;
-	position: absolute;
-	bottom: 0px;
-	height: 2px;
-	overflow: visible;
-	width: 100%;
+    /*по умолчанию скрыт*/
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    height: 2px;
+    overflow: visible;
+    width: 100%;
+    min-width: 1000px;
 /*	left:0px;*/
-        left: 50px;
+    left: 0px;
 }
 #invisibleBottom
 {
-	margin-left : -450px;
-	width: 50%;
-	height : 100%; 
-	position : relative;
-	z-index : 1;
-	background: transparent;
-	float : left;
+    margin-left : -450px;
+    width: 50%;
+    height : 100%; 
+    position : relative;
+    z-index : 1;
+    background: transparent;
+    float : left;
 }
 #bottom
 {
-	z-index : 2; /*map has 0*/
-	position: relative;
-	float:left;
-	bottom: 0px;
-	height : 0px;
-	/margin-bottom: 10px;
-	/right : 5%;
-	width : 900px;
-	border-top-right-radius:4px;
-	min-width : 900px;
-	/box-shadow: 0px 0px 10px #888;
-	/-moz-box-shadow: 0px 0px 10px #888;
-	/-webkit-box-shadow: 0px 0px 10px #888;
-	display : none;
+    z-index : 2; /*map has 0*/
+    position: relative;
+    float:left;
+    bottom: 0px;
+    height : 0px;
+    /margin-bottom: 10px;
+    /right : 5%;
+    width : 900px;
+    border-top-right-radius:4px;
+    min-width : 900px;
+    /box-shadow: 0px 0px 10px #888;
+    /-moz-box-shadow: 0px 0px 10px #888;
+    /-webkit-box-shadow: 0px 0px 10px #888;
+    display : none;
 }
 
 .bottomButton
 {
-	/*z-index : 1;*/ /*map has 0*/
-	position: relative;
-	float : left;
-	/*bottom: 10px;*/
-	height : 30px;
-	/*left : 5%;*/
-	width : 120px;/**/
-	overflow: visible;
-	border-top-right-radius:4px;
-	border-top-left-radius:4px;
-	margin-top : -29px;
-	background-color:rgb(37, 46, 64);
-	cursor : pointer;
+    /*z-index : 1;*/ /*map has 0*/
+    position: relative;
+    float : left;
+    /*bottom: 10px;*/
+    height : 30px;
+    /*left : 5%;*/
+    width : 120px;/**/
+    overflow: visible;
+    border-top-right-radius:4px;
+    border-top-left-radius:4px;
+    margin-top : -29px;
+    background-color:rgb(37, 46, 64);
+    cursor : pointer;
 }
 
 .bottomHeadText{
-	padding-top : 2px;
-	color:white;
-	font-size:14pt;
-    font-family :Helvetica;
-	cursor : pointer;
-	text-align:center;
+    padding-top : 2px;
+    color:white;
+    font-size:14pt;
+font-family :Helvetica;
+    cursor : pointer;
+    text-align:center;
 }
 #bottomButtons
 {
-	position: relative;
-	float : left;
-	/*width : 480px;*/
+    position: relative;
+    float : left;
+    /*width : 480px;*/
 }
 
 #whiteBottom
 {
-	z-index : 1; /*map has 0*/
-	position: relative;
-	float: left;
-	margin-bottom: 2px;
-	/bottom: 0px;
-	/height : 0px;
-	/right : 5%;
-	width : 900px
-	/box-shadow: 0px 0px 10px #888;
-	/-moz-box-shadow: 0px 0px 10px #888;
-	/-webkit-box-shadow: 0px 0px 10px #888;
-	min-width : 900px;
-	background-color: white;
+    z-index : 1; /*map has 0*/
+    position: relative;
+    float: left;
+    margin-bottom: 2px;
+    /bottom: 0px;
+    /height : 0px;
+    /right : 5%;
+    width : 900px
+    /box-shadow: 0px 0px 10px #888;
+    /-moz-box-shadow: 0px 0px 10px #888;
+    /-webkit-box-shadow: 0px 0px 10px #888;
+    min-width : 900px;
+    background-color: white;
 }
 
 .bottomB
 {
-	z-index : 2; /*map has 0*/
-	position: relative;
-	float: left;
-	bottom: 0px;
-	height : 147px;
-	float: left;
-	/right : 5%;
-	width : 900px;
-	border-top-right-radius:4px;
-	display:none;/**/
-	background-color: white;
+    z-index : 2; /*map has 0*/
+    position: relative;
+    float: left;
+    bottom: 0px;
+    height : 147px;
+    float: left;
+    /right : 5%;
+    width : 900px;
+    border-top-right-radius:4px;
+    display:none;/**/
+    background-color: white;
 }
 .roundBorder
 {	
-     background: rgb(255, 122, 2); 
-     background: -moz-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
-     background: -webkit-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0));
-     background: -o-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
-     background: -ms-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
-     background: linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
- }
- #gradLine
+    background: rgb(255, 122, 2); 
+    background: -moz-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+    background: -webkit-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0));
+    background: -o-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+    background: -ms-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+    background: linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+}
+#gradLine
 {
-	width: 900px;
-	position: absolute;
-	/bottom: -1px;
-	height: 7px;
-	margin-top: -5px;
-	background: url(../img/BottomGradLine.png) no-repeat;
+    width: 900px;
+    position: absolute;
+    /bottom: -1px;
+    height: 7px;
+    margin-top: -5px;
+    background: url(../img/BottomGradLine.png) no-repeat;
 }

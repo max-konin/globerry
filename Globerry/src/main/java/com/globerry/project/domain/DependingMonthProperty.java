@@ -21,7 +21,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table
-public class DependingMonthProperty implements IRelationsQualifier
+public class DependingMonthProperty
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -78,6 +78,30 @@ public class DependingMonthProperty implements IRelationsQualifier
     public void setPropertyType(PropertyType propertyType)
     {
 	this.propertyType = propertyType;
+    }
+    @Override
+    public boolean equals(Object obj)
+    {
+	if(obj == null) return false;
+	if(!(obj instanceof DependingMonthProperty)) return false;
+	DependingMonthProperty dmp = (DependingMonthProperty) obj;
+	
+	if(this.month == null ^ dmp.getMonth() == null) return false;
+	if(!((this.month == null && dmp.getMonth() == null) || this.month.equals(dmp.getMonth()))) return false;
+	
+	if(this.propertyType == null ^ dmp.getPropertyType() == null)
+	if(!((this.propertyType == null && dmp.getPropertyType() == null) || this.propertyType.equals(dmp.getPropertyType()))) return false;
+	if(!(this.value == dmp.getValue())) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 7;
+	result = 3*result + (this.month == null ? 0 : this.month.hashCode());
+	result = 3*result + (this.propertyType == null ? 0 : this.propertyType.hashCode());
+	result = 3*result + Float.floatToIntBits(this.value);
+	return result;
     }
    
 }

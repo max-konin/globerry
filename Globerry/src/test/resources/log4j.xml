@@ -31,6 +31,16 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+	
+	<category name="org.hibernate.SQL">
+       <priority value="TRACE"/>
+       <appender-ref ref="CONSOLE"/>
+   </category>
+
+   <category name="org.hibernate.type">
+       <priority value="TRACE"/>
+       <appender-ref ref="CONSOLE"/>
+   </category>
 
 	<!-- Root Logger -->
 	<root>

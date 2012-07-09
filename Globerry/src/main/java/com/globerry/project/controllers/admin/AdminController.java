@@ -21,7 +21,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.codehaus.jackson.type.TypeReference;
-import org.junit.runner.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -40,7 +39,7 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Event;
-import com.globerry.project.domain.IRelationsQualifier;
+//import com.globerry.project.domain.IRelationsQualifier;
 import com.globerry.project.domain.Month;
 import com.globerry.project.service.interfaces.ICityService;
 import com.globerry.project.service.interfaces.ICompanyService;
@@ -173,7 +172,7 @@ public class AdminController
         return cityService.getCityList();
     }
     @RequestMapping(value="/getcompanies", method=RequestMethod.GET)
-    public @ResponseBody Set<Company> getCompanies() {
+    public @ResponseBody List<Company> getCompanies() {
 	//БЫДЛОКОД
         return companyService.getCompanyList();
     }

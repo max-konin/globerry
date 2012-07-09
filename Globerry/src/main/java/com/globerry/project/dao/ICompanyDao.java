@@ -33,18 +33,16 @@ public interface ICompanyDao
      */
     public List<Company> getCompanyList();
     /**
-     * Заменяет oldCompany на newCompany
-     * @param oldCompany
+     * Обновляет newCompany по id
      * @param newCompany
      */
-    public void updateCompany(Company oldCompany, Company newCompany) throws MySqlException;
     public void updateCompany(Company newCompany);
     /**
      * Функция для получения списка туров
      * @param company компания
      * @return Получает список туров компании
      */
-    public Set<Tour> getCompanyTourList(Company company);
+    public List<Tour> getCompanyTourList(Company company);
     
     public Company getCompanyByLogin(String login);
     

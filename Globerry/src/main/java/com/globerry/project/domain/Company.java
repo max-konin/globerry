@@ -57,6 +57,52 @@ public class Company {
 	public void setAccess(Integer access) {
 		this.access = access;
 	}
+    @Override
+    public boolean equals(Object obj)
+    {
+	if(obj == null) return false;
+	if(!(obj instanceof Company)) return false;
+	Company company = (Company) obj;
+	
+	if(this.name == null ^ company.getName() == null) return false;
+	if(!((this.name == null && company.getName() == null) || this.name.equals(company.getName()))) return false;
+	
+	if(this.description == null ^ company.getDescription() == null) return false;
+	if(!((this.description == null && company.getDescription() == null) || this.description.equals(company.getDescription()))) return false;
+	
+	if(this.email == null ^ company.getEmail() == null) return false;
+	if(!((this.email == null && company.getEmail() == null) || this.email.equals(company.getEmail()))) return false;
+	
+	if(this.login == null ^ company.getLogin() == null) return false;
+	if(!((this.login == null && company.getLogin() == null) || this.login.equals(company.getLogin()))) return false;
+	
+	if(this.password == null ^ company.getPassword() == null) return false;
+	if(!((this.password == null && company.getPassword() == null) || this.password.equals(company.getPassword()))) return false;
+	
+	if(this.access == null ^ company.getAccess() == null) return false;
+	if(!((this.access == null && company.getAccess() == null) || this.getAccess().equals(company.getAccess()))) return false;
+	
+	if(this.tourList == null ^ company.getTourList() == null) return false;
+	if(!((this.tourList == null && company.getTourList() == null) || this.tourList.equals(company.getTourList()))) return false;
+	if(!this.getTourList().equals(company.getTourList())) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 6;
+	result = 3*result + (name == null ? 0 : name.hashCode());
+	result = 3*result + (description == null ? 0 : description.hashCode());
+	result = 3*result + (email == null ? 0 : email.hashCode());
+	result = 3*result + (login == null ? 0 : login.hashCode());
+	result = 3*result + (password == null ? 0 : password.hashCode());
+	result = 3*result + (access == null ? 0 :access.hashCode());
+	for(Tour tour: tourList)
+	{
+	    result = result + tour.hashCode();
+	}
+	return result;
+    }
 
 	public int getId() {
 		return id;
@@ -114,22 +160,6 @@ public class Company {
 		this.tourList = tourList;
 	}
 
-	@Override
-	public boolean equals(Object companyObj) {
-		if(!(companyObj instanceof Company))
-			return false;
-		Company company = (Company)companyObj;
-		if(this.access == company.access &&
-				this.description.equals(company.description) &&
-				this.email.equals(company.email) && 
-				this.id == company.id &&
-				this.login.equals(company.login) &&
-				this.name.equals(company.name) &&
-				this.password.equals(company.password) &&
-				this.tourList.equals(company.tourList))
-			return true;
-		return false;
-	}
 	
 	
 }

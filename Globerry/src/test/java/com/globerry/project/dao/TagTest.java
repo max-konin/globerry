@@ -27,7 +27,7 @@ import com.globerry.project.domain.Tag;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/WEB-INF/configuration/test/daoTestContext.xml")
+@ContextConfiguration("/daoTestContext.xml")
 @TestExecutionListeners({
 
     DependencyInjectionTestExecutionListener.class,

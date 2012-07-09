@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <style type="text/css">
+            /* Ширина слайдера */
+            #slider {
+                width: 200px;
+            }
+            /* Контейнер слайдера */
+            .ui-slider {
+                position: relative;
+            }
+            /* Ползунок */
+            .ui-slider .ui-slider-handle {
+                position: absolute;
+                z-index: 2;
+                width: 13px;   /* Задаем нужную ширину */
+                height: 13px;  /* и высоту */
+                /*                background: url(../img/slider.png) no-repeat;  картинка изображающая ползунок. Или можно залить цветом, задать бордюр и скругления */
+                background-color: graytext;
+                cursor: pointer
+            }
+            .ui-slider .ui-slider-range {
+                position: absolute;
+                z-index: 1;
+                font-size: .7em;
+                display: block;
+                border: 0;
+                overflow: hidden;
+            }
+            /* горизонтальный слайдер (сама полоса по которой бегает ползунок) */
+            .ui-slider-horizontal {
+                height: 3px; /* задаем высоту согласно дизайна */
+            }
+            /* позиционируем ползунки */
+            .ui-slider-horizontal .ui-slider-handle { 
+                top: -5px;
+                margin-left: -6px;
+            }
+            .ui-slider-horizontal .ui-slider-range {
+                top: 0;
+                height: 100%;
+            }
+            .ui-slider-horizontal .ui-slider-range-min { 
+                left: 0;
+            }
+            .ui-slider-horizontal .ui-slider-range-max {
+                right: 0;
+            }
+            /* оформление полосы по которой ходит ползунок */
+            .ui-widget-content { 
+                border: 1px solid #D4D4D4;
+                background: #fff;
+            }
+            /* оформление активного участка (между двумя ползунками) */
+            .ui-widget-header { 
+                border: 1px solid #D4D4D4;
+                background: #AABBCC;
+            }
+            /* скругление для полосы слайдера */
+            .ui-corner-all {
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+            }
+            #slider-range-min{
+                width: 200px;
+            }
+        </style>
+        <link type="text/css" href="lib/jquery-ui-1.8.21/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
+
+
+        <link rel="stylesheet" media="screen" type="text/css" href="css/layout.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
+        <title>ColorPicker - jQuery plugin</title>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/colorpicker.js"></script>
+        <script type="text/javascript" src="js/eye.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/layout.js?ver=1.0.2"></script>
+        <script type="text/javascript" src="lib/jquery-ui-1.8.21/js/jquery.ui-slider.js"></script>
+        <script type="text/javascript">
+            //todo:выдвижение панельки
+            $(document).ready(function() {
+                $(function() {
+                    var sliderId = "#"+"slider-range-min";
+                    $( sliderId ).slider({
+                        range: "min",
+                        value: 37,
+                        min: 1,
+                        max: 700,
+                        slide: function( event, ui ) {
+                            $( "#cur-amount" ).val( ui.value );
+                            console.log(ui);
+                        }
+                    });
+                    $( "#cur-amount" ).val( $( sliderId ).slider( "value" ) );
+                    
+                    //                    $( "#min-amount" ).val( "$" + $( "#slider-range-min" ).slider( "min" ) );
+                });  
+
+                //                jQuery("#slider").slider({
+                //                    min: 0,
+                //                    max: 100,
+                //                    values: [0,100],
+                //                    range: true
+                //                });
+
+
+  
+                //слайдеры
+                //                $(".slider-range").each(function(){
+                //                    var minVal = parseInt($(this).parent().find('input:first').val()); 
+                //                    var maxVal = parseInt($(this).parent().find('input:last').val());  
+                //                    var params = {
+                //                        range: true,
+                //                        min: minVal,
+                //                        max: maxVal,
+                //                        values: [ minVal, maxVal ],
+                //                        step : 1,
+                //                        stop : function(event, ui) {
+                //                            sendRequest($(this).parent().attr('guiId') ,{leftValue : ui.values[0],rightValue : ui.values[1]})
+                //                        },
+                //                        slide : function(event, ui) {
+                //                            $(this).parent().find('input:first').val(ui.values[0]);
+                //                            $(this).parent().find('input:last').val(ui.values[1]);
+                //                        }
+                //                    };
+                //                    $(this).slider(params);
+                //                });
+        
+                //элемент, выбранный по клику
+                var targetElement = null;
+                //массив параметров
+                var params = new Array();
+                var param = {};
+                var paramName = '';
+                var paramValue = '';
+                //добавляем параметры в массив параметров
+                $('#addToParams').click(function(e){
+                    //очищаем массив
+                    params = [];
+                    paramName = null;
+                    paramValue = null;
+                    $('div.paramsNameValue > input').each(function(){ 
+                        var thisClass = $(this).attr('class');
+                        if (thisClass == 'paramName'){
+                            paramName = $(this).attr('value');
+                        }
+                        if (thisClass == 'paramValue'){
+                            paramValue = $(this).attr('value');
+                        }
+                        //если заданы имя и значение
+                        if (paramName != null && paramValue != null){
+                            //                            console.log('not null namelen='+paramName.length+'vallen='+paramValue.length);
+                            //добавляем параметр в массив
+                            params.push(
+                            {
+                                Name : paramName,
+                                Value : paramValue
+                            }
+                        );
+                            paramName = null;
+                            paramValue = null;
+                        }  
+                        //                        console.log('paramName='+paramName);
+                        //                        console.log('paramValue='+paramValue);
+                        //                        console.log('params='+params);
+                    })
+                    console.log(params);
+                });
+                
+                //массив параметров
+                function paramObj(name,value){
+                    this.name = name, this.value=value; 
+                };
+                
+                
+                //добавление параметра
+                $('#addParam > a').click(function(){
+                    $('#addParam').append('\
+            <div class="paramsNameValue">\
+            <input type="text" class="paramName" value="Name" style="color:#567;"></input>\n\
+            <input type="text" class="paramValue" value="Value" style="color:#567;"></input>            \n\
+            </div>\n\
+            ');
+                })
+                
+                //получаем id элемента, по которому был сделан клик
+                $('body').click(function(e) {
+                    if (e == null) { 
+                        e = window.event; 
+                    }
+                    
+                    var evt = e.target || e.srcElement;  
+                    //не обрабатываем сам Color Picker (?)
+                    if (evt.id != 'myColorPickerFlat'){
+                        targetElement = evt;
+                        $('#statusBar').text('');
+                        $('#statusBar').append('Выбран элемент: '+' id='+targetElement.id+'  color='+$(targetElement).css('background-color'));
+                    }
+                    //                    console.log(evt);
+                    
+                });
+                //ColorPicker flat
+                $('#myColorPickerFlat').ColorPicker({
+                    flat: true,
+                    onChange: function (hsb, hex, rgb, e) {
+                        
+                        //                        console.log('change');
+                        //                        $('#colorTest').css('backgroundColor', '#' + hex);
+                        $(targetElement).css('backgroundColor', '#' + hex);
+                    }
+                });
+                //ColorPicker встраиваемый
+                /*
+                $('#colorSelector').ColorPicker({
+                    color: '#0000ff',
+                    onShow: function (colpkr) {
+                        $(colpkr).fadeIn(500);
+                        return false;
+                    },
+                    onHide: function (colpkr) {
+                        $(colpkr).fadeOut(500);
+                        return false;
+                    },
+                    onChange: function (hsb, hex, rgb) {
+                        console.log('change');
+                        //                        $('#colorTest').css('backgroundColor', '#' + hex);
+                    }
+                });
+                 */
+            });
+
+        </script>
+    </head>
+    <body>
+        <div id="addParam" style="width: 350px;height: 200px; background-color: gray;">
+            <a href="#">Новый параметр</a>
+            <input type="button" id="addToParams" value="Добавить в массив параметров"/><br />
+        </div>
+        <div id="statusBar" style="width: 500px;height: 20px; background-color: gainsboro;">
+
+        </div>
+        <div id="myColorPickerFlat"></div>
+
+        <!--        <div id="colorSelector"><div style="background-color: #0000ff"></div></div>-->
+        
+        <table width="300px" border="1">
+<!--        заголовок таблицы    -->
+            <tr>
+                <td>Параметр</td>
+                <td>Значение</td>
+            </tr>
+<!--        Слайдер    -->
+            <tr>
+                <td>Слайдер</td>
+                <td>
+<!--                    <label for="min-amount">Min:</label> 
+                    <input type="text" id="min-amount" style="border:1px solid; color:#f6931f; font-weight:bold;" /> <br/>-->
+                    <label for="cur-amount">Current:</label> 
+                    <input type="text" id="cur-amount" style="border:1px solid; color:#f6931f; font-weight:bold;" /> <br/>
+<!--                    <label for="max-amount">Max:</label> 
+                    <input type="text" id="max-amount" style="border:1px solid; color:#f6931f; font-weight:bold;" /> <br/>-->
+                    <div id="slider-range-min"></div>
+
+                </td>
+            </tr>
+<!--        Цвет    -->
+            <tr>
+                <td>Цвет</td>
+                <td>
+                    <div id="colorSelector"><div style="background-color: #0000ff"></div></div>
+                </td>
+            </tr>
+<!--        Параметр    -->
+            <tr>
+                <td>Параметр</td>
+                <td>
+                    <div id="param1"><input type="text" name="param1" value="val1" /></div>
+                </td>
+            </tr>
+
+        </table>
+    </body>
+</html>

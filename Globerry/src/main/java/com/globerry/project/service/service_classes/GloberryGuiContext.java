@@ -22,6 +22,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Класс, который содержит в себе информацию о состоянии элементов в приложении. Соответствие между элементами на
@@ -50,6 +51,7 @@ public class GloberryGuiContext implements IApplicationContext {
      * @see http://grwe.ru/ids.png .
      */
     @Override
+    @Transactional
     public void init() {
         componentsMap = new HashMap<Integer, IGuiComponent>();
         sliders = new HashMap<String, Slider>();

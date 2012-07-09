@@ -20,7 +20,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/WEB-INF/configuration/test/daoTestContext.xml")
+@ContextConfiguration("/daoTestContext.xml")
 @TestExecutionListeners({
 	DependencyInjectionTestExecutionListener.class,
 	DirtiesContextTestExecutionListener.class, ContextLoaderListener.class

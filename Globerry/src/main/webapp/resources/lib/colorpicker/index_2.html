@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <style type="text/css">
+        </style>
+        <!--   стили для таблицы параметров     -->
+        <link type="text/css" href="lib/jquery-ui-1.8.21/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
+        <link rel="stylesheet" media="screen" type="text/css" href="css/layout.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
+        <link rel="stylesheet" media="screen" type="text/css" href="css/mystyle.css" />
+        <!--   /стили для таблицы параметров     -->
+        <!--   скрипты для  таблицы параметров   -->
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/colorpicker.js"></script>
+        <script type="text/javascript" src="js/eye.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/layout.js"></script>
+        <script type="text/javascript" src="lib/jquery-ui-1.8.21/js/jquery.ui-slider.js"></script>
+        <script type="text/javascript" src="lib/jquery.tabSlideOut.v1.3.js"></script>
+        <script type="text/javascript" src="js/paramsTable.js"></script>
+        <!--   /скрипты для  таблицы параметров   -->
+        <script type="text/javascript">
+        
+        </script>
+    </head>
+    <body>
+
+        <div class="panel">
+            <a class="handle" href="#">Content</a> <!-- Ссылка для пользователей с отключенным JavaScript -->
+            <h3><span lang="ru">Заголовок</span></h3><br>
+                <span lang="ru">
+                    <!--                    Таблица параметров-->
+                    <div id="paramsTable">
+                        <table width="300px" border="1">
+                            <!--        заголовок таблицы    -->
+                            <tr>
+                                <td>Параметр</td>
+                                <td>Значение</td>
+                            </tr>
+                            <!--        Слайдер    -->
+                            <tr>
+                                <td>Слайдер</td>
+                                <td>
+                                    <label for="cur-amount">Значение:</label> 
+                                    <input type="text" id="cur-amount"/> <br/>
+                                    <div id="slider-range-min" class="slider"></div>
+
+                                </td>
+                            </tr>
+                            <!--        Цвет    -->
+                            <tr>
+                                <td>Цвет</td>
+                                <td>
+                                    <div id="myColorSelector1" class="colorSelector"><div style="background-color: #FF0000"></div></div>
+                                </td>
+                            </tr>
+                            <!--        Параметр    -->
+                            <tr>
+                                <td>Параметр</td>
+                                <td>
+                                    <div id="param1"><input type="text" name="param1" value="val1" /></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </span>
+        </div>
+    </body>
+</html>

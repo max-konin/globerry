@@ -71,14 +71,31 @@ public class Tag
     {
 	this.img = img;
     }
-    public boolean equals(Tag tag)
+    @Override
+    public boolean equals(Object obj)
     {
-	if(this.getId() == tag.getId() &&
-		(this.getImg() == null && tag.getImg() == null) ||
-			(this.getImg() != null && tag.getImg() != null && this.getImg().equals(tag.getImg())) &&
-		this.getName().equals(tag.getName()))
-	    return true;
-	else return false;
+	if(obj == null) return false;
+	if(!(obj instanceof Tag)) return false;
+	Tag tag = (Tag) obj;
+	
+	if(this.name == null ^ tag.getName() == null) return false;
+	if(!((this.name == null && tag.getName() == null) || this.name.equals(tag.getName()))) return false; 
+	
+	if(this.img == null ^ tag.getImg() == null) return false;
+	if(!((this.img == null && tag.getImg() == null) || this.img.equals(tag.getImg()))) return false;
+	
+	if(this.tagsType == null ^ tag.getTagsType() == null) return false;
+	if(!((this.tagsType == null && tag.getTagsType() == null) || this.tagsType.equals(tag.getTagsType()))) return false;
+	return true;
+    }
+    @Override
+    public int hashCode()
+    {
+	int result = 13;
+	result = 3*result + (name == null ? 0 : name.hashCode());
+	result = 3*result + (img == null ? 0 : img.hashCode());
+	result = 3*result + (tagsType == null ? 0 : tagsType.hashCode());
+	return result;
     }
     public TagsType getTagsType()
     {
