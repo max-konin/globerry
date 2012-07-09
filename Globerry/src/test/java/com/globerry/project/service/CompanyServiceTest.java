@@ -3,45 +3,50 @@
  */
 package com.globerry.project.service;
 
-import static org.junit.Assert.*;
-
-import java.util.Iterator;
-import java.util.Set;
-
-import java.util.Set;
+import com.globerry.project.MySqlException;
+import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.ITourDao;
+import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Tour;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import com.globerry.project.MySqlException;
-import com.globerry.project.dao.ContextLoaderListener;
-import com.globerry.project.domain.Company;
-import com.globerry.project.domain.DependingMonthProperty;
-import com.globerry.project.domain.Month;
-import com.globerry.project.domain.Tour;
 /**
- * @author Artem
+ * @author max
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/serviceTestContext.xml")
-@TestExecutionListeners({
-
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-    ContextLoaderListener.class
-
-})
+@RunWith(MockitoJUnitRunner.class)
 public class CompanyServiceTest
 {
-    @Autowired
-    private CompanyService cmpService;
-
+    @Mock 
+    private ICompanyDao mockCompanyDao;
+    
+    @Mock 
+    private ITourDao mockTourDao;   
+    
+    @InjectMocks
+    private CompanyService cmpService = new CompanyService();
+    
+    @Before
+    public void init()
+    {
+       Company company = new Company();
+       company.setName("anyLogin");
+       company.setEmail("anyEmail");
+       MockitoAnnotations.initMocks(this);
+       
+       when(mockCompanyDao.getCompanyByLogin("anyLogin")).thenReturn(company);
+       when(mockCompanyDao.getCompanyByEmail("anyEmail")).thenReturn(company);
+    }
+    
     private String getStringGenerator()
     {  
 	
@@ -54,40 +59,71 @@ public class CompanyServiceTest
       return sb.toString();  
     } 
     
-    @Test(timeout = 1000)
-    public void ShowList()
-    {
-	try{
-	Company cmp = new Company();
-	cmp.setName(getStringGenerator());
-	cmp.setEmail(getStringGenerator());
-	Tour tour = new Tour();
-	tour.setName(getStringGenerator());
-	cmp.getTourList().add(tour);
-	cmpService.addCompany(cmp);
-	Set<Tour> lst = cmpService.getTourList(cmp);
-	int count = 0;
-	Iterator<Tour> it = lst.iterator();
-	while(it.hasNext())
-	{
-	    count++;
-	    it.next();
-	}//*/
-	if (count == 0) fail("Set is empty");
-	}
-	catch (MySqlException e)
-	{
-	    fail(e.getDescription());
-	}
-	
-    }
     @Test
-    public void TestMonth()
+    public void testAddCompany() throws MySqlException
     {
-	DependingMonthProperty  dmp = new DependingMonthProperty();
-	dmp.setMonth(2);
-	System.err.println(dmp.getMonth());
+        Company company  = new Company();
+        cmpService.addCompany(company);
+        verify(mockCompanyDao).addCompany(company);
+    }
     
+    @Test
+    public void testGetCompanyList()
+    {
+        cmpService.getCompanyList();
+        verify(mockCompanyDao).getCompanyList();
+    }
+    
+    @Test
+    public void testRemoveCompany()
+    {
+        Company company  = new Company();
+        cmpService.removeCompany(company);
+        verify(mockCompanyDao).removeCompany(company);
+    }
+    
+    @Test
+    public void testUpdateCompany() throws MySqlException
+    {
+        Company company  = new Company();
+        cmpService.companyUpdate(company, company);
+        verify(mockCompanyDao).updateCompany(company);
+    }
+    
+    @Test
+    public void addTour()
+    {
+        Company company  = new Company();        
+        Tour tour = new Tour();
+        cmpService.addTour(company, tour);        
+        verify(mockCompanyDao).updateCompany(company);
+        assertTrue(company.getTourList().size() == 1);
+    }
+    
+    @Test
+    public void testRemoveCompanyById() throws MySqlException
+    {
+        int id = 100;
+        cmpService.removeCompany(id);
+        verify(mockCompanyDao).removeCompany(id);
+    }
+    
+    @Test
+    public void testGetCompanyByName() throws MySqlException
+    {
+        int id = 100;
+        Company result = cmpService.getCompanyByName("anyLogin");
+        verify(mockCompanyDao).getCompanyByLogin("anyLogin");
+        assertTrue("anyLogin".equals(result.getName()));
+    }
+    
+     @Test
+    public void testGetCompanyByEmail() 
+    {
+        int id = 100;
+        Company result = cmpService.getCompanyByEmail("anyEmail");
+        verify(mockCompanyDao).getCompanyByEmail("anyEmail");
+        assertTrue("anyEmail".equals(result.getEmail()));
     }
 
 }

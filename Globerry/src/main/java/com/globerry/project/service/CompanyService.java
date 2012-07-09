@@ -72,13 +72,7 @@ public class CompanyService implements ICompanyService
     public void addTour(Company company, Tour tour)
     {
 	company.getTourList().add(tour);
-	try
-	{
-	    companyDao.addCompany(company);
-	} catch (MySqlException e)
-	{
-		companyDao.updateCompany(company);		
-	}
+	companyDao.updateCompany(company);
 	
     }
 
