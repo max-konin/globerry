@@ -115,8 +115,8 @@ public class Tour {
 	    if(this.dateEnd == null ^ tour.getDateEnd() == null) return false;
 	    if(!((this.dateEnd == null && tour.getDateEnd() == null) || this.dateEnd.equals(tour.getDateEnd()))) return false;
 	    
-	    if(this.company == null ^ tour.getClass() == null) return false;
-	    if(!((this.company == null && tour.getClass() == null) || this.company.equals(tour.getCompany()))) return false;
+	    if(this.company == null ^ tour.getCompany() == null) return false;
+	    if(!((this.company == null && tour.getCompany() == null) || this.company.equals(tour.getCompany()))) return false;
 	    return true;
 	}
 	@Override
