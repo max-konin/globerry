@@ -11,21 +11,22 @@ div#paramsTable .mySliders{
 }
 div#paramsTable #divA{
     background-color: black;
-    background: url(../images/button.gif) center;
+/*    background: url(../images/button.gif) center;*/
     height: 122px;
     width: 40px;
     position: absolute;
-/*    left: -50px;*/
+    /*    left: -50px;*/
     background-repeat:round;
     border: #282828 2px solid;
 }
 div#paramsTable {
     padding: 20px;
-/*    background: #eeeeee;*/
+    right: 0px;
+    /*    background: #eeeeee;*/
     border: #282828 2px solid;
     font-family: Georgia;
-/*    width: 400px;*/
-/*    background-image: '../images/button.gif';*/
+    /*    width: 400px;*/
+    /*    background-image: '../images/button.gif';*/
     background: rgba(255, 255, 255, 0.73);
     background-repeat:round;
 }
@@ -63,4 +64,15 @@ div.mySliders div.ui-slider, div.ui-slider-range, div.ui-slider-handle{
     border:none;
     margin-bottom: 5px;
     width: 30%;
+}
+
+#buttonParamsTable{
+    width: 100px;
+    height: 150px;
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    background-color: gray;
+    opacity: .5;
+/*    right: -344px;*/
 }

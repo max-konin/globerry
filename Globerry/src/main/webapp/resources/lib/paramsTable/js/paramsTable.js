@@ -13,10 +13,23 @@ $(document).ready(function() {
             fixedPosition: false						//Позиционирование блока false - position: absolute, true - position: fixed
         });
     });
+    
     $('a.handle').css('background-color','black');
-    
-    
-    
+    $('#paramsTable').css('right','0px');
+    $('#paramsTable').css('display','none');
+    var isTableVisible = false;
+    $('#buttonParamsTable').click(function(){
+        if (isTableVisible){
+            $('#paramsTable').css('display','none');
+            $('#paramsTable').css('right','0px')
+            isTableVisible = false;
+        }
+        else{
+            $('#paramsTable').css('display','block');
+            $('#paramsTable').css('right','0px')
+            isTableVisible = true;
+        }
+    })
     
     function changeInputValue(thisSlider){
         var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
@@ -147,14 +160,21 @@ function createParamTableObject() {
     function setSliderValue(thisSlider, val){
         var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
         var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
-        console.log(min);
-        console.log(val);
-        console.log(max);
+        console.log('min='+min);
+        console.log('val='+val);
+        console.log('max='+max);
         if (val >= min && val <= max){
             $( thisSlider.find('.paramsTableSlider') ).slider({
                 value: val
             })
         }
+        if (val < min){
+            val = min;
+        }
+        if (val > max){
+            val = max;
+        }
+        return val;
     };
     
     //get
@@ -178,14 +198,16 @@ function createParamTableObject() {
         return $('#gradient_finish_color > div').css('background-color',color);
     }
     function setStartOpacity(opacityVal) {
+        opacityVal = parseInt(opacityVal);
         var thisSlider = $('#gradient_opacity_start').parent().parent();
-        setSliderValue(thisSlider,opacityVal);
-        return $('#gradient_opacity_start').val(opacityVal);
+        var val = setSliderValue(thisSlider,opacityVal);
+        return $('#gradient_opacity_start').val(val);
     }
     function setFinishOpacity(opacityVal) {
+        opacityVal = parseInt(opacityVal);
         var thisSlider = $('#gradient_opacity_finish').parent().parent();
-        setSliderValue(thisSlider,opacityVal);
-        return parseFloat($('#gradient_opacity_finish').val(opacityVal));
+        var val = setSliderValue(thisSlider,opacityVal);
+        return parseFloat($('#gradient_opacity_finish').val(val));
     }
     var me = {
         getStartColor : getStartColor,
