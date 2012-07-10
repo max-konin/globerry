@@ -54,7 +54,7 @@ public class CityDaoTest {
 	
 	private static City city1;
 	private static City city2;
-	
+				
 	@BeforeClass
 	public static void BeforeClassTestInitialize() {
 		city1 = new City();
@@ -92,53 +92,44 @@ public class CityDaoTest {
 	}
 	
 	@Test
-	public void addCityTest() {
-		try {
-			cityDao.addCity(city1);
-		} catch (MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
-		assertTrue(cityDao.getCityList().contains(city1));
+	public void addCityTest() throws MySqlException {
+		int originalCityListSize = sessionFactory.getCurrentSession().createQuery("from City").list().size();
+		cityDao.addCity(city1);
+		List<City> cityList = sessionFactory.getCurrentSession().createQuery("from City").list();
+		assertTrue(cityList.size() - 1 == originalCityListSize);
+		assertTrue(cityList.contains(city1));
 	}
 	
 	@Test
 	@Transactional
-	public void removeCityByCityTest() {
-		try {
-			cityDao.addCity(city1);
-		} catch (MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void removeCityByCityTest() throws MySqlException {
+		cityDao.addCity(city1);
+		int originalCityListSize = sessionFactory.getCurrentSession().createQuery("from City").list().size();
 		cityDao.removeCity(city1);
-		assertTrue(cityDao.getCityList().isEmpty());
+		List<City> cityList = sessionFactory.getCurrentSession().createQuery("from City").list();
+		assertTrue(cityList.size() + 1 == originalCityListSize);
+		assertFalse(cityList.contains(city1));
 	}
 	
 	@Test
 	@Transactional
-	public void removeCityByIdTest() {
-		try {
-			cityDao.addCity(city1);
-		} catch (MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void removeCityByIdTest() throws MySqlException {		
+		cityDao.addCity(city1);
+		int originalCityListSize = sessionFactory.getCurrentSession().createQuery("from City").list().size();
 		cityDao.removeCity(city1.getId());
-		assertTrue(cityDao.getCityList().isEmpty());
+		List<City> cityList = sessionFactory.getCurrentSession().createQuery("from City").list();
+		assertTrue(cityList.size() + 1 == originalCityListSize);
+		assertFalse(cityList.contains(city1));
 	}
 	
 	@Test
-	public void getCityListTest() {
+	public void getCityListTest() throws MySqlException {
 		List<City> cityList = new ArrayList();
 		cityList.add(city1);
 		cityList.add(city2);
-		try {
-			cityDao.addCity(city1);
-			cityDao.addCity(city2);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
-		assertTrue(cityDao.getCityList().size() == 2);
-		List<City> cityDaoList = cityDao.getCityList();
-		assertTrue(cityDaoList.equals(cityList));	
+		cityDao.addCity(city1);
+		cityDao.addCity(city2);
+		assertTrue(cityDao.getCityList().equals(cityList));	
 	}
 	
 	/*@Test
@@ -173,26 +164,18 @@ public class CityDaoTest {
 	}*/
 	
 	@Test
-	public void updateCityTest() {
-		try {
-			cityDao.addCity(city1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void updateCityTest() throws MySqlException {	
+		cityDao.addCity(city1);
 		city1.setName("ChangedName");
 		cityDao.updateCity(city1);
-		assertTrue(cityDao.getCityList().contains(city1));
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from City where id = " + city1.getId()).list().get(0).equals(city1));
 	}
 	
 	@Test
-	public void getCityByIdTest() {
-		try {
-			cityDao.addCity(city1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void getCityByIdTest() throws MySqlException {
+		cityDao.addCity(city1);
 		assertTrue(cityDao.getCityById(city1.getId()).equals(city1));
-		assertTrue(cityDao.getCityById(32) == null);
+		assertTrue(cityDao.getCityById(666) == null);
 	}
 
     /*@Test
