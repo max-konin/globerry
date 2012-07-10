@@ -31,8 +31,7 @@ public class EventService implements IEventService
      */
     @Override
     public List<Event> getEventList()
-    {
-	
+    {	
 	return eventDao.getEventList();
     }
 

@@ -124,83 +124,8 @@ public class DefaultDatabaseCreator
 	createPropertyType("security", 0, 3, false, true);
 	createPropertyType("livingCost", 0, 300, true, true);
 	createPropertyType("mood", 0, 300, true, true);
-	createPropertyType("temperature", -35, 35, true, true);
+	createPropertyType("temperature", -35, 35, true, true);	
 	
-	//temperature
-	/*propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(1);
-	propertyTypeList.getLast().setDependingMonth(true);
-	propertyTypeList.getLast().setBetterWhenLess(false);
-	propertyTypeList.getLast().setMinValue(-35);
-	propertyTypeList.getLast().setMaxValue(+35);
-	propertyTypeList.getLast().setName("temperature");
-	//alcohol
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(5);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(true);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(30);
-	propertyTypeList.getLast().setName("alcohol");
-	//travel time
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(2);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(true);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(24);
-	propertyTypeList.getLast().setName("travelTime");
-	//cost of living
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(3);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(true);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(300);
-	propertyTypeList.getLast().setName("livingCost");
-	//food
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(4);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(true);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(100);
-	propertyTypeList.getLast().setName("foodCost");
-	//mood
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(6);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(false);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(10);
-	propertyTypeList.getLast().setName("mood");
-	//security
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(7);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(false);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(10);
-	propertyTypeList.getLast().setName("security");
-	//sex
-	propertyTypeList.add(new PropertyType());
-	propertyTypeList.getLast().setId(8);
-	propertyTypeList.getLast().setDependingMonth(false);
-	propertyTypeList.getLast().setBetterWhenLess(false);
-	propertyTypeList.getLast().setMinValue(0);
-	propertyTypeList.getLast().setMaxValue(10);
-	propertyTypeList.getLast().setName("sex");*/
-	
-/*        try
-	{
-            Iterator<PropertyType> propertyTypeIterator = propertyTypeList.iterator();
-            while (propertyTypeIterator.hasNext()){
-        	propertyTypeDao.addPropertyType(propertyTypeIterator.next());
-            }
-	} catch (MySqlException e)
-	{
-	    e.printStackTrace();
-	}*/
     }
     
     public void initCities(){
@@ -211,37 +136,6 @@ public class DefaultDatabaseCreator
 	if(tagList.isEmpty()) initTags();
 	if(propertyList.isEmpty()) initPropertyType();
 	
-	/*citiesList.add(new City());
-	citiesList.getLast().setName("London");
-	citiesList.getLast().setLatitude((float)51.508);
-	citiesList.getLast().setLongitude((float)-0.12);
-	tagList = new HashSet<Tag>();
-	tagList.add(tagDao.getTagById(1));
-	tagList.add(tagDao.getTagById(2));
-	tagList.add(tagDao.getTagById(6));
-	citiesList.getLast().setTagList(tagList);
-	propertyList = new HashSet();
-	property = new Property();
-	property.setPropertyType(propertyTypeDao.getById(2));
-	property.setValue(1);
-	propertyList.add(property);
-	citiesList.getLast().setPropertyList(propertyList );
-	
-	citiesList.add(new City());
-	citiesList.getLast().setName("Paris");
-	citiesList.getLast().setLatitude((float)48.56);
-	citiesList.getLast().setLongitude((float)2.19);
-	tagList = new HashSet<Tag>();
-	tagList.add(tagDao.getTagById(1));
-	tagList.add(tagDao.getTagById(2));
-	tagList.add(tagDao.getTagById(6));
-	citiesList.getLast().setTagList(tagList);
-	propertyList = new HashSet();
-	property = new Property();
-	property.setPropertyType(propertyTypeDao.getById(2));
-	property.setValue(15);
-	propertyList.add(property);
-	citiesList.getLast().setPropertyList(propertyList );*/
 	
 	citiesList.add(generateCityWithPsevdoRandomProperties("London", (float)-0.12, (float)51.508));
 	citiesList.add(generateCityWithPsevdoRandomProperties("Paris", (float)2.19, (float)48.56));

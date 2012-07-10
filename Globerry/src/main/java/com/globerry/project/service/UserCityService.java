@@ -19,8 +19,7 @@ import com.globerry.project.domain.ICityRequest;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.Tag;
-import com.globerry.project.service.interfaces.ICalendar;
-import com.globerry.project.service.interfaces.ISliders;
+
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.service_classes.IApplicationContext;
@@ -143,7 +142,7 @@ public class UserCityService implements IUserCityService {
                     float val = city.getValueByPropertyType(prop.getPropertyType(), 
                                                             Month.values()[appContext.getWhenTag().getValue()]);
                     if (
-                            ((val >= prop.getRightValue()) || (val <= prop.getLeftValue())) ||
+                            (val > prop.getRightValue()) || (val < prop.getLeftValue()) ||
                             (prop.getPropertyType().getName().equals("temperature") 
                                     && (val <= 10) 
                                     && (appContext.getWhatTag().getValue() == 5)) ||

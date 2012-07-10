@@ -33,6 +33,7 @@ public class CityRequest implements ICityRequest
 	{
 	    String joinClause = "";
 	    String whereClause = "";
+            String fromClause = "";
 	    int i = 1;
 	    for (Tag tag : tags)
 	    {

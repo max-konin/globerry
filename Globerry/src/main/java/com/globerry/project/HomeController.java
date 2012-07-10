@@ -1,37 +1,24 @@
 package com.globerry.project;
 
+
+
+import com.globerry.project.domain.City;
+import com.globerry.project.service.DefaultDatabaseCreator;
+import com.globerry.project.service.gui.IGuiComponent;
+import com.globerry.project.service.gui.ISlider;
+import com.globerry.project.service.interfaces.IUserCityService;
+import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.List;
-
+import java.util.Map;
 import org.apache.log4j.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.globerry.project.dao.ICityDao;
-import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.Range;
-import com.globerry.project.dao.ITagDao;
-import com.globerry.project.domain.City;
-import com.globerry.project.domain.PropertyType;
-import com.globerry.project.domain.Tag;
-import com.globerry.project.domain.TagsType;
-import com.globerry.project.service.*;
-import com.globerry.project.service.gui.IGuiComponent;
-import com.globerry.project.service.gui.ISlider;
-import com.globerry.project.service.interfaces.ISliders;
-import com.globerry.project.service.interfaces.IUserCityService;
-import com.globerry.project.service.service_classes.GloberryGuiContext;
-import com.globerry.project.service.service_classes.IApplicationContext;
-import java.util.Map;
-import java.util.ArrayList;
-import javax.xml.ws.Dispatch;
-import org.apache.log4j.Priority;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * Handles requests for the application home page.
@@ -43,11 +30,7 @@ public class HomeController {
     public static final Logger logger = Logger.getLogger(HomeController.class);
     @Autowired
     IUserCityService userCityService;
-    @Autowired
-    ICityDao cityDao;
-    
-    @Autowired
-    IPropertyTypeDao propertyTypeDao;
+
  
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
