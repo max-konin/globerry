@@ -15,27 +15,68 @@ $(document).ready(function() {
     });
     $('a.handle').css('background-color','black');
     
+    
+    
+    
+    function changeInputValue(thisSlider){
+        var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
+        var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
+        thisSlider.find('div.inputsDiv > input.cur-amount').change(function() {
+            var tmpValue = thisSlider.find('input.cur-amount').val();
+            //ограничения максимального и минимального вводимых значений
+            if (tmpValue >= min && tmpValue <= max){
+                curValue = tmpValue;
+            }
+            console.log(curValue);
+            $( thisSlider.find('.paramsTableSlider') ).slider({
+                value: curValue
+            })
+        });
+    };
+    
+    
     //обработка слайдеров
     $(function() {
         var inputClass = ".cur-amount";
         var sliderDivClass = '.mySliders';
         var sliderClass = '.paramsTableSlider';
+        
+        //        $('input#gradient_opacity_start').change(function() {
+        //            console.log('Handler for .change() called.');
+        //        });
+        
         $('.mySliders').each(function(){
             var thisSlider = $(this);
-            var min = thisSlider.find('.hiddenInputsDiv > input.min-amount').val();
-            var max = thisSlider.find('.hiddenInputsDiv > input.max-amount').val();
-            console.log(min);
+            var curValue = thisSlider.find('input.cur-amount').val();
+            console.log(curValue);
+            
+            var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
+            var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
+            changeInputValue(thisSlider);
+            //            $(this).find('div.inputsDiv > input.cur-amount').change(function() {
+            //                var tmpValue = thisSlider.find('input.cur-amount').val();
+            //                //ограничения максимального и минимального вводимых значений
+            //                if (tmpValue >= min && tmpValue <= max){
+            //                    curValue = tmpValue;
+            //                }
+            //                console.log(curValue);
+            //                $( thisSlider.find('.paramsTableSlider') ).slider({
+            //                    value: curValue
+            //                })
+            //            });
             $( $(this).find(sliderClass) ).slider({
                 range: "min",
                 value: 50,
-                min: 0,
-                max: 100,
+                min: min,
+                max: max,
                 slide: function( event, ui ) {
                     thisSlider.find('input.cur-amount').val( ui.value );
+                    
+                    
                 }
             });
             var sliderValue = $(  $(this).find('div.paramsTableSlider') ).slider( "value" );
-            $(this).find('input.cur-amount').val( sliderValue); 
+            $(this).find('input.cur-amount').val( sliderValue);
         });
     });  
 
@@ -60,6 +101,10 @@ $(document).ready(function() {
         $(this).ColorPicker({
             color:  curColor,
             onShow: function (colpkr) {
+                //                console.log(colpkr);
+                curColor = rgb2hex($(this).find('div').css('backgroundColor'));
+                $(this).ColorPickerSetColor(curColor);
+                thisDiv.css('backgroundColor', curColor);
                 $(colpkr).fadeIn(100);
                 return false;
             },
@@ -97,17 +142,61 @@ function createParamTableObject() {
             }
         }
     }
+    
+    //передвижение ползунка слайдера
+    function setSliderValue(thisSlider, val){
+        var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
+        var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
+        console.log(min);
+        console.log(val);
+        console.log(max);
+        if (val >= min && val <= max){
+            $( thisSlider.find('.paramsTableSlider') ).slider({
+                value: val
+            })
+        }
+    };
+    
+    //get
     function getStartColor() {
-        return $('#gradient_start_color').css('background-color');
+        return $('#gradient_start_color > div').css('background-color');
     }
     function getFinishColor() {
-        return $('#gradient_finish_color').css('background-color');
+        return $('#gradient_finish_color > div').css('background-color');
     }
     function getStartOpacity() {
-        return parseFloat($('#gradiet_opacity_start').val());
+        return parseFloat($('#gradient_opacity_start').val());
     }
     function getFinishOpacity() {
-        return parseFloat($('#gradiet_opacity_finish').val());
+        return parseFloat($('#gradient_opacity_finish').val());
     }
-    
+    //set
+    function setStartColor(color) {
+        return $('#gradient_start_color > div').css('background-color',color);
+    }
+    function setFinishColor(color) {
+        return $('#gradient_finish_color > div').css('background-color',color);
+    }
+    function setStartOpacity(opacityVal) {
+        var thisSlider = $('#gradient_opacity_start').parent().parent();
+        setSliderValue(thisSlider,opacityVal);
+        return $('#gradient_opacity_start').val(opacityVal);
+    }
+    function setFinishOpacity(opacityVal) {
+        var thisSlider = $('#gradient_opacity_finish').parent().parent();
+        setSliderValue(thisSlider,opacityVal);
+        return parseFloat($('#gradient_opacity_finish').val(opacityVal));
+    }
+    var me = {
+        getStartColor : getStartColor,
+        getFinishColor : getFinishColor,
+        getStartOpacity : getStartOpacity,
+        getFinishOpacity : getFinishOpacity,
+        
+        setStartColor : setStartColor,
+        setFinishColor : setFinishColor,
+        setStartOpacity : setStartOpacity,
+        setFinishOpacity : setFinishOpacity
+    }
+    return me;
 }

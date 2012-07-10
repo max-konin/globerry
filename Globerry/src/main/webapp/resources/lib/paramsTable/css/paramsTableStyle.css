@@ -58,3 +58,9 @@ div#paramsTable .paramsTableSlider{
 div.mySliders div.ui-slider, div.ui-slider-range, div.ui-slider-handle{
     z-index: 0;
 }
+.paramsTableInput{
+    float:left;
+    border:none;
+    margin-bottom: 5px;
+    width: 30%;
+}

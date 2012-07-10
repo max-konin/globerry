@@ -443,6 +443,8 @@
         bubbles.draw();
         //Запиливаем тэг defs к svg, чтобы была возможность рисовать круги с градиентом.
         appendSVGGradientData();
+        document.params = createParamTableObject();
+        console.log(document.params.getStartOpacity());
             
     });
     

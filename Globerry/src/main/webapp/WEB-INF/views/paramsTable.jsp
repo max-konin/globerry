@@ -23,12 +23,13 @@
                     <td>Множитель радиуса</td>
                     <td>
                         <div class="mySliders">
-                            <input type="text" class="cur-amount" style="float:left" size="2"/>
-                            <div id="slider-range-min" class="paramsTableSlider" style="float:left"></div>
-                            <div class="hiddenInputsDiv">
-                                <input type="text" hidden="hidden" class="min-amount" value="15" style="float:left" size="2"/>
-                                <input type="text" hidden="hidden" class="max-amount" value="150" style="float:left" size="2"/>
+<!--                            <input type="text" class="cur-amount" style="float:left" size="2"/>-->
+                            <div class="inputsDiv">
+                                <input type="text"  class="min-amount paramsTableInput" value="0" style="float:left"  readonly="readonly" size="2"/>
+                                <input type="text" id="radius" class="cur-amount paramsTableInput"  size="2"/>
+                                <input type="text"  class="max-amount paramsTableInput" value="100" style="float:left"  readonly="readonly" size="2"/>
                             </div>
+                            <div id="slider-range-min" class="paramsTableSlider" style="float:left"></div>
                         </div>
                     </td>
                 </tr>
@@ -48,13 +49,17 @@
                         </table>
                     </td>
                 </tr>
-                
+
                 <!--        Параметр    -->
                 <tr>
                     <td>Прозрачность градиента (начало)</td>
                     <td>
                         <div class="mySliders">
-                            <input type="text" id="gradiet_opacity_start" class="cur-amount" style="float:left" size="2"/>
+                            <div class="inputsDiv">
+                                <input type="text"  class="min-amount paramsTableInput" value="0" style="float:left"  readonly="readonly" size="2"/>
+                                <input type="text" id="gradient_opacity_start" class="cur-amount paramsTableInput"   size="2"/>
+                                <input type="text"  class="max-amount paramsTableInput" value="100" style="float:left"  readonly="readonly" size="2"/>
+                            </div>
                             <div class="paramsTableSlider" style="float:left"></div>
                         </div>
                     </td>
@@ -63,12 +68,16 @@
                     <td>Прозрачность градиента (конец)</td>
                     <td>
                         <div class="mySliders">
-                            <input type="text" id="gradiet_opacity_finish" class="cur-amount" style="float:left" size="2"/>
+                            <div class="inputsDiv">
+                                <input type="text"  class="min-amount paramsTableInput" value="0" style="float:left" size="2" readonly="readonly" />
+                                <input type="text" id="gradient_opacity_finish" class="cur-amount paramsTableInput" size="2"/>
+                                <input type="text"  class="max-amount paramsTableInput" value="100" style="float:left" size="2" readonly="readonly" />
+                            </div>
                             <div  class="paramsTableSlider" style="float:left"></div>
                         </div>
                     </td>
                 </tr>
-                
+
             </table>
         </div>
     </span>
