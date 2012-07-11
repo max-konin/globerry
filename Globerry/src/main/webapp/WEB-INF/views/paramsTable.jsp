@@ -4,7 +4,7 @@
     Author     : Vadim
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div id="buttonParamsTable">Показать таблицу настройки</div>
+<div id="buttonParamsTable"></div>
 <div id="paramsTable" class="panel">
 <!--    <a class="handle" href="#"><div id="divA" >Content  Ссылка для пользователей с отключенным JavaScript </div></a>-->
     <h3><span lang="ru">Настройка параметров</span></h3><br>
