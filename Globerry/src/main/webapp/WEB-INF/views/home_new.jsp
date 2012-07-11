@@ -464,7 +464,7 @@
         });
         params.bind('onFinishOpacityChanged', function() {
             $('#grad1').find('stop:last').css('stop-opacity', params.getFinishOpacity().toString());
-            bubbleParams[map.getZoom()].start_opacity = params.getFinishOpacity();
+            bubbleParams[map.getZoom()].finish_opacity = params.getFinishOpacity();
         });
         applyParams();
         function applyParams() {
@@ -481,7 +481,7 @@
             grad.find('stop:first').css('stop-color', bubbleParams[index].start_color);
             grad.find('stop:last').css('stop-opacity', bubbleParams[index].finish_opacity.toString());
             grad.find('stop:first').css('stop-opacity', bubbleParams[index].start_opacity.toString());
-            console.log(grad.find('stop:first'));
+            console.log(bubbleParams[index].finish_opacity.toString());
             $('#zoom_level').html(index);
         }
     });
