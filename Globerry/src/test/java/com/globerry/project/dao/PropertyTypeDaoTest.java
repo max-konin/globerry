@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.PropertyType;
+import java.util.ArrayList;
 
 
 import junit.framework.TestCase;
@@ -44,10 +45,9 @@ public class PropertyTypeDaoTest {
 	private IPropertyTypeDao propertyTypeDao;
 	@Autowired
 	private SessionFactory sessionFactory;
-
 	private static PropertyType propertyType1;
 	private static PropertyType propertyType2;
-	
+
 	/**
 	 * Create a random string contains 8 characters.
 	 *
@@ -75,15 +75,71 @@ public class PropertyTypeDaoTest {
 		propertyType2.setMinValue(-50);
 		propertyType2.setMaxValue(0);
 		propertyType2.setBetterWhenLess(false);
-		propertyType2.setDependingMonth(false);		
+		propertyType2.setDependingMonth(false);
+	}
+
+	@Test
+	public void addPropertyTypeTest() throws MySqlException {
+		int originalPropertyTypeSize = sessionFactory.getCurrentSession().createQuery("from PropertyType")
+				.list().size();
+		propertyTypeDao.addPropertyType(propertyType1);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().size() - 1
+				== originalPropertyTypeSize);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().contains(propertyType1));
+	}
+
+	@Test
+	public void removePropertyTypeByPropertyType() throws MySqlException {
+		propertyTypeDao.addPropertyType(propertyType1);
+		int originalPropertyTypeSize = sessionFactory.getCurrentSession().createQuery("from PropertyType")
+				.list().size();
+		propertyTypeDao.removePropertyType(propertyType1);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().size() + 1
+				== originalPropertyTypeSize);
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().contains(propertyType1));
 	}
 	
 	@Test
-	public void addPropertyTypeTest() throws MySqlException {
-		int originalPropertyTypeSize = sessionFactory.getCurrentSession().createQuery("from PropertyType").list().size();
+	public void removePropertyTypeById() throws MySqlException {
 		propertyTypeDao.addPropertyType(propertyType1);
-		assertTrue(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().size() - 1 == originalPropertyTypeSize);
-		assertTrue(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().contains(propertyType1));
+		int originalPropertyTypeSize = sessionFactory.getCurrentSession().createQuery("from PropertyType")
+				.list().size();
+		propertyTypeDao.removePropertyType(propertyType1.getId());
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().size() + 1
+				== originalPropertyTypeSize);
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from PropertyType").list().contains(propertyType1));
 	}
 	
+	@Test
+	public void getPropertyTypeListTest() throws MySqlException {
+		propertyTypeDao.addPropertyType(propertyType1);
+		propertyTypeDao.addPropertyType(propertyType2);
+		List<PropertyType> propertyTypeList = new ArrayList();
+		propertyTypeList.add(propertyType1);
+		propertyTypeList.add(propertyType2);
+		assertTrue(propertyTypeDao.getPropertyTypeList().size() == 2);
+		assertTrue(propertyTypeDao.getPropertyTypeList().equals(propertyTypeList));		
+	}
+	
+	@Test
+	public void getPropertyTypeByIdTest() throws MySqlException {
+		propertyTypeDao.addPropertyType(propertyType1);
+		assertTrue(propertyTypeDao.getById(propertyType1.getId()).equals(propertyType1));
+		assertTrue(propertyTypeDao.getById(666) == null);
+	}
+	
+	@Test
+	public void getPropertyTypeByNameTest() throws MySqlException {
+		propertyTypeDao.addPropertyType(propertyType1);
+		assertTrue(propertyTypeDao.getPropertyTypeByName(propertyType1.getName()).equals(propertyType1));
+		assertTrue(propertyTypeDao.getPropertyTypeByName("UnexisitingName") == null);
+	}
+	
+	@Test
+	public void updatePropertyTypeTest() throws MySqlException {
+		propertyTypeDao.addPropertyType(propertyType1);
+		propertyType1.setName(getGeneratedString());
+		propertyTypeDao.updatePropertyType(propertyType1);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from PropertyType where id =" + propertyType1.getId()).list().get(0).equals(propertyType1));
+	}
 }
