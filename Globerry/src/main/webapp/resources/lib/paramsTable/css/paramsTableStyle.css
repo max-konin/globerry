@@ -20,6 +20,8 @@ div#paramsTable #divA{
     border: #282828 2px solid;
 }
 div#paramsTable {
+    height: 380px;
+    width: auto;
     padding: 20px;
     right: 0px;
     /*    background: #eeeeee;*/
@@ -78,4 +80,8 @@ div.mySliders div.ui-slider, div.ui-slider-range, div.ui-slider-handle{
 /*    background-color: #AAAAAA;*/
     opacity: .7;
 /*    right: -344px;*/
+}
+#param_output{
+    height: 100px;
+/*    width: 400px;*/
 }
