@@ -80,7 +80,8 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button onclick="$('#param_output>td').html(JSON.stringify(bubbleParams));$('#param_output').toggleClass('hidden')">
+                        <button onclick="$('#param_output>td').html(JSON.stringify(bubbleParams));
+                            $('#param_output').toggleClass('hidden')">
                             Показать/скрыть настройки
                         </button>
                     </td>

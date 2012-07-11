@@ -474,12 +474,14 @@
             params.setFinishColor(bubbleParams[index].finish_color);
             params.setStartOpacity(bubbleParams[index].start_opacity);
             params.setFinishOpacity(bubbleParams[index].finish_opacity);
-            var param = bubbleParams[index];
+            //var param = bubbleParams[index];
             var grad = $('#grad1');
-            grad.find('stop:last').css('stop-color', param.finish_color);
-            grad.find('stop:first').css('stop-color', param.start_color);
-            grad.find('stop:last').css('stop-opacity', param.finish_opacity);
-            grad.find('stop:first').css('stop-opacity', param.start_opacity);
+            
+            grad.find('stop:last').css('stop-color', bubbleParams[index].finish_color);
+            grad.find('stop:first').css('stop-color', bubbleParams[index].start_color);
+            grad.find('stop:last').css('stop-opacity', bubbleParams[index].finish_opacity.toString());
+            grad.find('stop:first').css('stop-opacity', bubbleParams[index].start_opacity.toString());
+            console.log(grad.find('stop:first'));
             $('#zoom_level').html(index);
         }
     });

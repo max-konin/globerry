@@ -70,7 +70,7 @@ function createParamTableObject() {
             if (tmpValue >= min && tmpValue <= max){
                 curValue = tmpValue;
             }
-            console.log(curValue);
+            
             $( thisSlider.find('.paramsTableSlider') ).slider({
                 value: curValue
             })
@@ -87,7 +87,7 @@ function createParamTableObject() {
     $('.mySliders').each(function(){
         var thisSlider = $(this);
         var curValue = thisSlider.find('input.cur-amount').val();
-        console.log(curValue);
+        
 
         var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
         var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
@@ -156,9 +156,9 @@ function createParamTableObject() {
     function setSliderValue(thisSlider, val){
         var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
         var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
-        console.log('min='+min);
-        console.log('val='+val);
-        console.log('max='+max);
+        //console.log('min='+min);
+        //console.log('val='+val);
+        //console.log('max='+max);
         
         if (val < min){
             val = min;
