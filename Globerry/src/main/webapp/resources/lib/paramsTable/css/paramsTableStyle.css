@@ -67,12 +67,12 @@ div.mySliders div.ui-slider, div.ui-slider-range, div.ui-slider-handle{
 }
 
 #buttonParamsTable{
-    width: 128px;
-    height: 128px;
+    width: 64px;
+    height: 64px;
     position: absolute;
-    bottom: 200px;
+    top: 100px;
     right: 0px;
-    background: url(../images/settings_128.png) center;
+    background: url(../images/settings_64.png) center;
 /*    background-color: #AAAAAA;*/
     opacity: .7;
 /*    right: -344px;*/
