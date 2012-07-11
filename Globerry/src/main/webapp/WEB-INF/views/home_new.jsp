@@ -344,7 +344,7 @@
             },
     </c:forEach>
     ];
-    var bubbles;
+    var bubbles, params;
     $(document).ready(function() {
         //Устанавливаем январь активным в выдвигающимся меню.
         $('#allMonths>div:first').addClass('activeMonth');
@@ -418,7 +418,6 @@
             $(this).slider(params);
         });
     });
-    
     $(document).ready(function(){ 
         
         cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
@@ -435,31 +434,55 @@
             
         });
         map.setView(new L.LatLng(51.505, -0.09), 2).addLayer(cloudmade);
+        map.on('zoomend', function() {
+            applyParams();
             
+        })
         var canvas = BubbleFieldProvider(map);
         bubbles = BubblesInit(canvas, initCities);
             
             
         bubbles.draw();
         //Запиливаем тэг defs к svg, чтобы была возможность рисовать круги с градиентом.
-        appendSVGGradientData();
+        appendSVGGradientData(2);
         document.params = createParamTableObject();
-        console.log(document.params.getStartOpacity());
-        
-        
-            
-    });
-    function saveParams(){
-        savedParams = {
-            //key:value,
-            startColor: document.params.getStartColor(),
-            finishColor: document.params.getFinishColor(),
-            startOpacity: document.params.getStartOpacity(),
-            finishOpacity: document.params.getFinishOpacity(),
-            
+        params = document.params;
+        params.bind('onRadiusChanged', function() {
+            bubbles.setZoom(params.getRadius());
+        });
+        params.bind('onStartColorChanged', function(){
+            $('#grad1').find('stop:first').css('stop-color', params.getStartColor());
+            bubbleParams[map.getZoom()].start_color = params.getStartColor();
+        });
+        params.bind('onFinishColorChanged', function(){
+            $('#grad1').find('stop:last').css('stop-color', params.getFinishColor());
+            bubbleParams[map.getZoom()].finish_color = params.getFinishColor();
+        });
+        params.bind('onStartOpacityChanged', function() {
+            $('#grad1').find('stop:first').css('stop-opacity', params.getStartOpacity().toString());
+            bubbleParams[map.getZoom()].start_opacity = params.getStartOpacity();
+        });
+        params.bind('onFinishOpacityChanged', function() {
+            $('#grad1').find('stop:last').css('stop-opacity', params.getFinishOpacity().toString());
+            bubbleParams[map.getZoom()].start_opacity = params.getFinishOpacity();
+        });
+        applyParams();
+        function applyParams() {
+            var index = map.getZoom();
+            params.setRadius(bubbles.getRadius());
+            params.setStartColor(bubbleParams[index].start_color);
+            params.setFinishColor(bubbleParams[index].finish_color);
+            params.setStartOpacity(bubbleParams[index].start_opacity);
+            params.setFinishOpacity(bubbleParams[index].finish_opacity);
+            var param = bubbleParams[index];
+            var grad = $('#grad1');
+            grad.find('stop:last').css('stop-color', param.finish_color);
+            grad.find('stop:first').css('stop-color', param.start_color);
+            grad.find('stop:last').css('stop-opacity', param.finish_opacity);
+            grad.find('stop:first').css('stop-opacity', param.start_opacity);
+            $('#zoom_level').html(index);
         }
-        return savedParams;
-    }
+    });
     
     function sendRequest(id, data) {
         
@@ -480,6 +503,5 @@
             }
         });
     }
-
 </script>
 </html>

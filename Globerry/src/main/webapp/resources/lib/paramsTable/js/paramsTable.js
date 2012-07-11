@@ -1,6 +1,35 @@
-//панель параметров
-$(document).ready(function() {
-    $(function(){
+function createParamTableObject() {
+    var events = {
+        eventsArray :  {
+            'onStartColorChanged' : [],
+            'onFinishColorChanged' : [],
+            'onStartOpacityChanged' :[],
+            'onFinishOpacityChanged' : [],
+            'onRadiusChanged' : []
+        },
+        bind : function(evtName, callback) {
+            var eventQueue = events.eventsArray[evtName];
+            if(!eventQueue)
+                return;
+            eventQueue.push(callback);
+        },
+        trigger : function(evtName, params) {
+            var eventsQueue = events.eventsArray[evtName];
+            if(!eventsQueue)
+                return;
+            for(var i = 0, l = eventsQueue.length; i < l; i++) {
+                eventsQueue[i].apply(window, params);
+            }
+        }
+    }
+    var domId2EventMap = {
+        'radius' : 'onRadiusChanged',
+        'gradient_start_color' : 'onStartColorChanged',
+        'gradient_finish_color' : 'onFinishColorChanged',
+        'gradient_opacity_start' : 'onStartOpacityChanged',
+        'gradient_opacity_finish' : 'onFinishOpacityChanged'
+    }
+    //$(function(){
         $('.panel').tabSlideOut({							//Класс панели
             tabHandle: '.handle',						//Класс кнопки
             pathToTabImage: '../images/button.gif',				//Путь к изображению кнопки (почему-то не работает)
@@ -12,7 +41,7 @@ $(document).ready(function() {
             topPos: '200px',							//Отступ сверху
             fixedPosition: false						//Позиционирование блока false - position: absolute, true - position: fixed
         });
-    });
+    //});
     
     //скрываем/показываем панель настроек
     $('a.handle').css('background-color','black');
@@ -50,50 +79,37 @@ $(document).ready(function() {
     
     
     //обработка слайдеров
-    $(function() {
-        var inputClass = ".cur-amount";
-        var sliderDivClass = '.mySliders';
-        var sliderClass = '.paramsTableSlider';
-        
-        //        $('input#gradient_opacity_start').change(function() {
-        //            console.log('Handler for .change() called.');
-        //        });
-        
-        $('.mySliders').each(function(){
-            var thisSlider = $(this);
-            var curValue = thisSlider.find('input.cur-amount').val();
-            console.log(curValue);
-            
-            var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
-            var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
-            changeInputValue(thisSlider);
-            //            $(this).find('div.inputsDiv > input.cur-amount').change(function() {
-            //                var tmpValue = thisSlider.find('input.cur-amount').val();
-            //                //ограничения максимального и минимального вводимых значений
-            //                if (tmpValue >= min && tmpValue <= max){
-            //                    curValue = tmpValue;
-            //                }
-            //                console.log(curValue);
-            //                $( thisSlider.find('.paramsTableSlider') ).slider({
-            //                    value: curValue
-            //                })
-            //            });
-            $( $(this).find(sliderClass) ).slider({
-                range: "min",
-                value: 50,
-                min: min,
-                max: max,
-                slide: function( event, ui ) {
-                    thisSlider.find('input.cur-amount').val( ui.value );
-                    
-                    
-                }
-            });
-            var sliderValue = $(  $(this).find('div.paramsTableSlider') ).slider( "value" );
-            $(this).find('input.cur-amount').val( sliderValue);
-        });
-    });  
+    //$(function() {
+    var inputClass = ".cur-amount";
+    var sliderDivClass = '.mySliders';
+    var sliderClass = '.paramsTableSlider';
 
+    $('.mySliders').each(function(){
+        var thisSlider = $(this);
+        var curValue = thisSlider.find('input.cur-amount').val();
+        console.log(curValue);
+
+        var min = parseFloat(thisSlider.find('.inputsDiv > input.min-amount').val());
+        var max = parseFloat(thisSlider.find('.inputsDiv > input.max-amount').val());
+        changeInputValue(thisSlider);
+        $( $(this).find(sliderClass) ).slider({
+            range: "min",
+            value: 50,
+            min: 0,//min,
+            max: 100,//max,
+            step: 0.1,
+            slide: function( event, ui ) {
+                thisSlider.find('input.cur-amount').val( ui.value );
+                var evtName = domId2EventMap[thisSlider.find('input.cur-amount').attr('id')];
+                if(evtName)
+                    events.trigger(evtName, null);
+            }
+        });
+        var sliderValue = $(  $(this).find('div.paramsTableSlider') ).slider( "value" );
+        $(this).find('input.cur-amount').val( sliderValue);
+    });
+    //});  
+    
     function rgb2hex(rgb) {
         if (  rgb.search("rgb") == -1 ) {
             return rgb;
@@ -110,6 +126,7 @@ $(document).ready(function() {
     var colorSelectorClass = '.colorSelector';
     $(colorSelectorClass).each(function(){
         var thisDiv = $(this).find('div');
+        var div = $(this);
         //поулчаем заданный цвет
         var curColor = rgb2hex($(this).find('div').css('backgroundColor'));
         $(this).ColorPicker({
@@ -128,34 +145,12 @@ $(document).ready(function() {
             },
             onChange: function (hsb, hex, rgb) {
                 thisDiv.css('backgroundColor', '#' + hex);
+                var evtName = domId2EventMap[div.attr('id')];
+                if(evtName)
+                    events.trigger(evtName, null);
             }
         })
     });
-});
-function createParamTableObject() {
-    var events = {
-        eventsArray :  {
-            onStartColorChanged : [],
-            onFinishColorChanged : [],
-            onStartOpacityChanged :[],
-            onFinishOpacityChanged : [],
-            onRadiusChanged : []
-        },
-        bind : function(evtName, callback) {
-            var eventQueue = events[evtName];
-            if(!eventQueue)
-                return;
-            eventQueue.push(callback);
-        },
-        trigger : function(evtName, params) {
-            var eventsQueue = events[evtName];
-            if(!eventsQueue)
-                return;
-            for(var i = 0, l = eventsQueue.length; i < l; i++) {
-                eventsQueue[i].apply(window, params);
-            }
-        }
-    }
     
     //передвижение ползунка слайдера
     function setSliderValue(thisSlider, val){
@@ -175,9 +170,8 @@ function createParamTableObject() {
             value: val
         })
         return val;
-    };
+    }
     
-    //get
     function getZoomLevel(){
         return $('#zoom_level').text();
     }
@@ -191,10 +185,13 @@ function createParamTableObject() {
         return $('#gradient_finish_color > div').css('background-color');
     }
     function getStartOpacity() {
-        return parseFloat($('#gradient_opacity_start').val());
+        return parseFloat($('#gradient_opacity_start').val())/100;
     }
     function getFinishOpacity() {
-        return parseFloat($('#gradient_opacity_finish').val());
+        return parseFloat($('#gradient_opacity_finish').val())/100;
+    }
+    function getRadius() {
+        return parseFloat($('#radius').val())*10000;
     }
     //set
     function setStartColor(color) {
@@ -204,17 +201,24 @@ function createParamTableObject() {
         return $('#gradient_finish_color > div').css('background-color',color);
     }
     function setStartOpacity(opacityVal) {
-        opacityVal = parseInt(opacityVal);
+        opacityVal = parseInt(opacityVal*100);
         var thisSlider = $('#gradient_opacity_start').parent().parent();
         var val = setSliderValue(thisSlider,opacityVal);
         return $('#gradient_opacity_start').val(val);
     }
     function setFinishOpacity(opacityVal) {
-        opacityVal = parseInt(opacityVal);
+        opacityVal = parseInt(opacityVal*100);
         var thisSlider = $('#gradient_opacity_finish').parent().parent();
         var val = setSliderValue(thisSlider,opacityVal);
         return parseFloat($('#gradient_opacity_finish').val(val));
     }
+    function setRadius(radius) {
+        radius = parseInt(radius/10000);
+        var thisSlider = $('#radius').parent().parent();
+        $('#radius').val(radius);
+        setSliderValue(thisSlider, radius);
+    }
+    
     var me = {
         getStartColor : getStartColor,
         getFinishColor : getFinishColor,
@@ -224,7 +228,11 @@ function createParamTableObject() {
         setStartColor : setStartColor,
         setFinishColor : setFinishColor,
         setStartOpacity : setStartOpacity,
-        setFinishOpacity : setFinishOpacity
+        setFinishOpacity : setFinishOpacity,
+        
+        getRadius : getRadius,
+        setRadius : setRadius,
+        bind : events.bind
     }
     return me;
 }

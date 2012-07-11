@@ -11,7 +11,7 @@
     <span lang="ru">
         <!--                    Таблица параметров-->
         <div id="table">
-            <table width="300px" border="1">
+            <table width="300px" border="1" id="param_table">
                 <!--        заголовок таблицы    -->
                 <tr>
                     <td>Уровень приближения</td>
@@ -78,7 +78,15 @@
                         </div>
                     </td>
                 </tr>
-
+                <tr>
+                    <td colspan="2">
+                        <button onclick="$('#param_output>td').html(JSON.stringify(bubbleParams));$('#param_output').toggleClass('hidden')">
+                            Показать/скрыть настройки
+                        </button>
+                    </td>
+                </tr>
+                <tr class="hidden" id="param_output"><td colspan="2"></td></tr>
+                
             </table>
         </div>
     </span>

@@ -80,7 +80,7 @@
                 return;
             }
             $('.curve').remove();
-            graph.draw3D(points, value);
+            graph.drawIsoline(points, value);
         }
        
         var NS = "http://www.w3.org/2000/svg";
@@ -138,8 +138,8 @@
             point.weight = 2;
             points.push(point);*/
             //graph.drawRays(rays);
-            graph.draw3D(points, 3.84);
-            //graph.drawPoints(points);
+            //graph.draw3D(points, 3.84);
+            graph.drawIsoline(points,3);
             
             $('#wolfram').append(plotString(points));
         });
@@ -384,44 +384,117 @@
                     }
                     return Point(dx, dy);
                 }
-                function findSedlo(fromX, fromY) {
-                    var z_shtrih = dZdxy(fromX, fromY);
-                    var len = z_shtrih.length(), prevLen;
+                function gradientDescent(fromX, fromY) {
+                    var x1 = fromX, y1 = fromY, x2, y2;
+                    var z1 = Z(x1, y1), z2;
                     var count = 0;
-                    var x = fromX, y = fromY, prevX, prevY;
-                    while(len > 0.03) {
-                        prevX = x;
-                        prevY = y;
-                        x += z_shtrih.getX();
-                        y += z_shtrih.getY();
-                        prevLen = len;
-                        len = dZdxy(x,y);
-                        if(len > prevLen) {
-                            return Point(prevX, prevY)
+                    var travelLength = 0;
+                    var direction;
+                    var zshtrih;
+                    //var prevDirection = direction;
+                    if(z1 < level)
+                        direction = 1;
+                    else
+                        direction = -1;
+                    while(true) {
+                        zshtrih = dZdxy(x1, y1);
+                        zshtrih.normalize();
+                        var dx = direction*zshtrih.getX()*dxdy.x;
+                        var dy = direction*zshtrih.getY()*dxdy.y;
+                        travelLength += Math.sqrt(dx*dx + dy*dy);
+                        x2 = x1 + dx;
+                        y2 = y1 + dy;
+                        z2 = Z(x2, y2);
+                        if(z2*direction > direction*level) {
+                            if(Math.abs(z2 - level) > eps) {
+                                x2 = (level - z1)/(z2 - z1)*(x2 - x1) + x1;
+                                y2 = (level - z1)/(z2 - z1)*(y2 - y1) + y1;
+                            }
+                            break;
                         }
-                    }
-                    return Point(x, y);
+                        
+                        x1 = x2, y1 = y2, z1 = z2;
+                        count++;
+                        if(count > 100)
+                            break;
+                    }   
+                    return Point(x2,y2);
                 }
-                function gradientDescent() {
+                function getTile(point) {
+                    for(var i = 0, l = tiles.length; i<l; i++) {
+                        var distance = point.distance(tiles[i].getCorner());
+                        if(distance < tileMapSize/3)
+                            return tiles[i];
+                    }
+                    return false;
+                }
+                function findWay(tile, point) {
                     
                 }
                 //Переменные алгоритма
-                var z,z_shtrih, x, y, zAside, xAside, yAside, zAside_shtrih, zNew, zNew_shtrih, xNew, yNew, count;
-                var saddlePoints = []; // Найденные седловые точки
+                var z,z_shtrih, x, y, zAside, xAside, yAside, zAside_shtrih, zNew, zNew_shtrih, xNew, yNew, count = 0;
+                var zSusp = 2;
+                var tiles = [], tileMapSize = 1;
+                var rays = [];
                 //Константы алгортима
-                var dxdy = Point(0.05, 0.05), step = Point(1,1), eps = 0.05, sedloFactor = 0.8;/*Если модуль градиента меньше этого значения, то ищем седло*/
+                var dxdy = Point(0.05, 0.05), step = Point(0.7,0.7), eps = 0.05;
                 //Возвращаемые значения
                 var rays = [];
                 
-                xAside = points[0].x + 0.1, yAside = points[0].y + 0.1;
+                
+                var path = "";
+                var tilesPath = "";
+                xAside = points[0].x + 0.05, yAside = points[0].y + 0.05;
                 zAside = Z(xAside, yAside);
                 zAside_shtrih = dZdxy(xAside, yAside);
                 while(true) {
                     
+                    path = "M " + projectX(xAside) + " " + projectY(yAside);
+                    var p = gradientDescent(xAside, yAside);
+                    
+                    x = p.x, y = p.y;
+                    z_shtrih = dZdxy(x, y);
+                    if($('#alert').attr('checked'))
+                        alert(z_shtrih.length());
+                    if(z_shtrih.length() < 0.6 && level > zSusp) {
+                        appendText(x+0.1, y, z_shtrih.toString(),'curve');
+                        var xTile, yTile, tile;
+                        if(z_shtrih.x > 0)
+                            xTile = x - tileMapSize*0.3;
+                        else
+                            xTile = x - tileMapSize*0.7;
+                        if(z_shtrih.y > 0)
+                            yTile = y - tileMapSize*0.3;
+                        else
+                            yTile = y - tileMapSize*0.7;
+                        tile = getTile(Point(xTile, yTile));
+
+                        if(!tile) {
+                            tile = ZTile(xTile, yTile, tileMapSize, tileMapSize, Z);
+                            tile.fill();
+                            tiles.push(tile);
+                            tilesPath = "M " + projectX(tile.getCorner().x) + " " +projectY(tile.getCorner().y) +
+                                "H " + projectX(tile.getCorner().x + tile.getSizeX()) + " " + 
+                                "V " + projectY(tile.getCorner().y + tile.getSizeY()) + " " +
+                                "H " + projectX(tile.getCorner().x) + " " + 
+                                "V " + projectY(tile.getCorner().y);
+                            appendPath(tilesPath,'black', 2, 'curve');
+                        }
+                    }
+                    var ray = Ray(p, Point(-z_shtrih.getY(), z_shtrih.getX()), true);
+                    z_shtrih.normalize();
+                    xAside = x - z_shtrih.getY()*step.x;
+                    yAside = y + z_shtrih.getX()*step.y;
+                    path += "L " + projectX(x) + " " + projectY(y) + "L " + projectX(xAside) + " " + projectY(yAside);
+                    
+                    appendPath(path,'green', 3, 'curve');
+                    
                     count++;
-                    if(count > 100)
-                    break;
+                    rays.push(ray);
+                    if(count > 10)
+                        break;
                 }
+                drawRays(rays);
                 
             }
             
@@ -492,54 +565,6 @@
                         
                     return Point(x2,y2);
                 }
-                //var x = (maxX - minX)/2, y = (maxY - minY)/2;
-                function findSedlo(fromX, fromY) {
-                    var z_shtrih = Z_shtrih(fromX, fromY);
-                    var z_shtrihPrev = z_shtrih;
-                    var len = z_shtrih.length(), prevLen;
-                    var count = 0;
-                    var x = fromX, y = fromY, prevX, prevY;
-                    var path = "";
-                    var signX = 1, signY = 1;
-                    var sign = 1;
-                    var flag = false;
-                    var stepX = 0.1, stepY = 0.1;
-                    if(z_shtrih.x*z_shtrih.y > 0)
-                        return;
-                    function foobar() {
-                        x = prevX + z_shtrihPrev.x*stepX;
-                        y = prevY + z_shtrihPrev.y*stepY;
-                        z_shtrih = Z_shtrih(x,y);
-                    }
-                    while(len > 0.1) {
-                        z_shtrihPrev = z_shtrih;
-                        prevX = x, prevY = y;
-                        
-                        
-                        foobar();
-                        if(z_shtrih.x*z_shtrih.y > 0) {
-                            sign *= -1;
-                            foobar();
-                        }
-                        if(z_shtrih.length() > z_shtrihPrev.length()) {
-                            stepX *= -1;
-                            stepY *= -1;
-                            foobar();
-                        }
-                        path = "M " +projectX(prevX) + " "+projectY(prevY)+"L "+projectX(x) + " "+projectY(y);
-                        appendPath(path,'red', 'curve');
-                        alert(z_shtrih);
-                        /*if(!signChangedY) {
-                            signChangedY = z_shtrih.x * z_shtrihPrev.x <= 0;
-                        }*/
-                        len = z_shtrih.length();
-                        count++;
-                        //alert(x);
-                        if(count > 50)
-                            break;
-                    }
-                    return Point(x, y);
-                }
                 function checkSedlo() {
                     var d = 0.005;
                     var zshtrih2 = Z_shtrih(expectedX, expectedY);
@@ -586,13 +611,7 @@
                     var j = 1
                     for(; j < 10; j++) {
                         var delitel = j;
-                        if(len < 0.9) {
-                            var P = findSedlo(newPoint.x, newPoint.y);
-                            if(P)
-                                appendCircle(P, 7, 'curve');
-                            delitel *= 1.5;
-                    
-                        }
+                        
                         expectedX = newPoint.x - zshtrih.getY()*stepX/delitel;
                         expectedY = newPoint.y + zshtrih.getX()*stepY/delitel;
                         var sedlo = checkSedlo();
@@ -724,6 +743,39 @@
                 getPoint : getPoint,
                 cross: cross
             };
+            
+        }
+        function ZTile(_x, _y, _sizeX, _sizeY, foo) {
+            var sizeX = _sizeX, sizeY = _sizeY, corner = Point(_x, _y);
+            var func = foo;
+            var points = [];
+            var step = 0.3;
+            
+            function getSizeX() { return sizeX; }
+            function setSiseX(size) { _sizeX = size; }
+            function getSizeY() { return sizeY; }
+            function setSiseY(size) { _sizeY = size }
+            function getCorner() { return corner; }
+            function toString() {
+                var ret = "";
+                for(var i = 0, l = points.length; i < l; i++) {
+                    for(var j = 0, ll=points[i].length;j<ll; j++)
+                        ret += points[i][j] + " ";
+                    ret += "\n";
+                }
+                return ret;
+            }
+            function fill() {
+                for(var y = corner.y; y < corner.y + sizeY; y += step) {
+                    var arr = [];
+                    for(var x = corner.x; x < corner.x + sizeX; x += step) {
+                        arr.push(foo(x, y));
+                    }
+                    points.push(arr);
+                }
+            }
+            var me = {getSizeX:getSizeX,setSiseX:setSiseX,getSizeY:getSizeY,setSiseY:setSiseY,getCorner:getCorner,fill:fill,toString : toString}
+            return me;
             
         }
     </script>

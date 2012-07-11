@@ -49,8 +49,7 @@ $(document).ready(function() {
 
             thisDiv.css('backgroundColor', '#' + hex);
         }
-    })
-        });
+    })});
 });
 function createParamTableObject() {
     var events = {
@@ -88,5 +87,18 @@ function createParamTableObject() {
     function getFinishOpacity() {
         return parseFloat($('#gradiet_opacity_finish').val());
     }
-    
+    function setStartColor() {
+        
+    }
+    function setRadius() {
+        
+    }
+    function bind(evtName, callback) {
+        events.bind(evtName, callback);
+    }
+    function a() {
+        events.trigger('onRadiusChanged', 123);
+    }
+    var me = {getStartColor : getStartColor, setStartColor : setStartColor};
+    return me;
 }
