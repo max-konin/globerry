@@ -2,7 +2,7 @@
  Эта функция добавляет тэг <defs> к тегу <svg>, чтобы активизировать возможность создания градиента. Leaflet не умеет
  делать этого по умолчанию.
  **/
-function appendSVGGradientData() {
+function appendSVGGradientData(zoomLevel) {
     var NS = "http://www.w3.org/2000/svg";
     function createElement(name) {
         return document.createElementNS(NS,name);
@@ -22,17 +22,13 @@ function appendSVGGradientData() {
             
     var stop = createElement('stop');
     stop.setAttribute('offset', '0%');
-    stop.setAttribute('style', 'stop-color:orange;stop-opacity:0.8');
+    stop.setAttribute('style', 'stop-color:'+bubbleParams[zoomLevel].start_color+';stop-opacity:' + bubbleParams[zoomLevel].start_opacity);
     gradient.appendChild(stop);
             
     stop = createElement('stop');
     stop.setAttribute('offset', '100%');
-    stop.setAttribute('style', 'stop-color:orange;stop-opacity:0');
+    stop.setAttribute('style', 'stop-color:'+bubbleParams[zoomLevel].finish_color+';stop-opacity:' + bubbleParams[zoomLevel].finish_opacity);
     gradient.appendChild(stop);
-    /*stop = createElement('stop');
-    stop.setAttribute('offset', '100%');
-    stop.setAttribute('style', 'stop-color:orange;stop-opacity:0.5');
-    gradient.appendChild(stop);*/
     
     var svg = document.getElementsByTagName('svg')[0];
     if(svg)
@@ -40,6 +36,51 @@ function appendSVGGradientData() {
     
     
     
+}
+//Параметры кружочков на каждом уровне
+var bubbleParams = {
+    2 : {
+        start_opacity : 0.8,
+        finish_opacity : 0,
+        start_color : '#ffa500',
+        finish_color : '#ffa500'
+    },
+    3 : {
+        start_opacity : 0.8,
+        finish_opacity : 0,
+        start_color : '#ffa500',
+        finish_color : '#ffa500'
+    },
+    4 : {
+        start_opacity : 0.8,
+        finish_opacity : 0,
+        start_color : '#ffa500',
+        finish_color : '#ffa500'
+    },
+    5 : {
+        start_opacity : 0.8,
+        finish_opacity : 0,
+        start_color : '#ffa500',
+        finish_color : '#ffa500'
+    },
+    6 : {
+        start_opacity : 0.8,
+        finish_opacity : 0,
+        start_color : '#ffa500',
+        finish_color : '#ffa500'
+    },
+    7 : {
+        start_opacity : 0.8,
+        finish_opacity : 0,
+        start_color : '#ffa500',
+        finish_color : '#ffa500'
+    },
+    8 : {
+        start_opacity : 0.8,
+        finish_opacity : 0,
+        start_color : '#ffa500',
+        finish_color : '#ffa500'
+    }
 }
 function BubblesInit(bubbleCanvas, initialBubbles) {
     var bubbles = {};
@@ -76,7 +117,9 @@ function BubblesInit(bubbleCanvas, initialBubbles) {
     }
     var me = {
         update : update,
-        draw : draw
+        draw : draw,
+        setZoom : bubbleCanvas.setZoom,
+        getRadius : bubbleCanvas.getRadius
     }
     return me;
 }
@@ -115,10 +158,29 @@ function BubbleFieldProvider(/*Это объект L.Map*/lmap) {
         circle.setRadius(radius);
         circle.radius = radius;
     }
+    function setZoom(value) {
+        if(value < 100)
+            return;
+        currentZoom = map.getZoom();
+        var prevValue = zoomNormalizer[currentZoom];
+        if(!prevValue) return;
+        zoomNormalizer[currentZoom] = value;
+        for(var key in mapObjects) {
+           var circle = mapObjects[key];
+           var r = value;
+           circle.setRadius(r);
+           circle.radius = r;
+       }
+    }
+    function getRadius() {
+        return zoomNormalizer[map.getZoom()];
+    }
     var me = {
         putBubble : putBubble,
         removeBubble : removeBubble,
-        changeBubble : changeBubble
+        changeBubble : changeBubble,
+        setZoom : setZoom,
+        getRadius : getRadius
     }
     
     /**Подписываемся на события карты**/

@@ -22,8 +22,11 @@ import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Event;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Tour;
+import java.util.ArrayList;
 import java.util.HashSet;
 import org.junit.BeforeClass;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/daoTestContext.xml")
@@ -32,10 +35,7 @@ import org.junit.BeforeClass;
 	DirtiesContextTestExecutionListener.class,
 	ContextLoaderListener.class
 })
-/**
- * @author Sergey Krupin
- *
- */
+@DirtiesContext(classMode=DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class EventDaoTest {
 
 	@Autowired
@@ -46,15 +46,6 @@ public class EventDaoTest {
 	ICityDao cityDao;
 	@Autowired
 	ICompanyDao companyDao;
-	
-	final String imageEvent = "5";
-	final Month monthEvent = Month.DECEMBER;
-	final String nameEvent = "new year";
-	final String descriptionEvent = "adskjlfnh";
-	final String nameCity = "magadan";
-	final String imageEvent2 = "3";
-	final Month monthEvent2 = Month.SEPTEMBER;
-	final String nameEvent2 = "1st september";
 	
 	private static Event event1;
 	private static Event event2;
@@ -91,7 +82,7 @@ public class EventDaoTest {
 		city1.setMessage(null);
 		city2.setName(getGeneratedString());
 		city2.setRu_name(getGeneratedString());
-		city2.setArea(50);
+		city2.setArea(90);
 		city2.setEvents(new HashSet<Event>());
 		city2.setIsValid(Boolean.TRUE);
 		city2.setLatitude(50);
@@ -113,142 +104,59 @@ public class EventDaoTest {
 		return sb.toString();
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test
 	public void addEventWithCityOutDatabaseTest() {
-		eventDao.addEvent(event1, city1);
-	}
-	
-	@Test
-	public void addEventWithCityTest() {
 		try {
-			cityDao.addCity(city1);
 			eventDao.addEvent(event1, city1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
+		} catch(NullPointerException npe) {
+			npe.printStackTrace(System.err);
 		}
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
 	
 	@Test
-	public void initCityTest() {
-		Event event = new Event();
-		event.setImage(imageEvent);
-		event.setMonth(monthEvent);
-		event.setName(nameEvent);
-		event.setDescription(descriptionEvent);
-
-		City city = new City();
-		city.setName(nameCity);
-
-		City city2 = new City();
-		city2.setName(nameCity);
-
-		Event event2 = new Event();
-		event2.setImage(imageEvent2);
-		event2.setMonth(monthEvent2);
-		event2.setName(nameEvent2);
-		event2.setCities(event.getCities());
+	public void addEventWithoutCity() {
+		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
+		eventDao.addEvent(event1);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() - 1 == originalEventSize);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
-
+	
 	@Test
-	public void removeEventTest() throws MySqlException {
-		try {
-			Event event = new Event();
-			event.setImage(imageEvent);
-			event.setMonth(monthEvent);
-			event.setName(nameEvent);
-			event.setDescription(descriptionEvent);
-
-			City city = new City();
-			city.setName(nameCity);
-
-			cityDao.addCity(city);
-			eventDao.addEvent(event, city);
-			eventDao.removeEvent(event);
-		} catch (MySqlException e) {
-			fail(e.getDescription());
-		}
+	@Transactional
+	public void removeEventByEventTest() throws MySqlException {
+		eventDao.addEvent(event1);
+		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
+		eventDao.removeEvent(event1);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() + 1 == originalEventSize);
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
-
+	
 	@Test
-	public void getEventListTest() throws MySqlException //не Работает разобраться!
-	{
-		Event event = new Event();
-		event.setImage(imageEvent);
-		event.setMonth(monthEvent);
-		event.setName(nameEvent);
-		event.setDescription(descriptionEvent);
-
-		City city = new City();
-		city.setName(nameCity);
-
-		cityDao.addCity(city);
-		eventDao.addEvent(event, city);
-		Set<Event> listEvents = city.getEvents();
-		assertTrue(listEvents.contains(event));
-
-		List<Event> listEventsMonth = eventDao.getEventList(monthEvent, city);
-		assertEquals(nameEvent, listEventsMonth.iterator().next().getName());
-
-		List<Event> allEvent = eventDao.getEventList();
-		for (int i = 0; i < allEvent.size(); i++) {
-			System.out.println(allEvent.get(i).getName());
-		}
+	@Transactional
+	public void removeEventById() throws MySqlException {
+		eventDao.addEvent(event1);
+		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
+		eventDao.removeEvent(event1.getId());
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() + 1 == originalEventSize);
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
-
+	
 	@Test
-	public void getEventListWithMonth() throws MySqlException {
-		try {
-			Event event = new Event();
-			event.setImage("1");
-			event.setMonth(Month.DECEMBER);
-			event.setName("Посещение музея");
-			event.setDescription("test");
-			City city = new City();
-			city.setName("Novosibirsk");
-			cityDao.addCity(city);
-			eventDao.addEvent(event, city);
-
-			List<Event> listEvent = eventDao.getEventList(Month.DECEMBER, city);
-			Iterator<Event> it = listEvent.iterator();
-			while (it.hasNext()) {
-				System.out.println(it.next().getName());
-			}
-		} catch (MySqlException e) {
-			fail(e.getDescription());
-		}
+	public void getEventListTest() throws MySqlException {
+		eventDao.addEvent(event1);
+		eventDao.addEvent(event2);
+		List<Event> eventList = new ArrayList();
+		eventList.add(event1);
+		eventList.add(event2);
+		assertTrue(eventDao.getEventList().equals(eventList));
 	}
-
+	
 	@Test
-	public void getEventById() {
-		try {
-			Event eventNew = new Event();
-			eventNew.setDescription("sdhdsfghdh");
-			System.err.println(eventNew.getId());
-			Event event = eventDao.getEventById(eventDao.addEvent(eventNew));
-			System.err.print(event.getDescription());
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("not found 1 event");
-		}
-	}
-
-	@Test
-	public void updateTest() {
-		Event oldEvent = new Event();
-		oldEvent.setName("GoodByeWorld");
-		eventDao.addEvent(oldEvent);
-
-		oldEvent.setName("HelloWorld");
-
-		eventDao.updateEvent(oldEvent);
-		assert (oldEvent.getName().equals(eventDao.getEventById(oldEvent.getId())));
-	}
-
-	@Test
-	public void removeRelationTest() {
-		Event event = new Event();
-		event.setName("Remove relationship from event");
-		City city = new City();
-		city.setName("testName");
+	public void updateEventTest() {
+		eventDao.addEvent(event1);
+		event1.setName(getGeneratedString());
+		eventDao.updateEvent(event1);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event where id = " + event1.getId()).list().get(0).equals(event1));
 	}
 }

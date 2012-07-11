@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
+import org.h2.engine.Session;
+import org.hibernate.SessionFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +38,8 @@ public class CompanyDaoTest {
 	
 	@Autowired
 	private CompanyDao companyDao;
+	@Autowired
+	private SessionFactory sessionFactory; 
 
 	private static Company company1;
 	private static Company company2;
@@ -73,96 +77,68 @@ public class CompanyDaoTest {
 	}
 
 	@Test
-	public void addCompanyTest() {
-		try {
-			companyDao.addCompany(company1);
-		} catch (MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
-		assertTrue(companyDao.getCompanyList().size() == 1);
+	public void addCompanyTest() throws MySqlException {
+		int originalCityListSize = sessionFactory.getCurrentSession().createQuery("from Company").list().size();
+		companyDao.addCompany(company1);
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Company").list().size() - 1 == originalCityListSize);
 		assertTrue(companyDao.getCompanyList().contains(company1));
 	}
 	
 	@Test
-	public void removeCompanyByCompany() {
-		try {
-			companyDao.addCompany(company1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void removeCompanyByCompany() throws MySqlException {
+		companyDao.addCompany(company1);
+		int originalCityListSize = sessionFactory.getCurrentSession().createQuery("from Company").list().size();
 		companyDao.removeCompany(company1);
-		assertTrue(companyDao.getCompanyList().isEmpty());
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Company").list().size() + 1 == originalCityListSize);
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from Company").list().contains(company1));
 	}
 	
 	@Test
-	public void removeCompanyById() {
-		try {
-			companyDao.addCompany(company1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void removeCompanyById() throws MySqlException {
+		companyDao.addCompany(company1);
+		int originalCityListSize = sessionFactory.getCurrentSession().createQuery("from Company").list().size();
 		companyDao.removeCompany(company1.getId());
-		assertTrue(companyDao.getCompanyList().isEmpty());
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Company").list().size() + 1 == originalCityListSize);
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from Company").list().contains(company1));
 	}
 	
 	@Test
-	public void getCompanyListTest() {
-		try {
-			companyDao.addCompany(company1);
-			companyDao.addCompany(company2);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void getCompanyListTest() throws MySqlException {
+		companyDao.addCompany(company1);
+		companyDao.addCompany(company2);
 		List<Company> companyList = new ArrayList();
 		companyList.add(company1);
 		companyList.add(company2);
-		assertTrue(companyDao.getCompanyList().size() == 2);
 		assertTrue(companyDao.getCompanyList().equals(companyList));
 	}
 	
 	@Test
-	public void updateCompanyTest() {
-		try {
-			companyDao.addCompany(company1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void updateCompanyTest() throws MySqlException {
+		companyDao.addCompany(company1);
 		company1.setName(getGeneratedString());
 		companyDao.updateCompany(company1);
-		assertTrue(companyDao.getCompanyList().contains(company1));
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Company where id = " + company1.getId()).list().get(0).equals(company1));
 	}
 	
 	@Test
-	public void getCompanyByLoginTest() {
-		try {
-			companyDao.addCompany(company1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void getCompanyByLoginTest() throws MySqlException {
+		companyDao.addCompany(company1);
 		assertTrue(companyDao.getCompanyByLogin(company1.getLogin()).equals(company1));
 		assertTrue(companyDao.getCompanyByLogin("UnexistedLogin") == null);
 	}
 	
 	@Test
-	public void getCompanyByEmailTest() {
-		try {
-			companyDao.addCompany(company1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void getCompanyByEmailTest() throws MySqlException {
+		companyDao.addCompany(company1);
 		assertTrue(companyDao.getCompanyByEmail(company1.getEmail()).equals(company1));
 		assertTrue(companyDao.getCompanyByEmail("UnexistedEmail") == null);
 	}
 	
 	@Test
-	public void getCompanyByIdTest() {
-		try {
-			companyDao.addCompany(company1);
-		} catch(MySqlException mse) {
-			mse.printStackTrace(System.err);
-		}
+	public void getCompanyByIdTest() throws MySqlException {
+		companyDao.addCompany(company1);
 		assertTrue(companyDao.getCompanyById(company1.getId()).equals(company1));
-		assertTrue(companyDao.getCompanyById(999) == null);
+		assertTrue(companyDao.getCompanyById(666) == null);
 	}
 
 }

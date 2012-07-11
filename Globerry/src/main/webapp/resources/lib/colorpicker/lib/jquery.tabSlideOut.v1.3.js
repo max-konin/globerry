@@ -118,7 +118,7 @@
             obj.css({ 'right': '-' + properties.containerWidth});
             settings.tabHandle.css({'left' : '-' + properties.tabWidth});
             
-            $('html').css('overflow-x', 'hidden');
+//            $('html').css('overflow-x', 'hidden');
         }
 
         //functions for animation events
@@ -130,13 +130,13 @@
         var slideIn = function() {
             
             if (settings.tabLocation === 'top') {
-                obj.animate({top:'-' + properties.containerHeight}, settings.speed).removeClass('open');
+//                obj.animate({top:'-' + properties.containerHeight}, settings.speed).removeClass('open');
             } else if (settings.tabLocation === 'left') {
-                obj.animate({left: '-' + properties.containerWidth}, settings.speed).removeClass('open');
+//                obj.animate({left: '-' + properties.containerWidth}, settings.speed).removeClass('open');
             } else if (settings.tabLocation === 'right') {
-                obj.animate({right: '-' + properties.containerWidth}, settings.speed).removeClass('open');
+//                obj.animate({right: '-' + properties.containerWidth}, settings.speed).removeClass('open');
             } else if (settings.tabLocation === 'bottom') {
-                obj.animate({bottom: '-' + properties.containerHeight}, settings.speed).removeClass('open');
+//                obj.animate({bottom: '-' + properties.containerHeight}, settings.speed).removeClass('open');
             }    
             
         };
@@ -144,13 +144,13 @@
         var slideOut = function() {
             
             if (settings.tabLocation == 'top') {
-                obj.animate({top:'-3px'},  settings.speed).addClass('open');
+//                obj.animate({top:'-3px'},  settings.speed).addClass('open');
             } else if (settings.tabLocation == 'left') {
-                obj.animate({left:'-3px'},  settings.speed).addClass('open');
+//                obj.animate({left:'-3px'},  settings.speed).addClass('open');
             } else if (settings.tabLocation == 'right') {
-                obj.animate({right:'-3px'},  settings.speed).addClass('open');
+//                obj.animate({right:'-3px'},  settings.speed).addClass('open');
             } else if (settings.tabLocation == 'bottom') {
-                obj.animate({bottom:'-3px'},  settings.speed).addClass('open');
+//                obj.animate({bottom:'-3px'},  settings.speed).addClass('open');
             }
         };
 

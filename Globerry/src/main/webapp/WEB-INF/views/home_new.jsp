@@ -31,20 +31,19 @@
     
     <!--   стили для таблицы параметров     -->
 <!--        <link type="text/css" href="resources/lib/colorpicker/lib/jquery-ui-1.8.21/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />-->
-        <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/layout.css" />
-        <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/colorpicker.css" />
-        <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/mystyle.css" />
-        <!--   /стили для таблицы параметров     -->
-        <!--   скрипты для  таблицы параметров   -->
+    <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/layout.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/colorpicker/css/colorpicker.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="resources/lib/paramsTable/css/paramsTableStyle.css" />
+    <!--   /стили для таблицы параметров     -->
+    <!--   скрипты для  таблицы параметров   -->
 <!--        <script type="text/javascript" src="resources/lib/colorpicker/js/jquery.js"></script>-->
-        <script type="text/javascript" src="resources/lib/colorpicker/js/colorpicker.js"></script>
-        <script type="text/javascript" src="resources/lib/colorpicker/js/eye.js"></script>
-        <script type="text/javascript" src="resources/lib/colorpicker/js/utils.js"></script>
-        <script type="text/javascript" src="resources/lib/colorpicker/js/layout.js"></script>
-<!--        <script type="text/javascript" src="resources/lib/colorpicker/lib/jquery-ui-1.8.21/js/jquery.ui-slider.js"></script>-->
-        <script type="text/javascript" src="resources/lib/colorpicker/lib/jquery.tabSlideOut.v1.3.js"></script>
-        <script type="text/javascript" src="resources/lib/colorpicker/js/paramsTable.js"></script>
-        <!--   /скрипты для  таблицы параметров   -->
+    <script type="text/javascript" src="resources/lib/colorpicker/js/colorpicker.js"></script>
+    <script type="text/javascript" src="resources/lib/colorpicker/js/eye.js"></script>
+    <script type="text/javascript" src="resources/lib/colorpicker/js/utils.js"></script>
+    <script type="text/javascript" src="resources/lib/colorpicker/js/layout.js"></script>
+    <script type="text/javascript" src="resources/lib/colorpicker/lib/jquery.tabSlideOut.v1.3.js"></script>
+    <script type="text/javascript" src="resources/lib/paramsTable/js/paramsTable.js"></script>
+    <!--   /скрипты для  таблицы параметров   -->
 </head>
 <body>
     <div id = 'top'>
@@ -345,7 +344,7 @@
             },
     </c:forEach>
     ];
-    var bubbles;
+    var bubbles, params;
     $(document).ready(function() {
         //Устанавливаем январь активным в выдвигающимся меню.
         $('#allMonths>div:first').addClass('activeMonth');
@@ -419,7 +418,6 @@
             $(this).slider(params);
         });
     });
-    
     $(document).ready(function(){ 
         
         cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
@@ -436,15 +434,56 @@
             
         });
         map.setView(new L.LatLng(51.505, -0.09), 2).addLayer(cloudmade);
+        map.on('zoomend', function() {
+            applyParams();
             
+        })
         var canvas = BubbleFieldProvider(map);
         bubbles = BubblesInit(canvas, initCities);
             
             
         bubbles.draw();
         //Запиливаем тэг defs к svg, чтобы была возможность рисовать круги с градиентом.
-        appendSVGGradientData();
+        appendSVGGradientData(2);
+        document.params = createParamTableObject();
+        params = document.params;
+        params.bind('onRadiusChanged', function() {
+            bubbles.setZoom(params.getRadius());
+        });
+        params.bind('onStartColorChanged', function(){
+            $('#grad1').find('stop:first').css('stop-color', params.getStartColor());
+            bubbleParams[map.getZoom()].start_color = params.getStartColor();
+        });
+        params.bind('onFinishColorChanged', function(){
+            $('#grad1').find('stop:last').css('stop-color', params.getFinishColor());
+            bubbleParams[map.getZoom()].finish_color = params.getFinishColor();
+        });
+        params.bind('onStartOpacityChanged', function() {
+            $('#grad1').find('stop:first').css('stop-opacity', params.getStartOpacity().toString());
+            bubbleParams[map.getZoom()].start_opacity = params.getStartOpacity();
+        });
+        params.bind('onFinishOpacityChanged', function() {
+            $('#grad1').find('stop:last').css('stop-opacity', params.getFinishOpacity().toString());
+            bubbleParams[map.getZoom()].finish_opacity = params.getFinishOpacity();
+        });
+        applyParams();
+        function applyParams() {
+            var index = map.getZoom();
+            params.setRadius(bubbles.getRadius());
+            params.setStartColor(bubbleParams[index].start_color);
+            params.setFinishColor(bubbleParams[index].finish_color);
+            params.setStartOpacity(bubbleParams[index].start_opacity);
+            params.setFinishOpacity(bubbleParams[index].finish_opacity);
+            //var param = bubbleParams[index];
+            var grad = $('#grad1');
             
+            grad.find('stop:last').css('stop-color', bubbleParams[index].finish_color);
+            grad.find('stop:first').css('stop-color', bubbleParams[index].start_color);
+            grad.find('stop:last').css('stop-opacity', bubbleParams[index].finish_opacity.toString());
+            grad.find('stop:first').css('stop-opacity', bubbleParams[index].start_opacity.toString());
+            console.log(bubbleParams[index].finish_opacity.toString());
+            $('#zoom_level').html(index);
+        }
     });
     
     function sendRequest(id, data) {
@@ -466,6 +505,5 @@
             }
         });
     }
-
 </script>
 </html>
