@@ -14,6 +14,7 @@ $(document).ready(function() {
         });
     });
     
+    //скрываем/показываем панель настроек
     $('a.handle').css('background-color','black');
     $('#paramsTable').css('right','0px');
     $('#paramsTable').css('display','none');
@@ -163,21 +164,26 @@ function createParamTableObject() {
         console.log('min='+min);
         console.log('val='+val);
         console.log('max='+max);
-        if (val >= min && val <= max){
-            $( thisSlider.find('.paramsTableSlider') ).slider({
-                value: val
-            })
-        }
+        
         if (val < min){
             val = min;
         }
         if (val > max){
             val = max;
         }
+        $( thisSlider.find('.paramsTableSlider') ).slider({
+            value: val
+        })
         return val;
     };
     
     //get
+    function getZoomLevel(){
+        return $('#zoom_level').text();
+    }
+    function getRadius(){
+        //
+    }
     function getStartColor() {
         return $('#gradient_start_color > div').css('background-color');
     }

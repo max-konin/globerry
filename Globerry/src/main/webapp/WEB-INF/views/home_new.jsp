@@ -445,8 +445,21 @@
         appendSVGGradientData();
         document.params = createParamTableObject();
         console.log(document.params.getStartOpacity());
+        
+        
             
     });
+    function saveParams(){
+        savedParams = {
+            //key:value,
+            startColor: document.params.getStartColor(),
+            finishColor: document.params.getFinishColor(),
+            startOpacity: document.params.getStartOpacity(),
+            finishOpacity: document.params.getFinishOpacity(),
+            
+        }
+        return savedParams;
+    }
     
     function sendRequest(id, data) {
         

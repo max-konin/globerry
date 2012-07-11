@@ -29,6 +29,7 @@ div#paramsTable {
     /*    background-image: '../images/button.gif';*/
     background: rgba(255, 255, 255, 0.73);
     background-repeat:round;
+    border: #A5A5A5 2px solid;
 }
 div#paramsTable div.handle{
     background-color: black;
@@ -63,7 +64,8 @@ div.mySliders div.ui-slider, div.ui-slider-range, div.ui-slider-handle{
     float:left;
     border:none;
     margin-bottom: 5px;
-    width: 30%;
+    width: 33%;
+    text-align: center;
 }
 
 #buttonParamsTable{
