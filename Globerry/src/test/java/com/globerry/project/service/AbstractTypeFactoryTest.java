@@ -23,6 +23,10 @@ import com.globerry.project.dao.ContextLoaderListener;
 import com.globerry.project.domain.City;
 import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.AdminParser;
+import com.globerry.project.service.admin.CityPage;
+import com.globerry.project.service.admin.CompanyPage;
+import com.globerry.project.service.admin.EventPage;
+import com.globerry.project.service.admin.WrongPage;
 
 /**
  * @author Artem
@@ -31,14 +35,17 @@ import com.globerry.project.service.admin.AdminParser;
 
 public class AbstractTypeFactoryTest
 {
-    private AbstractTypeFactory abstractTypeFactory;
+    private AbstractTypeFactory abstractTypeFactory = new AbstractTypeFactory();
     
     @Test 
     public void testAdmin()
     {
 	/*String coord = "20 - 250";
 	System.err.println(adminParser.getAverageValue(coord));*/
-
+	assertTrue(abstractTypeFactory.responsePage("CitYAdminPage") instanceof CityPage);
+	assertTrue(abstractTypeFactory.responsePage("evenTADMINPAGE") instanceof EventPage);
+	assertTrue(abstractTypeFactory.responsePage("CompanYADminPage") instanceof CompanyPage);
+	assertTrue(abstractTypeFactory.responsePage("s;kltghdfgho;ierkhg;ohpdfiuyhsrtuhiposrjhposr[ph") instanceof WrongPage);
     }
     
 }
