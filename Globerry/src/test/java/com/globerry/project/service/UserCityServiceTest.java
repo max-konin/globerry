@@ -54,7 +54,7 @@ public class UserCityServiceTest
     {
         MockitoAnnotations.initMocks(this);
         
-        //Определяем состояния тегов в контексте
+        //РћРїСЂРµРґРµР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёСЏ С‚РµРіРѕРІ РІ РєРѕРЅС‚РµРєСЃС‚Рµ
         SelectBox boxWho = new SelectBox(0);
         boxWho.addValue(1);
         boxWho.setValue(1);
@@ -71,7 +71,7 @@ public class UserCityServiceTest
         when(appContext.getWhatTag()).thenReturn(boxWhat);
         when(appContext.getWhenTag()).thenReturn(boxWhen);
         
-        //Определяем, какие теги возвращает tagDao
+        //РћРїСЂРµРґРµР»СЏРµРј, РєР°РєРёРµ С‚РµРіРё РІРѕР·РІСЂР°С‰Р°РµС‚ tagDao
         List<Tag> tags = new ArrayList<Tag>();        
         for(int i = 0; i < 5; i++)
         {
@@ -80,7 +80,7 @@ public class UserCityServiceTest
             tag.setName(String.format("tag-%d", i));
         }     
         when(tagDao.getTagList()).thenReturn(tags);
-        //Оперделяем список городов, которые возвращает CityDao   
+        //РћРїРµСЂРґРµР»СЏРµРј СЃРїРёСЃРѕРє РіРѕСЂРѕРґРѕРІ, РєРѕС‚РѕСЂС‹Рµ РІРѕР·РІСЂР°С‰Р°РµС‚ CityDao   
         for(int i = 0; i < 100; i++)
         {
             City city = new City();
@@ -89,7 +89,7 @@ public class UserCityServiceTest
             city.setPropertyList(new HashSet());
         }
         
-        //Определяем состояние слайдеров, по которым будет проверятся фильтрация городов.             
+        //РћРїСЂРµРґРµР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ СЃР»Р°Р№РґРµСЂРѕРІ, РїРѕ РєРѕС‚РѕСЂС‹Рј Р±СѓРґРµС‚ РїСЂРѕРІРµСЂСЏС‚СЃСЏ С„РёР»СЊС‚СЂР°С†РёСЏ РіРѕСЂРѕРґРѕРІ.             
         
         for(int i = 0; i < 6; i++)
         {
@@ -144,7 +144,7 @@ public class UserCityServiceTest
         assertTrue(result.equals(trueResult));  
         assertTrue(result.size() == trueResult.size()); 
         
-        //Проверяем, что при повторном запросе городов, без изменения тегов не просходит оращения к cityDao
+        //РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РїСЂРё РїРѕРІС‚РѕСЂРЅРѕРј Р·Р°РїСЂРѕСЃРµ РіРѕСЂРѕРґРѕРІ, Р±РµР· РёР·РјРµРЅРµРЅРёСЏ С‚РµРіРѕРІ РЅРµ РїСЂРѕСЃС…РѕРґРёС‚ РѕСЂР°С‰РµРЅРёСЏ Рє cityDao
         service.getCityList(appContext);  
         verify(cityDao, times(1)).getCityListByTagsOnly(any(ICityRequest.class));     
         
@@ -153,7 +153,7 @@ public class UserCityServiceTest
 
     /**
      * Test of onTagChangeHandler method, of class UserCityService.
-     * Тест проверяет, что при tagChanged = true проходит запрос к бд 
+     * РўРµСЃС‚ РїСЂРѕРІРµСЂСЏРµС‚, С‡С‚Рѕ РїСЂРё tagChanged = true РїСЂРѕС…РѕРґРёС‚ Р·Р°РїСЂРѕСЃ Рє Р±Рґ 
      */
     @Test
     public void testOnTagChangeHandler()
