@@ -12,6 +12,8 @@ import com.globerry.project.dao.ITagDao;
 import com.globerry.project.dao.Range;
 import com.globerry.project.domain.*;
 import com.globerry.project.service.gui.SelectBox;
+import com.globerry.project.domain.Tag;
+import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.*;
@@ -52,7 +54,7 @@ public class UserCityServiceTest
     {
         MockitoAnnotations.initMocks(this);
         
-        //РћРїСЂРµРґРµР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёСЏ С‚РµРіРѕРІ РІ РєРѕРЅС‚РµРєСЃС‚Рµ
+        //Определяем состояния тегов в контексте
         SelectBox boxWho = new SelectBox(0);
         boxWho.addValue(1);
         boxWho.setValue(1);
@@ -69,7 +71,7 @@ public class UserCityServiceTest
         when(appContext.getWhatTag()).thenReturn(boxWhat);
         when(appContext.getWhenTag()).thenReturn(boxWhen);
         
-        //РћРїСЂРµРґРµР»СЏРµРј, РєР°РєРёРµ С‚РµРіРё РІРѕР·РІСЂР°С‰Р°РµС‚ tagDao
+        //Определяем, какие теги возвращает tagDao
         List<Tag> tags = new ArrayList<Tag>();        
         for(int i = 0; i < 5; i++)
         {
@@ -78,7 +80,7 @@ public class UserCityServiceTest
             tag.setName(String.format("tag-%d", i));
         }     
         when(tagDao.getTagList()).thenReturn(tags);
-        //РћРїРµСЂРґРµР»СЏРµРј СЃРїРёСЃРѕРє РіРѕСЂРѕРґРѕРІ, РєРѕС‚РѕСЂС‹Рµ РІРѕР·РІСЂР°С‰Р°РµС‚ CityDao   
+        //Оперделяем список городов, которые возвращает CityDao   
         for(int i = 0; i < 100; i++)
         {
             City city = new City();
@@ -87,7 +89,7 @@ public class UserCityServiceTest
             city.setPropertyList(new HashSet());
         }
         
-        //РћРїСЂРµРґРµР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ СЃР»Р°Р№РґРµСЂРѕРІ, РїРѕ РєРѕС‚РѕСЂС‹Рј Р±СѓРґРµС‚ РїСЂРѕРІРµСЂСЏС‚СЃСЏ С„РёР»СЊС‚СЂР°С†РёСЏ РіРѕСЂРѕРґРѕРІ.             
+        //Определяем состояние слайдеров, по которым будет проверятся фильтрация городов.             
         
         for(int i = 0; i < 6; i++)
         {
@@ -142,7 +144,7 @@ public class UserCityServiceTest
         assertTrue(result.equals(trueResult));  
         assertTrue(result.size() == trueResult.size()); 
         
-        //РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РїСЂРё РїРѕРІС‚РѕСЂРЅРѕРј Р·Р°РїСЂРѕСЃРµ РіРѕСЂРѕРґРѕРІ, Р±РµР· РёР·РјРµРЅРµРЅРёСЏ С‚РµРіРѕРІ РЅРµ РїСЂРѕСЃС…РѕРґРёС‚ РѕСЂР°С‰РµРЅРёСЏ Рє cityDao
+        //Проверяем, что при повторном запросе городов, без изменения тегов не просходит оращения к cityDao
         service.getCityList(appContext);  
         verify(cityDao, times(1)).getCityListByTagsOnly(any(ICityRequest.class));     
         
@@ -151,7 +153,7 @@ public class UserCityServiceTest
 
     /**
      * Test of onTagChangeHandler method, of class UserCityService.
-     * РўРµСЃС‚ РїСЂРѕРІРµСЂСЏРµС‚, С‡С‚Рѕ РїСЂРё tagChanged = true РїСЂРѕС…РѕРґРёС‚ Р·Р°РїСЂРѕСЃ Рє Р±Рґ 
+     * Тест проверяет, что при tagChanged = true проходит запрос к бд 
      */
     @Test
     public void testOnTagChangeHandler()
@@ -211,7 +213,7 @@ public class UserCityServiceTest
         instance.changeRange(newRange);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
+    }*/
 
     /**
      * Test of sliderOnChangeHandler method, of class UserCityService.

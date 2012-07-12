@@ -16,6 +16,7 @@ import com.globerry.project.domain.Event;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.ICityRequest;
+import com.globerry.project.dao.CityRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository

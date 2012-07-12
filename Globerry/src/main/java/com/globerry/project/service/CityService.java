@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.CityRequest;
+import com.globerry.project.domain.CityRequest;
 import com.globerry.project.dao.ICityDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.service.interfaces.ICityService;

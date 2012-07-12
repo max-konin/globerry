@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
+import com.globerry.project.dao.CityRequest;
 import com.globerry.project.domain.ICityRequest;
 import com.globerry.project.domain.Tag;
 /**

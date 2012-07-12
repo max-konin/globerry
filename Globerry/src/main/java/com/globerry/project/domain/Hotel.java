@@ -5,6 +5,9 @@ public class Hotel
     private int id;
     private float cost;
     private String name;
+    
+    private static Integer hashCode = null;
+    
     public String getName()
     {
 	return name;
@@ -44,6 +47,7 @@ public class Hotel
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 9;
 	result = 3 * result + (name == null ? 0 : name.hashCode());
 	result = 3 * result + Float.floatToIntBits(cost);

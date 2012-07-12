@@ -90,10 +90,20 @@ public class UserCityService implements IUserCityService {
         
         private ICityRequest createCityRequest(IApplicationContext appContext)
         {
+            
+            if(tags == null)
+            {
+                tags = new HashMap<Integer, Tag> ();
+                for(Tag tag: tagDao.getTagList())
+                    tags.put(tag.getId(), tag);
+            }
+            
             List<Tag> tagsToRequest = new ArrayList<Tag>();
-            tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
+            tagsToRequest
+            	.add(tags.get(appContext.getWhatTag().getValue()));
             tagsToRequest.add(tags.get(appContext.getWhoTag().getValue()));
             return new CityRequest(tagsToRequest);
+       
         }
         
         /*
@@ -154,8 +164,10 @@ public class UserCityService implements IUserCityService {
                 }
                 if (f) resultRequest.add(city);
             }
-            weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);
-            return resultRequest;
+           
+    	weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);
+           
+        return resultRequest;
         }
         
 	private void weightCalculation(List<City> result, List<PropertySegment> propRequest, Month month)

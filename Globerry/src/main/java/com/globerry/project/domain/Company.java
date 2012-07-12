@@ -49,6 +49,8 @@ public class Company {
 	@JoinColumn(name = "tour_id"))
 	private Set<Tour> tourList = new HashSet<Tour>();
 	private Integer access;
+	
+	private static Integer hashCode = null;
 
 	public Integer getAccess() {
 		return access;
@@ -82,14 +84,14 @@ public class Company {
 	if(this.access == null ^ company.getAccess() == null) return false;
 	if(!((this.access == null && company.getAccess() == null) || this.getAccess().equals(company.getAccess()))) return false;
 	
-	if(this.tourList == null ^ company.getTourList() == null) return false;
-	if(!((this.tourList == null && company.getTourList() == null) || this.tourList.equals(company.getTourList()))) return false;
-	if(!this.getTourList().equals(company.getTourList())) return false;
+/*	if(this.tourList == null ^ company.getTourList() == null) return false;
+	if(!((this.tourList == null && company.getTourList() == null) || this.tourList.equals(company.getTourList()))) return false;*/
 	return true;
     }
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 6;
 	result = 3*result + (name == null ? 0 : name.hashCode());
 	result = 3*result + (description == null ? 0 : description.hashCode());
@@ -97,10 +99,10 @@ public class Company {
 	result = 3*result + (login == null ? 0 : login.hashCode());
 	result = 3*result + (password == null ? 0 : password.hashCode());
 	result = 3*result + (access == null ? 0 :access.hashCode());
-	for(Tour tour: tourList)
+/*	for(Tour tour: tourList)
 	{
 	    result = result + tour.hashCode();
-	}
+	}*/
 	return result;
     }
 

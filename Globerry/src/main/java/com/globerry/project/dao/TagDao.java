@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
@@ -28,6 +29,7 @@ public class TagDao implements ITagDao
 {
     @Autowired
     private SessionFactory sessionFactory;
+    
 
     @Override
     public List<Tag> getTagList()

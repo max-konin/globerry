@@ -41,6 +41,8 @@ public class Tour {
 	inverseJoinColumns =
 	@JoinColumn(name = "company_id"))
 	private Company company;
+	
+	private static Integer hashCode = null;
 
 	// <Гетеры сеттеры>
 	public Company getCompany() {
@@ -122,6 +124,7 @@ public class Tour {
 	@Override
 	public int hashCode()
 	{
+	    if(hashCode != null) return hashCode;
 	    int result = 14;
 	    result = 3*result + (name == null ? 0 : name.hashCode());
 	    result = 3*result + Float.floatToIntBits(cost);

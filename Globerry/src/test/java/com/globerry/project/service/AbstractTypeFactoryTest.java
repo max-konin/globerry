@@ -21,31 +21,23 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.ContextLoaderListener;
 import com.globerry.project.domain.City;
+import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.AdminParser;
 
 /**
  * @author Artem
  *
 */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/serviceTestContext.xml")
-@TestExecutionListeners({
 
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-    ContextLoaderListener.class
-
-}) 
 public class AbstractTypeFactoryTest
 {
-    @Autowired
-    private AdminParser adminParser;
+    private AbstractTypeFactory abstractTypeFactory;
     
     @Test 
     public void testAdmin()
     {
-	String coord = "20 - 250";
-	System.err.println(adminParser.getAverageValue(coord));
+	/*String coord = "20 - 250";
+	System.err.println(adminParser.getAverageValue(coord));*/
 
     }
     

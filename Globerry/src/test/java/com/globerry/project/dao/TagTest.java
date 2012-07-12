@@ -21,6 +21,7 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.service.DefaultDatabaseCreator;
 
 /**
  * @author Artem
@@ -37,6 +38,8 @@ import com.globerry.project.domain.Tag;
 })
 public class TagTest
 {
+    @Autowired
+    private DefaultDatabaseCreator ddCreator;
     @Autowired
     private TagDao tagDao;
     @Autowired
@@ -134,6 +137,13 @@ public class TagTest
 	    e.printStackTrace();
 	}
 	
+    }
+    @Test
+    public void getTagList()
+    {
+	ddCreator.initPropertyType();
+	ddCreator.initTags();
+	ddCreator.initCities();
     }
 
 }

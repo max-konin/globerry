@@ -39,6 +39,8 @@ public class Property
 	    )
     private PropertyType propertyType;
     
+    private static Integer hashCode = null;
+    
     public int getId()
     {
 	return id;
@@ -74,16 +76,18 @@ public class Property
 	if(!(obj instanceof Property)) return false;
 	Property property = (Property) obj;
 	
-	if(this.propertyType == null ^ property.getPropertyType() == null) return false;
-	if(!((this.propertyType == null && property.getPropertyType() == null) || this.propertyType.equals(property.getPropertyType()))) return false;
+	/*if(this.propertyType == null ^ property.getPropertyType() == null) return false;
+	if(!((this.propertyType == null && property.getPropertyType() == null) || this.propertyType.equals(property.getPropertyType()))) return false;*/
+	
 	if(!(value == property.getValue())) return false;
 	return true;
     }
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 10;
-	result = 3 * result + (propertyType == null ? 0 : propertyType.hashCode());
+	//result = 3 * result + (propertyType == null ? 0 : propertyType.hashCode());
 	result = 3 * result + Float.floatToIntBits(value);
 	return result;
 	

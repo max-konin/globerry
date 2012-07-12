@@ -37,6 +37,9 @@ public class DependingMonthProperty
     private PropertyType propertyType;
     @Column
     private float value;
+    
+    private static Integer hashCode = null;
+    
     public int getId()
     {
 	return id;
@@ -91,12 +94,14 @@ public class DependingMonthProperty
 	
 	if(this.propertyType == null ^ dmp.getPropertyType() == null)
 	if(!((this.propertyType == null && dmp.getPropertyType() == null) || this.propertyType.equals(dmp.getPropertyType()))) return false;
+	
 	if(!(this.value == dmp.getValue())) return false;
 	return true;
     }
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 7;
 	result = 3*result + (this.month == null ? 0 : this.month.hashCode());
 	result = 3*result + (this.propertyType == null ? 0 : this.propertyType.hashCode());

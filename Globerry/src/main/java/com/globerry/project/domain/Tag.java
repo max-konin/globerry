@@ -46,6 +46,7 @@ public class Tag
     @Enumerated(EnumType.ORDINAL)
     private TagsType tagsType;
     
+    private static Integer hashCode = null;
    
     public int getId()
     {
@@ -91,6 +92,7 @@ public class Tag
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 13;
 	result = 3*result + (name == null ? 0 : name.hashCode());
 	result = 3*result + (img == null ? 0 : img.hashCode());

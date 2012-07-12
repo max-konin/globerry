@@ -23,6 +23,7 @@ public class Air
     @Column(name = "date")
     private Date date;
     
+    private static Integer hashCode = null;
     public String getName()
     {
 	return name;
@@ -73,6 +74,7 @@ public class Air
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 4;
 	result = 3*result + Float.floatToIntBits(cost);
 	result = 3*result + (date == null ? 0 : date.hashCode());

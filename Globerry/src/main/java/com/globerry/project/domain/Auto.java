@@ -5,6 +5,7 @@ public class Auto
     private int id;
     private float cost;
     private String name;
+    private static Integer hashCode = null;
     public String getName()
     {
 	return name;
@@ -44,6 +45,7 @@ public class Auto
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 5;
 	result = 3*result + Float.floatToIntBits(cost);
 	result = 3*result + (name == null ? 0 : name.hashCode());

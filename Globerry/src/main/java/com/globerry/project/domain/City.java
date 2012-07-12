@@ -61,6 +61,8 @@ public class City implements Serializable
     @Column
     private String message;
     
+    private static Integer hashCode = null;
+    
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToOne(
@@ -278,7 +280,7 @@ public class City implements Serializable
 	if(!(this.getLatitude() == city.getLatitude())) return false;
 	if(!(this.getLongitude() == city.getLongitude())) return false;
 	
-	if(this.proposals == null ^ city.getProposals() == null) return false;
+/*	if(this.proposals == null ^ city.getProposals() == null) return false;
 	if(!((this.proposals == null && city.getProposals() == null) || this.proposals.equals(city.getProposals()))) return false;
 	
 	if(this.dmpList == null ^ city.getDmpList() == null) return false;
@@ -291,13 +293,14 @@ public class City implements Serializable
 	if(!((this.eventList == null && city.getEvents() == null) || this.eventList.equals(city.getEvents()))) return false;
 	
 	if(this.tagList == null ^ city.getTagList() == null) return false;
-	if(!((this.tagList == null && city.getTagList() == null) || this.tagList.equals(city.getTagList()))) return false;
+	if(!((this.tagList == null && city.getTagList() == null) || this.tagList.equals(city.getTagList()))) return false;*/
 	return true;
 
     }
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 5;
 	result = 3*result + (name == null ? 0 : name.hashCode());
 	result = 3*result + (ru_name == null ? 0 :ru_name.hashCode());
@@ -305,8 +308,8 @@ public class City implements Serializable
 	result = 3*result + population;
 	result = 3*result + Float.floatToIntBits(longitude);
 	result = 3*result + Float.floatToIntBits(latitude);
-	result = 3 * result + (proposals == null ? 0 :proposals.hashCode());
-	for(DependingMonthProperty elem: dmpList)
+//	result = 3 * result + (proposals == null ? 0 :proposals.hashCode());
+/*	for(DependingMonthProperty elem: dmpList)
 	{
 	    result = result + elem.hashCode();
 	}
@@ -321,7 +324,7 @@ public class City implements Serializable
 	for(Tag elem: tagList)
 	{
 	    result = result + elem.hashCode();
-	}
+	}*/
 	return result;
     }
     public float getWeight()
