@@ -67,13 +67,16 @@ public class GloberryGuiContext implements IApplicationContext {
             }
         }
         componentsMap.put(1, whoTag);
+        GuiMap.componentAddHandler(whoTag);
         componentsMap.put(2, whatTag);
+        GuiMap.componentAddHandler(whatTag);
 
-        whenTag = new SelectBox(3);
+        whenTag = new SelectBox(3);        
         for(Month month : Month.values()) 
             whenTag.addValue(month.ordinal());
         
         componentsMap.put(3, whenTag);
+        GuiMap.componentAddHandler(whenTag);
 
         List<PropertyType> properyTypes = propertyTypeDao.getPropertyTypeList();
 
@@ -83,6 +86,7 @@ public class GloberryGuiContext implements IApplicationContext {
             slider = new Slider(i, type);
             sliders.put(type.getName(), slider);
             componentsMap.put(i, slider);
+            GuiMap.componentAddHandler(slider);
             i++;
             //TODO Затычка для dependingMounth.
             if (slider.getPropertyType().getId() >= 7) {

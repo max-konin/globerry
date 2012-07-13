@@ -40,8 +40,8 @@ public class Slider implements ISlider {
      */
     public Slider(int id, PropertyType propertyType) {
         this(id, propertyType.getMinValue(),  propertyType.getMaxValue(), propertyType);
-    }
-    
+    }    
+      
     @Override
     public int getId() {
         return id;
