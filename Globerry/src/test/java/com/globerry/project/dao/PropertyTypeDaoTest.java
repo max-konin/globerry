@@ -2,10 +2,6 @@ package com.globerry.project.dao;
 
 import static org.junit.Assert.*;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -13,23 +9,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.ContextLoaderListener;
-
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.runner.RunWith;
 
-import com.globerry.project.dao.ICompanyDao;
-import com.globerry.project.domain.Company;
 import com.globerry.project.domain.PropertyType;
 import java.util.ArrayList;
+import java.util.List;
 
 
-import junit.framework.TestCase;
 import org.hibernate.SessionFactory;
 import org.junit.BeforeClass;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/daoTestContext.xml")
@@ -39,6 +31,7 @@ import org.springframework.test.annotation.DirtiesContext;
 	ContextLoaderListener.class
 })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
 public class PropertyTypeDaoTest {
 
 	@Autowired

@@ -882,4 +882,28 @@
             return {data : null, next : null, previous : null }
         }
     </script>
+	<script>
+		function resolve(x1, x2, z1, z2, y, level, eps, func) {
+			// coefficient for linear equation
+			k = (z2 - z1)/(x2 - x1);
+			if(isNaN(k))
+				return k;
+			b = k*x1 - z1;
+			// expected root
+			x = (level + b)/k;
+			z = func(x, y);
+			if(k > 0) {
+				if((z + eps < level && z - eps > level) || z == level)
+					return x;
+			} else {
+				if((z + eps > level && z - eps < level) || z == level)
+					return x;
+			} 
+			if(z > level)
+				resolve(x1, x, z1, z, y, level, eps, func);
+			else
+				resolve(x, x2, z, z2, y, level, eps, func);
+		}
+	</script>
 </html>
+	

@@ -65,7 +65,7 @@ public class EventDaoTest {
 		event1.setImage(getGeneratedString());
 		event2.setName(getGeneratedString());
 		event2.setRu_name(getGeneratedString());
-		event2.setMonth(Month.MARCH);
+		event2.setMonth(Month.JANUARY);
 		event2.setDescription(getGeneratedString());
 		event2.setRu_description(getGeneratedString());
 		event2.setCities(new HashSet());
@@ -88,6 +88,9 @@ public class EventDaoTest {
 		city2.setLatitude(50);
 		city2.setLongitude(10);
 		city2.setMessage(getGeneratedString());
+		event1.getCities().add(city1);
+		event2.getCities().add(city1);
+		event2.getCities().add(city2);
 	}
 
 	/**
@@ -105,17 +108,7 @@ public class EventDaoTest {
 	}
 	
 	@Test
-	public void addEventWithCityOutDatabaseTest() {
-		try {
-			eventDao.addEvent(event1, city1);
-		} catch(NullPointerException npe) {
-			npe.printStackTrace(System.err);
-		}
-		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
-	}
-	
-	@Test
-	public void addEventWithoutCity() {
+	public void addEventWithoutCityTest() {
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
 		eventDao.addEvent(event1);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() - 1 == originalEventSize);
@@ -134,7 +127,7 @@ public class EventDaoTest {
 	
 	@Test
 	@Transactional
-	public void removeEventById() throws MySqlException {
+	public void removeEventByIdTest() throws MySqlException {
 		eventDao.addEvent(event1);
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
 		eventDao.removeEvent(event1.getId());
@@ -158,5 +151,12 @@ public class EventDaoTest {
 		event1.setName(getGeneratedString());
 		eventDao.updateEvent(event1);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event where id = " + event1.getId()).list().get(0).equals(event1));
+	}
+	
+	@Test
+	public void getEventByIdTest() {
+		eventDao.addEvent(event1);
+		assertTrue(eventDao.getEventById(event1.getId()).equals(event1));
+		assertTrue(eventDao.getEventById(666) == null);
 	}
 }

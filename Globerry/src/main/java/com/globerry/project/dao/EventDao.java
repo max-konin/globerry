@@ -33,7 +33,6 @@ public class EventDao implements IEventDao {
 	@Transactional
 	public void removeEvent(Event event) {
 		sessionFactory.getCurrentSession().delete(event);
-
 	}
 
 	@Override
