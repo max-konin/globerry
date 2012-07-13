@@ -12,19 +12,19 @@ import org.springframework.stereotype.Service;
 public class AbstractTypeFactory
 {
     @Autowired
-    private CityPage cityPage;
+    CityPage cityPage;
     @Autowired
-    private CompanyPage companyPage;
+    CompanyPage companyPage;
     @Autowired
-    private EventPage eventPage;
+    EventPage eventPage;
     @Autowired
-    private WrongPage wrongPage;
+    WrongPage wrongPage;
     /**
      * Возвращает класс
      * @param type текстовое поля для определения
      * @return IentityCreator - один из 3х классов
      */
-    public  IEntityCreator responsePage(String type)
+    public IEntityCreator responsePage(String type)
     {
 	if(type.toLowerCase().equals("cityadminpage")) return cityPage;
 	else if(type.toLowerCase().equals("companyadminpage")) return companyPage;

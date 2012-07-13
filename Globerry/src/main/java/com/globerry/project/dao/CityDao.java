@@ -16,7 +16,6 @@ import com.globerry.project.domain.Event;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.ICityRequest;
-import com.globerry.project.dao.CityRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
@@ -115,7 +114,7 @@ public class CityDao implements ICityDao {
 	 *
 	 * @throw IllegalArgumentException when request == null
 	 */
-	@Override
+/*	@Override
 	public List<City> getCityList(CityRequest request) {
 		if (request == null) {
 			throw new IllegalArgumentException("Parameter 'request' cannot be null");
@@ -159,10 +158,10 @@ public class CityDao implements ICityDao {
 		}
 
 		return cityToReturn;
-	}
+	}*/
 
 	// @Override
-	public List<City> getCityListOneQuery(CityRequest request) {
+/*	public List<City> getCityListOneQuery(CityRequest request) {
 		List<City> resultCityList;
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		// Query Generation Block for Properties
@@ -232,7 +231,7 @@ public class CityDao implements ICityDao {
 		List<City> cityList = query.list();
 		tx.commit();
 		return cityList;
-	}
+	}*/
 
 	@Override
 	public void updateCity(City city) {

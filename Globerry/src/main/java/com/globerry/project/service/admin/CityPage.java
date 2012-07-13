@@ -56,7 +56,6 @@ public class CityPage implements IEntityCreator
     public void updateElem(Object object)
     {
 	//City city = (City) object;
-	System.err.println(object.getClass());
 	cityDao.updateCity((City) object);
     }
     @Override

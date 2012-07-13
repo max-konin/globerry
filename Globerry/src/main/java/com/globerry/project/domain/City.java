@@ -280,8 +280,8 @@ public class City implements Serializable
 	if(!(this.getLatitude() == city.getLatitude())) return false;
 	if(!(this.getLongitude() == city.getLongitude())) return false;
 	
-	if(this.proposals == null ^ city.getProposals() == null) return false;
-	if(!((this.proposals == null && city.getProposals() == null) || this.proposals.equals(city.getProposals()))) return false;
+	/*if(this.proposals == null ^ city.getProposals() == null) return false;
+	if(!((this.proposals == null && city.getProposals() == null) || this.proposals.equals(city.getProposals()))) return false;*/
 	
 	if(this.dmpList == null ^ city.getDmpList() == null) return false;
 	if(!((this.dmpList == null && city.getDmpList() == null) || this.dmpList.equals(city.getDmpList()))) return false;

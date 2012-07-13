@@ -39,19 +39,16 @@ public class CityTest
 	city2.setRu_name("фывфывфывфыв");
 	city2.setLatitude(1);
 	city2.setLongitude(2);
-	Event event = new Event();
-	city2.getEvents().add(event);
+
 	Proposals prop = new Proposals();
 	city2.setProposals(prop);
-	Property property = new Property();
-	city2.getPropertyList().add(property);
-	DependingMonthProperty dmp = new DependingMonthProperty();
-	city2.getDmpList().add(dmp);
+
+
 	Tag tag = new Tag();
-	tag.setName("tag");
+	tag.setName("tag1");
 	city2.getTagList().add(tag);
-	assertEquals(city1, city2);
-	assertEquals(city2, city1);
+	assertTrue(city1.equals(city2));
+	assertTrue(city2.equals(city1));
 	assertEquals(city1.hashCode(), city2.hashCode());
 	//city2.setCost(123);
 	city2.setName("BMW");
