@@ -25,6 +25,12 @@
             .connect {
                 fill:#888888; stroke:none
             }
+            .positive {
+                fill:#ff0000; stroke:none
+            }
+            .negative {
+                fill: #0000ff; stroke:none
+            }
         </style>
     </head>
     <body>
@@ -109,7 +115,7 @@
         }
         
         $(document).ready(function() {
-            graph = Graph(1000,1000,-4,4,-4,4,50);
+            graph = Graph(1000,1000,-4,4,-2,4,50);
             $('#pic').append(graph.svg);
             //graph.draw(foo, 0.1);
             //graph.drawFunc(foo, 2);
@@ -423,28 +429,43 @@
                 function getTile(point) {
                     for(var i = 0, l = tiles.length; i<l; i++) {
                         var distance = point.distance(tiles[i].getCorner());
-                        if(distance < tileMapSize/3)
+                        if(distance < 0.2)
                             return tiles[i];
                     }
                     return false;
                 }
-                function findWay(tile, point) {
-                    
+                function findCrossHorizontal(p1, p2, p3, l) {
+                    var t1, t2;
+                    var y2y1 = p2.y - p1.y;
+                    if(Math.abs(y2y1) < 0.0001)
+                        return null;
+                    t1 = (p3.y - p1.y)/y2y1;
+                    t2 = (p1.x + t1*(p2.x - p1.x) - p3.x)/l;
+                    return {t1 : t1, t2 : t2};
+                }
+                function findCrossVertical(p1, p2, p3, l) {
+                    var t1, t2;
+                    var x2x1 = p2.x - p1.x;
+                    if(Math.abs(x2x1) < 0.0001)
+                        return null;
+                    t1 = (p3.x - p1.x)/(p2.x - p1.x);
+                    t2 = (p1.y + (p2.y - p1.y)*t1 - p3.y)/l;
+                    return {t1 : t1, t2 : t2 };
                 }
                 //Переменные алгоритма
                 var z,z_shtrih, x, y, zAside, xAside, yAside, zAside_shtrih, zNew, zNew_shtrih, xNew, yNew, count = 0;
                 var zSusp = 2;
-                var tiles = [], tileMapSize = 1;
+                var tiles = [], tileMapSize = 0.8;
                 var rays = [];
                 //Константы алгортима
-                var dxdy = Point(0.05, 0.05), step = Point(0.7,0.7), eps = 0.05;
+                var dxdy = Point(0.05, 0.05), step = Point(0.5,0.5), eps = 0.05;
                 //Возвращаемые значения
                 var rays = [];
                 
                 
                 var path = "";
                 var tilesPath = "";
-                xAside = points[0].x + 0.05, yAside = points[0].y + 0.05;
+                xAside = points[0].x - 0.05, yAside = points[0].y - 0.05;
                 zAside = Z(xAside, yAside);
                 zAside_shtrih = dZdxy(xAside, yAside);
                 while(true) {
@@ -454,21 +475,19 @@
                     
                     x = p.x, y = p.y;
                     z_shtrih = dZdxy(x, y);
-                    if($('#alert').attr('checked'))
-                        alert(z_shtrih.length());
-                    if(z_shtrih.length() < 0.6 && level > zSusp) {
-                        appendText(x+0.1, y, z_shtrih.toString(),'curve');
+                    
+                    if(z_shtrih.length() < 1.6 && level > 3) {
+                        //appendCircle(p, 5, 'curve')
                         var xTile, yTile, tile;
                         if(z_shtrih.x > 0)
-                            xTile = x - tileMapSize*0.3;
+                            xTile = x - tileMapSize*0.2;
                         else
-                            xTile = x - tileMapSize*0.7;
+                            xTile = x - tileMapSize*0.8;
                         if(z_shtrih.y > 0)
-                            yTile = y - tileMapSize*0.3;
+                            yTile = y - tileMapSize*0.2;
                         else
-                            yTile = y - tileMapSize*0.7;
+                            yTile = y - tileMapSize*0.8;
                         tile = getTile(Point(xTile, yTile));
-
                         if(!tile) {
                             tile = ZTile(xTile, yTile, tileMapSize, tileMapSize, Z);
                             tile.fill();
@@ -480,6 +499,75 @@
                                 "V " + projectY(tile.getCorner().y);
                             appendPath(tilesPath,'black', 2, 'curve');
                         }
+                        tileMapSize = tile.getSizeX();
+                        var avg = tile.calcAvg(2);
+                            var indexes = tile.findClosestPoint(p);
+                            
+                            if(indexes) {
+                                //appendCircle(Point(indexes.j*tile.step + tile.corner.x, indexes.i*tile.step + tile.corner.y), 3, 'curve');
+                                var prevPoint = rays[rays.length - 1].start;
+                                var t = findCrossVertical(prevPoint, p, tile.corner, tileMapSize), point;
+                                if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
+                                    point = Point(tile.corner.x, tile.corner.y + t.t2*tileMapSize);
+                                } else {
+                                    t = findCrossVertical(prevPoint, p, Point(tile.corner.x + tileMapSize, tile.corner.y), tileMapSize);
+                                    if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
+                                        point = Point(tile.corner.x + tileMapSize, tile.corner.y + tileMapSize*t.t2);
+                                    } else {
+                                        t = findCrossHorizontal(prevPoint, p,tile.corner, tileMapSize);
+                                        if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
+                                            point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y);
+                                        } else {
+                                            t = findCrossHorizontal(prevPoint, p, Point(tile.corner.x, tile.corner.y + tileMapSize), tileMapSize);
+                                            //point = Point(tile.corner.x + t.t2*tileMapSize, tile.corner.y + tileMapSize);
+                                            point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y + tileMapSize);
+                                        }
+                                    }
+                                }
+                                
+                                //appendCircle(prevPoint, 3, 'curve');
+                                //appendCircle(p, 3, 'curve');
+                                appendCircle(point, 5, 'curve');
+                                var startPoint = tile.findClosestPoint(point);
+                                if(level < avg) {
+                                    /*var index1, index2, index, clockwise;
+                                    if(tile.points[startPoint.i][startPoint.j] > level) {
+                                        for(var i = 0; ; i++) {
+                                            index1 = tile.walk(startPoint.i, startPoint.j, i, true);
+                                            index2 = tile.walk(startPoint.i, startPoint.j, i, false);
+                                            if(tile.points[index1.i][index1.j] < level) {
+                                                index = index1;
+                                                clockwise = true;
+                                                break;
+                                            }
+                                            if(tile.points[index2.i][index2.j] < level) {
+                                                index = index2;
+                                                clockwise = false;
+                                                break;
+                                            }
+                                        }
+                                    }*/
+                                    if(tile.points[startPoint.i][startPoint.j] < level) {
+                                        var index = startPoint;
+                                        for(var i = 1; tile.points[index.i][index.j] < level; i++) {
+                                            index = tile.walk(index.i,index.j,i, true);
+                                            appendCircle(Point(tile.corner.x + tile.step*index.j, tile.corner.y + tile.step*index.i), 7, 'toDelete');
+                                            if($('#alert').attr('checked'))
+                                                alert(index.i + " " + index.j);
+                                            $('.toDelete').remove();
+                                        }
+                                        x = tile.corner.x + tile.step*index.j;
+                                        y = tile.corner.y + tile.step*index.i;
+                                        z_shtrih = dZdxy(x, y);
+                                        //console.log(index);
+                                    }
+                                        
+                                }
+                            } else {
+                                console.log(tile.toString());
+                                console.log(Point(xTile, yTile).toString());
+                            }
+                            
                     }
                     var ray = Ray(p, Point(-z_shtrih.getY(), z_shtrih.getX()), true);
                     z_shtrih.normalize();
@@ -487,18 +575,35 @@
                     yAside = y + z_shtrih.getX()*step.y;
                     path += "L " + projectX(x) + " " + projectY(y) + "L " + projectX(xAside) + " " + projectY(yAside);
                     
-                    appendPath(path,'green', 3, 'curve');
+                    appendPath(path,'green', 1, 'curve');
                     
+                    //if($('#alert').attr('checked'))
+                    //    alert(z_shtrih.length());
                     count++;
                     rays.push(ray);
-                    if(count > 10)
+                    if(count > 20)
                         break;
+                }
+                
+                for(var tileCounter = 0; tileCounter < tiles.length; tileCounter++) {
+                    var tile = tiles[tileCounter];
+                    var corner = tile.corner;
+                    for(var i = 0; i < tile.points.length; i++) {
+                        for(var j = 0; j < tile.points[0].length; j++) {
+                            var step = tile.step;
+                            var point = Point(corner.x + j*step, corner.y + i*step);
+                            var clazz = tile.points[i][j] > level ? 'positive' : 'negative';
+                            clazz += " curve";
+                            appendCircle(point, 2, clazz);
+                        }
+                    }
+                    //appendCircle(point, 2, 'positive curve');
                 }
                 drawRays(rays);
                 
             }
             
-            function draw3D(points, level) {
+            function drawSpans(point, level) {
                 function Z(x, y) {
                     var val = 0;
                     for(var i = 0, l = points.length; i < l; i++) {
@@ -507,7 +612,7 @@
                     }
                     return val;
                 }
-                function Z_shtrih(x, y) {
+                function dZdxy(x, y) {
                     var dx = 0, dy = 0;
                     for(var i = 0, l = points.length; i < l; i++) {
                         var point = points[i];
@@ -520,151 +625,8 @@
                     }
                     return Point(dx, dy);
                 }
-                
-                //Движется в направлении градиента или антиградиента к заданному уровню (level).
-                function gradientDescent(fromX, fromY) {
-                    var x1 = fromX, y1 = fromY, x2, y2;
-                    var z1 = Z(x1, y1), z2;
-                    var count = 0;
-                    var travelLength = 0;
-                    var prevDirection = direction;
-                    if(z1 < level)
-                        direction = 1;
-                    else
-                        direction = -1;
-                    while(true) {
-                        zshtrih = Z_shtrih(x1, y1);
-                        zshtrih.normalize();
-                        var dx = direction*zshtrih.getX()*dxdy.x;
-                        var dy = direction*zshtrih.getY()*dxdy.y;
-                        travelLength += Math.sqrt(dx*dx + dy*dy);
-                        x2 = x1 + dx;
-                        y2 = y1 + dy;
-                        z2 = Z(x2, y2);
-                        if(z2*direction > direction*level) {
-                            if(Math.abs(z2 - level) > eps) {
-                                x2 = (level - z1)/(z2 - z1)*(x2 - x1) + x1;
-                                y2 = (level - z1)/(z2 - z1)*(y2 - y1) + y1;
-                                //console.log("Upating point from " + z2 + " to " + Z(x2, y2));
-                            }
-                            break;
-                        }
-                        
-                        x1 = x2, y1 = y2, z1 = z2;
-                        count++;
-                        if(count > 100)
-                            break;
-                    }
-                    if(travelLength < stepFactor) {
-                            stepX += stepX*dStep;
-                            stepY += stepY*dStep;
-                    } else {
-                        stepX = initStep;
-                        stepY = initStep;
-                    }
-                        
-                    return Point(x2,y2);
-                }
-                function checkSedlo() {
-                    var d = 0.005;
-                    var zshtrih2 = Z_shtrih(expectedX, expectedY);
-                    if(zshtrih.x*zshtrih2.x < 0 && zshtrih.y*zshtrih2.y < 0)
-                        return true;
-                    return false;
-                }
-                var eps = 0.1, d = 1, dxdy = Point(0.05, 0.05) //Шаг в алгоритме скорейшего спуска.;
-                var dStep = 0.1;//Число, с которым увеличивается stepX, stepY.
-                var stepFactor = 0.3;
-                var point = points[2];
-                var initStep = 0.5;
-                var stepX = 0.7, stepY = 0.7;
-                //var x = 0, y = -0.4;
-                var x = point.x - 0.05, y = point.y - 0.05;
-                var path = "M "+projectX(x)+" "+projectY(y);
-                var tangentPath = "";
-                var direction;
-                var rays = [];
-                var firstPoint = gradientDescent(x,y), newPoint = firstPoint, zshtrih = Z_shtrih(newPoint.x, newPoint.y);
-                var firstTangent = Z_shtrih(firstPoint.x, firstPoint.y);
-                var expectedX, expectedY;
-                var firstRay;
-                var travelVect = Point(-firstPoint.x, -firstPoint.y);
-                
-                for(var i = 0; i<points.length; i++) {
-                    appendCircle(points[i],  points[i].weight * 5,'black');
-                    appendText(points[i].x+0.1, points[i].y,i);
-                }
-                for(var i = 0; i < 1000; i++) {
-                    
-                    newPoint = gradientDescent(x, y);
-                    zshtrih = Z_shtrih(newPoint.x, newPoint.y);
-                    var len = zshtrih.length();
-                    zshtrih.normalize();
-                    var ray = Ray(newPoint, Point(-zshtrih.getY(), zshtrih.getX()), true);
-                    if(!firstRay)
-                        firstRay = ray
-                    rays.push(ray);
-                    path = "M" + projectX(x) + " " + projectY(y);
-                    
-                    travelVect.setX(travelVect.getX() + newPoint.getX() - x);
-                    travelVect.setY(travelVect.getY() + newPoint.getY() - y);
-                    var j = 1
-                    for(; j < 10; j++) {
-                        var delitel = j;
-                        
-                        expectedX = newPoint.x - zshtrih.getY()*stepX/delitel;
-                        expectedY = newPoint.y + zshtrih.getX()*stepY/delitel;
-                        var sedlo = checkSedlo();
-                        if(!sedlo)
-                            break;
-                    }
-                    
-                    var currentRay = ray;
-                    
-                    travelVect.setX(travelVect.getX() + expectedX - newPoint.getX());
-                    travelVect.setY(travelVect.getY() + expectedY - newPoint.getY());
-                    
-                    x = expectedX;
-                    y = expectedY;
-                    
-                    var zCurrent = Z(newPoint.x,newPoint.y);
-                    //console.log(zCurrent +" - current Z");
-                    
-                    path += "L " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(x) + " " + projectY(y);
-                    
-                    tangentPath = "M " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(newPoint.x+zshtrih.getX()) + " " + projectY(newPoint.y+zshtrih.getY());
-                    
-                    //appendText(newPoint.x + 0.1, newPoint.y, zCurrent.toFixed(2), 'curve');
-                    //appendText(newPoint.x - 0.3, newPoint.y, i, 'curve');
-                    //appendCircle(newPoint, 7, 'curve');
-                    appendPath(path,'green', 3, 'curve');
-                    //appendPath(tangentPath,'red',1,'curve');
-                    
-                    if($('#alert').attr('checked'))
-                        alert(len);
-                    
-                    var currentRay = Ray(Point(x,y), Point(-zshtrih.getY(), zshtrih.getX()));
-                    var t1 = firstRay.cross(ray), t2 = ray.cross(firstRay);
-                    console.log(travelVect.length());
-                    
-                    
-                    if(t1 > -1 && t1 < 1 && t2 > 0 && t2 < 1 && i > 3) {
-                        break;
-                    }
-                        
-                    if(i > 2 && travelVect.length() < 1) {
-                        break;
-                    }
-                   
-                }
-                
-                //appendPath(path,'green', 3, 'curve');
-                //appendPath(tangentPath,'red',1);
-                drawRays(rays, false, 'curve');
-                //gradientDescent(0, -1.1);
-                
             }
-            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, draw3D : draw3D, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline};
+            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline};
             return me;
         }
         function Point(X, Y) {
@@ -746,18 +708,47 @@
             
         }
         function ZTile(_x, _y, _sizeX, _sizeY, foo) {
-            var sizeX = _sizeX, sizeY = _sizeY, corner = Point(_x, _y);
+            var step = 0.1;
+            var sizeX = Math.floor(_sizeX/step)*step, sizeY = Math.floor(_sizeY/step)*step, corner = Point(_x, _y);
             var func = foo;
             var points = [];
-            var step = 0.3;
+            
             
             function getSizeX() { return sizeX; }
             function setSiseX(size) { _sizeX = size; }
             function getSizeY() { return sizeY; }
             function setSiseY(size) { _sizeY = size }
             function getCorner() { return corner; }
+            function calcAvg(size/*Размер области (целое число)*/) {
+                var sum = 0;
+                //console.log(points.length%2)
+                var iMin, iMax, jMin, jMax;
+                var yLen = points.length;
+                var xLen = points[0].length;
+                if(yLen%2 != 0) {
+                    iMin = Math.floor(yLen/2) - Math.floor(size/2);
+                    iMax = Math.floor(yLen/2) + Math.floor(size/2);
+                } else {
+                    iMin = yLen/2 + Math.floor(-size/2);
+                    iMax = yLen/2 + Math.floor(size/2);
+                }
+                if(xLen%2 != 0) {
+                    jMin = Math.floor(xLen/2) - Math.floor(size/2);
+                    jMax = Math.floor(xLen/2) + Math.floor(size/2);
+                } else {
+                    jMin = xLen/2 + Math.floor(-size/2);
+                    jMax = xLen/2 + Math.floor((size-1)/2);
+                }
+                for(var i = iMin; i<=iMax; i++)
+                    for(var j = jMin; j<=jMax; j++)
+                        sum += points[i][j];
+                sum /= (iMax - iMin + 1) * (jMax - jMin + 1);
+                return sum;
+                //console.log("iMin: " + iMin + " iMax: " + iMax + " jMin: " + jMin + " jMax: " + jMax);
+                
+            }
             function toString() {
-                var ret = "";
+                var ret = "sizeX: " + sizeX + ", sizeY: " + sizeY + "\n";
                 for(var i = 0, l = points.length; i < l; i++) {
                     for(var j = 0, ll=points[i].length;j<ll; j++)
                         ret += points[i][j] + " ";
@@ -766,17 +757,129 @@
                 return ret;
             }
             function fill() {
-                for(var y = corner.y; y < corner.y + sizeY; y += step) {
+                for(var y = corner.y; y <= corner.y + sizeY + 0.001; y += step) {
                     var arr = [];
-                    for(var x = corner.x; x < corner.x + sizeX; x += step) {
+                    for(var x = corner.x; x <= corner.x + sizeX + 0.001; x += step) {
                         arr.push(foo(x, y));
                     }
                     points.push(arr);
                 }
             }
-            var me = {getSizeX:getSizeX,setSiseX:setSiseX,getSizeY:getSizeY,setSiseY:setSiseY,getCorner:getCorner,fill:fill,toString : toString}
+            function findClosestPoint(point) {
+                var x = point.x - corner.x, y = point.y - corner.y;
+                if(x > sizeX || y > sizeY || x < 0 || y < 0)
+                    return;
+                return {i : Math.round(y/step), j : Math.round(x/step)};
+            }
+            function walk(i, j, count, clockwise) {
+                var maxI = points.length - 1, maxJ = points[0].length - 1;
+                var xDirection, yDirection;
+                var iRet, jRet;
+                count %= 2*(maxI+maxJ);
+                if(!clockwise)
+                    count = 2*(maxI + maxJ) - count;
+                if(i == 0) {
+                    if(count <= j) {
+                        return {i : 0, j : j - count}
+                    }
+                    count -= j;
+                    if(count <= maxI) {
+                        return {i : count , j : 0}
+                    }
+                    count -= maxI;
+                    if(count <= maxJ) {
+                        return {i : maxI, j : count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {j : maxJ, i : maxI - count}
+                    }
+                    count -= maxI;
+                    return {i : 0, j : maxJ - count}
+                }
+                if(i == maxI) {
+                    if(count <= maxJ - j) {
+                        return {i : maxI, j : j + count};
+                    }
+                    count -= maxJ - j;
+                    if(count <= maxI) {
+                        return {i : maxI - count, j : maxJ}
+                    }
+                    count -= maxI
+                    if(count <= maxJ) {
+                        return {i : 0, j : maxJ - count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {i : count, j : 0 }
+                    }
+                    count -= maxI;
+                    return {i : maxI, j : count}
+                }
+                if(j == 0) {
+                    if(count <= maxI - i) {
+                        return {i : i + count, j : 0}
+                    }
+                    count -= maxI - i;
+                    if(count <= maxJ) {
+                        return {i : maxI , j: count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {i : maxI - count, j : maxJ}
+                    }
+                    if(count <= maxJ) {
+                        return {i : 0, j : count}
+                    }
+                    return {i : count, j : 0}
+                }
+                if(j == maxJ) {
+                    if(count <= i) {
+                        return {i : i - count, j : maxJ}
+                    }
+                    count -= i;
+                    if(count <= maxJ) {
+                        return {i : 0, j : count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {i : count, j : 0}
+                    }
+                    count -= maxI;
+                    if(count <= maxJ) {
+                        return {i : maxI, j : count}
+                    }
+                    return {i : maxI - count, j: maxJ}
+                }
+            }
+            var me = {
+                getSizeX : getSizeX,
+                setSiseX : setSiseX,
+                getSizeY : getSizeY,
+                setSiseY : setSiseY,
+                getCorner : getCorner,
+                fill : fill,
+                toString : toString,
+                calcAvg : calcAvg,
+                points : points,
+                corner: corner,
+                findClosestPoint : findClosestPoint,
+                step : step,
+                walk : walk
+            };
             return me;
             
+        }
+        function Span(left, right) {
+            var y, xLeft = left, xRight = right, parent;
+            function setParent(Parent) {
+                parent = Parent;
+            }
+            function getParent() {} { return parent; }
+            
+        }
+        function Node() {
+            return {data : null, next : null, previous : null }
         }
     </script>
 </html>
