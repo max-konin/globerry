@@ -87,6 +87,7 @@
             }
             $('.curve').remove();
             graph.drawIsoline(points, value);
+            graph.drawSpans(points, value)
         }
        
         var NS = "http://www.w3.org/2000/svg";
@@ -603,7 +604,7 @@
                 
             }
             
-            function drawSpans(point, level) {
+            function drawSpans(point, zLevel) {
                 function Z(x, y) {
                     var val = 0;
                     for(var i = 0, l = points.length; i < l; i++) {
@@ -625,8 +626,45 @@
                     }
                     return Point(dx, dy);
                 }
+                function findBorder(p, direction) {
+                    var x = p.x, y = p.y, z = Z(x, y);
+                    var count = 0;
+                    var sign = z - zLevel;
+                    while(sign*(z - zLevel) > 0) {
+                        x += direction*stepX;
+                        z = Z(x, y);
+                        count++;
+                        if(count > 100)
+                            break;
+                    }
+                    return Point(x, y);
+                }
+                function findSpans(span) {
+                    var parent = span.getParent();
+                    var dir = -1;
+                    for(var i = 0; i < 1; i++) {
+                        dir *= -1;
+                        var level = span.getLevel() + dir;
+                        if(level != parent.getLevel()) {
+                            
+                        }
+                    }
+                    return [];
+                }
+                var stepX = 0.3, stepY = 0.3;
+                var y  = points[0].y;
+                var p = Point(points[0].x + 0.1, points[0].y);
+                var pLeft = findBorder(p, 1), pRight = findBorder(p, -1);
+                var leftNode = Node(pLeft.x, pLeft.y);
+                var rightNode = Node(pRight.x, pRight.y);
+                var spanStack = Stack();
+                var firstSpan = Span(leftNode, rightNode, 0);
+                spanStack.push(firstSpan);
+                appendCircle(pLeft, 3, 'curve');
+                appendCircle(pRight, 3, 'curve');
+                
             }
-            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline};
+            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline,drawSpans : drawSpans};
             return me;
         }
         function Point(X, Y) {
@@ -870,16 +908,42 @@
             return me;
             
         }
-        function Span(left, right) {
-            var y, xLeft = left, xRight = right, parent;
+        function Span(l, r , lvl) {
+            var level = lvl, left = l, right = r, parent = null;
             function setParent(Parent) {
                 parent = Parent;
             }
             function getParent() {} { return parent; }
-            
+            function getLevel() { return level; }
+            function setLevel(Level) { level = Level; }
+            function getRight() { return right; }
+            function getLeft() {return left; }
+            return {
+                setParent : setParent,
+                getParent : getParent,
+                getLevel : getLevel,
+                getRight : getRight,
+                getLeft : getLeft
+            }
         }
-        function Node() {
-            return {data : null, next : null, previous : null }
+        function Node(x, y) {
+            return {x : x, y : y, next : null, previous : null }
+        }
+        function Stack() {
+            var data = [];
+            function peek() {
+                if(!data.length)
+                    return null;
+                return data[data.length - 1];
+            }
+            function push(element) {
+                data.push(element);
+            }
+            function pop() {
+                return data.pop();
+            }
+            function size() { return data.length; }
+            return {peek : peek, push : push, pop : pop, size : size}
         }
     </script>
 	<script>
