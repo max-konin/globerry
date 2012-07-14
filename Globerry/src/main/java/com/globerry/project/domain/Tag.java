@@ -112,17 +112,6 @@ public class Tag
     {
 	this.tagsType = TagsType.values()[number];
     }
-    //TODO Artem comment code with bags, KOSTIL
-    public Set<City> getCityList()
-    {
-	// TODO Auto-generated method stub
-	return null;
-    }
-    public void setCityList(Set<City> cityList)
-    {
-	// TODO Auto-generated method stub
-	
-    }
     public String toString()
     {
         return String.format("id: %d; name: %s;\n", id, name);

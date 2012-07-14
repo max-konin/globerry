@@ -947,26 +947,23 @@
         }
     </script>
 	<script>
-		function resolve(x1, x2, z1, z2, y, level, eps, func) {
+		function resolve(x1, x2, z1, z2, y, level, eps, func, iteration) {
 			// coefficient for linear equation
-			k = (z2 - z1)/(x2 - x1);
+			var k = (z2 - z1)/(x2 - x1);
 			if(isNaN(k))
 				return k;
-			b = k*x1 - z1;
+			var b = k*x1 - z1;
 			// expected root
-			x = (level + b)/k;
-			z = func(x, y);
-			if(k > 0) {
-				if((z + eps < level && z - eps > level) || z == level)
-					return x;
-			} else {
-				if((z + eps > level && z - eps < level) || z == level)
-					return x;
-			} 
+			var x = (level + b)/k;
+			if(iterator == 0)
+				return x;
+			var z = func(x, y);
+			if(Math.abs(z - level) < eps)
+				return x;
 			if(z > level)
-				resolve(x1, x, z1, z, y, level, eps, func);
+				resolve(x1, x, z1, z, y, level, eps, func, iteration - 1);
 			else
-				resolve(x, x2, z, z2, y, level, eps, func);
+				resolve(x, x2, z, z2, y, level, eps, func, iteration - 1);
 		}
 	</script>
 </html>

@@ -18,16 +18,14 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import com.globerry.project.MySqlException;
-import com.globerry.project.domain.City;
-import com.globerry.project.domain.PropertyType;
-import com.globerry.project.domain.Tag;
-import com.globerry.project.domain.TagsType;
+import com.globerry.project.domain.*;
 import com.globerry.project.service.DefaultDatabaseCreator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import org.hibernate.SessionFactory;
 import org.junit.BeforeClass;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Artem
@@ -44,29 +42,23 @@ import org.springframework.test.annotation.DirtiesContext;
 public class TagDaoTest {
 
 	@Autowired
-	private DefaultDatabaseCreator ddCreator;
+	private ITagDao tagDao;
 	@Autowired
-	private TagDao tagDao;
-	@Autowired
-	private CityDao cityDao;
+	private ICityDao cityDao;
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static Tag tag1;
-	private static Tag tag2;
+	private static Tag tag1 = new Tag();
+	private static Tag tag2 = new Tag();
 
 	@BeforeClass
 	public static void BeforeClassTest() {
-		tag1 = new Tag();
 		tag1.setImg(getGeneratedString());
 		tag1.setName(getGeneratedString());
 		tag1.setTagsType(TagsType.WHERE);
-		tag1.setCityList(new HashSet());
-		tag2 = new Tag();
 		tag2.setImg(getGeneratedString());
 		tag2.setName(getGeneratedString());
 		tag2.setTagsType(TagsType.WHO);
-		tag2.setCityList(new HashSet());
 	}
 
 	/**
@@ -100,6 +92,7 @@ public class TagDaoTest {
 	}
 	
 	@Test
+	@Transactional
 	public void removeTagByTagTest() throws MySqlException {
 		tagDao.addTag(tag1);
 		int originalTagSize = sessionFactory.getCurrentSession().createQuery("from Tag").list().size();
@@ -110,6 +103,7 @@ public class TagDaoTest {
 	}
 	
 	@Test
+	@Transactional
 	public void removeTagByIdTest() throws MySqlException {
 		tagDao.addTag(tag1);
 		int originalTagSize = sessionFactory.getCurrentSession().createQuery("from Tag").list().size();
@@ -124,7 +118,7 @@ public class TagDaoTest {
 		tagDao.addTag(tag1);
 		tag1.setName(getGeneratedString());
 		tagDao.updateTag(tag1);
-		assertTrue(sessionFactory.getCurrentSession().createQuery("from Tag where id = " + tag1.getId()).equals(tag1));
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Tag where id = " + tag1.getId()).list().get(0).equals(tag1));
 	}
 	
 	@Test
@@ -136,79 +130,5 @@ public class TagDaoTest {
 		tagList.add(tag2);
 		assertTrue(tagDao.getTagList().size() == 2);
 		assertTrue(tagDao.getTagList().equals(tagList));
-	}
-	
-	@Test
-	public void test() {
-		try {
-			Tag tag1 = new Tag();
-			tag1.setImg(getGeneratedString());
-			tag1.setName(getGeneratedString());
-			tagDao.addTag(tag1);
-
-			Tag tag2 = new Tag();
-			tag2.setImg(getGeneratedString());
-			tag2.setName(getGeneratedString());
-
-			//tagDao.addTag(tag2);
-
-			City city = new City();
-			city.setName("Novosibirsk");
-			cityDao.addCity(city);
-
-			//tag2.getCityList().add(city);
-			tagDao.addTag(tag2);
-			//cityDao.removeCity(city);
-
-			int check = 0;
-			Tag test = new Tag();
-			test.setName(getGeneratedString());
-			test.setImg("t");
-			tagDao.addTag(test);
-			Iterator<Tag> it = tagDao.getTagList().iterator();
-			while (it.hasNext()) {
-				Tag test2 = it.next();
-				if (test.equals(test2)) {
-					++check;
-				}
-			}
-			assertEquals(check, 1);//*/
-		} catch (MySqlException e) {
-			fail(e.getDescription());
-		}
-	}
-
-	@Test
-	public void addCityToTagList() {
-		City city = new City();
-		city.setName(getGeneratedString());
-
-		try {
-			cityDao.addCity(city);
-
-		} catch (MySqlException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Tag tag = new Tag();
-		tag.setName("sdfg");
-		city.getTagList().add(tag);
-
-		try {
-			tagDao.addTag(tag);
-			cityDao.updateCity(city);
-
-		} catch (MySqlException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	@Test
-	public void getTagList() {
-		ddCreator.initPropertyType();
-		ddCreator.initTags();
-		ddCreator.initCities();
 	}
 }
