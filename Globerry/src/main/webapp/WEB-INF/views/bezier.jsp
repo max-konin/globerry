@@ -630,14 +630,18 @@
                     var x = p.x, y = p.y, z = Z(x, y);
                     var count = 0;
                     var sign = z - zLevel;
-                    while(sign*(z - zLevel) > 0) {
-                        x += direction*stepX;
+                    var xPrev = x, zPrev = z;
+                    while(true) {
+                        x = xPrev + direction*stepX;
                         z = Z(x, y);
                         count++;
-                        if(count > 100)
+                        if(sign*(z - zLevel) < 0 || count > 100)
                             break;
+                        xPrev = x;
+                        zPrev = z;
                     }
-                    return Point(x, y);
+                    var x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50);
+                    return Point(x0, y);
                 }
                 function findSpans(span) {
                     var parent = span.getParent();
@@ -645,13 +649,15 @@
                     for(var i = 0; i < 1; i++) {
                         dir *= -1;
                         var level = span.getLevel() + dir;
+                        var x, y = level*stepY;
                         if(level != parent.getLevel()) {
-                            
+                            x = span.getLeft();
+                           
                         }
                     }
                     return [];
                 }
-                var stepX = 0.3, stepY = 0.3;
+                var stepX = 0.3, stepY = 0.3, eps = 0.1;
                 var y  = points[0].y;
                 var p = Point(points[0].x + 0.1, points[0].y);
                 var pLeft = findBorder(p, 1), pRight = findBorder(p, -1);
@@ -955,7 +961,7 @@
 			var b = k*x1 - z1;
 			// expected root
 			var x = (level + b)/k;
-			if(iterator == 0)
+			if(iteration == 0)
 				return x;
 			var z = func(x, y);
 			if(Math.abs(z - level) < eps)
