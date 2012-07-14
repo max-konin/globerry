@@ -31,7 +31,7 @@ public class GuiMap {
         return null;
     }
     
-    /*
+    /**
      * Вызывается каждый раз, когда добавляется компонет
      * @param component компонент
      */
@@ -45,7 +45,7 @@ public class GuiMap {
                
     }
     
-    /*
+    /**
      * Быдлятина.
      */
     public static String staticToString()
