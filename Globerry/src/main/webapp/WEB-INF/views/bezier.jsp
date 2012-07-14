@@ -967,9 +967,10 @@
 			if(Math.abs(z - level) < eps)
 				return x;
 			if(z > level)
-				resolve(x1, x, z1, z, y, level, eps, func, iteration - 1);
+				x = resolve(x1, x, z1, z, y, level, eps, func, iteration - 1);
 			else
-				resolve(x, x2, z, z2, y, level, eps, func, iteration - 1);
+				x = resolve(x, x2, z, z2, y, level, eps, func, iteration - 1);
+			return x;
 		}
 	</script>
 </html>

@@ -49,8 +49,8 @@ public class EventDaoTest {
 	
 	private static Event event1;
 	private static Event event2;
-	private static City city1;
-	private static City city2;
+	private static City city1 = new City();
+	private static City city2 = new City();
 
 	@BeforeClass
 	public static void BeforeClassTestInitialize() {
@@ -70,8 +70,6 @@ public class EventDaoTest {
 		event2.setRu_description(getGeneratedString());
 		event2.setCities(new HashSet());
 		event2.setImage(getGeneratedString());
-		city1 = new City();
-		city2 = new City();
 		city1.setName(getGeneratedString());
 		city1.setRu_name(getGeneratedString());
 		city1.setArea(50);
