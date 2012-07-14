@@ -953,23 +953,37 @@
         }
     </script>
 	<script>
-		function resolve(x1, x2, z1, z2, y, level, eps, func, iteration) {
-			// coefficient for linear equation
-			var k = (z2 - z1)/(x2 - x1);
-			if(isNaN(k))
-				return k;
-			var b = k*x1 - z1;
-			// expected root
-			var x = (level + b)/k;
-			if(iteration == 0)
-				return x;
-			var z = func(x, y);
-			if(Math.abs(z - level) < eps)
-				return x;
-			if(z > level)
-				x = resolve(x1, x, z1, z, y, level, eps, func, iteration - 1);
-			else
-				x = resolve(x, x2, z, z2, y, level, eps, func, iteration - 1);
+		function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
+			var k, b, x, z;
+			while(iteration != 0) {
+				// coefficient for linear equation
+				k = (z2 - z1)/(x2 - x1);
+				if(isNaN(k))
+					return k;
+				b = k*x1 - z1;
+				// expected root
+				x = (level + b)/k;
+				if(iteration == 0)
+					return x;
+				z = func(x, y);
+				if(Math.abs(z - level) < eps)
+					break;
+				if(z > level) {
+					x2 = x;
+					z2 = z;
+				} else {
+					x1 = x;
+					z1 = z;
+				}
+				iteration--;
+			}
+			if(typeof(isLeft) != 'undefined')
+				if((z < level && k > 0) || (z > level && k < 0))
+					if(!isLeft)
+						while(k * (z - level) < 0) {
+							x += eps/5;
+							z = func(x, y);
+						}
 			return x;
 		}
 	</script>
