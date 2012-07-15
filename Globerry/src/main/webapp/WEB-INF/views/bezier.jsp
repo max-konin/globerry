@@ -68,9 +68,9 @@
         
         var graph, points;
         $(document).ready($('#slider').slider({
-            min : 1,
-            max : 10,
-            step : 0.02,
+            min : 0.5,
+            max : 20,
+            step : 0.1,
             value : 3.84,
             slide : function(event, ui) {
                 $('#minVal').val(ui.value);
@@ -86,7 +86,7 @@
                 return;
             }
             $('.curve').remove();
-            graph.drawIsoline(points, value);
+            //graph.drawIsoline(points, value);
             graph.drawSpans(points, value)
         }
        
@@ -116,12 +116,13 @@
         }
         
         $(document).ready(function() {
-            graph = Graph(1000,1000,-4,4,-2,4,50);
+            graph = Graph(1000,1000,-10,10,-5,5,50);
             $('#pic').append(graph.svg);
             //graph.draw(foo, 0.1);
             //graph.drawFunc(foo, 2);
+            var point;
             points = [];
-            var point = Point(0, 0);
+            /*point = Point(0, 0);
             point.weight = 1;
             points.push(point);
             
@@ -131,19 +132,45 @@
             
             point = Point(2, 0);
             point.weight = 2;
-            points.push(point);
-            
-            /*point = Point(3,1)
-            point.weight = 4;
-            points.push(point);
-            
-            point = Point(1.5,1)
-            point.weight = 2;
-            points.push(point);
-            
-            point = Point(-1, -3);
-            point.weight = 2;
             points.push(point);*/
+            point = Point(0, 0);
+            point.weight = 3;
+            points.push(point);
+            
+            
+            point = Point(0, -2);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(0, 3);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(-3, 3);
+            point.weight = 2;
+            points.push(point);
+            
+            point = Point(-6, 0);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(-6, -2);
+            point.weight = 1;
+            points.push(point);
+            
+            
+            point = Point(3, 3);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(5, 0);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(5, -2);
+            point.weight = 1;
+            points.push(point);
+            
             //graph.drawRays(rays);
             //graph.draw3D(points, 3.84);
             graph.drawIsoline(points,3);
@@ -508,40 +535,40 @@
                                 "V " + projectY(tile.getCorner().y + tile.getSizeY()) + " " +
                                 "H " + projectX(tile.getCorner().x) + " " + 
                                 "V " + projectY(tile.getCorner().y);
-                            appendPath(tilesPath,'black', 2, 'curve');
+                            //appendPath(tilesPath,'black', 2, 'curve');
                         }
                         tileMapSize = tile.getSizeX();
                         var avg = tile.calcAvg(2);
-                            var indexes = tile.findClosestPoint(p);
+                        var indexes = tile.findClosestPoint(p);
                             
-                            if(indexes) {
-                                //appendCircle(Point(indexes.j*tile.step + tile.corner.x, indexes.i*tile.step + tile.corner.y), 3, 'curve');
-                                var prevPoint = rays[rays.length - 1].start;
-                                var t = findCrossVertical(prevPoint, p, tile.corner, tileMapSize), point;
+                        if(indexes) {
+                            //appendCircle(Point(indexes.j*tile.step + tile.corner.x, indexes.i*tile.step + tile.corner.y), 3, 'curve');
+                            var prevPoint = rays[rays.length - 1].start;
+                            var t = findCrossVertical(prevPoint, p, tile.corner, tileMapSize), point;
+                            if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
+                                point = Point(tile.corner.x, tile.corner.y + t.t2*tileMapSize);
+                            } else {
+                                t = findCrossVertical(prevPoint, p, Point(tile.corner.x + tileMapSize, tile.corner.y), tileMapSize);
                                 if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
-                                    point = Point(tile.corner.x, tile.corner.y + t.t2*tileMapSize);
+                                    point = Point(tile.corner.x + tileMapSize, tile.corner.y + tileMapSize*t.t2);
                                 } else {
-                                    t = findCrossVertical(prevPoint, p, Point(tile.corner.x + tileMapSize, tile.corner.y), tileMapSize);
+                                    t = findCrossHorizontal(prevPoint, p,tile.corner, tileMapSize);
                                     if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
-                                        point = Point(tile.corner.x + tileMapSize, tile.corner.y + tileMapSize*t.t2);
+                                        point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y);
                                     } else {
-                                        t = findCrossHorizontal(prevPoint, p,tile.corner, tileMapSize);
-                                        if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
-                                            point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y);
-                                        } else {
-                                            t = findCrossHorizontal(prevPoint, p, Point(tile.corner.x, tile.corner.y + tileMapSize), tileMapSize);
-                                            //point = Point(tile.corner.x + t.t2*tileMapSize, tile.corner.y + tileMapSize);
-                                            point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y + tileMapSize);
-                                        }
+                                        t = findCrossHorizontal(prevPoint, p, Point(tile.corner.x, tile.corner.y + tileMapSize), tileMapSize);
+                                        //point = Point(tile.corner.x + t.t2*tileMapSize, tile.corner.y + tileMapSize);
+                                        point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y + tileMapSize);
                                     }
                                 }
+                            }
                                 
-                                //appendCircle(prevPoint, 3, 'curve');
-                                //appendCircle(p, 3, 'curve');
-                                appendCircle(point, 5, 'curve');
-                                var startPoint = tile.findClosestPoint(point);
-                                if(level < avg) {
-                                    /*var index1, index2, index, clockwise;
+                            //appendCircle(prevPoint, 3, 'curve');
+                            //appendCircle(p, 3, 'curve');
+                            appendCircle(point, 5, 'curve');
+                            var startPoint = tile.findClosestPoint(point);
+                            if(level < avg) {
+                                /*var index1, index2, index, clockwise;
                                     if(tile.points[startPoint.i][startPoint.j] > level) {
                                         for(var i = 0; ; i++) {
                                             index1 = tile.walk(startPoint.i, startPoint.j, i, true);
@@ -558,7 +585,7 @@
                                             }
                                         }
                                     }*/
-                                    /*if(tile.points[startPoint.i][startPoint.j] < level) {
+                                /*if(tile.points[startPoint.i][startPoint.j] < level) {
                                         var index = startPoint;
                                         for(var i = 1; tile.points[index.i][index.j] < level; i++) {
                                             index = tile.walk(index.i,index.j,i, true);
@@ -573,11 +600,11 @@
                                         //console.log(index);
                                     }*/
                                         
-                                }
-                            } else {
-                                console.log(tile.toString());
-                                console.log(Point(xTile, yTile).toString());
                             }
+                        } else {
+                            console.log(tile.toString());
+                            console.log(Point(xTile, yTile).toString());
+                        }
                             
                     }
                     var ray = Ray(p, Point(-z_shtrih.getY(), z_shtrih.getX()), true);
@@ -586,7 +613,7 @@
                     yAside = y + z_shtrih.getX()*step.y;
                     path += "L " + projectX(x) + " " + projectY(y) + "L " + projectX(xAside) + " " + projectY(yAside);
                     
-                    appendPath(path,'green', 1, 'curve');
+                    //appendPath(path,'green', 1, 'curve');
                     
                     //if($('#alert').attr('checked'))
                     //    alert(z_shtrih.length());
@@ -596,7 +623,7 @@
                         break;
                 }
                 
-                for(var tileCounter = 0; tileCounter < tiles.length; tileCounter++) {
+                /*for(var tileCounter = 0; tileCounter < tiles.length; tileCounter++) {
                     var tile = tiles[tileCounter];
                     var corner = tile.corner;
                     for(var i = 0; i < tile.points.length; i++) {
@@ -609,7 +636,7 @@
                         }
                     }
                     //appendCircle(point, 2, 'positive curve');
-                }
+                }*/
                 drawRays(rays);
                 
             }
@@ -643,6 +670,8 @@
                     var xPrev = x, zPrev = z, flag = false;
                     if(!stepCount)
                         stepCount = 1000;
+                    if(stepCount < 1)
+                        return null;
                     while(true) {
                         x = xPrev + direction*stepX;
                         z = Z(x, y);
@@ -676,66 +705,153 @@
                     for(var i = 0; i < 2; i++) {
                         dir *= -1;
                         var level = span.getLevel() + dir;
-                        var x, y = level*stepY, zCurrent, left, right;
+                        var x, y = firstLevel + level*stepY, zCurrent, left, right;
                         if(level != parentLevel) {
                             x = span.getLeft().x;
                             zCurrent = Z(x, y);
                             if(zCurrent > zLevel) {
                                 x = findBorder(x, y, -1, false, true);
                             } else {
-                                x = findBorder(x, y, 1, spanFactor, true);
-                                if(!x)
+                                x = findBorder(x, y, 1, (span.getRight().x - x)/stepX, true);
+                                if(!x) {
+                                    if(dir == -1) {
+                                        var l = span.getLeft(), r = span.getRight();
+                                        r.next = l;
+                                        l.previous = r;
+                                    } else if(dir == 1) {
+                                        var l = span.getLeft(), r = span.getRight();
+                                        l.next = r;
+                                        r.previous = l;
+                                    }
                                     continue;
+                                }
                             }
                             left = x;
-                            while(true) {
+                            var p1 = span.getLeft(), newSpan;
+                            while(left) {
                                 right = findBorder(left, y, 1, false, true);
                                 appendCircle2(left, y, 3, 'curve');
                                 appendCircle2(right, y, 3, 'curve');
-                                ret.push(Span(Node(left, y), Node(right, y)));
-                                if(Math.abs(span.getRight().x - right) < stepX)
+                                newSpan = Span(Node(left, y), Node(right, y), level);
+                                newSpan.setParent(span);
+                                if(dir == 1) {
+                                    p1.next = newSpan.getLeft();
+                                    newSpan.getLeft().previous = p1;
+                                } else {
+                                    p1.previous = newSpan.getLeft();
+                                    newSpan.getLeft().next = p1;
+                                }
+                                p1 = newSpan.getRight();
+                                ret.push(newSpan);
+                                if(Math.abs(span.getRight().x - right) < stepX) {
                                     break;
+                                }    
                                 left = findBorder(right, y, 1,(span.getRight().x - right)/stepX + 2, true);
-                                if(!left)
-                                    break;
                             }
+                            if(dir == 1) {
+                                newSpan.getRight().next = span.getRight();
+                                span.getRight().previous = newSpan.getRight();
+                            } else {
+                                newSpan.getRight().previous = span.getRight();
+                                span.getRight().next = newSpan.getRight();
+                            }
+                            
                         } else if(parent) {
-                            if(span.getLeft().x < spanFactor*stepX - parent.getLeft().x) {
-                                right = span.getLeft().x;
+                            var parentLeft = parent.getLeft().x
+                            if(span.getLeft().x < parentLeft - stepX) {
+                                left = span.getLeft().x;
+                                zCurrent = Z(left, y);
+                                if(zCurrent > zLevel) {
+                                    left = findBorder(left, y, -1, false, true);
+                                } else {
+                                    var stepCount = (parentLeft - left)/stepX - 1;
+                                    left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, true);
+                                }
+                                if(left) {
+                                    var p1 = span.getLeft();
+                                    while(left) {
+                                        right = findBorder(left, y, 1, false, true);
+                                        newSpan = Span(Node(left,y), Node(right,y), level);
+                                        newSpan.setParent(span);
+                                        if(dir == 1) {
+                                            p1.next = newSpan.getLeft();
+                                            newSpan.getLeft().previous = p1;
+                                        } else {
+                                            newSpan.getLeft().next = p1;
+                                            p1.previous = newSpan.getLeft();
+                                        }
+                                        p1 = newSpan.right;
+                                        ret.push(newSpan);
+                                        left = findBorder(right, y, 1, (parentLeft - right)/stepX - 1,true)
+                                    }
+                                    if(dir == 1) {
+                                        span.getParent().getLeft().previous = newSpan.getRight();
+                                        newSpan.getRight().next = span.getParent().getLeft();
+                                    } else {
+                                        span.getParent().getLeft().next = newSpan.getRight();
+                                        newSpan.getRight().previous = span.getParent().getLeft();
+                                    }
+                                }
+                            }
+                            var parentRight = parent.getRight().x
+                            if(span.getRight().x > parentRight + stepX) {
+                                var right = span.getRight().x;
                                 zCurrent = Z(right, y);
                                 if(zCurrent > zLevel) {
-                                    findBorder(right, y, 1, false, false);
-                                    while(true) {
-                                        left = findBorder(right, y, -1, false, true);
-                                        appendCircle2(left, y, 3, 'curve');
-                                        appendCircle2(right, y, 3, 'curve');
-                                        ret.push(Span(Node(left, y), Node(right, y)));
-                                        if(Math.abs(span.getLeft().x - left) < stepX)
+                                    right = findBorder(right, y, 1, false, false);
+                                } else {
+                                    right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, false);
+                                }
+                                if(right) {
+                                    var count = 0;
+                                    var p1 = span.getRight();
+                                    while(right) {
+                                        left = findBorder(right, y, -1, false, false);
+                                        appendCircle2(right, y, 7, 'curve');
+                                        appendCircle2(left, y, 7, 'curve');
+                                        right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, false);
+                                        count ++;
+                                        if(count > 10)
                                             break;
-                                        right = findBorder(left, y, -1, (span.getLeft().x - left)/stepX + 2, true);
                                     }
                                 }
                             }
                         }
-                        
                     }
                     return ret;
                 }
-                var stepX = 0.3, stepY = 0.3, eps = 0.1, spanFactor = 5;
-                var y  = points[0].y;
-                var p = Point(points[0].x + 0.1, points[0].y);
+                var stepX = 0.4, stepY = 0.4, eps = 0.1, spanFactor = 3;
+                var firstPoint = points[1];
+                var y  = firstPoint.y;
+                var p = Point(firstPoint.x + 0.1, firstPoint.y);
                 var pLeft = findBorder(p.x, p.y, -1), pRight = findBorder(p.x, p.y, 1);
+                var firstLevel = y;
+                appendCircle2(pLeft, y, 4, 'curve');
+                appendCircle2(pRight, y , 4, 'curve');
                 var leftNode = Node(pLeft, y);
                 var rightNode = Node(pRight, y);
                 var spanStack = Stack();
                 var firstSpan = Span(leftNode, rightNode, 0);
-                findSpans(firstSpan);
+                //findSpans(firstSpan);
                 spanStack.push(firstSpan);
                 while(spanStack.size() > 0) {
                     var span = spanStack.pop();
                     var spans = findSpans(span);
                     for(var i = 0; i < spans.length; i++)
                         spanStack.push(spans[i]);
+                }
+                var p = firstSpan.getLeft();
+                var path = ""
+                for(var i = 0; i < 300 ; i++) {
+                    path += "M " + projectX(p.x) + " " + projectY(p.y) + "L " + projectX(p.next.x) + " " + projectY(p.next.y);
+                    appendPath(path, 'green', 2, 'curve');
+                    p = p.next;
+                    if(p == firstSpan.getLeft())
+                        break;
+                }
+                for(var i = 0; i< points.length; i++) {
+                    appendCircle(points[i], points[i].weight*4,'curve');
+                    appendText(points[i].x+0.3, points[i].y, i, 'curve');
                 }
             }
             var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline,drawSpans : drawSpans};
@@ -1007,7 +1123,10 @@
                 getParent : getParent,
                 getLevel : getLevel,
                 getLeft : getLeft,
-                getRight : getRight
+                getRight : getRight,
+                level : lvl,
+                left : left,
+                right : right
             };
             return me;
         }
@@ -1031,40 +1150,39 @@
             return {peek : peek, push : push, pop : pop, size : size}
         }
     </script>
-	<script>
-		function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
-			var k, b, x, z;
-			while(iteration != 0) {
-				// coefficient for linear equation
-				k = (z2 - z1)/(x2 - x1);
-				if(isNaN(k))
-					return k;
-				b = k*x1 - z1;
-				// expected root
-				x = (level + b)/k;
-				if(iteration == 0)
-					return x;
-				z = func(x, y);
-				if(Math.abs(z - level) < eps)
-					break;
-				if(z > level) {
-					x2 = x;
-					z2 = z;
-				} else {
-					x1 = x;
-					z1 = z;
-				}
-				iteration--;
-			}
-			if(typeof(isLeft) != 'undefined')
-				if((z < level && k > 0) || (z > level && k < 0))
-					if(!isLeft)
-						while(k * (z - level) < 0) {
-							x += eps/5;
-							z = func(x, y);
-						}
-			return x;
-		}
-	</script>
+    <script>
+        function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
+            var k, b, x, z;
+            while(iteration != 0) {
+                // coefficient for linear equation
+                k = (z2 - z1)/(x2 - x1);
+                if(isNaN(k))
+                    return k;
+                b = k*x1 - z1;
+                // expected root
+                x = (level + b)/k;
+                if(iteration == 0)
+                    return x;
+                z = func(x, y);
+                if(Math.abs(z - level) < eps)
+                    break;
+                if(z > level) {
+                    x2 = x;
+                    z2 = z;
+                } else {
+                    x1 = x;
+                    z1 = z;
+                }
+                iteration--;
+            }
+            if(typeof(isLeft) != 'undefined')
+                if((z < level && k > 0) || (z > level && k < 0))
+                    if(!isLeft)
+                        while(k * (z - level) < 0) {
+                            x += eps/5;
+                            z = func(x, y);
+                        }
+            return x;
+        }
+    </script>
 </html>
-	
