@@ -23,6 +23,13 @@ public interface IProposalsManager
     Set<Hotel> getHotelsByCity(City city);
     
     /**
+     * Возвращает список отелей в городах
+     * @param cities город
+     * @return Список отелей
+     */
+    Set<Hotel> getHotelsByCities(Collection<City> cities);
+    
+    /**
      * Возвращает авиабилетов отелей в городе
      * @param city город
      * @return Список авиабилетов
@@ -30,11 +37,25 @@ public interface IProposalsManager
     Set<Ticket> getTicketByCity(City city);
     
     /**
+     * Возвращает список билетов до городов
+     * @param cities город
+     * @return Список отелей
+     */
+    Set<Ticket> getTicketByCities(Collection<City> cities);
+    
+    /**
      * Возвращает список туров в городе
      * @param city город
      * @return Список туров
      */
     Set<Tour> getTourByCity(City city);
+    
+    /**
+     * Возвращает список туров в города
+     * @param cities город
+     * @return Список туров
+     */
+    Set<Tour> getTourByCities(Collection<City> cities);
     
     /**
      * Добавляет отель

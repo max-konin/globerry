@@ -106,5 +106,41 @@ public class SimpleProposalsManager implements IProposalsManager
             f |= addTour(tour);
         return f;
     }
+
+    @Override
+    public Set<Hotel> getHotelsByCities(Collection<City> cities)
+    {
+        Set<Hotel> hotelSet = new HashSet<Hotel>();
+        for(City city: cities)
+        {
+            Hotel hotel = (Hotel) getHotelsByCity(city);
+            if (hotel != null) hotelSet.add(hotel);
+        }
+        return hotelSet;
+    }
+
+    @Override
+    public Set<Ticket> getTicketByCities(Collection<City> cities)
+    {
+        Set<Ticket> ticketSet = new HashSet<Ticket>();
+        for(City city: cities)
+        {
+            Ticket ticket = (Ticket) getTicketByCity(city);
+            if (ticket != null) ticketSet.add(ticket);
+        }
+        return ticketSet;
+    }
+
+    @Override
+    public Set<Tour> getTourByCities(Collection<City> cities)
+    {
+        Set<Tour> tourSet = new HashSet<Tour>();
+        for(City city: cities)
+        {
+            Tour tour = (Tour) getTourByCity(city);
+            if (tour != null) tourSet.add(tour);
+        }
+        return tourSet;
+    }
     
 }

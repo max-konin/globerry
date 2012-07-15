@@ -3,9 +3,13 @@ package com.globerry.project;
 
 
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.Hotel;
+import com.globerry.project.domain.Ticket;
+import com.globerry.project.domain.Tour;
 import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
+import com.globerry.project.service.interfaces.IProposalsManager;
 import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.List;
@@ -26,16 +30,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @Scope("session")
 public class HomeController {
+    
+    List<City> cityList;
 
-    public static final Logger logger = Logger.getLogger(HomeController.class);
+    protected static final Logger logger = Logger.getLogger(HomeController.class);
     @Autowired
     IUserCityService userCityService;
+    
+    @Autowired
+    IProposalsManager proposalsManager;
 
  
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
     @Autowired
     IApplicationContext appContext;   
+    
+    ;
     
 
     /*
@@ -149,6 +160,27 @@ public class HomeController {
         }
         logger.debug(appContext.toString());
         return cities;
+    }
+    
+    @RequestMapping(value = "/get_hotels", method = RequestMethod.GET)
+    @ResponseBody
+    public Hotel[] GetHotels()
+    {
+        return (Hotel[]) proposalsManager.getHotelsByCities(cityList).toArray();
+    }
+    
+    @RequestMapping(value = "/get_tickets", method = RequestMethod.GET)
+    @ResponseBody
+    public Ticket[] GetTickets()
+    {
+        return (Ticket[]) proposalsManager.getTicketByCities(cityList).toArray();
+    }
+    
+    @RequestMapping(value = "/get_tours", method = RequestMethod.GET)
+    @ResponseBody
+    public Tour[] GetTours()
+    {
+        return (Tour[]) proposalsManager.getTourByCities(cityList).toArray();
     }
     @RequestMapping(value = "/bezier")
     public String bezier() {
