@@ -10,11 +10,15 @@ import com.globerry.project.domain.Ticket;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.interfaces.IProposalsManager;
 import java.util.*;
+import javax.inject.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Простой мэнеджер. Хранит все в хэш таблицах.
  * @author max
  */
+@Service
 public class SimpleProposalsManager implements IProposalsManager
 {
     // ключ - id города.
@@ -55,7 +59,10 @@ public class SimpleProposalsManager implements IProposalsManager
     @Override
     public boolean addHotelRange(Collection<Hotel> hotels)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean f = true;
+        for(Hotel hotel: hotels)
+            f |= addHotel(hotel);
+        return f;
     }
 
     @Override
@@ -73,19 +80,31 @@ public class SimpleProposalsManager implements IProposalsManager
     @Override
     public boolean addTicketRange(Collection<Ticket> tickets)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean f = true;
+        for(Ticket ticket: tickets)
+            f |= addTicket(ticket);
+        return f;
     }
 
     @Override
     public boolean addTour(Tour tour)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Set<Tour> set = tours.get(tour.getTargetCityId());
+        if (set != null)
+            return set.add(tour);
+        set = new HashSet<Tour>();
+        set.add(tour);
+        tours.put(tour.getTargetCityId(), set);
+        return true;
     }
 
     @Override
     public boolean addTourRange(Collection<Tour> tours)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean f = true;
+        for(Tour tour: tours)
+            f |= addTour(tour);
+        return f;
     }
     
 }

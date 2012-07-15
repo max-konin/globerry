@@ -100,6 +100,29 @@ public class SimpleProposalsManagerTest
         assertTrue(manager.addTicket(ticket2));
         assertTrue((tickets.get(1).size() - startTicketCount) == 2);
     }  
+    
+    @Test
+    public void testAddTour()
+    {
+        Tour tour1 = new Tour();
+        Tour tour2 = new Tour();
+        tour1.setTargetCityId(1);
+        tour1.setCost(1);
+        tour2.setTargetCityId(1);
+        tour2.setCost(2);
+        
+        int startTourCount;
+        if (tours.get(1) == null) startTourCount = 0;
+        else startTourCount = tours.get(1).size();
+        
+        assertTrue(manager.addTour(tour1));
+        verify(tours).put(eq(1), anySet());
+        
+        assertFalse(manager.addTour(tour1));
+        
+        assertTrue(manager.addTour(tour2));
+        assertTrue((tours.get(1).size() - startTourCount) == 2);
+    }  
 
     
     
@@ -127,6 +150,16 @@ public class SimpleProposalsManagerTest
         
         manager.getTicketByCity(city);
         verify(tickets).get(1);
+    }   
+    
+    @Test
+    public void testGetTourByCity()
+    {
+        City city = mock(City.class);
+        when(city.getId()).thenReturn(1);
+        
+        manager.getTourByCity(city);
+        verify(tours).get(1);
     }   
 
     
