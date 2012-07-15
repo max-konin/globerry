@@ -34,21 +34,7 @@ public class Proposals
     
     private static Integer hashCode = null;
     
-    @OneToMany(
-	    	cascade=CascadeType.ALL,
-	    	fetch=FetchType.EAGER
-	    	)
-    private Set<Tour> tourList = new HashSet<Tour>();
-    
-    public Set<Tour> getTourList()
-    {
-	return tourList;
-    }
-
-    public void setTourList(Set<Tour> tourList)
-    {
-	this.tourList = tourList;
-    }
+   
     public int getId()
     {
 	return id;
