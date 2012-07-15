@@ -95,11 +95,10 @@ public class TourDao implements ITourDao
 	tx.commit();
     }
 
-    @Override
-	@Transactional
+    @Override	
     public void removeTour(Tour tour)
     {
-	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();    
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    sessionFactory.getCurrentSession().delete(tour);
 	    tx.commit();
 	    sessionFactory.close();
@@ -107,7 +106,6 @@ public class TourDao implements ITourDao
     }
 
     @Override
-	@Transactional
     public void removeTour(int id)
     {
 	    Tour tour = getTour(id);

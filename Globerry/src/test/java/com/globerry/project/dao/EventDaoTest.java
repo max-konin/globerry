@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 	DirtiesContextTestExecutionListener.class,
 	ContextLoaderListener.class
 })
-@DirtiesContext(classMode=DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class EventDaoTest {
 
 	@Autowired
@@ -46,7 +46,6 @@ public class EventDaoTest {
 	ICityDao cityDao;
 	@Autowired
 	ICompanyDao companyDao;
-	
 	private static Event event1;
 	private static Event event2;
 	private static City city1 = new City();
@@ -104,17 +103,17 @@ public class EventDaoTest {
 		}
 		return sb.toString();
 	}
-	
+
 	@Test
-	public void addEventWithoutCityTest() {
+	public void addEventTest() {
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
 		eventDao.addEvent(event1);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() - 1 == originalEventSize);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from City").list().containsAll(event1.getCities()));
 	}
-	
+
 	@Test
-	@Transactional
 	public void removeEventByEventTest() throws MySqlException {
 		eventDao.addEvent(event1);
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
@@ -122,9 +121,8 @@ public class EventDaoTest {
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() + 1 == originalEventSize);
 		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
-	
+
 	@Test
-	@Transactional
 	public void removeEventByIdTest() throws MySqlException {
 		eventDao.addEvent(event1);
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
@@ -132,7 +130,7 @@ public class EventDaoTest {
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() + 1 == originalEventSize);
 		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
-	
+
 	@Test
 	public void getEventListTest() throws MySqlException {
 		eventDao.addEvent(event1);
@@ -142,7 +140,7 @@ public class EventDaoTest {
 		eventList.add(event2);
 		assertTrue(eventDao.getEventList().equals(eventList));
 	}
-	
+
 	@Test
 	public void updateEventTest() {
 		eventDao.addEvent(event1);
@@ -150,7 +148,7 @@ public class EventDaoTest {
 		eventDao.updateEvent(event1);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event where id = " + event1.getId()).list().get(0).equals(event1));
 	}
-	
+
 	@Test
 	public void getEventByIdTest() {
 		eventDao.addEvent(event1);

@@ -28,7 +28,7 @@ import org.hibernate.mapping.Collection;
 
 
 @Entity
-@Table
+@Table(name = "Event")
 public class Event
 {
     @Id

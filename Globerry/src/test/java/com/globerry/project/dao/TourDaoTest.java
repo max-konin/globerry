@@ -125,17 +125,6 @@ public class TourDaoTest {
 	}
 
 	@Test(timeout = 1000)
-	@Transactional
-	public void removeTourByTourTest() {
-		tourDao.addTour(tour1);
-		int originalTourSize = sessionFactory.getCurrentSession().createQuery("from Tour").list().size();
-		tourDao.removeTour(tour1);
-		assertTrue(sessionFactory.getCurrentSession().createQuery("from Tour").list().size() + 1 == 
-				originalTourSize);
-		assertFalse(sessionFactory.getCurrentSession().createQuery("from Tour").list().contains(tour1));
-	}
-
-	@Test(timeout = 1000)
 	public void updateTourTest() {		
 		tourDao.addTour(tour1);
 		tour1.setDescription(getGeneratedString());
@@ -150,12 +139,21 @@ public class TourDaoTest {
 		assertTrue(tourDao.getTour(666) == null);
 	}
 	
-	@Test(timeout = 1000)
-	@Transactional
+	@Test(timeout = 1000)	
 	public void removeTourByIdTest() {
 		tourDao.addTour(tour1);
 		int originalTourSize = sessionFactory.getCurrentSession().createQuery("from Tour").list().size();
 		tourDao.removeTour(tour1.getId());
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from Tour").list().size() + 1 == 
+				originalTourSize);
+		assertFalse(sessionFactory.getCurrentSession().createQuery("from Tour").list().contains(tour1));
+	}
+	
+	@Test(timeout = 1000)
+	public void removeTourByTourTest() {
+		tourDao.addTour(tour1);
+		int originalTourSize = sessionFactory.getCurrentSession().createQuery("from Tour").list().size();
+		tourDao.removeTour(tour1);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Tour").list().size() + 1 == 
 				originalTourSize);
 		assertFalse(sessionFactory.getCurrentSession().createQuery("from Tour").list().contains(tour1));

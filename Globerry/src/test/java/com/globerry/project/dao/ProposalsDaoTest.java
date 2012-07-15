@@ -35,13 +35,13 @@ import org.springframework.test.annotation.DirtiesContext;
 public class ProposalsDaoTest {
 
 	@Autowired
-	ProposalsDao proposalsDao;
+	private IProposalsDao proposalsDao;
 	@Autowired
-	CityDao cityDao;
+	private ICityDao cityDao;
 	@Autowired
-	TourDao tourDao;
+	private ITourDao tourDao;
 	@Autowired
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	
 	@BeforeClass
 	public static void BeforeClassTest() {
