@@ -24,6 +24,7 @@ import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Tour;
 import java.util.ArrayList;
 import java.util.HashSet;
+import org.hibernate.Transaction;
 import org.junit.BeforeClass;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,6 +115,7 @@ public class EventDaoTest {
 	}
 
 	@Test
+	@Transactional
 	public void removeEventByEventTest() throws MySqlException {
 		eventDao.addEvent(event1);
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
@@ -123,8 +125,21 @@ public class EventDaoTest {
 	}
 
 	@Test
+	@Transactional
 	public void removeEventByIdTest() throws MySqlException {
-		eventDao.addEvent(event1);
+		//eventDao.addEvent(event1);
+		Transaction tn = sessionFactory.getCurrentSession().beginTransaction();
+		Iterator<City> IT = event1.getCities().iterator();
+		while (IT.hasNext()) {
+			City city = IT.next();
+			sessionFactory.getCurrentSession().saveOrUpdate(city);
+		}
+		try {
+			sessionFactory.getCurrentSession().save(event1);			
+		} catch (Exception e) {
+			tn.rollback();
+		}
+		tn.commit();
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
 		eventDao.removeEvent(event1.getId());
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() + 1 == originalEventSize);
