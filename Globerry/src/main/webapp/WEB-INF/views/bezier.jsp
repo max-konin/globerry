@@ -71,7 +71,7 @@
             min : 0.5,
             max : 15,
             step : 0.01,
-            value : 3.36,
+            value : 7.79,
             slide : function(event, ui) {
                 $('#minVal').val(ui.value);
                 redraw();
@@ -179,12 +179,24 @@
             point.weight = 2;
             points.push(point);
             
+            point = Point(8, -6);
+            point.weight = 1.5;
+            points.push(point);
+            
+            point = Point(3, -0.85);
+            point.weight = 1.5;
+            points.push(point);
+            
             point = Point(9, 1.5);
             point.weight = 4;
             points.push(point);
             
+            point = Point(-8, -4.75);
+            point.weight = 4;
+            points.push(point);
+            
             //graph.drawRays(rays);
-            graph.drawSpans(points, 3.42);
+            graph.drawSpans(points, 6.56);
             //graph.drawSpans(points,3.35);
             
             $('#wolfram').append(plotString(points));
@@ -465,13 +477,6 @@
                     if(flag)
                         return null;
                     var x0;
-                    /*if(positionFlag == 0 || !positionFlag) {
-                        x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50);
-                    } else if (positionFlag) {
-                        x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50, true);
-                    } else if (!positionFlag) {
-                        x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50, false);
-                    }*/
                     if(typeof(positionFlag) == 'undefined') {
                         x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50);
                     } else {
@@ -494,6 +499,7 @@
                             x = span.getLeft().x;
                             zCurrent = Z(x, y);
                             if(zCurrent > zLevel) {
+                                
                                 x = findBorder(x, y, -1, false, false);
                             } else {
                                 x = findBorder(x, y, 1, (span.getRight().x - x)/stepX, false);
@@ -512,8 +518,9 @@
                             }
                             left = x;
                             var p1 = span.getLeft(), newSpan, flag = false;
+                            var stepCount = span.getRight().x - span.getLeft().x > 4*stepX ? false : 8;
                             while(left) {
-                                right = findBorder(left, y, 1, false, false);
+                                right = findBorder(left, y, 1, stepCount, false);
                                 if(flag && left - ret[ret.length - 1].getRight().x < stepX) {
                                     ret[ret.length - 1].getRight().x = right;
                                     left = findBorder(right, y, 1,(span.getRight().x - right)/stepX - 2, false);
@@ -555,7 +562,6 @@
                                 if(zCurrent > zLevel) {
                                     left = findBorder(left, y, -1, false, false);
                                 } else {
-                                    var stepCount = (parentLeft - left)/stepX - 1;
                                     left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
                                 }
                                 if(left && Math.abs(span.getParent().getLeft().x - left) > stepX) {
@@ -596,11 +602,13 @@
                                 } else {
                                     right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, true);
                                 }
-                                if(right) {
+                                if(right && Math.abs(span.getParent().getRight().x - right) > stepX) {
                                     var count = 0;
                                     var p1 = span.getRight();
-                                    while(right && Math.abs(span.getParent().getRight().x - right) > stepX) {
-                                        left = findBorder(right, y, -1, false, true);
+                                    while(right) {
+                                        left = findBorder(right, y, -1, (right - parentRight)/stepX - 1, true);
+                                        if(!left)
+                                            left = parentRight + step/2;
                                         appendCircle2(right, y, 7, 'curve');
                                         appendCircle2(left, y, 7, 'curve');
                                         newSpan = Span(Node(left,y), Node(right,y), level);
@@ -615,9 +623,6 @@
                                         p1 = newSpan.left;
                                         ret.push(newSpan);
                                         right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, true);
-                                        count ++;
-                                        if(count > 10)
-                                            break;
                                     }
                                     if(dir == 1) {
                                         parent.getRight().next = newSpan.getLeft();
@@ -642,7 +647,7 @@
                     $('.class1').remove();
                     return ret;
                 }
-                var stepX = 0.4, stepY = 0.4, eps = 0.1, spanFactor = 3;
+                var stepX = 0.3, stepY = 0.3, eps = 0.1, spanFactor = 3;
                 var firstPoint = points[1];
                 var y  = firstPoint.y;
                 var p = Point(firstPoint.x + 0.1, firstPoint.y);
