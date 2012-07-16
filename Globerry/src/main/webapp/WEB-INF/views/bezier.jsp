@@ -1164,14 +1164,14 @@
             while(iteration != 0) {
                 // coefficient for linear equation
                 k = (z2 - z1)/(x2 - x1);
-                if(isNaN(k))
-                    return k;
-                b = k*x1 - z1;
-                // expected root
-                x = (level + b)/k;
-                if(iteration == 0)
-                    return x;
-                z = func(x, y);
+				if(isNaN(k))
+					return k;
+				b = k*x1 - z1;
+				// expected root
+				x = (level + b)/k;
+				if(iteration == 0)
+					return x;
+				z = func(x, y);
                 if(Math.abs(z - level) < eps)
                     break;
                 if(z > level) {
@@ -1187,20 +1187,16 @@
                 if((z < level && k > 0) || (z > level && k < 0)) {
                     if(!isLeft) {
                         while(k * (z - level) < 0) {
-                            x += eps/5;
+                            x += eps/3;
                             z = func(x, y);
                         }
-                    } else if(isLeft) {
-                        while(k * (z - level) > 0) {
-                            x -= eps/2;
-                            z = func(x, y);
-                        }
-                    }
-            }
-            if(k > 0 && isLeft && z > level)
-                x += eps/2;
-            if(k < 0 && isLeft && z < level)
-                x -= eps/2;
+					}
+				} else if(isLeft) {
+					while(k * (z - level) > 0) {
+						x -= eps/3;
+						z = func(x, y);
+					}
+				}
             return x;
         }
     </script>
