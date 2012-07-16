@@ -79,7 +79,7 @@ public class ProposalsDaoTest {
 		tour.setName("slaved");
 		City city = new City();
 		proposals.setCity(city);
-		proposals.getTourList().add(tour);
+		
 
 		try {
 			proposalsDao.addProposals(proposals);
@@ -94,9 +94,7 @@ public class ProposalsDaoTest {
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		proposals = (Proposals) sessionFactory.getCurrentSession().get(Proposals.class, proposals.getId());
 		tx.commit();
-		Set<Tour> tourList = proposals.getTourList();
-		tourList.iterator().next();
-		assertEquals(proposals.getTourList().iterator().next().getName(), "slaved");
+		
 	}
 
 	@Test
