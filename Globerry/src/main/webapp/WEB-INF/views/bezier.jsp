@@ -688,12 +688,17 @@
                     if(flag)
                         return null;
                     var x0;
-                    if(positionFlag == 0 || !positionFlag) {
+                    /*if(positionFlag == 0 || !positionFlag) {
                         x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50);
-                    } else if (positionFlag == -1) {
+                    } else if (positionFlag) {
                         x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50, true);
-                    } else if (positionFlag == 1) {
+                    } else if (!positionFlag) {
                         x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50, false);
+                    }*/
+                    if(typeof(positionFlag) == 'undefined') {
+                        x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50);
+                    } else {
+                        x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50, positionFlag);
                     }
                     return x0;
                 }
@@ -710,9 +715,9 @@
                             x = span.getLeft().x;
                             zCurrent = Z(x, y);
                             if(zCurrent > zLevel) {
-                                x = findBorder(x, y, -1, false, true);
+                                x = findBorder(x, y, -1, false, false);
                             } else {
-                                x = findBorder(x, y, 1, (span.getRight().x - x)/stepX, true);
+                                x = findBorder(x, y, 1, (span.getRight().x - x)/stepX, false);
                                 if(!x) {
                                     if(dir == -1) {
                                         var l = span.getLeft(), r = span.getRight();
@@ -729,7 +734,7 @@
                             left = x;
                             var p1 = span.getLeft(), newSpan;
                             while(left) {
-                                right = findBorder(left, y, 1, false, true);
+                                right = findBorder(left, y, 1, false, false);
                                 appendCircle2(left, y, 3, 'curve');
                                 appendCircle2(right, y, 3, 'curve');
                                 newSpan = Span(Node(left, y), Node(right, y), level);
@@ -746,7 +751,7 @@
                                 if(Math.abs(span.getRight().x - right) < stepX) {
                                     break;
                                 }    
-                                left = findBorder(right, y, 1,(span.getRight().x - right)/stepX + 2, true);
+                                left = findBorder(right, y, 1,(span.getRight().x - right)/stepX + 2, false);
                             }
                             if(dir == 1) {
                                 newSpan.getRight().next = span.getRight();
@@ -762,15 +767,15 @@
                                 left = span.getLeft().x;
                                 zCurrent = Z(left, y);
                                 if(zCurrent > zLevel) {
-                                    left = findBorder(left, y, -1, false, true);
+                                    left = findBorder(left, y, -1, false, false);
                                 } else {
                                     var stepCount = (parentLeft - left)/stepX - 1;
-                                    left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, true);
+                                    left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
                                 }
                                 if(left) {
                                     var p1 = span.getLeft();
                                     while(left) {
-                                        right = findBorder(left, y, 1, false, true);
+                                        right = findBorder(left, y, 1, false, false);
                                         newSpan = Span(Node(left,y), Node(right,y), level);
                                         newSpan.setParent(span);
                                         if(dir == 1) {
@@ -782,7 +787,7 @@
                                         }
                                         p1 = newSpan.right;
                                         ret.push(newSpan);
-                                        left = findBorder(right, y, 1, (parentLeft - right)/stepX - 1,true)
+                                        left = findBorder(right, y, 1, (parentLeft - right)/stepX - 1, false)
                                     }
                                     if(dir == 1) {
                                         span.getParent().getLeft().previous = newSpan.getRight();
@@ -798,11 +803,12 @@
                                 var right = span.getRight().x;
                                 zCurrent = Z(right, y);
                                 if(zCurrent > zLevel) {
-                                    right = findBorder(right, y, 1, false, false);
+                                    right = findBorder(right, y, 1, false, true);
                                 } else {
-                                    right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, false);
+                                    right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, true);
                                 }
                                 if(right) {
+                                    console.log(right + " " + Z(right, y));
                                     var count = 0;
                                     var p1 = span.getRight();
                                     while(right) {
@@ -1150,45 +1156,48 @@
             return {peek : peek, push : push, pop : pop, size : size}
         }
     </script>
-	<script>
-		function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
-			var k, b, x, z;
-			while(iteration != 0) {
-				// coefficient for linear equation
-				k = (z2 - z1)/(x2 - x1);
-				if(isNaN(k))
-					return k;
-				b = k*x1 - z1;
-				// expected root
-				x = (level + b)/k;
-				if(iteration == 0)
-					return x;
-				z = func(x, y);
-				if(Math.abs(z - level) < eps)
-					break;
-				if(z > level) {
-					x2 = x;
-					z2 = z;
-				} else {
-					x1 = x;
-					z1 = z;
-				}
-				iteration--;
-			}
-			if(typeof(isLeft) != 'undefined')
-				if((z < level && k > 0) || (z > level && k < 0))
-					if(!isLeft)
-						while(k * (z - level) < 0) {
-							x += eps/5;
-							z = func(x, y);
-						}
-				else
-					if(isLeft)
-						while(k * (z - level) > 0) {
-							x -= eps/5;
-							z = func(x, y);
-						}
-			return x;
-		}
-	</script>
+    <script>
+        function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
+            var k, b, x, z;
+            while(iteration != 0) {
+                // coefficient for linear equation
+                k = (z2 - z1)/(x2 - x1);
+                if(isNaN(k))
+                    return k;
+                b = k*x1 - z1;
+                // expected root
+                x = (level + b)/k;
+                if(iteration == 0)
+                    return x;
+                z = func(x, y);
+                if(Math.abs(z - level) < eps)
+                    break;
+                if(z > level) {
+                    x2 = x;
+                    z2 = z;
+                } else {
+                    x1 = x;
+                    z1 = z;
+                }
+                iteration--;
+            }
+            if(typeof(isLeft) != 'undefined')
+                if((z < level && k > 0) || (z > level && k < 0)) {
+                    if(!isLeft) {
+                        while(k * (z - level) < 0) {
+                            x += eps/5;
+                            z = func(x, y);
+                        }
+                    } else if(isLeft) {
+                        while(k * (z - level) > 0) {
+                            x -= eps/2;
+                            z = func(x, y);
+                        }
+                    }
+                    
+            }
+            
+            return x;
+        }
+    </script>
 </html>
