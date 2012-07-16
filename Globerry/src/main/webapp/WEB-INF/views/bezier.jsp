@@ -69,9 +69,9 @@
         var graph, points;
         $(document).ready($('#slider').slider({
             min : 0.5,
-            max : 20,
-            step : 0.1,
-            value : 3.84,
+            max : 15,
+            step : 0.01,
+            value : 3.36,
             slide : function(event, ui) {
                 $('#minVal').val(ui.value);
                 redraw();
@@ -116,7 +116,7 @@
         }
         
         $(document).ready(function() {
-            graph = Graph(1000,1000,-10,10,-5,5,50);
+            graph = Graph(1000,1000,-10,10,-8,5,50);
             $('#pic').append(graph.svg);
             //graph.draw(foo, 0.1);
             //graph.drawFunc(foo, 2);
@@ -142,7 +142,7 @@
             point.weight = 1;
             points.push(point);
             
-            point = Point(0, 3);
+            point = Point(0, 1.5);
             point.weight = 1;
             points.push(point);
             
@@ -171,9 +171,21 @@
             point.weight = 1;
             points.push(point);
             
+            point = Point(5, -2);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(0, -4.5);
+            point.weight = 2;
+            points.push(point);
+            
+            point = Point(9, 1.5);
+            point.weight = 4;
+            points.push(point);
+            
             //graph.drawRays(rays);
-            //graph.draw3D(points, 3.84);
-            graph.drawIsoline(points,3);
+            graph.drawSpans(points, 3.42);
+            //graph.drawSpans(points,3.35);
             
             $('#wolfram').append(plotString(points));
         });
@@ -406,241 +418,6 @@
                 svg.appendChild(t);
             }
             
-            function drawIsoline(points, level) {
-                function Z(x, y) {
-                    var val = 0;
-                    for(var i = 0, l = points.length; i < l; i++) {
-                        var point = points[i];
-                        val += point.weight/(Math.sqrt((point.x - x)*(point.x - x) + (point.y - y)*(point.y - y)));
-                    }
-                    return val;
-                }
-                function dZdxy(x, y) {
-                    var dx = 0, dy = 0;
-                    for(var i = 0, l = points.length; i < l; i++) {
-                        var point = points[i];
-                        var a = point.x, b = point.y;
-                        //Нужно чтобы не вычилять три раза корень из (x-x_i)^2+(y-y_i)^2 при возведении в куб
-                        var bigSqrt = Math.sqrt((x - a)*(x - a) + (y - b)*(y - b))
-                        var znamenatel = bigSqrt * bigSqrt * bigSqrt / point.weight;
-                        dx += (a - x)/znamenatel;
-                        dy += (b - y)/znamenatel;
-                    }
-                    return Point(dx, dy);
-                }
-                function gradientDescent(fromX, fromY) {
-                    var x1 = fromX, y1 = fromY, x2, y2;
-                    var z1 = Z(x1, y1), z2;
-                    var count = 0;
-                    var travelLength = 0;
-                    var direction;
-                    var zshtrih;
-                    //var prevDirection = direction;
-                    if(z1 < level)
-                        direction = 1;
-                    else
-                        direction = -1;
-                    while(true) {
-                        zshtrih = dZdxy(x1, y1);
-                        zshtrih.normalize();
-                        var dx = direction*zshtrih.getX()*dxdy.x;
-                        var dy = direction*zshtrih.getY()*dxdy.y;
-                        travelLength += Math.sqrt(dx*dx + dy*dy);
-                        x2 = x1 + dx;
-                        y2 = y1 + dy;
-                        z2 = Z(x2, y2);
-                        if(z2*direction > direction*level) {
-                            if(Math.abs(z2 - level) > eps) {
-                                x2 = (level - z1)/(z2 - z1)*(x2 - x1) + x1;
-                                y2 = (level - z1)/(z2 - z1)*(y2 - y1) + y1;
-                            }
-                            break;
-                        }
-                        
-                        x1 = x2, y1 = y2, z1 = z2;
-                        count++;
-                        if(count > 100)
-                            break;
-                    }   
-                    return Point(x2,y2);
-                }
-                function getTile(point) {
-                    for(var i = 0, l = tiles.length; i<l; i++) {
-                        var distance = point.distance(tiles[i].getCorner());
-                        if(distance < 0.2)
-                            return tiles[i];
-                    }
-                    return false;
-                }
-                function findCrossHorizontal(p1, p2, p3, l) {
-                    var t1, t2;
-                    var y2y1 = p2.y - p1.y;
-                    if(Math.abs(y2y1) < 0.0001)
-                        return null;
-                    t1 = (p3.y - p1.y)/y2y1;
-                    t2 = (p1.x + t1*(p2.x - p1.x) - p3.x)/l;
-                    return {t1 : t1, t2 : t2};
-                }
-                function findCrossVertical(p1, p2, p3, l) {
-                    var t1, t2;
-                    var x2x1 = p2.x - p1.x;
-                    if(Math.abs(x2x1) < 0.0001)
-                        return null;
-                    t1 = (p3.x - p1.x)/(p2.x - p1.x);
-                    t2 = (p1.y + (p2.y - p1.y)*t1 - p3.y)/l;
-                    return {t1 : t1, t2 : t2 };
-                }
-                //Переменные алгоритма
-                var z,z_shtrih, x, y, zAside, xAside, yAside, zAside_shtrih, zNew, zNew_shtrih, xNew, yNew, count = 0;
-                var zSusp = 2;
-                var tiles = [], tileMapSize = 0.8;
-                var rays = [];
-                //Константы алгортима
-                var dxdy = Point(0.05, 0.05), step = Point(0.5,0.5), eps = 0.05;
-                //Возвращаемые значения
-                var rays = [];
-                
-                
-                var path = "";
-                var tilesPath = "";
-                xAside = points[0].x - 0.05, yAside = points[0].y - 0.05;
-                zAside = Z(xAside, yAside);
-                zAside_shtrih = dZdxy(xAside, yAside);
-                while(true) {
-                    
-                    path = "M " + projectX(xAside) + " " + projectY(yAside);
-                    var p = gradientDescent(xAside, yAside);
-                    
-                    x = p.x, y = p.y;
-                    z_shtrih = dZdxy(x, y);
-                    
-                    if(z_shtrih.length() < 1.6 && level > 3) {
-                        //appendCircle(p, 5, 'curve')
-                        var xTile, yTile, tile;
-                        if(z_shtrih.x > 0)
-                            xTile = x - tileMapSize*0.2;
-                        else
-                            xTile = x - tileMapSize*0.8;
-                        if(z_shtrih.y > 0)
-                            yTile = y - tileMapSize*0.2;
-                        else
-                            yTile = y - tileMapSize*0.8;
-                        tile = getTile(Point(xTile, yTile));
-                        if(!tile) {
-                            tile = ZTile(xTile, yTile, tileMapSize, tileMapSize, Z);
-                            tile.fill();
-                            tiles.push(tile);
-                            tilesPath = "M " + projectX(tile.getCorner().x) + " " +projectY(tile.getCorner().y) +
-                                "H " + projectX(tile.getCorner().x + tile.getSizeX()) + " " + 
-                                "V " + projectY(tile.getCorner().y + tile.getSizeY()) + " " +
-                                "H " + projectX(tile.getCorner().x) + " " + 
-                                "V " + projectY(tile.getCorner().y);
-                            //appendPath(tilesPath,'black', 2, 'curve');
-                        }
-                        tileMapSize = tile.getSizeX();
-                        var avg = tile.calcAvg(2);
-                        var indexes = tile.findClosestPoint(p);
-                            
-                        if(indexes) {
-                            //appendCircle(Point(indexes.j*tile.step + tile.corner.x, indexes.i*tile.step + tile.corner.y), 3, 'curve');
-                            var prevPoint = rays[rays.length - 1].start;
-                            var t = findCrossVertical(prevPoint, p, tile.corner, tileMapSize), point;
-                            if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
-                                point = Point(tile.corner.x, tile.corner.y + t.t2*tileMapSize);
-                            } else {
-                                t = findCrossVertical(prevPoint, p, Point(tile.corner.x + tileMapSize, tile.corner.y), tileMapSize);
-                                if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
-                                    point = Point(tile.corner.x + tileMapSize, tile.corner.y + tileMapSize*t.t2);
-                                } else {
-                                    t = findCrossHorizontal(prevPoint, p,tile.corner, tileMapSize);
-                                    if(t &&  t.t1 < 1 && t.t2 > 0 && t.t2 < 1) {
-                                        point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y);
-                                    } else {
-                                        t = findCrossHorizontal(prevPoint, p, Point(tile.corner.x, tile.corner.y + tileMapSize), tileMapSize);
-                                        //point = Point(tile.corner.x + t.t2*tileMapSize, tile.corner.y + tileMapSize);
-                                        point = Point(tile.corner.x + tileMapSize*t.t2, tile.corner.y + tileMapSize);
-                                    }
-                                }
-                            }
-                                
-                            //appendCircle(prevPoint, 3, 'curve');
-                            //appendCircle(p, 3, 'curve');
-                            appendCircle(point, 5, 'curve');
-                            var startPoint = tile.findClosestPoint(point);
-                            if(level < avg) {
-                                /*var index1, index2, index, clockwise;
-                                    if(tile.points[startPoint.i][startPoint.j] > level) {
-                                        for(var i = 0; ; i++) {
-                                            index1 = tile.walk(startPoint.i, startPoint.j, i, true);
-                                            index2 = tile.walk(startPoint.i, startPoint.j, i, false);
-                                            if(tile.points[index1.i][index1.j] < level) {
-                                                index = index1;
-                                                clockwise = true;
-                                                break;
-                                            }
-                                            if(tile.points[index2.i][index2.j] < level) {
-                                                index = index2;
-                                                clockwise = false;
-                                                break;
-                                            }
-                                        }
-                                    }*/
-                                /*if(tile.points[startPoint.i][startPoint.j] < level) {
-                                        var index = startPoint;
-                                        for(var i = 1; tile.points[index.i][index.j] < level; i++) {
-                                            index = tile.walk(index.i,index.j,i, true);
-                                            appendCircle(Point(tile.corner.x + tile.step*index.j, tile.corner.y + tile.step*index.i), 7, 'toDelete');
-                                            if($('#alert').attr('checked'))
-                                                alert(index.i + " " + index.j);
-                                            $('.toDelete').remove();
-                                        }
-                                        x = tile.corner.x + tile.step*index.j;
-                                        y = tile.corner.y + tile.step*index.i;
-                                        z_shtrih = dZdxy(x, y);
-                                        //console.log(index);
-                                    }*/
-                                        
-                            }
-                        } else {
-                            console.log(tile.toString());
-                            console.log(Point(xTile, yTile).toString());
-                        }
-                            
-                    }
-                    var ray = Ray(p, Point(-z_shtrih.getY(), z_shtrih.getX()), true);
-                    z_shtrih.normalize();
-                    xAside = x - z_shtrih.getY()*step.x;
-                    yAside = y + z_shtrih.getX()*step.y;
-                    path += "L " + projectX(x) + " " + projectY(y) + "L " + projectX(xAside) + " " + projectY(yAside);
-                    
-                    //appendPath(path,'green', 1, 'curve');
-                    
-                    //if($('#alert').attr('checked'))
-                    //    alert(z_shtrih.length());
-                    count++;
-                    rays.push(ray);
-                    if(count > 20)
-                        break;
-                }
-                
-                /*for(var tileCounter = 0; tileCounter < tiles.length; tileCounter++) {
-                    var tile = tiles[tileCounter];
-                    var corner = tile.corner;
-                    for(var i = 0; i < tile.points.length; i++) {
-                        for(var j = 0; j < tile.points[0].length; j++) {
-                            var step = tile.step;
-                            var point = Point(corner.x + j*step, corner.y + i*step);
-                            var clazz = tile.points[i][j] > level ? 'positive' : 'negative';
-                            clazz += " curve";
-                            appendCircle(point, 2, clazz);
-                        }
-                    }
-                    //appendCircle(point, 2, 'positive curve');
-                }*/
-                drawRays(rays);
-                
-            }
-            
             function drawSpans(point, zLevel) {
                 function Z(x, y) {
                     var val = 0;
@@ -706,8 +483,10 @@
                     var parent = span.getParent();
                     
                     var dir = -1, ret = [];
-                    var parentLevel = parent ? parent.getLevel() : null;
+                    var parentLevel = parent ? parent.getLevel() : null, flag = false;
                     for(var i = 0; i < 2; i++) {
+                        if(span.getLevel() == 2)
+                            console.log('log');
                         dir *= -1;
                         var level = span.getLevel() + dir;
                         var x, y = firstLevel + level*stepY, zCurrent, left, right;
@@ -732,11 +511,18 @@
                                 }
                             }
                             left = x;
-                            var p1 = span.getLeft(), newSpan;
+                            var p1 = span.getLeft(), newSpan, flag = false;
                             while(left) {
                                 right = findBorder(left, y, 1, false, false);
+                                if(flag && left - ret[ret.length - 1].getRight().x < stepX) {
+                                    ret[ret.length - 1].getRight().x = right;
+                                    left = findBorder(right, y, 1,(span.getRight().x - right)/stepX - 2, false);
+                                    continue;
+                                }
                                 appendCircle2(left, y, 3, 'curve');
                                 appendCircle2(right, y, 3, 'curve');
+                                
+                                    
                                 newSpan = Span(Node(left, y), Node(right, y), level);
                                 newSpan.setParent(span);
                                 if(dir == 1) {
@@ -747,15 +533,15 @@
                                     newSpan.getLeft().next = p1;
                                 }
                                 p1 = newSpan.getRight();
+                                flag = true;
                                 ret.push(newSpan);
-                                if(Math.abs(span.getRight().x - right) < stepX) {
-                                    break;
-                                }    
-                                left = findBorder(right, y, 1,(span.getRight().x - right)/stepX + 2, false);
+                                
+                                left = findBorder(right, y, 1,(span.getRight().x - right)/stepX - 2, false);
                             }
                             if(dir == 1) {
                                 newSpan.getRight().next = span.getRight();
                                 span.getRight().previous = newSpan.getRight();
+                                
                             } else {
                                 newSpan.getRight().previous = span.getRight();
                                 span.getRight().next = newSpan.getRight();
@@ -772,10 +558,13 @@
                                     var stepCount = (parentLeft - left)/stepX - 1;
                                     left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
                                 }
-                                if(left) {
+                                if(left && Math.abs(span.getParent().getLeft().x - left) > stepX) {
                                     var p1 = span.getLeft();
                                     while(left) {
-                                        right = findBorder(left, y, 1, false, false);
+                                        right = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
+                                        if(!right) {
+                                            right = parentLeft - stepX/2;
+                                        }
                                         newSpan = Span(Node(left,y), Node(right,y), level);
                                         newSpan.setParent(span);
                                         if(dir == 1) {
@@ -807,25 +596,50 @@
                                 } else {
                                     right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, true);
                                 }
-                                if(right)
-                                    appendCircle2(right, y, 10, 'curve');
                                 if(right) {
-                                    console.log(right + " " + Z(right, y));
                                     var count = 0;
                                     var p1 = span.getRight();
-                                    while(right) {
+                                    while(right && Math.abs(span.getParent().getRight().x - right) > stepX) {
                                         left = findBorder(right, y, -1, false, true);
                                         appendCircle2(right, y, 7, 'curve');
                                         appendCircle2(left, y, 7, 'curve');
+                                        newSpan = Span(Node(left,y), Node(right,y), level);
+                                        newSpan.setParent(span);
+                                        if(dir == 1) {
+                                            newSpan.getRight().next = p1;
+                                            p1.previous = newSpan.getRight();
+                                        } else {
+                                            p1.next = newSpan.getRight();
+                                            newSpan.getRight().previous = p1;
+                                        }
+                                        p1 = newSpan.left;
+                                        ret.push(newSpan);
                                         right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, true);
                                         count ++;
                                         if(count > 10)
                                             break;
                                     }
+                                    if(dir == 1) {
+                                        parent.getRight().next = newSpan.getLeft();
+                                    } else {
+                                        newSpan.getLeft().next = parent.getRight();
+                                    }
                                 }
                             }
                         }
                     }
+                    var spanPath = "M " + projectX(span.getLeft().x) + " " + projectY(span.getLeft().y) + "L" + projectX(span.getRight().x) + " " + projectY(span.getRight().y);
+                    var newSpanPath = "";
+                    for(var i = 0; i < ret.length; i++) {
+                        var s = ret[i];
+                        newSpanPath += "M " + projectX(s.getLeft().x) + " " + projectY(s.getLeft().y) + "L" + projectX(s.getRight().x) + " " + projectY(s.getRight().y);
+                    }
+                    appendPath(spanPath, 'red', 2, 'class1');
+                    if(newSpanPath)
+                        appendPath(newSpanPath, 'green', 5, 'class1');
+                    if($('#alert').attr('checked'))
+                        alert(span.getLevel());
+                    $('.class1').remove();
                     return ret;
                 }
                 var stepX = 0.4, stepY = 0.4, eps = 0.1, spanFactor = 3;
@@ -853,6 +667,8 @@
                 for(var i = 0; i < 300 ; i++) {
                     path += "M " + projectX(p.x) + " " + projectY(p.y) + "L " + projectX(p.next.x) + " " + projectY(p.next.y);
                     appendPath(path, 'green', 2, 'curve');
+                    /*if($('#alert').attr('checked'))
+                        alert();*/
                     p = p.next;
                     if(p == firstSpan.getLeft())
                         break;
@@ -862,7 +678,7 @@
                     appendText(points[i].x+0.3, points[i].y, i, 'curve');
                 }
             }
-            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline,drawSpans : drawSpans};
+            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints,drawSpans : drawSpans};
             return me;
         }
         function Point(X, Y) {
