@@ -807,15 +807,17 @@
                                 } else {
                                     right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, true);
                                 }
+                                if(right)
+                                    appendCircle2(right, y, 10, 'curve');
                                 if(right) {
                                     console.log(right + " " + Z(right, y));
                                     var count = 0;
                                     var p1 = span.getRight();
                                     while(right) {
-                                        left = findBorder(right, y, -1, false, false);
+                                        left = findBorder(right, y, -1, false, true);
                                         appendCircle2(right, y, 7, 'curve');
                                         appendCircle2(left, y, 7, 'curve');
-                                        right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, false);
+                                        right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, true);
                                         count ++;
                                         if(count > 10)
                                             break;
@@ -1194,9 +1196,11 @@
                             z = func(x, y);
                         }
                     }
-                    
             }
-            
+            if(k > 0 && isLeft && z > level)
+                x += eps/2;
+            if(k < 0 && isLeft && z < level)
+                x -= eps/2;
             return x;
         }
     </script>
