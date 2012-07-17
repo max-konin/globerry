@@ -16,6 +16,13 @@ public class SelectBox implements ISelectBox {
     ArrayList<Integer> values;
     int id, currentIndex;
     
+    public SelectBox(SelectBox selectBox)
+    {
+        this.values = (ArrayList<Integer>)selectBox.getOptionAvaliable().clone();
+        this.id = selectBox.getId();
+        this.currentIndex = selectBox.getCurrentIndex();
+    }
+    
     public SelectBox(int id, Collection<Integer> initialValues) 
     {
         this.id = id;
@@ -27,6 +34,11 @@ public class SelectBox implements ISelectBox {
         this.id = id;
         this.currentIndex = 0;
         values = new ArrayList<Integer>();
+    }
+    @Override
+    public IGuiComponent clone()
+    {
+        return new SelectBox(this);
     }
     
     public boolean hasValue(int value) {

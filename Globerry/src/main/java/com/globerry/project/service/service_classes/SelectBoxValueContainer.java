@@ -11,7 +11,7 @@ import com.globerry.project.service.gui.ISelectBox;
  * Этот класс нужен чтобы хранить  значения от селектов от клиента. Целостность данных в нем не гарантируется.
  * @author Ed
  */
-public class SelectBoxValueContainer implements ISelectBox {
+public class SelectBoxValueContainer implements ISelectBox{
 
     int value;
     int id;
@@ -19,34 +19,37 @@ public class SelectBoxValueContainer implements ISelectBox {
     public void setValue(Integer value) {
         this.value = value;
     }
-    @Override
+   
     public void setValue(int value) {
         this.value = value;
     }
-
-    @Override
+   
     public int getValue() {
         return value;
     }
-
-    @Override
+    
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-    
-    @Override
-    public void setValues(IGuiComponent component) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported for this element");
-    }
-    
-    @Override
+    }    
+   
     public String toString() {
         return "Select container: value " + value;
     }
-    
+
+    @Override
+    public void setValues(IGuiComponent component) throws IllegalArgumentException
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public IGuiComponent clone()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

@@ -1,12 +1,17 @@
-package com.globerry.project;
+package com.globerry.project.controllers.user;
 
 
 
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.Hotel;
+import com.globerry.project.domain.Ticket;
+import com.globerry.project.domain.Tour;
 import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
+import com.globerry.project.service.interfaces.IProposalsManager;
 import com.globerry.project.service.interfaces.IUserCityService;
+import com.globerry.project.service.service_classes.ApplicationContextFactory;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +31,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @Scope("session")
 public class HomeController {
+    
+    List<City> cityList;
 
-    public static final Logger logger = Logger.getLogger(HomeController.class);
+    protected static final Logger logger = Logger.getLogger(HomeController.class);
     @Autowired
     IUserCityService userCityService;
+    
+    @Autowired
+    IProposalsManager proposalsManager;
 
  
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
+    
     @Autowired
+    ApplicationContextFactory factory;
+    
     IApplicationContext appContext;   
+    
+    
     
 
     /*
@@ -53,7 +68,7 @@ public class HomeController {
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
         logger.info("HomeController: Passing through...");        
-        appContext.init();       
+        //appContext.init();       
         model.addAttribute("hash", this.hashCode());
         return "home";
     }
@@ -107,8 +122,10 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/globerry_new")
-    public String home(Map<String,Object> map) {          
-        appContext.init();
+    public String home(Map<String,Object> map) {      
+        
+        appContext = factory.createAppContext();
+        
         map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());
         map.put("what", appContext.getWhatTag());        
@@ -137,7 +154,7 @@ public class HomeController {
         }
         logger.debug("Запрос городов от клиента");
        
-        List<City> cityList = userCityService.getCityList(appContext);
+        cityList = userCityService.getCityList(appContext);
        
         City[] cities = new City[cityList.size()];
         cityList.toArray(cities);
@@ -149,6 +166,27 @@ public class HomeController {
         }
         logger.debug(appContext.toString());
         return cities;
+    }
+    
+    @RequestMapping(value = "/get_hotels", method = RequestMethod.GET)
+    @ResponseBody
+    public Hotel[] GetHotels()
+    {
+        return (Hotel[]) proposalsManager.getHotelsByCities(cityList).toArray();
+    }
+    
+    @RequestMapping(value = "/get_tickets", method = RequestMethod.GET)
+    @ResponseBody
+    public Ticket[] GetTickets()
+    {
+        return (Ticket[]) proposalsManager.getTicketByCities(cityList).toArray();
+    }
+    
+    @RequestMapping(value = "/get_tours", method = RequestMethod.GET)
+    @ResponseBody
+    public Tour[] GetTours()
+    {
+        return (Tour[]) proposalsManager.getTourByCities(cityList).toArray();
     }
     @RequestMapping(value = "/bezier")
     public String bezier() {

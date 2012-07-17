@@ -24,6 +24,7 @@ import com.globerry.project.domain.Month;
 import com.globerry.project.domain.Tour;
 import java.util.ArrayList;
 import java.util.HashSet;
+import org.hibernate.Transaction;
 import org.junit.BeforeClass;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 	DirtiesContextTestExecutionListener.class,
 	ContextLoaderListener.class
 })
-@DirtiesContext(classMode=DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class EventDaoTest {
 
 	@Autowired
@@ -46,11 +47,10 @@ public class EventDaoTest {
 	ICityDao cityDao;
 	@Autowired
 	ICompanyDao companyDao;
-	
 	private static Event event1;
 	private static Event event2;
-	private static City city1;
-	private static City city2;
+	private static City city1 = new City();
+	private static City city2 = new City();
 
 	@BeforeClass
 	public static void BeforeClassTestInitialize() {
@@ -65,13 +65,11 @@ public class EventDaoTest {
 		event1.setImage(getGeneratedString());
 		event2.setName(getGeneratedString());
 		event2.setRu_name(getGeneratedString());
-		event2.setMonth(Month.MARCH);
+		event2.setMonth(Month.JANUARY);
 		event2.setDescription(getGeneratedString());
 		event2.setRu_description(getGeneratedString());
 		event2.setCities(new HashSet());
 		event2.setImage(getGeneratedString());
-		city1 = new City();
-		city2 = new City();
 		city1.setName(getGeneratedString());
 		city1.setRu_name(getGeneratedString());
 		city1.setArea(50);
@@ -88,6 +86,9 @@ public class EventDaoTest {
 		city2.setLatitude(50);
 		city2.setLongitude(10);
 		city2.setMessage(getGeneratedString());
+		event1.getCities().add(city1);
+		event2.getCities().add(city1);
+		event2.getCities().add(city2);
 	}
 
 	/**
@@ -103,25 +104,16 @@ public class EventDaoTest {
 		}
 		return sb.toString();
 	}
-	
+
 	@Test
-	public void addEventWithCityOutDatabaseTest() {
-		try {
-			eventDao.addEvent(event1, city1);
-		} catch(NullPointerException npe) {
-			npe.printStackTrace(System.err);
-		}
-		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
-	}
-	
-	@Test
-	public void addEventWithoutCity() {
+	public void addEventTest() {
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
 		eventDao.addEvent(event1);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() - 1 == originalEventSize);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
+		assertTrue(sessionFactory.getCurrentSession().createQuery("from City").list().containsAll(event1.getCities()));
 	}
-	
+
 	@Test
 	@Transactional
 	public void removeEventByEventTest() throws MySqlException {
@@ -131,17 +123,29 @@ public class EventDaoTest {
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() + 1 == originalEventSize);
 		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
-	
+
 	@Test
 	@Transactional
-	public void removeEventById() throws MySqlException {
-		eventDao.addEvent(event1);
+	public void removeEventByIdTest() throws MySqlException {
+		//eventDao.addEvent(event1);
+		Transaction tn = sessionFactory.getCurrentSession().beginTransaction();
+		Iterator<City> IT = event1.getCities().iterator();
+		while (IT.hasNext()) {
+			City city = IT.next();
+			sessionFactory.getCurrentSession().saveOrUpdate(city);
+		}
+		try {
+			sessionFactory.getCurrentSession().save(event1);			
+		} catch (Exception e) {
+			tn.rollback();
+		}
+		tn.commit();
 		int originalEventSize = sessionFactory.getCurrentSession().createQuery("from Event").list().size();
 		eventDao.removeEvent(event1.getId());
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event").list().size() + 1 == originalEventSize);
 		assertFalse(sessionFactory.getCurrentSession().createQuery("from Event").list().contains(event1));
 	}
-	
+
 	@Test
 	public void getEventListTest() throws MySqlException {
 		eventDao.addEvent(event1);
@@ -151,12 +155,19 @@ public class EventDaoTest {
 		eventList.add(event2);
 		assertTrue(eventDao.getEventList().equals(eventList));
 	}
-	
+
 	@Test
 	public void updateEventTest() {
 		eventDao.addEvent(event1);
 		event1.setName(getGeneratedString());
 		eventDao.updateEvent(event1);
 		assertTrue(sessionFactory.getCurrentSession().createQuery("from Event where id = " + event1.getId()).list().get(0).equals(event1));
+	}
+
+	@Test
+	public void getEventByIdTest() {
+		eventDao.addEvent(event1);
+		assertTrue(eventDao.getEventById(event1.getId()).equals(event1));
+		assertTrue(eventDao.getEventById(666) == null);
 	}
 }

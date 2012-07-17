@@ -27,6 +27,10 @@ public class PropertyType
     private float minValue;
     @Column
     private boolean betterWhenLess = true; 
+    
+    private static Integer hashCode = null;
+    
+    
     public int getId()
     {
 	return id;
@@ -95,6 +99,7 @@ public class PropertyType
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 11;
 	result = 3 * result + (name == null ? 0 : name.hashCode());
 	result = 3 * result + (dependingMonth ? 0 : 1);

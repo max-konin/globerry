@@ -1,5 +1,7 @@
 package com.globerry.project.domain;
 
+
+
 import java.sql.Date;
 
 import javax.persistence.CascadeType;
@@ -20,6 +22,8 @@ import org.hibernate.annotations.Cascade;
 @Table(name = "Tour")
 public class Tour {
 
+       
+        private int targetCityId;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -41,6 +45,8 @@ public class Tour {
 	inverseJoinColumns =
 	@JoinColumn(name = "company_id"))
 	private Company company;
+	
+	private static Integer hashCode = null;
 
 	// <Гетеры сеттеры>
 	public Company getCompany() {
@@ -100,6 +106,8 @@ public class Tour {
 	    if(obj == null) return false;
 	    if(!(obj instanceof Tour)) return false;
 	    Tour tour = (Tour) obj;
+            
+            if (targetCityId != tour.getTargetCityId()) return false;
 	    
 	    if(this.name == null ^ tour.getName() == null) return false;
 	    if(!((this.name == null && tour.getName() == null) || this.name.equals(tour.getName()))) return false;
@@ -122,7 +130,9 @@ public class Tour {
 	@Override
 	public int hashCode()
 	{
+	    if(hashCode != null) return hashCode;
 	    int result = 14;
+            result = 3*result + targetCityId;
 	    result = 3*result + (name == null ? 0 : name.hashCode());
 	    result = 3*result + Float.floatToIntBits(cost);
 	    result = 3*result + (description == null ? 0 : description.hashCode());
@@ -131,4 +141,20 @@ public class Tour {
 	    result = 3*result + (company == null ? 0 : company.hashCode());
 	    return result;
 	}
+
+    /**
+     * @return the targetCityId
+     */
+    public int getTargetCityId()
+    {
+        return targetCityId;
+    }
+
+    /**
+     * @param targetCityId the targetCityId to set
+     */
+    public void setTargetCityId(int targetCityId)
+    {
+        this.targetCityId = targetCityId;
+    }
 }

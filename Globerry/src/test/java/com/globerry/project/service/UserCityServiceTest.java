@@ -1,154 +1,233 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.globerry.project.service;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import com.globerry.project.dao.ContextLoaderListener;
-import com.globerry.project.dao.DatabaseManager;
-import com.globerry.project.domain.City;
-import com.globerry.project.domain.Month;
-import com.globerry.project.domain.Property;
+import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IPropertyTypeDao;
+import com.globerry.project.dao.ITagDao;
+import com.globerry.project.dao.Range;
+import com.globerry.project.domain.*;
+import com.globerry.project.service.gui.SelectBox;
+import com.globerry.project.domain.Tag;
+import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
-import com.globerry.project.service.interfaces.IUserCityService;
-import com.globerry.project.service.service_classes.GloberryGuiContext;
 import com.globerry.project.service.service_classes.IApplicationContext;
+import java.util.*;
+import org.junit.*;
+import static org.junit.Assert.*;
+import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 /**
- * 
- * @author Max Gurenko
  *
+ * @author max
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/serviceTestContext.xml")
-@TestExecutionListeners({
-    WebContextTestExecutionListener.class,
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-    ContextLoaderListener.class
-})
 public class UserCityServiceTest
-{
-    @Autowired
-    UserCityService userCityService;
-    @Autowired
-    DefaultDatabaseCreator databaseCreator;
-    @Autowired
-    DatabaseManager databaseManager;
-    @Autowired
-    IApplicationContext app;
-    @Test
-    public void initTest(){
-	//TODO
-    }
-    @Test
-    public void clickOnActiveCityTest(){
-	//TODO
-    }
-    @Test
-    public void changeRangeTest(){
-	//TODO
-    }
-    @Test
-    public void sliderOnChangeHandlerTest(){
-	//TODO
-    }
+{   
+    @Mock
+    ICityDao cityDao;
+    
+    @Mock
+    IPropertyTypeDao propertyTypeDao;
+     
+    @Mock
+    ITagDao tagDao;   
+    
+    
+    @InjectMocks
+    UserCityService service = new UserCityService();
+    
+    IApplicationContext appContext = mock(IApplicationContext.class);
+    
+    HashMap<String, Slider> sliders = new HashMap<String, Slider>();
+    
+    List<City> cityList = new ArrayList<City>();   
+    
     @Before
-    public void initDB()
+    public void setUp()
     {
-	databaseCreator.initPropertyType();
-	databaseCreator.initTags();
-	app.init();
-    }
+        MockitoAnnotations.initMocks(this);
+        
+        //Определяем состояния тегов в контексте
+        SelectBox boxWho = new SelectBox(0);
+        boxWho.addValue(1);
+        boxWho.setValue(1);
+        
+        SelectBox boxWhat = new SelectBox(1);        
+        boxWhat.addValue(1);
+        boxWhat.setValue(1);
+        
+        SelectBox boxWhen = new SelectBox(2);
+        boxWhen.addValue(1);
+        boxWhen.setValue(1);
+        
+        when(appContext.getWhoTag()).thenReturn(boxWho);
+        when(appContext.getWhatTag()).thenReturn(boxWhat);
+        when(appContext.getWhenTag()).thenReturn(boxWhen);
+        
+        //Определяем, какие теги возвращает tagDao
+        List<Tag> tags = new ArrayList<Tag>();        
+        for(int i = 0; i < 5; i++)
+        {
+            Tag tag = new Tag();
+            tag.setId(i); 
+            tag.setName(String.format("tag-%d", i));
+        }     
+        when(tagDao.getTagList()).thenReturn(tags);
+        //Оперделяем список городов, которые возвращает CityDao   
+        for(int i = 0; i < 100; i++)
+        {
+            City city = new City();
+            city.setId(i);
+            city.setName(String.valueOf(i));
+            city.setPropertyList(new HashSet());
+        }
+        
+        //Определяем состояние слайдеров, по которым будет проверятся фильтрация городов.             
+        
+        for(int i = 0; i < 6; i++)
+        {
+            PropertyType prType = new PropertyType();
+            prType.setId(i);
+            prType.setMinValue(i);
+            prType.setMaxValue(i+10);
+            Slider slider = new Slider(i, prType);
+            sliders.put(String.format("slider-%d", i), slider);
+            when(appContext.getSlidersByName(String.format("slider-%d", i))).thenReturn(slider);
+            
+            for(City city: cityList)
+            {
+                Property prop = new Property();
+                prop.setId(i);
+                prop.setPropertyType(prType);
+                prop.setValue((i + 5) + city.getId() % 100);
+                city.getPropertyList().add(prop);
+            }            
+        } 
+        when(appContext.getSliders()).thenReturn(sliders);
+       
+        when(cityDao.getCityListByTagsOnly(any(ICityRequest.class))).thenReturn(cityList);
+        
+       
+    }    
+    /**
+     * Test of getCityList method, of class UserCityService.
+     */
     @Test
-    public void getCityList()
+    public void testGetCityList_IApplicationContext()
     {
-	Random rand = new Random();
-	
-	City city = databaseCreator.generateCityWithPsevdoRandomProperties("City1", rand.nextInt(180), rand.nextInt(180));
-	
-	List<City> cityList = new ArrayList<City>();
-	cityList.add(city);
-	userCityService.setCityList(cityList);
-	//alcohol
-	Slider alcoholSlider = app.getSlidersByName("alcohol");
-	alcoholSlider.setLeftValue(10);
-	alcoholSlider.setRightValue(30);
-	float value = city.getValueByPropertyType(alcoholSlider.getPropertyType(),Month.APRIL);
-	if(value < 30 && value > 10)
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 1);
-	}
-	else
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 0);
-	}
-	alcoholSlider.setLeftValue(alcoholSlider.getMinValue());
-	alcoholSlider.setRightValue(alcoholSlider.getMaxValue());
-	
-	
-	//food
-	Slider foodSlider = app.getSlidersByName("cost");
-	foodSlider.setLeftValue(10);
-	foodSlider.setRightValue(30);
-	value = city.getValueByPropertyType(foodSlider.getPropertyType(),Month.APRIL);
-	if(value < 30 && value > 10)
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 1);
-	}
-	else
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 0);
-	}
-	foodSlider.setLeftValue(foodSlider.getMinValue());
-	foodSlider.setRightValue(foodSlider.getMaxValue());
-	
-	
-	//livingCost
-	Slider livingCostSlider = app.getSlidersByName("livingCost");
-	livingCostSlider.setLeftValue(100);
-	livingCostSlider.setRightValue(150);
-	value = city.getValueByPropertyType(livingCostSlider.getPropertyType(),Month.APRIL);
-	if(value < 150 && value > 100)
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 1);
-	}
-	else
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 0);
-	}
-	livingCostSlider.setLeftValue(livingCostSlider.getMinValue());
-	livingCostSlider.setRightValue(livingCostSlider.getMaxValue());
-	
-	
-	//temperature
-	Slider temperatureSlider = app.getSlidersByName("temperature");
-	temperatureSlider.setLeftValue(-15);
-	temperatureSlider.setRightValue(15);
-	value = city.getValueByPropertyType(temperatureSlider.getPropertyType(),Month.APRIL);
-	if(value < 15 && value > -15)
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 1);
-	}
-	else
-	{
-	    assert(userCityService.getCitiesWithRequestedProperties(app).size() == 0);
-	}
-	temperatureSlider.setLeftValue(temperatureSlider.getMinValue());
-	temperatureSlider.setRightValue(temperatureSlider.getMaxValue());
+        System.out.println("getCityList");      
+                
+        List<City> result = service.getCityList(appContext);  
+        verify(cityDao).getCityListByTagsOnly(any(ICityRequest.class));
+        List<City> trueResult = new ArrayList();
+        for(City city: cityList)
+        {     
+            boolean f = true;
+            for(Slider slider: sliders.values())
+            {
+                float val = city.getValueByPropertyType(slider.getState().getPropertyType(), 
+                                                        Month.values()[appContext.getWhenTag().getValue()]);
+                if(val < slider.getLeftValue() || val > slider.getRightValue())
+                    f = false;
+            }
+            if (f) trueResult.add(city);
+        }
+        for(City city: result)
+            assertTrue(city.getWeight() != 0);
+        assertTrue(result.equals(trueResult));  
+        assertTrue(result.size() == trueResult.size()); 
+        
+        //Проверяем, что при повторном запросе городов, без изменения тегов не просходит оращения к cityDao
+        service.getCityList(appContext);  
+        verify(cityDao, times(1)).getCityListByTagsOnly(any(ICityRequest.class));     
+        
+        
     }
 
+    /**
+     * Test of onTagChangeHandler method, of class UserCityService.
+     * Тест проверяет, что при tagChanged = true проходит запрос к бд 
+     */
+    @Test
+    public void testOnTagChangeHandler()
+    {       
+        service.onTagChangeHandler();
+        service.getCityList(appContext);                  
+        verify(cityDao).getCityListByTagsOnly(any(ICityRequest.class));
+        
+    } 
+
+    /**
+     * Test of getCityList method, of class UserCityService.
+     */
+    @Test
+    public void testGetCityList_0args()
+    {
+        System.out.println("getCityList");
+        service.getCityList();
+        verify(cityDao).getCityList();
+    }
+
+    /**
+     * Test of clickOnPassiveCity method, of class UserCityService.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testClickOnPassiveCity()
+    {
+        System.out.println("clickOnPassiveCity");
+        UserCityService instance = new UserCityService();
+        instance.clickOnPassiveCity();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of clickOnActiveCity method, of class UserCityService.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testClickOnActiveCity()
+    {
+        System.out.println("clickOnActiveCity");
+        UserCityService instance = new UserCityService();
+        instance.clickOnActiveCity();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of changeRange method, of class UserCityService.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testChangeRange()
+    {
+        System.out.println("changeRange");
+        Range newRange = null;
+        UserCityService instance = new UserCityService();
+        instance.changeRange(newRange);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of sliderOnChangeHandler method, of class UserCityService.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSliderOnChangeHandler()
+    {
+        System.out.println("sliderOnChangeHandler");
+        UserCityService instance = new UserCityService();
+        instance.sliderOnChangeHandler();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    
+    
 }

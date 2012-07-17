@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import org.hibernate.Transaction;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
@@ -62,6 +63,8 @@ public class TourDao implements ITourDao
 	  Query query = session.createQuery("FROM Tour");
 	   
 	  // Retrieve all//*/
+		//TODO
+		
 	  return  null;//query.list();
     }
 
@@ -92,10 +95,10 @@ public class TourDao implements ITourDao
 	tx.commit();
     }
 
-    @Override
+    @Override	
     public void removeTour(Tour tour)
     {
-	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();    
+	    Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	    sessionFactory.getCurrentSession().delete(tour);
 	    tx.commit();
 	    sessionFactory.close();

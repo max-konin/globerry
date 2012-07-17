@@ -21,4 +21,6 @@ public interface IGuiComponent {
      */
     void setValues(IGuiComponent component) throws IllegalArgumentException;
     
+    IGuiComponent clone();
+    
 }

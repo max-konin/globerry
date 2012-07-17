@@ -29,11 +29,13 @@ public class DatabaseManagerTest
 {
     @Autowired
     private IDatabaseManager databaseManager;
+	@Autowired
+	private SessionFactory sessionFactory;
 
     @Test
     public void clearDB()
     {
-	databaseManager.cleanDatabase();
+		databaseManager.cleanDatabase();
     }
 
 }

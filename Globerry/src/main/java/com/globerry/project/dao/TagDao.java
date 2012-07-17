@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
@@ -28,6 +29,7 @@ public class TagDao implements ITagDao
 {
     @Autowired
     private SessionFactory sessionFactory;
+    
 
     @Override
     public List<Tag> getTagList()
@@ -38,9 +40,8 @@ public class TagDao implements ITagDao
     @Override
     public void addTag(Tag tag, City city) throws MySqlException
     {
-	if (!tag.getCityList().contains(city) && !city.getTagList().contains(tag))
+	if (!city.getTagList().contains(tag))
 	{
-	    tag.getCityList().add(city);
 	    city.getTagList().add(tag);
 	    try
 	    {
@@ -53,7 +54,6 @@ public class TagDao implements ITagDao
 		throw mySqlExc;
 	    } catch (Exception e)
 	    {
-		tag.getCityList().remove(city);
 		city.getTagList().remove(tag);
 		throw new RuntimeException(e);
 	    }
@@ -85,6 +85,7 @@ public class TagDao implements ITagDao
     }
 
     @Override
+	@Transactional
     public void removeTag(Tag tag)
     {
 	// Retrieve session from Hibernate
@@ -109,7 +110,6 @@ public class TagDao implements ITagDao
     {
 	oldTag.setImg(newTag.getImg());
 	oldTag.setName(newTag.getName());
-	oldTag.setCityList(newTag.getCityList());
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Session session = sessionFactory.getCurrentSession();
 	session.update(oldTag);
@@ -118,6 +118,7 @@ public class TagDao implements ITagDao
     }
 
     @Override
+	@Transactional
     public void removeTag(int id)
     {
 	Session session = sessionFactory.getCurrentSession();

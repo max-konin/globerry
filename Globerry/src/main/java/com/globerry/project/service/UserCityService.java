@@ -61,25 +61,25 @@ public class UserCityService implements IUserCityService {
 	private void init() {
 	}
 
-	@Override
-	public void clickOnPassiveCity() {
-		// TODO Auto-generated method stub
-	}
+	
 
 	@Override
 	public void clickOnActiveCity() {
-		// TODO Auto-generated method stub
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	@Override
 	public void changeRange(Range newRange) {
-		//this.currentRange = newRange;
+            //this.currentRange = newRange;
+            throw new UnsupportedOperationException("Not supported yet.");
 	}
 	
 
 	@Override
 	public void sliderOnChangeHandler() {
 		//TODO
+            throw new UnsupportedOperationException("Not supported yet.");
 	}
 
         
@@ -90,10 +90,20 @@ public class UserCityService implements IUserCityService {
         
         private ICityRequest createCityRequest(IApplicationContext appContext)
         {
+            
+            if(tags == null)
+            {
+                tags = new HashMap<Integer, Tag> ();
+                for(Tag tag: tagDao.getTagList())
+                    tags.put(tag.getId(), tag);
+            }
+            
             List<Tag> tagsToRequest = new ArrayList<Tag>();
-            tagsToRequest.add(tags.get(appContext.getWhatTag().getValue()));
+            tagsToRequest
+            	.add(tags.get(appContext.getWhatTag().getValue()));
             tagsToRequest.add(tags.get(appContext.getWhoTag().getValue()));
             return new CityRequest(tagsToRequest);
+       
         }
         
         /*
@@ -127,7 +137,7 @@ public class UserCityService implements IUserCityService {
          * Возвращает те города которые соответвуют запрашиваемым параметрам, вызывает функцию расчета веса города
          * @param appContext Контекст приложения
          */
-        public List<City> getCitiesWithRequestedProperties(IApplicationContext appContext) 
+        private List<City> getCitiesWithRequestedProperties(IApplicationContext appContext) 
         {
             boolean f;
             List<City> resultRequest = new ArrayList<City>();
@@ -137,6 +147,8 @@ public class UserCityService implements IUserCityService {
                 f = true;
                 for(String sliderName: appContext.getSliders().keySet())                
                 {
+                    if (!sliderName.equals("russian") && !sliderName.equals("visa"))
+                    {
                     PropertySegment prop = appContext.getSlidersByName(sliderName).getState();
                     sliderState.add(prop);
                     float val = city.getValueByPropertyType(prop.getPropertyType(), 
@@ -151,11 +163,14 @@ public class UserCityService implements IUserCityService {
                                     && (appContext.getWhatTag().getValue() == 6))
                         )
                         f = false; 
+                    }
                 }
                 if (f) resultRequest.add(city);
             }
-            weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);
-            return resultRequest;
+           
+    	weightCalculation(resultRequest, sliderState, Month.values()[appContext.getWhenTag().getValue()]);
+           
+        return resultRequest;
         }
         
 	private void weightCalculation(List<City> result, List<PropertySegment> propRequest, Month month)
@@ -213,12 +228,13 @@ public class UserCityService implements IUserCityService {
 
 	@Override
 	public List<City> getCityList()
-	{
-	    // TODO Auto-generated method stub
-	    return null;
-	}
-	public void setCityList(List<City> list) // for Tests
-	{
-	    cityList = list;
-	}
+	{	    
+	    return cityDao.getCityList();
+	}	
+
+        @Override
+        public void clickOnPassiveCity()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
 }

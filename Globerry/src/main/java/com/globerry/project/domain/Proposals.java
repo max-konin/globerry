@@ -32,21 +32,9 @@ public class Proposals
 	    )
     private City city;
     
-    @OneToMany(
-	    	cascade=CascadeType.ALL,
-	    	fetch=FetchType.EAGER
-	    	)
-    private Set<Tour> tourList = new HashSet<Tour>();
+    private static Integer hashCode = null;
     
-    public Set<Tour> getTourList()
-    {
-	return tourList;
-    }
-
-    public void setTourList(Set<Tour> tourList)
-    {
-	this.tourList = tourList;
-    }
+   
     public int getId()
     {
 	return id;
@@ -76,20 +64,21 @@ public class Proposals
 	if(this.city == null ^ proposals.getCity() == null) return false;
 	if(!((this.city == null && proposals.getCity() == null) || this.city.equals(proposals.getCity()))) return false;
 	
-	if(this.tourList == null ^ proposals.getTourList() == null) return false;
-	if(!((this.tourList == null && proposals.getTourList() == null) || this.tourList.equals(proposals.getTourList()))) return false;
+	/*if(this.tourList == null ^ proposals.getTourList() == null) return false;
+	if(!((this.tourList == null && proposals.getTourList() == null) || this.tourList.equals(proposals.getTourList()))) return false;*/
 	return true;
     }
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 12;
 	result = 3 * result + (city == null ? 0 : city.hashCode());
-	if(tourList != null)
+/*	if(tourList != null)
         	for(Tour tour: tourList)
         	{
         	    result = result + tour.hashCode();
-        	}
+        	}*/
 	return result;
     }
 

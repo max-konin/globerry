@@ -65,7 +65,7 @@ public class CompanyService implements ICompanyService
     @Override
     public void companyUpdate(Company oldCompany, Company newCompany) throws MySqlException
     {
-		companyDao.updateCompany(newCompany);
+	companyDao.updateCompany(newCompany);
     }
 
     @Override

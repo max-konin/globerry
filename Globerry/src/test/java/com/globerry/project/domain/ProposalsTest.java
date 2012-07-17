@@ -31,8 +31,10 @@ public class ProposalsTest
 	assertEquals(proposals2, proposals2);
 	assertEquals(proposals1.hashCode(), proposals2.hashCode());
 	//property2.setCost(123);
-	proposals1.getTourList().add(tour);
-	//property2.setName("mars");
+	
+	City city1 = new City();
+	city1.setName("antaliya");
+	proposals1.setCity(city1);
 	
 	assertFalse(proposals1.equals(proposals2));
 	assertFalse(proposals1.hashCode() == proposals2.hashCode());

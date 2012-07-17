@@ -28,7 +28,7 @@ import org.hibernate.mapping.Collection;
 
 
 @Entity
-@Table
+@Table(name = "Event")
 public class Event
 {
     @Id
@@ -59,6 +59,8 @@ public class Event
 	        	   joinColumns = @JoinColumn( name="event_id")
 		    )
     private Set<City> cityList = new HashSet<City>();
+    
+    private static Integer hashCode = null;
     
     public int getId()
     {
@@ -160,13 +162,14 @@ public class Event
 	if(this.ru_description == null ^ event.getRu_description() == null) return false;
 	if(!((this.ru_description == null && event.getRu_description() == null) || this.ru_description.equals(event.getRu_description()))) return false;
 	
-	if(this.cityList == null ^ event.getCities() == null) return false;
-	if(!((this.cityList == null && event.getCities() == null) || this.cityList.equals(event.getCities()))) return false;
+	/*if(this.cityList == null ^ event.getCities() == null) return false;
+	if(!((this.cityList == null && event.getCities() == null) || this.cityList.equals(event.getCities()))) return false;*/
 	return true;
     }
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 8;
 	result = 3 * result + (description == null ? 0 : description.hashCode());
 	result = 3 * result + (name == null ? 0 : name.hashCode());
@@ -174,10 +177,10 @@ public class Event
 	result = 3 * result + (month == null ? 0 : month.hashCode());
 	result = 3 * result + (ru_name == null ? 0 : ru_name.hashCode());
 	result = 3 * result + (ru_description == null ? 0 : ru_description.hashCode());
-	for(City elem: cityList)
+	/*for(City elem: cityList)
 	{
 	    result = result + elem.hashCode();
-	}
+	}*/
 	return result;
     }
 }

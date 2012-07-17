@@ -46,6 +46,7 @@ public class Tag
     @Enumerated(EnumType.ORDINAL)
     private TagsType tagsType;
     
+    private static Integer hashCode = null;
    
     public int getId()
     {
@@ -91,6 +92,7 @@ public class Tag
     @Override
     public int hashCode()
     {
+	if(hashCode != null) return hashCode;
 	int result = 13;
 	result = 3*result + (name == null ? 0 : name.hashCode());
 	result = 3*result + (img == null ? 0 : img.hashCode());
@@ -109,17 +111,6 @@ public class Tag
     public void setTagsType(int number)
     {
 	this.tagsType = TagsType.values()[number];
-    }
-    //TODO Artem comment code with bags, KOSTIL
-    public Set<City> getCityList()
-    {
-	// TODO Auto-generated method stub
-	return null;
-    }
-    public void setCityList(Set<City> cityList)
-    {
-	// TODO Auto-generated method stub
-	
     }
     public String toString()
     {

@@ -25,6 +25,12 @@
             .connect {
                 fill:#888888; stroke:none
             }
+            .positive {
+                fill:#ff0000; stroke:none
+            }
+            .negative {
+                fill: #0000ff; stroke:none
+            }
         </style>
     </head>
     <body>
@@ -62,10 +68,10 @@
         
         var graph, points;
         $(document).ready($('#slider').slider({
-            min : 1,
-            max : 10,
-            step : 0.02,
-            value : 3.84,
+            min : 0.5,
+            max : 15,
+            step : 0.01,
+            value : 7.79,
             slide : function(event, ui) {
                 $('#minVal').val(ui.value);
                 redraw();
@@ -80,7 +86,8 @@
                 return;
             }
             $('.curve').remove();
-            graph.drawIsoline(points, value);
+            //graph.drawIsoline(points, value);
+            graph.drawSpans(points, value)
         }
        
         var NS = "http://www.w3.org/2000/svg";
@@ -109,12 +116,13 @@
         }
         
         $(document).ready(function() {
-            graph = Graph(1000,1000,-4,4,-4,4,50);
+            graph = Graph(1000,1000,-10,10,-8,5,50);
             $('#pic').append(graph.svg);
             //graph.draw(foo, 0.1);
             //graph.drawFunc(foo, 2);
+            var point;
             points = [];
-            var point = Point(0, 0);
+            /*point = Point(0, 0);
             point.weight = 1;
             points.push(point);
             
@@ -124,22 +132,72 @@
             
             point = Point(2, 0);
             point.weight = 2;
+            points.push(point);*/
+            point = Point(0, 0);
+            point.weight = 3;
             points.push(point);
             
-            /*point = Point(3,1)
+            
+            point = Point(0, -2);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(0, 1.5);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(-3, 3);
+            point.weight = 2;
+            points.push(point);
+            
+            point = Point(-6, 0);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(-6, -2);
+            point.weight = 1;
+            points.push(point);
+            
+            
+            point = Point(3, 3);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(5, 0);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(5, -2);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(5, -2);
+            point.weight = 1;
+            points.push(point);
+            
+            point = Point(0, -4.5);
+            point.weight = 2;
+            points.push(point);
+            
+            point = Point(8, -6);
+            point.weight = 1.5;
+            points.push(point);
+            
+            point = Point(3, -0.85);
+            point.weight = 1.5;
+            points.push(point);
+            
+            point = Point(9, 1.5);
             point.weight = 4;
             points.push(point);
             
-            point = Point(1.5,1)
-            point.weight = 2;
+            point = Point(-8, -4.75);
+            point.weight = 4;
             points.push(point);
             
-            point = Point(-1, -3);
-            point.weight = 2;
-            points.push(point);*/
             //graph.drawRays(rays);
-            //graph.draw3D(points, 3.84);
-            graph.drawIsoline(points,3);
+            graph.drawSpans(points, 6.56);
+            //graph.drawSpans(points,3.35);
             
             $('#wolfram').append(plotString(points));
         });
@@ -348,7 +406,17 @@
                 circle.setAttribute('r', r || '5');
                 if(clazz)
                     circle.setAttribute('class', clazz);
-                svg.appendChild(circle)
+                svg.appendChild(circle);
+            }
+            function appendCircle2(x, y, r, clazz) {
+                var circle = createElement('circle');
+                circle.setAttribute('class', 'connect');
+                circle.setAttribute('cx', projectX(x));
+                circle.setAttribute('cy', projectY(y));
+                circle.setAttribute('r', r || '5');
+                if(clazz)
+                    circle.setAttribute('class', clazz);
+                svg.appendChild(circle);
             }
             function appendText(x, y, text, clazz) {
                 var t = createElement('text');
@@ -362,7 +430,7 @@
                 svg.appendChild(t);
             }
             
-            function drawIsoline(points, level) {
+            function drawSpans(point, zLevel) {
                 function Z(x, y) {
                     var val = 0;
                     for(var i = 0, l = points.length; i < l; i++) {
@@ -384,287 +452,238 @@
                     }
                     return Point(dx, dy);
                 }
-                function gradientDescent(fromX, fromY) {
-                    var x1 = fromX, y1 = fromY, x2, y2;
-                    var z1 = Z(x1, y1), z2;
+                function findBorder(_x, _y, direction, stepCount, positionFlag) {
+                    var x = _x, y = _y, z = Z(x, y);
                     var count = 0;
-                    var travelLength = 0;
-                    var direction;
-                    var zshtrih;
-                    //var prevDirection = direction;
-                    if(z1 < level)
-                        direction = 1;
-                    else
-                        direction = -1;
+                    var sign = z - zLevel;
+                    var xPrev = x, zPrev = z, flag = false;
+                    if(!stepCount)
+                        stepCount = 1000;
+                    if(stepCount < 1)
+                        return null;
                     while(true) {
-                        zshtrih = dZdxy(x1, y1);
-                        zshtrih.normalize();
-                        var dx = direction*zshtrih.getX()*dxdy.x;
-                        var dy = direction*zshtrih.getY()*dxdy.y;
-                        travelLength += Math.sqrt(dx*dx + dy*dy);
-                        x2 = x1 + dx;
-                        y2 = y1 + dy;
-                        z2 = Z(x2, y2);
-                        if(z2*direction > direction*level) {
-                            if(Math.abs(z2 - level) > eps) {
-                                x2 = (level - z1)/(z2 - z1)*(x2 - x1) + x1;
-                                y2 = (level - z1)/(z2 - z1)*(y2 - y1) + y1;
-                            }
-                            break;
-                        }
-                        
-                        x1 = x2, y1 = y2, z1 = z2;
+                        x = xPrev + direction*stepX;
+                        z = Z(x, y);
                         count++;
-                        if(count > 100)
+                        if(sign*(z - zLevel) < 0)
                             break;
-                    }   
-                    return Point(x2,y2);
-                }
-                function getTile(point) {
-                    for(var i = 0, l = tiles.length; i<l; i++) {
-                        var distance = point.distance(tiles[i].getCorner());
-                        if(distance < tileMapSize/3)
-                            return tiles[i];
-                    }
-                    return false;
-                }
-                function findWay(tile, point) {
-                    
-                }
-                //Переменные алгоритма
-                var z,z_shtrih, x, y, zAside, xAside, yAside, zAside_shtrih, zNew, zNew_shtrih, xNew, yNew, count = 0;
-                var zSusp = 2;
-                var tiles = [], tileMapSize = 1;
-                var rays = [];
-                //Константы алгортима
-                var dxdy = Point(0.05, 0.05), step = Point(0.7,0.7), eps = 0.05;
-                //Возвращаемые значения
-                var rays = [];
-                
-                
-                var path = "";
-                var tilesPath = "";
-                xAside = points[0].x + 0.05, yAside = points[0].y + 0.05;
-                zAside = Z(xAside, yAside);
-                zAside_shtrih = dZdxy(xAside, yAside);
-                while(true) {
-                    
-                    path = "M " + projectX(xAside) + " " + projectY(yAside);
-                    var p = gradientDescent(xAside, yAside);
-                    
-                    x = p.x, y = p.y;
-                    z_shtrih = dZdxy(x, y);
-                    if($('#alert').attr('checked'))
-                        alert(z_shtrih.length());
-                    if(z_shtrih.length() < 0.6 && level > zSusp) {
-                        appendText(x+0.1, y, z_shtrih.toString(),'curve');
-                        var xTile, yTile, tile;
-                        if(z_shtrih.x > 0)
-                            xTile = x - tileMapSize*0.3;
-                        else
-                            xTile = x - tileMapSize*0.7;
-                        if(z_shtrih.y > 0)
-                            yTile = y - tileMapSize*0.3;
-                        else
-                            yTile = y - tileMapSize*0.7;
-                        tile = getTile(Point(xTile, yTile));
-
-                        if(!tile) {
-                            tile = ZTile(xTile, yTile, tileMapSize, tileMapSize, Z);
-                            tile.fill();
-                            tiles.push(tile);
-                            tilesPath = "M " + projectX(tile.getCorner().x) + " " +projectY(tile.getCorner().y) +
-                                "H " + projectX(tile.getCorner().x + tile.getSizeX()) + " " + 
-                                "V " + projectY(tile.getCorner().y + tile.getSizeY()) + " " +
-                                "H " + projectX(tile.getCorner().x) + " " + 
-                                "V " + projectY(tile.getCorner().y);
-                            appendPath(tilesPath,'black', 2, 'curve');
-                        }
-                    }
-                    var ray = Ray(p, Point(-z_shtrih.getY(), z_shtrih.getX()), true);
-                    z_shtrih.normalize();
-                    xAside = x - z_shtrih.getY()*step.x;
-                    yAside = y + z_shtrih.getX()*step.y;
-                    path += "L " + projectX(x) + " " + projectY(y) + "L " + projectX(xAside) + " " + projectY(yAside);
-                    
-                    appendPath(path,'green', 3, 'curve');
-                    
-                    count++;
-                    rays.push(ray);
-                    if(count > 10)
-                        break;
-                }
-                drawRays(rays);
-                
-            }
-            
-            function draw3D(points, level) {
-                function Z(x, y) {
-                    var val = 0;
-                    for(var i = 0, l = points.length; i < l; i++) {
-                        var point = points[i];
-                        val += point.weight/(Math.sqrt((point.x - x)*(point.x - x) + (point.y - y)*(point.y - y)));
-                    }
-                    return val;
-                }
-                function Z_shtrih(x, y) {
-                    var dx = 0, dy = 0;
-                    for(var i = 0, l = points.length; i < l; i++) {
-                        var point = points[i];
-                        var a = point.x, b = point.y;
-                        //Нужно чтобы не вычилять три раза корень из (x-x_i)^2+(y-y_i)^2 при возведении в куб
-                        var bigSqrt = Math.sqrt((x - a)*(x - a) + (y - b)*(y - b))
-                        var znamenatel = bigSqrt * bigSqrt * bigSqrt / point.weight;
-                        dx += (a - x)/znamenatel;
-                        dy += (b - y)/znamenatel;
-                    }
-                    return Point(dx, dy);
-                }
-                
-                //Движется в направлении градиента или антиградиента к заданному уровню (level).
-                function gradientDescent(fromX, fromY) {
-                    var x1 = fromX, y1 = fromY, x2, y2;
-                    var z1 = Z(x1, y1), z2;
-                    var count = 0;
-                    var travelLength = 0;
-                    var prevDirection = direction;
-                    if(z1 < level)
-                        direction = 1;
-                    else
-                        direction = -1;
-                    while(true) {
-                        zshtrih = Z_shtrih(x1, y1);
-                        zshtrih.normalize();
-                        var dx = direction*zshtrih.getX()*dxdy.x;
-                        var dy = direction*zshtrih.getY()*dxdy.y;
-                        travelLength += Math.sqrt(dx*dx + dy*dy);
-                        x2 = x1 + dx;
-                        y2 = y1 + dy;
-                        z2 = Z(x2, y2);
-                        if(z2*direction > direction*level) {
-                            if(Math.abs(z2 - level) > eps) {
-                                x2 = (level - z1)/(z2 - z1)*(x2 - x1) + x1;
-                                y2 = (level - z1)/(z2 - z1)*(y2 - y1) + y1;
-                                //console.log("Upating point from " + z2 + " to " + Z(x2, y2));
-                            }
+                        if(count > stepCount) {
+                            flag = true;
                             break;
                         }
-                        
-                        x1 = x2, y1 = y2, z1 = z2;
-                        count++;
-                        if(count > 100)
-                            break;
+                        xPrev = x;
+                        zPrev = z;
                     }
-                    if(travelLength < stepFactor) {
-                            stepX += stepX*dStep;
-                            stepY += stepY*dStep;
+                    if(flag)
+                        return null;
+                    var x0;
+                    if(typeof(positionFlag) == 'undefined') {
+                        x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50);
                     } else {
-                        stepX = initStep;
-                        stepY = initStep;
+                        x0 = resolve(x, xPrev, z, zPrev, y, zLevel, eps, Z, 50, positionFlag);
                     }
-                        
-                    return Point(x2,y2);
+                    return x0;
                 }
-                function checkSedlo() {
-                    var d = 0.005;
-                    var zshtrih2 = Z_shtrih(expectedX, expectedY);
-                    if(zshtrih.x*zshtrih2.x < 0 && zshtrih.y*zshtrih2.y < 0)
-                        return true;
-                    return false;
-                }
-                var eps = 0.1, d = 1, dxdy = Point(0.05, 0.05) //Шаг в алгоритме скорейшего спуска.;
-                var dStep = 0.1;//Число, с которым увеличивается stepX, stepY.
-                var stepFactor = 0.3;
-                var point = points[2];
-                var initStep = 0.5;
-                var stepX = 0.7, stepY = 0.7;
-                //var x = 0, y = -0.4;
-                var x = point.x - 0.05, y = point.y - 0.05;
-                var path = "M "+projectX(x)+" "+projectY(y);
-                var tangentPath = "";
-                var direction;
-                var rays = [];
-                var firstPoint = gradientDescent(x,y), newPoint = firstPoint, zshtrih = Z_shtrih(newPoint.x, newPoint.y);
-                var firstTangent = Z_shtrih(firstPoint.x, firstPoint.y);
-                var expectedX, expectedY;
-                var firstRay;
-                var travelVect = Point(-firstPoint.x, -firstPoint.y);
-                
-                for(var i = 0; i<points.length; i++) {
-                    appendCircle(points[i],  points[i].weight * 5,'black');
-                    appendText(points[i].x+0.1, points[i].y,i);
-                }
-                for(var i = 0; i < 1000; i++) {
+                function findSpans(span) {
+                    var parent = span.getParent();
                     
-                    newPoint = gradientDescent(x, y);
-                    zshtrih = Z_shtrih(newPoint.x, newPoint.y);
-                    var len = zshtrih.length();
-                    zshtrih.normalize();
-                    var ray = Ray(newPoint, Point(-zshtrih.getY(), zshtrih.getX()), true);
-                    if(!firstRay)
-                        firstRay = ray
-                    rays.push(ray);
-                    path = "M" + projectX(x) + " " + projectY(y);
-                    
-                    travelVect.setX(travelVect.getX() + newPoint.getX() - x);
-                    travelVect.setY(travelVect.getY() + newPoint.getY() - y);
-                    var j = 1
-                    for(; j < 10; j++) {
-                        var delitel = j;
-                        
-                        expectedX = newPoint.x - zshtrih.getY()*stepX/delitel;
-                        expectedY = newPoint.y + zshtrih.getX()*stepY/delitel;
-                        var sedlo = checkSedlo();
-                        if(!sedlo)
-                            break;
+                    var dir = -1, ret = [];
+                    var parentLevel = parent ? parent.getLevel() : null, flag = false;
+                    for(var i = 0; i < 2; i++) {
+                        if(span.getLevel() == 2)
+                            console.log('log');
+                        dir *= -1;
+                        var level = span.getLevel() + dir;
+                        var x, y = firstLevel + level*stepY, zCurrent, left, right;
+                        if(level != parentLevel) {
+                            x = span.getLeft().x;
+                            zCurrent = Z(x, y);
+                            if(zCurrent > zLevel) {
+                                
+                                x = findBorder(x, y, -1, false, false);
+                            } else {
+                                x = findBorder(x, y, 1, (span.getRight().x - x)/stepX, false);
+                                if(!x) {
+                                    if(dir == -1) {
+                                        var l = span.getLeft(), r = span.getRight();
+                                        r.next = l;
+                                        l.previous = r;
+                                    } else if(dir == 1) {
+                                        var l = span.getLeft(), r = span.getRight();
+                                        l.next = r;
+                                        r.previous = l;
+                                    }
+                                    continue;
+                                }
+                            }
+                            left = x;
+                            var p1 = span.getLeft(), newSpan, flag = false;
+                            var stepCount = span.getRight().x - span.getLeft().x > 4*stepX ? false : 8;
+                            while(left) {
+                                right = findBorder(left, y, 1, stepCount, false);
+                                if(flag && left - ret[ret.length - 1].getRight().x < stepX) {
+                                    ret[ret.length - 1].getRight().x = right;
+                                    left = findBorder(right, y, 1,(span.getRight().x - right)/stepX - 2, false);
+                                    continue;
+                                }
+                                appendCircle2(left, y, 3, 'curve');
+                                appendCircle2(right, y, 3, 'curve');
+                                
+                                    
+                                newSpan = Span(Node(left, y), Node(right, y), level);
+                                newSpan.setParent(span);
+                                if(dir == 1) {
+                                    p1.next = newSpan.getLeft();
+                                    newSpan.getLeft().previous = p1;
+                                } else {
+                                    p1.previous = newSpan.getLeft();
+                                    newSpan.getLeft().next = p1;
+                                }
+                                p1 = newSpan.getRight();
+                                flag = true;
+                                ret.push(newSpan);
+                                
+                                left = findBorder(right, y, 1,(span.getRight().x - right)/stepX - 2, false);
+                            }
+                            if(dir == 1) {
+                                newSpan.getRight().next = span.getRight();
+                                span.getRight().previous = newSpan.getRight();
+                                
+                            } else {
+                                newSpan.getRight().previous = span.getRight();
+                                span.getRight().next = newSpan.getRight();
+                            }
+                            
+                        } else if(parent) {
+                            var parentLeft = parent.getLeft().x
+                            if(span.getLeft().x < parentLeft - stepX) {
+                                left = span.getLeft().x;
+                                zCurrent = Z(left, y);
+                                if(zCurrent > zLevel) {
+                                    left = findBorder(left, y, -1, false, false);
+                                } else {
+                                    left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
+                                }
+                                if(left && Math.abs(span.getParent().getLeft().x - left) > stepX) {
+                                    var p1 = span.getLeft();
+                                    while(left) {
+                                        right = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
+                                        if(!right) {
+                                            right = parentLeft - stepX/2;
+                                        }
+                                        newSpan = Span(Node(left,y), Node(right,y), level);
+                                        newSpan.setParent(span);
+                                        if(dir == 1) {
+                                            p1.next = newSpan.getLeft();
+                                            newSpan.getLeft().previous = p1;
+                                        } else {
+                                            newSpan.getLeft().next = p1;
+                                            p1.previous = newSpan.getLeft();
+                                        }
+                                        p1 = newSpan.right;
+                                        ret.push(newSpan);
+                                        left = findBorder(right, y, 1, (parentLeft - right)/stepX - 1, false)
+                                    }
+                                    if(dir == 1) {
+                                        span.getParent().getLeft().previous = newSpan.getRight();
+                                        newSpan.getRight().next = span.getParent().getLeft();
+                                    } else {
+                                        span.getParent().getLeft().next = newSpan.getRight();
+                                        newSpan.getRight().previous = span.getParent().getLeft();
+                                    }
+                                }
+                            }
+                            var parentRight = parent.getRight().x
+                            if(span.getRight().x > parentRight + stepX) {
+                                var right = span.getRight().x;
+                                zCurrent = Z(right, y);
+                                if(zCurrent > zLevel) {
+                                    right = findBorder(right, y, 1, false, true);
+                                } else {
+                                    right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, true);
+                                }
+                                if(right && Math.abs(span.getParent().getRight().x - right) > stepX) {
+                                    var count = 0;
+                                    var p1 = span.getRight();
+                                    while(right) {
+                                        left = findBorder(right, y, -1, (right - parentRight)/stepX - 1, true);
+                                        if(!left)
+                                            left = parentRight + step/2;
+                                        appendCircle2(right, y, 7, 'curve');
+                                        appendCircle2(left, y, 7, 'curve');
+                                        newSpan = Span(Node(left,y), Node(right,y), level);
+                                        newSpan.setParent(span);
+                                        if(dir == 1) {
+                                            newSpan.getRight().next = p1;
+                                            p1.previous = newSpan.getRight();
+                                        } else {
+                                            p1.next = newSpan.getRight();
+                                            newSpan.getRight().previous = p1;
+                                        }
+                                        p1 = newSpan.left;
+                                        ret.push(newSpan);
+                                        right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, true);
+                                    }
+                                    if(dir == 1) {
+                                        parent.getRight().next = newSpan.getLeft();
+                                    } else {
+                                        newSpan.getLeft().next = parent.getRight();
+                                    }
+                                }
+                            }
+                        }
                     }
-                    
-                    var currentRay = ray;
-                    
-                    travelVect.setX(travelVect.getX() + expectedX - newPoint.getX());
-                    travelVect.setY(travelVect.getY() + expectedY - newPoint.getY());
-                    
-                    x = expectedX;
-                    y = expectedY;
-                    
-                    var zCurrent = Z(newPoint.x,newPoint.y);
-                    //console.log(zCurrent +" - current Z");
-                    
-                    path += "L " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(x) + " " + projectY(y);
-                    
-                    tangentPath = "M " + projectX(newPoint.x) + " " + projectY(newPoint.y) + "L " + projectX(newPoint.x+zshtrih.getX()) + " " + projectY(newPoint.y+zshtrih.getY());
-                    
-                    //appendText(newPoint.x + 0.1, newPoint.y, zCurrent.toFixed(2), 'curve');
-                    //appendText(newPoint.x - 0.3, newPoint.y, i, 'curve');
-                    //appendCircle(newPoint, 7, 'curve');
-                    appendPath(path,'green', 3, 'curve');
-                    //appendPath(tangentPath,'red',1,'curve');
-                    
+                    var spanPath = "M " + projectX(span.getLeft().x) + " " + projectY(span.getLeft().y) + "L" + projectX(span.getRight().x) + " " + projectY(span.getRight().y);
+                    var newSpanPath = "";
+                    for(var i = 0; i < ret.length; i++) {
+                        var s = ret[i];
+                        newSpanPath += "M " + projectX(s.getLeft().x) + " " + projectY(s.getLeft().y) + "L" + projectX(s.getRight().x) + " " + projectY(s.getRight().y);
+                    }
+                    appendPath(spanPath, 'red', 2, 'class1');
+                    if(newSpanPath)
+                        appendPath(newSpanPath, 'green', 5, 'class1');
                     if($('#alert').attr('checked'))
-                        alert(len);
-                    
-                    var currentRay = Ray(Point(x,y), Point(-zshtrih.getY(), zshtrih.getX()));
-                    var t1 = firstRay.cross(ray), t2 = ray.cross(firstRay);
-                    console.log(travelVect.length());
-                    
-                    
-                    if(t1 > -1 && t1 < 1 && t2 > 0 && t2 < 1 && i > 3) {
-                        break;
-                    }
-                        
-                    if(i > 2 && travelVect.length() < 1) {
-                        break;
-                    }
-                   
+                        alert(span.getLevel());
+                    $('.class1').remove();
+                    return ret;
                 }
-                
-                //appendPath(path,'green', 3, 'curve');
-                //appendPath(tangentPath,'red',1);
-                drawRays(rays, false, 'curve');
-                //gradientDescent(0, -1.1);
-                
+                var stepX = 0.3, stepY = 0.3, eps = 0.1, spanFactor = 3;
+                var firstPoint = points[1];
+                var y  = firstPoint.y;
+                var p = Point(firstPoint.x + 0.1, firstPoint.y);
+                var pLeft = findBorder(p.x, p.y, -1), pRight = findBorder(p.x, p.y, 1);
+                var firstLevel = y;
+                appendCircle2(pLeft, y, 4, 'curve');
+                appendCircle2(pRight, y , 4, 'curve');
+                var leftNode = Node(pLeft, y);
+                var rightNode = Node(pRight, y);
+                var spanStack = Stack();
+                var firstSpan = Span(leftNode, rightNode, 0);
+                //findSpans(firstSpan);
+                spanStack.push(firstSpan);
+                while(spanStack.size() > 0) {
+                    var span = spanStack.pop();
+                    var spans = findSpans(span);
+                    for(var i = 0; i < spans.length; i++)
+                        spanStack.push(spans[i]);
+                }
+                var p = firstSpan.getLeft();
+                var path = ""
+                for(var i = 0; i < 300 ; i++) {
+                    path += "M " + projectX(p.x) + " " + projectY(p.y) + "L " + projectX(p.next.x) + " " + projectY(p.next.y);
+                    appendPath(path, 'green', 2, 'curve');
+                    /*if($('#alert').attr('checked'))
+                        alert();*/
+                    p = p.next;
+                    if(p == firstSpan.getLeft())
+                        break;
+                }
+                for(var i = 0; i< points.length; i++) {
+                    appendCircle(points[i], points[i].weight*4,'curve');
+                    appendText(points[i].x+0.3, points[i].y, i, 'curve');
+                }
             }
-            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, draw3D : draw3D, drawRays : drawRays, drawPoints : drawPoints, drawIsoline : drawIsoline};
+            var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints,drawSpans : drawSpans};
             return me;
         }
         function Point(X, Y) {
@@ -746,18 +765,47 @@
             
         }
         function ZTile(_x, _y, _sizeX, _sizeY, foo) {
-            var sizeX = _sizeX, sizeY = _sizeY, corner = Point(_x, _y);
+            var step = 0.1;
+            var sizeX = Math.floor(_sizeX/step)*step, sizeY = Math.floor(_sizeY/step)*step, corner = Point(_x, _y);
             var func = foo;
             var points = [];
-            var step = 0.3;
+            
             
             function getSizeX() { return sizeX; }
             function setSiseX(size) { _sizeX = size; }
             function getSizeY() { return sizeY; }
             function setSiseY(size) { _sizeY = size }
             function getCorner() { return corner; }
+            function calcAvg(size/*Размер области (целое число)*/) {
+                var sum = 0;
+                //console.log(points.length%2)
+                var iMin, iMax, jMin, jMax;
+                var yLen = points.length;
+                var xLen = points[0].length;
+                if(yLen%2 != 0) {
+                    iMin = Math.floor(yLen/2) - Math.floor(size/2);
+                    iMax = Math.floor(yLen/2) + Math.floor(size/2);
+                } else {
+                    iMin = yLen/2 + Math.floor(-size/2);
+                    iMax = yLen/2 + Math.floor(size/2);
+                }
+                if(xLen%2 != 0) {
+                    jMin = Math.floor(xLen/2) - Math.floor(size/2);
+                    jMax = Math.floor(xLen/2) + Math.floor(size/2);
+                } else {
+                    jMin = xLen/2 + Math.floor(-size/2);
+                    jMax = xLen/2 + Math.floor((size-1)/2);
+                }
+                for(var i = iMin; i<=iMax; i++)
+                    for(var j = jMin; j<=jMax; j++)
+                        sum += points[i][j];
+                sum /= (iMax - iMin + 1) * (jMax - jMin + 1);
+                return sum;
+                //console.log("iMin: " + iMin + " iMax: " + iMax + " jMin: " + jMin + " jMax: " + jMax);
+                
+            }
             function toString() {
-                var ret = "";
+                var ret = "sizeX: " + sizeX + ", sizeY: " + sizeY + "\n";
                 for(var i = 0, l = points.length; i < l; i++) {
                     for(var j = 0, ll=points[i].length;j<ll; j++)
                         ret += points[i][j] + " ";
@@ -766,17 +814,211 @@
                 return ret;
             }
             function fill() {
-                for(var y = corner.y; y < corner.y + sizeY; y += step) {
+                for(var y = corner.y; y <= corner.y + sizeY + 0.001; y += step) {
                     var arr = [];
-                    for(var x = corner.x; x < corner.x + sizeX; x += step) {
+                    for(var x = corner.x; x <= corner.x + sizeX + 0.001; x += step) {
                         arr.push(foo(x, y));
                     }
                     points.push(arr);
                 }
             }
-            var me = {getSizeX:getSizeX,setSiseX:setSiseX,getSizeY:getSizeY,setSiseY:setSiseY,getCorner:getCorner,fill:fill,toString : toString}
+            function findClosestPoint(point) {
+                var x = point.x - corner.x, y = point.y - corner.y;
+                if(x > sizeX || y > sizeY || x < 0 || y < 0)
+                    return;
+                return {i : Math.round(y/step), j : Math.round(x/step)};
+            }
+            function walk(i, j, count, clockwise) {
+                var maxI = points.length - 1, maxJ = points[0].length - 1;
+                var xDirection, yDirection;
+                var iRet, jRet;
+                count %= 2*(maxI+maxJ);
+                if(!clockwise)
+                    count = 2*(maxI + maxJ) - count;
+                if(i == 0) {
+                    if(count <= j) {
+                        return {i : 0, j : j - count}
+                    }
+                    count -= j;
+                    if(count <= maxI) {
+                        return {i : count , j : 0}
+                    }
+                    count -= maxI;
+                    if(count <= maxJ) {
+                        return {i : maxI, j : count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {j : maxJ, i : maxI - count}
+                    }
+                    count -= maxI;
+                    return {i : 0, j : maxJ - count}
+                }
+                if(i == maxI) {
+                    if(count <= maxJ - j) {
+                        return {i : maxI, j : j + count};
+                    }
+                    count -= maxJ - j;
+                    if(count <= maxI) {
+                        return {i : maxI - count, j : maxJ}
+                    }
+                    count -= maxI
+                    if(count <= maxJ) {
+                        return {i : 0, j : maxJ - count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {i : count, j : 0 }
+                    }
+                    count -= maxI;
+                    return {i : maxI, j : count}
+                }
+                if(j == 0) {
+                    if(count <= maxI - i) {
+                        return {i : i + count, j : 0}
+                    }
+                    count -= maxI - i;
+                    if(count <= maxJ) {
+                        return {i : maxI , j: count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {i : maxI - count, j : maxJ}
+                    }
+                    if(count <= maxJ) {
+                        return {i : 0, j : count}
+                    }
+                    return {i : count, j : 0}
+                }
+                if(j == maxJ) {
+                    if(count <= i) {
+                        return {i : i - count, j : maxJ}
+                    }
+                    count -= i;
+                    if(count <= maxJ) {
+                        return {i : 0, j : count}
+                    }
+                    count -= maxJ;
+                    if(count <= maxI) {
+                        return {i : count, j : 0}
+                    }
+                    count -= maxI;
+                    if(count <= maxJ) {
+                        return {i : maxI, j : count}
+                    }
+                    return {i : maxI - count, j: maxJ}
+                }
+            }
+            var me = {
+                getSizeX : getSizeX,
+                setSiseX : setSiseX,
+                getSizeY : getSizeY,
+                setSiseY : setSiseY,
+                getCorner : getCorner,
+                fill : fill,
+                toString : toString,
+                calcAvg : calcAvg,
+                points : points,
+                corner: corner,
+                findClosestPoint : findClosestPoint,
+                step : step,
+                walk : walk
+            };
             return me;
             
+        }
+        function Span(l, r , lvl) {
+            var level = lvl, left = l, right = r, parent = null;
+            function setParent(Parent) {
+                parent = Parent;
+            }
+            function getParent() {
+                return parent;
+            }
+            function getLeft() {
+                return left;
+            }
+            function getRight() {
+                return right;
+            }
+            function getLevel() {
+                return level;
+            }
+            function getLength() {
+                return r.x - l.x;
+            }
+            var me = {
+                setParent : setParent,
+                getParent : getParent,
+                getLevel : getLevel,
+                getLeft : getLeft,
+                getRight : getRight,
+                level : lvl,
+                left : left,
+                right : right
+            };
+            return me;
+        }
+        function Node(x, y) {
+            return {x : x, y : y, next : null, previous : null }
+        }
+        function Stack() {
+            var data = [];
+            function peek() {
+                if(!data.length)
+                    return null;
+                return data[data.length - 1];
+            }
+            function push(element) {
+                data.push(element);
+            }
+            function pop() {
+                return data.pop();
+            }
+            function size() { return data.length; }
+            return {peek : peek, push : push, pop : pop, size : size}
+        }
+    </script>
+    <script>
+        function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
+            var k, b, x, z;
+            while(iteration != 0) {
+                // coefficient for linear equation
+                k = (z2 - z1)/(x2 - x1);
+				if(isNaN(k))
+					return k;
+				b = k*x1 - z1;
+				// expected root
+				x = (level + b)/k;
+				if(iteration == 0)
+					return x;
+				z = func(x, y);
+                if(Math.abs(z - level) < eps)
+                    break;
+                if(z > level) {
+                    x2 = x;
+                    z2 = z;
+                } else {
+                    x1 = x;
+                    z1 = z;
+                }
+                iteration--;
+            }
+            if(typeof(isLeft) != 'undefined')
+                if((z < level && k > 0) || (z > level && k < 0)) {
+                    if(!isLeft) {
+                        while(k * (z - level) < 0) {
+                            x += eps/3;
+                            z = func(x, y);
+                        }
+					}
+				} else if(isLeft) {
+					while(k * (z - level) > 0) {
+						x -= eps/3;
+						z = func(x, y);
+					}
+				}
+            return x;
         }
     </script>
 </html>

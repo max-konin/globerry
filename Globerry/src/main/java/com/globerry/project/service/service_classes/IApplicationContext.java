@@ -18,15 +18,18 @@ import java.util.HashMap;
 public interface IApplicationContext {
     
     SelectBox getWhoTag();
+    
     SelectBox getWhenTag();
+    
     SelectBox getWhatTag();
+    
     Slider getSlidersByName(String name);
-    Slider getTemperatureSlider();
-    Slider getAlcoholSlider();
-    Slider getTravelTimeSlider();
-    Slider getLivingCostSlider();
-    Slider getFoodCostSlider();
+    
+   HashMap<Integer, IGuiComponent> getComponentsMap();
+  
     public HashMap<String, Slider> getSliders();
-    IGuiComponent getObjectById(int id) throws IllegalArgumentException;
-    public void init();
+    
+    IGuiComponent getObjectById(int id) throws IllegalArgumentException;   
+   
+    
 }

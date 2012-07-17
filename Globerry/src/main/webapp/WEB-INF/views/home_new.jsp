@@ -422,18 +422,18 @@
         
         cloudmadeUrl = 'http://grwe.net/osm/{z}/{x}/{y}.png';
         var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
-        var southWest = new L.LatLng(-75, -180); 
-        var northEast = new L.LatLng(75, 180);
+        var southWest = new L.LatLng(-90, 180); 
+        var northEast = new L.LatLng(90, 180);
         var restrictBounds = new L.LatLngBounds(southWest, northEast);
-        var map = new L.Map('map', {maxBounds : restrictBounds});
-        //var map = new L.Map('map');
+        //var map = new L.Map('map', {maxBounds : restrictBounds});
+        var map = new L.Map('map');
         var cloudmade = new L.TileLayer(cloudmadeUrl, {
             maxZoom: 7, 
             minZoom: 2, 
             attribution: cloudmadeAttribution
             
         });
-        map.setView(new L.LatLng(51.505, -0.09), 2).addLayer(cloudmade);
+        map.setView(new L.LatLng(10.505, -0.09), 2).addLayer(cloudmade);
         map.on('zoomend', function() {
             applyParams();
             

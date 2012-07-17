@@ -114,7 +114,7 @@ public class CityDao implements ICityDao {
 	 *
 	 * @throw IllegalArgumentException when request == null
 	 */
-	@Override
+/*	@Override
 	public List<City> getCityList(CityRequest request) {
 		if (request == null) {
 			throw new IllegalArgumentException("Parameter 'request' cannot be null");
@@ -158,10 +158,10 @@ public class CityDao implements ICityDao {
 		}
 
 		return cityToReturn;
-	}
+	}*/
 
 	// @Override
-	public List<City> getCityListOneQuery(CityRequest request) {
+/*	public List<City> getCityListOneQuery(CityRequest request) {
 		List<City> resultCityList;
 		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		// Query Generation Block for Properties
@@ -231,7 +231,7 @@ public class CityDao implements ICityDao {
 		List<City> cityList = query.list();
 		tx.commit();
 		return cityList;
-	}
+	}*/
 
 	@Override
 	public void updateCity(City city) {
