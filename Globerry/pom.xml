@@ -5,7 +5,7 @@
 	<groupId>com.globerry</groupId>
 	<artifactId>project</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-b2</version>
+	<version>1.0-b3</version>
         <scm>
             <connection>scm:svn://cloud.grwe.ru/globerry/branches/develop</connection>
             <developerConnection>scm:svn:http://cloud.grwe.ru/globerry/branches/develop</developerConnection>   
