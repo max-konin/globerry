@@ -33,69 +33,42 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Component
 @Scope("session")
-public class GloberryGuiContext implements IApplicationContext {
-
-    SelectBox whoTag, whenTag, whatTag;
-    Slider alcoholSlider, travelTimeSlider, livingCostSlider, foodCostSlider, temperatureSlider;
-    HashMap<Integer, IGuiComponent> componentsMap;
-    HashMap<String, Slider> sliders;
+public class GloberryGuiContext implements IApplicationContext, Cloneable, IModifyApplicationContext {
+    private SelectBox whoTag;
+    private SelectBox whenTag;
+    private SelectBox whatTag;
+    private HashMap<Integer, IGuiComponent> componentsMap;
+    private HashMap<String, Slider> sliders;
     @Autowired
     ITagDao tagDao;
     @Autowired
     IPropertyTypeDao propertyTypeDao;
-
-    /**
-     * Инициализирует новый экземпляр контекста приложения. Хранит в себе состояние всех контроллов в приложении. Какой
-     * id чему соответствует можно посмотреть здесь
-     *
-     * @see http://grwe.ru/ids.png .
-     */
-    @Override
-    @Transactional
-    public void init() {
-        componentsMap = new HashMap<Integer, IGuiComponent>();
-        sliders = new HashMap<String, Slider>();
-
-        List<Tag> tags = tagDao.getTagList();
-        whoTag = new SelectBox(1);
-        whatTag = new SelectBox(2);
-        for (Tag tag : tags) {
-            if (tag.getTagsType() == TagsType.WHO) {
-                whoTag.addValue(tag.getId());
-            } else {
-                whatTag.addValue(tag.getId());
-            }
-        }
-        componentsMap.put(1, whoTag);
-        GuiMap.componentAddHandler(whoTag);
-        componentsMap.put(2, whatTag);
-        GuiMap.componentAddHandler(whatTag);
-
-        whenTag = new SelectBox(3);        
-        for(Month month : Month.values()) 
-            whenTag.addValue(month.ordinal());
+    
+    public GloberryGuiContext(){};
+    
+    protected GloberryGuiContext(IApplicationContext context)
+    {
         
-        componentsMap.put(3, whenTag);
-        GuiMap.componentAddHandler(whenTag);
-
-        List<PropertyType> properyTypes = propertyTypeDao.getPropertyTypeList();
-
-        int i = 4;
-        Slider slider;
-        for (PropertyType type : properyTypes) {
-            slider = new Slider(i, type);
-            sliders.put(type.getName(), slider);
-            componentsMap.put(i, slider);
-            GuiMap.componentAddHandler(slider);
-            i++;
-            //TODO Затычка для dependingMounth.
-            if (slider.getPropertyType().getId() >= 7) {
-                slider.getPropertyType().setDependingMonth(true);
-            }
+        whoTag = (SelectBox) context.getWhoTag().clone();
+        whenTag = (SelectBox) context.getWhenTag().clone();
+        whatTag = (SelectBox) context.getWhatTag().clone();
+        
+        componentsMap = new HashMap<Integer, IGuiComponent>();        
+        componentsMap.put(whoTag.getId(), whoTag);
+        componentsMap.put(whenTag.getId(), whenTag);
+        componentsMap.put(whatTag.getId(), whatTag);
+        
+        sliders = new HashMap<String, Slider>();
+        for(String sliderName: context.getSliders().keySet())
+        {
+            Slider slider = (Slider) context.getSliders().get(sliderName).clone();
+            sliders.put(sliderName, slider);
+            componentsMap.put(slider.getId(), slider);
         }
-
+        
     }
 
+    
     @Override
     public SelectBox getWhoTag() {
         return whoTag;
@@ -116,39 +89,16 @@ public class GloberryGuiContext implements IApplicationContext {
         return getSliders().get(name);
     }
 
-    @Override
-    public Slider getTemperatureSlider() {
-        return temperatureSlider;
-    }
-
-    @Override
-    public Slider getAlcoholSlider() {
-        return alcoholSlider;
-    }
-
-    @Override
-    public Slider getTravelTimeSlider() {
-        return travelTimeSlider;
-    }
-
-    @Override
-    public Slider getLivingCostSlider() {
-        return livingCostSlider;
-    }
-
-    @Override
-    public Slider getFoodCostSlider() {
-        return foodCostSlider;
-    }
-
+    
     @Override
     public IGuiComponent getObjectById(int id) throws IllegalArgumentException {
-        IGuiComponent ret = componentsMap.get(id);
+        IGuiComponent ret = getComponentsMap().get(id);
         if (ret == null) {
             throw new IllegalArgumentException("Element with such id doesn't exist");
         }
         return ret;
     }
+        
 
     @Override
     public String toString() {
@@ -158,8 +108,8 @@ public class GloberryGuiContext implements IApplicationContext {
                 + "         What: %s\n"
                 + "Sliders:",
                 whoTag, whenTag, whatTag);
-        for (String name : sliders.keySet()) {
-            str += String.format("\n         " + name + ":  %s\n", sliders.get(name));
+        for (String name : getSliders().keySet()) {
+            str += String.format("\n         " + name + ":  %s\n", getSliders().get(name));
         }
         return str;
         /*
@@ -169,11 +119,66 @@ public class GloberryGuiContext implements IApplicationContext {
          */
 
     }
-
+    
+    
+    
     /**
      * @return the sliders
      */
     public HashMap<String, Slider> getSliders() {
         return sliders;
+    }
+
+    /**
+     * @param whoTag the whoTag to set
+     */
+    @Override
+    public void setWhoTag(SelectBox whoTag)
+    {
+        this.whoTag = whoTag;
+    }
+
+    /**
+     * @param whenTag the whenTag to set
+     */
+    @Override
+    public void setWhenTag(SelectBox whenTag)
+    {
+        this.whenTag = whenTag;
+    }
+
+    /**
+     * @param whatTag the whatTag to set
+     */
+    @Override
+    public void setWhatTag(SelectBox whatTag)
+    {
+        this.whatTag = whatTag;
+    }
+
+    /**
+     * @return the componentsMap
+     */
+    public HashMap<Integer, IGuiComponent> getComponentsMap()
+    {
+        return componentsMap;
+    }
+
+    /**
+     * @param componentsMap the componentsMap to set
+     */
+    @Override
+    public void setComponentsMap(HashMap<Integer, IGuiComponent> componentsMap)
+    {
+        this.componentsMap = componentsMap;
+    }
+
+    /**
+     * @param sliders the sliders to set
+     */
+    @Override
+    public void setSliders(HashMap<String, Slider> sliders)
+    {
+        this.sliders = sliders;
     }
 }

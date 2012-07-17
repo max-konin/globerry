@@ -1,5 +1,7 @@
 package com.globerry.project.domain;
 
+
+
 import java.sql.Date;
 
 import javax.persistence.CascadeType;
@@ -20,6 +22,7 @@ import org.hibernate.annotations.Cascade;
 @Table(name = "Tour")
 public class Tour {
 
+       
         private int targetCityId;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

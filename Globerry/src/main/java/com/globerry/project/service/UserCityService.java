@@ -147,6 +147,8 @@ public class UserCityService implements IUserCityService {
                 f = true;
                 for(String sliderName: appContext.getSliders().keySet())                
                 {
+                    if (!sliderName.equals("russian") && !sliderName.equals("visa"))
+                    {
                     PropertySegment prop = appContext.getSlidersByName(sliderName).getState();
                     sliderState.add(prop);
                     float val = city.getValueByPropertyType(prop.getPropertyType(), 
@@ -161,6 +163,7 @@ public class UserCityService implements IUserCityService {
                                     && (appContext.getWhatTag().getValue() == 6))
                         )
                         f = false; 
+                    }
                 }
                 if (f) resultRequest.add(city);
             }

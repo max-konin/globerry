@@ -21,8 +21,9 @@
 		/> -->
 	<context:annotation-config />
 	<context:component-scan base-package="com.globerry.project.domain" />
+        <context:component-scan base-package="com.globerry.project.dao" />
 	<context:component-scan base-package="com.globerry.project.service" />
-	<context:component-scan base-package="com.globerry.project.dao" />
+	
 
 
 	<bean id="localeResolver"
@@ -34,9 +35,8 @@
 			browser shuts down) -->
 		<property name="cookieMaxAge" value="100000" />
 
-	</bean>
-
-
+	</bean>       
+        
 
 
 	<!-- Менеджер транзакций -->
@@ -93,6 +93,10 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
+        
+        
+        
+         
+         
 	<import resource="security.xml" />
 </beans>

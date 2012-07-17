@@ -1,4 +1,4 @@
-package com.globerry.project;
+package com.globerry.project.controllers.user;
 
 
 
@@ -11,6 +11,7 @@ import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.interfaces.IProposalsManager;
 import com.globerry.project.service.interfaces.IUserCityService;
+import com.globerry.project.service.service_classes.ApplicationContextFactory;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +44,13 @@ public class HomeController {
  
     @Autowired
     DefaultDatabaseCreator defaultDatabaseCreator;
+    
     @Autowired
+    ApplicationContextFactory factory;
+    
     IApplicationContext appContext;   
     
-    ;
+    
     
 
     /*
@@ -64,7 +68,7 @@ public class HomeController {
     @RequestMapping(value = "/globerry")
     public String home(Model model) {
         logger.info("HomeController: Passing through...");        
-        appContext.init();       
+        //appContext.init();       
         model.addAttribute("hash", this.hashCode());
         return "home";
     }
@@ -118,8 +122,10 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/globerry_new")
-    public String home(Map<String,Object> map) {          
-        appContext.init();
+    public String home(Map<String,Object> map) {      
+        
+        appContext = factory.createAppContext();
+        
         map.put("who", appContext.getWhoTag());
         map.put("when", appContext.getWhenTag());
         map.put("what", appContext.getWhatTag());        
@@ -148,7 +154,7 @@ public class HomeController {
         }
         logger.debug("Запрос городов от клиента");
        
-        List<City> cityList = userCityService.getCityList(appContext);
+        cityList = userCityService.getCityList(appContext);
        
         City[] cities = new City[cityList.size()];
         cityList.toArray(cities);

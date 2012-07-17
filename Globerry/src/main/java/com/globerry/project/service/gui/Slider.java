@@ -41,7 +41,21 @@ public class Slider implements ISlider {
     public Slider(int id, PropertyType propertyType) {
         this(id, propertyType.getMinValue(),  propertyType.getMaxValue(), propertyType);
     }    
-      
+    /**
+     * Конструктор копирования
+     * @param slider 
+     */ 
+    public Slider(ISlider slider)
+    {
+        id = slider.getId();
+        state = new PropertySegment(slider.getPropertyType(), slider.getLeftValue(), slider.getRightValue());
+    }
+    
+    @Override
+    public IGuiComponent clone()
+    {
+        return new Slider(this);
+    }
     @Override
     public int getId() {
         return id;

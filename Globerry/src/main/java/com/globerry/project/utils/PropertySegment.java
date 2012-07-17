@@ -13,10 +13,7 @@ public class PropertySegment
     private float leftValue;
     private float rightValue;
     
-    /*
-     * @author max
-     * Сомнительный метод, учитывая то, что в PropertyType есть мин и макс значения
-     */
+    
     public PropertySegment(PropertyType propertyType, float leftValue, float rightValue){
 	this.propertyType = propertyType;
 	this.leftValue = leftValue;
