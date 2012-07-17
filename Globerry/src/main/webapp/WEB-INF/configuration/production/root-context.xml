@@ -93,10 +93,7 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-        
-        
-        
-         
-         
+       
+       
 	<import resource="security.xml" />
 </beans>
