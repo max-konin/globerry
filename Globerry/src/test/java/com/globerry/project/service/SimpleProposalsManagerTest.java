@@ -20,6 +20,8 @@ import org.junit.BeforeClass;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.anySet;
@@ -43,6 +45,9 @@ public class SimpleProposalsManagerTest
     
     @InjectMocks
     SimpleProposalsManager manager = new SimpleProposalsManager();
+    
+    @Autowired
+    private DefaultDatabaseCreator ddc;
     
     @Before
     public void setUp() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException
@@ -161,6 +166,13 @@ public class SimpleProposalsManagerTest
         manager.getTourByCity(city);
         verify(tours).get(1);
     }   
+    @Test
+    public void testToursAndHotels()
+    {
+	ddc.initTours();
+	ddc.initHotels();
+	//manager.getTourByCity()
+    }
 
     
 }

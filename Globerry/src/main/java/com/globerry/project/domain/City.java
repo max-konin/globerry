@@ -60,8 +60,8 @@ public class City implements Serializable
     private Boolean isValid;
     @Column
     private String message;
-    
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
     
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)

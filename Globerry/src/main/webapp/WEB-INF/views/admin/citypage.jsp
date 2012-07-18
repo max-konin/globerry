@@ -11,7 +11,7 @@
 	<script type="text/javascript" src="../resources/javascripts/jquerry.js"></script>
 	<script type="text/javascript" src="../resources/javascripts/kendoui/js/kendo.web.min.js"></script>
     <link href="../resources/javascripts/kendoui/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="../resources/javascripts/kendoui/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="../resources/javascripts/kendoui/styles/kendo.black.min.css" rel="stylesheet" />
 </head>
 <body>
 

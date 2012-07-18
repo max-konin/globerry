@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.globerry.project.service.DefaultDatabaseCreator;
+
 /**
  * @author Artem
  *
@@ -31,11 +33,19 @@ public class DatabaseManagerTest
     private IDatabaseManager databaseManager;
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private DefaultDatabaseCreator ddc;
 
     @Test
     public void clearDB()
     {
 		databaseManager.cleanDatabase();
     }
+    //@Test
+/*    public void testTours()
+    {
+	ddc.initCities();
+	ddc.initTours();
+    }*/
 
 }

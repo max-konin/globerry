@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -37,8 +38,8 @@ public class DependingMonthProperty
     private PropertyType propertyType;
     @Column
     private float value;
-    
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
     
     public int getId()
     {

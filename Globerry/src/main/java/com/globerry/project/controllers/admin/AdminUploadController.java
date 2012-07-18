@@ -3,14 +3,18 @@
  */
 package com.globerry.project.controllers.admin;
 
+
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+
 import java.io.IOException;
+
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -100,10 +104,12 @@ public class AdminUploadController
 	{
 	   excList.add(e.getDescription());
 	   logger.error(e.getDescription());
+	   e.printStackTrace();
 	} catch (ExcelParserException e)
 	{
 	    excList.add(e.getDescription());
 	    logger.error(e.getDescription());
+	    e.printStackTrace();
 	}
 	catch(Exception e)
 	{
@@ -112,10 +118,17 @@ public class AdminUploadController
 	}
 	if(excList.size() != 0)
 	{
+	    File bugReportFile = new File("bugs.txt");
+	    if(!bugReportFile.exists()) bugReportFile.createNewFile();
+	    PrintWriter writer = new PrintWriter(
+		    new BufferedOutputStream(
+			    new FileOutputStream("C://bugs.txt")));
 	    for(int i = 0; i < excList.size(); i++)
 	    {
 		logger.error(excList.get(i));
+		writer.println(excList.get(i));
 	    }
+	    writer.close();
 	    return "admin/errorForm";   
 	}
       }

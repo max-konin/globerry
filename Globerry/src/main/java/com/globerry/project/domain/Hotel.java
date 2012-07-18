@@ -1,14 +1,16 @@
 package com.globerry.project.domain;
 
+import javax.persistence.Transient;
+
 public class Hotel
 {    
    
     private float cost;
-    private String name;
-    private String description = new String();
     private int cityId;
-    
-    private static Integer hashCode = null;
+    private String name;
+    @Transient
+    private Integer hashCode = null;
+    private String description;
     
     public Hotel()
     {

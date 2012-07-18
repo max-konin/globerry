@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.mapping.Collection;
 //import org.hibernate.mapping.List;
@@ -38,8 +39,8 @@ public class Property
     inverseJoinColumns = @JoinColumn(name="propertyType_id")
 	    )
     private PropertyType propertyType;
-    
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
     
     public int getId()
     {
@@ -87,7 +88,7 @@ public class Property
     {
 	if(hashCode != null) return hashCode;
 	int result = 10;
-	//result = 3 * result + (propertyType == null ? 0 : propertyType.hashCode());
+	result = 3 * result + (propertyType == null ? 0 : propertyType.hashCode());
 	result = 3 * result + Float.floatToIntBits(value);
 	return result;
 	

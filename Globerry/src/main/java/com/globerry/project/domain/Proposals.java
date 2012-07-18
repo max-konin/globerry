@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table
@@ -31,8 +32,8 @@ public class Proposals
 	    mappedBy="proposals"
 	    )
     private City city;
-    
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
     
    
     public int getId()

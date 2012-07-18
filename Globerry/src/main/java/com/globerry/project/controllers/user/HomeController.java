@@ -64,6 +64,14 @@ public class HomeController {
         defaultDatabaseCreator.initCities();
         return "redirect:/globerry";
     }
+    @RequestMapping(value = "/initTours")
+    public String CreateDatabase()
+    {
+	defaultDatabaseCreator.initCities();
+	defaultDatabaseCreator.initHotels();
+	defaultDatabaseCreator.initTours();
+	return "redirect:/globerry";
+    }
 
     @RequestMapping(value = "/globerry")
     public String home(Model model) {

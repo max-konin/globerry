@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -45,8 +46,8 @@ public class Tag
     @Column
     @Enumerated(EnumType.ORDINAL)
     private TagsType tagsType;
-    
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
    
     public int getId()
     {
