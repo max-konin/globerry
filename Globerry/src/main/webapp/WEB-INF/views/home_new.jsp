@@ -11,8 +11,8 @@
 <html>
     <meta charset="utf-8">
     <TITLE>Globerry (v<spring:message code="buildNumber"/>)</TITLE>
-
     <link rel="stylesheet" href="resources/styles/globerry.css" type="text/css" />
+    <link rel="stylesheet" href="resources/styles/accordion.css" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
     <link rel="stylesheet" href="resources/lib/leaflet-v0.3.1/dist/leaflet.css" />
@@ -44,6 +44,21 @@
     <script type="text/javascript" src="resources/lib/colorpicker/lib/jquery.tabSlideOut.v1.3.js"></script>
     <script type="text/javascript" src="resources/lib/paramsTable/js/paramsTable.js"></script>
     <!--   /скрипты для  таблицы параметров   -->
+    <!--   скрипты для   Карусели   -->
+	<script type="text/javascript" src="resources/javascripts/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="resources/javascripts/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="resources/javascripts/jquery.vaccordion.js"></script>
+	<script type="text/javascript">
+			 $(document).ready(function() {
+				$('#tourB').vaccordion({
+					expandedHeight	: 100,
+					animSpeed		: 400,
+					animOpacity		: 0.7,
+					visibleSlices	: 5
+				});
+			}); 
+		</script>
+    <!--   /скрипты для  Карусели   -->
 </head>
 <body>
     <div id = 'top'>
@@ -290,29 +305,41 @@
     </div>
     <div id="bottomContainer">
         <div id="invisibleBottom"></div>
-        <div id="bottom" class="roundBorder" style="display: block; ">
-            <div id="bottomButtons">
-                <div id="tour" class="bottomButton">
-                    <div class="bottomHeadText">Туры</div>
-                </div>
-                <div id="avia" class="bottomButton">
-                    <div class="bottomHeadText">Авиабилеты</div>
-                </div>
-                <div id="hotel" class="bottomButton">
-                    <div class="bottomHeadText">Отели</div>
-                </div>
-                <div id="auto" class="bottomButton">
-                    <div class="bottomHeadText">Авто</div>
-                </div>
-            </div>
-            <div id="gradLine"></div>
-            <div id="whiteBottom">
-                <div id="tourB" class="bottomB">Туры</div>
-                <div id="aviaB" class="bottomB">Авиа</div>
-                <div id="hotelB" class="bottomB">Отели</div>
-                <div id="autoB" class="bottomB">Авто</div>
-            </div>	
-        </div>
+		<div id="bottom" class="roundBorder" style="display: block;">
+			<div id="bottomButtons">
+				<div id="tour" class="bottomButton">
+					<div class="bottomHeadText">Туры</div>
+				</div>
+				<div id="avia" class="bottomButton">
+					<div class="bottomHeadText">Авиабилеты</div>
+				</div>
+				<div id="hotel" class="bottomButton">
+					<div class="bottomHeadText">Отели</div>
+				</div>
+				<div id="auto" class="bottomButton">
+					<div class="bottomHeadText">Авто</div>
+				</div>
+			</div>
+			<div id="gradLine"></div>
+			<div id="whiteBottom">
+				<div id="tourB" class="bottomB">
+					<div class="va-nav">
+						<span class="va-nav-prev">Previous</span> <span
+							class="va-nav-next">Next</span>
+					</div>
+					<div class="va-wrapper" style="background: #f9e830;">
+						<div class="va-slice va-slice-1">1</div>
+						<div class="va-slice va-slice-2">2</div>
+						<div class="va-slice va-slice-3">3</div>
+						<div class="va-slice va-slice-4">4</div>
+					</div>
+				</div>
+			</div>
+			<div id="aviaB" class="bottomB">Авиа</div>
+			<div id="hotelB" class="bottomB">Отели</div>
+			<div id="autoB" class="bottomB">Авто</div>
+		</div>
+	</div>
     </div>
     <div id='map'></div>
      <jsp:include page="paramsTable.jsp" />
@@ -364,6 +391,7 @@
         });
 				
         $('select.gui_element').change(function() {
+        	 
             var value = $(this).select().val();
             sendRequest($(this).attr('guiId'), {value : parseInt(value)});
             var guiid = $(this).attr('guiId');
@@ -399,6 +427,7 @@
         /*******************************************************************************/
         //слайдеры
         $(".slider-range").each(function(){
+        	
             var minVal = parseInt($(this).parent().find('input:first').val()); 
             var maxVal = parseInt($(this).parent().find('input:last').val());  
             var params = {
@@ -489,7 +518,18 @@
     function sendRequest(id, data) {
         
         var request = [{id : id, value : data}];
-        
+        //закрытие Нижнего блока с турами
+        if(bottomActive == true){
+    		alert("хуй2");
+            $("#bottom").animate({
+                bottom:0
+            },100);
+            $(("#" +prevBotBut.id + "B")).hide();
+            $("#whiteBottom").animate({
+                height:0
+            },100);
+            bottomActive = false;
+        } 
         console.log(request);
         $.ajax({
             url: path +  '/gui_changed',

@@ -37,7 +37,7 @@ public class CityRequestTest
 {
 
     @Test
-    public void test()
+    public void getHQLQueryTest()
     {
 	List<Tag> tagList  = new ArrayList<Tag>();
 	Tag tag = new Tag();

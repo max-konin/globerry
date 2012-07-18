@@ -37,12 +37,6 @@ public interface ICompanyDao
      * @param newCompany
      */
     public void updateCompany(Company newCompany);
-    /**
-     * Функция для получения списка туров
-     * @param company компания
-     * @return Получает список туров компании
-     */
-    public List<Tour> getCompanyTourList(Company company);
     
     public Company getCompanyByLogin(String login);
     

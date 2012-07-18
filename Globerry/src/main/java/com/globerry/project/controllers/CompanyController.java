@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.globerry.project.Excel;
 import com.globerry.project.MySqlException;
 
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 
+import com.globerry.project.service.interfaces.ICityService;
 import com.globerry.project.service.interfaces.ICompanyService;
 
 //TODO
@@ -60,8 +62,6 @@ public class CompanyController
 	{
 
 	}*/
-	
-	
 	map.put("locale",locale);
         map.put("hash", this.hashCode());
 	return "company";

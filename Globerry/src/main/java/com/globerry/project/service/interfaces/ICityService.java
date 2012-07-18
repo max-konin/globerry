@@ -11,4 +11,6 @@ import com.globerry.project.domain.City;
 public interface ICityService
 {
     List<City> getCityList();
+
+    void addCity(City city);
 }

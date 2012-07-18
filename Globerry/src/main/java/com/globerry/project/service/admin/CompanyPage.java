@@ -2,9 +2,10 @@ package com.globerry.project.service.admin;
 
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.ICompanyDao;
 import com.globerry.project.domain.Company;
 
@@ -15,10 +16,9 @@ public class CompanyPage implements IEntityCreator
     @Autowired
     private ICompanyDao companyDao;
 
-    
     static final String JSPPAGE = "companypage";
     static final String JSPUPDATEPAGE = "companyupdatepage";
-    
+
     @Override
     public String getJspListFile()
     {
@@ -36,7 +36,7 @@ public class CompanyPage implements IEntityCreator
     public void removeElem(int id)
     {
 	companyDao.removeCompany(id);
-	
+
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CompanyPage implements IEntityCreator
     @Override
     public String getJspUpdateFile()
     {
-	
+
 	return "admin/" + JSPUPDATEPAGE;
     }
 
@@ -57,6 +57,7 @@ public class CompanyPage implements IEntityCreator
     {
 	Company company = (Company) object;
 	companyDao.updateCompany(company);
+
     }
 
     @Override
@@ -71,22 +72,19 @@ public class CompanyPage implements IEntityCreator
     public void getRelation(Map<String, Object> map)
     {
 	// TODO Auto-generated method stub
-	
-    }
-    
 
-   
+    }
+
     @Override
     public void removeRelation(String type, int elementId, int itemId)
     {
 	// TODO Auto-generated method stub
     }
-	
-    @Override
-    public void addRelaion(String type, int elementId, int itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
-  
+    @Override
+    public void addRelaion(String type, int elementId, int itemId)
+    {
+	throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }

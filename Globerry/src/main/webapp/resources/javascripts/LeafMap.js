@@ -870,6 +870,7 @@ function initLeafMap(serverName) {
 		};
     	
 		$('#map').click(function(){
+			alert("dsfgsdfg");
 			if((SelectActiveNumber !=0)&&(SelectActive)){
 				$(prevList).animate({
 					height:0
