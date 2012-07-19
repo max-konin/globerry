@@ -7,18 +7,37 @@ $(document).ready(function() {
    
     $(".bottomButton").click(function(){
         if( bottomActive == false){
-        	
         	$.ajax({
                 url: path +  '/get_tours',
                 dataType: 'json',
                 type: 'POST',
-                data: JSON.stringify(request),
-                contentType: "application/json",
                 success: function (response) {
-                    alert(response);
+                    //alert(response);
                 },
                 error: function(response) {
-                    
+                    //alert(response);
+                }
+            });
+        	$.ajax({
+                url: path +  '/get_hotels',
+                dataType: 'json',
+                type: 'POST',
+                success: function (response) {
+                    //alert(response);
+                },
+                error: function(response) {
+                    //alert(response);
+                }
+            });
+        	$.ajax({
+                url: path +  '/get_tickets',
+                dataType: 'json',
+                type: 'POST',
+                success: function (response) {
+                    //alert(response);
+                },
+                error: function(response) {
+                    //alert(response);
                 }
             });
             if(prevBotBut != undefined){

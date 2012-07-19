@@ -40,8 +40,8 @@ public class DefaultDatabaseCreator
     ICityDao cityDao;
     @Autowired
     private IDatabaseManager databaseManager;
-    //@Autowired
-    private IProposalsManager proposalsManager = new SimpleProposalsManager();
+    @Autowired
+    private IProposalsManager proposalsManager;
     
     protected static Logger logger = Logger.getLogger(DefaultDatabaseCreator.class);
     private boolean isTagInit = false;

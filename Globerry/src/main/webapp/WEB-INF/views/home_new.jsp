@@ -520,7 +520,6 @@
         var request = [{id : id, value : data}];
         //закрытие Нижнего блока с турами
         if(bottomActive == true){
-    		alert("хуй2");
             $("#bottom").animate({
                 bottom:0
             },100);
