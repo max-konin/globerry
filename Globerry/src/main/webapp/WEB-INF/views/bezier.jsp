@@ -171,7 +171,7 @@
             point.weight = 1;
             points.push(point);
             
-            point = Point(5, -2);
+            point = Point(5, -4);
             point.weight = 1;
             points.push(point);
             
@@ -196,7 +196,7 @@
             points.push(point);
             
             //graph.drawRays(rays);
-            graph.drawSpans(points, 6.56);
+            graph.drawSpans(points, 6.88);
             //graph.drawSpans(points,3.35);
             
             $('#wolfram').append(plotString(points));
@@ -489,6 +489,7 @@
                     
                     var dir = -1, ret = [];
                     var parentLevel = parent ? parent.getLevel() : null, flag = false;
+                    
                     for(var i = 0; i < 2; i++) {
                         if(span.getLevel() == 2)
                             console.log('log');
@@ -565,11 +566,12 @@
                                     left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
                                 }
                                 if(left && Math.abs(span.getParent().getLeft().x - left) > stepX) {
-                                    var p1 = span.getLeft();
+                                    var p1 = span.getLeft(), flag = false;
                                     while(left) {
                                         right = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
                                         if(!right) {
                                             right = parentLeft - stepX/2;
+                                            flag = true;
                                         }
                                         newSpan = Span(Node(left,y), Node(right,y), level);
                                         newSpan.setParent(span);
@@ -582,6 +584,8 @@
                                         }
                                         p1 = newSpan.right;
                                         ret.push(newSpan);
+                                        if(flag)
+                                            break;
                                         left = findBorder(right, y, 1, (parentLeft - right)/stepX - 1, false)
                                     }
                                     if(dir == 1) {
@@ -603,12 +607,14 @@
                                     right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, true);
                                 }
                                 if(right && Math.abs(span.getParent().getRight().x - right) > stepX) {
-                                    var count = 0;
+                                    var count = 0, flag = false;
                                     var p1 = span.getRight();
                                     while(right) {
                                         left = findBorder(right, y, -1, (right - parentRight)/stepX - 1, true);
-                                        if(!left)
+                                        if(!left) {
                                             left = parentRight + step/2;
+                                            flag = true;
+                                        }
                                         appendCircle2(right, y, 7, 'curve');
                                         appendCircle2(left, y, 7, 'curve');
                                         newSpan = Span(Node(left,y), Node(right,y), level);
@@ -622,6 +628,8 @@
                                         }
                                         p1 = newSpan.left;
                                         ret.push(newSpan);
+                                        if(flag)
+                                            break;
                                         right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, true);
                                     }
                                     if(dir == 1) {
@@ -647,7 +655,7 @@
                     $('.class1').remove();
                     return ret;
                 }
-                var stepX = 0.3, stepY = 0.3, eps = 0.1, spanFactor = 3;
+                var stepX = 0.5, stepY = 1, eps = 0.1, spanFactor = 3;
                 var firstPoint = points[1];
                 var y  = firstPoint.y;
                 var p = Point(firstPoint.x + 0.1, firstPoint.y);
@@ -661,9 +669,13 @@
                 var firstSpan = Span(leftNode, rightNode, 0);
                 //findSpans(firstSpan);
                 spanStack.push(firstSpan);
+                var count = 0;
                 while(spanStack.size() > 0) {
                     var span = spanStack.pop();
                     var spans = findSpans(span);
+                    count++;
+                    if(count > 100)
+                        break;
                     for(var i = 0; i < spans.length; i++)
                         spanStack.push(spans[i]);
                 }
@@ -953,6 +965,7 @@
                 getLevel : getLevel,
                 getLeft : getLeft,
                 getRight : getRight,
+                getLength : getLength,
                 level : lvl,
                 left : left,
                 right : right
