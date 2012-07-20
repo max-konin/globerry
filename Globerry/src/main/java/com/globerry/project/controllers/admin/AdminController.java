@@ -12,15 +12,7 @@ import javax.swing.text.Element;
 import javax.xml.ws.Response;
 import org.apache.log4j.Logger;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.util.JSONPObject;
-import org.codehaus.jackson.type.TypeReference;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -38,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
-import com.globerry.project.domain.Event;
+
 //import com.globerry.project.domain.IRelationsQualifier;
 import com.globerry.project.domain.Month;
 import com.globerry.project.service.interfaces.ICityService;
@@ -47,7 +39,7 @@ import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.IEntityCreator;
 import com.globerry.project.service.CityService;
 import com.globerry.project.service.DefaultDatabaseCreator;
-import com.globerry.project.service.interfaces.IEventService;
+
 
 
 
@@ -75,9 +67,7 @@ public class AdminController
     @Autowired
     private DefaultDatabaseCreator databaseCreator;
     
-    @Autowired
-    private IEventService eventService;
-    
+     
     @Autowired
     private CityService cityService;
     
@@ -148,24 +138,14 @@ public class AdminController
         page.updateElem(city);
         return "redirect:/admin/" + url;
     }
-    @RequestMapping(value = "/update/updateEvent", method = RequestMethod.POST)
-    public String addEvent(@ModelAttribute("event") Event event, BindingResult result, Map<String, Object> map) {
-	//map.put("months", Month.values());
-        page.updateElem(event);
-        return "redirect:/admin/" + url;
-    }
+   
     @RequestMapping(value = "/update/updateCompany", method = RequestMethod.POST)
     public String addCompany(@ModelAttribute("company") Company company, BindingResult result, Map<String, Object> map) {
 	//map.put("months", Month.values());
         page.updateElem(company);
         return "redirect:/admin/" + url;
     }
-    //функции возвращающие все города/события/компании
-    @RequestMapping(value="/getevents", method=RequestMethod.GET)
-    public @ResponseBody List<Event> getEvents() {
-	//БЫДЛОКОД
-        return eventService.getEventList();
-    }
+    
     @RequestMapping(value="/getcities", method=RequestMethod.GET)
     public @ResponseBody List<City> getCities() {
 	//БЫДЛОКОД
@@ -212,18 +192,13 @@ public class AdminController
 	databaseCreator.initTags();
 	return "redirect:/admin/" + url;
     }
-    @RequestMapping(value="/initProperties")
+/*    @RequestMapping(value="/initProperties")
     public String initProperties()
     {
 	databaseCreator.initPropertyType();
 	return "redirect:/admin/" + url;
     }
-    @RequestMapping(value="/initCities")
-    public String initCities()
-    {
-	databaseCreator.initCities();
-	return "redirect:/admin/" + url;
-    }
+    
     /*HttpServletRequest request*/
     /*@RequestMapping(value="/delete", method=RequestMethod.GET)
     public void delete(HttpServletRequest request)

@@ -4,21 +4,18 @@
  */
 package com.globerry.project.service.service_classes;
 
-import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.ITagDao;
+import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
-import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.gui.Slider;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.HashMap;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -38,11 +35,11 @@ public class GloberryGuiContext implements IApplicationContext, Cloneable, IModi
     private SelectBox whenTag;
     private SelectBox whatTag;
     private HashMap<Integer, IGuiComponent> componentsMap;
-    private HashMap<String, Slider> sliders;
+    private HashMap<String, ISlider> sliders;
     @Autowired
-    ITagDao tagDao;
+    IDao<Tag> tagDao;
     @Autowired
-    IPropertyTypeDao propertyTypeDao;
+    IDao<PropertyType> propertyTypeDao;
     
     public GloberryGuiContext(){};
     
@@ -58,7 +55,7 @@ public class GloberryGuiContext implements IApplicationContext, Cloneable, IModi
         componentsMap.put(whenTag.getId(), whenTag);
         componentsMap.put(whatTag.getId(), whatTag);
         
-        sliders = new HashMap<String, Slider>();
+        sliders = new HashMap<String, ISlider>();
         for(String sliderName: context.getSliders().keySet())
         {
             Slider slider = (Slider) context.getSliders().get(sliderName).clone();
@@ -85,7 +82,7 @@ public class GloberryGuiContext implements IApplicationContext, Cloneable, IModi
     }
 
     @Override
-    public Slider getSlidersByName(String name) {
+    public ISlider getSlidersByName(String name) {
         return getSliders().get(name);
     }
 
@@ -125,7 +122,8 @@ public class GloberryGuiContext implements IApplicationContext, Cloneable, IModi
     /**
      * @return the sliders
      */
-    public HashMap<String, Slider> getSliders() {
+    @Override
+    public HashMap<String, ISlider> getSliders() {
         return sliders;
     }
 
@@ -175,10 +173,10 @@ public class GloberryGuiContext implements IApplicationContext, Cloneable, IModi
 
     /**
      * @param sliders the sliders to set
-     */
-    @Override
-    public void setSliders(HashMap<String, Slider> sliders)
+     */  
+    public void setSliders(HashMap<String, ISlider> sliders)
     {
         this.sliders = sliders;
     }
+    
 }

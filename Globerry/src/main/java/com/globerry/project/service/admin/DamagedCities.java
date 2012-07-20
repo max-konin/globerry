@@ -1,5 +1,6 @@
 package com.globerry.project.service.admin;
 
+import com.globerry.project.dao.IDao;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,14 +14,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.globerry.project.dao.ICityDao;
 import com.globerry.project.domain.City;
 
 @Service
 public class DamagedCities
 {
     @Autowired
-    private ICityDao cityDao;
+    private IDao<City> cityDao;
     
     private List<City> damagedCitiesList; 
     
@@ -29,7 +29,8 @@ public class DamagedCities
 	//InputStream inp = new FileInputStream("workbook.xls");
 	//InputStream inp = new FileInputStream("workbook.xlsx");
 	//FileOutputStream fileOut = new FileOutputStream("workbook.xls");
-	damagedCitiesList = cityDao.getDamagedCities(); 
+	/* TODO Переписать
+        damagedCitiesList = cityDao.getDamagedCities(); 
 	Workbook wb= new XSSFWorkbook();  
 	Sheet sheet = wb.createSheet();
 	for (int i = 0; i < damagedCitiesList.size(); i++)
@@ -56,6 +57,8 @@ public class DamagedCities
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+        * 
+        */
 
     }
 }

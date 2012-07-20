@@ -9,11 +9,11 @@ package com.globerry.project;
  */
 public class ExcelParserException extends Exception
 {
-    private String message;
+    private String description;
     private int row;
-    public ExcelParserException(String message, int row)
+    public ExcelParserException(String description, int row)
     {
-	this.message = message;
+	this.description = description;
 	this.row = row;
     }
     public ExcelParserException()
@@ -22,7 +22,7 @@ public class ExcelParserException extends Exception
     }
     public String getDescription()
     {
-	return message;
+	return description;
     }
     public int getRow()
     {

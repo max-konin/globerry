@@ -19,7 +19,8 @@ public interface ISlider extends IGuiComponent{
     
     void setLeftValue(float value);
     
-    void setRightValue(float value);  
+    void setRightValue(float value);     
     
     PropertyType getPropertyType();
+    
 }

@@ -71,21 +71,11 @@ public Excel(String fileName)
 public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException, IllegalStateException
 {
     Cell currentCell;
-	try {
-		
 		org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
 		Row currentRow = sheet.getRow(rowNumber);
 		currentCell = currentRow.getCell(cellNumber);
 		return currentCell.getNumericCellValue();
 
-		}
-		catch (NullPointerException e) {
-		    throw e;
-		}
-		catch(IllegalStateException ie)
-		{
-		   throw ie;
-		}
 
 	//return -1;
 }
@@ -99,17 +89,12 @@ public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) thro
  */
 public String getStringField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException
 {
-	try {
 		org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
 		Row currentRow = sheet.getRow(rowNumber);
 		Cell currentCell = currentRow.getCell(cellNumber);
 		return currentCell.getStringCellValue();
 
 	    
-		}
-		catch (NullPointerException e) {
-		    return null;
-		}
 
 }
 /**

@@ -100,36 +100,19 @@ public class AdminUploadController
 	    Excel exc = new Excel(file.getAbsolutePath());
 	    adminParser.updateCities(exc);
 	    
-	} catch (MySqlException e)
-	{
-	   excList.add(e.getDescription());
-	   logger.error(e.getDescription());
-	   e.printStackTrace();
-	} catch (ExcelParserException e)
-	{
-	    excList.add(e.getDescription());
-	    logger.error(e.getDescription());
-	    e.printStackTrace();
-	}
-	catch(Exception e)
-	{
-	    excList.add(e.getLocalizedMessage() + ", " + e.getMessage());
-	    e.printStackTrace();
-	}
-	if(excList.size() != 0)
+	} 
+	catch(ExcelParserException e)
 	{
 	    File bugReportFile = new File("bugs.txt");
 	    if(!bugReportFile.exists()) bugReportFile.createNewFile();
 	    PrintWriter writer = new PrintWriter(
 		    new BufferedOutputStream(
-			    new FileOutputStream("C://bugs.txt")));
-	    for(int i = 0; i < excList.size(); i++)
-	    {
-		logger.error(excList.get(i));
-		writer.println(excList.get(i));
-	    }
+			    new FileOutputStream(bugReportFile)));
+
+	    logger.error(e.getDescription());
+	    writer.println(e.getDescription());
 	    writer.close();
-	    return "admin/errorForm";   
+	    return "admin/errorForm";  
 	}
       }
       catch (IllegalStateException e)

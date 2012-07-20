@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.globerry.project.service.admin.AbstractTypeFactory;
-import com.globerry.project.service.interfaces.IEventService;
 import com.globerry.project.utils.dropdown_menu.DropdownMenu;
 import com.globerry.project.utils.dropdown_menu.DropdownMenuItem;
 import com.globerry.project.utils.dropdown_menu.IDropdownMenu;
@@ -20,9 +19,7 @@ public class TestPageController
     @Autowired
     private AbstractTypeFactory abstrFactory;
     
-    @Autowired
-    private IEventService eventService;
-    
+       
     private DropdownMenu menu;
     
     @RequestMapping("/")

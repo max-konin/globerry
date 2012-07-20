@@ -30,7 +30,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 
 @Entity
-@Table(name = "Tag")
 public class Tag
 {
     @Id
@@ -116,5 +115,13 @@ public class Tag
     public String toString()
     {
         return String.format("id: %d; name: %s;\n", id, name);
+    }
+    public Tag()
+    {
+        
+    }
+    public Tag(String name)
+    {
+        this.name = name;
     }
 }

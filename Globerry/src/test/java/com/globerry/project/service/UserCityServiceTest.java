@@ -4,15 +4,15 @@
  */
 package com.globerry.project.service;
 
+import com.globerry.project.dao.IDao;
+import com.globerry.project.dao.QueryFactory;
 import static org.mockito.Mockito.*;
 
-import com.globerry.project.dao.ICityDao;
-import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.ITagDao;
-import com.globerry.project.dao.Range;
+
 import com.globerry.project.domain.*;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
 import com.globerry.project.service.service_classes.IApplicationContext;
@@ -31,13 +31,16 @@ import org.mockito.MockitoAnnotations;
 public class UserCityServiceTest
 {   
     @Mock
-    ICityDao cityDao;
+    IDao<City> cityDao;
     
     @Mock
-    IPropertyTypeDao propertyTypeDao;
+    IDao<PropertyType> propertyTypeDao;
      
     @Mock
-    ITagDao tagDao;   
+    IDao<Tag> tagDao;   
+    
+    @Mock
+    QueryFactory queryFactory;   
     
     
     @InjectMocks
@@ -45,7 +48,7 @@ public class UserCityServiceTest
     
     IApplicationContext appContext = mock(IApplicationContext.class);
     
-    HashMap<String, Slider> sliders = new HashMap<String, Slider>();
+    HashMap<String, ISlider> sliders = new HashMap<String, ISlider>();
     
     List<City> cityList = new ArrayList<City>();   
     
@@ -72,21 +75,59 @@ public class UserCityServiceTest
         when(appContext.getWhenTag()).thenReturn(boxWhen);
         
         //Определяем, какие теги возвращает tagDao
-        List<Tag> tags = new ArrayList<Tag>();        
+        List<Tag> tags = new ArrayList<Tag>();  
+       
         for(int i = 0; i < 5; i++)
         {
             Tag tag = new Tag();
             tag.setId(i); 
             tag.setName(String.format("tag-%d", i));
+            tags.add(tag);            
         }     
-        when(tagDao.getTagList()).thenReturn(tags);
+        when(tagDao.getAll(Tag.class)).thenReturn(tags);
         //Оперделяем список городов, которые возвращает CityDao   
+        
+        Interval[] values = {
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),
+                               new Interval(1,4),            
+        };
+       
+        Temperature     temp = new Temperature();
+        Mood            mood = new Mood();
+        LivingCost      cost = new LivingCost();
+        
+        temp.init(values);
+        mood.init(values);
+        cost.init(values); 
+        
         for(int i = 0; i < 100; i++)
         {
-            City city = new City();
-            city.setId(i);
-            city.setName(String.valueOf(i));
-            city.setPropertyList(new HashSet());
+            City city = new City("Berlin", 
+                                i, 
+                                i, 
+                                i, 
+                                3, 
+                                new Interval (1, 5) , 
+                                new Interval (1, 5),
+                                2,    
+                                2,
+                                true,
+                                true,
+                                temp,
+                                mood,
+                                cost,
+                                tags);
+           cityList.add(city);
         }
         
         //Определяем состояние слайдеров, по которым будет проверятся фильтрация городов.             
@@ -101,18 +142,11 @@ public class UserCityServiceTest
             sliders.put(String.format("slider-%d", i), slider);
             when(appContext.getSlidersByName(String.format("slider-%d", i))).thenReturn(slider);
             
-            for(City city: cityList)
-            {
-                Property prop = new Property();
-                prop.setId(i);
-                prop.setPropertyType(prType);
-                prop.setValue((i + 5) + city.getId() % 100);
-                city.getPropertyList().add(prop);
-            }            
+                   
         } 
         when(appContext.getSliders()).thenReturn(sliders);
        
-        when(cityDao.getCityListByTagsOnly(any(ICityRequest.class))).thenReturn(cityList);
+        when(cityDao.getByQuery(anyString())).thenReturn(cityList);
         
        
     }    
@@ -125,45 +159,13 @@ public class UserCityServiceTest
         System.out.println("getCityList");      
                 
         List<City> result = service.getCityList(appContext);  
-        verify(cityDao).getCityListByTagsOnly(any(ICityRequest.class));
-        List<City> trueResult = new ArrayList();
-        for(City city: cityList)
-        {     
-            boolean f = true;
-            for(Slider slider: sliders.values())
-            {
-                float val = city.getValueByPropertyType(slider.getState().getPropertyType(), 
-                                                        Month.values()[appContext.getWhenTag().getValue()]);
-                if(val < slider.getLeftValue() || val > slider.getRightValue())
-                    f = false;
-            }
-            if (f) trueResult.add(city);
-        }
+        verify(cityDao).getByQuery(anyString());
+               
         for(City city: result)
             assertTrue(city.getWeight() != 0);
-        assertTrue(result.equals(trueResult));  
-        assertTrue(result.size() == trueResult.size()); 
-        
-        //Проверяем, что при повторном запросе городов, без изменения тегов не просходит оращения к cityDao
-        service.getCityList(appContext);  
-        verify(cityDao, times(1)).getCityListByTagsOnly(any(ICityRequest.class));     
-        
-        
     }
 
-    /**
-     * Test of onTagChangeHandler method, of class UserCityService.
-     * Тест проверяет, что при tagChanged = true проходит запрос к бд 
-     */
-    @Test
-    public void testOnTagChangeHandler()
-    {       
-        service.onTagChangeHandler();
-        service.getCityList(appContext);                  
-        verify(cityDao).getCityListByTagsOnly(any(ICityRequest.class));
-        
-    } 
-
+   
     /**
      * Test of getCityList method, of class UserCityService.
      */
@@ -172,7 +174,7 @@ public class UserCityServiceTest
     {
         System.out.println("getCityList");
         service.getCityList();
-        verify(cityDao).getCityList();
+        verify(cityDao).getAll(City.class);
     }
 
     /**
@@ -201,19 +203,7 @@ public class UserCityServiceTest
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of changeRange method, of class UserCityService.
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testChangeRange()
-    {
-        System.out.println("changeRange");
-        Range newRange = null;
-        UserCityService instance = new UserCityService();
-        instance.changeRange(newRange);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+   
 
     /**
      * Test of sliderOnChangeHandler method, of class UserCityService.

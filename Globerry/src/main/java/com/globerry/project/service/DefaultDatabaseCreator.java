@@ -13,17 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.ICityDao;
+
+import com.globerry.project.dao.IDao;
 import com.globerry.project.dao.IDatabaseManager;
-import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.ITagDao;
-import com.globerry.project.domain.City;
-import com.globerry.project.domain.DependingMonthProperty;
-import com.globerry.project.domain.Hotel;
-import com.globerry.project.domain.Property;
-import com.globerry.project.domain.PropertyType;
-import com.globerry.project.domain.Tag;
-import com.globerry.project.domain.TagsType;
+import com.globerry.project.dao.IDao;
+import com.globerry.project.service.StringManager;
+
+import com.globerry.project.domain.*;
+import com.globerry.project.service.interfaces.IProposalsManager;
+
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.interfaces.IProposalsManager;
 
@@ -33,13 +31,15 @@ import org.apache.log4j.Logger;
 public class DefaultDatabaseCreator
 {
     @Autowired
-    ITagDao tagDao;
+    IDao<Tag> tagDao;
     @Autowired
-    IPropertyTypeDao propertyTypeDao;
+    IDao<City> cityDao;
     @Autowired
-    ICityDao cityDao;
+    IDao<PropertyType> propertyTypeDao;
     @Autowired
     private IDatabaseManager databaseManager;
+    @Autowired
+    private IProposalsManager proposalsManager;
     @Autowired
     private IProposalsManager proposalsManager;
     
@@ -99,20 +99,16 @@ public class DefaultDatabaseCreator
 	tagList.getLast().setImg("");
 	tagList.getLast().setTagsType(TagsType.WHERE);
 	
-        try
-	{
+       
             Iterator<Tag> tagIterator = tagList.iterator();
             while (tagIterator.hasNext()){
-        	tagDao.addTag(tagIterator.next());
+        	tagDao.add(tagIterator.next());
             }
-	} catch (MySqlException e)
-	{
-	    logger.error("Tag add error");
-	    //e.printStackTrace();
-	}
+	
     }
+   
     public void initPropertyType(){
-
+ /*
 	/*id	DependingMonth	betterWhenLess	maximumValue	minimumValue	name
 	1		0		1		20		0	cost
 	2		0		1		20		0	alcohol
@@ -122,25 +118,25 @@ public class DefaultDatabaseCreator
 	6		0		1		20		0	security
 	7		1		1		300		0	livingCost
 	8		1		1		300		0	mood
-	9		1		1		35		-35	temperature*/
+	9		1		1		35		-35	temperature
 	
-	createPropertyType("cost", 0, 30, false, true);
-	createPropertyType("alcohol", 0, 30, false, true);
-	createPropertyType("russian", 0, 1, false, true);
-	createPropertyType("visa", 0, 1, false, true);
-	createPropertyType("sex", 0, 3, false, true);
-	createPropertyType("security", 0, 3, false, true);
-	createPropertyType("livingCost", 0, 300, true, true);
-	createPropertyType("mood", 0, 300, true, true);
-	createPropertyType("temperature", -35, 35, true, true);	
+	createPropertyType(StringManager.foodCostPropertyTypeName, 0, 30, false, true);
+	createPropertyType(StringManager.alcoholPropertyTypeName, 0, 30, false, true);
+	createPropertyType(StringManager.russianPropertyTypeName, 0, 1, false, true);
+	createPropertyType(StringManager.visaPropertyTypeName, 0, 1, false, true);
+	createPropertyType(StringManager.sexPropertyTypeName, 0, 3, false, true);
+	createPropertyType(StringManager.securityPropertyTypeName, 0, 3, false, true);
+	createPropertyType(StringManager.livingCostPropertyTypeName, 0, 300, true, true);
+	createPropertyType(StringManager.moodPropertyTypeName, 0, 300, true, true);
+	createPropertyType(StringManager.temperaturePropertyTypeName, -35, 35, true, true);
 	
-    }
-    
+    }//*/
+    /*
     public void initCities(){
 	
 	LinkedList<City> citiesList = new LinkedList<City>();
-	List<Tag> tagList = tagDao.getTagList();
-	List<PropertyType> propertyList = propertyTypeDao.getPropertyTypeList();
+	List<Tag> tagList = tagDao.getAll(Tag.class);
+	List<PropertyType> propertyList = propertyTypeDao.getAll(PropertyType.class);
 	if(tagList.isEmpty()) initTags();
 	if(propertyList.isEmpty()) initPropertyType();
 	
@@ -162,21 +158,16 @@ public class DefaultDatabaseCreator
 	citiesList.add(generateCityWithPsevdoRandomProperties("Barcelona", (float)2.15, (float)41.35));
 	citiesList.add(generateCityWithPsevdoRandomProperties("Buharest", (float)26.08, (float)44.38));
 	
-        try
-	{
+       
             Iterator<City> cityIterator = citiesList.iterator();
             while (cityIterator.hasNext()){
-        	cityDao.addCity(cityIterator.next());
+        	cityDao.add(cityIterator.next());
             }
-	} catch (MySqlException e)
-	{
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+	
     }
     public City generateCityWithPsevdoRandomProperties(String name, float longitude, float latitude)
     {
-	City city = new City();
+	/*City city = new City();
 	city.setName(name);
 	city.setLongitude(longitude);
 	city.setLatitude(latitude);
@@ -184,23 +175,23 @@ public class DefaultDatabaseCreator
 
 	Set<Tag> tagList = new HashSet<Tag>();
 	if (hash % 2 == 0)
-	    tagList.add(tagDao.getTagById(1));
+	    tagList.add(tagDao.getById(Tag.class,1));
 	if (hash % 2 == 1)
-	    tagList.add(tagDao.getTagById(2));
+	    tagList.add(tagDao.getById(Tag.class,2));
 	if (hash % 2 == 0)
-	    tagList.add(tagDao.getTagById(3));
+	    tagList.add(tagDao.getById(Tag.class,3));
 	if (hash % 2 == 1)
-	    tagList.add(tagDao.getTagById(4));
+	    tagList.add(tagDao.getById(Tag.class,4));
 	if (hash % 2 == 0)
-	    tagList.add(tagDao.getTagById(5));
+	    tagList.add(tagDao.getById(Tag.class,5));
 	if (hash % 2 == 1)
-	    tagList.add(tagDao.getTagById(6));
+	    tagList.add(tagDao.getById(Tag.class,6));
 	if (hash % 2 == 0)
-	    tagList.add(tagDao.getTagById(7));
+	    tagList.add(tagDao.getById(Tag.class,7));
 	if (hash % 2 == 1)
-	    tagList.add(tagDao.getTagById(8));
+	    tagList.add(tagDao.getById(Tag.class,8));
 	if (hash % 2 == 0)
-	    tagList.add(tagDao.getTagById(9));
+	    tagList.add(tagDao.getById(Tag.class,9));
 	city.setTagList(tagList);
 	
 	Set<Property> propertyList = new HashSet<Property>();
@@ -230,8 +221,8 @@ public class DefaultDatabaseCreator
 	city.setPropertyList(propertyList);
 	city.setDmpList(dmpList);
 	return city;
-	
-    }
+        throw new UnsupportedOperationException("Not supported yet.");	
+    }//*/
     public void initTours()
     {
 	for(int i = 0; i < 20; i++)
@@ -251,23 +242,6 @@ public class DefaultDatabaseCreator
     {
 	databaseManager.cleanDatabase();
     }
-    private void createPropertyType(String name, int minValue, int maxValue, Boolean dependingMonth, Boolean betterWhenLess)
-    {
-	if(propertyTypeDao.getPropertyTypeByName(name) != null) return;//строчка бажит если в базе 
-	PropertyType propertyType = new PropertyType();
-	propertyType.setDependingMonth(dependingMonth);
-	propertyType.setBetterWhenLess(betterWhenLess);
-	propertyType.setMinValue(minValue);
-	propertyType.setMaxValue(maxValue);
-	propertyType.setName(name);
-	try
-	{
-	    propertyTypeDao.addPropertyType(propertyType);
-	} catch (MySqlException e)
-	{
-	    e.printStackTrace();
-	}
-    }
     private Tour generateTour()
     {
 	String[] descriptionArr = {"cheap", "expensive", "near sea", "with monsters", "with oil", "hot", "cold", "with skies", "with guns"};
@@ -276,7 +250,7 @@ public class DefaultDatabaseCreator
 	tour.setName("TourName");
 	tour.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
 	tour.setCost(rand.nextInt(100));
-	int cityCount = cityDao.getCityList().size();
+	int cityCount = cityDao.getAll(City.class).size();
 	tour.setTargetCityId(rand.nextInt(cityCount));
 	tour.setDateStart(new Date(rand.nextLong()));
 	tour.setDateEnd(new Date(rand.nextLong()));
@@ -286,7 +260,7 @@ public class DefaultDatabaseCreator
     {
 	String[] descriptionArr = {"one star", "two stars", "three stars", "four stars", "five stars", "with swimming pool", "near sea", "with Russians",
 		"big houses" , "with eat", "all inclusive"};
-	int cityCount = cityDao.getCityList().size();
+	int cityCount = cityDao.getAll(City.class).size();
 	Random rand = new Random();
 	Hotel hotel = new Hotel();
 	hotel.setName("HotelName");

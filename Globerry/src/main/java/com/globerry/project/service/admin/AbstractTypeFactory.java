@@ -15,8 +15,7 @@ public class AbstractTypeFactory
     CityPage cityPage;
     @Autowired
     CompanyPage companyPage;
-    @Autowired
-    EventPage eventPage;
+    
     @Autowired
     WrongPage wrongPage;
     /**
@@ -27,8 +26,7 @@ public class AbstractTypeFactory
     public IEntityCreator responsePage(String type)
     {
 	if(type.toLowerCase().equals("cityadminpage")) return cityPage;
-	else if(type.toLowerCase().equals("companyadminpage")) return companyPage;
-	else if(type.toLowerCase().equals("eventadminpage")) return eventPage;
+	else if(type.toLowerCase().equals("companyadminpage")) return companyPage;	
 	else return wrongPage;
     }
 }

@@ -7,37 +7,27 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CityDao;
-import com.globerry.project.domain.CityRequest;
-import com.globerry.project.dao.ICityDao;
+import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.service.interfaces.ICityService;
-import com.globerry.project.utils.PropertySegment;
 
 @Service
 public class CityService implements ICityService
 {
     @Autowired
-    private ICityDao cityDao; 
+    private IDao<City> cityDao; 
 
     @Override
     public List<City> getCityList()
     {
 	// TODO Auto-generated method stub
-	return cityDao.getCityList();
+	return cityDao.getAll(City.class);
     }
     @Override
     public void addCity(City city)
     {
-	try
-	{
-	    cityDao.addCity(city);
-	} catch (MySqlException e)
-	{
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+	    cityDao.add(city);
+	
     }
 
 }

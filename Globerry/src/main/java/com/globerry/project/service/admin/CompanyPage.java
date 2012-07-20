@@ -4,9 +4,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.globerry.project.MySqlException;
-import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.IDao;
+import com.globerry.project.dao.QueryFactory;
 import com.globerry.project.domain.Company;
 
 @Service
@@ -14,8 +13,9 @@ public class CompanyPage implements IEntityCreator
 {
 
     @Autowired
-    private ICompanyDao companyDao;
-
+    private IDao<Company> companyDao;
+    @Autowired
+    private QueryFactory queryFactory;
     static final String JSPPAGE = "companypage";
     static final String JSPUPDATEPAGE = "companyupdatepage";
 
@@ -29,20 +29,19 @@ public class CompanyPage implements IEntityCreator
     @Override
     public void setList(Map<String, Object> map)
     {
-	map.put("companyList", companyDao.getCompanyList());
+	map.put("companyList", companyDao.getAll(Company.class));
     }
 
     @Override
     public void removeElem(int id)
     {
-	companyDao.removeCompany(id);
-
+	throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void getElemById(Map<String, Object> map, int id)
     {
-	map.put("company", companyDao.getCompanyById(id));
+	map.put("company", companyDao.getById(Company.class, id));
     }
 
     @Override
@@ -56,14 +55,15 @@ public class CompanyPage implements IEntityCreator
     public void updateElem(Object object)
     {
 	Company company = (Company) object;
-	companyDao.updateCompany(company);
+	companyDao.update(company);
+
 
     }
 
     @Override
     public Map<String, Object> getRelation(Map<String, Object> map, int id)
     {
-	Company company = companyDao.getCompanyById(id);
+	Company company = companyDao.getById(Company.class, id);
 	map.put("tourList", company.getTourList());
 	return map;
     }

@@ -1,6 +1,6 @@
 package com.globerry.project.utils;
 
-import com.globerry.project.domain.Property;
+
 import com.globerry.project.domain.PropertyType;
 
 /*

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CompanyDao;
+
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
 import com.globerry.project.service.CityService;
@@ -115,7 +115,7 @@ public class RegistrationController {
 			company.setName(nameVar);
 			company.setLogin(nameVar);
 			company.setEmail(emailVar);
-			company.setAccess(CompanyDao.ROLE_USER);
+			//company.setAccess(CompanyDao.ROLE_USER);
 			Md5PasswordEncoder md5 = new Md5PasswordEncoder();
 			company.setPassword(md5.encodePassword(password, null));
 			try {

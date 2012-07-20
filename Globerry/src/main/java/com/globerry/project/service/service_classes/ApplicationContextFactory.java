@@ -1,13 +1,14 @@
 
 package com.globerry.project.service.service_classes;
 
-import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.ITagDao;
+
+import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.Month;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
 import com.globerry.project.service.gui.IGuiComponent;
+import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
 import java.util.HashMap;
@@ -27,9 +28,9 @@ import org.springframework.context.annotation.Scope;
 public class ApplicationContextFactory
 {
     @Autowired
-    ITagDao tagDao;
+    IDao<Tag> tagDao;
     @Autowired
-    IPropertyTypeDao propertyTypeDao;
+    IDao<PropertyType> propertyTypeDao;
     
     GloberryGuiContext prototype;
     
@@ -52,9 +53,9 @@ public class ApplicationContextFactory
         prototype = new GloberryGuiContext();
         
         HashMap<Integer, IGuiComponent> componentsMap = new HashMap<Integer, IGuiComponent>();
-        HashMap<String, Slider> sliders = new HashMap<String, Slider>();
+        HashMap<String, ISlider> sliders = new HashMap<String, ISlider>();
 
-        List<Tag> tags = tagDao.getTagList();
+        List<Tag> tags = tagDao.getAll(Tag.class);
         SelectBox whoTag = new SelectBox(1);
         SelectBox whatTag = new SelectBox(2);
         for (Tag tag : tags) {
@@ -77,7 +78,7 @@ public class ApplicationContextFactory
         componentsMap.put(3, whenTag);
         GuiMap.componentAddHandler(whenTag);
 
-        List<PropertyType> properyTypes = propertyTypeDao.getPropertyTypeList();
+        List<PropertyType> properyTypes = propertyTypeDao.getAll(PropertyType.class);
 
         int i = 4;
         Slider slider;

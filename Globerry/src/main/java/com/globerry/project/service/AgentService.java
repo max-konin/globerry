@@ -17,10 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CompanyDao;
-import com.globerry.project.dao.ICompanyDao;
-import com.globerry.project.dao.ITourDao;
-import com.globerry.project.dao.TourDao;
+import com.globerry.project.dao.*;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.interfaces.IAgentService;
@@ -39,26 +36,19 @@ public class AgentService implements UserDetailsService, IAgentService {
 	protected static Logger logger = Logger.getLogger(AgentService.class);
 
 	@Autowired
-	private ICompanyDao companyDao;
+	private IDao<Company> companyDao;
 	
 	@Autowired 
-	private ITourDao tourDao;
+	private IDao<Tour> tourDao;
 
 	private Company currentCompany;	    
 
-	
-	public Company TEST_METHOD()
-	{
-	    //System.err.println(companyDao.toString());
-	    currentCompany = companyDao.getCompanyById(1);
-	    return currentCompany;
-	}
-	
+		
 	@Override
 	public void addTour(Tour tour)
 	{
 	    currentCompany.getTourList().add(tour);
-		companyDao.updateCompany(currentCompany);
+		companyDao.update(currentCompany);
 	}
 	
 	@Override
@@ -78,7 +68,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 			break;
 		    }
 		}
-		tourDao.updateTour(oldTour, newTour);
+		tourDao.update(newTour);
 	    }
 	    else
 		throw new IllegalArgumentException();
@@ -102,8 +92,8 @@ public class AgentService implements UserDetailsService, IAgentService {
 			//break;
 		    }
 		}
-		tourDao.removeTour(tour.getId());
-		companyDao.updateCompany(currentCompany);
+		tourDao.remove(tour);
+		companyDao.update(currentCompany);
 	    }
 	    else
 		throw new IllegalArgumentException();
@@ -118,7 +108,7 @@ public class AgentService implements UserDetailsService, IAgentService {
 	@Override
 	public void companyUpdate(Company company) throws MySqlException
 	{
-		companyDao.updateCompany(company);
+		companyDao.update(company);
 	    currentCompany = company;
 	}
 	
@@ -128,10 +118,11 @@ public class AgentService implements UserDetailsService, IAgentService {
 	 * Retrieves a user record containing the user's credentials and access. 
 	 */
 	public UserDetails loadUserByUsername(String login)
-			throws UsernameNotFoundException, DataAccessException {
+			/*throws UsernameNotFoundException, DataAccessException*/ {
 		
 		// Declare a null Spring User
-		UserDetails user = null;
+               
+		/*UserDetails user = null;
 		
 		try {
 		    	logger.error("Login - " + login);
@@ -139,6 +130,8 @@ public class AgentService implements UserDetailsService, IAgentService {
 			// You can provide a custom DAO to access your persistence layer
 			// Or use JDBC to access your database
 			// DbUser is our custom domain user. This is not the same as Spring's User
+                        // TODO
+                        // В QueryFactory сделать метод, который получает компанию по логину
 			Company company = companyDao.getCompanyByLogin(login);
 			
 			logger.error("Company Login - " + company.getLogin());
@@ -164,7 +157,8 @@ public class AgentService implements UserDetailsService, IAgentService {
 		// Return user to Spring for processing.
 		// Take note we're not the one evaluating whether this user is authenticated or valid
 		// We just merely retrieve a user that matches the specified username
-		return user;
+		return user;*/
+            return null;
 	}
 	
 	/**

@@ -18,17 +18,17 @@ import org.springframework.stereotype.Service;
 import com.globerry.project.Excel;
 import com.globerry.project.ExcelParserException;
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.CityDao;
-import com.globerry.project.dao.ICityDao;
-import com.globerry.project.dao.IEventDao;
-import com.globerry.project.dao.IPropertyTypeDao;
-import com.globerry.project.dao.ITagDao;
+import com.globerry.project.dao.Dao;
+import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.City;
-import com.globerry.project.domain.DependingMonthProperty;
-import com.globerry.project.domain.Event;
-import com.globerry.project.domain.Property;
+
+import com.globerry.project.domain.Interval;
+import com.globerry.project.domain.LivingCost;
+import com.globerry.project.domain.Month;
+import com.globerry.project.domain.Mood;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
+import com.globerry.project.domain.Temperature;
 import com.globerry.project.service.DefaultDatabaseCreator;
 
 /**
@@ -41,13 +41,9 @@ public class AdminParser implements IAdminParser
 
     
     @Autowired
-    private ICityDao cityDao;
-    @Autowired
-    private IEventDao eventDao;
-    @Autowired
-    private IPropertyTypeDao propertyTypeDao;
-    @Autowired
-    private ITagDao tagDao;
+    private IDao<City> cityDao;
+    @Autowired 
+    private IDao<Tag> tagDao;
     @Autowired
     private DefaultDatabaseCreator defaultDatabaseCreator;
     private Excel exc;
@@ -60,16 +56,14 @@ public class AdminParser implements IAdminParser
     protected static Logger logger = Logger.getLogger(AdminParser.class);
 
     @Override
-    public void updateCities(Excel exc) throws MySqlException, ExcelParserException
+    public void updateCities(Excel exc) throws ExcelParserException
     {
 	
 	this.exc = exc;
-	if(tagDao.getTagList().isEmpty())
+	if(tagDao.getAll(Tag.class).isEmpty())
 	    defaultDatabaseCreator.initTags();
-	if(propertyTypeDao.getPropertyTypeList().isEmpty())
-	    defaultDatabaseCreator.initPropertyType();
-	
-	cityParse();
+	cityParse2();
+	//cityParse();
 	//eventParse();
 	//tagParse();
     }
@@ -80,20 +74,9 @@ public class AdminParser implements IAdminParser
     @Override
     public void updateWikiContent()
     {
-	PropertyType tempPropType = new PropertyType();
-	try
-	{
-	    tempPropType.setName("temperature");
-	    tempPropType.setDependingMonth(true);
-	    propertyTypeDao.addPropertyType(tempPropType);
-	}
-	catch(Exception e)
-	{
-	    propertyTypeDao.getPropertyTypeByName("temperature");
-	}
 
 	List<City> cityList = new ArrayList<City>();
-	cityList = cityDao.getCityList();
+	cityList = cityDao.getAll(City.class);
 	Iterator<City> it = cityList.iterator();
 	while(it.hasNext())
 	{
@@ -119,21 +102,20 @@ public class AdminParser implements IAdminParser
 	    logger.info("-------------------------------------");
 	    logger.info("cityWiki: " + cityWiki.getIsValid());
 	    logger.info("-------------------------------------");
-	    logger.info("city" + city.getIsValid());
+	    logger.info("city" + city.isIsValid());
 	    logger.info("-------------------------------------");
 	    float[] temperature = cityWiki.getTemperature();
 	    if(temperature != null)
 	    {
+		Temperature temp = new Temperature();
 		for(int i = 0; i < 12; i++)
 		{
-		    DependingMonthProperty dmpProp = new DependingMonthProperty();
-		    dmpProp.setMonth(i);
-		    dmpProp.setValue(temperature[i]);
-		    dmpProp.setPropertyType(tempPropType);
-		    city.getDmpList().add(dmpProp);
+		    
+		    temp.setValue(Month.values()[i], new Interval((int)temperature[i],(int) temperature[i]));
+		    city.setTemperature(temp);
 		}
 	    }
-		cityDao.updateCity(city);  
+		cityDao.update(city);  
 	}
 	
     }
@@ -158,74 +140,67 @@ public class AdminParser implements IAdminParser
 	Добавляем к городу тег компания - секс от 2 до 3, настроение от 2 до 3, безопасность от 1 до 3
      * @param cell
      */
-    private void stringToExcelDocumentToAddTag(City city, String cell)
+    private void stringToExcelDocumentToAddTag(City city, int i, int j) throws ExcelParserException
     {
-	String[] tagsString = cell.split(",");
+
 	try
 	{
-	    Set<Property> propertyListOfCity = city.getPropertyList();
-	    float security = 0;
-	    float sex = 0;
-	    for(Property elem: propertyListOfCity)
-	    {
-		if(elem.getPropertyType().getName().toLowerCase().equals("security")) security = elem.getValue();
-		if(elem.getPropertyType().getName().toLowerCase().equals("sex")) sex = elem.getValue();
-	    }
+
+	    float security = city.getSecurity();
+	    float sex = city.getSex();
+	    
 	    //Добавляем к городу тег Один Если секс от 1 до 3, безопасность от 1 до 3, настроение от 2 до 3
 	    if(sex > 0 && security > 0)
 	    {
-		Tag tagAlone = tagDao.getTagById(1);
+		Tag tagAlone = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + 4 + "'").get(0);//tagDao.getTagById(1);
 		city.getTagList().add(tagAlone);
 	    }
 	    if(sex > 1 && security > 0) 
 	    {
-		Tag tagCouple = tagDao.getTagById(4);
-		Tag tagFriends = tagDao.getTagById(2);
+		Tag tagCouple = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + 4 + "'").get(0);
+		Tag tagFriends =  (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + 2 + "'").get(0);
 		city.getTagList().add(tagFriends);
 		city.getTagList().add(tagCouple);
 	    }
 	    if(security == 3 && sex > 0)
 	    {
-		Tag tagFamily = tagDao.getTagById(3);
+		Tag tagFamily =  (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + 3 + "'").get(0);
 		city.getTagList().add(tagFamily);
 	    }
-        	for(int i = 0; i < tagsString.length; i++)
-        	{
-        	    int number = Integer.parseInt(tagsString[i]) + 4;
-        	    Tag tag = tagDao.getTagById(number);
-        	    city.getTagList().add(tag);
-        	}
+	    try
+	    {
+		String cell = exc.getStringField(sheetNumber, i, j);
+		String[] tagsString = cell.split(",");
+		for(int k = 0; k < tagsString.length; k++)
+		{
+		    int number = Integer.parseInt(tagsString[k]) + 4;
+		    Tag tag = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + number + "'").get(0);
+		    city.getTagList().add(tag);
+		}
+	    }
+	    catch(IllegalStateException e)
+	    {
+		int cell = (int)exc.getFloatField(sheetNumber, i, j);
+		Tag tag = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + cell + "'").get(0);
+		city.getTagList().add(tag);
+	    }
+
 	}
 	catch(Exception e)
 	{
 	    e.printStackTrace();
+	    ExcelParserException excelException = new ExcelParserException("error in" + i + "," + j + e.toString(), i);
+	    throw excelException;
 	}
 	
     }
-    private void stringToExcelDocumentToAddTag(City city, Double cell)
-    {
-	int number = (int)Math.round(cell);
-	try
-	{
-        	for(int i = 1; i < 5; i++)
-        	{
-        	    Tag tag = tagDao.getTagById(i);
-        	    city.getTagList().add(tag);
-        	}
-        	Tag tag = tagDao.getTagById(number + 4);
-        	city.getTagList().add(tag);
-	}
-	catch(Exception e)
-	{
-	    
-	}
-	
-    }
+
     /**
      * Функция которая парсит первую страницу 
      * @throws MySqlException в случае если property или city не уникально
      * @throws ExcelParserException Провал валидации файла. В определённых случаях в базу заноситься либо null либо -1
      */
+    /*@Deprecated
     private void cityParse() throws MySqlException, ExcelParserException
     {
 
@@ -279,7 +254,7 @@ public class AdminParser implements IAdminParser
 	       			{
 	       			    String cell = exc.getStringField(sheetNumber, i, j + devider + 12*k);
 	       			/*    logger.info(cell);
-	       			    logger.info(getAverageValue(cell));*/
+	       			    logger.info(getAverageValue(cell));
 	       			    dmpType.setValue(getAverageValue(cell));  
 	       			}
 	       			catch(IllegalStateException e)
@@ -347,32 +322,97 @@ public class AdminParser implements IAdminParser
 		i++;
 		
 	 }
-    }
-   /* public void wikiParse()
-    {
-	List<City> cityList = new ArrayList<City>();
-	PropertyType tempPropType = new PropertyType();
-	tempPropType.setName("Temperature");
-	cityList = cityDao.getCityList();
-	Iterator<City> it = cityList.iterator();
-	while(it.hasNext())
-	{
-	    City city = it.next();
-	    com.globerry.htmlparser.City cityFromWiki = new com.globerry.htmlparser.City(city.getName());
-	    city.setArea(cityFromWiki.getArea());
-	    city.setPopulation(cityFromWiki.getPopulation());
-	    city.setLatitude(cityFromWiki.getLatitude());
-	    city.setLongitude(cityFromWiki.getLongitude());
-	    city.setValid(cityFromWiki.getIsValid());
-	    city.setMessage(cityFromWiki.getMessage());
-	    logger.error("City Valid:" + cityFromWiki.getIsValid());
-	    logger.error("City Valid:" + cityFromWiki.getIsValid());
-	}
     }*/
+    private void cityParse2() throws ExcelParserException
+    {
+	final int livingCostStartPosition = 11;
+	final int moodStartPosition = 23;
+	
+	int i = 2;
+	while (i < exc.getLenght(0))
+	{
+	    City city = new City();
+	    city.setName(exc.getStringField(sheetNumber, i, 2));
+	    city.setRu_name(exc.getStringField(sheetNumber, i, 3));
+	    city.setFoodCost(getIntervalFromCell(i,5));
+	    city.setAlcoCost(getIntervalFromCell(i,6));
+	    city.setRussian(cellToBool(i, 7));
+	    city.setVisa(cellToBool(i, 8));
+	    city.setSex((int)exc.getFloatField(sheetNumber, i, 9));
+	    city.setSecurity((int)exc.getFloatField(sheetNumber, i, 10));
+	    
+	    LivingCost livinCost = new LivingCost();
+	    for(int k = livingCostStartPosition; k < 12 + livingCostStartPosition; k++)
+	    {
+		livinCost.setValue(Month.values()[k - livingCostStartPosition], getIntervalFromCell(i, k));
+	    }
+	    city.setLivingCost(livinCost);
+	    Mood mood = new Mood();
+	    for(int k = moodStartPosition; k < 12 + moodStartPosition; k++)
+	    {
+		mood.setValue(Month.values()[k - moodStartPosition], getIntervalFromCell(i, k));
+	    }
+	    city.setMood(mood);
+	    stringToExcelDocumentToAddTag(city, i, 4);
+	    cityDao.add(city);
+	    i++;
+	}
+    }
+    private boolean cellToBool(int i, int j) throws ExcelParserException
+    {
+	try
+	{
+	    double result = exc.getFloatField(sheetNumber, i, j);
+	    if(result > 0.5) return true;
+	    else return false;
+	}
+	catch(IllegalStateException e)
+	{
+	    String result = exc.getStringField(sheetNumber, i, j);
+	    if(result.toLowerCase().equals("да")) return true;
+	    else return false;
+	}
+	catch(Exception e)
+	{
+	    ExcelParserException excelException = new ExcelParserException("error in" + i + "," + j + e.toString(), i);
+	    throw excelException;
+	}
+    }
+    private Interval getIntervalFromCell(int i, int j) throws ExcelParserException
+    {
+	Interval interval = new Interval();
+	try
+	{
+	    String cell = exc.getStringField(sheetNumber, i, j);
+	    Pattern pattern = Pattern.compile("\\d{1,3}\\s?-\\s?\\d{1,4}");
+	    Matcher matcher = pattern.matcher(cell);
+	    float result;
+	    if(matcher.find())
+	    {
+		String[] devider = cell.split("-");
+		interval.setLeft(Integer.parseInt(devider[0].trim()));
+		interval.setRight(Integer.parseInt(devider[1].trim()));
+	    }
+	}
+	catch(IllegalStateException e)
+	{
+	    Double cell = exc.getFloatField(sheetNumber, i, j);
+	    interval.setLeft((int)Math.round(cell));
+	    interval.setRight((int)Math.round(cell));
+	}
+	catch(Exception e)
+	{
+	    ExcelParserException excelException = new ExcelParserException("error in " + i + ", " + j + e.toString(), i);
+	    throw excelException;
+	}
+	return interval;
+    }
+
     /**
      * Функция парсит event
      * @throws ExcelParserException в случае провала валидации
      */
+  /*  @Deprecated
     private void eventParse() throws ExcelParserException
     {
 	final int sheetNumber =1;
@@ -425,12 +465,13 @@ public class AdminParser implements IAdminParser
 		i++;
 		
 	 }
-    }
+    }*/
     /**
      * Парсер второй страницы
      * @throws MySqlException в случаесовпадения двух тэгов
      * @throws ExcelParserException в случае провала валидации
      */
+    /*@Deprecated
     private void tagParse() throws MySqlException, ExcelParserException
     {
 	final int sheetNumber = 2;
@@ -473,7 +514,7 @@ public class AdminParser implements IAdminParser
 	{
 	    throw e;
 	}
-    }
+    }*/
     
     
     /**
@@ -482,6 +523,7 @@ public class AdminParser implements IAdminParser
      * @param exc Сам файл. 
      * @return	массив int где содержаться все id городов связанных с этим event
      */
+    @Deprecated
     private ArrayList<Integer> searchCity(int event_id) 
     {
 	ArrayList<Integer> cityId = new ArrayList<Integer>();
@@ -503,6 +545,7 @@ public class AdminParser implements IAdminParser
      * @return массив тэгов который находятся в 4 столбце
      * @throws MySqlException
      */
+/*    @Deprecated
     private ArrayList<String> getTagsList() throws MySqlException
     {
         final int tagsInfoColumn = 3;
@@ -523,7 +566,7 @@ public class AdminParser implements IAdminParser
             i++;
         }
         return tagsArr;
-    }
+    }*/
     /**
      * преобразует координаты из типа String из стандарта в float не стандарт 
      * @return float координаты не стандарта
@@ -557,6 +600,7 @@ public class AdminParser implements IAdminParser
      * @throws ExcelParserException Вызывается при ошибке парсера, какая то ошибка в экселе
      * @throws MySqlException
      */
+   /* @Deprecated
     private List<PropertyType> createPropertyTypeList() throws ExcelParserException, MySqlException
     {
 	List<PropertyType> ptList = new ArrayList<PropertyType>();
@@ -614,6 +658,7 @@ public class AdminParser implements IAdminParser
 	}
 	return ptList;
     }
+    @Deprecated
     private List<PropertyType> createDependingMonthPropertyList() throws MySqlException, ExcelParserException
     {
 	List<PropertyType> ptDmpList = new ArrayList<PropertyType>(); 
@@ -680,7 +725,7 @@ public class AdminParser implements IAdminParser
     }
     return ptDmpList;
 
-    }
+    }//*/
     public Float getAverageValue(String cell)
     {
 	Pattern pattern = Pattern.compile("\\d{1,3}\\s?-\\s?\\d{1,4}");
@@ -694,5 +739,6 @@ public class AdminParser implements IAdminParser
 	else result = Float.parseFloat(cell);
 	return result;
     }
+
 }
 

@@ -366,7 +366,7 @@
     <c:forEach items="${cities}" var="city">
             {"id":${city.getId()},"name":"${city.getName()}","ru_name":"${city.getRu_name()}","area":${city.getArea()},
                 "population":${city.getPopulation()},"longitude":${city.getLongitude()},
-                "latitude":${city.getLatitude()},"isValid":${city.getIsValid()},"message":"${city.getMessage()}",
+                "latitude":${city.getLatitude()},"message":"${city.getMessage()}",
                 "weight":${city.getWeight()}
             },
     </c:forEach>

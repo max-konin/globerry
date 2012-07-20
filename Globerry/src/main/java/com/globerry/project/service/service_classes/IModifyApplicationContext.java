@@ -5,8 +5,8 @@
 package com.globerry.project.service.service_classes;
 
 import com.globerry.project.service.gui.IGuiComponent;
+import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
-import com.globerry.project.service.gui.Slider;
 import java.util.HashMap;
 
 /**
@@ -24,7 +24,7 @@ public interface IModifyApplicationContext
     /**
      * @param sliders the sliders to set
      */
-    void setSliders(HashMap<String, Slider> sliders);
+    void setSliders(HashMap<String, ISlider> sliders);
 
     /**
      * @param whatTag the whatTag to set

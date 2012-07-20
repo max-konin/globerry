@@ -1,91 +1,81 @@
+
 package com.globerry.project.domain;
 
-
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
+import javax.persistence.*;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.mapping.Collection;
 
-import com.globerry.project.utils.PropertySegment;
-import java.util.*;
-
+/**
+ *
+ * @author max
+ */
 @Entity
-@Table(name = "City")
-public class City implements Serializable
+public class City
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "name")
+    
+    @Column(name = "name")   
     private String name;
-    @Column(name = "ru_name")
+    @Column(name = "ru_name")    
     private String ru_name;
-    @Column
+    @Column   
     private float area;
-    @Column
+    @Column    
     private int population;
-    @Column
+    @Column   
     private float longitude;
-    @Column
+    @Column    
     private float latitude;
     @Column 
-    private Boolean isValid;
+    private boolean isValid;
     @Column
     private String message;
     @Transient
     private Integer hashCode = null;
     
-    @JsonIgnore
-    @NotFound(action = NotFoundAction.IGNORE)
-    @OneToOne(
-	    fetch = FetchType.EAGER,
-	    cascade = CascadeType.ALL
-	    )
-    @PrimaryKeyJoinColumn
-    private Proposals proposals;
-    //-------------------------------------------------------
-    @JsonIgnore
-    @NotFound(action = NotFoundAction.IGNORE)
-    @ManyToMany(
-	    	fetch = FetchType.LAZY,
-	    	cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
-	    	targetEntity = Event.class
-	    )
-    	@JoinTable(
-	           name="CityEvent",
-	           joinColumns = @JoinColumn( name="city_id"),
-	           inverseJoinColumns = @JoinColumn( name="event_id")
-	   	)
-    private Set<Event> eventList = new HashSet<Event>();
-    //-------------------------------------------------------
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="left", column = @Column(name="food_value_left") ),
+            @AttributeOverride(name="right", column = @Column(name="food_value_right") )
+    } )
+    private Interval foodCost = new Interval();
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="left", column = @Column(name="alco_value_left") ),
+            @AttributeOverride(name="right", column = @Column(name="alco_value_right") )
+    } )
+    private Interval alcoCost = new Interval();  
+    
+    @Column   
+    private int security;
+    
+    @Column    
+    private int sex;
+    
+    @Column
+    private boolean visa = true;
+    
+    @Column 
+    private boolean isRussian = false;
+    
+     
+    @OneToOne(cascade = CascadeType.ALL)
+    private Temperature temperature;
+   
+   
+    @OneToOne(cascade = CascadeType.ALL)
+    private Mood mood;
+    
+   
+    @OneToOne(cascade = CascadeType.ALL)
+    private LivingCost livingCost;
+    
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     @ManyToMany(
@@ -94,331 +84,374 @@ public class City implements Serializable
 	    targetEntity = Tag.class
 	    )
     private Set<Tag> tagList = new HashSet<Tag>();
-    //-------------------------------------------------------
-    @JsonIgnore
-    @NotFound(action = NotFoundAction.IGNORE)
-    @OneToMany(
-	    	cascade=CascadeType.ALL,
-	    	fetch=FetchType.EAGER
-	    	)
-    @JoinTable(
-           name="CityDependingMonthProperty",
-           joinColumns = @JoinColumn( name="city_id"),
-           inverseJoinColumns = @JoinColumn( name="dmp_id")
-	    )
-    private Set<DependingMonthProperty> dmpList = new HashSet<DependingMonthProperty>();
-    //-------------------------------------------------------
-    @JsonIgnore
-    @NotFound(action = NotFoundAction.IGNORE)
-    @OneToMany(
-	    	cascade=CascadeType.ALL,
-	    	fetch=FetchType.EAGER
-	    	)
-    @JoinTable(
-       name="CityProperty",
-       joinColumns = @JoinColumn( name="city_id"),
-       inverseJoinColumns = @JoinColumn( name="property_id")
-	    )
-    private Set<Property> propertyList = new HashSet<Property>();
+    
     @Transient
     private float weight;
+    
+    public City(){}
+    
+    /**
+     * Инициализирует все notnull поля
+     * @param name
+     * @param area
+     * @param latitude
+     * @param longitude
+     * @param population
+     * @param foodCost
+     * @param alcoCost
+     * @param security
+     * @param sex
+     * @param visa
+     * @param temperature
+     * @param mood
+     * @param livingCost
+     * @param tagList 
+     */
+    public City(String name, 
+                float area, 
+                float latitude, 
+                float longitude, 
+                int population, 
+                Interval foodCost, 
+                Interval alcoCost,
+                int security,    
+                int sex,
+                boolean visa,
+                boolean isRussian,
+                Temperature temperature,
+                Mood mood,
+                LivingCost livingCost,
+                Collection<Tag> tagList)
+    {
+        this.name = name;
+        this.alcoCost = alcoCost;
+        this.area = area;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.population = population;
+        this.foodCost = foodCost;
+        this.security = security;
+        this.sex = sex;
+        this.visa = visa;
+        this.setRussian(isRussian);
+        this.temperature = temperature;
+        this.mood = mood;
+        this.livingCost = livingCost;
+        this.tagList = new HashSet(tagList);
+    }
+
+    /**
+     * @return the id
+     */
     public int getId()
     {
-	return id;
+        return id;
     }
+
+    /**
+     * @param id the id to set
+     */
     public void setId(int id)
     {
-	this.id = id;
+        this.id = id;
     }
-    
 
-    /*public Proposals getProposals()
-    {
-	return proposals;
-    }
-    public void setProposals(Proposals proposals)
-    {
-	this.proposals = proposals;
-    }
-    public Option getOption()
-    {
-	return option;
-    }
-    public void setOption(Option option)
-    {
-	this.option = option;
-    }*/
-    @JsonIgnore
-    public Set<Tag> getTagList()
-    {
-	return tagList;
-    }
-    @JsonIgnore
-    public void setTagList(Set<Tag> tagList)
-    {
-	this.tagList = tagList;
-    }
-    @JsonIgnore
-    public Set<Event> getEvents()
-    {
-	return eventList;
-    }
-    @JsonIgnore
-    public void setEvents(Set<Event> events)
-    {
-	this.eventList = events;
-    }
-    @JsonIgnore
-    public Proposals getProposals()
-    {
-	return proposals;
-    }
-    @JsonIgnore
-    public void setProposals(Proposals proposals)
-    {
-	this.proposals = proposals;
-    }
+    /**
+     * @return the name
+     */
     public String getName()
     {
-	return name;
+        return name;
     }
+
+    /**
+     * @param name the name to set
+     */
     public void setName(String name)
     {
-	this.name = name;
+        this.name = name;
     }
+
+    /**
+     * @return the ru_name
+     */
     public String getRu_name()
     {
-	return ru_name;
+        return ru_name;
     }
+
+    /**
+     * @param ru_name the ru_name to set
+     */
     public void setRu_name(String ru_name)
     {
-	this.ru_name = ru_name;
+        this.ru_name = ru_name;
     }
-    @JsonIgnore
-    public Set<DependingMonthProperty> getDmpList()
-    {
-	return dmpList;
-    }
-    @JsonIgnore
-    public void setDmpList(Set<DependingMonthProperty> dmpList)
-    {
-	this.dmpList = dmpList;
-    }
-    @JsonIgnore
-    public Set<Property> getPropertyList()
-    {
-	return propertyList;
-    }
-    @JsonIgnore
-    public void setPropertyList(Set<Property> propertyList)
-    {
-	this.propertyList = propertyList;
-    }
-    public float getLongitude()
-    {
-	return longitude;
-    }
-    public void setLongitude(float longitude)
-    {
-	this.longitude = longitude;
-    }
-    public float getLatitude()
-    {
-	return latitude;
-    }
-    public void setLatitude(float latitude)
-    {
-	this.latitude = latitude;
-    }
-    public int getPopulation()
-    {
-	return population;
-    }
-    public void setPopulation(int population)
-    {
-	this.population = population;
-    }
+
+    /**
+     * @return the area
+     */
     public float getArea()
     {
-	return area;
+        return area;
     }
+
+    /**
+     * @param area the area to set
+     */
     public void setArea(float area)
     {
-	this.area = area;
+        this.area = area;
     }
-    public Boolean getIsValid()
+
+    /**
+     * @return the population
+     */
+    public int getPopulation()
     {
-	return isValid;
+        return population;
     }
-    public void setIsValid(Boolean isValid)
+
+    /**
+     * @param population the population to set
+     */
+    public void setPopulation(int population)
     {
-	this.isValid = isValid;
+        this.population = population;
     }
+
+    /**
+     * @return the longitude
+     */
+    public float getLongitude()
+    {
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(float longitude)
+    {
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public float getLatitude()
+    {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(float latitude)
+    {
+        this.latitude = latitude;
+    }
+
+    /**
+     * @return the isValid
+     */
+    public boolean isIsValid()
+    {
+        return isValid;
+    }
+
+    /**
+     * @param isValid the isValid to set
+     */
+    public void setIsValid(boolean isValid)
+    {
+        this.isValid = isValid;
+    }
+
+    /**
+     * @return the message
+     */
     public String getMessage()
     {
-	return message;
+        return message;
     }
+
+    /**
+     * @param message the message to set
+     */
     public void setMessage(String message)
     {
-	this.message = message;
+        this.message = message;
     }
-    //Поля IsValid, id, message - игнорированы, у меня есть большие сомнения что они теперь нужны
-    @Override
-    public boolean equals(Object obj)
-    {
-	if(obj == null) return false;
-	if(!(obj instanceof City)) return false;
-	City city = (City) obj;
-	if(this.getName() == null ^ city.getName()== null) return false;
-	if(!((this.getName() == null && city.getName() == null)|| city.getName().equals(this.getName()))) return false;
-	
-	if(this.ru_name == null ^ city.getRu_name() == null) return false;
-	if(!((this.ru_name == null && city.getRu_name() == null) || this.ru_name.equals(city.getRu_name()))) return false;
-	
-	if(!(this.area == city.getArea())) return false;
-	if(!(this.population == city.getPopulation())) return false;
-	if(!(this.getLatitude() == city.getLatitude())) return false;
-	if(!(this.getLongitude() == city.getLongitude())) return false;
-	
-	/*if(this.proposals == null ^ city.getProposals() == null) return false;
-	if(!((this.proposals == null && city.getProposals() == null) || this.proposals.equals(city.getProposals()))) return false;*/
-	
-	if(this.dmpList == null ^ city.getDmpList() == null) return false;
-	if(!((this.dmpList == null && city.getDmpList() == null) || this.dmpList.equals(city.getDmpList()))) return false;
-	
-	if(this.propertyList == null ^ city.getPropertyList() == null) return false;
-	if(!((this.propertyList == null && city.getPropertyList() == null) || this.propertyList.equals(city.getPropertyList()))) return false;
-	
-	if(this.eventList == null ^ city.getEvents() == null) return false;
-	if(!((this.eventList == null && city.getEvents() == null) || this.eventList.equals(city.getEvents()))) return false;
-	
-	if(this.tagList == null ^ city.getTagList() == null) return false;
-	if(!((this.tagList == null && city.getTagList() == null) || this.tagList.equals(city.getTagList()))) return false;
-	return true;
 
-    }
-    @Override
-    public int hashCode()
+    /**
+     * @return the foodCost
+     */
+    public Interval getFoodCost()
     {
-	if(hashCode != null) return hashCode;
-	int result = 5;
-	result = 3*result + (name == null ? 0 : name.hashCode());
-	result = 3*result + (ru_name == null ? 0 :ru_name.hashCode());
-	result = 3*result + Float.floatToIntBits(area);
-	result = 3*result + population;
-	result = 3*result + Float.floatToIntBits(longitude);
-	result = 3*result + Float.floatToIntBits(latitude);
-//	result = 3 * result + (proposals == null ? 0 :proposals.hashCode());
-/*	for(DependingMonthProperty elem: dmpList)
-	{
-	    result = result + elem.hashCode();
-	}
-	for(Property elem: propertyList)
-	{
-	    result = result + elem.hashCode();
-	}
-	for(Event elem: eventList)
-	{
-	    result = result + elem.hashCode();
-	}
-	for(Tag elem: tagList)
-	{
-	    result = result + elem.hashCode();
-	}*/
-	return result;
+        return foodCost;
     }
+
+    /**
+     * @param foodCost the foodCost to set
+     */
+    public void setFoodCost(Interval foodCost)
+    {
+        this.foodCost = foodCost;
+    }
+
+    /**
+     * @return the alcoCost
+     */
+    public Interval getAlcoCost()
+    {
+        return alcoCost;
+    }
+
+    /**
+     * @param alcoCost the alcoCost to set
+     */
+    public void setAlcoCost(Interval alcoCost)
+    {
+        this.alcoCost = alcoCost;
+    }
+
+    /**
+     * @return the security
+     */
+    public int getSecurity()
+    {
+        return security;
+    }
+
+    /**
+     * @param security the security to set
+     */
+    public void setSecurity(int security)
+    {
+        this.security = security;
+    }
+
+    /**
+     * @return the sex
+     */
+    public int getSex()
+    {
+        return sex;
+    }
+
+    /**
+     * @param sex the sex to set
+     */
+    public void setSex(int sex)
+    {
+        this.sex = sex;
+    }
+
+    /**
+     * @return the visa
+     */
+    public boolean isVisa()
+    {
+        return visa;
+    }
+
+    /**
+     * @param visa the visa to set
+     */
+    public void setVisa(boolean visa)
+    {
+        this.visa = visa;
+    }
+
+    public boolean isRussian()
+    {
+	return isRussian;
+    }
+
+    public void setRussian(boolean isRussian)
+    {
+	this.isRussian = isRussian;
+    }
+
+    /**
+     * @return the temperature
+     */
+    public Temperature getTemperature()
+    {
+        return temperature;
+    }
+
+    /**
+     * @param temperature the temperature to set
+     */
+    public void setTemperature(Temperature temperature)
+    {
+        this.temperature = temperature;
+    }
+
+    /**
+     * @return the mood
+     */
+    public Mood getMood()
+    {
+        return mood;
+    }
+
+    /**
+     * @param mood the mood to set
+     */
+    public void setMood(Mood mood)
+    {
+        this.mood = mood;
+    }
+
+    /**
+     * @return the livingCost
+     */
+    public LivingCost getLivingCost()
+    {
+        return livingCost;
+    }
+
+    /**
+     * @param livingCost the livingCost to set
+     */
+    public void setLivingCost(LivingCost livingCost)
+    {
+        this.livingCost = livingCost;
+    }
+
+    /**
+     * @return the tagList
+     */
+    public Set<Tag> getTagList()
+    {
+        return tagList;
+    }
+
+    /**
+     * @param tagList the tagList to set
+     */
+    public void setTagList(Set<Tag> tagList)
+    {
+        this.tagList = tagList;
+    }
+
+    /**
+     * @return the weight
+     */
     public float getWeight()
     {
-	return weight;
-    }
-    public void setWeight(float weight)
-    {
-	this.weight = weight;
-    }
-    /*
-     * Возвращает значения свойство по типу свойства и месяцу
-     * Если Свойство не найденно то вернется Float.MAX_VALUE
-     */
-    public float getValueByPropertyType(PropertyType type, Month month)  
-    {
-	
-	if (type.isDependingMonth()){
-	    Iterator<DependingMonthProperty> it = dmpList.iterator();
-	    while (it.hasNext()){
-		DependingMonthProperty property = it.next();
-		if ((property.getPropertyType().getId() == type.getId()) && (property.getMonth() == month)){
-		    return property.getValue();
-		}
-	    }
-	}else{
-	    Iterator<Property> it = propertyList.iterator();
-	    while (it.hasNext()){
-		Property property = it.next();
-		if (property.getPropertyType().getId() == type.getId()){
-		     return property.getValue();
-		}
-	    }
-	}
-        return Float.MAX_VALUE;// что за отстой? Exception нет?
-	
-    }
-    public String toString(){
-        String str = new String();
-        str = String.format("City:  %s-----------------------------------------------------------------------------\n"+
-                            "       id:         %d\n" +
-                            "       area:       %f\n" +
-                            "       longitude:  %f\n" + 
-                            "       message:    %s\n" +
-                            "       population: %d\n" +
-                            "       latitude:   %f\n" +
-                            "       isValid:    %s\n", 
-                            name, id, area, longitude, message, population,latitude, isValid.toString());
-        
-        str += "       Tags:\n";
-        for(Tag tag: tagList)
-            str += "            " + tag.toString();
-        
-        str += "       Property:\n";      
-        
-        for(Property prop: propertyList)
-        {
-            str += "            " + prop.toString();
-        } 
-        HashMap<String, HashMap<Month, DependingMonthProperty>> propertyTable = 
-                                                       new  HashMap<String, HashMap<Month, DependingMonthProperty>>(); 
-        for(DependingMonthProperty prop: dmpList)
-        {
-            if (!propertyTable.containsKey(prop.getPropertyType().getName()))
-                propertyTable.put(prop.getPropertyType().getName(), new HashMap<Month, DependingMonthProperty>());
-            propertyTable.get(prop.getPropertyType().getName()).put(prop.getMonth(), prop);           
-        }
-        
-        str += "       Depending month property:\n";   
-            str += "            |propName            |JANUARY  |FEBRUARY |MARCH    |APRIL    |MAY      |JUNE     |JULY     "
-                                                                              + "|AUGUST   |SEPTEMBER|"
-                                                                               + "OCTOBER  |NOVEMBER |DECEMBER \n";
-        for(String propName: propertyTable.keySet())
-        {
-            str +=   String.format("            |%20s|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f"
-                                                                            + "|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|%9.1f|\n", 
-                                           propName,
-                                           propertyTable.get(propName).get(Month.JANUARY).getValue(),
-                                           propertyTable.get(propName).get(Month.FEBRUARY).getValue(),
-                                           propertyTable.get(propName).get(Month.MARCH).getValue(),
-                                           propertyTable.get(propName).get(Month.APRIL).getValue(),
-                                           propertyTable.get(propName).get(Month.MAY).getValue(),
-                                           propertyTable.get(propName).get(Month.JUNE).getValue(),
-                                           propertyTable.get(propName).get(Month.JULY).getValue(),
-                                           propertyTable.get(propName).get(Month.AUGUST).getValue(),
-                                           propertyTable.get(propName).get(Month.SEPTEMBER).getValue(),
-                                           propertyTable.get(propName).get(Month.OCTOBER).getValue(),
-                                           propertyTable.get(propName).get(Month.NOVEMBER).getValue(),
-                                           propertyTable.get(propName).get(Month.DECEMBER).getValue()
-                                );
-          
-        }
-        return str + "END CITY-----------------------------------------------------------------------------\n";                
-              
+        return weight;
     }
 
+    /**
+     * @param weight the weight to set
+     */
+    public void setWeight(float weight)
+    {
+        this.weight = weight;
+    }
+    
 }

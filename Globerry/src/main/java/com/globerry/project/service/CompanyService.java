@@ -10,12 +10,10 @@ import javax.swing.JOptionPane;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
-import com.globerry.project.dao.CompanyDao;
-import com.globerry.project.dao.ICompanyDao;
-import com.globerry.project.dao.ITourDao;
-import com.globerry.project.dao.TourDao;
+
 import com.globerry.project.service.interfaces.ICompanyService;
 import com.globerry.project.MySqlException;
+import com.globerry.project.dao.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,32 +24,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class CompanyService implements ICompanyService
 {
     @Autowired
-    private ICompanyDao companyDao;
+    private IDao<Company> companyDao;
     
     @Autowired 
-    private ITourDao tourDao;
+    private IDao<Tour> tourDao;
     
     
     public void addCompany(Company company) throws MySqlException
-    {
-	try
-	{
-	    companyDao.addCompany(company);
-	} catch (MySqlException e)
-	{
-	    throw e;
-	}
+    {	
+	    companyDao.add(company);	
     }
     
     
     public List<Company> getCompanyList(){
-	return companyDao.getCompanyList();
+	return companyDao.getAll(Company.class);
     }
 
     @Override
     public void removeCompany(Company company)
     {
-	companyDao.removeCompany(company);
+	companyDao.remove(company);
 	
     }
 
@@ -65,21 +57,21 @@ public class CompanyService implements ICompanyService
     @Override
     public void companyUpdate(Company oldCompany, Company newCompany) throws MySqlException
     {
-	companyDao.updateCompany(newCompany);
+	companyDao.update(newCompany);
     }
 
     @Override
     public void addTour(Company company, Tour tour)
     {
 	company.getTourList().add(tour);
-	companyDao.updateCompany(company);
+	companyDao.update(company);
 	
     }
 
     @Override
     public void removeTour(Tour tour)
     {
-	tourDao.removeTour(tour);
+	tourDao.remove(tour);
 	
     }
 
@@ -90,22 +82,27 @@ public class CompanyService implements ICompanyService
 	return company.getTourList();
     }
 
-
     @Override
     public void removeCompany(int id)
     {
-	companyDao.removeCompany(id);
-	
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
-    public Company getCompanyByName(String name) {
-	return companyDao.getCompanyByLogin(name);
+    public Company getCompanyByName(String name)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
-    public Company getCompanyByEmail(String email) {
-	return companyDao.getCompanyByEmail(email);
+    public Company getCompanyByEmail(String email)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+
+
+    
+    
+   
     
 }

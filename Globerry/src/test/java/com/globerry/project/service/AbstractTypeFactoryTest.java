@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.CityPage;
 import com.globerry.project.service.admin.CompanyPage;
-import com.globerry.project.service.admin.EventPage;
+
 import com.globerry.project.service.admin.IEntityCreator;
 import com.globerry.project.service.admin.WrongPage;
 
@@ -27,8 +27,7 @@ public class AbstractTypeFactoryTest
 {
     @Mock
     CityPage cityPage;
-    @Mock
-    EventPage eventPage;
+   
     @Mock
     CompanyPage companyPage;
     @Mock
@@ -46,8 +45,7 @@ public class AbstractTypeFactoryTest
 	//System.out.println(abstractTypeFactory.responsePage("eventadminpage"));
 	
 
-	assertTrue(abstractTypeFactory.responsePage("cityadminpage") instanceof CityPage);
-	assertTrue(abstractTypeFactory.responsePage("evenTADMINPAGE") instanceof EventPage);
+	assertTrue(abstractTypeFactory.responsePage("cityadminpage") instanceof CityPage);	
 	assertTrue(abstractTypeFactory.responsePage("CompanYADminPage") instanceof CompanyPage);
 	assertTrue(abstractTypeFactory.responsePage("s;kltghdfgho;ierkhg;ohpdfiuyhsrtuhiposrjhposr[ph") instanceof WrongPage);
     }

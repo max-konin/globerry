@@ -4,8 +4,8 @@
 package com.globerry.project.service;
 
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.ICompanyDao;
-import com.globerry.project.dao.ITourDao;
+import com.globerry.project.dao.IDao;
+
 import com.globerry.project.domain.Company;
 import com.globerry.project.domain.Tour;
 import static org.junit.Assert.assertTrue;
@@ -27,10 +27,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class CompanyServiceTest
 {
     @Mock 
-    private ICompanyDao mockCompanyDao;
+    private IDao<Company> companyDao;
     
     @Mock 
-    private ITourDao mockTourDao;   
+    private IDao<Tour> tourDao;   
     
     @InjectMocks
     private CompanyService cmpService = new CompanyService();
@@ -41,10 +41,8 @@ public class CompanyServiceTest
        Company company = new Company();
        company.setName("anyLogin");
        company.setEmail("anyEmail");
-       MockitoAnnotations.initMocks(this);
-       
-       when(mockCompanyDao.getCompanyByLogin("anyLogin")).thenReturn(company);
-       when(mockCompanyDao.getCompanyByEmail("anyEmail")).thenReturn(company);
+       MockitoAnnotations.initMocks(this);       
+      
     }
     
     private String getStringGenerator()
@@ -64,14 +62,14 @@ public class CompanyServiceTest
     {
         Company company  = new Company();
         cmpService.addCompany(company);
-        verify(mockCompanyDao).addCompany(company);
+        verify(companyDao).add(company);
     }
     
     @Test
     public void testGetCompanyList()
     {
         cmpService.getCompanyList();
-        verify(mockCompanyDao).getCompanyList();
+        verify(companyDao).getAll(Company.class);
     }
     
     @Test
@@ -79,7 +77,7 @@ public class CompanyServiceTest
     {
         Company company  = new Company();
         cmpService.removeCompany(company);
-        verify(mockCompanyDao).removeCompany(company);
+        verify(companyDao).remove(company);
     }
     
     @Test
@@ -87,7 +85,7 @@ public class CompanyServiceTest
     {
         Company company  = new Company();
         cmpService.companyUpdate(company, company);
-        verify(mockCompanyDao).updateCompany(company);
+        verify(companyDao).update(company);
     }
     
     @Test
@@ -96,34 +94,8 @@ public class CompanyServiceTest
         Company company  = new Company();        
         Tour tour = new Tour();
         cmpService.addTour(company, tour);        
-        verify(mockCompanyDao).updateCompany(company);
+        verify(companyDao).update(company);
         assertTrue(company.getTourList().size() == 1);
     }
     
-    @Test
-    public void testRemoveCompanyById() throws MySqlException
-    {
-        int id = 100;
-        cmpService.removeCompany(id);
-        verify(mockCompanyDao).removeCompany(id);
-    }
-    
-    @Test
-    public void testGetCompanyByName() throws MySqlException
-    {
-        int id = 100;
-        Company result = cmpService.getCompanyByName("anyLogin");
-        verify(mockCompanyDao).getCompanyByLogin("anyLogin");
-        assertTrue("anyLogin".equals(result.getName()));
-    }
-    
-     @Test
-    public void testGetCompanyByEmail() 
-    {
-        int id = 100;
-        Company result = cmpService.getCompanyByEmail("anyEmail");
-        verify(mockCompanyDao).getCompanyByEmail("anyEmail");
-        assertTrue("anyEmail".equals(result.getEmail()));
-    }
-
 }

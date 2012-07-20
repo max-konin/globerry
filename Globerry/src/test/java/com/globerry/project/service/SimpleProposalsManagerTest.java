@@ -141,7 +141,7 @@ public class SimpleProposalsManagerTest
         when(city.getId()).thenReturn(1);
         
         manager.getHotelsByCity(city);
-        verify(hotels).get(1);
+        verify(hotels).get(city.getId());
     }
 
     /**
@@ -154,7 +154,7 @@ public class SimpleProposalsManagerTest
         when(city.getId()).thenReturn(1);
         
         //manager.getTicketByCity(city);
-        verify(tickets).get(1);
+        verify(tickets).get(city.getId());
     }   
     
     @Test
@@ -164,15 +164,9 @@ public class SimpleProposalsManagerTest
         when(city.getId()).thenReturn(1);
         
         //manager.getTourByCity(city);
-        verify(tours).get(1);
+        verify(tours).get(city.getId());
     }   
-    @Test
-    public void testToursAndHotels()
-    {
-	ddc.initTours();
-	ddc.initHotels();
-	//manager.getTourByCity()
-    }
+    
 
     
 }

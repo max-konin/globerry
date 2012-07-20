@@ -301,8 +301,7 @@
                     <version>1.8.4</version>
                     <scope>test</scope>
             </dependency>
-            
-            <dependency>
+                        <dependency>
       				<groupId>commons-io</groupId>
 	  				<artifactId>commons-io</artifactId>
       				<version>2.4</version>
@@ -317,6 +316,8 @@
 				<artifactId>ooxml-schemas</artifactId>
 				<version>1.0</version>
 			</dependency>
+            
+            
         </dependencies>
         
 	<build>

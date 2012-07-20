@@ -110,7 +110,7 @@ public class HomeController {
     public void cityInit() {
         defaultDatabaseCreator.initTags();
         defaultDatabaseCreator.initPropertyType();
-        defaultDatabaseCreator.initCities();
+       
         System.out.println("/cityinit");
     }
     //TODO delete this    

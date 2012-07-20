@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "PropertyType")
 public class PropertyType
 {
     @Id
