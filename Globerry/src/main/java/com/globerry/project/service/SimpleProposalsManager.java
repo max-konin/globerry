@@ -33,13 +33,13 @@ public class SimpleProposalsManager implements IProposalsManager
     }
 
     @Override
-    public Set<Ticket> getTicketByCity(City city)
+    public Set<Ticket> getTicketsByCity(City city)
     {
         return tickets.get(city.getId());
     }
 
     @Override
-    public Set<Tour> getTourByCity(City city)
+    public Set<Tour> getToursByCity(City city)
     {
         return tours.get(city.getId());
     }
@@ -113,32 +113,32 @@ public class SimpleProposalsManager implements IProposalsManager
         Set<Hotel> hotelSet = new HashSet<Hotel>();
         for(City city: cities)
         {
-            Hotel hotel = (Hotel) getHotelsByCity(city);
-            if (hotel != null) hotelSet.add(hotel);
+            Set<Hotel> hotels = getHotelsByCity(city);
+            if (hotels != null) hotelSet.addAll(hotels);
         }
         return hotelSet;
     }
 
     @Override
-    public Set<Ticket> getTicketByCities(Collection<City> cities)
+    public Set<Ticket> getTicketsByCities(Collection<City> cities)
     {
         Set<Ticket> ticketSet = new HashSet<Ticket>();
         for(City city: cities)
         {
-            Ticket ticket = (Ticket) getTicketByCity(city);
-            if (ticket != null) ticketSet.add(ticket);
+            Set<Ticket> tickets =  getTicketsByCity(city);
+            if (tickets != null) ticketSet.addAll(tickets);
         }
         return ticketSet;
     }
 
     @Override
-    public Set<Tour> getTourByCities(Collection<City> cities)
+    public Set<Tour> getToursByCities(Collection<City> cities)
     {
         Set<Tour> tourSet = new HashSet<Tour>();
         for(City city: cities)
         {
-            Tour tour = (Tour) getTourByCity(city);
-            if (tour != null) tourSet.add(tour);
+            Set<Tour> tours = getToursByCity(city);
+            if (tours != null) tourSet.addAll(tours);
         }
         return tourSet;
     }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.globerry.project.Excel;
 import com.globerry.project.ExcelParserException;
 import com.globerry.project.MySqlException;
+import com.globerry.project.dao.CityDao;
 import com.globerry.project.dao.ICityDao;
 import com.globerry.project.dao.IEventDao;
 import com.globerry.project.dao.IPropertyTypeDao;
@@ -57,9 +58,7 @@ public class AdminParser implements IAdminParser
 	//final int tagsDevider = 47;//переменная которая отделяет dependingMonthProperty от tag.
     
     protected static Logger logger = Logger.getLogger(AdminParser.class);
-    /* (non-Javadoc)
-     * @see com.globerry.project.service.IAdminParser#updateCities()
-     */
+
     @Override
     public void updateCities(Excel exc) throws MySqlException, ExcelParserException
     {
@@ -199,7 +198,7 @@ public class AdminParser implements IAdminParser
 	}
 	catch(Exception e)
 	{
-	    
+	    e.printStackTrace();
 	}
 	
     }
@@ -237,7 +236,6 @@ public class AdminParser implements IAdminParser
 	//ЗАПОЛНЕНИЕ БД
 	int i = 2;
 	//while(i<exc.getLenght(0))
-	//City city = new City(); // против Stack Overflow
 	while (i < exc.getLenght(0))
 	{
 	    	//Standart properties
@@ -253,22 +251,24 @@ public class AdminParser implements IAdminParser
 	    	    Property prop = new Property();
 	    	    try
 	    	    {
-
 	    		prop.setValue((float)exc.getFloatField(sheetNumber, i, j));
 	    	    }
-	    	    catch(NullPointerException e)
+	    	    catch(Exception e)
 		    {
 	    		ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
 	    	    			+ exc.getSheetName(sheetNumber) + 
-	    	    			"line 0" +
-	    	    			"column" + i, i);
+	    	    			" line " + i +
+	    	    			" column " + j +
+	    	    			" name " + ptList.get(j - startPositionProperty).getName(), i);
 	    		throw excParseExc;
 		    }
+	    	    
 	    	    prop.setPropertyType(ptList.get(j - startPositionProperty));
+	    	    logger.info(prop.hashCode());
 	    	    city.getPropertyList().add(prop);
 	    	}
 	   	//dmp
-	    	for(int k = 0; k < ptDmpList.size(); k++)
+	    	for(int k = 0; k < ptDmpList.size() - 1; k++) // если убрать температуру, то надо делать " - 1"
 	    	{
 	       	    	for(int j = 0; j < 12; j++)
 	       	    	{
@@ -278,8 +278,8 @@ public class AdminParser implements IAdminParser
 	       			try
 	       			{
 	       			    String cell = exc.getStringField(sheetNumber, i, j + devider + 12*k);
-	       			    logger.info(cell);
-	       			    logger.info(getAverageValue(cell));
+	       			/*    logger.info(cell);
+	       			    logger.info(getAverageValue(cell));*/
 	       			    dmpType.setValue(getAverageValue(cell));  
 	       			}
 	       			catch(IllegalStateException e)
@@ -288,16 +288,18 @@ public class AdminParser implements IAdminParser
 	       			}
 	       		
 	       		    }
-	       		    catch(NullPointerException e)
+	       		    catch(Exception e)
 	       		    {
 	       			ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-	    	    			+ exc.getSheetName(sheetNumber) + 
-	    	    			"line 0" +
-	    	    			"column" + j, j);
+	    	    			+ exc.getSheetName(sheetNumber) +
+	    	    			" type of DEPENDING MONTH PROPERTIES " + ptDmpList.get(k).getName() +
+	    	    			" line " + i +
+	    	    			" position " + k, i);
 	       			throw excParseExc;
 	       		    }
 	       		    dmpType.setMonth(j);
 	       		    dmpType.setPropertyType(ptDmpList.get(k));
+	       		    logger.info(dmpType.hashCode());
 	       		    city.getDmpList().add(dmpType);
 	       	    	}
 	    	}
@@ -313,7 +315,26 @@ public class AdminParser implements IAdminParser
 
 		try
 		{
-		    cityDao.addCity(city);    
+		    for(Property elem: city.getPropertyList())
+		    {
+			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName());
+		    }
+		    for(DependingMonthProperty elem: city.getDmpList())
+		    {
+			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName() + " " + elem.getMonth());
+		    }
+
+		    cityDao.addCity(city);   
+		    System.err.println(city.getId());
+		    for(Property elem: city.getPropertyList())
+		    {
+			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName());
+		    }
+		    for(DependingMonthProperty elem: city.getDmpList())
+		    {
+			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName() + " " + elem.getMonth());
+		    }
+		    cityDao.updateCity(city);
 		}
 		catch(MySqlException except)
 		{

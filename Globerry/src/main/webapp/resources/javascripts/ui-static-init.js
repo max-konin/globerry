@@ -1,11 +1,45 @@
 /*******************************************************************************/
 //всплывающая панель внизу
 // switch the bottom on and off, and changes the state of the buttom.
+ var bottomActive = false;
 $(document).ready(function() {
     var prevBotBut; //bottom buttoms
-    var bottomActive = false;
+   
     $(".bottomButton").click(function(){
         if( bottomActive == false){
+        	$.ajax({
+                url: path +  '/get_tours',
+                dataType: 'json',
+                type: 'POST',
+                success: function (response) {
+                    //alert(response);
+                },
+                error: function(response) {
+                    //alert(response);
+                }
+            });
+        	$.ajax({
+                url: path +  '/get_hotels',
+                dataType: 'json',
+                type: 'POST',
+                success: function (response) {
+                    //alert(response);
+                },
+                error: function(response) {
+                    //alert(response);
+                }
+            });
+        	$.ajax({
+                url: path +  '/get_tickets',
+                dataType: 'json',
+                type: 'POST',
+                success: function (response) {
+                    //alert(response);
+                },
+                error: function(response) {
+                    //alert(response);
+                }
+            });
             if(prevBotBut != undefined){
                 prevBotBut.style.background = 'rgb(37, 46, 64)';
             }
@@ -55,6 +89,9 @@ $(document).ready(function() {
         }
     });
     //нижняя панель (если открыта) скрывается при нажатии по карте
+    function closeBottom()
+    {}
+    
     $('#map').mousedown(function(){
     if(bottomActive == true){
                 $("#bottom").animate({

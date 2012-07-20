@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -49,8 +50,8 @@ public class Company {
 	@JoinColumn(name = "tour_id"))
 	private Set<Tour> tourList = new HashSet<Tour>();
 	private Integer access;
-	
-	private static Integer hashCode = null;
+	@Transient
+	private Integer hashCode = null;
 
 	public Integer getAccess() {
 		return access;

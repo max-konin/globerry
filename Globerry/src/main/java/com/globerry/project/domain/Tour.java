@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 
@@ -27,16 +28,22 @@ public class Tour {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@Column(name = "name")
 	private String name;
+	
 	@Column(name = "cost")
 	private float cost;
+	
 	@Column(name = "description")
 	private String description;
+	
 	@Column(name = "dateStart")
 	private Date dateStart;
+	
 	@Column(name = "dateEnd")
 	private Date dateEnd;
+	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH},
 	fetch = FetchType.EAGER, targetEntity = Company.class)
 	@JoinTable(name = "CompanyTour",
@@ -46,7 +53,8 @@ public class Tour {
 	@JoinColumn(name = "company_id"))
 	private Company company;
 	
-	private static Integer hashCode = null;
+	@Transient
+	private Integer hashCode = null;
 
 	// <Гетеры сеттеры>
 	public Company getCompany() {

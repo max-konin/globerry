@@ -177,6 +177,33 @@ public class CityDaoTest {
 		assertTrue(cityDao.getCityById(city1.getId()).equals(city1));
 		assertTrue(cityDao.getCityById(666) == null);
 	}
+	@Test
+	public void testProperty() throws MySqlException
+	{
+	    City city = new City();
+	    city.setName("Mordor");
+	    
+	    Property prop = new Property();
+	    Property prop1 = new Property();
+	    
+	    PropertyType pt = new PropertyType();
+	    propertyTypeDao.addPropertyType(pt);
+	    
+	    prop.setPropertyType(pt);
+	    prop1.setPropertyType(pt);
+	    prop1.setValue(100);
+	    
+	    city.getPropertyList().add(prop);
+	    city.getPropertyList().add(prop1);
+	    try
+	    {
+		cityDao.addCity(city);
+	    }
+	    catch(MySqlException e)
+	    {
+		
+	    }
+	}
 
     /*@Test
     @Transactional(readOnly = false)

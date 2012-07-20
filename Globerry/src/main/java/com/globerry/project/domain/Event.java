@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
@@ -59,8 +60,8 @@ public class Event
 	        	   joinColumns = @JoinColumn( name="event_id")
 		    )
     private Set<City> cityList = new HashSet<City>();
-    
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
     
     public int getId()
     {

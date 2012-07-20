@@ -34,28 +34,28 @@ public interface IProposalsManager
      * @param city город
      * @return Список авиабилетов
      */
-    Set<Ticket> getTicketByCity(City city);
+    Set<Ticket> getTicketsByCity(City city);
     
     /**
      * Возвращает список билетов до городов
      * @param cities город
      * @return Список отелей
      */
-    Set<Ticket> getTicketByCities(Collection<City> cities);
+    Set<Ticket> getTicketsByCities(Collection<City> cities);
     
     /**
      * Возвращает список туров в городе
      * @param city город
      * @return Список туров
      */
-    Set<Tour> getTourByCity(City city);
+    Set<Tour> getToursByCity(City city);
     
     /**
      * Возвращает список туров в города
      * @param cities город
      * @return Список туров
      */
-    Set<Tour> getTourByCities(Collection<City> cities);
+    Set<Tour> getToursByCities(Collection<City> cities);
     
     /**
      * Добавляет отель

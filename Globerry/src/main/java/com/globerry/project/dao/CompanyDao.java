@@ -92,21 +92,6 @@ public class CompanyDao implements ICompanyDao {
 		tx.commit();
 	}
 
-	@Override
-	public List<Tour> getCompanyTourList(Company company) {
-
-		/*
-		 * Session session = sessionFactory.getCurrentSession();
-		 *
-		 * Query query = session.createQuery("FROM Person as p WHERE
-		 * p.id="+personId);
-		 *
-		 * Person person = (Person) query.uniqueResult();
-		 *
-		 * // Retrieve all return new ArrayList<CreditCard>(person.getCreditCards());//
-		 */
-		return null;
-	}
 
 	@Override
 	public Company getCompanyByLogin(String login) {

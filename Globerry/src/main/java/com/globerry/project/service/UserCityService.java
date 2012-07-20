@@ -237,4 +237,11 @@ public class UserCityService implements IUserCityService {
         {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
+	@Override
+	public void addCity(City city)
+	{
+	    // TODO Auto-generated method stub
+	    
+	}
 }

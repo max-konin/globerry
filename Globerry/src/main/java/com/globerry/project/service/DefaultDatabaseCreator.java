@@ -1,10 +1,12 @@
 package com.globerry.project.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,14 @@ import com.globerry.project.dao.IPropertyTypeDao;
 import com.globerry.project.dao.ITagDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.DependingMonthProperty;
+import com.globerry.project.domain.Hotel;
 import com.globerry.project.domain.Property;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
+import com.globerry.project.domain.Tour;
+import com.globerry.project.service.interfaces.IProposalsManager;
+
 import org.apache.log4j.Logger;
 
 @Service
@@ -34,6 +40,8 @@ public class DefaultDatabaseCreator
     ICityDao cityDao;
     @Autowired
     private IDatabaseManager databaseManager;
+    @Autowired
+    private IProposalsManager proposalsManager;
     
     protected static Logger logger = Logger.getLogger(DefaultDatabaseCreator.class);
     private boolean isTagInit = false;
@@ -224,6 +232,21 @@ public class DefaultDatabaseCreator
 	return city;
 	
     }
+    public void initTours()
+    {
+	for(int i = 0; i < 20; i++)
+	{
+	    proposalsManager.addTour(generateTour());
+	}
+	//System.err.println(tour.getName() + "\n " + tour.getDescription() + "\n" + tour.getTargetCityId() + "\n" + tour.getDateEnd().toString());
+    }
+    public void initHotels()
+    {
+	for(int i = 0; i < 20; i++)
+	{
+	    proposalsManager.addHotel(generateHotel());
+	}
+    }
     public void clearDatabase()
     {
 	databaseManager.cleanDatabase();
@@ -244,6 +267,32 @@ public class DefaultDatabaseCreator
 	{
 	    e.printStackTrace();
 	}
-	
+    }
+    private Tour generateTour()
+    {
+	String[] descriptionArr = {"cheap", "expensive", "near sea", "with monsters", "with oil", "hot", "cold", "with skies", "with guns"};
+	Tour tour = new Tour();
+	Random rand = new Random();
+	tour.setName("TourName");
+	tour.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
+	tour.setCost(rand.nextInt(100));
+	int cityCount = cityDao.getCityList().size();
+	tour.setTargetCityId(rand.nextInt(cityCount));
+	tour.setDateStart(new Date(rand.nextLong()));
+	tour.setDateEnd(new Date(rand.nextLong()));
+	return tour;
+    }
+    private Hotel generateHotel()
+    {
+	String[] descriptionArr = {"one star", "two stars", "three stars", "four stars", "five stars", "with swimming pool", "near sea", "with Russians",
+		"big houses" , "with eat", "all inclusive"};
+	int cityCount = cityDao.getCityList().size();
+	Random rand = new Random();
+	Hotel hotel = new Hotel();
+	hotel.setName("HotelName");
+	hotel.setCost(rand.nextInt(300));
+	hotel.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
+	hotel.setCityId(rand.nextInt(cityCount));
+	return hotel;
     }
 }

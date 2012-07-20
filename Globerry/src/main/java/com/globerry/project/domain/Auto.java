@@ -1,11 +1,14 @@
 package com.globerry.project.domain;
 
+import javax.persistence.Transient;
+
 public class Auto 
 {
     private int id;
     private float cost;
     private String name;
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
     public String getName()
     {
 	return name;

@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "PropertyType")
@@ -27,8 +28,8 @@ public class PropertyType
     private float minValue;
     @Column
     private boolean betterWhenLess = true; 
-    
-    private static Integer hashCode = null;
+    @Transient
+    private Integer hashCode = null;
     
     
     public int getId()

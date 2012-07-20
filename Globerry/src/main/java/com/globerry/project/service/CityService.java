@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.globerry.project.MySqlException;
 import com.globerry.project.dao.CityDao;
 import com.globerry.project.domain.CityRequest;
 import com.globerry.project.dao.ICityDao;
@@ -26,6 +27,17 @@ public class CityService implements ICityService
 	// TODO Auto-generated method stub
 	return cityDao.getCityList();
     }
-    
+    @Override
+    public void addCity(City city)
+    {
+	try
+	{
+	    cityDao.addCity(city);
+	} catch (MySqlException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+    }
 
 }

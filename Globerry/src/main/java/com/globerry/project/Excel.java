@@ -68,7 +68,7 @@ public Excel(String fileName)
  * @return				float значение таблицы
  * 						Если какая то ошибка - то -1;
  */
-public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException
+public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException, IllegalStateException
 {
     Cell currentCell;
 	try {
@@ -80,12 +80,11 @@ public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) thro
 
 		}
 		catch (NullPointerException e) {
-		    return -1;
+		    throw e;
 		}
 		catch(IllegalStateException ie)
 		{
-		    System.out.println("CELLNUMBER:"+ cellNumber + "ROWNUMBER:"+ rowNumber);
-		    return -1;
+		   throw ie;
 		}
 
 	//return -1;

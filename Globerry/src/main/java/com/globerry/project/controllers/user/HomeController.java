@@ -15,6 +15,8 @@ import com.globerry.project.service.service_classes.ApplicationContextFactory;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -61,8 +63,14 @@ public class HomeController {
 
         defaultDatabaseCreator.initPropertyType();
         defaultDatabaseCreator.initTags();
-        defaultDatabaseCreator.initCities();
-        return "redirect:/globerry";
+        return "redirect:/globerry_new";
+    }
+    @RequestMapping(value = "/initTours")
+    public String CreateDatabase()             
+    {
+	defaultDatabaseCreator.initHotels();
+	defaultDatabaseCreator.initTours();
+	return "redirect:/globerry_new";
     }
 
     @RequestMapping(value = "/globerry")
@@ -130,8 +138,8 @@ public class HomeController {
         map.put("when", appContext.getWhenTag());
         map.put("what", appContext.getWhatTag());        
         
-        List<City> cities = userCityService.getCityList(appContext);
-        map.put("cities", cities);
+        cityList = userCityService.getCityList(appContext);
+        map.put("cities", cityList);
         for(String sliderName: appContext.getSliders().keySet())
             map.put(sliderName,(ISlider)appContext.getSlidersByName(sliderName));
         return "home_new";
@@ -168,25 +176,36 @@ public class HomeController {
         return cities;
     }
     
-    @RequestMapping(value = "/get_hotels", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_hotels", method = RequestMethod.POST)
     @ResponseBody
     public Hotel[] GetHotels()
     {
-        return (Hotel[]) proposalsManager.getHotelsByCities(cityList).toArray();
+	Set<Hotel> hotelList = proposalsManager.getHotelsByCities(cityList);
+	Hotel[] hotels = new Hotel[hotelList.size()];
+	hotelList.toArray(hotels);
+        return hotels;
     }
     
-    @RequestMapping(value = "/get_tickets", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_tickets", method = RequestMethod.POST)
     @ResponseBody
     public Ticket[] GetTickets()
     {
-        return (Ticket[]) proposalsManager.getTicketByCities(cityList).toArray();
+	Set<Ticket> ticketList = proposalsManager.getTicketsByCities(cityList);
+	Ticket[] tickets = new Ticket[ticketList.size()];
+	ticketList.toArray(tickets);
+        return tickets;
     }
     
-    @RequestMapping(value = "/get_tours", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_tours", method = RequestMethod.POST)
     @ResponseBody
     public Tour[] GetTours()
     {
-        return (Tour[]) proposalsManager.getTourByCities(cityList).toArray();
+	Set<Tour> tourList = proposalsManager.getToursByCities(cityList);
+	Tour[] tours = new Tour[tourList.size()];
+	logger.debug(tourList.size());
+	tourList.toArray(tours);
+        return tours;
+        
     }
     @RequestMapping(value = "/bezier")
     public String bezier() {
