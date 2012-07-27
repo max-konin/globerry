@@ -1,5 +1,6 @@
 package com.globerry.project.service.service_classes;
 
+import com.globerry.project.service.gui.CheckBox;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
@@ -27,7 +28,8 @@ public class GuiMap {
     {        
         if (!componentMap.containsKey(id)) return null;
         if (componentMap.get(id).equals("Slider")) return new SliderValueContainer();
-        if (componentMap.get(id).equals("SelectBox")) return new SelectBoxValueContainer();  
+        if (componentMap.get(id).equals("SelectBox")) return new SelectBoxValueContainer();
+        if (componentMap.get(id).equals("CheckBox")) return new SelectBoxValueContainer();
         return null;
     }
     
@@ -42,7 +44,7 @@ public class GuiMap {
         
         if(component instanceof Slider) componentMap.put(component.getId(), "Slider");
         if(component instanceof SelectBox) componentMap.put(component.getId(), "SelectBox");
-               
+        if(component instanceof CheckBox) componentMap.put(component.getId(), "CheckBox");
     }
     
     /**
@@ -53,5 +55,8 @@ public class GuiMap {
             return componentMap.toString();
     }
 
-    
+    public static final void clear()
+    {
+        componentMap = new HashMap();
+    }
 }

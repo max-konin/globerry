@@ -1,6 +1,9 @@
 package com.globerry.project.domain;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,10 +24,12 @@ public class PropertyType
     private String name;
     @Column
     private boolean dependingMonth;
-    @Column(name = "maximumValue")
-    private float maxValue;
-    @Column(name = "minimumValue")
-    private float minValue;
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="left", column = @Column(name="minimumValue") ),
+            @AttributeOverride(name="right", column = @Column(name="maximumValue") )
+    } )
+    private Interval interval = new Interval();
     @Column
     private boolean betterWhenLess = true; 
     @Transient
@@ -56,21 +61,21 @@ public class PropertyType
     {
 	this.dependingMonth = dependingMonth;
     }
-    public float getMaxValue()
+    public int getMaxValue()
     {
-	return maxValue;
+	return interval.getRight();
     }
-    public void setMaxValue(float maxValue)
+    public void setMaxValue(int maxValue)
     {
-	this.maxValue = maxValue;
+	this.interval.setRight(maxValue);
     }
-    public float getMinValue()
+    public int getMinValue()
     {
-	return minValue;
+	return interval.getLeft();
     }
-    public void setMinValue(float minValue)
+    public void setMinValue(int minValue)
     {
-	this.minValue = minValue;
+	this.interval.setLeft(minValue);
     }
     public boolean isBetterWhenLess()
     {
@@ -79,6 +84,14 @@ public class PropertyType
     public void setBetterWhenLess(boolean betterWhenLess)
     {
 	this.betterWhenLess = betterWhenLess;
+    }
+    public Interval getInterval()
+    {
+        return interval;
+    }
+    public void setInterval(Interval interval)
+    {
+        this.interval = interval;
     }
     @Override
     public boolean equals(Object obj)
@@ -91,8 +104,8 @@ public class PropertyType
 	if(!((this.name == null && propertyType.getName() == null) || this.name.equals(propertyType.getName()))) return false; 
 	
 	if(!(this.dependingMonth == propertyType.isDependingMonth())) return false;
-	if(!(this.maxValue == propertyType.getMaxValue())) return false;
-	if(!(this.minValue == propertyType.getMinValue())) return false;
+	if(!(this.getMaxValue() == propertyType.getMaxValue())) return false;
+	if(!(this.getMinValue() == propertyType.getMinValue())) return false;
 	if(!(this.betterWhenLess == propertyType.isBetterWhenLess())) return false;
 	return true;
     }
@@ -104,8 +117,8 @@ public class PropertyType
 	result = 3 * result + (name == null ? 0 : name.hashCode());
 	result = 3 * result + (dependingMonth ? 0 : 1);
 	result = 3 * result + (betterWhenLess ? 0 : 1);
-	result = 3 * result + Float.floatToIntBits(maxValue);
-	result = 3 * result + Float.floatToIntBits(minValue);
+	result = 3 * result + this.getMaxValue();
+	result = 3 * result + this.getMinValue();
 	return result;
     }
 }

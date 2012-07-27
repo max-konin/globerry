@@ -41,10 +41,10 @@ body
 	top : 0%;
 	left: 0%;
 	width: 100%;
-        min-width: 1000px;
+    min-width: 1000px;
 	height : 2px; 
 	position : absolute;
-	z-index : 1;
+	z-index : 2;
 	background-color:#333;
 }
 
@@ -683,22 +683,22 @@ body
 }
 
 /******************************************/
-/**********Стили для слайдеров*************/
- /* Ширина слайдера */
+/**********РЎС‚РёР»Рё РґР»СЏ СЃР»Р°Р№РґРµСЂРѕРІ*************/
+ /* РЁРёСЂРёРЅР° СЃР»Р°Р№РґРµСЂР° */
 #sliderRange {
     width: 200px;
 }
-/* Контейнер слайдера */
+/* РљРѕРЅС‚РµР№РЅРµСЂ СЃР»Р°Р№РґРµСЂР° */
 .ui-slider-range {
     position: relative;
 }
-/* Ползунок */
+/* РџРѕР»Р·СѓРЅРѕРє */
 .ui-slider-range .ui-slider-handle-range {
     position: absolute;
     z-index: 2;
-    width: 13px;   /* Задаем нужную ширину */
-    height: 13px;  /* и высоту */
-    background: url(../img/slider.png) no-repeat; /* картинка изображающая ползунок. Или можно залить цветом, задать бордюр и скругления */
+    width: 13px;   /* Р—Р°РґР°РµРј РЅСѓР¶РЅСѓСЋ С€РёСЂРёРЅСѓ */
+    height: 13px;  /* Рё РІС‹СЃРѕС‚Сѓ */
+    background: url(../img/slider.png) no-repeat; /* РєР°СЂС‚РёРЅРєР° РёР·РѕР±СЂР°Р¶Р°СЋС‰Р°СЏ РїРѕР»Р·СѓРЅРѕРє. Р�Р»Рё РјРѕР¶РЅРѕ Р·Р°Р»РёС‚СЊ С†РІРµС‚РѕРј, Р·Р°РґР°С‚СЊ Р±РѕСЂРґСЋСЂ Рё СЃРєСЂСѓРіР»РµРЅРёСЏ */
     cursor: pointer
 }
 .ui-slider-handle
@@ -714,11 +714,11 @@ body
     border: 0;
     overflow: hidden;
 }
-/* горизонтальный слайдер (сама полоса по которой бегает ползунок) */
+/* РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Р№ СЃР»Р°Р№РґРµСЂ (СЃР°РјР° РїРѕР»РѕСЃР° РїРѕ РєРѕС‚РѕСЂРѕР№ Р±РµРіР°РµС‚ РїРѕР»Р·СѓРЅРѕРє) */
 .ui-slider-horizontal {
-        height: 3px; /* задаем высоту согласно дизайна */
+        height: 3px; /* Р·Р°РґР°РµРј РІС‹СЃРѕС‚Сѓ СЃРѕРіР»Р°СЃРЅРѕ РґРёР·Р°Р№РЅР° */
 }
-/* позиционируем ползунки */
+/* РїРѕР·РёС†РёРѕРЅРёСЂСѓРµРј РїРѕР»Р·СѓРЅРєРё */
 .ui-slider-horizontal .ui-slider-handle { 
     top: -5px;
     margin-left: -6px;
@@ -734,13 +734,13 @@ body
     right: 0;
 }
 
-/* оформление активного участка (между двумя ползунками) */
+/* РѕС„РѕСЂРјР»РµРЅРёРµ Р°РєС‚РёРІРЅРѕРіРѕ СѓС‡Р°СЃС‚РєР° (РјРµР¶РґСѓ РґРІСѓРјСЏ РїРѕР»Р·СѓРЅРєР°РјРё) */
 .ui-widget-header { 
     border: 1px solid #D4D4D4;
     background: #ff5e00;
 
 }
-/* скругление для полосы слайдера */
+/* СЃРєСЂСѓРіР»РµРЅРёРµ РґР»СЏ РїРѕР»РѕСЃС‹ СЃР»Р°Р№РґРµСЂР° */
 .ui-corner-all {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -809,7 +809,7 @@ body
 }
 
 /**********************************************************************/
-/*Стили для слайдеров*/
+/*РЎС‚РёР»Рё РґР»СЏ СЃР»Р°Р№РґРµСЂРѕРІ*/
 .formCost 
 {
     position: relative;
@@ -1054,10 +1054,10 @@ a{
     background: url(../img/OneHadlerSliderHandler.png);
 }
 /**********************************************************************/
-/*Стили для панели внизу*/
+/*РЎС‚РёР»Рё РґР»СЏ РїР°РЅРµР»Рё РІРЅРёР·Сѓ*/
 #bottomContainer
 {
-    /*по умолчанию скрыт*/
+    /*РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЃРєСЂС‹С‚*/
     display: none;
     position: absolute;
     bottom: 0px;
@@ -1180,3 +1180,25 @@ font-family :Helvetica;
 .hidden {
     display : none;
 }
+.Line 
+{
+	border-bottom: 1px solid black;
+}
+.bottom_entity_ref
+{
+	
+}
+.bottom_entity_ref a
+{
+	margin-left:100px;
+}
+
+.scrollbarY { width: 98%; margin: 20px 0 10px; }
+.scrollbarY .viewport { width: 95%; height: 127px; overflow: hidden; position: relative; }
+.scrollbarY .overview { list-style: none; position: absolute; left: 0; top: 0; padding: 0; margin-left: 10px;font-size: 14pt;
+font-family: Helvetica; margin:0 150px 0 100px;}
+.scrollbarY .scrollbar{ background: transparent url(../img/bg-scrollbar-track-y.png) no-repeat 0 0; position: relative; background-position: 0 0; float: right; width: 15px; }
+.scrollbarY .track { background: transparent url(../img/bg-scrollbar-trackend-y.png) no-repeat 0 100%; height: 100%; width:13px; position: relative; padding: 0 1px; }
+.scrollbarY .thumb { background: transparent url(../img/bg-scrollbar-thumb-y.png) no-repeat 50% 100%; height: 20px; width: 25px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: -5px; }
+.scrollbarY .thumb .end { background: transparent url(../img/bg-scrollbar-thumb-y.png) no-repeat 50% 0; overflow: hidden; height: 5px; width: 25px; }
+.scrollbarY .disable { display: none; }

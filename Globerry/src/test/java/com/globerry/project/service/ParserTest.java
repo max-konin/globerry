@@ -5,6 +5,7 @@ package com.globerry.project.service;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,11 @@ import com.globerry.htmlparser.City;
 import com.globerry.project.Excel;
 import com.globerry.project.ExcelParserException;
 import com.globerry.project.MySqlException;
-import com.globerry.project.dao.ContextLoaderListener;
+import com.globerry.project.integration.dao.ContextLoaderListener;
 import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.service.admin.AdminParser;
+import org.junit.Ignore;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,8 +57,9 @@ public class ParserTest
     {
 	MockitoAnnotations.initMocks(this);
     }*/
-   // @Test
-    public void test()
+    @Test
+    @Ignore
+    public void test() throws IOException
     {
 	Excel exc = new Excel("C:\\Users\\Artem\\Downloads\\Cities 29,06 - correct.xlsx");
 	try
@@ -72,7 +75,7 @@ public class ParserTest
 	}
     }
    // @Test
-    public void testWiki()
+    public void testWiki() throws IOException
     {
 	adminParser.updateWikiContent();
     }

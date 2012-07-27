@@ -1,33 +1,33 @@
 package com.globerry.project.utils;
 
-
+import com.globerry.project.domain.Interval;
 import com.globerry.project.domain.PropertyType;
 
-/*
-     * @author max
-     * Вообще на самом деле не вижу надобности в данном классе. 
-     */
+/**
+ * @author max Вообще на самом деле не вижу надобности в данном классе.
+ */
 public class PropertySegment
 {
     private PropertyType propertyType;
-    private float leftValue;
-    private float rightValue;
-    
-    
-    public PropertySegment(PropertyType propertyType, float leftValue, float rightValue){
+    private Interval interval = new Interval();
+
+    public PropertySegment(PropertyType propertyType, int leftValue, int rightValue)
+    {
 	this.propertyType = propertyType;
-	this.leftValue = leftValue;
-	this.rightValue = rightValue;
+	interval.setLeft(leftValue);
+	interval.setRight(rightValue);
     }
-    
-    public PropertySegment(PropertyType propertyType){
+
+    public PropertySegment(PropertyType propertyType)
+    {
 	this(propertyType, propertyType.getMinValue(), propertyType.getMaxValue());
     }
-    
+
     public PropertyType getPropertyType()
     {
 	return propertyType;
     }
+
     public void setPropertyType(PropertyType propertyType)
     {
 	this.propertyType = propertyType;
@@ -36,34 +36,52 @@ public class PropertySegment
     /**
      * @return the leftValue
      */
-    public float getLeftValue() {
-        return leftValue;
+    public int getLeftValue()
+    {
+	return interval.getLeft();
     }
 
     /**
-     * @param leftValue the leftValue to set
+     * @param leftValue
+     *            the leftValue to set
      */
-    public void setLeftValue(float leftValue) {
-        this.leftValue = leftValue;
+    public void setLeftValue(int leftValue)
+    {
+	interval.setLeft(leftValue);
     }
 
     /**
      * @return the rightValue
      */
-    public float getRightValue() {
-        return rightValue;
+    public int getRightValue()
+    {
+	return interval.getRight();
     }
 
     /**
-     * @param rightValue the rightValue to set
+     * @param rightValue
+     *            the rightValue to set
      */
-    public void setRightValue(float RightValue) {
-        this.rightValue = RightValue;
+    public void setRightValue(int rightValue)
+    {
+	interval.setRight(rightValue);
     }
+
+    public Interval getInterval()
+    {
+        return interval;
+    }
+
+    public void setInterval(Interval interval)
+    {
+        this.interval = interval;
+    }
+
     public String toString()
     {
-        return String.format("Type: %s    LeftValue: %4.1f    RightValue: %4.1f\n", 
-                                    propertyType.getName(), leftValue, rightValue);
+	return String.format("Type: %s    LeftValue: %4.1f    RightValue: %4.1f\n", propertyType.getName(), 
+                                                                                    getLeftValue(), 
+                                                                                    getRightValue());
     }
 
 }

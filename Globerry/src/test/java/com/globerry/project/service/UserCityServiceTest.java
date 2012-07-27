@@ -132,18 +132,14 @@ public class UserCityServiceTest
         
         //Определяем состояние слайдеров, по которым будет проверятся фильтрация городов.             
         
-        for(int i = 0; i < 6; i++)
-        {
-            PropertyType prType = new PropertyType();
-            prType.setId(i);
-            prType.setMinValue(i);
-            prType.setMaxValue(i+10);
-            Slider slider = new Slider(i, prType);
-            sliders.put(String.format("slider-%d", i), slider);
-            when(appContext.getSlidersByName(String.format("slider-%d", i))).thenReturn(slider);
-            
-                   
-        } 
+        PropertyType prType = new PropertyType();
+        prType.setId(1);
+        prType.setMinValue(1);
+        prType.setMaxValue(20);
+        Slider slider = new Slider(2, prType);
+        sliders.put("slider-%d", slider);
+        when(appContext.getSlidersByName(anyString())).thenReturn(slider);
+        
         when(appContext.getSliders()).thenReturn(sliders);
        
         when(cityDao.getByQuery(anyString())).thenReturn(cityList);

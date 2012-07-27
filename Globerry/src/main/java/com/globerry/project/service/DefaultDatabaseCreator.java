@@ -40,9 +40,7 @@ public class DefaultDatabaseCreator
     private IDatabaseManager databaseManager;
     @Autowired
     private IProposalsManager proposalsManager;
-    @Autowired
-    private IProposalsManager proposalsManager;
-    
+        
     protected static Logger logger = Logger.getLogger(DefaultDatabaseCreator.class);
     private boolean isTagInit = false;
     private boolean isPropertyTypeInit = false;
@@ -107,8 +105,8 @@ public class DefaultDatabaseCreator
 	
     }
    
-    public void initPropertyType(){
- /*
+    /*   public void initPropertyType(){
+
 	/*id	DependingMonth	betterWhenLess	maximumValue	minimumValue	name
 	1		0		1		20		0	cost
 	2		0		1		20		0	alcohol
@@ -222,7 +220,7 @@ public class DefaultDatabaseCreator
 	city.setDmpList(dmpList);
 	return city;
         throw new UnsupportedOperationException("Not supported yet.");	
-    }//*/
+    }*/
     public void initTours()
     {
 	for(int i = 0; i < 20; i++)
@@ -231,42 +229,68 @@ public class DefaultDatabaseCreator
 	}
 	//System.err.println(tour.getName() + "\n " + tour.getDescription() + "\n" + tour.getTargetCityId() + "\n" + tour.getDateEnd().toString());
     }
-    public void initHotels()
+    public void initTickets()
     {
 	for(int i = 0; i < 20; i++)
 	{
-	    proposalsManager.addHotel(generateHotel());
+	    proposalsManager.addTicket(generateTicket());
+	}
+    }
+    public void initHotels()
+    {
+	String[] namesOfHotels = {"Hotel Villa Ducale", "La Fuitina", "The Levin", "The Montague on The Gardens",
+				  "Schlosshotel Im Grunewald", "Pullman Schweizerhof", "Hotel Primero Primera", "Patrick Hotel",
+				  "Ammos Hotel" , "Niriis Hotel", "Sun City Studios","Hotel Ostria Beach","Galaxy Hotel Iraklio",
+				  "Ca's Curial", "Hai Au", "Hoang Ngoc Resort", "Bamboo Village","Nitya Resort", "Neelams the Grand",
+				  "Don Hill Beach Resort"};
+	for(int i = 0; i < 20; i++)
+	{
+	    proposalsManager.addHotel(generateHotel(namesOfHotels[i]));
 	}
     }
     public void clearDatabase()
     {
 	databaseManager.cleanDatabase();
     }
-    private Tour generateTour()
+    public Tour generateTour()
     {
 	String[] descriptionArr = {"cheap", "expensive", "near sea", "with monsters", "with oil", "hot", "cold", "with skies", "with guns"};
 	Tour tour = new Tour();
 	Random rand = new Random();
-	tour.setName("TourName");
 	tour.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
-	tour.setCost(rand.nextInt(100));
+	tour.setCost(rand.nextInt(10000)+1000);
 	int cityCount = cityDao.getAll(City.class).size();
 	tour.setTargetCityId(rand.nextInt(cityCount));
-	tour.setDateStart(new Date(rand.nextLong()));
+	City city = cityDao.getById(City.class, tour.getTargetCityId());
+	tour.setName(city.getName());
+	tour.setDateStart(new Date(rand.nextLong())); //блять артем
 	tour.setDateEnd(new Date(rand.nextLong()));
 	return tour;
     }
-    private Hotel generateHotel()
+    public Ticket generateTicket()
+    {
+	Random rand = new Random();
+	int cityCount = cityDao.getAll(City.class).size();
+	Ticket ticket = new Ticket(rand.nextInt(cityCount));
+	ticket.setCost(rand.nextInt(3000)+300);
+	City city = cityDao.getById(City.class, ticket.getTargetCityId());
+	ticket.setName(city.getName());
+	return ticket;
+    }
+    public Hotel generateHotel(String name)
     {
 	String[] descriptionArr = {"one star", "two stars", "three stars", "four stars", "five stars", "with swimming pool", "near sea", "with Russians",
 		"big houses" , "with eat", "all inclusive"};
+	
 	int cityCount = cityDao.getAll(City.class).size();
 	Random rand = new Random();
 	Hotel hotel = new Hotel();
-	hotel.setName("HotelName");
-	hotel.setCost(rand.nextInt(300));
-	hotel.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
 	hotel.setCityId(rand.nextInt(cityCount));
+	City city = cityDao.getById(City.class, hotel.getCityId());
+	hotel.setCityName(city.getName());
+	hotel.setName(name);
+	hotel.setCost(rand.nextInt(1000)+100);
+	hotel.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
 	return hotel;
     }
 }

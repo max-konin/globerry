@@ -8,7 +8,7 @@ package com.globerry.project.service;
  */
 public class StringManager
 {
-    static final String foodCostPropertyTypeName = "foodCost";
+    static final String foodCostPropertyTypeName = "cost";
     static final String alcoholPropertyTypeName = "alcohol";
     static final String russianPropertyTypeName = "russian";
     static final String visaPropertyTypeName = "visa";

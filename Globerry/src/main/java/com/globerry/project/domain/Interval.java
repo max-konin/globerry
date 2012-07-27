@@ -77,4 +77,9 @@ public class Interval implements Serializable
     {
         this.right = right;
     }
+    
+    public String toString()
+    {
+        return String.format(this.getClass().getName() + ": left = %d; right = %d", left, right);
+    }
 }

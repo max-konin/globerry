@@ -12,7 +12,8 @@ import java.util.Date;
  */
 public class Ticket
 {
-    private int targetCityId;    
+    private int targetCityId;
+    private String name; 
     private Date depDate;
     private Date arrDate;
     private float cost;
@@ -102,6 +103,14 @@ public class Ticket
     public void setCost(float cost)
     {
         this.cost = cost;
+    }
+    public String getName()
+    {
+	return name;
+    }
+    public void setName(String name)
+    {
+	this.name = name;
     }
     
 }

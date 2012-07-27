@@ -8,6 +8,7 @@ public class Hotel
     private float cost;
     private int cityId;
     private String name;
+    private String cityName;
     @Transient
     private Integer hashCode = null;
     private String description;
@@ -112,5 +113,15 @@ public class Hotel
     public void setCityId(int cityId)
     {
         this.cityId = cityId;
+    }
+
+    public String getCityName()
+    {
+	return cityName;
+    }
+
+    public void setCityName(String cityName)
+    {
+	this.cityName = cityName;
     }
 }

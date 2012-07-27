@@ -36,6 +36,7 @@ public class GuiMapTest
         when(slider2.getId()).thenReturn(1);
         when(selectBox.getId()).thenReturn(2);
         
+        GuiMap.clear();
         GuiMap.componentAddHandler(selectBox);
         GuiMap.componentAddHandler(slider);
        

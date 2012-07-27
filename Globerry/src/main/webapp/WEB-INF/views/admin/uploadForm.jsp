@@ -80,5 +80,7 @@
               	<input onclick="sendRequest('GET','upload/wikiparse')" type="button" value = "Parse Wiki">
             </p>
         </form>
+        <p>Файлы с ошибками сохраняются скорее всего куда то сюда</p>
+        <p>C:\Program Files (x86)\springsource\sts-2.8.1.RELEASE</p>
     </body>
 </html>

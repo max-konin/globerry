@@ -1,4 +1,4 @@
-/*package com.globerry.project.service;
+package com.globerry.project.service;
 
 import com.globerry.project.dao.IDao;
 import static org.junit.Assert.*;
@@ -42,28 +42,22 @@ public class CityPageTest
     public void setListTest()
     {
 	page.setList(map);
-	verify(mockCityDao).getCityList();
+	verify(mockCityDao).getAll(City.class);
     }
-    @Test
-    public void testRemoveElem()
-    {
-	//when(mockCityDao.removeCity(1))
-	page.removeElem(Mockito.anyInt());
-	verify(mockCityDao).removeCity(Mockito.anyInt());
-    }
+  
     @Test
     public void testGetElemById()
     {
-	page.getElemById(map, Mockito.anyInt());
-	verify(mockCityDao).getCityById(Mockito.anyInt());
+	page.getElemById(Mockito.anyMap(), Mockito.anyInt());
+	verify(mockCityDao).getById((Class)Mockito.any(), Mockito.anyInt());
     }
     @Test
     public void testUpdateCity()
     {
 	page.updateElem(Mockito.anyObject());
-	verify(mockCityDao).updateCity((City) Mockito.anyObject());
+	verify(mockCityDao).update((City) Mockito.anyObject());
     }
-    @Test
+/*    @Test
     public void testGetRelations()
     {
 	City city = new City();
@@ -80,8 +74,7 @@ public class CityPageTest
 	verify(mockCityDao).getCityById(Mockito.anyInt());
 	assertTrue(map.size() == 4);
 	
-    }
+    }*/
 
 
 }
-*/

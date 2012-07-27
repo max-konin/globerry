@@ -13,13 +13,13 @@ import com.globerry.project.utils.PropertySegment;
  */
 public interface ISlider extends IGuiComponent{
     
-    float getLeftValue();
+    int getLeftValue();
     
-    float getRightValue();
+    int getRightValue();
     
-    void setLeftValue(float value);
+    void setLeftValue(int value);
     
-    void setRightValue(float value);     
+    void setRightValue(int value);     
     
     PropertyType getPropertyType();
     

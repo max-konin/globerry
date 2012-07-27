@@ -38,7 +38,7 @@ L.Polygon = L.Polyline.extend({
 
 	_clipPoints: function () {
 		var points = this._originalPoints,
-			newParts = [];
+		newParts = [];
 
 		this._parts = [points].concat(this._holePoints);
 
@@ -61,4 +61,5 @@ L.Polygon = L.Polyline.extend({
 		var str = L.Polyline.prototype._getPathPartStr.call(this, points);
 		return str + (L.Browser.svg ? 'z' : 'x');
 	}
+	
 });

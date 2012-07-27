@@ -4,6 +4,7 @@
  */
 package com.globerry.project.service.service_classes;
 
+import com.globerry.project.service.gui.CheckBox;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
@@ -24,9 +25,13 @@ public interface IApplicationContext {
     
     SelectBox getWhatTag();
     
+    public CheckBox getVisa();
+    
+    public CheckBox getRusLanguage();
+    
     ISlider getSlidersByName(String name);
     
-   HashMap<Integer, IGuiComponent> getComponentsMap();
+    HashMap<Integer, IGuiComponent> getComponentsMap();
   
     public HashMap<String, ISlider> getSliders();
     

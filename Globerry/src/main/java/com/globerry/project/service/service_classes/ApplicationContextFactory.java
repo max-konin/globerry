@@ -7,6 +7,7 @@ import com.globerry.project.domain.Month;
 import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.TagsType;
+import com.globerry.project.service.gui.CheckBox;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
@@ -27,6 +28,11 @@ import org.springframework.context.annotation.Scope;
 @Scope("singleton")
 public class ApplicationContextFactory
 {
+    static public final int whoTagId = 1;
+    static public final int whatTagId = 2;
+    static public final int whenTagId = 3;
+    static public final int visaId = 13;
+    static public final int rusLanguageId = 14;
     @Autowired
     IDao<Tag> tagDao;
     @Autowired
@@ -50,14 +56,15 @@ public class ApplicationContextFactory
      */
     private void createProtopype()
     {
+
         prototype = new GloberryGuiContext();
         
         HashMap<Integer, IGuiComponent> componentsMap = new HashMap<Integer, IGuiComponent>();
         HashMap<String, ISlider> sliders = new HashMap<String, ISlider>();
 
         List<Tag> tags = tagDao.getAll(Tag.class);
-        SelectBox whoTag = new SelectBox(1);
-        SelectBox whatTag = new SelectBox(2);
+        SelectBox whoTag = new SelectBox(whoTagId);
+        SelectBox whatTag = new SelectBox(whatTagId);
         for (Tag tag : tags) {
             if (tag.getTagsType() == TagsType.WHO) {
                 whoTag.addValue(tag.getId());
@@ -66,16 +73,17 @@ public class ApplicationContextFactory
             }
         }
         
-        componentsMap.put(1, whoTag);
+        componentsMap.put(whoTagId, whoTag);
         GuiMap.componentAddHandler(whoTag);
-        componentsMap.put(2, whatTag);
+        
+        componentsMap.put(whatTagId, whatTag);
         GuiMap.componentAddHandler(whatTag);
 
-        SelectBox whenTag = new SelectBox(3);        
+        SelectBox whenTag = new SelectBox(whenTagId);        
         for(Month month : Month.values()) 
             whenTag.addValue(month.ordinal());
         
-        componentsMap.put(3, whenTag);
+        componentsMap.put(whenTagId, whenTag);
         GuiMap.componentAddHandler(whenTag);
 
         List<PropertyType> properyTypes = propertyTypeDao.getAll(PropertyType.class);
@@ -94,10 +102,21 @@ public class ApplicationContextFactory
             }
         }
         
+        CheckBox visa = new CheckBox(visaId);
+        CheckBox rusLanguage = new CheckBox(rusLanguageId);
+        
+        componentsMap.put(visaId, visa);
+        componentsMap.put(rusLanguageId, rusLanguage);
+        
+        GuiMap.componentAddHandler(visa);
+        GuiMap.componentAddHandler(rusLanguage);
+        
         prototype.setComponentsMap(componentsMap);
         prototype.setWhatTag(whatTag);
         prototype.setWhoTag(whoTag);
         prototype.setWhenTag(whenTag);
+        prototype.setVisa(visa);
+        prototype.setRusLanguage(rusLanguage);
         prototype.setSliders(sliders);
         
     }

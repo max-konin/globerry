@@ -7,6 +7,7 @@ package com.globerry.project.domain;
 import com.globerry.project.domain.Month;
 import java.io.Serializable;
 import javax.persistence.*;
+import org.hibernate.annotations.Index;
 
 /**
  *
@@ -14,6 +15,69 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "DependingMonthProperty")
+@org.hibernate.annotations.Table(appliesTo = "DependingMonthProperty", indexes = { 
+                                                                                @Index(name="JANUARY-idx", 
+                                                                                        columnNames = { 
+                                                                                                "JANUARY_value_left",
+                                                                                                "JANUARY_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="FEBRUARY-idx", 
+                                                                                        columnNames = { 
+                                                                                                "FEBRUARY_value_left",
+                                                                                                "FEBRUARY_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="MARCH-idx", 
+                                                                                        columnNames = { 
+                                                                                                "MARCH_value_left",
+                                                                                                "MARCH_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="APRIL-idx", 
+                                                                                        columnNames = { 
+                                                                                                "APRIL_value_left",
+                                                                                                "APRIL_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="MAY-idx", 
+                                                                                        columnNames = { 
+                                                                                                "MAY_value_left",
+                                                                                                "MAY_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="JUNE-idx", 
+                                                                                        columnNames = { 
+                                                                                                "JUNE_value_left",
+                                                                                                "JUNE_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="JULY-idx", 
+                                                                                        columnNames = { 
+                                                                                                "JULY_value_left",
+                                                                                                "JULY_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="AUGUST-idx", 
+                                                                                        columnNames = { 
+                                                                                                "AUGUST_value_left",
+                                                                                                "AUGUST_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                @Index(name="SEPTEMBER-idx", 
+                                                                                        columnNames = { 
+                                                                                                "SEPTEMBER_value_left",
+                                                                                                "SEPTEMBER_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                 @Index(name="OCTOBER-idx", 
+                                                                                        columnNames = { 
+                                                                                                "OCTOBER_value_left",
+                                                                                                "OCTOBER_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                  @Index(name="NOVEMBER-idx", 
+                                                                                        columnNames = { 
+                                                                                                "NOVEMBER_value_left",
+                                                                                                "NOVEMBER_value_right",                                                                                                    
+                                                                                                    }),
+                                                                                   @Index(name="DECEMBER-idx", 
+                                                                                        columnNames = { 
+                                                                                                "DECEMBER_value_left",
+                                                                                                "DECEMBER_value_right",                                                                                                    
+                                                                                                    }),
+
+                                                                                        })
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "PROPERTY_TYPE", discriminatorType = DiscriminatorType.STRING)
 public abstract class DependingMonthPropertyBase implements Serializable
@@ -357,7 +421,14 @@ public abstract class DependingMonthPropertyBase implements Serializable
     public void setId(Long id)
     {
         this.id = id;
-    }
+    }    
     
-   
+    @Override
+    public String toString()
+    {
+        String str = this.getClass().getName() + ": \n";        
+        for(Month month: Month.values())
+            str += "    " + month.toString() + ": " +  getValue(month).toString() + "\n";
+        return str;
+    }
 }

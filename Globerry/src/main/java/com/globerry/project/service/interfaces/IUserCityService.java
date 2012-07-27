@@ -23,4 +23,6 @@ public interface IUserCityService extends ICityService
     public List<City> getCityList(IApplicationContext appContext);
     
     public void onTagChangeHandler();
+	
+	public City[][] getGroupsCity(IApplicationContext appContext, float zlevel);
 }

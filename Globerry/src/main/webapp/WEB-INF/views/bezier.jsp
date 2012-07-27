@@ -58,6 +58,7 @@
                 </td>
             </tr>
         </table>
+        
         <div id="pic"></div>
 
 
@@ -76,8 +77,7 @@
                 $('#minVal').val(ui.value);
                 redraw();
             }
-        }
-    ))
+		}))
        
         function redraw() {
             var value = parseFloat($('#minVal').val());
@@ -324,10 +324,10 @@
                 }
                 drawRays(rays);
             }
-            function drawRays(arr/*Массив лучей, начало луча - точка функции, направление - касетельная в этой точке*/, flag/*Рисовать опорные точки*/) {
+            function drawRays(arr/*Массив лучей, начало луча - точка функции, направление - касетельная в этой точке*/, flag/*Рисовать опорные точки*/, flag2) {
                 if(arr.length <= 1)
                     return;
-                var ray1 = arr[0], ray2, c1, c2, factor = 0.3, prevT = null, factor2 = 0.6;
+                var ray1 = arr[0], ray2, c1, c2, factor = 0.3, prevT = null, factor2 = 0.6, distance = 0;
                 var path = "M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y), pathVect = "";
                 var t1, t2;
                 arr.push(arr[0]);
@@ -335,7 +335,13 @@
                     ray2 = arr[i];
                     t1 = ray1.cross(ray2);
                     t2 = ray2.cross(ray1);
+                    distance = ray1.start.distance(ray2.start);
+                    //console.log(distance + " t1 " + t2);
                     if(prevT == null) {
+                        if(t1 > distance){
+                            t1 = distance/2;
+                            t2 = distance/2;
+                        }
                         if(t1 >= 0 && t2 <= 0) {
                             c1 = ray1.getPoint(t1);
                             c2 = c1;
@@ -344,10 +350,19 @@
                     }
                        
                     if(t1 >= 0 && t2 <= 0.01) {
+                        
                         c1 = ray1.getPoint(prevT);
+                        if(t1 > distance) {
+                            t2 = -distance;
+                        }
+                        if(t1 > distance * 2) {
+                            c1 = ray1.getPoint(distance);
+                        }
                         c2 = ray2.getPoint(t2 * factor2);
                         prevT = -t2 * factor2;
+                        
                     } else if(t1 >= 0 && t2 >= 0.01) {
+                        
                         c1 = ray1.getPoint(prevT);
                         c2 = ray2.getPoint(-factor);
                         prevT = factor;
@@ -371,7 +386,9 @@
                         + projectX(c2.x) + " " + projectY(c2.y) + " "
                         + projectX(ray2.start.x) + " " + projectY(ray2.start.y);
                     ray1 = ray2;
-                    
+                    if(flag2)
+                        appendPath("M " + projectX(ray1.start.x) + " " + projectY(ray1.start.y) + "L " + projectX(ray1.getPoint(1).x) + " " + projectY(ray1.getPoint(1).y),
+                'black', 1, 'curve');
                     //appendCircle(c1);
                     //appendCircle(c2);
                     //appendCircle(ray1.start);
@@ -408,14 +425,19 @@
                     circle.setAttribute('class', clazz);
                 svg.appendChild(circle);
             }
-            function appendCircle2(x, y, r, clazz) {
+            function appendCircle2(x, y, r, clazz, stroke, stroke_w) {
                 var circle = createElement('circle');
                 circle.setAttribute('class', 'connect');
                 circle.setAttribute('cx', projectX(x));
                 circle.setAttribute('cy', projectY(y));
                 circle.setAttribute('r', r || '5');
+                circle.setAttribute('style','fill:none')
                 if(clazz)
                     circle.setAttribute('class', clazz);
+                if(stroke)
+                    circle.setAttribute('stroke', stroke.toString());
+                if(stroke_w)
+                    circle.setAttribute('stroke-width', stroke_w);
                 svg.appendChild(circle);
             }
             function appendText(x, y, text, clazz) {
@@ -484,6 +506,83 @@
                     }
                     return x0;
                 }
+                function inPoligon(rays/*Массив точек, образующих многоугольник, я использую лучи, потому что они 
+                 *используются в функции drawRays, чтобы не создавать заново, по факту используется только начало.
+                 *Первая точка должна совпадать с последней, чтобы полигон был зацикленный*/, point) {
+                    if(rays.length <= 2)
+                        return false;
+                    var eps = 0.01, crosses = 0, x0, x1, x2, y0, y1, y2;
+                    var flag = false, onEdge = false, direction = null;
+                    for(var i = 0, l = rays.length; i < l - 1; i++) {
+                        var p1 = rays[i].start, p2 = rays[i+1].start;
+                        x0 = point.x, x1 = p1.x, x2 = p2.x;
+                        y0 = point.y, y1 = p1.y, y2 = p2.y;
+                        if(alertFlag) {
+                            console.log(t1 + " " + t2 + " " + direction + " y1: " + y1 + " y2: " + y2);
+                        }
+                        if(Math.abs(y2 - y1) < eps) {
+                            var min = Math.min(x1, x2);
+                            var max = Math.max(x1, x2);
+                            if(Math.abs(y1 - y0) < eps) {
+                                if(x0 > min && x0 < max) {
+                                    return true;
+                                }
+                            }
+                            continue;
+                        }
+                        var t2 = (y0 - y1)/(y2 - y1);
+                        var t1 = x1 + t2*(x2 - x1) - x0;
+                        
+                        if(t1 > 0) {
+                            
+                            if(t2 <= 1 && t2 >= 1 - eps) {
+                                if(alertFlag) 
+                                    console.log('Reach point from the end direction: ' + direction + " crosses: " + crosses + " " + " currDirection: " + direction*(y2 - y1) + " flag: " + flag);
+                                if(flag) {
+                                    if(direction*(y2 - y1) < 0) {
+                                        crosses++;
+                                        flag = false;
+                                        continue;
+                                    } else {
+                                        flag = false;
+                                        continue;
+                                    }
+                                } else {
+                                    flag = true;
+                                    direction = y2 - y1;
+                                }
+                                crosses++;
+                                
+                                continue;
+                            }
+                            if(t2 >= 0 && t2 <= eps) {
+                                if(alertFlag) 
+                                    console.log('Reach point from the beginning, direction: ' + direction + " crosses: " + crosses + " " + " currDirection: " + direction*(y2 - y1) + " flag: " + flag);
+                                if(flag) {
+                                    if(direction*(y2 - y1) < 0) {
+                                        crosses++;
+                                        console.log(crosses);
+                                        flag = false;
+                                        continue;
+                                    } else {
+                                        flag = false;
+                                        continue;
+                                    }
+                                } else {
+                                    flag = true;
+                                    direction = y2 - y1;
+                                }
+                                crosses++;
+                                continue;
+                            }
+                            if(t2 >= 0 && t2 <= 1)
+                                crosses++;
+                        }
+                    }
+                    if(alertFlag)
+                        console.log(crosses);
+                    return crosses % 2 != 0;
+                }
                 function findSpans(span) {
                     var parent = span.getParent();
                     
@@ -519,7 +618,7 @@
                             }
                             left = x;
                             var p1 = span.getLeft(), newSpan, flag = false;
-                            var stepCount = span.getRight().x - span.getLeft().x > 4*stepX ? false : 8;
+                            var stepCount = span.getRight().x - span.getLeft().x > 4*stepX ? false : 8 + stepY/stepX*2;
                             while(left) {
                                 right = findBorder(left, y, 1, stepCount, false);
                                 if(flag && left - ret[ret.length - 1].getRight().x < stepX) {
@@ -655,49 +754,88 @@
                     $('.class1').remove();
                     return ret;
                 }
-                var stepX = 0.5, stepY = 1, eps = 0.1, spanFactor = 3;
-                var firstPoint = points[1];
-                var y  = firstPoint.y;
-                var p = Point(firstPoint.x + 0.1, firstPoint.y);
-                var pLeft = findBorder(p.x, p.y, -1), pRight = findBorder(p.x, p.y, 1);
-                var firstLevel = y;
-                appendCircle2(pLeft, y, 4, 'curve');
-                appendCircle2(pRight, y , 4, 'curve');
-                var leftNode = Node(pLeft, y);
-                var rightNode = Node(pRight, y);
-                var spanStack = Stack();
-                var firstSpan = Span(leftNode, rightNode, 0);
-                //findSpans(firstSpan);
-                spanStack.push(firstSpan);
-                var count = 0;
-                while(spanStack.size() > 0) {
-                    var span = spanStack.pop();
-                    var spans = findSpans(span);
-                    count++;
-                    if(count > 100)
-                        break;
-                    for(var i = 0; i < spans.length; i++)
-                        spanStack.push(spans[i]);
+                var stepX = 0.2, stepY = 0.4, eps = 0.1, spanFactor = 3;
+                var pointsRemaining = [];
+                for(var i = 0; i < points.length; i++) {
+                    pointsRemaining.push(points[i]);
                 }
-                var p = firstSpan.getLeft();
-                var path = ""
-                for(var i = 0; i < 300 ; i++) {
-                    path += "M " + projectX(p.x) + " " + projectY(p.y) + "L " + projectX(p.next.x) + " " + projectY(p.next.y);
-                    appendPath(path, 'green', 2, 'curve');
-                    /*if($('#alert').attr('checked'))
-                        alert();*/
-                    p = p.next;
-                    if(p == firstSpan.getLeft())
-                        break;
+                
+                for(;pointsRemaining.length > 0;){
+                    var firstPoint = pointsRemaining[0];
+                    pointsRemaining.splice(0,1);
+                    var y  = firstPoint.y;
+                    var p = Point(firstPoint.x + 0.1, firstPoint.y);
+                    var pLeft = findBorder(p.x, p.y, -1), pRight = findBorder(p.x, p.y, 1);
+                    var firstLevel = y;
+                    appendCircle2(pLeft, y, 4, 'curve');
+                    appendCircle2(pRight, y , 4, 'curve');
+                    var leftNode = Node(pLeft, y);
+                    var rightNode = Node(pRight, y);
+                    var spanStack = Stack();
+                    var firstSpan = Span(leftNode, rightNode, 0);
+                    //findSpans(firstSpan);
+                    spanStack.push(firstSpan);
+                    var count = 0;
+                    while(spanStack.size() > 0) {
+                        var span = spanStack.pop();
+                        var spans = findSpans(span);
+                        count++;
+                        if(count > 100)
+                            break;
+                        for(var i = 0; i < spans.length; i++)
+                            spanStack.push(spans[i]);
+                    }
+                    var p = firstSpan.getLeft();
+                    var path = ""
+                    var rays = [];
+                    var alertFlag = false;
+                    for(var i = 0; i < 300 ; i++) {
+                        path = "M " + projectX(p.x) + " " + projectY(p.y) + "L " + projectX(p.next.x) + " " + projectY(p.next.y);
+                        appendPath(path, 'green', 2, 'curve');
+                        var zshtr = dZdxy(p.x, p.y);
+                        zshtr.normalize();
+                        var ray = Ray(p, Point(-zshtr.getY(), zshtr.getX()), true);
+                        rays.push(ray);
+                        /*if($('#alert').attr('checked'))
+                            alert();*/
+                        p = p.next;
+                        if(p == firstSpan.getLeft())
+                            break;
+
+                    }
+                    
+                    //rays.push(rays[0]);
+                    if(rays.length == 2)
+                    {
+                        var left = rays[0].start, right = rays[1].start;
+                        var cx = (right.x + left.x)/2, cy = (right.y + left.y)/2;
+                        
+                        var r = (right.x - left.x)/2 - maxX;
+                        
+                        appendCircle2(cx, cy, projectX(r), 'curve', 'red', 3);
+                        continue;
+                    }
+                    drawRays(rays);
+                    for(var i = pointsRemaining.length - 1; i>=0; i--) {
+                        if(inPoligon(rays, pointsRemaining[i])) {
+                            pointsRemaining.splice(i, 1);
+                        }
+                    }
                 }
+                /*rays.push(rays[0]);
                 for(var i = 0; i< points.length; i++) {
-                    appendCircle(points[i], points[i].weight*4,'curve');
+                    alertFlag = i == 4;
+                    var clazz = 'curve'
+                    if(inPoligon(rays, points[i]))
+                        clazz += ' positive'
+                    appendCircle(points[i], points[i].weight*4, clazz);
                     appendText(points[i].x+0.3, points[i].y, i, 'curve');
-                }
+                }*/
             }
             var me = {svg : svg, draw : draw,  drawFunc : drawFunc, drawRays : drawRays, drawPoints : drawPoints,drawSpans : drawSpans};
             return me;
         }
+        
         function Point(X, Y) {
             var x = X, y = Y;
             function distance(point) {
@@ -991,8 +1129,7 @@
             function size() { return data.length; }
             return {peek : peek, push : push, pop : pop, size : size}
         }
-    </script>
-    <script>
+		
         function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
             var k, b, x, z;
             while(iteration != 0) {

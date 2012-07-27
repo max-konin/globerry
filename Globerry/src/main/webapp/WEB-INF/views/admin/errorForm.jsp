@@ -9,11 +9,12 @@
 </head>
 <body>
 
-			<c:forEach items="${excList}" var="item">
-			
-				<div>
-				"${item.toSting()}"
-				</div>
-		</c:forEach>
+	
+		<div>
+		 ${errorMessage} 
+		</div>
+		<div>
+		error;asdasd
+		</div>
 </body>
 </html>

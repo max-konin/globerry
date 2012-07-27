@@ -1,4 +1,4 @@
-/*package com.globerry.project.service;
+package com.globerry.project.service;
 
 import static org.junit.Assert.*;
 
@@ -12,13 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import com.globerry.project.dao.ICompanyDao;
+import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
-import com.globerry.project.domain.Event;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.admin.CompanyPage;
-import com.globerry.project.service.admin.EventPage;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,7 +24,7 @@ import static org.mockito.Mockito.when;
 public class CompanyPageTest
 {
     @Mock
-    private ICompanyDao mockCompanyDao;
+    private IDao<Company> mockCompanyDao;
     
     @InjectMocks
     private CompanyPage page = new CompanyPage();
@@ -41,39 +39,21 @@ public class CompanyPageTest
     public void setListTest()
     {
 	page.setList(map);
-	verify(mockCompanyDao).getCompanyList();
+	verify(mockCompanyDao).getAll(Company.class);
     }
-    @Test
-    public void testRemoveElem()
-    {
-	//when(mockCityDao.removeCity(1))
-	page.removeElem(Mockito.anyInt());
-	verify(mockCompanyDao).removeCompany(Mockito.anyInt());
-    }
+
     @Test
     public void testGetElemById()
     {
-	page.getElemById(map, Mockito.anyInt());
-	verify(mockCompanyDao).getCompanyById(Mockito.anyInt());
+	page.getElemById(Mockito.anyMap(), Mockito.anyInt());
+	verify(mockCompanyDao).getById((Class)Mockito.any(), Mockito.anyInt());
     }
     @Test
     public void testUpdateCity()
     {
 	page.updateElem(Mockito.anyObject());
-	verify(mockCompanyDao).updateCompany((Company) Mockito.anyObject());
-    }
-    @Test
-    public void testGetRelations()
-    {
-	Company company = new Company();
-	Tour tour = new Tour();
-	company.getTourList().add(tour);
-	when(mockCompanyDao.getCompanyById(Mockito.anyInt())).thenReturn(company);
-	page.getRelation(map, Mockito.anyInt());
-	verify(mockCompanyDao).getCompanyById(Mockito.anyInt());
-	assertTrue(map.size() == 1);
-	
+	verify(mockCompanyDao).update((Company) Mockito.anyObject());
     }
 
+
 }
-*/

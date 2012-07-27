@@ -12,13 +12,14 @@
 
 	<!-- <jdbc:embedded-database id="dataSource" type="H2"/> -->
 	<context:annotation-config />
+        
 	<context:component-scan base-package="com.globerry.project.domain" />
-	<context:component-scan base-package="com.globerry.project.dao" /> 
-	<context:component-scan base-package="com.globerry.project.service" />
-	 	
+        <context:component-scan base-package="com.globerry.project.dao" />
 
-		<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
-		<tx:annotation-driven transaction-manager="transactionManager" /> 
+
+
+            <!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
+        <tx:annotation-driven transaction-manager="transactionManager" /> 
 
 	<!-- Менеджер транзакций -->
 	

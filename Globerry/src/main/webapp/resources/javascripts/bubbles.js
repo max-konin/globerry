@@ -40,46 +40,46 @@ function appendSVGGradientData(zoomLevel) {
 //Параметры кружочков на каждом уровне
 var bubbleParams = {
     2 : {
-        start_opacity : 0.8,
-        finish_opacity : 0,
-        start_color : '#ffa500',
-        finish_color : '#ffa500'
+        start_opacity : 0.1,
+        finish_opacity : 0.1,
+        start_color : '#ff0000',
+        finish_color : '#ff0000'
     },
     3 : {
-        start_opacity : 0.8,
-        finish_opacity : 0,
-        start_color : '#ffa500',
-        finish_color : '#ffa500'
+        start_opacity : 0.1,
+        finish_opacity : 0.1,
+        start_color : '#ff0000',
+        finish_color : '#ff0000'
     },
     4 : {
-        start_opacity : 0.8,
-        finish_opacity : 0,
-        start_color : '#ffa500',
-        finish_color : '#ffa500'
+        start_opacity : 0.1,
+        finish_opacity : 0.1,
+        start_color : '#ff0000',
+        finish_color : '#ff0000'
     },
     5 : {
-        start_opacity : 0.8,
-        finish_opacity : 0,
-        start_color : '#ffa500',
-        finish_color : '#ffa500'
+        start_opacity : 0.1,
+        finish_opacity : 0.1,
+        start_color : '#ff0000',
+        finish_color : '#ff0000'
     },
     6 : {
-        start_opacity : 0.8,
-        finish_opacity : 0,
-        start_color : '#ffa500',
-        finish_color : '#ffa500'
+        start_opacity : 0.1,
+        finish_opacity : 0.1,
+        start_color : '#ff0000',
+        finish_color : '#ff0000'
     },
     7 : {
-        start_opacity : 0.8,
-        finish_opacity : 0,
-        start_color : '#ffa500',
-        finish_color : '#ffa500'
+        start_opacity : 0.1,
+        finish_opacity : 0.1,
+        start_color : '#ff0000',
+        finish_color : '#ff0000'
     },
     8 : {
-        start_opacity : 0.8,
-        finish_opacity : 0,
-        start_color : '#ffa500',
-        finish_color : '#ffa500'
+        start_opacity : 0.1,
+        finish_opacity : 0.1,
+        start_color : '#ff0000',
+        finish_color : '#ff0000'
     }
 }
 function BubblesInit(bubbleCanvas, initialBubbles) {
@@ -129,17 +129,18 @@ function BubbleFieldProvider(/*Это объект L.Map*/lmap) {
     var map = lmap;
     var mapObjects = [];
     var zoomNormalizer = {
-        2 : 150000,
-        3 : 200000,
-        4 : 200000,
-        5 : 100000,
-        6 : 100000,
+        2 : 40000,
+        3 : 40000,
+        4 : 40000,
+        5 : 40000,
+        6 : 40000,
         7 : 40000,
-        8 : 20000
+        8 : 40000
     };/** Индекс - это номер зума, значение - множитель, на которой домножаются размеры.**/
     var currentZoom = map.getZoom();
     function putBubble(bubbleId, bubble) {
-        var radius = bubble.weight * zoomNormalizer[currentZoom];
+        var radius = /*bubble.weight */ zoomNormalizer[currentZoom];
+		var circleOptions = {color : "red", weight : 3};
         var circle = new L.Circle(new L.LatLng(bubble.lat, bubble.lng), radius, circleOptions);
         circle.radius = radius;
         mapObjects[bubbleId] = circle;
@@ -151,7 +152,7 @@ function BubbleFieldProvider(/*Это объект L.Map*/lmap) {
     }
     
     function changeBubble(bubbleId, bubble) {
-        var radius = bubble.weight * zoomNormalizer[currentZoom];
+        var radius = /*bubble.weight */ zoomNormalizer[currentZoom];
         var circle = mapObjects[bubbleId];
         if(!circle)
             return;

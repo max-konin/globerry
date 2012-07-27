@@ -1,19 +1,35 @@
 
 package com.globerry.project.domain;
 
+import java.lang.reflect.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.*;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+
 
 /**
  *
  * @author max
  */
 @Entity
+@Table(name = "City")
+@org.hibernate.annotations.Table(appliesTo = "City", indexes = { @Index(name="idx", columnNames = { 
+                                                                                                    "security",
+                                                                                                    "sex",
+                                                                                                    "food_value_left",
+                                                                                                    "food_value_right",
+                                                                                                    "alco_value_left",
+                                                                                                    "alco_value_right",
+                                                                                                    "visa",
+                                                                                                    })})
 public class City
 {
     @Id
@@ -44,24 +60,30 @@ public class City
             @AttributeOverride(name="left", column = @Column(name="food_value_left") ),
             @AttributeOverride(name="right", column = @Column(name="food_value_right") )
     } )
+    
     private Interval foodCost = new Interval();
     @Embedded
     @AttributeOverrides( {
             @AttributeOverride(name="left", column = @Column(name="alco_value_left") ),
             @AttributeOverride(name="right", column = @Column(name="alco_value_right") )
     } )
+    
     private Interval alcoCost = new Interval();  
     
     @Column   
+   
     private int security;
     
-    @Column    
+    @Column  
+    
     private int sex;
     
     @Column
+    
     private boolean visa = true;
     
-    @Column 
+    @Column
+   
     private boolean isRussian = false;
     
      
@@ -454,4 +476,21 @@ public class City
         this.weight = weight;
     }
     
+    public String toString()
+    {
+        String str = this.getClass().getName() + ": \n";
+        for(Field field: this.getClass().getDeclaredFields())            
+            try
+            {
+                if (field.get(this) != null)
+                    str += "    " + field.getName() + " = " + field.get(this).toString() + ";\n";
+            } catch (IllegalArgumentException ex)
+            {
+                Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex)
+            {
+                Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return str;
+    }
 }

@@ -27,7 +27,7 @@ public class Slider implements ISlider {
      * @param rightValue значение ползунка справа, которое будет задано.
      * @param propertyType тип слайдера из бд
      */
-    public Slider(int id, float leftValue, float rightValue, PropertyType propertyType){
+    public Slider(int id, int leftValue, int rightValue, PropertyType propertyType){
         this.id = id;
         state = new PropertySegment(propertyType, Math.min(leftValue, rightValue), Math.max(leftValue, rightValue));        
     }
@@ -63,24 +63,24 @@ public class Slider implements ISlider {
 
     
     @Override
-    public float getLeftValue() {
+    public int getLeftValue() {
         return getState().getLeftValue();
     }
 
     @Override
-    public void setLeftValue(float leftValue) {
+    public void setLeftValue(int leftValue) {
         if(leftValue <  getState().getPropertyType().getMinValue())
             throw new IllegalArgumentException("Left value should be upper or equal minValue");
         getState().setLeftValue(leftValue);
     }
 
     @Override
-    public float getRightValue() {
+    public int getRightValue() {
         return getState().getRightValue();
     }
 
     @Override
-    public void setRightValue(float rightValue) {
+    public void setRightValue(int rightValue) {
         if(rightValue > getState().getPropertyType().getMaxValue())
             throw new IllegalArgumentException("Right value should be lower or equal maxValue");
         getState().setRightValue(rightValue);

@@ -3,43 +3,15 @@
 // switch the bottom on and off, and changes the state of the buttom.
  var bottomActive = false;
 $(document).ready(function() {
+	
+	$(document).ready(function(){ $("#aviaScrollBar").tinyscrollbar();
+								  $("#tourScrollBar").tinyscrollbar();
+								  $("#hotelScrollBar").tinyscrollbar();});
+
     var prevBotBut; //bottom buttoms
    
     $(".bottomButton").click(function(){
         if( bottomActive == false){
-        	$.ajax({
-                url: path +  '/get_tours',
-                dataType: 'json',
-                type: 'POST',
-                success: function (response) {
-                    //alert(response);
-                },
-                error: function(response) {
-                    //alert(response);
-                }
-            });
-        	$.ajax({
-                url: path +  '/get_hotels',
-                dataType: 'json',
-                type: 'POST',
-                success: function (response) {
-                    //alert(response);
-                },
-                error: function(response) {
-                    //alert(response);
-                }
-            });
-        	$.ajax({
-                url: path +  '/get_tickets',
-                dataType: 'json',
-                type: 'POST',
-                success: function (response) {
-                    //alert(response);
-                },
-                error: function(response) {
-                    //alert(response);
-                }
-            });
             if(prevBotBut != undefined){
                 prevBotBut.style.background = 'rgb(37, 46, 64)';
             }
@@ -49,13 +21,91 @@ $(document).ready(function() {
             },100);
             $("#whiteBottom").animate({
                 height:147
-            },100, function () {
-                $(("#" +prevBotBut.id + "B")).show();
+            },100, function () 
+            {
+                $(("#" +prevBotBut.id + "B")).show("normal",function(){
+                	$.ajax({
+                        url: path +  '/get_'+prevBotBut.id+'s',
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function (response) 
+                        {
+                            var bubbles = {};
+                            $("#" +prevBotBut.id + "ScrollBar .viewport .overview").empty(); 
+                            for(key in response)
+                            {
+                            	switch(prevBotBut.id)
+                                {
+                                case "tour":
+                                	var bubble = {
+                                        name : response[key]['name'],
+                                        cityName: response[key]['cityName'],
+                                        cost: response[key]['cost'],
+                                        description : response[key]['description']};
+                                	break
+                                case "avia":
+                                	var bubble = {
+                                        name : response[key]['name'],
+                                        cost: response[key]['cost'],
+                                        cityName: response[key]['cityName']};
+                                	break
+                                case "hotel":
+                                	var bubble = {
+                                        name : response[key]['name'],
+                                        cityName: response[key]['cityName'],
+                                        cost: response[key]['cost'],
+                                        description : response[key]['description']};
+                                	break
+                                }
+                                
+                                bubbles[key] = bubble;
+                                var image = "";
+                                var href = "";
+                                switch(prevBotBut.id)
+                                {
+                                case "tour":
+                                	image = "resources/img/pegas.png";
+                                	href = "http://pegast.ru/";
+                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="tour' + key
+                                    		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
+                                    		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
+                                    		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
+                                	break
+                                case "avia":
+                                	image = "http://www.onetwotrip.com/images/logo_u0341.png";
+                                	href = "http://www.onetwotrip.com/";
+                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="avia' + key
+                                    		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
+                                    		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
+                                    		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
+
+                                	break
+                                case "hotel":
+                                	image = "resources/img/booking.com.png";
+                                	href = "http://www.booking.com/";
+                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="hotel' + key
+                                    		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['cityName'] + " - "+bubble['name'] + 
+                                    		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
+                                    		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
+                                	break
+                                }
+                               
+                                }
+                            	$("#" +prevBotBut.id + "ScrollBar").tinyscrollbar_update();
+                        },
+                        error: function(response) {
+                            
+                        }
+                	});
+                	}        
+                	);
+                	
             });			
             this.style.background = 'rgb(255, 122, 2)';
             $(this).animate({
                 width:124
             }, 0);
+            
             bottomActive = true;
             prevBotBut = this;
         } else
@@ -84,7 +134,82 @@ $(document).ready(function() {
                     width:120
                 }, 0);
                 prevBotBut = this;
-                $(("#" +prevBotBut.id + "B")).show();
+                $(("#" +prevBotBut.id + "B")).show("normal",function(){
+                	
+                	$.ajax({
+                        url: path +  '/get_'+prevBotBut.id+'s',
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function (response) 
+                        {
+                            var bubbles = {};
+                            $("#" +prevBotBut.id + "ScrollBar .viewport .overview").empty(); 
+                            for(key in response)
+                            {
+                            	switch(prevBotBut.id)
+                                {
+                                case "tour":
+                                	var bubble = {
+                                        name : response[key]['name'],
+                                        cityName: response[key]['cityName'],
+                                        cost: response[key]['cost'],
+                                        description : response[key]['description']};
+                                	break
+                                case "avia":
+                                	var bubble = {
+                                        name : response[key]['name'],
+                                        cost: response[key]['cost'],
+                                        cityName: response[key]['cityName']};
+                                	break
+                                case "hotel":
+                                	var bubble = {
+                                        name : response[key]['name'],
+                                        cityName: response[key]['cityName'],
+                                        cost: response[key]['cost'],
+                                        description : response[key]['description']};
+                                	break
+                                }
+                                
+                                bubbles[key] = bubble;
+                                var image = "";
+                                var href = "";
+                                switch(prevBotBut.id)
+                                {
+                                case "tour":
+                                	image = "resources/img/pegas.png";
+                                	href = "http://pegast.ru/";
+                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="tour' + key
+                                    		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
+                                    		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
+                                    		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
+                                	break
+                                case "avia":
+                                	image = "http://www.onetwotrip.com/images/logo_u0341.png";
+                                	href = "http://www.onetwotrip.com/";
+                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="avia' + key
+                                    		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
+                                    		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
+                                    		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
+
+                                	break
+                                case "hotel":
+                                	image = "resources/img/booking.com.png";
+                                	href = "http://www.booking.com/";
+                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="hotel' + key
+                                    		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['cityName'] + " - "+bubble['name'] + 
+                                    		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
+                                    		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
+                                	break
+                                }
+                               
+                                }
+                            	$("#" +prevBotBut.id + "ScrollBar").tinyscrollbar_update();
+                        },
+                        error: function(response) {
+                            
+                        }
+                	});
+                	});
             }
         }
     });
@@ -92,7 +217,7 @@ $(document).ready(function() {
     function closeBottom()
     {}
     
-    $('#map').mousedown(function(){
+    /*$('#map').mousedown(function(){
     if(bottomActive == true){
                 $("#bottom").animate({
                     bottom:0
@@ -103,7 +228,7 @@ $(document).ready(function() {
                 },100);
                 bottomActive = false;
             } 
-    });
+    });*/
 });
 
 //$('#bottomContainer').click(function(){alert('click')})

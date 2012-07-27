@@ -14,25 +14,25 @@ import com.globerry.project.service.gui.ISlider;
  */
 public class SliderValueContainer implements ISlider {
 
-    float left, right;
+    int left, right;
     int id;
    
-    public float getLeftValue() {
+    public int getLeftValue() {
         return left;
     }
 
    
-    public float getRightValue() {
+    public int getRightValue() {
         return right;
     }
 
    
-    public void setLeftValue(float value) {
+    public void setLeftValue(int value) {
         this.left = value;
     }
 
     
-    public void setRightValue(float value) {
+    public void setRightValue(int value) {
         this.right = value;
     }
 
@@ -46,22 +46,7 @@ public class SliderValueContainer implements ISlider {
     }
    
     
-    /**
-     * Метод для нормальной работы с рефлексией, т.к. Java не счтает типы float и Float одинаковыми.
-     * @param value значение левого ползунка
-     */
-    public void setLeftValue(Float value) {
-        this.left = value;
-    }
-    
-    /**
-     * Метод для нормальной работы с рефлексией, т.к. Java не счтает типы float и Float одинаковыми.
-     * @param value значенте правого ползунка
-     */
-    public void setRightValue(Float value) {
-        this.right = value;
-    }
-    
+   
     public void setLeftValue(Integer value) {
         this.left = value;
     }

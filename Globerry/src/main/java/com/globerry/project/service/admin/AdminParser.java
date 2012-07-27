@@ -3,6 +3,12 @@
  */
 package com.globerry.project.service.admin;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +53,11 @@ public class AdminParser implements IAdminParser
     @Autowired
     private DefaultDatabaseCreator defaultDatabaseCreator;
     private Excel exc;
+    
+  
+    
+
+    private Boolean flag = true;
     //Здесь создается таблица PropertyType. В качестве name берётся заголовок столбца в экселе
     final int sheetNumber = 0;
     final int startPositionProperty = 5; //Стартовая позиция для property
@@ -56,7 +67,7 @@ public class AdminParser implements IAdminParser
     protected static Logger logger = Logger.getLogger(AdminParser.class);
 
     @Override
-    public void updateCities(Excel exc) throws ExcelParserException
+    public void updateCities(Excel exc) throws ExcelParserException, IOException
     {
 	
 	this.exc = exc;
@@ -70,10 +81,17 @@ public class AdminParser implements IAdminParser
     /**
      * Обновляет ВСЕ города в таблице. Обновляются area, lattitude, longitude, population 
      * и два вспомогательных - isValid и message
+     * @throws IOException 
      */
     @Override
-    public void updateWikiContent()
+    public void updateWikiContent() throws IOException
     {
+	File bugReportFile = new File("WikipediaBugs.txt");
+	if(!bugReportFile.exists()) bugReportFile.createNewFile();
+	PrintWriter writer = new PrintWriter(
+		    new BufferedOutputStream(
+			    new FileOutputStream(bugReportFile)));
+	if(!bugReportFile.exists()) bugReportFile.createNewFile();
 
 	List<City> cityList = new ArrayList<City>();
 	cityList = cityDao.getAll(City.class);
@@ -99,6 +117,11 @@ public class AdminParser implements IAdminParser
 	    city.setMessage(cityWiki.getMessage());
 	    city.setIsValid(cityWiki.getIsValid());
 	    
+	    if(city.getLatitude() == 0)
+		writer.println("Ошибка в городе " + city.getName() + " этот город не найден в википедии, возможно у него неправильное имя");
+	    else if(!city.isIsValid())
+		writer.println("Ошибка в городе " + city.getName() + " возможно это поможет Вам " + city.getMessage());
+	    
 	    logger.info("-------------------------------------");
 	    logger.info("cityWiki: " + cityWiki.getIsValid());
 	    logger.info("-------------------------------------");
@@ -115,23 +138,12 @@ public class AdminParser implements IAdminParser
 		    city.setTemperature(temp);
 		}
 	    }
-		cityDao.update(city);  
+	    cityDao.update(city);  
 	}
+	writer.close();
 	
     }
-/*    public void setRange(PropertyType prop)
-    {
-	string name = prop.getName();
-	switch(name)
-	{
-	case "":
-		prop.setDependingMonth(true);
-		prop.setBetterWhenLess(false);
-		prop.setMinValue(-35);
-		prop.getLast().setMaxValue(+35);
-	}
-	
-    }*/
+
     /**
      * Извлекает и добавляет тэги к городу
      * Добавляем к городу тег Один Если секс от 1 до 3, безопасность от 1 до 3, настроение от 2 до 3
@@ -189,174 +201,65 @@ public class AdminParser implements IAdminParser
 	catch(Exception e)
 	{
 	    e.printStackTrace();
-	    ExcelParserException excelException = new ExcelParserException("error in" + i + "," + j + e.toString(), i);
+	    ExcelParserException excelException = new ExcelParserException("Ошибка в"  + i+1 + ", " + j+1 + " " + e.toString(), i);
 	    throw excelException;
 	}
 	
     }
 
-    /**
-     * Функция которая парсит первую страницу 
-     * @throws MySqlException в случае если property или city не уникально
-     * @throws ExcelParserException Провал валидации файла. В определённых случаях в базу заноситься либо null либо -1
-     */
-    /*@Deprecated
-    private void cityParse() throws MySqlException, ExcelParserException
-    {
 
-	
-	List<PropertyType> ptList = createPropertyTypeList(); 
-	List<PropertyType> ptDmpList = createDependingMonthPropertyList(); 
-	
-	//ЗАПОЛНЕНИЕ БД
-	int i = 2;
-	//while(i<exc.getLenght(0))
-	while (i < exc.getLenght(0))
-	{
-	    	//Standart properties
-	    	City city = new City();
-	    	if(exc.getStringField(sheetNumber, i, 2) == "") continue;
-		city.setName(exc.getStringField(sheetNumber, i, 2));
-		city.setRu_name(exc.getStringField(sheetNumber, i, 3));
-
-		
-		//Properties
-	    	for(int j = startPositionProperty; j < devider; j++)
-	    	{
-	    	    Property prop = new Property();
-	    	    try
-	    	    {
-	    		prop.setValue((float)exc.getFloatField(sheetNumber, i, j));
-	    	    }
-	    	    catch(Exception e)
-		    {
-	    		ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-	    	    			+ exc.getSheetName(sheetNumber) + 
-	    	    			" line " + i +
-	    	    			" column " + j +
-	    	    			" name " + ptList.get(j - startPositionProperty).getName(), i);
-	    		throw excParseExc;
-		    }
-	    	    
-	    	    prop.setPropertyType(ptList.get(j - startPositionProperty));
-	    	    logger.info(prop.hashCode());
-	    	    city.getPropertyList().add(prop);
-	    	}
-	   	//dmp
-	    	for(int k = 0; k < ptDmpList.size() - 1; k++) // если убрать температуру, то надо делать " - 1"
-	    	{
-	       	    	for(int j = 0; j < 12; j++)
-	       	    	{
-	       		    DependingMonthProperty dmpType = new DependingMonthProperty();
-	       		    try
-	       		    {
-	       			try
-	       			{
-	       			    String cell = exc.getStringField(sheetNumber, i, j + devider + 12*k);
-	       			/*    logger.info(cell);
-	       			    logger.info(getAverageValue(cell));
-	       			    dmpType.setValue(getAverageValue(cell));  
-	       			}
-	       			catch(IllegalStateException e)
-	       			{
-	       			    dmpType.setValue((float)exc.getFloatField(sheetNumber, i, j + devider + 12*k)); 
-	       			}
-	       		
-	       		    }
-	       		    catch(Exception e)
-	       		    {
-	       			ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-	    	    			+ exc.getSheetName(sheetNumber) +
-	    	    			" type of DEPENDING MONTH PROPERTIES " + ptDmpList.get(k).getName() +
-	    	    			" line " + i +
-	    	    			" position " + k, i);
-	       			throw excParseExc;
-	       		    }
-	       		    dmpType.setMonth(j);
-	       		    dmpType.setPropertyType(ptDmpList.get(k));
-	       		    logger.info(dmpType.hashCode());
-	       		    city.getDmpList().add(dmpType);
-	       	    	}
-	    	}
-		try
-		{
-		    stringToExcelDocumentToAddTag(city, exc.getStringField(sheetNumber, i, 4));
-		}
-		catch(IllegalStateException e)
-		{
-		    stringToExcelDocumentToAddTag(city, exc.getFloatField(sheetNumber, i, 4));
-		}
-		
-
-		try
-		{
-		    for(Property elem: city.getPropertyList())
-		    {
-			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName());
-		    }
-		    for(DependingMonthProperty elem: city.getDmpList())
-		    {
-			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName() + " " + elem.getMonth());
-		    }
-
-		    cityDao.addCity(city);   
-		    System.err.println(city.getId());
-		    for(Property elem: city.getPropertyList())
-		    {
-			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName());
-		    }
-		    for(DependingMonthProperty elem: city.getDmpList())
-		    {
-			logger.info(elem.getId() + " " + elem.getValue() + " " + elem.getPropertyType().getName() + " " + elem.getMonth());
-		    }
-		    cityDao.updateCity(city);
-		}
-		catch(MySqlException except)
-		{
-		    throw except;
-		}
-		catch(NullPointerException e)
-		{
-		    break;
-		}
-		i++;
-		
-	 }
-    }*/
-    private void cityParse2() throws ExcelParserException
+    private void cityParse2() throws IOException
     {
 	final int livingCostStartPosition = 11;
 	final int moodStartPosition = 23;
-	
+	File bugReportFile = new File("ExcelBugs.txt");
+	if(!bugReportFile.exists()) bugReportFile.createNewFile();
+	PrintWriter writer = new PrintWriter(
+		    new BufferedOutputStream(
+			    new FileOutputStream(bugReportFile)));
 	int i = 2;
 	while (i < exc.getLenght(0))
 	{
-	    City city = new City();
-	    city.setName(exc.getStringField(sheetNumber, i, 2));
-	    city.setRu_name(exc.getStringField(sheetNumber, i, 3));
-	    city.setFoodCost(getIntervalFromCell(i,5));
-	    city.setAlcoCost(getIntervalFromCell(i,6));
-	    city.setRussian(cellToBool(i, 7));
-	    city.setVisa(cellToBool(i, 8));
-	    city.setSex((int)exc.getFloatField(sheetNumber, i, 9));
-	    city.setSecurity((int)exc.getFloatField(sheetNumber, i, 10));
-	    
-	    LivingCost livinCost = new LivingCost();
-	    for(int k = livingCostStartPosition; k < 12 + livingCostStartPosition; k++)
+	    try
 	    {
-		livinCost.setValue(Month.values()[k - livingCostStartPosition], getIntervalFromCell(i, k));
+        	    City city = new City();
+        	    city.setName(exc.getStringField(sheetNumber, i, 2));
+        	    city.setRu_name(exc.getStringField(sheetNumber, i, 3));
+        	    city.setFoodCost(getIntervalFromCell(i,5));
+        	    city.setAlcoCost(getIntervalFromCell(i,6));
+        	    city.setRussian(cellToBool(i, 7));
+        	    city.setVisa(cellToBool(i, 8));
+        	    city.setSex((int)exc.getFloatField(sheetNumber, i, 9));
+        	    city.setSecurity((int)exc.getFloatField(sheetNumber, i, 10));
+        	    
+        	    LivingCost livinCost = new LivingCost();
+        	    for(int k = livingCostStartPosition; k < 12 + livingCostStartPosition; k++)
+        	    {
+        		livinCost.setValue(Month.values()[k - livingCostStartPosition], getIntervalFromCell(i, k));
+        	    }
+        	    city.setLivingCost(livinCost);
+        	    Mood mood = new Mood();
+        	    for(int k = moodStartPosition; k < 12 + moodStartPosition; k++)
+        	    {
+        		mood.setValue(Month.values()[k - moodStartPosition], getIntervalFromCell(i, k));
+        	    }
+        	    city.setMood(mood);
+        	    stringToExcelDocumentToAddTag(city, i, 4);
+        	    cityDao.add(city);
 	    }
-	    city.setLivingCost(livinCost);
-	    Mood mood = new Mood();
-	    for(int k = moodStartPosition; k < 12 + moodStartPosition; k++)
+	    catch(ExcelParserException e)
 	    {
-		mood.setValue(Month.values()[k - moodStartPosition], getIntervalFromCell(i, k));
+		 writer.println(e.getDescription());
 	    }
-	    city.setMood(mood);
-	    stringToExcelDocumentToAddTag(city, i, 4);
-	    cityDao.add(city);
+	    catch(IllegalStateException e)
+	    {
+		int si = i+1;
+		writer.println("Ошибка в"  + si + " строке " + e.toString());
+	    }
 	    i++;
+	    
 	}
+	writer.close();
     }
     private boolean cellToBool(int i, int j) throws ExcelParserException
     {
@@ -374,7 +277,9 @@ public class AdminParser implements IAdminParser
 	}
 	catch(Exception e)
 	{
-	    ExcelParserException excelException = new ExcelParserException("error in" + i + "," + j + e.toString(), i);
+	    int si = i+1;
+	    int sj = j+1;
+	    ExcelParserException excelException = new ExcelParserException("Ошибка в "  + si + ", " + sj + " " + e.toString(), i);
 	    throw excelException;
 	}
     }
@@ -383,139 +288,40 @@ public class AdminParser implements IAdminParser
 	Interval interval = new Interval();
 	try
 	{
+	    Double cell = exc.getFloatField(sheetNumber, i, j);
+	    interval.setLeft((int)Math.round(cell));
+	    interval.setRight((int)Math.round(cell));
+	   
+	}
+	catch(IllegalStateException e)
+	{
 	    String cell = exc.getStringField(sheetNumber, i, j);
 	    Pattern pattern = Pattern.compile("\\d{1,3}\\s?-\\s?\\d{1,4}");
 	    Matcher matcher = pattern.matcher(cell);
-	    float result;
 	    if(matcher.find())
 	    {
 		String[] devider = cell.split("-");
 		interval.setLeft(Integer.parseInt(devider[0].trim()));
 		interval.setRight(Integer.parseInt(devider[1].trim()));
 	    }
-	}
-	catch(IllegalStateException e)
-	{
-	    Double cell = exc.getFloatField(sheetNumber, i, j);
-	    interval.setLeft((int)Math.round(cell));
-	    interval.setRight((int)Math.round(cell));
+	    else
+	    {
+		int si = i+1;
+		int sj = j+1;
+		ExcelParserException excelException = new ExcelParserException(" Ошибка в  " + si + ", " + sj + " " + e.toString(), i);
+		throw excelException;
+	    }
 	}
 	catch(Exception e)
 	{
-	    ExcelParserException excelException = new ExcelParserException("error in " + i + ", " + j + e.toString(), i);
+	    int si = i+1;
+	    int sj = j+1;
+	    ExcelParserException excelException = new ExcelParserException(" Ошибка в " + si + ", " + sj + " " + e.toString(), i);
 	    throw excelException;
 	}
 	return interval;
     }
 
-    /**
-     * Функция парсит event
-     * @throws ExcelParserException в случае провала валидации
-     */
-  /*  @Deprecated
-    private void eventParse() throws ExcelParserException
-    {
-	final int sheetNumber =1;
-	int i = 1;
-	while(exc.getEventId(i) != -1)
-	{   
-	    	ArrayList<Integer> cityId = searchCity(exc.getEventIdSheet2(i));
-	    	
-	    	Event event = new Event();
-	    	try
-	    	{
-	    	    event.setName(exc.getNameSheet2(i));
-	    	    event.setDescription(exc.getDescription(i));
-	    	    event.setRu_description(exc.getRuDescription(i));
-	    	    event.setImage(exc.getImage(i));
-	    	}
-		 catch(NullPointerException e)
-		    {
-		        ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-		    	    			+ exc.getSheetName(sheetNumber) + 
-		    	    			"line 0" +
-		    	    			"column" + i, i);
-		        throw excParseExc;
-		        
-		    }
-	    	
-	    	
-	    	try
-	    	{
-	    	    event.setMonth(exc.getEventsMonths(i));
-	    	}
-	    	catch (java.lang.ArrayIndexOutOfBoundsException e)
-	    	{
-	    	    throw new ExcelParserException("Month", i);
-	    	}
-	    	event.setRu_name(exc.getRussianName(i));
-		
-		try
-		{
-		   for (int j = 0; j < cityId.size(); j++)
-		   {
-		       City city = cityDao.getCityById(cityId.get(j));
-		       eventDao.addEvent(event, city); 
-		   }
-		}
-		catch(NullPointerException e)
-		{
-		    break;
-		}
-		i++;
-		
-	 }
-    }*/
-    /**
-     * Парсер второй страницы
-     * @throws MySqlException в случаесовпадения двух тэгов
-     * @throws ExcelParserException в случае провала валидации
-     */
-    /*@Deprecated
-    private void tagParse() throws MySqlException, ExcelParserException
-    {
-	final int sheetNumber = 2;
-	try
-	{
-            	ArrayList<String> tagsList = getTagsList();
-        	int i = 1;
-        	int index;
-        	while(exc.getCityIdSheet3(i) != -1)
-        	{
-        	    try
-        	    {
-        	    	index = tagsList.indexOf(exc.getTag(i));
-        		City city = cityDao.getCityById(exc.getCityIdSheet3(i));
-        		city.getTagList().add(tagDao.getTagById(index + 1));
-        		cityDao.updateCity(city);
-        	    }
-   		    catch(NullPointerException e)
-		    {
-		        ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-		    	    			+ exc.getSheetName(sheetNumber) + 
-		    	    			"; line 0;" +
-		    	    			"column " + i, i);
-		        throw excParseExc;
-		        
-		    }
-        	    catch(NonUniqueObjectException e)
-        	    {
-		        ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet(NonUnique): " 
-    	    			+ exc.getSheetName(sheetNumber) + 
-    	    			"; line 0" +
-    	    			"; column " + i, i);
-		        throw excParseExc;
-        	    }
-
-        		i++;
-        	}
-	}
-	catch (MySqlException e)
-	{
-	    throw e;
-	}
-    }*/
-    
     
     /**
      * Функция осуцествляет поиск по таблице event_id city_id в документе
@@ -540,33 +346,7 @@ public class AdminParser implements IAdminParser
 	if(cityId.size() == 0) throw new NullPointerException("there is no any connection to event by number " + event_id + ".Empty event!!!");
 	return cityId;
     }
-    /**
-     * функция заполняющая массив тэгов и добавляющая их в БД
-     * @return массив тэгов который находятся в 4 столбце
-     * @throws MySqlException
-     */
-/*    @Deprecated
-    private ArrayList<String> getTagsList() throws MySqlException
-    {
-        final int tagsInfoColumn = 3;
-        int i = 1;
-        ArrayList<String> tagsArr = new ArrayList<String>(); 
-        while(exc.getStringField(2, i, tagsInfoColumn) != null)
-        {
-            Tag tag = new Tag();
-            tag.setName(exc.getStringField(2, i, tagsInfoColumn));
-            tagsArr.add(tag.getName());
-            try 
-	    {
-		tagDao.addTag(tag);
-	    } catch (MySqlException e)
-	    {
-		throw e;
-	    }
-            i++;
-        }
-        return tagsArr;
-    }*/
+
     /**
      * преобразует координаты из типа String из стандарта в float не стандарт 
      * @return float координаты не стандарта
@@ -594,138 +374,8 @@ public class AdminParser implements IAdminParser
 	else
 	    return -(splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600);
     }
-    /**
-     * Функция заполняющая PropertyType. Свойства находятся в том же порядке что и столбцы в экселе
-     * @return Возвращает список свойст
-     * @throws ExcelParserException Вызывается при ошибке парсера, какая то ошибка в экселе
-     * @throws MySqlException
-     */
-   /* @Deprecated
-    private List<PropertyType> createPropertyTypeList() throws ExcelParserException, MySqlException
-    {
-	List<PropertyType> ptList = new ArrayList<PropertyType>();
-	List<PropertyType> createdList = propertyTypeDao.getPropertyTypeList();
-	if(!createdList.isEmpty())
-	{
-	    for(int i = 0; i <createdList.size(); i++)
-	    {
-		if(!createdList.get(i).isDependingMonth())
-		{
-		    ptList.add(createdList.get(i));
-		}
-	    }
-	    return ptList;
-	}
-	
-	PropertyType propType = new PropertyType(); //против Stack Overflow.
-	for(int j = startPositionProperty; j < devider; j++) //Количество столбцов property. В данном случае в эксельнике 8 столбцов property
-	{
-	    	
-	    try
-	    {
-		if(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j))!= null)
-		{
-		    ptList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
-		}
-		else
-		{
-		    propType.setName(exc.getStringField(sheetNumber, 0, j)); // j - startPositionProperty на ноль переход
-		    propType.setDependingMonth(false);
-		    propType.setMinValue(0);
-		    propType.setMaxValue(20);
-		    try
-		    {
-			propertyTypeDao.addPropertyType(propType);
-			ptList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
-		    } catch (MySqlException e)
-		    {
-		      throw e;
-		    } // чтобы лист начинался с 0
-		}
-	    }
-	    catch(NullPointerException e)
-	    {
-		ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-			+ exc.getSheetName(sheetNumber) + 
-			"line 0" +
-			"column" + j, j);
-		logger.error("Error in name of property sheet: " + exc.getSheetName(sheetNumber) + 
-			"line 0" +
-			"column" + j);
-		throw excParseExc;
-	    	    
-	    }			
-	}
-	return ptList;
-    }
-    @Deprecated
-    private List<PropertyType> createDependingMonthPropertyList() throws MySqlException, ExcelParserException
-    {
-	List<PropertyType> ptDmpList = new ArrayList<PropertyType>(); 
-	List<PropertyType> createdList = propertyTypeDao.getPropertyTypeList();
-	if(createdList.size() > 6)
-	{
-	    for(int i = 0; i <createdList.size(); i++)
-	    {
-		if(createdList.get(i).isDependingMonth())
-		{
-		    ptDmpList.add(createdList.get(i));
-		}
-	    }
-	    return ptDmpList;
-	}
-	PropertyType propType;
-	//Создание propertyType для Dmp
-	for(int j = devider; j < exc.getRowLenght(sheetNumber); j+=12)
-	{
-	    propType = new PropertyType();
-	    if(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)) != null)
-	    {
-		ptDmpList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
-	    }
-	    else
-	    {
-		propType.setName(exc.getStringField(sheetNumber, 0, j));
-        	propType.setDependingMonth(true);
-        	if(exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("температура") || exc.getStringField(sheetNumber, 0, j).toLowerCase().equals("temperature"))
-        	{
-        	    propType.setMinValue(-35);
-        	    propType.setMaxValue(35);
-        	}
-        	else
-        	{
-        	    propType.setMinValue(0);
-        	    propType.setMaxValue(300);
-        	}
-        	
-        	try
-        	{
-        	    propertyTypeDao.addPropertyType(propType);
-        	    ptDmpList.add(propertyTypeDao.getPropertyTypeByName(exc.getStringField(sheetNumber, 0, j)));
-        	}         	
-        	catch (MySqlException e)
-        	{
-        	    throw e;
-        	}// получение 10 + j в случае и записывание в list[j]
-        	catch(NullPointerException e)
-        	{
-        	    ExcelParserException excParseExc = new ExcelParserException("Error in name of property sheet: " 
-        		    + exc.getSheetName(sheetNumber) + 
-        		    	"line 0" +
-        		    	"column" + j, j);
-        	    logger.error("Error in name of property sheet: " 
-        		    		+ exc.getSheetName(sheetNumber) + 
-        		    		"line 0" +
-        		    		"column" + j);
-        	    throw excParseExc;
-        		        
-        	}
-    	}
-	
-    }
-    return ptDmpList;
 
-    }//*/
+  
     public Float getAverageValue(String cell)
     {
 	Pattern pattern = Pattern.compile("\\d{1,3}\\s?-\\s?\\d{1,4}");

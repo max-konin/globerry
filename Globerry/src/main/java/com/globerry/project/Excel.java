@@ -68,13 +68,13 @@ public Excel(String fileName)
  * @return				float значение таблицы
  * 						Если какая то ошибка - то -1;
  */
-public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException, IllegalStateException
+public double getFloatField(int sheetNumber, int rowNumber, int cellNumber)
 {
     Cell currentCell;
-		org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
-		Row currentRow = sheet.getRow(rowNumber);
-		currentCell = currentRow.getCell(cellNumber);
-		return currentCell.getNumericCellValue();
+    org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
+    Row currentRow = sheet.getRow(rowNumber);
+    currentCell = currentRow.getCell(cellNumber);
+    return currentCell.getNumericCellValue();
 
 
 	//return -1;
@@ -87,15 +87,12 @@ public double getFloatField(int sheetNumber, int rowNumber, int cellNumber) thro
  * @return					string значение таблицы
  * 							если ошибка то null;
  */
-public String getStringField(int sheetNumber, int rowNumber, int cellNumber) throws NullPointerException
+public String getStringField(int sheetNumber, int rowNumber, int cellNumber)
 {
-		org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
-		Row currentRow = sheet.getRow(rowNumber);
-		Cell currentCell = currentRow.getCell(cellNumber);
-		return currentCell.getStringCellValue();
-
-	    
-
+    org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
+    Row currentRow = sheet.getRow(rowNumber);
+    Cell currentCell = currentRow.getCell(cellNumber);
+    return currentCell.getStringCellValue();
 }
 /**
  * Функция которая вычисляет длину строки.

@@ -70,6 +70,7 @@ public class Dao<T> implements IDao<T>
     public void update(T entity)
     {
 	Transaction tx = null;
+        System.out.println(entity.toString());
 	try
 	{
 	    tx = sessionFactory.getCurrentSession().beginTransaction();

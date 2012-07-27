@@ -104,23 +104,22 @@ public class AdminUploadController
 	catch(ExcelParserException e)
 	{
 	    File bugReportFile = new File("bugs.txt");
+	    System.err.println(bugReportFile.getAbsolutePath());
 	    if(!bugReportFile.exists()) bugReportFile.createNewFile();
 	    PrintWriter writer = new PrintWriter(
 		    new BufferedOutputStream(
 			    new FileOutputStream(bugReportFile)));
-
+	    String errorMessage = e.getDescription();
+	    request.setAttribute("errorMessage", errorMessage);
 	    logger.error(e.getDescription());
 	    writer.println(e.getDescription());
 	    writer.close();
 	    return "admin/errorForm";  
 	}
       }
-      catch (IllegalStateException e)
+      catch (IOException e)
       {
-	  logger.info("Hello World--------------------------------------------------");
-	e.printStackTrace();
-      } catch (IOException e)
-      {
+	  logger.error("Проблема с файлом. Возможно, его нельзя прочесть");
 	e.printStackTrace();
       }
       
@@ -134,7 +133,15 @@ public class AdminUploadController
     @RequestMapping("wikiparse")
     public String wikiParseBtn()
     {
-	adminParser.updateWikiContent();
+	try
+	{
+	    adminParser.updateWikiContent();
+	}
+	catch(IOException e)
+	{
+	    e.printStackTrace();
+	    logger.error("Что-то неправильно с файлами");
+	}
 	return "admin/wikiparse";
     }
     
