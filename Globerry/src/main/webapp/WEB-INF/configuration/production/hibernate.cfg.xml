@@ -6,9 +6,10 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hbm2ddl.auto">update</property>
-		<property name="show_sql">true</property>
-		<property name="format_sql">true</property>
-		<property name="use_sql_comments">true</property>
+		<property name="show_sql">${showSql}</property>
+		<property name="format_sql">${showSql}</property>
+		<property name="use_sql_comments">${showSql}</property>
+                <property name="hibernate.max_fetch_depth">1</property>
 		                
 		<mapping class="com.globerry.project.domain.DependingMonthPropertyBase"/>
                 <mapping class="com.globerry.project.domain.Temperature"/>

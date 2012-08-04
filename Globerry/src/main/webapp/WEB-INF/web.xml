@@ -60,7 +60,7 @@
     <servlet-class>com.globerry.project.utils.Log4jInit</servlet-class>
     <init-param>   
         <param-name>logfile</param-name>
-        <param-value>/WEB-INF/configuration/production/log4j.properties</param-value>
+        <param-value>/WEB-INF/classes/configuration/production/log4j.properties</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
 </servlet>

@@ -57,14 +57,14 @@ public class City
     
     @Embedded
     @AttributeOverrides( {
-            @AttributeOverride(name="left", column = @Column(name="food_value_left") ),
+            @AttributeOverride(name="left",  column = @Column(name="food_value_left") ),
             @AttributeOverride(name="right", column = @Column(name="food_value_right") )
     } )
     
     private Interval foodCost = new Interval();
     @Embedded
     @AttributeOverrides( {
-            @AttributeOverride(name="left", column = @Column(name="alco_value_left") ),
+            @AttributeOverride(name="left",  column = @Column(name="alco_value_left") ),
             @AttributeOverride(name="right", column = @Column(name="alco_value_right") )
     } )
     
@@ -109,6 +109,10 @@ public class City
     
     @Transient
     private float weight;
+    
+    @Transient
+    private double potential = 0;
+
     
     public City(){}
     
@@ -492,5 +496,19 @@ public class City
                 Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
             }
         return str;
+    }
+
+    public double getPotential()
+    {
+	return potential;
+    }
+
+    public void setPotential(double potential)
+    {
+	this.potential = potential;
+    }
+    public void addPotential(double potential)
+    {
+	this.potential += potential;
     }
 }

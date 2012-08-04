@@ -42,6 +42,8 @@ public class QueryFactory
         whereClause += " and city.sex <=" + appContext.getSlidersByName("sex").getRightValue() +
                        " and city.sex >=" + appContext.getSlidersByName("sex").getLeftValue();        
         
+        
+        
         whereClause += " and (city.alcoCost.left <=" + appContext.getSlidersByName("alcohol").getRightValue() +
                        " and city.alcoCost.left >=" + appContext.getSlidersByName("alcohol").getLeftValue() +
                        " or  city.alcoCost.right >=" + appContext.getSlidersByName("alcohol").getLeftValue() +
@@ -55,48 +57,55 @@ public class QueryFactory
         String currentMonth = Month.values()[appContext.getWhenTag().getValue()].toString();
         
         ISlider tempSlider = appContext.getSlidersByName("temperature");       
+        joinClause += "left join fetch city.temperature temperature ";
         if(appContext.getWhatTag().getValue() == 5 && (tempSlider.getLeftValue() < 15)) 
             
             if(tempSlider.getRightValue() < 15)
-                whereClause += " and (city.temperature." + currentMonth + "Value.left <= " + 20 + 
-                               " and city.temperature." + currentMonth + "Value.left >= "  + 15 +
-                               " or  city.temperature." + currentMonth + "Value.right >= " + 15 +
-                               " and city.temperature." + currentMonth + "Value.right <= " + 20 +  ")";
+                whereClause += " and (temperature." + currentMonth + "Value.left <= " + 20 + 
+                               " and temperature." + currentMonth + "Value.left >= "  + 15 +
+                               " or  temperature." + currentMonth + "Value.right >= " + 15 +
+                               " and temperature." + currentMonth + "Value.right <= " + 20 +  ")";
             else
-                 whereClause += " and (city.temperature." + currentMonth + "Value.left <= " + 
+                 whereClause += " and (temperature." + currentMonth + "Value.left <= " + 
                                      appContext.getSlidersByName("temperature").getRightValue() +
-                                " and city.temperature." + currentMonth + "Value.left >= "  + 15 +
-                                " or  city.temperature." + currentMonth + "Value.right >= " + 15 +
-                                " and city.temperature." + currentMonth + "Value.right <= " +  
+                                " and temperature." + currentMonth + "Value.left >= "  + 15 +
+                                " or  temperature." + currentMonth + "Value.right >= " + 15 +
+                                " and temperature." + currentMonth + "Value.right <= " +  
                                      appContext.getSlidersByName("temperature").getRightValue() + ")";        	
         else                
-            whereClause += " and (city.temperature." + currentMonth + "Value.left <= " + 
+            whereClause += " and (temperature." + currentMonth + "Value.left <= " + 
                              appContext.getSlidersByName("temperature").getRightValue() +
-                          " and city.temperature." + currentMonth + "Value.left >= " + 
+                          " and temperature." + currentMonth + "Value.left >= " + 
                              appContext.getSlidersByName("temperature").getLeftValue() +
-                          " or  city.temperature." + currentMonth + "Value.right >= " +  
+                          " or  temperature." + currentMonth + "Value.right >= " +  
                              appContext.getSlidersByName("temperature").getLeftValue() + 
-                          " and city.temperature." + currentMonth + "Value.right <= " +  
+                          " and temperature." + currentMonth + "Value.right <= " +  
                              appContext.getSlidersByName("temperature").getRightValue() + ")";
         
-        whereClause += " and (city.mood." + currentMonth + "Value.left <= " + 
+        joinClause += "left join fetch  city.mood mood ";
+        
+        whereClause += " and (mood." + currentMonth + "Value.left <= " + 
                              appContext.getSlidersByName("mood").getRightValue() +
-                       " and city.mood." + currentMonth + "Value.left >= " + 
+                       " and mood." + currentMonth + "Value.left >= " + 
                              appContext.getSlidersByName("mood").getLeftValue() +
-                       " or  city.mood." + currentMonth + "Value.right >= " +  
+                       " or  mood." + currentMonth + "Value.right >= " +  
                              appContext.getSlidersByName("mood").getLeftValue() +
-                       " and city.mood." + currentMonth + "Value.right <= " +  
+                       " and mood." + currentMonth + "Value.right <= " +  
                              appContext.getSlidersByName("mood").getRightValue() + ")";
+        
+        joinClause += "left join fetch city.livingCost livingCost ";
          
-        whereClause += " and (city.livingCost." + currentMonth + "Value.left <= " + 
+        whereClause += " and (livingCost." + currentMonth + "Value.left <= " + 
                              appContext.getSlidersByName("livingCost").getRightValue() +
-                       " and city.livingCost." + currentMonth + "Value.left >= " + 
+                       " and livingCost." + currentMonth + "Value.left >= " + 
                              appContext.getSlidersByName("livingCost").getLeftValue() +
-                       " or  city.livingCost." + currentMonth + "Value.right >= " +  
+                       " or  livingCost." + currentMonth + "Value.right >= " +  
                              appContext.getSlidersByName("livingCost").getLeftValue() + 
-                       " and city.livingCost." + currentMonth + "Value.right <= " +  
+                       " and livingCost." + currentMonth + "Value.right <= " +  
                              appContext.getSlidersByName("livingCost").getRightValue() + ")";
-        int visa = 0;
+        /*
+         * TODO Переделать, когда будет нормальный парсер
+        int visa = 0; 
         if(appContext.getVisa().isChecked())
         	visa = 1;
         whereClause +=" and city.visa = " + visa;
@@ -105,6 +114,8 @@ public class QueryFactory
         {
         	whereClause +=" and city.isRussian = 1";
         }
+        * 
+        */
         return query + joinClause + whereClause;
     }
     public String getCityById(int id)

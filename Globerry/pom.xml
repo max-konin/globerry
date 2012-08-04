@@ -5,7 +5,7 @@
 	<groupId>com.globerry</groupId>
 	<artifactId>project</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-b4</version>
+	<version>1.0-b5</version>
         <scm>
             <connection>scm:svn://cloud.grwe.ru/globerry/branches/develop</connection>
             <developerConnection>scm:svn:http://cloud.grwe.ru/globerry/branches/develop</developerConnection>   
@@ -16,7 +16,11 @@
             <org.aspectj-version>1.6.9</org.aspectj-version>
             <org.slf4j-version>1.5.10</org.slf4j-version>
             <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-            <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>                        
+            <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>    
+            <showSql>true</showSql>
+            <loggerPriority>DEBUG</loggerPriority>
+            <hibernateLoggerPriority>INFO</hibernateLoggerPriority>
+            <hibernateHQLLoggerPriority>INFO</hibernateHQLLoggerPriority>
 	</properties>
         
         <repositories>
@@ -338,6 +342,21 @@
                 <artifactId>closure-compiler</artifactId>
                 <version>r2079</version>
             </dependency>
+            
+            
+            <dependency>
+                <groupId>nl.cloudfarming.client</groupId>
+                <artifactId>lib-geotools</artifactId>
+                <version>2.7.5</version>
+            </dependency>
+            
+            <dependency>
+                    <groupId>postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>9.1-901.jdbc4</version>
+            </dependency>
+            
+
         </dependencies>
         
 	<build>
@@ -345,6 +364,7 @@
             <testResources>
                 <testResource>
                     <directory>src/main/webapp/WEB-INF/configuration/test</directory>
+                    <filtering>true</filtering>
                 </testResource>
                 <testResource>
                     <directory>dumps/</directory>
@@ -432,14 +452,15 @@
                             </goals>
                             <configuration>
                                 <outputDirectory>${project.build.outputDirectory}</outputDirectory>                           
-                                <resources>                        
+                                <resources> 
                                     <resource>
-                                        <directory>src/main/webapp/WEB-INF/messages</directory>
+                                        <directory>src/main/webapp/WEB-INF/</directory>                                       
                                         <filtering>true</filtering>
                                         <includes>
                                             <include>**/*.properties</include>
-                                        </includes>
-                                    </resource>                
+                                            <include>**/hibernate.cfg.xml</include>
+                                        </includes>                                       
+                                    </resource>              
                                 </resources>
                             </configuration>
                         </execution>
@@ -464,6 +485,7 @@
        
        <!-- Whith DAO test -->
         <profiles>
+            
             <profile>
                 <id>systest</id>
                 <build>
@@ -481,54 +503,69 @@
                     </plugins>
                 </build>
             </profile>
+            
+            <profile>
+                <id>release</id>
+                <properties>
+                    <showSql>false</showSql>
+                    <loggerPriority>OFF</loggerPriority>
+                    <hibrnateLoggerPriority>OFF</hibrnateLoggerPriority>
+                    <hibrnateHQLLoggerPriority>OFF</hibrnateHQLLoggerPriority>
+                </properties>
+                    
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>2.5</version>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/*$*</exclude>
+                                </excludes>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+                
+            </profile>
           
             
             <profile>
                 <id>js-minimize</id>
                 <build>
                 <plugins>
-                    <!-- Closure Compiler configuration -->
-                    <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.2</version>
-                    <configuration>
-                        <executable>java</executable>
-                        <workingDirectory>${project.dir}</workingDirectory>
-                        
-                        <includes>
-                            <include>**/*.js</include>
-                        </includes>    
-                        
-                        <excludes>
-                            <exclude>**/jquery*.js,**/*.min.js</exclude>
-                        </excludes>
-                        
-                        <arguments>
-                            <argument>-classpath</argument>
-                            <classpath>
-                                <dependency>args4j:args4j</dependency>
-                                <dependency>com.google.guava:guava</dependency>
-                                <dependency>com.google.javascript:closure-compiler</dependency>
-                            </classpath>
-                            <argument>com.google.javascript.jscomp.CommandLineRunner</argument>
-                            <argument>--compilation_level</argument>
-                            <argument>SIMPLE_OPTIMIZATIONS</argument>                       
-                                            
-                        </arguments>
-                    </configuration>
-                    <executions>
-                        <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        </execution>
-                    </executions>
+                   <plugin>
+                        <groupId>com.github.urmuzov</groupId>
+                        <artifactId>closure-compiler-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <configuration>
+                           <addDefaultExterns>true</addDefaultExterns>
+                            <passes>
+                                <pass>
+                                    <sources>
+                                        <source>${basedir}/src/main/resources/javascripts/bezier.js</source>
+                                    </sources>
+                                    <outputFile>
+                                        ${project.build.directory}/${project.build.finalName}/resources/javascripts/bezier.js
+                                    </outputFile>
+                                </pass>
+                            </passes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
                 </build>
             </profile>
+            
+            
         </profiles>
         
         <reporting>

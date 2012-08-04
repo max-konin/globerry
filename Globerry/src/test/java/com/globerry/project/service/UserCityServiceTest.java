@@ -5,6 +5,9 @@
 package com.globerry.project.service;
 
 import com.globerry.project.dao.IDao;
+
+import nl.cloudfarming.client.lib.geotools.GeometryTools;
+
 import com.globerry.project.dao.QueryFactory;
 import static org.mockito.Mockito.*;
 
@@ -213,6 +216,33 @@ public class UserCityServiceTest
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    
+    
+    
+    /**
+     * Test of geographicalDistance method, of class UserCityService.
+     */
+   /* @Test
+    public void geographicalDistance()
+    {
+	City Novosib = new City();
+	City Moscow = new City();
+        Novosib.setLatitude((float) 55.02);
+        Novosib.setLongitude((float) 82.55);
+        Moscow.setLatitude((float) 55.75);
+        Moscow.setLongitude((float) 37.616667);
+        UserCityService instance = new UserCityService();
+        double distance = distance = GeometryTools.getDistance(Novosib.getLatitude(), Novosib.getLongitude(), Moscow.getLatitude(), Moscow.getLongitude());
+        assertTrue(distance < 2850 && distance > 2790);
+        City NewYork = new City();
+        NewYork.setLatitude((float) 41.145556);
+        NewYork.setLongitude((float) -73.995);
+        distance = instance.geographicalDistance(NewYork.getLatitude(), NewYork.getLongitude(), Moscow.getLatitude(), Moscow.getLongitude());
+        System.err.println(distance);
+        distance = GeometryTools.getDistance(NewYork.getLatitude(), NewYork.getLongitude(), Moscow.getLatitude(), Moscow.getLongitude());
+        System.err.println(distance);
+    }*/
+    
 
     
     

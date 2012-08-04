@@ -32,7 +32,7 @@
 
 
 	<jdbc:initialize-database data-source="dataSource">
-            <jdbc:script location="classpath:globerry-dump-with-indexes.sql"/>        
+            <jdbc:script location="classpath:globerry-dump-memory.sql"/>        
         </jdbc:initialize-database>
 
 	<!-- Настройки бина dataSource будем хранить в отдельном файле -->
@@ -43,7 +43,7 @@
 	<!-- Непосредственно бин dataSource -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:driverClassName="com.mysql.jdbc.Driver" 
+		p:driverClassName="${jdbc.driverClassName}"
 		p:url="${jdbc.databaseurl}"
 		p:username="${jdbc.username}" 
 		p:password="${jdbc.password}" />

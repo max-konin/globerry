@@ -307,10 +307,6 @@ function Graph(w, h, _minX, _maxX, _minY, _maxY, step, lmap) {
 			+ projectX(c2.x) + " " + projectY(c2.y) + " "
 			+ projectX(ray2.start.x) + " " + projectY(ray2.start.y);
 			ray1 = ray2;
-                    
-		//appendCircle(c1);
-		//appendCircle(c2);
-		//appendCircle(ray1.start);
 		}
                 
 		path += ' z';
@@ -383,7 +379,9 @@ function Graph(w, h, _minX, _maxX, _minY, _maxY, step, lmap) {
 			var val = 0;
 			for(var i = 0, l = points.length; i < l; i++) {
 				var point = points[i];
-				val += point.weight/(Math.sqrt((point.x - x)*(point.x - x) + (point.y - y)*(point.y - y)));
+				var r = Math.sqrt((point.x - x)*(point.x - x) + (point.y - y)*(point.y - y));
+				if(r > 	0.5)
+				val += 2*point.weight/(r);
 			}
 			return val;
 		}
@@ -1077,91 +1075,6 @@ function resolve(x1, x2, z1, z2, y, level, eps, func, iteration, isLeft) {
 			}
 		}
 	return x;
-}
-		
-function graphForBezier(/*L.Map*/ lmap) {
-	var initMapObjects = function() {
-		var polygons = [];
-		var toArray = function toArray() {
-			var points = [];
-			return points;
-		}
-		var me = {
-			toArray : toArray,
-			polygons : polygons
-		}
-		return me;
-	};
-	var mapObjects = initMapObjects();
-	var zoomNormalizer = {
-		2 : 5,
-		3 : 4,
-		4 : 3,
-		5 : 2,
-		6 : 1.6,
-		7 : 1.4,
-		8 : 1.1
-	};/** Индекс - это номер зума, значение - zlevel.**/
-	var currentZoom = lmap.getZoom();
-	function putBezier(bezierId,/*L.LatLng[]*/ points) {
-		var polygon = new L.ExPolygon(points, {
-			color: "orange", 
-			smoothFactor : 0.2,
-			weight: 1,
-			fillOpacity: 0.5
-		});
-		mapObjects.polygons[bezierId] = polygon;
-		lmap.addLayer(polygon);
-	}
-	function removeBezier(bezierId) {
-		lmap.removeLayer(mapObjects.polygons[bezierId]);
-		mapObjects.polygons[bezierId] = null;
-	}
-	function changeBezier(bezierId,/*L.LatLng[]*/ points) {
-		removeBezier(bezierId);
-		putBezier(bezierId, points);
-	}
-	function removeAll() {
-		for(var key in mapObjects.polygons)
-			removeBezier(key);
-	}
-	var me = {
-		putBezier: putBezier,
-		removeBezier: removeBezier,
-		changeBezier: changeBezier,
-		removeAll: removeAll,
-		zlevel: zoomNormalizer[currentZoom]
-	};
-    
-	var circle = new L.Polyline([], {});
-	var polyline = new L.Polyline([], {});
-	var option;
-	lmap.on('mousemove', function(e) {
-		lmap.removeLayer(circle);
-		lmap.removeLayer(polyline);
-		var flag = false;
-		for(var key in mapObjects.polygons)
-			if(mapObjects.polygons[key] != null)
-				if(flag || mapObjects.polygons[key].pointInPolygon(new Point(e.latlng.lng, e.latlng.lat)))
-					flag = true;
-		if(flag)
-			option = {fillColor: "green"};
-		else
-			option = {fillColor: "red"};
-		option.color = "black";
-		option.opacity = 1;
-		option.fillOpacity = 0.5;
-		circle = new L.Circle(e.latlng, 50000, option);
-		polyline = new L.Polyline([new L.LatLng(e.latlng.lat - 0.53 / Math.sqrt(2), e.latlng.lng + 0.53 / Math.sqrt(2)),
-			new L.LatLng(e.latlng.lat - 2 / Math.sqrt(2), e.latlng.lng + 2 / Math.sqrt(2))], option);
-		lmap.addLayer(circle);
-		lmap.addLayer(polyline);
-	});
-	lmap.on('zoomend', function(e) {
-		circle.setRadius(50000);
-	});
-	
-	return me;
 }
 	
 L.ExPolygon = L.Polygon.extend({

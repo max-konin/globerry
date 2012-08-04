@@ -21,6 +21,7 @@ import com.globerry.project.domain.LivingCost;
 import com.globerry.project.domain.Mood;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Temperature;
+import com.globerry.project.service.gui.CheckBox;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
@@ -140,6 +141,12 @@ public class DaoRequestFactoryTest
         SelectBox mockWhen = mock(SelectBox.class);
         when(mockWhen.getValue()).thenReturn(1);
         when(appContext.getWhenTag()).thenReturn(mockWhen);
+        
+        CheckBox mockCheck = mock(CheckBox.class);
+        when(mockCheck.isChecked()).thenReturn(true);
+        when(appContext.getVisa()).thenReturn(mockCheck);
+        when(appContext.getRusLanguage()).thenReturn(mockCheck);
+        
         ISlider mockSlider = mock(ISlider.class);
         when(appContext.getSlidersByName(anyString())).thenReturn(mockSlider);        
         when(mockSlider.getRightValue()).thenReturn(4);

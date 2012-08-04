@@ -100,6 +100,7 @@ public class DaoForCityTest extends DaoTest<City>
                                 mood,
                                 cost,
                                 tags);
+        
         //Конец инициализации города------------------------------------------------------------------------------------
         
         //Запись тегов в бд---------------------------------------------------------------------------------------------
@@ -137,6 +138,7 @@ public class DaoForCityTest extends DaoTest<City>
     protected City getModifyEntity()
     {
         city.setArea(666);
+        city.setVisa(false);
         return city;
     }
     
@@ -148,6 +150,7 @@ public class DaoForCityTest extends DaoTest<City>
         System.out.println("I'm here!");
         
         City Old = getEntity();
+        
         sessionFactory.getCurrentSession().save(Old);
         
         List<City> stateBefore = sessionFactory.getCurrentSession().createQuery("from City").list();              
@@ -159,6 +162,8 @@ public class DaoForCityTest extends DaoTest<City>
         List<City> stateAfter  = sessionFactory.getCurrentSession().createQuery("from City").list(); 
         
         assertTrue(newCity.getArea() == 666);
+        
+        assertTrue(!newCity.isVisa());
         
         assertTrue((stateAfter.size() - stateBefore.size()) == 0);
     }
