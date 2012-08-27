@@ -32,7 +32,7 @@
 	<!-- Непосредственно бин dataSource -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:driverClassName="com.mysql.jdbc.Driver" 
+		p:driverClassName="${jdbc.driverClassName}" 
 		p:url="${jdbc.databaseurl}"
 		p:username="${jdbc.username}" 
 		p:password="${jdbc.password}" />

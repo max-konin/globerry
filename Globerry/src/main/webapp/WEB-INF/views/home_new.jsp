@@ -14,6 +14,8 @@
 	<TITLE>Globerry (v<spring:message code="buildNumber" />)
 	</TITLE>
 	<link rel="stylesheet" href="resources/styles/globerry.css"
+		  type="text/css" />	
+	<link rel="stylesheet" href="resources/styles/fonts.css"
 		  type="text/css" />
 	<script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -91,6 +93,9 @@
 					<div id='headText'>
 						<input type="text" id="hText" value="" readonly="">
 					</div>
+                    <div id="upperHeaderBlockWithCircle">
+                        <div id='circle'></div>
+                    </div>
 				</div>
 				<div id='headContent1' class='headSwitcharable changeHeaderByClick'>
 					<div id='whoText' class='requestText'>
@@ -234,7 +239,7 @@
 										   readonly />
 								</div>
 							</div>
-							<div id='moodSlider' class='slider-range'></div>
+							<div id='moodSlider' class='slider-conjoint'></div>
 						</div>
 					</div>
 					<div id="thirdBlock" class="secondHeaderBlocks">
@@ -283,7 +288,7 @@
 										   readonly />
 								</div>
 							</div>
-							<div id='securitySlider' class='slider-range'></div>
+							<div id='securitySlider' class='slider-conjoint'></div>
 						</div>
 					</div>
 					<div id="forthBlock" class="secondHeaderBlocks">
@@ -330,7 +335,7 @@
 										   readonly />
 								</div>
 							</div>
-							<div id='sexSlider' class='slider-range'></div>
+							<div id='sexSlider' class='slider-conjoint'></div>
 						</div>
 					</div>
 					<!--
@@ -459,12 +464,17 @@
 	<div id='map'></div>
 
 	<div id="paramZLevel">
-		<div id="sliderZLevel"></div>
-		<div id="sliderRadiusCircle"></div>
-		<div id="stepsCurves">
-			<p>StepX = <input id="stepX" type="text" value="0.15"/></p>
-			<p>StepY = <input id="stepY" type="text" value="0.7"/></p>
+		<!--<div id="sliderZLevel"></div>-->
+		<div id="stepsCurves" style="background: #fff; padding: 0; margin: 0; padding-right: 15px;">
+			<p><input type="checkbox" id="circles"/> Circles</p>
+			<p><input type="checkbox" id="border"/> Border</p>
 		</div>
+		<!--<div id="sliderRadiusCircle"></div>
+		<!--<div id="stepsCurves">
+			<p>StepX = <input id="stepX" type="text" value="1.5"/></p>
+			<p>StepY = <input id="stepY" type="text" value="1.5"/></p>
+			<p><input onclick="changeStep()" type="button" value="change"/></p>
+		</div>-->
 	</div>
 
 </body>
@@ -477,7 +487,58 @@
 		color: 'url(#grad1)',
 		opacity: 0,
 		fillOpacity : 0.8
-	}
+	}, fillPattern = "<defs>"
+						+ "<pattern id='lines' patternUnits='userSpaceOnUse' x='0' y='0' width='3' height='4'>"
+							+ "<rect width='3' height='4' fill='#ff4d29'></rect>"
+							+ "<path d='M 0 4 L 3 0' style='fill: #af1d09; stroke-width: 2;'></path>"
+						+ "</pattern>"
+					+ "</defs>";
+	//$("div.leaflet-overlay-pane > svg").prepend(fillPattern);
+function appenDefs() {
+    var NS = "http://www.w3.org/2000/svg";
+    function createElement(name) {
+        return document.createElementNS(NS,name);
+    }
+    
+    var defs = createElement('defs');
+    var pattern = createElement('pattern');
+    defs.appendChild(pattern);
+    pattern.setAttribute('id', 'lines');
+            
+    pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+    pattern.setAttribute('x', '0');
+    pattern.setAttribute('y', '0');
+	//Размер паттерна
+    pattern.setAttribute('width', '8');
+    pattern.setAttribute('height', '8');
+    
+	//Содержимое паттерна(svg-объекты)
+	//Закраска всего паттерна цветом заливки
+    var children = createElement('rect');
+    children.setAttribute('width', '8');
+    children.setAttribute('height', '8');
+	children.setAttribute('fill', '#ff4d29');
+    pattern.appendChild(children);
+    
+	//Прямые линии
+    children = createElement('path');
+    children.setAttribute('d', 'M -1 5 L 5 -1');
+    children.setAttribute('style', 'stroke: #ffffff; stroke-width: 2; opacity: 1');
+    pattern.appendChild(children);
+    children = createElement('path');
+    children.setAttribute('d', 'M 9 3 L 3 9');
+    children.setAttribute('style', 'stroke: #ffffff; stroke-width: 2; opacity: 1');
+    pattern.appendChild(children);
+	
+    /*children = createElement('path');
+    children.setAttribute('d', 'M -1 4 L 9 4');
+    children.setAttribute('style', 'stroke: #ffffff; stroke-width: 2; opacity: 1');
+    pattern.appendChild(children);*/
+	
+    $("div.leaflet-overlay-pane > svg").prepend(defs);
+}
+	
+	
 </script>
 <!--[if lte IE 9]>
     <script>
@@ -500,25 +561,13 @@
             },
     </c:forEach>
 		];
-		/*cities = [
-			{"latitude": 63, "longitude": 92, "weight": 2 },
-			{"latitude": 64, "longitude": 117, "weight": 3 },
-			{"latitude": 56, "longitude": 107, "weight": 2 },		
-			{"latitude": 57, "longitude": 84, "weight": 5 }
-			/*{"latitude": 68, "longitude": 78, "weight": 4 },
-			{"latitude": 65, "longitude": 25, "weight": 8 },
-			{"latitude": 54, "longitude": 49, "weight": 4 },
-			{"latitude": 41, "longitude": 77, "weight": 1 },
-			{"latitude": 58, "longitude": 80, "weight": 3 },
-			{"latitude": 48, "longitude": 108, "weight": 6 },
-			{"latitude": 66, "longitude": 174, "weight": 4 },
-			{"latitude": 62, "longitude": 66, "weight": 4 }
-		];*/
 		var bubbles, params;
 		var points = [];
 		var globalMap;
+		var globalPolygons = [];
 		var curves;
-		var zlevelGlobal = 15;
+		var zlevelGlobal = 3;
+		var changeStep;
 		$(document).ready(function() {
 			//Устанавливаем январь активным в выдвигающимся меню.
 			$('#allMonths>div:first').addClass('activeMonth');
@@ -599,6 +648,26 @@
 				};
 				$(this).slider(params);
 			});
+			$(".slider-conjoint").each(function(){
+				
+				var minVal = parseInt($(this).parent().find('input:first').val());
+				var maxVal = parseInt($(this).parent().find('input:last').val());
+				var params = {
+					range: false,
+					min: minVal,
+					max: maxVal,
+					value: maxVal,
+					step : 1,
+					stop : function(event, ui) {
+                        sendRequest($(this).parent().attr('guiId'), {leftValue : ui.value, rightValue : ui.value});
+                    },
+					slide : function(event, ui) {
+						$(this).parent().find('input:first').val(minVal);
+						$(this).parent().find('input:last').val(maxVal);
+					}
+				};
+				$(this).slider(params);
+			});
 		});
 		$(document).ready(function(){ 
 		
@@ -620,11 +689,10 @@
 				maxZoom: 8, 
 				minZoom: 2
 			});
-			map.setView(new L.LatLng(10.505, -0.09), 2).addLayer(bing);
-			
-			//var canvas = BubbleFieldProvider(map);
-			//bubbles = BubblesInit(canvas, initCities);
-            //bubbles.draw();
+			map.setView(new L.LatLng(25.505, -0.09), 2).addLayer(bing);
+			map.on("click", function(e) {
+				console.log(e.latlng.lat + " : " + e.latlng.lng);
+			});
 			
 			var point;
 			for(var j = 0; j < cities.length; j++) {
@@ -633,29 +701,41 @@
 				points.push(point);
 			}
 			curves = Curves(points, map);
-	
-			$('#stepsCurves > p > input').focusout(function() {
-				if(this.id == 'stepX')
-					curves.stepX = this.value;
-				else
-					curves.stepY = this.value;
+			
+			changeStep = function changeStep() {
+				curves.stepX = parseFloat($('#stepsCurves > p > input#stepX').val());
+				curves.stepY = parseFloat($('#stepsCurves > p > input#stepY').val());
 				$('#modal').show();
 				curves.redrawCurves(cities);
-				setTimeout(function(){$('#modal').hide();},500);
-			});
+				setTimeout(function(){$('#modal').hide();},200);
+			}
 	
 			$('#sliderZLevel').slider({
 				min : 0.02,
-				max : 200,
+				max : 20,
 				step : 0.001,
-				value : 15,
+				value : 3,
 				orientation: "vertical",
 				stop : function(event, ui) {
 					curves.canvas.setZLevel(ui.value);
 					$('#modal').show();
 					curves.redrawCurves(cities);
-					setTimeout(function(){$('#modal').hide();},500);
+					setTimeout(function(){$('#modal').hide();},200);
 				}
+			});
+			
+			$('#circles').change( function(e) {
+				curves.setCircles(e.currentTarget.checked);
+				$('#modal').show();
+				curves.redrawCurves(cities);
+				setTimeout(function(){$('#modal').hide();},200);
+			});
+			
+			$('#border').change( function(e) {
+				curves.setBorder(e.currentTarget.checked);
+				$('#modal').show();
+				curves.redrawCurves(cities);
+				setTimeout(function(){$('#modal').hide();},200);
 			});
 			
 			$('#sliderRadiusCircle').slider({
@@ -668,7 +748,7 @@
 					curves.canvas.setRadius(ui.value);
 					$('#modal').show();
 					curves.redrawCurves(cities);
-					setTimeout(function(){$('#modal').hide();},500);
+					setTimeout(function(){$('#modal').hide();},200);
 				}
 			});
 			
@@ -677,8 +757,10 @@
 				$("#sliderRadiusCircle").slider("value", curves.canvas.radiusCircle);
 				$('#modal').show();
 				curves.redrawCurves(cities);
-				setTimeout(function(){$('#modal').hide();},500);
+				setTimeout(function(){$('#modal').hide();},200);
 			});
+			
+			appenDefs();
 		});
     
 		function sendRequest(id, data) {
@@ -707,7 +789,7 @@
 				success: function (response) {
 					cities = response;
 					curves.redrawCurves(response);
-					setTimeout(function(){$('#modal').hide();},500);
+					setTimeout(function(){$('#modal').hide();},200);
 				},
 				error: function(response) {
 					var s = "";

@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/contextForTestNewDomain.xml")
+@ContextConfiguration("/parserTestContext.xml")
 @TestExecutionListeners({
 	DependencyInjectionTestExecutionListener.class,
 	DirtiesContextTestExecutionListener.class, ContextLoaderListener.class
@@ -62,19 +62,13 @@ public class ParserTest
     public void test() throws IOException
     {
 	Excel exc = new Excel("C:\\Users\\Artem\\Downloads\\Cities 29,06 - correct.xlsx");
-	try
-	{
 	    adminParser.updateCities(exc);
 	    /*City city = new;
 	    verify(dao).add(city );*/
-	}
-	catch (ExcelParserException e)
-	{
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+	
     }
-   // @Test
+    @Test
+    @Ignore
     public void testWiki() throws IOException
     {
 	adminParser.updateWikiContent();

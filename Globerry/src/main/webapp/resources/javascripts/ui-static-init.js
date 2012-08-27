@@ -32,8 +32,10 @@ $(document).ready(function() {
                         {
                             var bubbles = {};
                             $("#" +prevBotBut.id + "ScrollBar .viewport .overview").empty(); 
+                            //for(var i = 0; i < response.lenght; i++)
                             for(key in response)
                             {
+                            	if(key == "copy" || key == "getLast" || key == "remove") continue;
                             	switch(prevBotBut.id)
                                 {
                                 case "tour":
@@ -146,6 +148,7 @@ $(document).ready(function() {
                             $("#" +prevBotBut.id + "ScrollBar .viewport .overview").empty(); 
                             for(key in response)
                             {
+                            	if(key == "copy" || key == "getLast" || key == "remove") continue;
                             	switch(prevBotBut.id)
                                 {
                                 case "tour":
@@ -316,8 +319,8 @@ $(document).ready(function(){
             //отображаем кнопки внизу
             $("#bottomContainer").show();
             $("#headerButtonUp").show();
-            $("#UpperHeaderBlockWithCircle").show();
-            $("#UpperHeaderBlockWithCircle").animate({
+            $("#upperHeaderBlockWithCircle").show();
+            $("#upperHeaderBlockWithCircle").animate({
                 opacity:1
             }, 100);
             $("#headerButtonUp").animate({
@@ -346,7 +349,7 @@ $(document).ready(function(){
             $("#headerButtonUp").animate({
                 opacity:0
             }, speed);
-            $("#UpperHeaderBlockWithCircle").animate({
+            $("#upperHeaderBlockWithCircle").animate({
                 opacity:0
             }, speed);
             $("#headContent2").animate({
@@ -355,7 +358,7 @@ $(document).ready(function(){
                 //скрываем кнопки внизу
                 $("#bottomContainer").hide();
                 $("#headerButtonUp").hide();
-                $("#UpperHeaderBlockWithCircle").hide();
+                $("#upperHeaderBlockWithCircle").hide();
                 $("#headContent2").hide();
                 $("#headContent1").show();
                 $("#headContent1").animate({

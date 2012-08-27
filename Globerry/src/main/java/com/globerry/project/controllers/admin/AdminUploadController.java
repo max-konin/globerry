@@ -95,32 +95,16 @@ public class AdminUploadController
 	System.err.println(request.getSession().getServletContext().getRealPath("/"));
 	uploadItem.getFileData().transferTo(file); 
 	
-	try
-	{
-	    Excel exc = new Excel(file.getAbsolutePath());
-	    adminParser.updateCities(exc);
+	Excel exc = new Excel(file.getAbsolutePath());
+	logger.info(request.getParameter("clean"));
+	if(request.getParameter("clean") == "true") logger.info("Vse verno"); 
+	adminParser.updateCities(exc);
 	    
-	} 
-	catch(ExcelParserException e)
-	{
-	    File bugReportFile = new File("bugs.txt");
-	    System.err.println(bugReportFile.getAbsolutePath());
-	    if(!bugReportFile.exists()) bugReportFile.createNewFile();
-	    PrintWriter writer = new PrintWriter(
-		    new BufferedOutputStream(
-			    new FileOutputStream(bugReportFile)));
-	    String errorMessage = e.getDescription();
-	    request.setAttribute("errorMessage", errorMessage);
-	    logger.error(e.getDescription());
-	    writer.println(e.getDescription());
-	    writer.close();
-	    return "admin/errorForm";  
-	}
       }
       catch (IOException e)
       {
 	  logger.error("Проблема с файлом. Возможно, его нельзя прочесть");
-	e.printStackTrace();
+	  e.printStackTrace();
       }
       
       return "redirect:upload";

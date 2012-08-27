@@ -82,4 +82,10 @@ public class MainController {
 		map.put("menu", ddm);
 		return "admin/adminMainPage";
 	}
+    @RequestMapping(value = "admin/uploadpage", method = RequestMethod.POST)
+    public String getAdminUploadPage()
+    {
+	logger.info("get upload page");
+	return "admin/uploadForm";
+    }
 }

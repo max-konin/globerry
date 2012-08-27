@@ -118,13 +118,4 @@ public class QueryFactory
         */
         return query + joinClause + whereClause;
     }
-    public String getCityById(int id)
-    {
-	return "from City where id="+id;
-    }
-    public String getCompanyById(int id)
-    {
-	return "from Company where id="+id;
-    }
-    
 }

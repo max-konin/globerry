@@ -3,9 +3,8 @@
  */
 L.ExPolygon = L.Polygon.extend({
 	
-	initialize: function (latlngs, options, gradF) {
+	initialize: function (latlngs, options) {
 		L.Polygon.prototype.initialize.call(this, latlngs, options);
-		this._gradF = gradF;
 	},
 		
 	pointInPolygon : function (/*L.LatLng*/point) {
@@ -42,99 +41,99 @@ L.ExPolygon = L.Polygon.extend({
 		return false;
 	},
 	
-	Temprary_getPathString: function () {
-		function Ray(p1/*Начало*/, p2/*Вектор направления*/, flag /*Отсчитывать вектор напавления от нуля - true или от p1 - false*/) {
-			var start = new L.Point(p1.x, p1.y), direction;
-			if(flag) {
-				var length = p2.distanceTo(new L.Point(0,0));
-				direction = new L.Point(p2.x/length, p2.y/length);
-			} else {
-				var distance = p2.distanceTo(p1);
-				direction = new L.Point((p2.x - p1.x)/distance, (p2.y - p1.y)/distance);
+	getPathString: function () {
+		$(this._path).attr('fill', 'url(#lines)');
+		var toPoints = function toPoints(/*L.LatLng[]*/latlngs) {
+			var ret = [];
+			for(var i = 0, l = latlngs.length; i < l; i++) {
+				ret.push(globalMap.latLngToLayerPoint(latlngs[i]));
 			}
-			function getPoint(t) {
-				return new L.Point(start.x + t*direction.x, start.y + t*direction.y);
-			}
-			function cross(ray) {
-				var znamenatel = ray.direction.y*direction.x - ray.direction.x*direction.y;
-				if (znamenatel == 0) {
-					return null;
-				}
-				var chislitel = ray.direction.y*(ray.start.x - start.x) 
-				+ ray.direction.x*(start.y - ray.start.y);
-				return chislitel/znamenatel;
-			}
-			return {
-				start : start,
-				direction : direction,
-				getPoint : getPoint,
-				cross: cross
-			};
-
+			return ret;
 		}
-		var rays = [];
-		for(var i = 0; i < this._latlngs.length ; i++) {
-			var point = globalMap.latLngToLayerPoint(this._latlngs[i]);
-			var gradF = this._gradF(this._latlngs[i].lng, this._latlngs[i].lat);
-			var temp = globalMap.latLngToLayerPoint(gradF);
-			var ray = Ray(point, new L.Point(-temp.y, temp.x) , true);
-			rays.push(ray);
+		var points = toPoints(this._latlngs), path, a3, a2, a1, a0, b3, b2, b1, b0, 
+			p0 = new Object(), p1 = new Object(), p2 = new Object(), p3 = new Object();
+		if(points.length < 4) {
+			var r = 10;
+			return "M" + points[0].x + "," + (points[0].y - r) +
+					"A" + r + "," + r + ",0,1,1," +
+					(points[0].x - 0.1) + "," + (points[0].y - r) + " z";
 		}
-		var ray1 = rays[0], ray2, c1, c2, factor = 0.3, prevT = null, factor2 = 0.6;
-		var path = "M " + ray1.start.x + " " + ray1.start.y + " ";
-		var t1, t2;
-		rays.push(rays[0]);
-		for(var j = 1, l = rays.length; j < l; j++) {
-			ray2 = rays[j];
-			t1 = ray1.cross(ray2);
-			t2 = ray2.cross(ray1);
-			distance = ray1.start.distanceTo(ray2.start);
-			if(prevT == null) {
-				if(t1 > distance){
-					t1 = distance/2;
-					t2 = distance/2;
-				}
-				if(t1 >= 0 && t2 <= 0) {
-					c1 = ray1.getPoint(t1);
-					c2 = c1;
-					prevT = -t2;
-				}
-			}
-			if(t1 >= 0 && t2 <= 0.01) {
-				c1 = ray1.getPoint(prevT);
-				if(t1 > distance) {
-					t2 = -distance;
-				}
-				if(t1 > distance * 2) {
-					c1 = ray1.getPoint(distance);
-				}
-				c2 = ray2.getPoint(t2 * factor2);
-				prevT = -t2 * factor2;
-			} else if(t1 >= 0 && t2 >= 0.01) {
-				c1 = ray1.getPoint(prevT);
-				c2 = ray2.getPoint(-factor);
-				prevT = factor;
-			} else if(t1 < 0 && t2 < 0) {
-				c1 = ray1.getPoint(prevT);
-				c2 = ray2.getPoint(-factor/2);
-				prevT = factor/2;
-			} else if(t1 < 0 && t2 >0) {
-				c1 = ray1.getPoint(prevT);
-				c2 = ray2.getPoint(-factor);
-				prevT = factor;
-			}
-			
-			//c1 = ray1.getPoint(t1 / 2);
-			//c2 = ray2.getPoint(t2 / 4);
-			
-			path += "C " + c1.x + " " + c1.y + " "
-			+ c2.x + " " + c2.y + " "
-			+ ray2.start.x + " " + ray2.start.y + " "; 
-			//path += "Q " + c1.x + " " + c1.y + " " + ray2.start.x + " " + ray2.start.y + " "; 
-			ray1 = ray2;
+		a3 = (-points.getLast().x + 3 * points[0].x - 3 * points[1].x + points[2].x) / 6;
+		a2 = (points.getLast().x - 2 * points[0].x + points[1].x) / 2;
+		a1 = (-points.getLast().x + points[1].x) / 2;
+		a0 = (points.getLast().x + 4 * points[0].x + points[1].x) / 6;
+		b3 = (-points.getLast().y + 3 * points[0].y - 3 * points[1].y + points[2].y) / 6;
+		b2 = (points.getLast().y - 2 * points[0].y + points[1].y) / 2;
+		b1 = (-points.getLast().y + points[1].y) / 2;
+		b0 = (points.getLast().y + 4 * points[0].y + points[1].y) / 6;
+		p0.x = a0;
+		p0.y = b0;
+		p3.x = a3 + a2 + a1 + a0;
+		p3.y = b3 + b2 + b1 + b0;
+		p1.x = (a1 + 3 * a0)/3;
+		p1.y = (b1 + 3 * b0)/3;
+		p2.x = (2 * a1 + a2 + 3 * a0)/3;
+		p2.y = (2 * b1 + b2 + 3 * b0)/3;
+		path = "M " + p0.x + " " + p0.y + " ";
+		path += "C " + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y + " ";
+		for(var i = 1, l = points.length - 2; i < l; i++) {
+			a3 = (-points[i - 1].x + 3 * points[i].x - 3 * points[i + 1].x + points[i + 2].x) / 6;
+			a2 = (points[i - 1].x - 2 * points[i].x + points[i + 1].x) / 2;
+			a1 = (-points[i - 1].x + points[i + 1].x) / 2;
+			a0 = (points[i - 1].x + 4 * points[i].x + points[i + 1].x) / 6;
+			b3 = (-points[i - 1].y + 3 * points[i].y - 3 * points[i + 1].y + points[i + 2].y) / 6;
+			b2 = (points[i - 1].y - 2 * points[i].y + points[i + 1].y) / 2;
+			b1 = (-points[i - 1].y + points[i + 1].y) / 2;
+			b0 = (points[i - 1].y + 4*points[i].y + points[i + 1].y) / 6;
+			p0.x = a0;
+			p0.y = b0;
+			p3.x = a3 + a2 + a1 + a0;
+			p3.y = b3 + b2 + b1 + b0;
+			p1.x = (a1 + 3 * a0)/3;
+			p1.y = (b1 + 3 * b0)/3;
+			p2.x = (2 * a1 + a2 + 3 * a0)/3;
+			p2.y = (2 * b1 + b2 + 3 * b0)/3;
+			path += "C " + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y + " ";
 		}
-                
-		path += 'z';
+		// i + 2 == points.length
+		i = points.length - 2;
+		a3 = (-points[i - 1].x + 3 * points[i].x - 3 * points[i + 1].x + points[0].x) / 6;
+		a2 = (points[i - 1].x - 2 * points[i].x + points[i + 1].x) / 2;
+		a1 = (-points[i - 1].x + points[i + 1].x) / 2;
+		a0 = (points[i - 1].x + 4 * points[i].x + points[i + 1].x) / 6;
+		b3 = (-points[i - 1].y + 3 * points[i].y - 3 * points[i + 1].y + points[0].y) / 6;
+		b2 = (points[i - 1].y - 2 * points[i].y + points[i + 1].y) / 2;
+		b1 = (-points[i - 1].y + points[i + 1].y) / 2;
+		b0 = (points[i - 1].y + 4 * points[i].y + points[i + 1].y) / 6;
+		p0.x = a0;
+		p0.y = b0;
+		p3.x = a3 + a2 + a1 + a0;
+		p3.y = b3 + b2 + b1 + b0;
+		p1.x = (a1 + 3 * a0)/3;
+		p1.y = (b1 + 3 * b0)/3;
+		p2.x = (2 * a1 + a2 + 3 * a0)/3;
+		p2.y = (2 * b1 + b2 + 3 * b0)/3;
+		path += "C " + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y + " ";
+		// i + 1 == points.length
+		i =  points.length - 1;
+		a3 = (-points[i - 1].x + 3 * points[i].x - 3 * points[0].x + points[1].x) / 6;
+		a2 = (points[i - 1].x - 2 * points[i].x + points[0].x) / 2;
+		a1 = (-points[i - 1].x + points[0].x) / 2;
+		a0 = (points[i - 1].x + 4 * points[i].x + points[0].x) / 6;
+		b3 = (-points[i - 1].y + 3 * points[i].y - 3 * points[0].y + points[1].y) / 6;
+		b2 = (points[i - 1].y - 2 * points[i].y + points[0].y) / 2;
+		b1 = (-points[i - 1].y + points[0].y) / 2;
+		b0 = (points[i - 1].y + 4 * points[i].y + points[0].y) / 6;
+		p0.x = a0;
+		p0.y = b0;
+		p3.x = a3 + a2 + a1 + a0;
+		p3.y = b3 + b2 + b1 + b0;
+		p1.x = (a1 + 3 * a0)/3;
+		p1.y = (b1 + 3 * b0)/3;
+		p2.x = (2 * a1 + a2 + 3 * a0)/3;
+		p2.y = (2 * b1 + b2 + 3 * b0)/3;
+		path += "C " + p1.x + " " + p1.y + " " + p2.x + " " + p2.y + " " + p3.x + " " + p3.y + " ";
+		path += "z";
 		return path;
 	}
 

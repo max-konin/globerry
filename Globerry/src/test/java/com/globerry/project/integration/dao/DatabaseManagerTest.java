@@ -3,11 +3,16 @@
  */
 package com.globerry.project.integration.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.globerry.project.dao.IDao;
 import com.globerry.project.dao.IDatabaseManager;
 import static org.junit.Assert.*;
 
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +22,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.globerry.project.domain.City;
 import com.globerry.project.domain.Hotel;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.DefaultDatabaseCreator;
 import org.junit.Ignore;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.annotation.DirtiesContext;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Artem
@@ -42,8 +51,16 @@ public class DatabaseManagerTest
     private SessionFactory sessionFactory;
     @Autowired
     private DefaultDatabaseCreator ddc;
+    @Mock 
+    private IDao<City> mockCityDao;
     
     private final Logger logger = Logger.getLogger(DatabaseManagerTest.class);
+    
+    @Before
+    public void init()
+    {
+	MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     @Ignore
@@ -51,21 +68,23 @@ public class DatabaseManagerTest
     {
 		databaseManager.cleanDatabase();
     }
-    @Ignore
+   // @Ignore
     @Test
     public void testTours()
     {
-	/*ddc.initCities();
+	List<City> cityList = new ArrayList<City>();
+	cityList.add(new City());
+	when(mockCityDao.getAll(City.class)).thenReturn(cityList);
 	ddc.initTours();
 	Tour tour = ddc.generateTour();
 	logger.info("\n" + tour.getName() +
 		"\n" + tour.getDescription() +
 		"\n" + tour.getTargetCityId() + 
 		"\n" + tour.getDateEnd());
-	Hotel hotel = ddc.generateHotel();
+	Hotel hotel = ddc.generateHotel("Kremlin");
 	logger.info("\n" + hotel.getName() +
 		"\n" + hotel.getDescription() +
-		"\n" + hotel.getCost());*/
+		"\n" + hotel.getCost());
     }
 
 }

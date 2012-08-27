@@ -46,6 +46,7 @@ public class DefaultDatabaseCreator
     private boolean isPropertyTypeInit = false;
     private boolean isCitiesInit = false;
     
+    
     public void initTags(){
 	if (isTagInit)
 	    return;
@@ -105,7 +106,7 @@ public class DefaultDatabaseCreator
 	
     }
    
-    /*   public void initPropertyType(){
+      public void initPropertyType(){
 
 	/*id	DependingMonth	betterWhenLess	maximumValue	minimumValue	name
 	1		0		1		20		0	cost
@@ -116,8 +117,10 @@ public class DefaultDatabaseCreator
 	6		0		1		20		0	security
 	7		1		1		300		0	livingCost
 	8		1		1		300		0	mood
-	9		1		1		35		-35	temperature
-	
+	9		1		1		35		-35	temperature*/
+	if (isPropertyTypeInit)
+	      return;
+	isPropertyTypeInit = true;
 	createPropertyType(StringManager.foodCostPropertyTypeName, 0, 30, false, true);
 	createPropertyType(StringManager.alcoholPropertyTypeName, 0, 30, false, true);
 	createPropertyType(StringManager.russianPropertyTypeName, 0, 1, false, true);
@@ -128,7 +131,8 @@ public class DefaultDatabaseCreator
 	createPropertyType(StringManager.moodPropertyTypeName, 0, 300, true, true);
 	createPropertyType(StringManager.temperaturePropertyTypeName, -35, 35, true, true);
 	
-    }//*/
+    }
+    
     /*
     public void initCities(){
 	
@@ -257,25 +261,39 @@ public class DefaultDatabaseCreator
 	String[] descriptionArr = {"cheap", "expensive", "near sea", "with monsters", "with oil", "hot", "cold", "with skies", "with guns"};
 	Tour tour = new Tour();
 	Random rand = new Random();
-	tour.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
-	tour.setCost(rand.nextInt(10000)+1000);
-	int cityCount = cityDao.getAll(City.class).size();
-	tour.setTargetCityId(rand.nextInt(cityCount));
-	City city = cityDao.getById(City.class, tour.getTargetCityId());
-	tour.setName(city.getName());
-	tour.setDateStart(new Date(rand.nextLong())); //блять артем
-	tour.setDateEnd(new Date(rand.nextLong()));
-	return tour;
+	try
+	{
+	    tour.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
+	    tour.setCost(rand.nextInt(10000)+1000);
+	    int cityCount = cityDao.getAll(City.class).size();
+	    tour.setTargetCityId(rand.nextInt(cityCount) + 1);
+	    City city = cityDao.getById(City.class, tour.getTargetCityId());
+	    tour.setName(city.getName());
+	    tour.setDateStart(new Date(rand.nextLong())); //блять артем
+	    tour.setDateEnd(new Date(rand.nextLong()));
+	    return tour;
+	}
+	catch(IllegalArgumentException e)
+	{
+	    throw new IllegalStateException("В базе нет городов, не к чему привязать Tour", e);
+	}
     }
     public Ticket generateTicket()
     {
 	Random rand = new Random();
 	int cityCount = cityDao.getAll(City.class).size();
-	Ticket ticket = new Ticket(rand.nextInt(cityCount));
-	ticket.setCost(rand.nextInt(3000)+300);
-	City city = cityDao.getById(City.class, ticket.getTargetCityId());
-	ticket.setName(city.getName());
-	return ticket;
+	try
+	{
+	    Ticket ticket = new Ticket(rand.nextInt(cityCount) + 1);
+	    ticket.setCost(rand.nextInt(3000)+300);
+	    City city = cityDao.getById(City.class, ticket.getTargetCityId());
+	    ticket.setName(city.getName());
+	    return ticket;
+	}
+	catch(IllegalArgumentException e)
+	{
+	    throw new IllegalStateException("В базе нет городов, не к чему привязать Ticket", e);
+	}
     }
     public Hotel generateHotel(String name)
     {
@@ -285,12 +303,29 @@ public class DefaultDatabaseCreator
 	int cityCount = cityDao.getAll(City.class).size();
 	Random rand = new Random();
 	Hotel hotel = new Hotel();
-	hotel.setCityId(rand.nextInt(cityCount));
-	City city = cityDao.getById(City.class, hotel.getCityId());
-	hotel.setCityName(city.getName());
-	hotel.setName(name);
-	hotel.setCost(rand.nextInt(1000)+100);
-	hotel.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
-	return hotel;
+	try
+	{
+	    hotel.setCityId(rand.nextInt(cityCount) + 1);
+	    City city = cityDao.getById(City.class, hotel.getCityId());
+	    hotel.setCityName(city.getName());
+	    hotel.setName(name);
+	    hotel.setCost(rand.nextInt(1000)+100);
+	    hotel.setDescription(descriptionArr[rand.nextInt(descriptionArr.length)] + "," + descriptionArr[rand.nextInt(descriptionArr.length)]);
+	    return hotel;
+	}
+	catch(IllegalArgumentException e)
+	{
+	    throw new IllegalStateException("В базе нет городов, не к чему привязать Hotel", e);
+	}
+    }
+    private void createPropertyType(String name, int minValue, int maxValue, Boolean isDependingMonth, Boolean isBetterWhenLess)
+    {
+	PropertyType propertyType = new PropertyType();
+	propertyType.setName(name);
+	propertyType.setMinValue(minValue);
+	propertyType.setMaxValue(maxValue);
+	propertyType.setDependingMonth(isDependingMonth);
+	propertyType.setBetterWhenLess(isBetterWhenLess);
+	propertyTypeDao.add(propertyType);
     }
 }

@@ -300,12 +300,14 @@ body
 	display:none;
 	cursor: pointer;
 }
-/*
+
 #upperHeaderBlockWithCircle
 {
 	width: 81px;
 	height : 39px; 
-	position : relative;
+	position : absolute;
+	right: 0;
+	top: 0;
 	float: right;
 	margin-right: 20px;
 	z-index : 2;
@@ -324,7 +326,7 @@ body
 	cursor: pointer;
 	background: url(../img/SecondHeaderUpperBlockCircle.png) no-repeat;
 }
-*/
+
 .secondHeaderBlocks
 {
 	position : relative;
@@ -689,7 +691,7 @@ body
     width: 50%;
 	
 }
-.slider-range
+.slider-range, .slider-conjoint
 {
     min-width: 155px;
     height: 15px;
@@ -881,9 +883,9 @@ body
 .ui-slider .ui-slider-handle {
     position: absolute;
     z-index: 4;
-    width: 5px;
+    width: 10px;
     height: 12px;
-    background: url(../img/sliderhandler.png) no-repeat;
+    background: url(../img/slider-conjoint.png) no-repeat;
     cursor: pointer
 }
 .ui-slider .ui-slider-range {
@@ -1125,14 +1127,14 @@ a{
     float:left;
     bottom: 0px;
     height : 0px;
-    /margin-bottom: 10px;
-    /right : 5%;
+    /*margin-bottom: 10px;
+    /right : 5%;*/
     width : 900px;
     border-top-right-radius:4px;
     min-width : 900px;
-    /box-shadow: 0px 0px 10px #888;
+    /*box-shadow: 0px 0px 10px #888;
     /-moz-box-shadow: 0px 0px 10px #888;
-    /-webkit-box-shadow: 0px 0px 10px #888;
+    /-webkit-box-shadow: 0px 0px 10px #888;*/
     display : none;
 }
 
@@ -1174,13 +1176,13 @@ font-family :Helvetica;
     position: relative;
     float: left;
     margin-bottom: 2px;
-    /bottom: 0px;
+    /*bottom: 0px;
     /height : 0px;
-    /right : 5%;
-    width : 900px
-    /box-shadow: 0px 0px 10px #888;
+    /right : 5%;*/
+    width : 900px;
+    /*box-shadow: 0px 0px 10px #888;
     /-moz-box-shadow: 0px 0px 10px #888;
-    /-webkit-box-shadow: 0px 0px 10px #888;
+    /-webkit-box-shadow: 0px 0px 10px #888;*/
     min-width : 900px;
     background-color: white;
 }
@@ -1193,7 +1195,7 @@ font-family :Helvetica;
     bottom: 0px;
     height : 147px;
     float: left;
-    /right : 5%;
+    /*right : 5%;*/
     width : 900px;
     border-top-right-radius:4px;
     display:none;/**/
@@ -1253,4 +1255,3 @@ font-family: Helvetica; margin:0 150px 0 100px;}
     line-height: 200px;
     text-align: center;
 }
-​

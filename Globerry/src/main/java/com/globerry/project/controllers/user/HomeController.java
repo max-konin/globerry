@@ -185,7 +185,12 @@ public class HomeController
 	logger.debug(appContext.toString());
 	return cities;
     }
-
+    @RequestMapping(value = "/initPropertyType")
+    public String initPropertyType()
+    {
+	defaultDatabaseCreator.initPropertyType();
+	return "redirect:/globerry_new";
+    }
     @RequestMapping(value = "/get_hotels", method = RequestMethod.POST)
     @ResponseBody
     public Hotel[] GetHotels()
@@ -213,6 +218,7 @@ public class HomeController
 	Set<Tour> tourList = proposalsManager.getToursByCities(cityList);
 	Tour[] tours = new Tour[tourList.size()];
 	logger.debug(tourList.size());
+	logger.info(tourList.size());
 	tourList.toArray(tours);
 	return tours;
 

@@ -1,4 +1,3 @@
-
 package com.globerry.project.domain;
 
 import java.lang.reflect.*;
@@ -14,47 +13,40 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-
 /**
- *
+ * 
  * @author max
  */
 @Entity
 @Table(name = "City")
-@org.hibernate.annotations.Table(appliesTo = "City", indexes = { @Index(name="idx", columnNames = { 
-                                                                                                    "security",
-                                                                                                    "sex",
-                                                                                                    "food_value_left",
-                                                                                                    "food_value_right",
-                                                                                                    "alco_value_left",
-                                                                                                    "alco_value_right",
-                                                                                                    "visa",
-                                                                                                    })})
+@org.hibernate.annotations.Table(appliesTo = "City", indexes =
+{ @Index(name = "idx", columnNames =
+{ "security", "sex", "food_value_left", "food_value_right", "alco_value_left", "alco_value_right", "visa", }) })
 public class City
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
-    @Column(name = "name")   
+
+    @Column(name = "name")
     private String name;
-    @Column(name = "ru_name")    
+    @Column(name = "ru_name")
     private String ru_name;
-    @Column   
+    @Column
     private float area;
-    @Column    
+    @Column
     private int population;
-    @Column   
+    @Column
     private float longitude;
-    @Column    
+    @Column
     private float latitude;
-    @Column 
+    @Column
     private boolean isValid;
     @Column
     private String message;
     @Transient
     private Integer hashCode = null;
-    
+
     @Embedded
     @AttributeOverrides( {
             @AttributeOverride(name="left",  column = @Column(name="food_value_left") ),
@@ -73,51 +65,44 @@ public class City
     @Column   
    
     private int security;
-    
-    @Column  
-    
+
+    @Column
     private int sex;
-    
+
     @Column
-    
     private boolean visa = true;
-    
+
     @Column
-   
     private boolean isRussian = false;
-    
-     
+
     @OneToOne(cascade = CascadeType.ALL)
     private Temperature temperature;
-   
-   
+
     @OneToOne(cascade = CascadeType.ALL)
     private Mood mood;
-    
-   
+
     @OneToOne(cascade = CascadeType.ALL)
     private LivingCost livingCost;
-    
+
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
-    @ManyToMany(
-	    fetch = FetchType.LAZY,
-	    cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
-	    targetEntity = Tag.class
-	    )
+    @ManyToMany(fetch = FetchType.LAZY, cascade =
+    { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, targetEntity = Tag.class)
     private Set<Tag> tagList = new HashSet<Tag>();
-    
+
     @Transient
     private float weight;
-    
+
     @Transient
     private double potential = 0;
 
-    
-    public City(){}
-    
+    public City()
+    {
+    }
+
     /**
      * Инициализирует все notnull поля
+     * 
      * @param name
      * @param area
      * @param latitude
@@ -131,39 +116,27 @@ public class City
      * @param temperature
      * @param mood
      * @param livingCost
-     * @param tagList 
+     * @param tagList
      */
-    public City(String name, 
-                float area, 
-                float latitude, 
-                float longitude, 
-                int population, 
-                Interval foodCost, 
-                Interval alcoCost,
-                int security,    
-                int sex,
-                boolean visa,
-                boolean isRussian,
-                Temperature temperature,
-                Mood mood,
-                LivingCost livingCost,
-                Collection<Tag> tagList)
+    public City(String name, float area, float latitude, float longitude, int population, Interval foodCost, Interval alcoCost,
+	    int security, int sex, boolean visa, boolean isRussian, Temperature temperature, Mood mood, LivingCost livingCost,
+	    Collection<Tag> tagList)
     {
-        this.name = name;
-        this.alcoCost = alcoCost;
-        this.area = area;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.population = population;
-        this.foodCost = foodCost;
-        this.security = security;
-        this.sex = sex;
-        this.visa = visa;
-        this.setRussian(isRussian);
-        this.temperature = temperature;
-        this.mood = mood;
-        this.livingCost = livingCost;
-        this.tagList = new HashSet(tagList);
+	this.name = name;
+	this.alcoCost = alcoCost;
+	this.area = area;
+	this.latitude = latitude;
+	this.longitude = longitude;
+	this.population = population;
+	this.foodCost = foodCost;
+	this.security = security;
+	this.sex = sex;
+	this.visa = visa;
+	this.setRussian(isRussian);
+	this.temperature = temperature;
+	this.mood = mood;
+	this.livingCost = livingCost;
+	this.tagList = new HashSet(tagList);
     }
 
     /**
@@ -171,15 +144,16 @@ public class City
      */
     public int getId()
     {
-        return id;
+	return id;
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(int id)
     {
-        this.id = id;
+	this.id = id;
     }
 
     /**
@@ -187,15 +161,16 @@ public class City
      */
     public String getName()
     {
-        return name;
+	return name;
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name)
     {
-        this.name = name;
+	this.name = name;
     }
 
     /**
@@ -203,15 +178,16 @@ public class City
      */
     public String getRu_name()
     {
-        return ru_name;
+	return ru_name;
     }
 
     /**
-     * @param ru_name the ru_name to set
+     * @param ru_name
+     *            the ru_name to set
      */
     public void setRu_name(String ru_name)
     {
-        this.ru_name = ru_name;
+	this.ru_name = ru_name;
     }
 
     /**
@@ -219,15 +195,16 @@ public class City
      */
     public float getArea()
     {
-        return area;
+	return area;
     }
 
     /**
-     * @param area the area to set
+     * @param area
+     *            the area to set
      */
     public void setArea(float area)
     {
-        this.area = area;
+	this.area = area;
     }
 
     /**
@@ -235,15 +212,16 @@ public class City
      */
     public int getPopulation()
     {
-        return population;
+	return population;
     }
 
     /**
-     * @param population the population to set
+     * @param population
+     *            the population to set
      */
     public void setPopulation(int population)
     {
-        this.population = population;
+	this.population = population;
     }
 
     /**
@@ -251,15 +229,16 @@ public class City
      */
     public float getLongitude()
     {
-        return longitude;
+	return longitude;
     }
 
     /**
-     * @param longitude the longitude to set
+     * @param longitude
+     *            the longitude to set
      */
     public void setLongitude(float longitude)
     {
-        this.longitude = longitude;
+	this.longitude = longitude;
     }
 
     /**
@@ -267,15 +246,16 @@ public class City
      */
     public float getLatitude()
     {
-        return latitude;
+	return latitude;
     }
 
     /**
-     * @param latitude the latitude to set
+     * @param latitude
+     *            the latitude to set
      */
     public void setLatitude(float latitude)
     {
-        this.latitude = latitude;
+	this.latitude = latitude;
     }
 
     /**
@@ -283,15 +263,16 @@ public class City
      */
     public boolean isIsValid()
     {
-        return isValid;
+	return isValid;
     }
 
     /**
-     * @param isValid the isValid to set
+     * @param isValid
+     *            the isValid to set
      */
     public void setIsValid(boolean isValid)
     {
-        this.isValid = isValid;
+	this.isValid = isValid;
     }
 
     /**
@@ -299,15 +280,16 @@ public class City
      */
     public String getMessage()
     {
-        return message;
+	return message;
     }
 
     /**
-     * @param message the message to set
+     * @param message
+     *            the message to set
      */
     public void setMessage(String message)
     {
-        this.message = message;
+	this.message = message;
     }
 
     /**
@@ -315,15 +297,16 @@ public class City
      */
     public Interval getFoodCost()
     {
-        return foodCost;
+	return foodCost;
     }
 
     /**
-     * @param foodCost the foodCost to set
+     * @param foodCost
+     *            the foodCost to set
      */
     public void setFoodCost(Interval foodCost)
     {
-        this.foodCost = foodCost;
+	this.foodCost = foodCost;
     }
 
     /**
@@ -331,15 +314,16 @@ public class City
      */
     public Interval getAlcoCost()
     {
-        return alcoCost;
+	return alcoCost;
     }
 
     /**
-     * @param alcoCost the alcoCost to set
+     * @param alcoCost
+     *            the alcoCost to set
      */
     public void setAlcoCost(Interval alcoCost)
     {
-        this.alcoCost = alcoCost;
+	this.alcoCost = alcoCost;
     }
 
     /**
@@ -347,15 +331,16 @@ public class City
      */
     public int getSecurity()
     {
-        return security;
+	return security;
     }
 
     /**
-     * @param security the security to set
+     * @param security
+     *            the security to set
      */
     public void setSecurity(int security)
     {
-        this.security = security;
+	this.security = security;
     }
 
     /**
@@ -363,15 +348,16 @@ public class City
      */
     public int getSex()
     {
-        return sex;
+	return sex;
     }
 
     /**
-     * @param sex the sex to set
+     * @param sex
+     *            the sex to set
      */
     public void setSex(int sex)
     {
-        this.sex = sex;
+	this.sex = sex;
     }
 
     /**
@@ -379,15 +365,16 @@ public class City
      */
     public boolean isVisa()
     {
-        return visa;
+	return visa;
     }
 
     /**
-     * @param visa the visa to set
+     * @param visa
+     *            the visa to set
      */
     public void setVisa(boolean visa)
     {
-        this.visa = visa;
+	this.visa = visa;
     }
 
     public boolean isRussian()
@@ -405,15 +392,16 @@ public class City
      */
     public Temperature getTemperature()
     {
-        return temperature;
+	return temperature;
     }
 
     /**
-     * @param temperature the temperature to set
+     * @param temperature
+     *            the temperature to set
      */
     public void setTemperature(Temperature temperature)
     {
-        this.temperature = temperature;
+	this.temperature = temperature;
     }
 
     /**
@@ -421,15 +409,16 @@ public class City
      */
     public Mood getMood()
     {
-        return mood;
+	return mood;
     }
 
     /**
-     * @param mood the mood to set
+     * @param mood
+     *            the mood to set
      */
     public void setMood(Mood mood)
     {
-        this.mood = mood;
+	this.mood = mood;
     }
 
     /**
@@ -437,15 +426,16 @@ public class City
      */
     public LivingCost getLivingCost()
     {
-        return livingCost;
+	return livingCost;
     }
 
     /**
-     * @param livingCost the livingCost to set
+     * @param livingCost
+     *            the livingCost to set
      */
     public void setLivingCost(LivingCost livingCost)
     {
-        this.livingCost = livingCost;
+	this.livingCost = livingCost;
     }
 
     /**
@@ -453,15 +443,16 @@ public class City
      */
     public Set<Tag> getTagList()
     {
-        return tagList;
+	return tagList;
     }
 
     /**
-     * @param tagList the tagList to set
+     * @param tagList
+     *            the tagList to set
      */
     public void setTagList(Set<Tag> tagList)
     {
-        this.tagList = tagList;
+	this.tagList = tagList;
     }
 
     /**
@@ -469,44 +460,55 @@ public class City
      */
     public float getWeight()
     {
-        return weight;
+	return weight;
     }
 
     /**
-     * @param weight the weight to set
+     * @param weight
+     *            the weight to set
      */
     public void setWeight(float weight)
     {
-        this.weight = weight;
-    }
-    
-    public String toString()
-    {
-        String str = this.getClass().getName() + ": \n";
-        for(Field field: this.getClass().getDeclaredFields())            
-            try
-            {
-                if (field.get(this) != null)
-                    str += "    " + field.getName() + " = " + field.get(this).toString() + ";\n";
-            } catch (IllegalArgumentException ex)
-            {
-                Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex)
-            {
-                Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        return str;
+	this.weight = weight;
     }
 
+    public String toString()
+    {
+	String str = this.getClass().getName() + ": \n";
+	for (Field field : this.getClass().getDeclaredFields())
+	    try
+	    {
+		if (field.get(this) != null)
+		    str += "    " + field.getName() + " = " + field.get(this).toString() + ";\n";
+	    }
+	    catch (IllegalArgumentException ex)
+	    {
+		Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    catch (IllegalAccessException ex)
+	    {
+		Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	return str;
+    }
+
+    /**
+     * @return the potential
+     */
     public double getPotential()
     {
 	return potential;
     }
 
+    /**
+     * @param potential
+     *            the potential to set
+     */
     public void setPotential(double potential)
     {
 	this.potential = potential;
     }
+
     public void addPotential(double potential)
     {
 	this.potential += potential;

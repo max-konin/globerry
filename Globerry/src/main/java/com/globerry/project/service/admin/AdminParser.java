@@ -67,7 +67,7 @@ public class AdminParser implements IAdminParser
     protected static Logger logger = Logger.getLogger(AdminParser.class);
 
     @Override
-    public void updateCities(Excel exc) throws ExcelParserException, IOException
+    public void updateCities(Excel exc) throws IOException
     {
 	
 	this.exc = exc;
@@ -87,11 +87,10 @@ public class AdminParser implements IAdminParser
     public void updateWikiContent() throws IOException
     {
 	File bugReportFile = new File("WikipediaBugs.txt");
-	if(!bugReportFile.exists()) bugReportFile.createNewFile();
+	bugReportFile.createNewFile();
 	PrintWriter writer = new PrintWriter(
 		    new BufferedOutputStream(
 			    new FileOutputStream(bugReportFile)));
-	if(!bugReportFile.exists()) bugReportFile.createNewFile();
 
 	List<City> cityList = new ArrayList<City>();
 	cityList = cityDao.getAll(City.class);
@@ -120,7 +119,7 @@ public class AdminParser implements IAdminParser
 	    if(city.getLatitude() == 0)
 		writer.println("Ошибка в городе " + city.getName() + " этот город не найден в википедии, возможно у него неправильное имя");
 	    else if(!city.isIsValid())
-		writer.println("Ошибка в городе " + city.getName() + " возможно это поможет Вам " + city.getMessage());
+		writer.println("Ошибка в городе " + city.getName() + " возможно это поможет Вам. " + city.getMessage());
 	    
 	    logger.info("-------------------------------------");
 	    logger.info("cityWiki: " + cityWiki.getIsValid());

@@ -3,9 +3,10 @@
  * окружающие первыю точку.
  * drawCircle - это функция рисования кружочков, нужна для дебага.
  * _stepX, _stepY - вынос в глобальные параметры размеров шагов
+ * polygons - массив полигонов нарисованых на карте
  */
-function calculatePoints(startPoint, zLevel, Z, drawCircle, _stepX, _stepY) {
-    /**
+function calculatePoints(startPoint, zLevel, Z, drawCircle, _stepX, _stepY, polygons) {
+	/**
      * Находит границу изолинии слева или справа от точки (_x,_y), с точностью eps, если граница не найдена, то
      * возвращается null.
      * direction - направлениепоиска, может принимать значения 1 - поиск вправо и -1 - влево.
@@ -13,352 +14,513 @@ function calculatePoints(startPoint, zLevel, Z, drawCircle, _stepX, _stepY) {
      * positionFlag - с какой стороны будет находиться точка, если true, то слева от границы, false - справа, если не
      * задано то с любой.
      */
-    function findBorder(_x, _y, direction, stepCount, positionFlag) {
-        var x = _x, y = _y, z = Z(x, y);
-        var count = 0;
-        var sign = z - zLevel;
-        var xPrev = x, zPrev = z, flag = false;
-        if(!stepCount)
-            stepCount = 1000;
-        if(stepCount < 1)
-            return null;
-        while(true) {
-            x = xPrev + direction*stepX;
-            z = Z(x, y);
-            count++;
-			//console.log("z - zLevel = " + (z - zLevel));
-            if(sign*(z - zLevel) < 0)
-                break;
-            if(count > stepCount) {
-                flag = true;
-                break;
-            }
-            xPrev = x;
-            zPrev = z;
-        }
-        if(flag)
-            return null;
-        var x0;
-        if(typeof(positionFlag) == 'undefined') {
-            x0 = resolve(x, xPrev, z, zPrev, y, eps, 50);
-        } else {
-            x0 = resolve(x, xPrev, z, zPrev, y, eps, 50, positionFlag);
-        }
-        return x0;
-    }
-    function findSpans(span) {
-        var parent = span.getParent();
-                    
-        var dir = -1, ret = [];
-        var parentLevel = parent ? parent.getLevel() : null, flag = false;
-        var debug = typeof(drawCircle) != 'undefined';
-        for(var i = 0; i < 2; i++) {
-            if(span.getLevel() == 2)
-                console.log('log');
-            dir *= -1;
-            var level = span.getLevel() + dir;
-            var x, y = firstLevel + level*stepY, zCurrent, left, right;
-            if(level != parentLevel) {
-                x = span.getLeft().x;
-                zCurrent = Z(x, y);
-                if(zCurrent > zLevel) {     
-                    x = findBorder(x, y, -1, false, false);
-                } else {
-                    x = findBorder(x, y, 1, (span.getRight().x - x)/stepX, false);
-                    if(!x) {
-                        if(dir == -1) {
-                            var l = span.getLeft(), r = span.getRight();
-                            r.next = l;
-                            l.previous = r;
-                        } else if(dir == 1) {
-                            var l = span.getLeft(), r = span.getRight();
-                            l.next = r;
-                            r.previous = l;
-                        }
-                        continue;
-                    }
-                }
-                left = x;
-                var p1 = span.getLeft(), newSpan, flag = false;
-                var stepCount = span.getRight().x - span.getLeft().x > 4*stepX ? false : 8 + stepY/stepX*2;
-                while(left) {
-                    right = findBorder(left, y, 1, stepCount, false);
-					/////////////////////////////////
-					if(right == null)
-						return null;
-					/////////////////////////////////
-                    if(flag && left - ret[ret.length - 1].getRight().x < stepX) {
-                        ret[ret.length - 1].getRight().x = right;
-                        left = findBorder(right, y, 1,(span.getRight().x - right)/stepX - 2, false);
-                        continue;
-                    }
-                    if(debug) {
-						drawCircle(left, y, 3, 'curve', 'black', 3);
-						drawCircle(right, y, 3, 'curve', 'black', 3);
-                    }            
-                                    
-                    newSpan = Span(Node(left, y), Node(right, y), level);
-                    newSpan.setParent(span);
-                    if(dir == 1) {
-                        p1.next = newSpan.getLeft();
-                        newSpan.getLeft().previous = p1;
-                    } else {
-                        p1.previous = newSpan.getLeft();
-                        newSpan.getLeft().next = p1;
-                    }
-                    p1 = newSpan.getRight();
-                    flag = true;
-                    ret.push(newSpan);
-                                
-                    left = findBorder(right, y, 1,(span.getRight().x - right)/stepX - 2, false);
-                }
-                if(dir == 1) {
-                    newSpan.getRight().next = span.getRight();
-                    span.getRight().previous = newSpan.getRight();
-                                
-                } else {
-                    newSpan.getRight().previous = span.getRight();
-                    span.getRight().next = newSpan.getRight();
-                }
-                            
-            } else if(parent) {
-                var parentLeft = parent.getLeft().x
-                if(span.getLeft().x < parentLeft - stepX) {
-                    left = span.getLeft().x;
-                    zCurrent = Z(left, y);
-                    if(zCurrent > zLevel) {
-                        left = findBorder(left, y, -1, false, false);
-                    } else {
-                        left = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
-                    }
-                    if(left && Math.abs(span.getParent().getLeft().x - left) > stepX) {
-                        var p1 = span.getLeft(), flag = false;
-                        while(left) {
-                            right = findBorder(left, y, 1, (parentLeft - left)/stepX - 1, false);
-                            if(!right) {
-                                right = parentLeft - stepX/2;
-                                flag = true;
-                            }
-                            newSpan = Span(Node(left,y), Node(right,y), level);
-                            newSpan.setParent(span);
-                            if(dir == 1) {
-                                p1.next = newSpan.getLeft();
-                                newSpan.getLeft().previous = p1;
-                            } else {
-                                newSpan.getLeft().next = p1;
-                                p1.previous = newSpan.getLeft();
-                            }
-                            p1 = newSpan.right;
-                            ret.push(newSpan);
-                            if(flag)
-                                break;
-                            left = findBorder(right, y, 1, (parentLeft - right)/stepX - 1, false)
-                        }
-                        if(dir == 1) {
-                            span.getParent().getLeft().previous = newSpan.getRight();
-                            newSpan.getRight().next = span.getParent().getLeft();
-                        } else {
-                            span.getParent().getLeft().next = newSpan.getRight();
-                            newSpan.getRight().previous = span.getParent().getLeft();
-                        }
-                    }
-                }
-                var parentRight = parent.getRight().x
-                if(span.getRight().x > parentRight + stepX) {
-                    var right = span.getRight().x;
-                    zCurrent = Z(right, y);
-                    if(zCurrent > zLevel) {
-                        right = findBorder(right, y, 1, false, true);
-                    } else {
-                        right = findBorder(right, y, -1, (span.getRight().x - parentRight)/stepX - 1, true);
-                    }
-                    if(right && Math.abs(span.getParent().getRight().x - right) > stepX) {
-                        var count = 0, flag = false;
-                        var p1 = span.getRight();
-                        while(right) {
-                            left = findBorder(right, y, -1, (right - parentRight)/stepX - 1, true);
-                            if(!left) {
-                                left = parentRight + step/2;
-                                flag = true;
-                            }
-                            if(debug) {
-                                drawCircle(right, y, 3, 'curve', 'black', 3);
-                                drawCircle(left, y, 3, 'curve', 'black', 3);
-                            }
-                            newSpan = Span(Node(left,y), Node(right,y), level);
-                            newSpan.setParent(span);
-                            if(dir == 1) {
-                                newSpan.getRight().next = p1;
-                                p1.previous = newSpan.getRight();
-                            } else {
-                                p1.next = newSpan.getRight();
-                                newSpan.getRight().previous = p1;
-                            }
-                            p1 = newSpan.left;
-                            ret.push(newSpan);
-                            if(flag)
-                                break;
-                            right = findBorder(left, y, -1, (left - parentRight)/stepX - 1, true);
-                        }
-                        if(dir == 1) {
-                            parent.getRight().next = newSpan.getLeft();
-                        } else {
-                            newSpan.getLeft().next = parent.getRight();
-                        }
-                    }
-                }
-            }
-        }
-        /*var spanPath = "M " + projectX(span.getLeft().x) + " " + projectY(span.getLeft().y) + "L" + projectX(span.getRight().x) + " " + projectY(span.getRight().y);
-        var newSpanPath = "";
-        for(var i = 0; i < ret.length; i++) {
-            var s = ret[i];
-            newSpanPath += "M " + projectX(s.getLeft().x) + " " + projectY(s.getLeft().y) + "L" + projectX(s.getRight().x) + " " + projectY(s.getRight().y);
-        }
-        appendPath(spanPath, 'red', 2, 'class1');
-        if(newSpanPath)
-            appendPath(newSpanPath, 'green', 5, 'class1');
-        if($('#alert').attr('checked'))
-            alert(span.getLevel());
-        $('.class1').remove();*/
-        return ret;
-    }
-    function resolve(x1, x2, z1, z2, y, eps, iteration, isLeft) {
-        var k, b, x, z;
-        while(iteration != 0) {
-            // coefficient for linear equation
-            k = (z2 - z1)/(x2 - x1);
-            if(isNaN(k))
-                return x;
-            b = k*x1 - z1;
-            // expected root
-            x = (zLevel + b)/k;
-            if(iteration == 0)
-                return x;
-            z = Z(x, y);
-            if(Math.abs(z - zLevel) < eps)
-                break;
-            if(z > zLevel) {
-                x2 = x;
-                z2 = z;
-            } else {
-                x1 = x;
-                z1 = z;
-            }
-            iteration--;
-        }
-        if(typeof(isLeft) != 'undefined')
-            if((z < zLevel && k > 0) || (z > zLevel && k < 0)) {
-                if(!isLeft) {
-                    while(k * (z - zLevel) < 0) {
-                        x += eps/3;
-                        z = Z(x, y);
-                    }
-                }
-            } else if(isLeft) {
-                while(k * (z - zLevel) > 0) {
-                    x -= eps/3;
-                    z = Z(x, y);
-                }
-            }
-        return x;
-    }
-    var eps = 0.1,
-		stepX = typeof(_stepX) == 'undefined' ? 0.15 : _stepX, 
-		stepY = typeof(_stepY) == 'undefined' ? 0.7 : _stepY;
-    
-    var p = startPoint, y = startPoint.y;
-    var pLeft = findBorder(p.x, p.y, -1), pRight = findBorder(p.x, p.y, 1);
-	if(pLeft == null || pRight == null) {
-		//drawCircle(p.x, p.y);
-		return null;
-		//pLeft = findBorder(p.x, p.y, -1);
-		//pRight = findBorder(p.x, p.y, 1);
+	function findBorder(_x, _y, direction, stepCount, positionFlag) {
+		var x = _x, y = _y, z = Z(x, y);
+		var count = 0;
+		var sign = z - zLevel;
+		var xPrev = x, zPrev = z, flag = false;
+		if(!stepCount)
+			stepCount = 2000;
+		if(stepCount < 1)
+			return null;
+		while(true) {
+			x = xPrev + direction*stepX;	
+			if(count > stepCount/2 && Math.abs(x - _x) < eps)
+				return x;
+			z = Z(x, y);
+			count++;			
+			if(sign*(z - zLevel) < 0)
+				break;
+			if(count > stepCount) {
+				flag = true;
+				break;
+			}
+			xPrev = x;
+			zPrev = z;
+		}
+		if(flag)
+			return null;
+		var x0;
+		if(typeof(positionFlag) == 'undefined') {
+			x0 = resolve(x, xPrev, z, zPrev, y, eps, 50);
+		} else {
+			x0 = resolve(x, xPrev, z, zPrev, y, eps, 50, positionFlag);
+		}
+		return x0;
 	}
-    var firstLevel = y;
+	function findSpans(span) {
+		/**
+		 * Функция принимающая количество найденых на уровне спанов.
+		 * isFirst - первый ли спан на уровне
+		 */
+		var connectSpans = function connectSpans(isFirst) {
+			if(!isFirst) {
+				if(direction == 1) {
+					if(index == 0) {
+						span.getLeft().next = newSpan.getLeft();
+						newSpan.getLeft().previous = span.getLeft();
+						newSpan.getRight().next = spanArrays[level][index + 1].getLeft();
+						spanArrays[level][index + 1].getLeft().previous = newSpan.getRight();
+					} else if(index == spanArrays[level].length - 1) {
+						span.getRight().previous = newSpan.getRight();
+						newSpan.getRight().next = span.getRight();
+						newSpan.getLeft().previous = spanArrays[level][index - 1].getRight();
+						spanArrays[level][index - 1].getRight().next = newSpan.getLeft();
+					} else {
+						spanArrays[level][index + 1].getLeft().previous = newSpan.getRight();
+						newSpan.getRight().next = spanArrays[level][index + 1].getLeft();
+						newSpan.getLeft().previous = spanArrays[level][index - 1].getRight();
+						spanArrays[level][index - 1].getRight().next = newSpan.getLeft();
+					}
+				} else if(direction == -1) {
+					if(index == 0) {
+						newSpan.getLeft().next = span.getLeft();
+						span.getLeft().previous = newSpan.getLeft();
+						newSpan.getRight().previous = spanArrays[level][index + 1].getLeft();
+						spanArrays[level][index + 1].getLeft().next = newSpan.getRight();
+					} else if(index == spanArrays[level].length - 1) {
+						newSpan.getRight().previous = span.getRight();
+						span.getRight().next = newSpan.getRight();
+						newSpan.getLeft().next = spanArrays[level][index - 1].getRight();
+						spanArrays[level][index - 1].getRight().previous = newSpan.getLeft();
+					} else {
+						spanArrays[level][index + 1].getLeft().next = newSpan.getRight();
+						newSpan.getRight().previous = spanArrays[level][index + 1].getLeft();
+						newSpan.getLeft().next = spanArrays[level][index - 1].getRight();
+						spanArrays[level][index - 1].getRight().previous = newSpan.getLeft();
+					}
+				}
+			} else {
+				if(direction == 1) {
+					newSpan.getLeft().previous = span.getLeft();
+					span.getLeft().next = newSpan.getLeft();
+					newSpan.getRight().next = span.getRight();
+					span.getRight().previous = newSpan.getRight();
+				} else if(direction == -1) {
+					newSpan.getLeft().next = span.getLeft();
+					span.getLeft().previous = newSpan.getLeft();
+					newSpan.getRight().previous = span.getRight();
+					span.getRight().next = newSpan.getRight();
+				}
+			}
+		},
+		/**
+		 * Функция которая находит или изменяет спаны из spans, новые найденые спаны заниосит в spans.
+		 * Возвращает массив найденых спанов.
+		 * xr - точка с которой стартует поиск.
+		 * spans - рабочий массив спанов.
+		 */
+		findNextSpans = function findNextSpans(xr, spans) {
+			var ret = [], check;
+			space = findFreeSpace(xr + 2*stepX, spans);
+			if(!space)
+				return ret;
+			xl = findBorder(xr + 2*stepX, y, 1,
+					Math.min(space[1] - xr, span.getRight().x - xr + stepX)/stepX - 2, false);
+			while(xl != null) {
+				xr = findBorder(xl, y, 1, 
+						Math.min(span.getRight().x - xl + stepX, space[1] - xl)/stepX + 3, false);
+				if(xr == null) {
+					var Blue = function Blue() {
+						spanArrays[level][check].getLeft().x = xl;
+						if(direction == 1) {
+							spans[check].getLeft().previous = spans[check - 1].getLeft();
+							spans[check - 1].getLeft().next = spans[check].getLeft();
+						} else if(direction == -1) {		
+							spans[check].getLeft().next = spans[check - 1].getLeft();
+							spans[check - 1].getLeft().previous = spans[check].getLeft();
+						}
+						color = "blue";
+					},
+					Green = function Green() {
+						spanArrays[level][check].getRight().x = xl;
+						color = "green";
+					}
+					check = checkPoint(xl - 2*stepX, spans);
+					// Умопомрачительные ифы, всего лишь затычка очивидная
+					if(typeof check != "number") {
+						check = checkPoint(xl + 2*stepX, spans);
+						if(typeof check != "number") {
+							check = checkPoint(space[1] + 2*stepX, spans);
+							if(typeof check != "number") {
+								check = checkPoint(space[0] - 2*stepX, spans);
+								Green();
+							} else {
+								Blue();
+							}
+						} else {
+							Blue();
+						}
+					} else {
+						Green();
+					}
+					if(debug) {
+						drawCircle(xl, y, color);
+					}
+					if(space[1] == Infinity) {
+						break;
+					} else {
+						check = checkPoint(space[1] + 2*stepX, spans);
+						space = findFreeSpace(spans[check].getRight().x + 2*stepX, spans);
+						xl = findBorder(spans[check].getRight().x + 2*stepX, y, 1,
+								Math.min(space[1] - xr, span.getRight().x - xr + stepX)/stepX - 2, false);
+						continue;
+					}
+				}
+				if(debug) {
+					drawCircle(xl, y);
+					drawCircle(xr, y);
+				}
+				newSpan = Span(Node(xl, y), Node(xr, y), level);
+				ret.push(newSpan);
+				index = insertSpan(spans, newSpan);
+				newSpan.setIndex(index);
+				connectSpans(false);
+				space = findFreeSpace(xr + 2*stepX, spans);
+				if(!space) {
+					break;
+				}
+				xl = findBorder(xr + 2*stepX, y, 1,
+						Math.min(space[1] - xr, span.getRight().x - xr + stepX)/stepX - 2, false);
+			}
+			return ret;
+		}
+		var direction = -1, level, x, y, zCurrent, space, maxStep = 1000, xl, xr, newSpan, check, tempSpace, color;
+		var debug = typeof(drawCircle) == 'function', ret = [], index;
+		for(var i = 0; i < 2; i++) {
+			direction *= -1;
+			x = span.getLeft().x;
+			level = span.getLevel() + direction;
+			y = span.getLeft().y + direction*stepY;
+			// Проверка на условия того что это все таки рогалик, если нет, кажется ничего не ломается
+			if(direction == 1 && span.getLeft().next == null && typeof spanArrays[level] != 'undefined' && typeof checkPoint(span.getRight().x, spanArrays[level]) == "number") {
+				check = checkPoint(x, spanArrays[level]);
+				if(typeof check == "number") {
+					span.getLeft().next = spanArrays[level][check].getLeft();
+					spanArrays[level][check].getLeft().previous = span.getLeft();
+				} else {
+					tempSpace = findFreeSpace(x, spanArrays[level]);
+					if(tempSpace[1] < Infinity) {
+						check = checkPoint(tempSpace[1] + 2*stepX, spanArrays[level]);
+						span.getLeft().next = spanArrays[level][check].getLeft();
+						spanArrays[level][check].getLeft().previous = span.getLeft();
+					}
+				}
+			}
+			check = checkPoint(x, spanArrays[level]);
+			if(typeof check == "number") {
+				ret = ret.concat(findNextSpans(spanArrays[level][check].getRight().x, spanArrays[level]));
+				continue;
+			}
+			space = findFreeSpace(x, spanArrays[level]);
+			zCurrent = Z(x, y);
+			if(zCurrent > zLevel) {
+				xl = findBorder(x, y, -1, Infinity, false);
+			} else {
+				var min = Math.min(span.getRight().x - span.getLeft().x, space[1] - span.getLeft().x);
+				xl = findBorder(x, y, 1, min/stepX + 1, false);
+				x = xl;
+				if(!xl) {
+					switch(direction) {
+						case 1:
+							span.getLeft().next = span.getRight();
+							span.getRight().previous = span.getLeft();
+							break;
+						case -1:
+							span.getRight().next = span.getLeft();
+							span.getLeft().previous = span.getRight();
+							break;
+					}
+					continue;
+				}
+			}
+			xr = findBorder(x, y, 1, (space[1] - x)/stepX, false);
+			// Ситуация когда нужно обработать не точность(нашел один край - должен быть второй или ошибка)
+			if(xr == null) {
+				var Blue = function Blue() {
+					spanArrays[level][check].getLeft().x = xl;
+					if(direction == 1) {
+						spanArrays[level][check].getLeft().previous = span.getLeft();
+						span.getLeft().next = spanArrays[level][check].getLeft();
+					} else if(direction == -1) {		
+						spanArrays[level][check].getLeft().next = span.getLeft();
+						span.getLeft().previous = spanArrays[level][check].getLeft();
+					}
+					color = "blue";
+				},
+				Green = function Green() {
+					spanArrays[level][check].getRight().x = xl;
+					color = "green";
+				}
+				check = checkPoint(xl - 2*stepX, spanArrays[level]);
+				// Умопомрачительные ифы, всего лишь затычка очивидная
+				if(typeof check != "number") {
+					check = checkPoint(xl + 2*stepX, spanArrays[level]);
+					if(typeof check != "number") {
+						check = checkPoint(space[1] + 2*stepX, spans);
+						if(typeof check != "number") {							
+							check = checkPoint(space[0] - 2*stepX, spans);
+							Green();
+						} else {
+							Blue();
+						}
+					} else {					
+						Blue();
+					}
+				} else {
+					Green();
+				}
+				if(debug) {
+					drawCircle(xl, y, color);
+				}
+				ret = ret.concat(findNextSpans(spanArrays[level][check].getRight().x, spanArrays[level]));
+				continue;
+			}
+			newSpan = Span(Node(xl, y), Node(xr, y), level);
+			ret.push(newSpan);
+			if(debug) {
+				drawCircle(xl, y);
+				drawCircle(xr, y);
+			}
+			// Разные варианты заноса в общий список спанов
+			if(!spanArrays[level]) {
+				spanArrays[level] = [ newSpan ];
+				newSpan.setIndex(0);
+			} else {
+				index = insertSpan(spanArrays[level], newSpan);
+				newSpan.setIndex(index);
+			}
+			connectSpans(true);
+			// Поиск далее на этом же уровне, если позволяет размер кривулины
+			if(span.getRight().x - 2 * stepX > xr) {
+				ret = ret.concat(findNextSpans(xr, spanArrays[level]));
+			}
+		}
+		return ret;
+	}
+	function resolve(x1, x2, z1, z2, y, eps, iteration, isLeft) {
+		var k, b, x, z;
+		while(iteration != 0) {
+			// coefficient for linear equation
+			k = (z2 - z1)/(x2 - x1);
+			if(isNaN(k))
+				return x;
+			b = k*x1 - z1;
+			// expected root
+			x = (zLevel + b)/k;
+			if(iteration == 0)
+				return x;
+			z = Z(x, y);
+			if(Math.abs(z - zLevel) < eps)
+				break;
+			if(z > zLevel) {
+				x2 = x;
+				z2 = z;
+			} else {
+				x1 = x;
+				z1 = z;
+			}
+			iteration--;
+		}
+		if(typeof(isLeft) != 'undefined')
+			if((z < zLevel && k > 0) || (z > zLevel && k < 0)) {
+				if(!isLeft) {
+					while(k * (z - zLevel) < 0) {
+						x += eps/3;
+						z = Z(x, y);
+					}
+				}
+			} else if(isLeft) {
+				while(k * (z - zLevel) > 0) {
+					x -= eps/3;
+					z = Z(x, y);
+				}
+			}
+		return x;
+	}
+	/**
+	 * Проверяет лежит ли точка в спанах на заданном уровне.
+	 */
+	function checkPoint(x, spans) {
+		if(!spans)
+			return false;
+		for(var i = 0, l = spans.length; i < l; i++) {
+			if(inSpan(spans[i], x))
+				return i;
+		}
+		return false;
+	}
+	function inSpan(span, x) {
+		return span.getLeft().x - stepX < x && span.getRight().x + stepX > x;
+	}
+	function findFreeSpace(x, spans) {		
+		if(!spans)
+			return [-Infinity, Infinity];
+		var span = spans[0];
+		if(span.getLeft().x >= x) {
+			if(span.getLeft().x - stepX >= x)
+				return [-Infinity, span.getLeft().x - stepX];
+			else return false;
+		}
+		span = spans.getLast();
+		if(span.getRight().x <= x) {
+			if(span.getRight().x + stepX <= x)
+				return [span.getRight().x + stepX, Infinity];
+			else return false;
+		}
+		for(var i = 1, l = spans.length; i < l; i++) {
+			if(spans[i - 1].getRight().x + stepX > x)
+				return false;
+			var ls = spans[i - 1].getRight().x + stepX, rs = spans[i].getLeft().x - stepX;
+			if(ls < x && rs > x)
+				return [ls, rs];
+		}
+		return false;
+	}
+	function insertSpan(spans, span) {
+		if(span.getLeft().x > spans.getLast().getRight().x) {
+			spans.push(span);
+			return spans.length - 1;
+		}
+		for(var sa = 0, lSA = spans.length; sa < lSA; sa++) {
+			if(spans[sa].getRight().x < span.getLeft().x)
+				continue;
+			spans.splice(sa, 0, span);
+			return sa;
+		}
+	}
+	window.test = function test() {
+		var spans1 = [];
+		var y = 0;
+		var span = Span(Node(0, y), Node(10, y), 0);
+		spans1.push(span);
+		
+		span = Span(Node(15, y), Node(20, y), 0);
+		console.log(insertSpan(spans1, span));
+		
+		span = Span(Node(-6, y), Node(-1, y), 0);
+		console.log(insertSpan(spans1, span));
+		
+		span = Span(Node(-10, y), Node(-9, y), 0);
+		console.log(insertSpan(spans1, span));
+		
+		span = Span(Node(12, y), Node(14, y), 0);
+		console.log(insertSpan(spans1, span));
+		
+		spans1.forEach(function(span) {
+			console.log(span.toString());
+		}, spans1);
+		console.log(findFreeSpace(-7, spans1));
+		console.log(findFreeSpace(-0.1, spans1));
+		console.log(findFreeSpace(12, spans1));
+		console.log(findFreeSpace(11, spans1));
+		console.log(findFreeSpace(30, spans1));
+		console.log(findFreeSpace(20.1, spans1));
+	}
+	var eps = 0.1,
+	stepX = typeof(_stepX) == 'undefined' ? 0.15 : _stepX, 
+	stepY = typeof(_stepY) == 'undefined' ? 0.7 : _stepY;
     
-    var leftNode = Node(pLeft, y);
-    var rightNode = Node(pRight, y);
-    var spanStack = Stack();
-    var firstSpan = Span(leftNode, rightNode, 0);
-    spanStack.push(firstSpan);
-    var count = 0;
-    while(spanStack.size() > 0) {
-        var span = spanStack.pop();
-        var spans = findSpans(span);
-        count++;
-        if(count > 1000)
-            break;
-		//////////////////////
-		if(spans == null)
-			continue;
-		//////////////////////
-        for(var i = 0; i < spans.length; i++)
-            spanStack.push(spans[i]);
-    }
-    return firstSpan.getLeft();
+	var p = startPoint, y = startPoint.y;
+	var pLeft = findBorder(p.x, p.y, -1), pRight = findBorder(p.x, p.y, 1);
+	var firstLevel = y;
+	var spanArrays = [];
+	var leftNode = Node(pLeft, y);
+	var rightNode = Node(pRight, y);
+	if(typeof(drawCircle) == 'function') {
+		drawCircle(pLeft, y);
+		drawCircle(pRight, y);
+	}
+	var spanStack = Stack();
+	var firstSpan = Span(leftNode, rightNode, 0);
+	spanArrays[firstSpan.getLevel()] = [firstSpan];
+	spanStack.push(firstSpan);
+	var count = 0;
+	while(spanStack.size() > 0) {
+		var span = spanStack.pop();
+		var spans = findSpans(span);
+		count++;
+		if(count > 10000)
+			break;
+		for(var i = 0; i < spans.length; i++) {
+			spanStack.push(spans[i]);
+		}
+	}
+	console.log(count);
+	return firstSpan.getLeft();
 }
 function Span(l, r , lvl) {
-    var level = lvl, left = l, right = r, parent = null;
-    function setParent(Parent) {
-        parent = Parent;
-    }
-    function getParent() {
-        return parent;
-    }
-    function getLeft() {
-        return left;
-    }
-    function getRight() {
-        return right;
-    }
-    function getLevel() {
-        return level;
-    }
-    function getLength() {
-        return r.x - l.x;
-    }
-    var me = {
-        setParent : setParent,
-        getParent : getParent,
-        getLevel : getLevel,
-        getLeft : getLeft,
-        getRight : getRight,
-        getLength : getLength,
-        level : lvl,
-        left : left,
-        right : right
-    };
-    return me;
+	var level = lvl, left = l, right = r, parent = null, index = null;
+	function setParent(Parent) {
+		me.parent = Parent;
+	}
+	function getParent() {
+		return parent;
+	}
+	function getLeft() {
+		return left;
+	}
+	function getRight() {
+		return right;
+	}
+	function getLevel() {
+		return level;
+	}
+	function getLength() {
+		return r.x - l.x;
+	}
+	function setIndex(i) {
+		me.index = i;
+	}
+	function toString() {
+		return "left : [" + left.x.toFixed(2) + ", " + left.y.toFixed(2) + "], " + 
+		"right : [" + right.x.toFixed(2) + ", " + right.y.toFixed(2) + "], level : " + level.toFixed(2);
+	}
+	var me = {
+		setParent : setParent,
+		setIndex: setIndex,
+		getParent : getParent,
+		getLevel : getLevel,
+		getLeft : getLeft,
+		getRight : getRight,
+		getLength : getLength,
+		toString : toString,
+		level : lvl,
+		left : left,
+		right : right,
+		index: index		
+	};
+	return me;
 }
 function Node(x, y) {
-    return {
-        x : x, 
-        y : y, 
-        next : null, 
-        previous : null
-    }
+	return {
+		x : x, 
+		y : y,
+		connect: false,
+		next : null, 
+		previous : null
+	}
 }
 function Stack() {
-    var data = [];
-    function peek() {
-        if(!data.length)
-            return null;
-        return data[data.length - 1];
-    }
-    function push(element) {
-        data.push(element);
-    }
-    function pop() {
-        return data.pop();
-    }
-    function size() {
-        return data.length;
-    }
-    return {
-        peek : peek, 
-        push : push, 
-        pop : pop, 
-        size : size
-    }
+	var data = [];
+	function peek() {
+		if(!data.length)
+			return null;
+		return data[data.length - 1];
+	}
+	function push(element) {
+		data.push(element);
+	}
+	function pop() {
+		return data.pop();
+	}
+	function size() {
+		return data.length;
+	}
+	return {
+		peek : peek, 
+		push : push, 
+		pop : pop, 
+		size : size
+	}
 }
