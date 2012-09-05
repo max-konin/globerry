@@ -17,12 +17,12 @@ Array.prototype.getLast = function() {
  * Функция для отрисовки кривулин
  */
 function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
-	var canvas = ConnectorCurvesToMap(lmap), stepX = 0.6, stepY = 0.6, points = centers, border = false, circles = false, polygonOptions = {
-		color : "red",
-		fillColor : "red",
+	var canvas = ConnectorCurvesToMap(lmap), stepX = 0.6, stepY = 0.6, points = centers, border = true, circles = false, polygonOptions = {
+		color : "#ff4d29",
+		fillColor :"#ff4d29",
 		weight : 1,
 		fillOpacity : 0.5,
-		opacity : 0
+		opacity : 1
 	},
 	/*
 	 * Функция определяющая расчет потенциала
@@ -41,8 +41,16 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 		});
 		return val.getLast() * 1000000;
 	}, drawCurves = function drawCurves() {
-		polygonOptions.color = border ? "#ff4d29" : "red";
-		polygonOptions.opacity = border ? 0.8 : 0;
+		polygonOptions.color = border ? "#ff2b00" : "#ff2b00";
+		polygonOptions.opacity = border ? 1.5 : 0;
+                if(globalMap.getZoom() > 6)
+                {
+                    points.forEach(function(o) {
+						canvas.putPolygon(drawCircle(o.lng, o.lat, "#ff4d29", 2, o.weight*3333,o.name));
+					});
+                }
+                else
+                {
 		var epsilon = stepX * 17717;
 
 		var returnPoints = [];
@@ -52,32 +60,41 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 				return 1;
 			return -1;
 		});
+                //город
 		var center;
+                //массив вершин квадрата
 		var squarePoints;
-
+                //переменные цикла
 		var i = 0;
 		var j = 0;
-
+                //Массив куда складываются номера вершин квадрата, которые попали в срез поля
 		var buffer = [];
+                //точка которая не попала  срез(используется для count == 3)
 		var buffer2;
+                //точки на квадрате по которым строится кривулина, попадают в массив returnPoints, отсчет право-лево по часовой стрелке
 		var pointLeft;
 		var pointRight;
+                
 		var exitCode = 0;
 		var c = 0;
 		
 		var debug = false;
 		while (pointsRemaining.length != 0) {
 			var somePoint = pointsRemaining.pop();
+                        //направление выбора квадрата 0-вверх 1-вправо 2-вниз 3-влево
 			var direction = undefined;
-			
+//			if(Math.ceil(somePoint.lat) == 36 && Math.ceil(somePoint.lng)==15)
+//                            debug = true;
 			
 			var start = new L.LatLng(somePoint.lat, somePoint.lng, true);
 			start.lat = Math.floor(start.lat / stepY) * stepY;
 			start.lng = Math.floor(start.lng / stepX) * stepX;
 
-			center = new L.LatLng(start.lat + 0.1, start.lng);
+			center = new L.LatLng(start.lat, start.lng);
 			squarePoints = [ new L.LatLng(center.lat, center.lng), new L.LatLng(center.lat, center.lng + stepX),
 					new L.LatLng(center.lat - stepY, center.lng + stepX), new L.LatLng(center.lat - stepY, center.lng) ];
+                                    //squarePoints = [ new L.LatLng(center.lat + stepY/2, center.lng - stepX/2), new L.LatLng(center.lat + stepY/2, center.lng + stepX/2),
+					//new L.LatLng(center.lat - stepY/2, center.lng + stepX/2), new L.LatLng(center.lat - stepY/2, center.lng - stepX/2) ];
 			exitCode = 0;
 			while (exitCode == 0) {
 				c++;
@@ -101,6 +118,7 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 				}
 				if (debug)
 					alert("Count : " + count);
+                                // в зависимости от того сколько точек попало в срез поля и то какие они определяется какие точки попадут в returnPoints
 				switch (count) {
 				case 0:
 					// alert("Хрень батюшка");
@@ -224,6 +242,7 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 				}
 				if (debug)
 					alert("direction : " + direction);
+                                //выбор направления движения 
 				switch (direction) {
 				case 0:
 					center.lat += stepY;
@@ -258,12 +277,14 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 				canvas.putPolygon(drawCircle(o.lng, o.lat, "black", 2, canvas.radiusCircle));
 			});
 		}
-	}, redrawCurves = function redrawCurves(/* City from Java */centers) {
+	}
+        }, redrawCurves = function redrawCurves(/* City from Java */centers) {
 		var point;
 		var pointsToDraw = [];
 		for ( var j = 0; j < centers.length; j++) {
 			point = new L.LatLng(centers[j].latitude, centers[j].longitude);
 			point.weight = centers[j].weight;
+			point.name = cities[j].name;
 			pointsToDraw.push(point);
 		}
 		points = pointsToDraw;
@@ -307,11 +328,11 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 
 function ConnectorCurvesToMap(/* L.Map */lmap) {
 	var polygons = [ [], [] ], zlevelNormalizer = {
-		2 : 9,
-		3 : 10,
-		4 : 13,
-		5 : 20,
-		6 : 22,
+		2 : 14,
+		3 : 18,
+		4 : 22,
+		5 : 25,
+		6 : 33,
 		7 : 30,
 		8 : 34
 	}, /** Индекс - это номер зума, значение - zlevel.* */
@@ -390,14 +411,14 @@ function ConnectorCurvesToMap(/* L.Map */lmap) {
 	return me;
 }
 
-function drawCircle(x, y, color, weight, radius, fillColor) {
-	return /* globalMap.addLayer( */new L.Circle(new L.LatLng(y, x, true), typeof radius == "number" ? radius : 5000, {
+function drawCircle(x, y, color, weight, radius, hintText, fillColor) {
+	return /* globalMap.addLayer( */new L.ExCircle(new L.LatLng(y, x, true), typeof radius == "number" ? radius : 5000, {
 		color : typeof color == "string" ? color : "red",
 		fillColor : typeof fillColor == "string" ? fillColor : (color ? color : "red"),
-		weight : typeof weight == "number" ? weight : 2,
-		fillOpacity : 1,
-		opacity : 1
-	})/* ) */;
+		weight : typeof weight == "number" ? weight : 20,
+		fillOpacity : 0.5,
+		opacity : 0.5
+	}, hintText)/* ) */;
 }
 function drawMiniCircle(x, y, color) {
 	globalMap.addLayer(new L.Circle(new L.LatLng(y, x, true), 3000, {

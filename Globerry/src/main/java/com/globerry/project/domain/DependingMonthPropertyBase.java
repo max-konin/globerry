@@ -16,66 +16,66 @@ import org.hibernate.annotations.Index;
 @Entity
 @Table(name = "DependingMonthProperty")
 @org.hibernate.annotations.Table(appliesTo = "DependingMonthProperty", indexes = { 
-                                                                                @Index(name="JANUARY-idx", 
+                                                                                @Index(name="JANUARYidx", 
                                                                                         columnNames = { 
                                                                                                 "JANUARY_value_left",
-                                                                                                "JANUARY_value_right",                                                                                                    
+                                                                                                "JANUARY_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="FEBRUARY-idx", 
+                                                                                @Index(name="FEBRUARYidx", 
                                                                                         columnNames = { 
                                                                                                 "FEBRUARY_value_left",
-                                                                                                "FEBRUARY_value_right",                                                                                                    
+                                                                                                "FEBRUARY_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="MARCH-idx", 
+                                                                                @Index(name="MARCHidx", 
                                                                                         columnNames = { 
                                                                                                 "MARCH_value_left",
-                                                                                                "MARCH_value_right",                                                                                                    
+                                                                                                "MARCH_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="APRIL-idx", 
+                                                                                @Index(name="APRILidx", 
                                                                                         columnNames = { 
                                                                                                 "APRIL_value_left",
-                                                                                                "APRIL_value_right",                                                                                                    
+                                                                                                "APRIL_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="MAY-idx", 
+                                                                                @Index(name="MAYidx", 
                                                                                         columnNames = { 
                                                                                                 "MAY_value_left",
-                                                                                                "MAY_value_right",                                                                                                    
+                                                                                                "MAY_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="JUNE-idx", 
+                                                                                @Index(name="JUNEidx", 
                                                                                         columnNames = { 
                                                                                                 "JUNE_value_left",
-                                                                                                "JUNE_value_right",                                                                                                    
+                                                                                                "JUNE_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="JULY-idx", 
+                                                                                @Index(name="JULYidx", 
                                                                                         columnNames = { 
                                                                                                 "JULY_value_left",
-                                                                                                "JULY_value_right",                                                                                                    
+                                                                                                "JULY_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="AUGUST-idx", 
+                                                                                @Index(name="AUGUSTidx", 
                                                                                         columnNames = { 
                                                                                                 "AUGUST_value_left",
-                                                                                                "AUGUST_value_right",                                                                                                    
+                                                                                                "AUGUST_value_right"                                                                                                    
                                                                                                     }),
-                                                                                @Index(name="SEPTEMBER-idx", 
+                                                                                @Index(name="SEPTEMBERidx", 
                                                                                         columnNames = { 
                                                                                                 "SEPTEMBER_value_left",
-                                                                                                "SEPTEMBER_value_right",                                                                                                    
+                                                                                                "SEPTEMBER_value_right"                                                                                                    
                                                                                                     }),
-                                                                                 @Index(name="OCTOBER-idx", 
+                                                                                 @Index(name="OCTOBERidx", 
                                                                                         columnNames = { 
                                                                                                 "OCTOBER_value_left",
-                                                                                                "OCTOBER_value_right",                                                                                                    
+                                                                                                "OCTOBER_value_right"                                                                                                    
                                                                                                     }),
-                                                                                  @Index(name="NOVEMBER-idx", 
+                                                                                  @Index(name="NOVEMBERidx", 
                                                                                         columnNames = { 
                                                                                                 "NOVEMBER_value_left",
-                                                                                                "NOVEMBER_value_right",                                                                                                    
+                                                                                                "NOVEMBER_value_right"                                                                                                    
                                                                                                     }),
-                                                                                   @Index(name="DECEMBER-idx", 
+                                                                                   @Index(name="DECEMBERidx", 
                                                                                         columnNames = { 
                                                                                                 "DECEMBER_value_left",
-                                                                                                "DECEMBER_value_right",                                                                                                    
-                                                                                                    }),
+                                                                                                "DECEMBER_value_right"                                                                                                    
+                                                                                                    })
 
                                                                                         })
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)

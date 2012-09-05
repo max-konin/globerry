@@ -4,12 +4,8 @@
  */
 package com.globerry.project.dao;
 
-import com.globerry.project.MySqlException;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
-import javax.annotation.PostConstruct;
+
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -44,7 +40,7 @@ public class Dao<T> implements IDao<T>
 	    if (tx != null)
 		tx.rollback();
 	    exp.printStackTrace();
-	    throw new HibernateException("Что то пошло не так", exp);
+	    throw new RuntimeException("Что то пошло не так", exp);
 	}
     }
 
@@ -62,7 +58,7 @@ public class Dao<T> implements IDao<T>
 	{
 	    if (tx != null)
 		tx.rollback();
-	    throw new HibernateException("Что то пошло не так", exp);
+	    throw new RuntimeException("Что то пошло не так", exp);
 	}
     }
 
@@ -81,7 +77,7 @@ public class Dao<T> implements IDao<T>
 	{
 	    if (tx != null)
 		tx.rollback();
-	    throw new HibernateException("Что то пошло не так", exp);
+	    throw new RuntimeException("Что то пошло не так", exp);
 	}
     }
 
@@ -101,7 +97,7 @@ public class Dao<T> implements IDao<T>
 	{
 	    if (tx != null)
 		tx.rollback();
-	    throw new HibernateException("Что то пошло не так", exp);
+	    throw new RuntimeException("Что то пошло не так", exp);
 	}
     }
 
@@ -120,7 +116,7 @@ public class Dao<T> implements IDao<T>
 	{
 	    if (tx != null)
 		tx.rollback();
-	    throw new HibernateException("Что то пошло не так", exp);
+	    throw new RuntimeException("Что то пошло не так", exp);
 	}
     }
 
@@ -138,7 +134,7 @@ public class Dao<T> implements IDao<T>
 	{
 	    if (tx != null)
 		tx.rollback();
-	    throw new HibernateException("Что то пошло не так", exp);
+	    throw new RuntimeException("Что то пошло не так", exp);
 	}
     }
 }

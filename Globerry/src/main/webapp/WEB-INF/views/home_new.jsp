@@ -13,33 +13,27 @@
 	<meta charset="utf-8">
 	<TITLE>Globerry (v<spring:message code="buildNumber" />)
 	</TITLE>
-	<link rel="stylesheet" href="resources/styles/globerry.css"
-		  type="text/css" />	
-	<link rel="stylesheet" href="resources/styles/fonts.css"
-		  type="text/css" />
-	<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-
-	<link rel="stylesheet"
-		  href="resources/lib/leaflet-v0.3.1/dist/leaflet.css" />
-	<!--<script src="resources/javascripts/CloudMade-Leaflet-538dfb4/debug/leaflet-include.js"></script>-->
-	<script src="resources/lib/leaflet-v0.3.1/debug/leaflet-include.js"></script>
-
-	<script src="resources/javascripts/bubbles.js"></script>
-	<script type="text/javascript"
-	src="resources/javascripts/ui-static-init.js"></script>
+	<link rel="stylesheet" href="resources/styles/fonts.css" type="text/css" />
+	<link rel="stylesheet" href="resources/lib/leaflet-v0.3.1/dist/leaflet.css" />
 	<!--In the header of your page, paste the following for Kendo UI Web styles-->
 	<link href="resources/javascripts/kendoui/styles/kendo.common.min.css"
 		  rel="stylesheet" type="text/css" />
 	<link href="resources/javascripts/kendoui/styles/globerry.min.css"
 		  rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="resources/styles/globerry.css" type="text/css" />
 	<!--Then paste the following for Kendo UI Web scripts-->
-	<script src="resources/javascripts/kendoui/js/kendo.web.min.js"
-	type="text/javascript"></script>
-	<script type="text/javascript"
-	src="resources/javascripts/jquery.ui-slider.js"></script>
+	
+	<script	src="resources/javascripts/jquery-1.7.2.min.js"></script>
+	<!--<script src="resources/javascripts/CloudMade-Leaflet-538dfb4/debug/leaflet-include.js"></script>-->
+	<script src="resources/lib/leaflet-v0.3.1/debug/leaflet-include.js"></script>
+
+	<!--<script src="resources/javascripts/bubbles.js"></script>-->
+	<script type="text/javascript" src="resources/javascripts/ui-static-init.js"></script>
+	<script type="text/javascript" src="resources/javascripts/kendoui/js/kendo.web.min.js"></script>
+
+	<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
 	<script type="text/javascript" src="resources/javascripts/bezier.js"></script>
-<script type="text/javascript" src="resources/javascripts/Bing.js"></script>
+	<script type="text/javascript" src="resources/javascripts/Bing.js"></script>
 
 
 	<!--   стили для таблицы параметров     -->
@@ -54,16 +48,17 @@
 	<!--   скрипты для  таблицы параметров   -->
 	<!--        <script type="text/javascript" src="resources/lib/colorpicker/js/jquery.js"></script>-->
 	<script type="text/javascript"
-	src="resources/lib/colorpicker/js/colorpicker.js"></script>
+		src="resources/lib/colorpicker/js/colorpicker.js"></script>
 	<script type="text/javascript" src="resources/lib/colorpicker/js/eye.js"></script>
 	<script type="text/javascript"
-	src="resources/lib/colorpicker/js/utils.js"></script>
+		src="resources/lib/colorpicker/js/utils.js"></script>
 	<script type="text/javascript"
-	src="resources/lib/colorpicker/js/layout.js"></script>
+		src="resources/lib/colorpicker/js/layout.js"></script>
 	<script type="text/javascript"
-	src="resources/lib/colorpicker/lib/jquery.tabSlideOut.v1.3.js"></script>
+		src="resources/lib/colorpicker/lib/jquery.tabSlideOut.v1.3.js"></script>
 	<script type="text/javascript"
-	src="resources/lib/paramsTable/js/paramsTable.js"></script>
+		src="resources/lib/paramsTable/js/paramsTable.js"></script>
+       
 	<!--   /скрипты для  таблицы параметров   -->
 	<!--   скрипты для   Карусели   -->
 	<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
@@ -72,9 +67,10 @@
 	<script type="text/javascript"
 	src="resources/javascripts/jquery.mousewheel.js"></script>
 	<script type="text/javascript" src="resources/javascripts/spans.js"></script>
+	<script type="text/javascript" src="resources/javascripts/jhints.js"></script>
 	<script type="text/javascript" src="resources/javascripts/ExPolygon.js"></script>
 	<script type="text/javascript" src="resources/javascripts/curves.js"></script>
-
+	
 
 
 	<!--   /скрипты для  Карусели   -->
@@ -89,7 +85,7 @@
 		<div id='head'>
 			<div id='header'>
 				<div id='headTop'>
-					<div id="globerryTitle">GLOBERRY</div>
+					<div id="globerryTitle"></div>
 					<div id='headText'>
 						<input type="text" id="hText" value="" readonly="">
 					</div>
@@ -103,7 +99,7 @@
 						<spring:message code="label.who" />
 					</div>
 					<div id='whoDropDownList' class='whoWhatWhenDropDownList'>
-						<select id='' class='whoSelect gui_element' style="width: 120px"
+						<select id='' class='whoSelect gui_element' style="width: 100px"
 								guiId="${who.getId()}">
 							<c:forEach items="${who.getOptionAvaliable()}" var="value">
 								<option value="${value}">
@@ -144,7 +140,7 @@
 						<div id='headerButtonText' class='headerButton'>
 							<spring:message code="label.go" />
 						</div>
-						<div id='headerButtonTBackGround' class='headerButton'></div>
+						<!--<div id='headerButtonTBackGround' class='headerButton'></div>-->
 					</div>
 				</div>
 				<div id='headContent2' class='headSwitcharable'>
@@ -153,164 +149,130 @@
 							 guiId="${temperature.getId()}">
 							<div class="formCost">
 								<div class="bucks">
-									<input type="text" id="minCost" class="left"
-										   value="<fmt:formatNumber value="${temperature.getMinValue()}"
-															 minFractionDigits="0" maxFractionDigits="0"/>"
-										   readonly />
+									<div id="minCost" class="left"><fmt:formatNumber value="${temperature.getMinValue()}"
+															 minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
 								<div id='temperatureText' class='blocksText'>
 									<spring:message code="label.temperature" />
 								</div>
 								<div class="bucks rightBucks">
-									<input type="text" id="maxCost" class="right"
-										   value="<fmt:formatNumber value="${temperature.getMaxValue()}"
-															 minFractionDigits="0" maxFractionDigits="0"/>"
-										   readonly />
+									<div id="maxCost" class="right">+<fmt:formatNumber value="${temperature.getMaxValue()}"
+															 minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
 							</div>
 							<div id='temperatureSlider' class='slider-range'></div>
 						</div>
 						<div id='alcBlock'
-							 class='sliderBlocks bottomLineInBlocks gui_element'
-							 style='width: 200px;' guiId="${alcohol.getId()}">
+							 class='sliderBlocks bottomLineInBlocks gui_element' guiId="${alcohol.getId()}">
 							<div class="formCost">
 								<div class="bucks">
-									$ <input type="text" id="alcMinCost"
-											 class='left bucksInputPosition'
-											 value="<fmt:formatNumber value="${alcohol.getMinValue()}" 
-															   minFractionDigits="0" maxFractionDigits="0"/>"
-											 readonly />
+									<div id="alcMinCost"
+											 class='left bucksInputPosition'><fmt:formatNumber value="${alcohol.getMinValue()}" 
+															   minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
-								<div id='alcText' class='blocksText'>
+								<div id='alcText' class='blocksText'  title="<spring:message code="label.title_alchCost" />">
 									<spring:message code="label.alcohol" />
 								</div>
 								<div class="bucks rightBucks">
-									$ <input type="text" id="alcMaxCost"
-											 class='right bucksInputPosition'
-											 value="<fmt:formatNumber value="${alcohol.getMaxValue()}"  
-															   minFractionDigits="0" maxFractionDigits="0"/>"
-											 readonly />
+									<div id="alcMaxCost"
+											 class='right bucksInputPosition'><fmt:formatNumber value="${alcohol.getMaxValue()}"  
+															   minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
 							</div>
 							<div id='alcSlider' class='slider-range'></div>
 						</div>
 					</div>
 					<div id="secondBlock" class="secondHeaderBlocks">
-						<div id='timeInPathBlock' class='sliderBlocks gui_element'
-							 style='width: 150px;' guiId="${travelTime.getId()}">
+						<div id='timeInPathBlock' class='sliderBlocks gui_element' guiId="${travelTime.getId()}">
 							<div class="formCost">
 								<div class="bucks">
-									<input type="text" id="timeMinV" class='left'
-										   value="<fmt:formatNumber value="${travelTime.getMinValue()}"
-                                                             minFractionDigits="0" maxFractionDigits="0"/>"
-										   readonly />
+									<div id="timeMinV" class='left'><fmt:formatNumber value="${travelTime.getMinValue()}"
+                                                             minFractionDigits="0" maxFractionDigits="0"/></div>
 									<spring:message code="label.hour" />
 								</div>
 								<div id='timeInPathText' class='blocksText'>
 									<spring:message code="label.travel_time" />
 								</div>
 								<div class="bucks rightBucks">
-									<input type="text" id="timeMaxV" class='right'
-										   value="<fmt:formatNumber value="${travelTime.getMaxValue()}" 
-                                                             minFractionDigits="0" maxFractionDigits="0"/>"
-										   readonly />
+									<div id="timeMaxV" class='right'><fmt:formatNumber value="${travelTime.getMaxValue()}" 
+                                                             minFractionDigits="0" maxFractionDigits="0"/></div>
 									<spring:message code="label.hour" />
 								</div>
 							</div>
 							<div id='timeSlider' class='slider-range'></div>
 						</div>
 						<div id='moodBlock'
-							 class='sliderBlocks bottomLineInBlocks gui_element'
-							 style='width: 150px;' guiId="${mood.getId()}">
+							 class='sliderBlocks bottomLineInBlocks gui_element' guiId="${mood.getId()}">
 							<div class="formCost">
-								<div class="bucks">
-									<input type="text" id="moodMin" class='left'
-										   value="<fmt:formatNumber value="${mood.getMinValue()}" minFractionDigits="0"
-                                                             maxFractionDigits="0"/>"
-										   readonly />
+								<div class="bucks" style="display: none;">
+									<div id="moodMin" class='left'><fmt:formatNumber value="${mood.getMinValue()}" minFractionDigits="0"
+                                                             maxFractionDigits="0"/></div>
 								</div>
 								<div id='moodText' class='blocksText'>
 									<spring:message code="label.mood" />
 								</div>
-								<div class="bucks rightBucks">
-									<input type="text" id="moodMax" class='right'
-										   value="<fmt:formatNumber value="${mood.getMaxValue()}" minFractionDigits="0"
-                                                             maxFractionDigits="0"/>"
-										   readonly />
+								<div class="bucks rightBucks" style="display: none;">
+									<div id="moodMax" class='right'><fmt:formatNumber value="${mood.getMaxValue()}" minFractionDigits="0"
+                                                             maxFractionDigits="0"/></div>
 								</div>
 							</div>
-							<div id='moodSlider' class='slider-conjoint'></div>
+							<div id='moodSlider' class='slider-range'></div>
 						</div>
 					</div>
 					<div id="thirdBlock" class="secondHeaderBlocks">
-						<div id='liveCostBlock' class='sliderBlocks gui_element'
-							 style='width: 150px;' guiId="${livingCost.getId()}">
-							<div class="formCost">
+						<div id='liveCostBlock' class='sliderBlocks gui_element' guiId="${livingCost.getId()}">
+							<div class="formCost" >
 								<div class="bucks">
-									$ <input type="text" id="livMinV"
-											 class='left bucksInputPosition'
-											 value="<fmt:formatNumber value="${livingCost.getMinValue()}"
-															   minFractionDigits="0" maxFractionDigits="0"/>"
-											 readonly />
+									<div id="livMinV"
+											 class='left bucksInputPosition'><fmt:formatNumber value="${livingCost.getMinValue()}"
+															   minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
-								<div id='liveText' class='blocksText '>
+								<div id='liveText' class='blocksText ' title="<spring:message code="label.title_livingCost" />">
 									<spring:message code="label.living_cost" />
 								</div>
 								<div class="bucks rightBucks">
-									$ <input type="text" id="LivMaxV"
-											 class='right bucksInputPosition'
-											 value="<fmt:formatNumber value="${livingCost.getMaxValue()}"
-															   minFractionDigits="0" maxFractionDigits="0"/>"
-											 readonly />
+									<div id="livMaxV"
+											 class='right bucksInputPosition'><fmt:formatNumber value="${livingCost.getMaxValue()}"
+															   minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
 							</div>
 							<div id='livecostSlider' class='slider-range'></div>
 						</div>
 						<div id='securityBlock'
-							 class='sliderBlocks bottomLineInBlocks gui_element'
-							 style='width: 150px;' guiId="${security.getId()}">
+							 class='sliderBlocks bottomLineInBlocks gui_element' guiId="${security.getId()}">
 							<div class="formCost">
-								<div class="bucks">
-									<input type="text" id="securityMin"
-										   class='left bucksInputPosition'
-										   value="<fmt:formatNumber value="${security.getMinValue()}"
-                                                             minFractionDigits="0" maxFractionDigits="0"/>"
-										   readonly />
+								<div class="bucks" style="display: none;">
+									<div id="securityMin"
+										   class='left bucksInputPosition'><fmt:formatNumber value="${security.getMinValue()}"
+                                                             minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
 								<div id='securityText' class='blocksText'>
 									<spring:message code="label.security" />
 								</div>
-								<div class="bucks rightBucks">
-									<input type="text" id="securityMax"
-										   class='right bucksInputPosition'
-										   value="<fmt:formatNumber value="${security.getMaxValue()}"
-                                                             minFractionDigits="0" maxFractionDigits="0"/>"
-										   readonly />
+								<div class="bucks rightBucks" style="display: none;">
+									<div id="securityMax"
+										   class='right bucksInputPosition'><fmt:formatNumber value="${security.getMaxValue()}"
+                                                             minFractionDigits="0" maxFractionDigits="0"/></div>
 								</div>
 							</div>
-							<div id='securitySlider' class='slider-conjoint'></div>
+							<div id='securitySlider' class='slider-range'></div>
 						</div>
 					</div>
 					<div id="forthBlock" class="secondHeaderBlocks">
-						<div id='foodBlock' class='sliderBlocks gui_element'
-							 style='width: 150px;' guiId="${cost.getId()}">
-							<div class="formCost">
+						<div id='foodBlock' class='sliderBlocks gui_element' guiId="${cost.getId()}">
+							<div class="formCost" >
 								<div class="bucks">
-									$ <input type="text" id="foodMinV"
-											 class='left bucksInputPosition'
-											 value="<fmt:formatNumber value="${cost.getMinValue()}" minFractionDigits="0"
-															   maxFractionDigits="0"/>"
-											 readonly />
+									<div id="foodMinV"
+											 class='left bucksInputPosition'><fmt:formatNumber value="${cost.getMinValue()}" minFractionDigits="0"
+															   maxFractionDigits="0"/></div>
 								</div>
-								<div id='foodText' class='blocksText'>
+								<div id='foodText' class='blocksText' title="<spring:message code="label.title_eatCost" />">
 									<spring:message code="label.food" />
 								</div>
 								<div class="bucks rightBucks">
-									$ <input type="text" id="foodMaxV"
-											 class='right bucksInputPosition'
-											 value="<fmt:formatNumber value="${cost.getMaxValue()}" minFractionDigits="0"
-															   maxFractionDigits="0"/>"
-											 readonly />
+									<div id="foodMaxV"
+											 class='right bucksInputPosition'><fmt:formatNumber value="${cost.getMaxValue()}" minFractionDigits="0"
+															   maxFractionDigits="0"/></div>
 								</div>
 							</div>
 							<div id='foodSlider' class='slider-range'></div>
@@ -319,23 +281,19 @@
 							 class='sliderBlocks bottomLineInBlocks gui_element'
 							 style='width: 150px;' guiId="${sex.getId()}">
 							<div class="formCost">
-								<div class="bucks">
-									<input type="text" id="sexMin" class='left bucksInputPosition'
-										   value="<fmt:formatNumber value="${sex.getMinValue()}" minFractionDigits="0"
-                                                             maxFractionDigits="0"/>"
-										   readonly />
+								<div class="bucks" style="display: none;">
+									<div id="sexMin" class='left bucksInputPosition'><fmt:formatNumber value="${sex.getMinValue()}" minFractionDigits="0"
+                                                             maxFractionDigits="0"/></div>
 								</div>
 								<div id='sexText' class='blocksText'>
 									<spring:message code="label.sex" />
 								</div>
-								<div class="bucks rightBucks">
-									<input type="text" id="sexMax" class='right bucksInputPosition'
-										   value="<fmt:formatNumber value="${sex.getMaxValue()}" minFractionDigits="0"
-                                                             maxFractionDigits="0"/>"
-										   readonly />
+								<div class="bucks rightBucks" style="display: none;">
+									<div id="sexMax" class='right bucksInputPosition'><fmt:formatNumber value="${sex.getMaxValue()}" minFractionDigits="0"
+                                                             maxFractionDigits="0"/></div>
 								</div>
 							</div>
-							<div id='sexSlider' class='slider-conjoint'></div>
+							<div id='sexSlider' class='slider-range'></div>
 						</div>
 					</div>
 					<!--
@@ -345,20 +303,20 @@
                     -->
 					<div id="fifthBlock" class="secondHeaderBlocks">
 						<div id="visaText" class="blocksText">
-							Виза
+							<spring:message code="label.visa" />
 							<div id="visaButtonActive">
-								<div class="check" id="visaCheckbox" guiId="${visa.getId()}">
-									<input name="visaCheck" id="visaCheckInput" value="${visa.isChecked()}"
+								<div class="check<c:choose><c:when test="${visa.isChecked()}"> checkOn</c:when><c:otherwise></c:otherwise></c:choose>" id="visaCheckbox" guiId="${visa.getId()}">
+                                                                    <input name="visaCheck" id="visaCheckInput" value="<c:choose><c:when test="${visa.isChecked()}">1</c:when><c:otherwise>0</c:otherwise></c:choose>"
 										   type="checkbox" />
 								</div>
 							</div>
 						</div>
 						<br />
 						<div id="languageText" class="blocksText">
-							Язык
+							<spring:message code="label.lang" />
 							<div id="langButtonActive">
-								<div class="check" id="langCheckbox" guiId="${rusLang.getId()}">
-									<input name="langCheck" id="langCheckInput" value="${rusLang.isChecked()}"
+								<div class="check<c:choose><c:when test="${rusLang.isChecked()}"> checkOn</c:when><c:otherwise></c:otherwise></c:choose>" id="langCheckbox" guiId="${rusLang.getId()}">
+									<input name="langCheck" id="langCheckInput" value="<c:choose><c:when test="${rusLang.isChecked()}">1</c:when><c:otherwise>0</c:otherwise></c:choose>"
 										   type="checkbox" />
 								</div>
 							</div>
@@ -369,16 +327,14 @@
 				<div id='headBottom'>
 					<div id='headerButtonUp' class='headerUpSwitcher'></div>
 				</div>
-				<div id="calendar" style="display: none; height: 26px;">
-					<div id="calendarIMG"></div>
-					<div id='allMonths' class='months changeHeaderByClick gui_element'
-						 guiId="${when.getId()}">
-
+				<div id="calendar" style="display: none; height: 26px; top: -16px;">
+					<!--<div id="calendarIMG"></div>-->
+					<div id='allMonths' class='months changeHeaderByClick gui_element' guiId="${when.getId()}">
 						<c:forEach items="${when.getOptionAvaliable()}" var="value">
-							<div value="${value}" id="month${value}"
-								 class="upperClickableCaendarBG month">
-								<spring:message code="label.m${value}" />
-							</div>
+						<div value="${value}" id="month${value}"
+	                                                           class="upperClickableCaendarBG month<c:if test="${when.getValue() == value}"> activeMonth</c:if>">
+							<spring:message code="label.m${value}" />
+						</div>
 						</c:forEach>
 					</div>
 				</div>
@@ -463,19 +419,19 @@
 	</div>
 	<div id='map'></div>
 
-	<div id="paramZLevel">
-		<!--<div id="sliderZLevel"></div>-->
+	<!--<div id="paramZLevel">
+		<div id="sliderZLevel"></div>
 		<div id="stepsCurves" style="background: #fff; padding: 0; margin: 0; padding-right: 15px;">
 			<p><input type="checkbox" id="circles"/> Circles</p>
-			<p><input type="checkbox" id="border"/> Border</p>
+			<p><input type="checkbox" id="border" checked="checked"/> Border</p>
 		</div>
-		<!--<div id="sliderRadiusCircle"></div>
-		<!--<div id="stepsCurves">
+		<div id="sliderRadiusCircle"></div>
+		<div id="stepsCurves">
 			<p>StepX = <input id="stepX" type="text" value="1.5"/></p>
 			<p>StepY = <input id="stepY" type="text" value="1.5"/></p>
 			<p><input onclick="changeStep()" type="button" value="change"/></p>
-		</div>-->
-	</div>
+		</div>
+	</div>-->
 
 </body>
 <script>
@@ -487,19 +443,15 @@
 		color: 'url(#grad1)',
 		opacity: 0,
 		fillOpacity : 0.8
-	}, fillPattern = "<defs>"
-						+ "<pattern id='lines' patternUnits='userSpaceOnUse' x='0' y='0' width='3' height='4'>"
-							+ "<rect width='3' height='4' fill='#ff4d29'></rect>"
-							+ "<path d='M 0 4 L 3 0' style='fill: #af1d09; stroke-width: 2;'></path>"
-						+ "</pattern>"
-					+ "</defs>";
+	};
 	//$("div.leaflet-overlay-pane > svg").prepend(fillPattern);
-function appenDefs() {
+function appendDefs() {
     var NS = "http://www.w3.org/2000/svg";
     function createElement(name) {
         return document.createElementNS(NS,name);
     }
     
+	var svg = createElement('svg');
     var defs = createElement('defs');
     var pattern = createElement('pattern');
     defs.appendChild(pattern);
@@ -535,7 +487,9 @@ function appenDefs() {
     children.setAttribute('style', 'stroke: #ffffff; stroke-width: 2; opacity: 1');
     pattern.appendChild(children);*/
 	
-    $("div.leaflet-overlay-pane > svg").prepend(defs);
+	svg.appendChild(defs);
+	
+    $("div.leaflet-overlay-pane").prepend(svg);
 }
 	
 	
@@ -568,9 +522,18 @@ function appenDefs() {
 		var curves;
 		var zlevelGlobal = 3;
 		var changeStep;
+                
 		$(document).ready(function() {
+//                        $("#headerButton").tooltip({ 
+//                               delay: 0, 
+//                             showURL: false, 
+//                        bodyHandler: function() { 
+//                       return $("<div>ХУЙЛО</div>");
+//                         } 
+//                    });
 			//Устанавливаем январь активным в выдвигающимся меню.
-			$('#allMonths>div:first').addClass('activeMonth');
+            var whenBox = $('#whenSelect').data("kendoComboBox");
+			whenBox.select(${when.getValue()});
 			/***************************************************/
 			//выбор месяца
         
@@ -630,44 +593,39 @@ function appenDefs() {
 			//слайдеры
 			$(".slider-range").each(function(){
         	
-				var minVal = parseInt($(this).parent().find('input:first').val()); 
-				var maxVal = parseInt($(this).parent().find('input:last').val());  
+				var signTemper = false;
+				var signLiving = false;
+				if($(this).attr('id') == "temperatureSlider")
+					signTemper = true;
+				else
+					signTemper = false;
+				if($(this).attr('id') == "livecostSlider")
+					signLiving = true;
+				else
+					signLiving = false;
+				var addString;
+				var minVal = parseInt($(this).parent().find('div.left:first').html()); 
+				var maxVal = parseInt($(this).parent().find('div.right:last').html());  
 				var params = {
 					range: true,
 					min: minVal,
 					max: maxVal,
 					values: [ minVal, maxVal ],
-					step : 1,
+					step : signLiving ? 10 : 1,
 					stop : function(event, ui) {
-                        sendRequest($(this).parent().attr('guiId') ,{leftValue : ui.values[0],rightValue : ui.values[1]})
+                        sendRequest($(this).parent().attr('guiId') , { leftValue : ui.values[0], rightValue : ui.values[1] })
                     },
-					slide : function(event, ui) {
-						$(this).parent().find('input:first').val(ui.values[0]);
-						$(this).parent().find('input:last').val(ui.values[1]);
+					slide : signTemper ? function(event, ui) {
+						$(this).parent().find('div.left:first').html((ui.values[0] > 0 ? "+" : "") + ui.values[0]);
+						$(this).parent().find('div.right:last').html((ui.values[1] > 0 ? "+" : "") + ui.values[1]);
+					} : function(event, ui) {
+						$(this).parent().find('div.left:first').html(ui.values[0]);
+						$(this).parent().find('div.right:last').html(ui.values[1]);
 					}
 				};
 				$(this).slider(params);
 			});
-			$(".slider-conjoint").each(function(){
-				
-				var minVal = parseInt($(this).parent().find('input:first').val());
-				var maxVal = parseInt($(this).parent().find('input:last').val());
-				var params = {
-					range: false,
-					min: minVal,
-					max: maxVal,
-					value: maxVal,
-					step : 1,
-					stop : function(event, ui) {
-                        sendRequest($(this).parent().attr('guiId'), {leftValue : ui.value, rightValue : ui.value});
-                    },
-					slide : function(event, ui) {
-						$(this).parent().find('input:first').val(minVal);
-						$(this).parent().find('input:last').val(maxVal);
-					}
-				};
-				$(this).slider(params);
-			});
+			
 		});
 		$(document).ready(function(){ 
 		
@@ -692,12 +650,15 @@ function appenDefs() {
 			map.setView(new L.LatLng(25.505, -0.09), 2).addLayer(bing);
 			map.on("click", function(e) {
 				console.log(e.latlng.lat + " : " + e.latlng.lng);
+				if(typeof prevBotBut != "undefined")
+					$(prevBotBut).trigger("click")
 			});
 			
 			var point;
 			for(var j = 0; j < cities.length; j++) {
 				point = new L.LatLng(cities[j].latitude , cities[j].longitude);
 				point.weight = cities[j].weight;
+				point.name = cities[j].name;
 				points.push(point);
 			}
 			curves = Curves(points, map);
@@ -760,7 +721,7 @@ function appenDefs() {
 				setTimeout(function(){$('#modal').hide();},200);
 			});
 			
-			appenDefs();
+			appendDefs();
 		});
     
 		function sendRequest(id, data) {
@@ -771,7 +732,8 @@ function appenDefs() {
 				$("#bottom").animate({
 					bottom:0
 				},100);
-				$(("#" +prevBotBut.id + "B")).hide();
+				$(prevBotBut).trigger('click');
+				//$(("#" +prevBotBut.id + "B")).hide();
 				$("#whiteBottom").animate({
 					height:0
 				},100);

@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
+import java.util.Calendar;
 
 /**
  * Фабрика для создания контекстов приложения
@@ -61,8 +62,17 @@ public class ApplicationContextFactory
         
         HashMap<Integer, IGuiComponent> componentsMap = new HashMap<Integer, IGuiComponent>();
         HashMap<String, ISlider> sliders = new HashMap<String, ISlider>();
-
-        List<Tag> tags = tagDao.getAll(Tag.class);
+        
+        List<Tag> tags;
+        try
+        {           
+            tags = tagDao.getAll(Tag.class);
+        }
+        catch(RuntimeException e)
+        {
+            prototype = null;
+            throw e;
+        }
         SelectBox whoTag = new SelectBox(whoTagId);
         SelectBox whatTag = new SelectBox(whatTagId);
         for (Tag tag : tags) {
@@ -83,10 +93,21 @@ public class ApplicationContextFactory
         for(Month month : Month.values()) 
             whenTag.addValue(month.ordinal());
         
+        whenTag.setValue((Calendar.getInstance().get(Calendar.MONTH) + 1) % 12);//+1 для того чтобы доставались параметры для следующего месяца после текущего
+        
         componentsMap.put(whenTagId, whenTag);
         GuiMap.componentAddHandler(whenTag);
 
-        List<PropertyType> properyTypes = propertyTypeDao.getAll(PropertyType.class);
+        List<PropertyType> properyTypes;
+        try
+        {           
+             properyTypes = propertyTypeDao.getAll(PropertyType.class);
+        }
+        catch(RuntimeException e)
+        {
+            prototype = null;
+            throw e;
+        }
 
         int i = 4;
         Slider slider;
@@ -103,6 +124,7 @@ public class ApplicationContextFactory
         }
         
         CheckBox visa = new CheckBox(visaId);
+        visa.setChecked(false);
         CheckBox rusLanguage = new CheckBox(rusLanguageId);
         
         componentsMap.put(visaId, visa);

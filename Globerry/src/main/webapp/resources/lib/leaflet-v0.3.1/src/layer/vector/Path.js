@@ -38,7 +38,7 @@ L.Path = L.Class.extend({
 		this._initEvents();
 		this.projectLatlngs();
 		this._updatePath();
-
+		
 		map.on('viewreset', this.projectLatlngs, this);
 
 		this._updateTrigger = this.options.updateOnMoveEnd ? 'moveend' : 'viewreset';

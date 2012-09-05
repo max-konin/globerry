@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +33,9 @@ import com.globerry.project.Excel;
 import com.globerry.project.ExcelParserException;
 import com.globerry.project.MySqlException;
 import com.globerry.project.domain.UploadItem;
+import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.admin.AdminParser;
+import org.springframework.ui.ModelMap;
 
 /**
  * @author Artem
@@ -44,6 +47,10 @@ public class AdminUploadController
 {
     @Autowired
     private AdminParser adminParser;
+    
+    @Autowired
+    private DefaultDatabaseCreator ddc;
+    
     private final Logger logger = Logger.getLogger(AdminUploadController.class);
     
     private List<String> excList = new ArrayList<String>();
@@ -75,7 +82,7 @@ public class AdminUploadController
     }
    
     @RequestMapping(method = RequestMethod.POST)
-    public String create(UploadItem uploadItem, BindingResult result, HttpServletRequest request)
+    public String create(UploadItem uploadItem, BindingResult result, HttpServletRequest request, ModelMap map) throws IOException
     {
       if (result.hasErrors())
       {
@@ -88,7 +95,7 @@ public class AdminUploadController
    
       // Some type of file processing...
       String filePath;
-      try
+     // try
       {
 	filePath = request.getSession().getServletContext().getRealPath("/resources/upload") + "/" + uploadItem.getFileData().getOriginalFilename();
 	File file = new File(filePath);
@@ -96,16 +103,23 @@ public class AdminUploadController
 	uploadItem.getFileData().transferTo(file); 
 	
 	Excel exc = new Excel(file.getAbsolutePath());
-	logger.info(request.getParameter("clean"));
-	if(request.getParameter("clean") == "true") logger.info("Vse verno"); 
+	//logger.info(request.getParameter("clean"));
+/*	if("true".equals(request.getParameter("clean"))) 
+		ddc.clearDatabase(); */
 	adminParser.updateCities(exc);
+	for(String item: adminParser.getExcelBugsList())
+	{
+	    logger.info(item);
+	}
+	map.put("excelbugs", adminParser.getExcelBugsList());
+	
 	    
       }
-      catch (IOException e)
+      /*catch (IOException e)
       {
 	  logger.error("Проблема с файлом. Возможно, его нельзя прочесть");
 	  e.printStackTrace();
-      }
+      }*/
       
       return "redirect:upload";
     }
@@ -114,19 +128,27 @@ public class AdminUploadController
      * @return отпарсенные города
      * 
      */
-    @RequestMapping("wikiparse")
-    public String wikiParseBtn()
+
+    @RequestMapping(value = "wikiparse", method = RequestMethod.POST)
+    public String wikiParseBtn(ModelMap map)
     {
 	try
 	{
 	    adminParser.updateWikiContent();
+	    map.put("wikibugs", adminParser.getWikiBugsList());
+	    logger.info(adminParser.getWikiBugsList().size());
 	}
 	catch(IOException e)
 	{
 	    e.printStackTrace();
 	    logger.error("Что-то неправильно с файлами");
 	}
-	return "admin/wikiparse";
+	return "redirect:upload";
+    }
+    @RequestMapping("downloadfile")
+    public String downloadLog()
+    {
+	return "admin/DownloadFile";
     }
     
  

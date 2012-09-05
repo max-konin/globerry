@@ -22,7 +22,7 @@
             <param-value>/WEB-INF/configuration/production/appServlet/servlet-context.xml</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
-    </servlet>        
+    </servlet>
  
     <servlet-mapping>
         <servlet-name>appServlet</servlet-name>

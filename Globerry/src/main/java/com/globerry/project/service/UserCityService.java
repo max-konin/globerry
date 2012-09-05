@@ -153,7 +153,7 @@ public class UserCityService implements IUserCityService
 	    delta = delta(city.getMood().getValue(month).getRight(), (int) moodSlider.getRightValue(), city.getMood().getValue(month)
 		    .getLeft(), (int) moodSlider.getLeftValue());
 	    normDelta += normalization(delta, moodSlider.getPropertyType().getMaxValue() - moodSlider.getPropertyType().getMinValue());
-	    city.setWeight(normDelta + 1);// +1 костыль, изза сильно большой
+	    city.setWeight(normDelta);// +1 костыль, изза сильно большой
 					  // разницы в весе между городами
 	}
     }

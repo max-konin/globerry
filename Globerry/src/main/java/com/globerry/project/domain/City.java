@@ -21,7 +21,7 @@ import org.hibernate.annotations.NotFoundAction;
 @Table(name = "City")
 @org.hibernate.annotations.Table(appliesTo = "City", indexes =
 { @Index(name = "idx", columnNames =
-{ "security", "sex", "food_value_left", "food_value_right", "alco_value_left", "alco_value_right", "visa", }) })
+{ "security", "sex", "food_value_left", "food_value_right", "alco_value_left", "alco_value_right", "visa" }) })
 public class City
 {
     @Id
@@ -85,9 +85,8 @@ public class City
     private LivingCost livingCost;
 
     @JsonIgnore
-    @NotFound(action = NotFoundAction.IGNORE)
-    @ManyToMany(fetch = FetchType.LAZY, cascade =
-    { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, targetEntity = Tag.class)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = 
+    {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, targetEntity = Tag.class)
     private Set<Tag> tagList = new HashSet<Tag>();
 
     @Transient

@@ -9,7 +9,7 @@
 		<property name="show_sql">${showSql}</property>
 		<property name="format_sql">${showSql}</property>
 		<property name="use_sql_comments">${showSql}</property>
-                <property name="hibernate.max_fetch_depth">1</property>
+
 		                
 		<mapping class="com.globerry.project.domain.DependingMonthPropertyBase"/>
                 <mapping class="com.globerry.project.domain.Temperature"/>

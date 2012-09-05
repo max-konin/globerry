@@ -76,7 +76,7 @@ public class HomeControllerIntegrationTest
        Request[] r = new Request[1];
        r[0] = requestTagChange;
        
-       for(int i = 0; i<1000; i++)
+       for(int i = 0; i<1; i++)
        {
             instance.guiChanged(r);
        }

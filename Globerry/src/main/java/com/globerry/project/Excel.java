@@ -70,11 +70,18 @@ public Excel(String fileName)
  */
 public double getFloatField(int sheetNumber, int rowNumber, int cellNumber)
 {
-    Cell currentCell;
-    org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
-    Row currentRow = sheet.getRow(rowNumber);
-    currentCell = currentRow.getCell(cellNumber);
-    return currentCell.getNumericCellValue();
+    try
+    {
+	Cell currentCell;
+	org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
+	Row currentRow = sheet.getRow(rowNumber);
+	currentCell = currentRow.getCell(cellNumber);
+    	return currentCell.getNumericCellValue();
+    }
+    catch(NullPointerException e)
+    {
+	throw e;
+    }
 
 
 	//return -1;
@@ -89,10 +96,17 @@ public double getFloatField(int sheetNumber, int rowNumber, int cellNumber)
  */
 public String getStringField(int sheetNumber, int rowNumber, int cellNumber)
 {
-    org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
-    Row currentRow = sheet.getRow(rowNumber);
-    Cell currentCell = currentRow.getCell(cellNumber);
-    return currentCell.getStringCellValue();
+    try
+    {
+	org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(sheetNumber);
+	Row currentRow = sheet.getRow(rowNumber);
+	Cell currentCell = currentRow.getCell(cellNumber);
+	return currentCell.getStringCellValue();
+    }
+    catch (NullPointerException e)
+    {
+	throw e;
+    }
 }
 /**
  * Функция которая вычисляет длину строки.

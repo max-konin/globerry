@@ -143,7 +143,7 @@ public class DaoRequestFactoryTest
         when(appContext.getWhenTag()).thenReturn(mockWhen);
         
         CheckBox mockCheck = mock(CheckBox.class);
-        when(mockCheck.isChecked()).thenReturn(true);
+        when(mockCheck.isChecked()).thenReturn(false);
         when(appContext.getVisa()).thenReturn(mockCheck);
         when(appContext.getRusLanguage()).thenReturn(mockCheck);
         

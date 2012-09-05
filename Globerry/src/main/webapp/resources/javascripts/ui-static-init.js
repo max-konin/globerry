@@ -1,19 +1,84 @@
 /*******************************************************************************/
 //всплывающая панель внизу
 // switch the bottom on and off, and changes the state of the buttom.
+
+function preventSelection(element){
+	var preventSelection = false;
+
+	function addHandler(element, event, handler){
+		if (element.attachEvent) 
+			element.attachEvent('on' + event, handler);
+		else 
+		if (element.addEventListener) 
+			element.addEventListener(event, handler, false);
+	}
+	function removeSelection(){
+		if (window.getSelection) {
+			window.getSelection().removeAllRanges();
+		}
+		else if (document.selection && document.selection.clear)
+			document.selection.clear();
+	}
+	function killCtrlA(event){
+		var event = event || window.event;
+		var sender = event.target || event.srcElement;
+
+		if (sender.tagName.match(/TEXTAREA/i))
+			return;
+
+		var key = event.keyCode || event.which;
+		if (event.ctrlKey && key == 'A'.charCodeAt(0))  // 'A'.charCodeAt(0) можно заменить на 65
+		{
+			removeSelection();
+
+			if (event.preventDefault) 
+				event.preventDefault();
+			else
+				event.returnValue = false;
+		}
+	}
+
+	// не даем выделять текст мышкой
+	addHandler(element, 'mousemove', function(){
+		if(preventSelection)
+			removeSelection();
+	});
+	addHandler(element, 'mousedown', function(event){
+		var event = event || window.event;
+		var sender = event.target || event.srcElement;
+		preventSelection = !sender.tagName.match(/TEXTAREA/i);
+	});
+
+	// борем dblclick
+	// если вешать функцию не на событие dblclick, можно избежать
+	// временное выделение текста в некоторых браузерах
+	addHandler(element, 'mouseup', function(){
+		if (preventSelection)
+			removeSelection();
+		preventSelection = false;
+	});
+
+	// борем ctrl+A
+	// скорей всего это и не надо, к тому же есть подозрение
+	// что в случае все же такой необходимости функцию нужно 
+	// вешать один раз и на document, а не на элемент
+	addHandler(element, 'keydown', killCtrlA);
+	addHandler(element, 'keyup', killCtrlA);
+}
+
  var bottomActive = false;
 $(document).ready(function() {
 	
-	$(document).ready(function(){ $("#aviaScrollBar").tinyscrollbar();
+	$(document).ready(function(){$("#aviaScrollBar").tinyscrollbar();
 								  $("#tourScrollBar").tinyscrollbar();
 								  $("#hotelScrollBar").tinyscrollbar();});
 
-    var prevBotBut; //bottom buttoms
+    window.prevBotBut = undefined; //bottom buttoms
    
     $(".bottomButton").click(function(){
         if( bottomActive == false){
-            if(prevBotBut != undefined){
-                prevBotBut.style.background = 'rgb(37, 46, 64)';
+            if(typeof prevBotBut != "undefined"){
+				prevBotBut.style.background = 'rgb(37, 46, 64)';
             }
             prevBotBut = this;
             $("#bottom").animate({
@@ -22,13 +87,13 @@ $(document).ready(function() {
             $("#whiteBottom").animate({
                 height:147
             },100, function () 
-            {
-                $(("#" +prevBotBut.id + "B")).show("normal",function(){
+            {				
+                $("#" + prevBotBut.id + "B").show("normal",function(){
                 	$.ajax({
                         url: path +  '/get_'+prevBotBut.id+'s',
                         dataType: 'json',
                         type: 'POST',
-                        success: function (response) 
+                        success: function (response)
                         {
                             var bubbles = {};
                             $("#" +prevBotBut.id + "ScrollBar .viewport .overview").empty(); 
@@ -68,7 +133,7 @@ $(document).ready(function() {
                                 case "tour":
                                 	image = "resources/img/pegas.png";
                                 	href = "http://pegast.ru/";
-                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="tour' + key
+                                	$("#" + prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="tour' + key
                                     		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
                                     		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
                                     		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
@@ -76,7 +141,7 @@ $(document).ready(function() {
                                 case "avia":
                                 	image = "http://www.onetwotrip.com/images/logo_u0341.png";
                                 	href = "http://www.onetwotrip.com/";
-                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="avia' + key
+                                	$("#" + prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="avia' + key
                                     		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
                                     		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
                                     		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
@@ -85,7 +150,7 @@ $(document).ready(function() {
                                 case "hotel":
                                 	image = "resources/img/booking.com.png";
                                 	href = "http://www.booking.com/";
-                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="hotel' + key
+                                	$("#" + prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="hotel' + key
                                     		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['cityName'] + " - "+bubble['name'] + 
                                     		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
                                     		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
@@ -93,10 +158,10 @@ $(document).ready(function() {
                                 }
                                
                                 }
-                            	$("#" +prevBotBut.id + "ScrollBar").tinyscrollbar_update();
+                            	$("#" + prevBotBut.id + "ScrollBar").tinyscrollbar_update();
                         },
                         error: function(response) {
-                            
+                            alert(response);
                         }
                 	});
                 	}        
@@ -109,14 +174,14 @@ $(document).ready(function() {
             }, 0);
             
             bottomActive = true;
-            prevBotBut = this;
+            window.prevBotBut = this;
         } else
         if(bottomActive == true){
-            if(prevBotBut == this){
+            if(window.prevBotBut == this){
                 $("#bottom").animate({
                     bottom:0
                 },100);
-                $(("#" +prevBotBut.id + "B")).hide();
+                $(("#" +window.prevBotBut.id + "B")).hide();
                 $("#whiteBottom").animate({
                     height:0
                 },100);
@@ -125,31 +190,32 @@ $(document).ready(function() {
                     width:120
                 }, 0);
                 bottomActive = false;
+				window.prevBotBut = undefined;
             } else {
                 this.style.background = 'rgb(255, 122, 2)';
-                $(("#" +prevBotBut.id + "B")).hide();
+                $(("#" +window.prevBotBut.id + "B")).hide();
                 $(this).animate({
                     width:124
                 }, 0);
-                prevBotBut.style.background = 'rgb(37, 46, 64)';
-                $(prevBotBut).animate({
+                window.prevBotBut.style.background = 'rgb(37, 46, 64)';
+                $(window.prevBotBut).animate({
                     width:120
                 }, 0);
-                prevBotBut = this;
-                $(("#" +prevBotBut.id + "B")).show("normal",function(){
+                window.prevBotBut = this;
+                $(("#" +window.prevBotBut.id + "B")).show("normal",function(){
                 	
                 	$.ajax({
-                        url: path +  '/get_'+prevBotBut.id+'s',
+                        url: path +  '/get_'+window.prevBotBut.id+'s',
                         dataType: 'json',
                         type: 'POST',
                         success: function (response) 
                         {
                             var bubbles = {};
-                            $("#" +prevBotBut.id + "ScrollBar .viewport .overview").empty(); 
+                            $("#" +window.prevBotBut.id + "ScrollBar .viewport .overview").empty(); 
                             for(key in response)
                             {
                             	if(key == "copy" || key == "getLast" || key == "remove") continue;
-                            	switch(prevBotBut.id)
+                            	switch(window.prevBotBut.id)
                                 {
                                 case "tour":
                                 	var bubble = {
@@ -176,12 +242,12 @@ $(document).ready(function() {
                                 bubbles[key] = bubble;
                                 var image = "";
                                 var href = "";
-                                switch(prevBotBut.id)
+                                switch(window.prevBotBut.id)
                                 {
                                 case "tour":
                                 	image = "resources/img/pegas.png";
                                 	href = "http://pegast.ru/";
-                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="tour' + key
+                                	$("#" +window.prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="tour' + key
                                     		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
                                     		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
                                     		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
@@ -189,7 +255,7 @@ $(document).ready(function() {
                                 case "avia":
                                 	image = "http://www.onetwotrip.com/images/logo_u0341.png";
                                 	href = "http://www.onetwotrip.com/";
-                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="avia' + key
+                                	$("#" +window.prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="avia' + key
                                     		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['name'] + 
                                     		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
                                     		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
@@ -198,7 +264,7 @@ $(document).ready(function() {
                                 case "hotel":
                                 	image = "resources/img/booking.com.png";
                                 	href = "http://www.booking.com/";
-                                	$("#" +prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="hotel' + key
+                                	$("#" +window.prevBotBut.id + "ScrollBar .viewport .overview").append('<div class="Line" id="hotel' + key
                                     		+ '"><div class="bottom_entity"><table><tr><td width="300px"><div class="bottom_entity_name">' +bubble['cityName'] + " - "+bubble['name'] + 
                                     		  '</div><div class="bottom_entity_description">' + bubble['description'] + '</div></td><td class="bottom_entity_td"><div class="hotelCost">'+bubble['cost']+'$</div></td>'+
                                     		'<td><div class="bottom_entity_ref"><a target="_blank" href="'+href+'" ><img src="'+image+'"/></a></div></td>'+'</tr></table></div></div>');
@@ -206,7 +272,7 @@ $(document).ready(function() {
                                 }
                                
                                 }
-                            	$("#" +prevBotBut.id + "ScrollBar").tinyscrollbar_update();
+                            	$("#" +window.prevBotBut.id + "ScrollBar").tinyscrollbar_update();
                         },
                         error: function(response) {
                             
@@ -240,9 +306,14 @@ $(document).ready(function(){
     
     /*******************************************************************************/
     //создаем комбобоксы
-    $(".whoSelect").kendoComboBox({});
-    $(".whatSelect").kendoComboBox();
+    $(".whoSelect").kendoComboBox({
+		highLightFirst: false
+	});
+    $(".whatSelect").kendoComboBox({
+		highLightFirst: false
+	});
     $(".whenSelect").kendoComboBox({
+		highLightFirst: false,
         height: 1000
     });
     /*******************************************************************************/
@@ -328,13 +399,14 @@ $(document).ready(function(){
             }, speed);
             $("#headContent2").animate({
                 height:100
-            }, speed, function (){
+            }, speed, function () {
                 $("#calendar").show();
                 $("#calendar").animate({
-                    height:26
-                }, speed, function(){				
-                    //here I wanted to fix bug with ctrange appearance of the calendar.
-                    });
+					top: 0,
+					height: 26
+                }, speed, function(){
+						//here I wanted to fix bug with ctrange appearance of the calendar.
+                    });				
             });
         });
     });	
@@ -343,8 +415,9 @@ $(document).ready(function(){
         //animation.
         $("#headText").hide();
         $("#calendar").animate({
-            height:0
-        }, speed, function (){
+            top: -16,
+			height: 12
+        }, speed, function (){			
             $("#calendar").hide();
             $("#headerButtonUp").animate({
                 opacity:0
@@ -368,5 +441,10 @@ $(document).ready(function(){
         });
     });
 
+
+	preventSelection(document);
  
+	
+	/* Подсказки */
+	
 });

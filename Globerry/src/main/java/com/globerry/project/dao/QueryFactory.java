@@ -11,10 +11,7 @@ import com.globerry.project.domain.Tag;
 import com.globerry.project.service.StringManager;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.service_classes.IApplicationContext;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -75,11 +72,11 @@ public class QueryFactory
         else                
             whereClause += " and (temperature." + currentMonth + "Value.left <= " + 
                              appContext.getSlidersByName("temperature").getRightValue() +
-                          " and temperature." + currentMonth + "Value.left >= " + 
+                           " and temperature." + currentMonth + "Value.left >= " + 
                              appContext.getSlidersByName("temperature").getLeftValue() +
-                          " or  temperature." + currentMonth + "Value.right >= " +  
+                           " or  temperature." + currentMonth + "Value.right >= " +  
                              appContext.getSlidersByName("temperature").getLeftValue() + 
-                          " and temperature." + currentMonth + "Value.right <= " +  
+                           " and temperature." + currentMonth + "Value.right <= " +  
                              appContext.getSlidersByName("temperature").getRightValue() + ")";
         
         joinClause += "left join fetch  city.mood mood ";
@@ -103,19 +100,15 @@ public class QueryFactory
                              appContext.getSlidersByName("livingCost").getLeftValue() + 
                        " and livingCost." + currentMonth + "Value.right <= " +  
                              appContext.getSlidersByName("livingCost").getRightValue() + ")";
-        /*
-         * TODO Переделать, когда будет нормальный парсер
-        int visa = 0; 
+       
         if(appContext.getVisa().isChecked())
-        	visa = 1;
-        whereClause +=" and city.visa = " + visa;
-        int isRus = 0;
+        {
+            whereClause +=" and city.visa = 0"; //у нас это параметр называется без визы, если он не отмечен то возращаются все города, если же нет, то только те, в которые въезд безвизовый
+        }
         if(appContext.getRusLanguage().isChecked())
         {
         	whereClause +=" and city.isRussian = 1";
-        }
-        * 
-        */
+        }       
         return query + joinClause + whereClause;
     }
 }

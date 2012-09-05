@@ -127,8 +127,8 @@ public class DefaultDatabaseCreator
 	createPropertyType(StringManager.visaPropertyTypeName, 0, 1, false, true);
 	createPropertyType(StringManager.sexPropertyTypeName, 0, 3, false, true);
 	createPropertyType(StringManager.securityPropertyTypeName, 0, 3, false, true);
-	createPropertyType(StringManager.livingCostPropertyTypeName, 0, 300, true, true);
-	createPropertyType(StringManager.moodPropertyTypeName, 0, 300, true, true);
+	createPropertyType(StringManager.livingCostPropertyTypeName, 0, 999, true, true);
+	createPropertyType(StringManager.moodPropertyTypeName, 0, 3, true, true);
 	createPropertyType(StringManager.temperaturePropertyTypeName, -35, 35, true, true);
 	
     }
@@ -320,12 +320,15 @@ public class DefaultDatabaseCreator
     }
     private void createPropertyType(String name, int minValue, int maxValue, Boolean isDependingMonth, Boolean isBetterWhenLess)
     {
-	PropertyType propertyType = new PropertyType();
+	Interval interval = new Interval(minValue, maxValue);
+	PropertyType propertyType = new PropertyType(name, interval, isDependingMonth, isBetterWhenLess);
+/*	PropertyType propertyType = new PropertyType();
 	propertyType.setName(name);
 	propertyType.setMinValue(minValue);
 	propertyType.setMaxValue(maxValue);
 	propertyType.setDependingMonth(isDependingMonth);
-	propertyType.setBetterWhenLess(isBetterWhenLess);
+	propertyType.setBetterWhenLess(isBetterWhenLess);*/
+	
 	propertyTypeDao.add(propertyType);
     }
 }

@@ -141,8 +141,18 @@ L.ExPolygon = L.Polygon.extend({
 
 L.ExCircle = L.Circle.extend({
 	
-	initialize: function (center, radius, options) {
+	getPathString: function () {
+		$(this._path).attr('fill', 'url(#lines)');
+		return L.Circle.prototype.getPathString.call(this);
+	},
+		
+	initialize: function (center, radius, options, title) {
 		L.Circle.prototype.initialize.call(this, center, radius, options);
+		if(typeof(title) != undefined)
+		{
+			this._title = title; 
+			//
+		}
 	},
 	
 	pointInPolygon : function (/*L.LatLng*/point) {
@@ -150,6 +160,20 @@ L.ExCircle = L.Circle.extend({
 		if(length <= 2 * this._mRadius)
 			return true;
 		return false;
+	},
+	
+	onAdd : function (map){
+		var __onAdd = L.Circle.prototype.onAdd.call(this, map);
+		$(this._path).attr('hint', this._title);
+		$(this._path).Hint({trigger : "mouseover"}, -1, -1);
+		$(this._path).bind("click",function(event){ 
+			if($("#headContent2").is(":visible"))
+			{
+				$("#tour").trigger('click')
+				event.stopPropagation()
+			}
+		});
+		return __onAdd;
 	}
 	
 });

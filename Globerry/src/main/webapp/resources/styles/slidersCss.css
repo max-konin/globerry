@@ -36,9 +36,9 @@ form {
 	z-index: 4;
 	width: 5px;
 	height: 12px;
-	background: url(leftsliderhandler.png) no-repeat;
 	cursor: pointer
 }
+
 .ui-slider .ui-slider-range {
 	position: absolute;
 	z-index: 3;

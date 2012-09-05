@@ -29,7 +29,7 @@
     
     
     <!-- Тестируемый DAO -->
-    <bean class="com.globerry.project.dao.TagDao" />
+
     
     
   

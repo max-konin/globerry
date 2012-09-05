@@ -28,8 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.globerry.project.MySqlException;
+import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.City;
 import com.globerry.project.domain.Company;
+import com.globerry.project.domain.Tag;
 
 //import com.globerry.project.domain.IRelationsQualifier;
 import com.globerry.project.domain.Month;
@@ -73,6 +75,10 @@ public class AdminController
     
     @Autowired
     private ICompanyService companyService;
+    
+    /* не забыть удалить*/
+    @Autowired
+    private IDao<Tag> tagDao;
     /**
      * Элемент, который может быть EventPage, CityPage, CompanyPage. Определяется в функции createForm
      */
@@ -191,6 +197,17 @@ public class AdminController
     {
 	databaseCreator.initTags();
 	return "redirect:/admin/" + url;
+    }
+    @Deprecated
+    @RequestMapping(value="/addTagTest")
+    public String createTagTest()
+    {
+	City city = new City();
+	Tag tag = new Tag("name");
+	//tagDao.add(tag);
+	city.getTagList().add(tag);
+	cityService.addCity(city);
+	return "redirect:/admin/update";
     }
 /*    @RequestMapping(value="/initProperties")
     public String initProperties()

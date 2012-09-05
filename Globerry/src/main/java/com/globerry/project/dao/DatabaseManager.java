@@ -10,6 +10,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.hql.ast.QuerySyntaxException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,23 +32,39 @@ public class DatabaseManager implements IDatabaseManager
 	
 	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 	Session session = sessionFactory.getCurrentSession();
-	List<String> tableNames = session.createSQLQuery("select table_name from INFORMATION_SCHEMA.tables WHERE TABLE_SCHEMA = '"+name+"'").list();
-
-	for(int i = 0; i < tableNames.size(); i++)
+	int tableCount = session.createSQLQuery("select table_name from INFORMATION_SCHEMA.tables WHERE TABLE_SCHEMA = '"+name+"'").list().size();
+	/*Такой странный алгоритм происходит из-за того, что у нас каскады не очень хорошо настроены
+	 * Mysql не даёт удалить родительский элемент если он связан с дочерним. Поэтому по-хорошему,
+	 * надо удалять сперва Tag и PropertyType и dependingmonthproperty, потом всё остальное
+	 */
+	for(int i = 0; i < tableCount; i++)
 	{
-	    try
+	    List<String> tableNames = session.createSQLQuery("select table_name from INFORMATION_SCHEMA.tables WHERE TABLE_SCHEMA = '"+name+"'").list();
+	    for(int j = 0; j < tableNames.size(); j++)
 	    {
-		Query query = sessionFactory.getCurrentSession().createQuery("delete from " + tableNames.get(i));
-		System.err.println(tableNames.get(i));
-		query.executeUpdate();
-		
-	    }
-	    catch(QuerySyntaxException qse)
-	    {
-		Query query = sessionFactory.getCurrentSession().createSQLQuery("delete from " + tableNames.get(i));
-		query.executeUpdate();
-		logger.info(tableNames.get(i));
-		continue;//вот зачем тут это стоит?
+        	    try
+        	    {
+        		logger.info(tableNames.get(j));
+        		Query query = sessionFactory.getCurrentSession().createSQLQuery("truncate table " + tableNames.get(j));
+        		query.executeUpdate();
+        		
+        	    }
+        	    catch(QuerySyntaxException qse)
+        	    {
+        		Query query = sessionFactory.getCurrentSession().createSQLQuery("delete table " + tableNames.get(j));
+        		query.executeUpdate();
+        		logger.info(tableNames.get(j));
+        	    }
+        	   catch(SQLGrammarException sqlge)
+        	    {
+        		continue;
+        	    }
+        	    
+        	    /*
+        	    catch(IllegalArgumentException iae)
+        	    {
+        		continue;
+        	    }*/
 	    }
 	    
 	}

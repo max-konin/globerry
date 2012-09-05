@@ -35,7 +35,17 @@ public class PropertyType
     @Transient
     private Integer hashCode = null;
     
-    
+    public PropertyType()
+    {
+	
+    }
+    public PropertyType(String name, Interval interval, boolean dependingMonth, boolean betterWhenLess)
+    {
+	this.name = name;
+	this.interval = interval;
+	this.dependingMonth = dependingMonth;
+	this.betterWhenLess = betterWhenLess;
+    }
     public int getId()
     {
 	return id;

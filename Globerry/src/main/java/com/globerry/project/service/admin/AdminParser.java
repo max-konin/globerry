@@ -51,7 +51,14 @@ public class AdminParser implements IAdminParser
     @Autowired 
     private IDao<Tag> tagDao;
     @Autowired
+    private IDao<PropertyType> propertyTypeDao;
+    @Autowired
     private DefaultDatabaseCreator defaultDatabaseCreator;
+    
+    private List<String> excelBugsList = new ArrayList<String>();
+    
+    private List<String> wikiBugsList = new ArrayList<String>();
+    
     private Excel exc;
     
   
@@ -73,6 +80,8 @@ public class AdminParser implements IAdminParser
 	this.exc = exc;
 	if(tagDao.getAll(Tag.class).isEmpty())
 	    defaultDatabaseCreator.initTags();
+	if(propertyTypeDao.getAll(PropertyType.class).isEmpty())
+	    defaultDatabaseCreator.initPropertyType();
 	cityParse2();
 	//cityParse();
 	//eventParse();
@@ -117,9 +126,15 @@ public class AdminParser implements IAdminParser
 	    city.setIsValid(cityWiki.getIsValid());
 	    
 	    if(city.getLatitude() == 0)
+	    {
+		wikiBugsList.add("Ошибка в городе " + city.getName() + " этот город не найден в википедии, возможно у него неправильное имя");
 		writer.println("Ошибка в городе " + city.getName() + " этот город не найден в википедии, возможно у него неправильное имя");
+	    }
 	    else if(!city.isIsValid())
+	    {
+		wikiBugsList.add("Ошибка в городе " + city.getName() + " возможно это поможет Вам. " + city.getMessage());
 		writer.println("Ошибка в городе " + city.getName() + " возможно это поможет Вам. " + city.getMessage());
+	    }
 	    
 	    logger.info("-------------------------------------");
 	    logger.info("cityWiki: " + cityWiki.getIsValid());
@@ -163,7 +178,7 @@ public class AdminParser implements IAdminParser
 	    //Добавляем к городу тег Один Если секс от 1 до 3, безопасность от 1 до 3, настроение от 2 до 3
 	    if(sex > 0 && security > 0)
 	    {
-		Tag tagAlone = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + 4 + "'").get(0);//tagDao.getTagById(1);
+		Tag tagAlone = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + 1 + "'").get(0);//tagDao.getTagById(1);
 		city.getTagList().add(tagAlone);
 	    }
 	    if(sex > 1 && security > 0) 
@@ -191,15 +206,16 @@ public class AdminParser implements IAdminParser
 	    }
 	    catch(IllegalStateException e)
 	    {
-		int cell = (int)exc.getFloatField(sheetNumber, i, j);
-		Tag tag = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + cell + "'").get(0);
+		int number = (int)exc.getFloatField(sheetNumber, i, j) + 4;
+		Tag tag = (Tag) tagDao.getByQuery("FROM Tag tag WHERE tag.id='" + number + "'").get(0);
 		city.getTagList().add(tag);
 	    }
 
 	}
 	catch(Exception e)
 	{
-	    e.printStackTrace();
+	    //e.printStackTrace();
+	    excelBugsList.add("Ошибка в"  + i+1 + ", " + j+1 + " " + e.toString());
 	    ExcelParserException excelException = new ExcelParserException("Ошибка в"  + i+1 + ", " + j+1 + " " + e.toString(), i);
 	    throw excelException;
 	}
@@ -221,11 +237,12 @@ public class AdminParser implements IAdminParser
 	{
 	    try
 	    {
+		logger.info(exc.getLenght(0));
         	    City city = new City();
         	    city.setName(exc.getStringField(sheetNumber, i, 2));
         	    city.setRu_name(exc.getStringField(sheetNumber, i, 3));
-        	    city.setFoodCost(getIntervalFromCell(i,5));
-        	    city.setAlcoCost(getIntervalFromCell(i,6));
+        	    city.setFoodCost(getIntervalFromCell(i, 5, true));
+        	    city.setAlcoCost(getIntervalFromCell(i,6, true));
         	    city.setRussian(cellToBool(i, 7));
         	    city.setVisa(cellToBool(i, 8));
         	    city.setSex((int)exc.getFloatField(sheetNumber, i, 9));
@@ -234,13 +251,13 @@ public class AdminParser implements IAdminParser
         	    LivingCost livinCost = new LivingCost();
         	    for(int k = livingCostStartPosition; k < 12 + livingCostStartPosition; k++)
         	    {
-        		livinCost.setValue(Month.values()[k - livingCostStartPosition], getIntervalFromCell(i, k));
+        		livinCost.setValue(Month.values()[k - livingCostStartPosition], getIntervalFromCell(i, k, false));
         	    }
         	    city.setLivingCost(livinCost);
         	    Mood mood = new Mood();
         	    for(int k = moodStartPosition; k < 12 + moodStartPosition; k++)
         	    {
-        		mood.setValue(Month.values()[k - moodStartPosition], getIntervalFromCell(i, k));
+        		mood.setValue(Month.values()[k - moodStartPosition], getIntervalFromCell(i, k, false));
         	    }
         	    city.setMood(mood);
         	    stringToExcelDocumentToAddTag(city, i, 4);
@@ -253,6 +270,13 @@ public class AdminParser implements IAdminParser
 	    catch(IllegalStateException e)
 	    {
 		int si = i+1;
+		excelBugsList.add("Ошибка в"  + si + " строке " + e.toString());
+		writer.println("Ошибка в"  + si + " строке " + e.toString());
+	    }
+	    catch(NullPointerException e)
+	    {
+		int si = i+1;
+		excelBugsList.add("Ошибка в"  + si + " строке " + e.toString());
 		writer.println("Ошибка в"  + si + " строке " + e.toString());
 	    }
 	    i++;
@@ -278,18 +302,22 @@ public class AdminParser implements IAdminParser
 	{
 	    int si = i+1;
 	    int sj = j+1;
+	    excelBugsList.add("Ошибка в "  + si + ", " + sj + " " + e.toString());
 	    ExcelParserException excelException = new ExcelParserException("Ошибка в "  + si + ", " + sj + " " + e.toString(), i);
 	    throw excelException;
 	}
     }
-    private Interval getIntervalFromCell(int i, int j) throws ExcelParserException
+    private Interval getIntervalFromCell(int i, int j, Boolean isNeedToMaximize) throws ExcelParserException
     {
 	Interval interval = new Interval();
 	try
 	{
 	    Double cell = exc.getFloatField(sheetNumber, i, j);
 	    interval.setLeft((int)Math.round(cell));
-	    interval.setRight((int)Math.round(cell));
+	    if(isNeedToMaximize)
+		interval.setRight(30); // Специально для foodcost и для alchogol
+	    else
+		interval.setRight((int)Math.round(cell));
 	   
 	}
 	catch(IllegalStateException e)
@@ -307,6 +335,7 @@ public class AdminParser implements IAdminParser
 	    {
 		int si = i+1;
 		int sj = j+1;
+		excelBugsList.add(" Ошибка в  " + si + ", " + sj + " " + e.toString());
 		ExcelParserException excelException = new ExcelParserException(" Ошибка в  " + si + ", " + sj + " " + e.toString(), i);
 		throw excelException;
 	    }
@@ -315,6 +344,7 @@ public class AdminParser implements IAdminParser
 	{
 	    int si = i+1;
 	    int sj = j+1;
+	    excelBugsList.add(" Ошибка в " + si + ", " + sj + " " + e.toString());
 	    ExcelParserException excelException = new ExcelParserException(" Ошибка в " + si + ", " + sj + " " + e.toString(), i);
 	    throw excelException;
 	}
@@ -387,6 +417,14 @@ public class AdminParser implements IAdminParser
 	}
 	else result = Float.parseFloat(cell);
 	return result;
+    }
+    public List<String> getExcelBugsList()
+    {
+	return excelBugsList;
+    }
+    public List<String> getWikiBugsList()
+    {
+	return wikiBugsList;
     }
 
 }
