@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>    
+    <groupId>com.globerry</groupId>
+    <artifactId>GloberryMain</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+  
+    <scm>
+        <connection>scm:svn://cloud.grwe.ru/globerry/branches/develop</connection>
+        <developerConnection>scm:svn:http://cloud.grwe.ru/globerry/branches/develop</developerConnection>   
+    </scm>
+    
+    <properties>
+        <java-version>1.6</java-version>
+        <org.springframework-version>3.1.1.RELEASE</org.springframework-version>
+        <org.aspectj-version>1.6.9</org.aspectj-version>
+        <org.slf4j-version>1.5.10</org.slf4j-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server> 
+        <showSql>true</showSql>
+        <loggerPriority>DEBUG</loggerPriority>
+        <hibernateLoggerPriority>INFO</hibernateLoggerPriority>
+        <hibernateHQLLoggerPriority>INFO</hibernateHQLLoggerPriority>
+		<systemType>linux</systemType><!-- linux, win32, mac -->
+		<libType>so</libType><!-- so, a, dll, lib -->
+    </properties>
+
+    
+  
+    <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>1.0</version>
+                    <configuration>                            
+                        <format>{0}-{2,date,dd.MM.yyyy}</format>
+                        <items>
+                            <item>${project.version}</item>
+                            <item>${scm.revision}</item>
+                            <item>timestamp</item>
+                        </items>
+                        <doCheck>true</doCheck>
+                        <doUpdate>true</doUpdate>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>create</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                            <source>${java-version}</source>
+                            <target>${java-version}</target>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <configuration>
+                            <warName>Globerry</warName>
+                            <manifest>
+                                <addDefaultImplementionEntries>true</addDefaultImplementionEntries>
+                            </manifest>
+                            <manifestEntries>
+                                <Version>${buildNumber}</Version>
+                                <Implemantion-Build>${buildNumber}</Implemantion-Build>                               
+                            </manifestEntries>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                            <execution>
+                                    <id>install</id>
+                                    <phase>install</phase>
+                                    <goals>
+                                        <goal>sources</goal>
+                                    </goals>
+                            </execution>
+                    </executions>
+                </plugin>              
+
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/integration/**</exclude>  
+                        </excludes>
+                    </configuration>
+                </plugin>            
+
+            </plugins>   
+
+        </build>
+
+
+        <profiles>
+            <!-- Whith DAO test -->
+            <profile>
+                <id>systest</id>
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>2.5</version>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/*$*</exclude>
+                                </excludes>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </profile>
+
+            <profile>
+                <id>release</id>
+                <properties>
+                    <showSql>false</showSql>
+                    <loggerPriority>OFF</loggerPriority>
+                    <hibrnateLoggerPriority>OFF</hibrnateLoggerPriority>
+                    <hibrnateHQLLoggerPriority>OFF</hibrnateHQLLoggerPriority>
+                </properties>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>2.5</version>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/*$*</exclude>
+                                </excludes>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+
+            </profile>
+
+
+            <profile>
+                <id>js-minimize</id>
+                <build>
+                <plugins>
+                <plugin>
+                        <groupId>com.github.urmuzov</groupId>
+                        <artifactId>closure-compiler-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <configuration>
+							<addDefaultExterns>true</addDefaultExterns>
+                            <passes>
+                                <pass>
+                                    <sources>
+                                        <source>${basedir}/src/main/resources/javascripts/bezier.js</source>
+                                    </sources>
+                                    <outputFile>
+                                        ${project.build.directory}/${project.build.finalName}/resources/javascripts/bezier.js
+                                    </outputFile>
+                                </pass>
+                            </passes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+                </build>
+            </profile>
+
+
+        </profiles>
+        
+        <name>GloberryMain</name>
+        <modules>
+			<module>JNICurveCalculate</module>
+			<module>JNIHell</module>
+			<module>Globerry</module>
+    <module>JNIWhatAHell</module>
+  </modules>
+</project>
