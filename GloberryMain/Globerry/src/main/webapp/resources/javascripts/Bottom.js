@@ -3,15 +3,32 @@ var Bottom = new function() {
 	var instance;
 	// Приватные методы и свойства
 	// ... 
-	//Имя города, для которого генерятся туры, отели, билеты
-	var _cityName;
+	//Массив городов, для которого генерятся туры, отели, билеты
+	var _cities;
+	// Информация болкировона карта панелью
+	var isLock;
 	//нажатая кнопка
 	var activeButton;
+	var magicConstant = 37;
 	var _hotels = [ "InterContinental Hotels Group", "Wyndham Worldwide	", "Marriott International	", "Hilton Hotels Corp.	", "Choice Hotels International",
 			"Accor", "Best Western International", "Starwood Hotels & Resorts Worldwide", "Carlson Hospitality Worldwide", "Global Hyatt Corp.",
 			"Golden Tulip Hospitality Group", "Swissôtel Hotels & Resorts", "Kempinski", "AZIMUT Hotels", "AMAKS Hotels & Resorts" ];
 	//Открытая/закрытая нижняя панель
 	var _bottomActive = false;
+	//0 - незаполнен, 1 - заполнен рандомными городами,2 - городом из маркера либо городами из кривулины
+	var _isFilled = 0;
+	
+	var FILL = (function() {
+	     var private = {
+	         'noFill': '0',
+	         'randomFill': '1',
+	         'markerOrCurveFill': '2'
+	     };
+
+	     return {
+	        get: function(name) { return private[name]; }
+	    };
+	})();
 
 	var getNight = function(number) {
 		var mod = number % 10;
@@ -22,6 +39,9 @@ var Bottom = new function() {
 		return " ночь";
 
 	};
+	var isArray = function isArray(input){
+	    return typeof(input)=='object'&&(input instanceof Array);
+	  };
 
 	var createTour = function(cityName, cityId) {
 		var numberOfNights = Math.floor(Math.random() * 9 + 3);
@@ -72,10 +92,25 @@ var Bottom = new function() {
 		$("#" + "avia" + "ScrollBar .viewport .overview").empty();
 		$("#" + "hotel" + "ScrollBar .viewport .overview").empty();
 	};
+	
+	
+	// Конструктор
+	function Bottom() {
+		if (!instance) {
+			instance = this;
+
+		} else
+			return instance;
+
+		// Публичные свойства
+		return instance;
+	}
+
+	// Публичные методы
 	//заполняет боттом случайными сущностями со случайными городами
-	var fillWithRandomEntitys = function(cities) {
+	Bottom.prototype.fillWithRandomEntitys = function(cities) {
 		emptyBottom();
-		var numberOfEntitys = Math.floor(Math.random() * 7 + 5);
+		var numberOfEntitys = Math.floor(Math.random() * 7 + 16);
 		for (i = 0; i < numberOfEntitys; i++) {
 			cityNumber = Math.floor(Math.random() * (cities.length));
 			city = cities[cityNumber];
@@ -90,40 +125,107 @@ var Bottom = new function() {
 		}
 		$("#" + activeButton.id + "ScrollBar").tinyscrollbar_update();
 
+	};
+	var isDragging = function isDragging() {
+		return $("#bottom").is(".ui-draggable-dragging");
 	}
-	// Конструктор
-	function Bottom() {
-		if (!instance) {
-			instance = this;
-
-		} else
-			return instance;
-
-		// Публичные свойства
-		return instance;
+	Bottom.prototype.getActive = function() {
+		if(_bottomActive == false)
+			return null;
+		return activeButton;
 	}
 
-	// Публичные методы
-	Bottom.prototype.bottomButtonClick = function(button) {
-		if (_bottomActive == false) {
+	Bottom.prototype.isLock = function() {
+		return isLock;
+	}
+	
+	Bottom.prototype.draggableHandlerStart = function(event, ui) {			
+		if(_bottomActive == false) {
+			var button = document.getElementById("tour");
 			if (activeButton != undefined) {
-
 				activeButton.style.background = 'rgb(37, 46, 64)';
 			}
 			activeButton = button;
-			$("#bottom").animate({
-				bottom : 147
-			}, 100);
-			$("#whiteBottom").animate({
-				height : 147
-			}, 100, function() {
-				$(("#" + button.id + "B")).show("normal", function() {
-					if (_cityName == undefined) {
-						var cities = (new AjaxRequestController).getCitiesArrayCopy();
-						fillWithRandomEntitys(cities);
-					}
-				});
+				
+				var cities = (new AjaxRequestController).getCitiesArrayCopy();
+				instance.fillWithRandomEntitys(cities);
+
+			$("#" + button.id + "B").show(1);
+			button.style.background = 'rgb(255, 122, 2)';
+			$(button).animate({
+				width : 124
+			}, 0);
+			_bottomActive = true;
+		}
+	}
+	
+	Bottom.prototype.draggableHandlerDrag = function(event, ui) {
+		var height = $(document).height() - ui.position.top;
+		var buttonId = activeButton.id;
+		$("#" + buttonId + "B .viewport").css("height", height - magicConstant);
+		$("#" + buttonId + "ScrollBar").tinyscrollbar_update();
+	}
+	
+	Bottom.prototype.draggableHandlerStop = function(event, ui) {
+		if(!_bottomActive)
+			return;
+		var buttonId = activeButton.id;
+		var jCal = $("#calendar:visible");
+		var minTop = Math.max((jCal.length != 0 ? jCal.position().top : 0) + jCal.height(),
+								$("#headBottom").position().top + $("#headBottom").height()) + 30;		
+		var middleTop = $(document).height() / 2 - 30;			
+		var maxTop = $(document).height() - 100;
+		if(ui.position.top <  minTop || ui.position.top < middleTop) {
+			$("#" + buttonId + "ScrollBar .scrollbar").hide();
+			$("#" + buttonId + "B .viewport").animate({ 
+				height :  $(document).height() - minTop - magicConstant
+			}, "normal", function() {
+				$("#" + buttonId + "ScrollBar").tinyscrollbar_update();				
+				$("#modalBlack").fadeIn(2000);
+				$("#" + buttonId + "ScrollBar .scrollbar").show();
 			});
+			isLock = true;
+			(new AjaxRequestController).setLock(true);
+		} else if(ui.position.top > maxTop) {
+			instance.close();
+			$("#modalBlack").fadeOut(500);
+			isLock = false;
+			(new AjaxRequestController).setLock(false);
+		} else if(ui.position.top > middleTop) {
+			$("#" + buttonId + "ScrollBar .scrollbar").hide();
+			$("#" + buttonId + "B .viewport").animate({
+				height : 170 - magicConstant
+			}, "normal", function() {
+				$("#modalBlack").fadeOut(500);
+				$("#" + buttonId + "ScrollBar").tinyscrollbar_update();
+				$("#" + buttonId + "ScrollBar .scrollbar").show();
+			});
+			(new AjaxRequestController).setLock(false);
+			isLock = false;
+		}
+		$("#bottomContainer").css("top", "");
+	}
+	
+	Bottom.prototype.bottomButtonClick = function(button, callBackFunction) {
+		var height = $(document).height() - $("#bottomContainer").position().top - magicConstant;
+		if (_bottomActive == false) {
+			if (activeButton != undefined) {
+				activeButton.style.background = 'rgb(37, 46, 64)';
+			}
+			activeButton = button;
+			var fillWithRandomEntitysFunc = this.fillWithRandomEntitys;
+			if(typeof callBackFunction == "undefined")
+			callBackFunction = function() {
+				$("#" + button.id + "B").show("normal", function() {
+					var cities = (new AjaxRequestController).getCitiesArrayCopy();
+					fillWithRandomEntitysFunc(cities);
+					$("#" + button.id + "B .scrollbar").show();
+				});
+			}
+			$("#" + button.id + "B .scrollbar").hide();			
+			$("#" + button.id + "B .viewport").animate({
+				height : height < 170 ? 170 - magicConstant : height
+ 			}, 10, callBackFunction);
 			button.style.background = 'rgb(255, 122, 2)';
 			$(button).animate({
 				width : 124
@@ -133,14 +235,11 @@ var Bottom = new function() {
 			activeButton = button;
 		} else if (_bottomActive == true) {
 			if (activeButton == button) {
-				$("#bottom").animate({
-					bottom : 0
-				}, 100);
-				$(("#" + activeButton.id + "B")).hide();
-				$("#whiteBottom").animate({
-					height : 0
-				}, 100);
-				button.style.background = 'rgb(37, 46, 64)';
+				if(isLock)
+					return;
+				$("#" + activeButton.id + "B").hide("normal", function() {
+					button.style.background = 'rgb(37, 46, 64)';
+				});
 				$(button).animate({
 					width : 120
 				}, 0);
@@ -148,69 +247,84 @@ var Bottom = new function() {
 				activeButton = undefined;
 			} else {
 				button.style.background = 'rgb(255, 122, 2)';
-				$(("#" + activeButton.id + "B")).hide();
 				$(button).animate({
 					width : 124
 				}, 0);
+				$("#" + button.id + "B .viewport").css("height", height);
+				$("#" + activeButton.id + "B .viewport").css("height", 133);
 				activeButton.style.background = 'rgb(37, 46, 64)';
 				$(activeButton).animate({
 					width : 120
 				}, 0);
-				$(("#" + button.id + "B")).show("normal", function() {
-					$("#" + button.id + "ScrollBar").tinyscrollbar_update();
-				});
+				$("#" + button.id + "B").show();
+				$("#" + button.id + "ScrollBar").tinyscrollbar_update();				
+				$("#" + activeButton.id + "B").hide();
 				activeButton = button;
-
 			}
 		}
 	}
+	
 	Bottom.prototype.close = function() {
 		if (activeButton == undefined)
 			return;
 		if (!_bottomActive)
 			return;
-		$("#bottom").animate({
-			bottom : 0
-		}, 100);
-		$(("#" + activeButton.id + "B")).hide();
-		$("#whiteBottom").animate({
-			height : 0
-		}, 100);
+		$(("#" + activeButton.id + "B")).hide("normal");
+		$("#" + activeButton.id + "B .viewport").css("height", 133);
+
 		activeButton.style.background = 'rgb(37, 46, 64)';
 		$(activeButton).animate({
 			width : 120
-		}, 0);
+		}, 1);
 		_bottomActive = false;
 		activeButton = undefined;
-		_cityName = undefined;
+		isLock = false;
 	};
-	Bottom.prototype.updateStaff = function(cityName) {
-		if (cityName == _cityName)
+	
+	Bottom.prototype.updateStaff = function(cities) {
+		if(!isArray(cities))
 			return;
-		_cityName = cityName;
+		if(cities.length == 0)
+			return;
+		var needUpdate = this._cities != cities;
+		if(!needUpdate && _bottomActive)
+			return;
+		this._cities = cities;
+
+		var height = $(document).height() - $("#bottomContainer").position().top - 67;
 		if (typeof activeButton == "undefined")
 			activeButton = document.getElementById("tour");
-		$("#" + activeButton.id).css("background", "rgb(255, 122, 2)");
-		$("#bottom").animate({
-			bottom : 147
-		}, 100);
-		$("#whiteBottom").animate({
-			height : 147
-		}, 100, function() {
-			emptyBottom();
+		activeButton.style.background = 'rgb(255, 122, 2)';
+		
+		updateStaffCallback = function() {
+			if(needUpdate)
+				emptyBottom();
 			_bottomActive = true;
-			$(("#" + activeButton.id + "B")).show("normal");
-
-			var numberOfEntitys = Math.floor(Math.random() * 4 + 3);
+			$(("#" + activeButton.id + "B")).show("normal", function()
+					{
+			if(needUpdate)
+				{
+			var numberOfEntitys = Math.floor(Math.random() * 6 + 4);
 			for (i = 0; i < numberOfEntitys; i++) {
-				$("#" + "tour" + "ScrollBar .viewport .overview").append(createTour(cityName));
-				$("#" + "hotel" + "ScrollBar .viewport .overview").append(createHotel(cityName));
-				$("#" + "avia" + "ScrollBar .viewport .overview").append(createAvia(cityName));
+				cityNumb = Math.floor(Math.random() * (cities.length));
+				$("#" + "tour" + "ScrollBar .viewport .overview").append(createTour(cities[cityNumb].ru_name));
+				$("#" + "hotel" + "ScrollBar .viewport .overview").append(createHotel(cities[cityNumb].ru_name));
+				$("#" + "avia" + "ScrollBar .viewport .overview").append(createAvia(cities[cityNumb].ru_name));
 
 			}
+				}
 			$("#" + activeButton.id + "ScrollBar").tinyscrollbar_update();
+			$("#" + activeButton.id + "B .scrollbar").show();
+					});
+	};
+		$("#" + activeButton.id + "B .scrollbar").hide();
+		$("#" + activeButton.id + "B .viewport").animate({
+			height : height < 200 ? 133 : height
+			}, 10, updateStaffCallback);
+		
 
-		});
+
+			
 	};
 	return Bottom;
 }

@@ -36,12 +36,10 @@
 	<script type="text/javascript" src="resources/javascripts/kendoui/js/kendo.web.min.js"></script>
 
 	<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
-	<script type="text/javascript" src="resources/javascripts/bezier.js"></script>
 	
 	<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
 	<script type="text/javascript" src="resources/javascripts/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="resources/javascripts/jquery.mousewheel.js"></script>
-	<script type="text/javascript" src="resources/javascripts/spans.js"></script>
 	<script type="text/javascript" src="resources/javascripts/jhints.js"></script>
 	<script type="text/javascript" src="resources/javascripts/ExPolygon.js"></script>
 	<script type="text/javascript" src="resources/javascripts/curves.js"></script>
@@ -49,6 +47,7 @@
 </head>
 <body>
 <div id="modal"><img src="resources/img/pac-man.gif"/></div>
+<div id="modalBlack"></div>
 	
 	<div id='top'>
 		<div id='invisibleHeadBlock'></div>
@@ -317,18 +316,28 @@
 		<div id="invisibleBottom"></div>
 		<div id="bottom" class="roundBorder" style="display: block;">
 			<div id="bottomButtons">
-				<div id="tour" class="bottomButton">
-					<div class="bottomHeadText">Туры</div>
-				</div>
-				<div id="avia" class="bottomButton">
-					<div class="bottomHeadText">Авиабилеты</div>
-				</div>
-				<div id="hotel" class="bottomButton">
-					<div class="bottomHeadText">Отели</div>
-				</div>
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>
+							<div id="tour" class="bottomButton">
+								<div class="bottomHeadText">Туры</div>
+							</div>
+						</td>
+						<td>
+							<div id="avia" class="bottomButton">
+								<div class="bottomHeadText">Авиабилеты</div>
+							</div>
+						</td>
+						<td>
+							<div id="hotel" class="bottomButton">
+								<div class="bottomHeadText">Отели</div>
+							</div>
+						</td>
+					</tr>
+				</table>
 			</div>
-			<div id="gradLine"></div>
 			<div id="whiteBottom">
+				<div id="gradLine"></div>
 				<div id="tourB" class="bottomB">
 					<div id="tourScrollBar" class="scrollbarY">
 
@@ -412,9 +421,10 @@
 		var zlevelGlobal = 3;
 		var changeStep;
 		var ajaxRequestController = new AjaxRequestController;
+		
          
 		$(document).ready(function() {
-
+			
 			//Устанавливаем текщуя месяц + 1 активным в выдвигающимся меню.
             var whenBox = $('#whenSelect').data("kendoComboBox");
 			whenBox.select(${when.getValue()});
@@ -432,7 +442,7 @@
 				minZoom: 2, 
 				attribution: cloudmadeAttribution
 			});
-            var bing = new L.BingLayer("Atv2RUkslT7ih1WTiTywNklpZEN0-s8ppHvYa2LfcS7RH6wYavva7_dplMOgzvpT", {
+            var bing = new L.BingLayer("Akv5cG4OOmFzZH07REYT-MY0-DaN4jVMWnPs3d5lBpEPh5rrC_ETcK-vtCoKArR-", {
 				maxZoom: 8, 
 				minZoom: 2
 			});
@@ -443,15 +453,32 @@
 
 			globalMap.on('zoomend', function() {
 			    $('#modal').show();
+			    curves.canvas.setZoom(globalMap.getZoom());
 			    ajaxRequestController.sendRequest(globalMap.guiId , {value : globalMap.getZoom()})
 			    //curves.redrawCurves(cities);
+
 			    setTimeout(function(){$('#modal').hide();},200);
 			   });
 			
-			
+			ajaxRequestController.sendRequest(globalMap.guiId , {value : globalMap.getZoom()});
 			curves = Curves(cities, map);
 			curves.appendDefs();
 		});
     
 </script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36098832-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
 </html>

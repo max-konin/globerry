@@ -21,7 +21,6 @@
 <link rel="${style['rel']}" type="text/css" href="${style['href']}" media="${style['media']}" />
 </c:forEach>
 <script type="text/javascript" src="../resources/javascripts/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="../resources/javascripts/ui/jquery-ui-1.8.16.custom.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../resources/javascripts/ui/themes/ui-lightness/jquery-ui-1.8.16.custom.css" />
 <script type="text/javascript" src="../resources/javascripts/ui/external/jquery.bgiframe-2.1.2.js"></script>
 <script type="text/javascript" src="../resources/javascripts/tabs.js"></script>

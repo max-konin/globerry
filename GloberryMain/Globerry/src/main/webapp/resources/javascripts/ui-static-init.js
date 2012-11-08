@@ -103,7 +103,7 @@ $(document).ready(function()
 	$('.whoWhatWhenDropDownList .k-input').attr('readonly', 'readonly');
 });
 $(document).ready(function()
-{
+{	
 	$(".changeHeaderByClick").click(function()
 	{
 		WhoStr = new Array();
@@ -162,7 +162,6 @@ $(document).ready(function()
 	/*обработка кнопки "Поехали"*/
 	$(".headerButton").click(function(event)
 	{
-
 		SelectActive = false;
 		$("#headContent1").animate(
 		{
@@ -175,7 +174,7 @@ $(document).ready(function()
 			$("#bottomToggle").slideToggle(speed);
 			$("#bottom").show();
 			//отображаем кнопки внизу
-			$("#bottomContainer").show();
+			//$("#bottomContainer").show();
 			$("#headerButtonUp").show();
 			$("#upperHeaderBlockWithCircle").show();
 			$("#upperHeaderBlockWithCircle").animate(
@@ -198,6 +197,9 @@ $(document).ready(function()
 					top : 0
 				}, speed, function()
 				{
+					if((new Bottom).isLock()) {
+						(new Bottom).draggableHandlerStop(event, { position : { top : $("#bottomContainer").position().top } });
+					}
 					//here I wanted to fix bug with ctrange appearance of the calendar.
 				});
 			});
@@ -229,7 +231,7 @@ $(document).ready(function()
 			}, speed, function()
 			{
 				//скрываем кнопки внизу
-				$("#bottomContainer").hide();
+				//$("#bottomContainer").hide();
 				$("#headerButtonUp").hide();
 				$("#upperHeaderBlockWithCircle").hide();
 				$("#headContent2").hide();
@@ -237,7 +239,11 @@ $(document).ready(function()
 				$("#headContent1").animate(
 				{
 					height : 38
-				}, speed);
+				}, speed, function() {
+					if((new Bottom).isLock()) {
+						(new Bottom).draggableHandlerStop(event, { position : { top : $("#bottomContainer").position().top } });
+					}
+				});
 			});
 		});
 	});

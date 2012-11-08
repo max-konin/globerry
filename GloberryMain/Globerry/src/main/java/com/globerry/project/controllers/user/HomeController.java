@@ -1,6 +1,8 @@
 package com.globerry.project.controllers.user;
 
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.CityShort;
+import com.globerry.project.domain.Curve;
 import com.globerry.project.domain.Hotel;
 import com.globerry.project.domain.LatLng;
 import com.globerry.project.domain.Ticket;
@@ -9,11 +11,13 @@ import com.globerry.project.service.CurveService;
 import com.globerry.project.service.DefaultDatabaseCreator;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
+import com.globerry.project.service.interfaces.ICurveService;
 import com.globerry.project.service.interfaces.IProposalsManager;
 import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.service_classes.ApplicationContextFactory;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -35,7 +39,7 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController
 {
 
-    List<City> cityList;
+    List<CityShort> cityShortList;
 
     protected static final Logger logger = Logger.getLogger(HomeController.class);
     @Autowired
@@ -51,7 +55,7 @@ public class HomeController
     ApplicationContextFactory factory;
     
     @Autowired
-    CurveService curveService;
+    ICurveService curveService;
 
     IApplicationContext appContext;
 
@@ -63,7 +67,7 @@ public class HomeController
     {
 
 	defaultDatabaseCreator.initTags();
-	return "redirect:/globerry_new";
+	return "redirect:/";
     }
 
     @RequestMapping(value = "/initTours")
@@ -72,7 +76,7 @@ public class HomeController
 	defaultDatabaseCreator.initHotels();
 	defaultDatabaseCreator.initTours();
 	defaultDatabaseCreator.initTickets();
-	return "redirect:/globerry_new";
+	return "redirect:/";
     }
 
     @RequestMapping(value = "/globerry")
@@ -82,32 +86,6 @@ public class HomeController
 	// appContext.init();
 	model.addAttribute("hash", this.hashCode());
 	return "home";
-    }
-
-    // TODO delete this
-    @RequestMapping(value = "/getcities", method = RequestMethod.GET)
-    public @ResponseBody
-    City[] test()
-    {
-	// this.cityInit();
-	logger.debug("GUI State: " + appContext.toString());
-
-	City[] cities = null;
-
-	logger.debug("Запрос городов от клиента");
-
-	List<City> cityList = userCityService.getCityList(appContext);
-	cities = new City[cityList.size()];
-	cityList.toArray(cities);
-
-	logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
-	logger.debug("Найдено " + cityList.size());
-
-	for (int i = 0; i < cities.length; i++)
-	{
-	    logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
-	}
-	return cities;
     }
 
     public void cityInit()
@@ -136,7 +114,7 @@ public class HomeController
 
     }
 
-    @RequestMapping(value = "/globerry_new")
+    @RequestMapping(value = "/")
     public String home(Map<String, Object> map)
     {
 
@@ -147,8 +125,6 @@ public class HomeController
 	map.put("what", appContext.getWhatTag());
 	map.put("mapZoom", appContext.getMapZoom());
 
-	cityList = userCityService.getCityList(appContext);
-	map.put("cities", cityList);
 	for (String sliderName : appContext.getSliders().keySet())
 	    map.put(sliderName, (ISlider) appContext.getSlidersByName(sliderName));
 	map.put("visa", appContext.getVisa());
@@ -158,7 +134,7 @@ public class HomeController
 
     @RequestMapping(value = "/gui_changed", method = RequestMethod.POST)
     @ResponseBody
-    public City[] guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request)
+    public List<CityShort> guiChanged(@RequestBody com.globerry.project.service.service_classes.Request[] request)
     {
 	try
 	{
@@ -179,24 +155,24 @@ public class HomeController
 	}
 	logger.debug("Запрос городов от клиента");
 
-	cityList = userCityService.getCityList(appContext);
+        cityShortList = userCityService.getCityList(appContext);
 
-	City[] cities = new City[cityList.size()];
-	cityList.toArray(cities);
-	logger.debug("Найдено " + ((Integer) cities.length).toString() + " города");
-	logger.debug("Найдено " + cityList.size());
 
-	for (int i = 0; i < cities.length; i++)
+	logger.debug("Найдено " + ((Integer) cityShortList.size()).toString() + " города");
+
+	for (CityShort cityShort : cityShortList)
 	{
-	    logger.debug(cities[i].getName() + " weight: " + cities[i].getWeight());
+	    logger.debug(cityShort.getName() + " weight: " + cityShort.getWeight());
 	}
 	logger.debug(appContext.toString());
-	return cities;
+	return cityShortList;
     }
+	
     @RequestMapping(value = "/gui_changed_new", method = RequestMethod.POST)
     @ResponseBody
-    public LatLng[][] guiChangedNew(@RequestBody com.globerry.project.service.service_classes.Request[] request)
+    public Collection<Curve> guiChangedNew(@RequestBody com.globerry.project.service.service_classes.Request[] request)
     {
+		logger.debug(request);
 	try
 	{
 	    for (com.globerry.project.service.service_classes.Request r : request)
@@ -214,62 +190,20 @@ public class HomeController
 	{
 	    logger.error(e.getMessage() + " Current appcontext is " + appContext.toString());
 	}
-	logger.debug("Запрос городов от клиента");
+	logger.debug("Запрос городов от клиента");	
+        
+        
+        Collection<Curve> curves = curveService.getCurves(appContext);
 
-	cityList = userCityService.getCityList(appContext);
-        
-        curveService.updateCityList(cityList);
-        List<List<LatLng>> curves = curveService.calcCurves(appContext.getMapZoom().getValue());
-        
-        LatLng[][] curvesArray = new LatLng[curves.size()][];
-        for(int i = 0, l = curves.size(); i < l ; ++i)
-        {
-            List<LatLng> curve = curves.get(i);
-            curvesArray[i] = new LatLng[curve.size()];
-            curve.toArray(curvesArray[i]);
-        }
-        
-	
 	logger.debug(appContext.toString());
-	return curvesArray;
+	return curves;
     }
+	
     @RequestMapping(value = "/initPropertyType")
     public String initPropertyType()
     {
 	defaultDatabaseCreator.initPropertyType();
-	return "redirect:/globerry_new";
-    }
-    @RequestMapping(value = "/get_hotels", method = RequestMethod.POST)
-    @ResponseBody
-    public Hotel[] GetHotels()
-    {
-	Set<Hotel> hotelList = proposalsManager.getHotelsByCities(cityList);
-	Hotel[] hotels = new Hotel[hotelList.size()];
-	hotelList.toArray(hotels);
-	return hotels;
-    }
-
-    @RequestMapping(value = "/get_avias", method = RequestMethod.POST)
-    @ResponseBody
-    public Ticket[] GetTickets()
-    {
-	Set<Ticket> ticketList = proposalsManager.getTicketsByCities(cityList);
-	Ticket[] tickets = new Ticket[ticketList.size()];
-	ticketList.toArray(tickets);
-	return tickets;
-    }
-
-    @RequestMapping(value = "/get_tours", method = RequestMethod.POST)
-    @ResponseBody
-    public Tour[] GetTours()
-    {
-	Set<Tour> tourList = proposalsManager.getToursByCities(cityList);
-	Tour[] tours = new Tour[tourList.size()];
-	logger.debug(tourList.size());
-	logger.info(tourList.size());
-	tourList.toArray(tours);
-	return tours;
-
+	return "redirect:/";
     }
 
     @RequestMapping(value = "/bezier")

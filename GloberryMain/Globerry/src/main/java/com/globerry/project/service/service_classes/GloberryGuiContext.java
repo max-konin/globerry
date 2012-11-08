@@ -233,6 +233,7 @@ public class GloberryGuiContext implements IApplicationContext, Cloneable, IModi
 	this.mapZoom = mapZoom;
     }
 	
+	@Override
 	public String getHash() {
 		String hash = "";
 		hash += whoTag.getValue();

@@ -5,7 +5,12 @@
 package com.globerry.project.service.interfaces;
 
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.CityShort;
+import com.globerry.project.domain.Curve;
 import com.globerry.project.domain.LatLng;
+import com.globerry.project.service.service_classes.IApplicationContext;
+
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,12 +19,17 @@ import java.util.List;
  */
 public interface ICurveService {
 	
-	public List<String> getCurve(Long paramsHash, List<City> cities);
-	
 	public void dropDb();
 	
-	public List<List<LatLng>> calcCurves(int mapZoom);
+	public Collection<Curve> calcCurves(int mapZoom);
 	
-	public void updateCityList(List<City> cityList);
+	public Collection<Curve> getCurves(IApplicationContext appContext);
 	
+	public void setStepLat(float stepLat);
+	
+	public void setStepLng(float stepLng);
+	
+	public float getStepLat();
+	
+	public float getStepLng();
 }

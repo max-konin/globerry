@@ -1,6 +1,7 @@
 package com.globerry.project.domain;
 
-import java.lang.reflect.*;
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,11 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.*;
 import javax.vecmath.Point2d;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Index;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 /**
  * 
@@ -23,24 +20,25 @@ import org.hibernate.annotations.NotFoundAction;
 @org.hibernate.annotations.Table(appliesTo = "City", indexes =
 { @Index(name = "idx", columnNames =
 { "security", "sex", "food_value_left", "food_value_right", "alco_value_left", "alco_value_right", "visa" }) })
-public class City
+public class City implements Serializable
 {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    @Column(name = "name")
-    private String name;
-    @Column(name = "ru_name")
-    private String ru_name;
+    int id;
+    
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="latitude",  column = @Column(name="latitude") ),
+            @AttributeOverride(name="name",  column = @Column(name="name") ),
+            @AttributeOverride(name="ru_name",  column = @Column(name="ru_name") ),
+            @AttributeOverride(name="longitude", column = @Column(name="longitude") )
+    } )
+    private CityShort cityShort;
     @Column
     private float area;
     @Column
     private int population;
-    @Column
-    private float longitude;
-    @Column
-    private float latitude;
     @Column
     private boolean isValid;
     @Column
@@ -53,44 +51,31 @@ public class City
             @AttributeOverride(name="left",  column = @Column(name="food_value_left") ),
             @AttributeOverride(name="right", column = @Column(name="food_value_right") )
     } )
-    
     private Interval foodCost = new Interval();
+	
     @Embedded
     @AttributeOverrides( {
             @AttributeOverride(name="left",  column = @Column(name="alco_value_left") ),
             @AttributeOverride(name="right", column = @Column(name="alco_value_right") )
     } )
-    
-    private Interval alcoCost = new Interval();  
-    
-    @Column   
-   
+    private Interval alcoCost = new Interval();
+    @Column      
     private int security;
-
     @Column
     private int sex;
-
     @Column
     private boolean visa = true;
-
     @Column
     private boolean isRussian = false;
-
     @OneToOne(cascade = CascadeType.ALL)
     private Temperature temperature;
-
     @OneToOne(cascade = CascadeType.ALL)
     private Mood mood;
-
     @OneToOne(cascade = CascadeType.ALL)
     private LivingCost livingCost;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade =
     {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, targetEntity = Tag.class)
     private Set<Tag> tagList = new HashSet<Tag>();
-
-    @Transient
-    private float weight;
 
     @Transient
     private double potential = 0;
@@ -121,74 +106,79 @@ public class City
 	    int security, int sex, boolean visa, boolean isRussian, Temperature temperature, Mood mood, LivingCost livingCost,
 	    Collection<Tag> tagList)
     {
-	this.name = name;
+        this.cityShort = new CityShort();
+	this.cityShort.setName(name);
 	this.alcoCost = alcoCost;
 	this.area = area;
-	this.latitude = latitude;
-	this.longitude = longitude;
+	this.cityShort.setLatitude(latitude);
+	this.cityShort.setLongitude(longitude);
 	this.population = population;
 	this.foodCost = foodCost;
 	this.security = security;
 	this.sex = sex;
 	this.visa = visa;
-	this.setRussian(isRussian);
+	this.isRussian = isRussian;
 	this.temperature = temperature;
 	this.mood = mood;
 	this.livingCost = livingCost;
 	this.tagList = new HashSet(tagList);
     }
-
-    /**
-     * @return the id
-     */
-    public int getId()
+    public CityShort getCityShort()
     {
-	return id;
+        cityShort.setId(id);
+        return cityShort;
     }
-
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(int id)
+    public void setCityShort(CityShort cityShort)
     {
-	this.id = id;
+        this.cityShort = cityShort;
     }
+	
+    public float getLatitude() {
+		return cityShort.getLatitude();
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName()
-    {
-	return name;
-    }
+	public void setLatitude(float latitude) {
+		this.cityShort.setLatitude(latitude);
+	}
 
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name)
-    {
-	this.name = name;
-    }
+	public float getLongitude() {
+		return cityShort.getLongitude();
+	}
 
-    /**
-     * @return the ru_name
-     */
-    public String getRu_name()
-    {
-	return ru_name;
-    }
+	public void setLongitude(float longitude) {
+		this.cityShort.setLongitude(longitude);
+	}
 
-    /**
-     * @param ru_name
-     *            the ru_name to set
-     */
-    public void setRu_name(String ru_name)
-    {
-	this.ru_name = ru_name;
-    }
+	public String getName() {
+		return cityShort.getName();
+	}
 
+	public void setName(String name) {
+		this.cityShort.setName(name);
+	}
+
+	public String getRu_name() {
+		return cityShort.getRu_name();
+	}
+
+	public void setRu_name(String ru_name) {
+		this.cityShort.setRu_name(ru_name);
+	}
+
+	public float getWeight() {
+		return cityShort.getWeight();
+	}
+
+	public void setWeight(float weight) {
+		this.cityShort.setWeight(weight);
+	}
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
     /**
      * @return the area
      */
@@ -221,40 +211,6 @@ public class City
     public void setPopulation(int population)
     {
 	this.population = population;
-    }
-
-    /**
-     * @return the longitude
-     */
-    public float getLongitude()
-    {
-	return longitude;
-    }
-
-    /**
-     * @param longitude
-     *            the longitude to set
-     */
-    public void setLongitude(float longitude)
-    {
-	this.longitude = longitude;
-    }
-
-    /**
-     * @return the latitude
-     */
-    public float getLatitude()
-    {
-	return latitude;
-    }
-
-    /**
-     * @param latitude
-     *            the latitude to set
-     */
-    public void setLatitude(float latitude)
-    {
-	this.latitude = latitude;
     }
 
     /**
@@ -457,37 +413,28 @@ public class City
     /**
      * @return the weight
      */
-    public float getWeight()
-    {
-	return weight;
-    }
-
-    /**
-     * @param weight
-     *            the weight to set
-     */
-    public void setWeight(float weight)
-    {
-	this.weight = weight;
-    }
-
+    @Override
     public String toString()
     {
 	String str = this.getClass().getName() + ": \n";
 	for (Field field : this.getClass().getDeclaredFields())
-	    try
-	    {
-		if (field.get(this) != null)
-		    str += "    " + field.getName() + " = " + field.get(this).toString() + ";\n";
-	    }
-	    catch (IllegalArgumentException ex)
-	    {
-		Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	    catch (IllegalAccessException ex)
-	    {
-		Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+        {
+            try
+            {
+                if (field.get(this) != null)
+                {
+                    str += "    " + field.getName() + " = " + field.get(this).toString() + ";\n";
+                }
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (IllegalAccessException ex)
+            {
+                Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 	return str;
     }
 
@@ -518,6 +465,6 @@ public class City
      */
     public Point2d getCoord()
     {
-	return new Point2d(latitude, longitude);
+	return new Point2d(cityShort.getLatitude(), cityShort.getLongitude());
     }
 }

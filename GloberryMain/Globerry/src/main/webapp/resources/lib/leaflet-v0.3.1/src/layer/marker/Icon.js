@@ -24,7 +24,7 @@ L.Icon = L.Class.extend({
 
 	_createIcon: function (name) {
 		var size = this[name + 'Size'],
-			src = this[name + 'Url'];
+			src = document.documentURI + this[name + 'Url'];
 		if (!src && name === 'shadow') {
 			return null;
 		}

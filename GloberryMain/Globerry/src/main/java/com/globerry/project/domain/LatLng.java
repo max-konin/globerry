@@ -1,6 +1,6 @@
 package com.globerry.project.domain;
 
-public class LatLng {
+public class LatLng implements Cachable<LatLng> {
 
 	public float lat;
 	public float lng;
@@ -12,8 +12,19 @@ public class LatLng {
 		lat = latitude;
 		lng = longitude;
 	}
-	
+	@Override
 	public String toJSON() {
 		return "{\"lat\":" + lat + ",\"lng\":" + lng + "}";
 	}
+
+	@Override
+	public LatLng fromJSON(String json) {
+		String[] feilds = json.replaceAll("[{}]|\"[a-z]*\":", "").split(",");
+		this.lat = Float.parseFloat(feilds[0]);
+		this.lng = Float.parseFloat(feilds[1]);
+		return this;
+	}
+	
+	
+	
 }

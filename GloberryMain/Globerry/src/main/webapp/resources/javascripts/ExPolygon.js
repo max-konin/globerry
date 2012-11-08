@@ -3,10 +3,28 @@
  */
 L.ExPolygon = L.Polygon.extend({
 	
-	initialize: function (latlngs, options) {
+	initialize: function (latlngs, options, cityList) {
 		L.Polygon.prototype.initialize.call(this, latlngs, options);
+		this._cityList = cityList;
 	},
 		
+	onAdd : function (map){
+		var __onAdd = L.Polygon.prototype.onAdd.call(this, map);
+		hintText = '';
+		this._cityList.forEach(function(city)
+		{
+			hintText += city.ru_name + "<br/>"; 
+		});
+		$(this._path).attr('hint', hintText);
+		$(this._path).Hint({trigger : "mouseover"}, -1, -1);
+		var cityList = this._cityList;
+		$(this._path).bind("click",function(event){ 
+            var _bottom = new Bottom;
+            _bottom.updateStaff(cityList);
+            event.stopPropagation();
+
+        });
+	},
 	pointInPolygon : function (/*L.LatLng*/point) {
 		var rate = function (x, y) {
 			return Math.sqrt(x*x + y*y);
@@ -43,9 +61,13 @@ L.ExPolygon = L.Polygon.extend({
 	
 	getPathString: function () {
 		$(this._path).attr('fill', 'url(#lines)');
+		var t = 2;
+		if(this._latlngs.length < 8) {
+			t = 1;
+		}
 		var toPoints = function toPoints(/*L.LatLng[]*/latlngs) {
 			var ret = [];
-			for(var i = 0, l = latlngs.length; i < l; i++) {
+			for(var i = 0, l = latlngs.length; i < l; i += t) {
 				ret.push(globalMap.latLngToLayerPoint(latlngs[i]));
 			}
 			return ret;
@@ -53,10 +75,15 @@ L.ExPolygon = L.Polygon.extend({
 		var points = toPoints(this._latlngs), path, a3, a2, a1, a0, b3, b2, b1, b0, 
 			p0 = new Object(), p1 = new Object(), p2 = new Object(), p3 = new Object();
 		if(points.length < 4) {
-			var r = 10;
-			return "M" + points[0].x + "," + (points[0].y - r) +
+			var r = this._cityList[0].weight * curves.canvas.radiusNormalizer[globalMap.getZoom()];
+			if(!points[0]) {
+				//alert(this._cityList.length);
+				
+				points[0] = globalMap.latLngToLayerPoint(new L.LatLng(this._cityList[0].latitude, this._cityList[0].longitude));
+			}
+			return "M" + points[0].x + "," + (points[0].y + r) +
 					"A" + r + "," + r + ",0,1,1," +
-					(points[0].x - 0.1) + "," + (points[0].y - r) + " z";
+					(points[0].x - 0.1) + "," + (points[0].y + r) + " z";
 		}
 		a3 = (-points.getLast().x + 3 * points[0].x - 3 * points[1].x + points[2].x) / 6;
 		a2 = (points.getLast().x - 2 * points[0].x + points[1].x) / 2;
@@ -196,14 +223,13 @@ L.ExMarker = L.Marker.extend({
 		var __onAdd = L.Marker.prototype.onAdd.call(this, map);
 		$(this._icon).attr('hint', this._city.ru_name);
 		$(this._icon).Hint({trigger : "mouseover"}, -1, -1);
-		var cityName = this._city.ru_name;
+		var city = [this._city];
 		$(this._icon).bind("click",function(event){ 
-                if($("#headContent2").is(":visible"))
-                {
+                
                     var _bottom = new Bottom;
-                    _bottom.updateStaff(cityName);
+                    _bottom.updateStaff(city);
                     event.stopPropagation();
-                }
+
                 });
 		return __onAdd;
 	}

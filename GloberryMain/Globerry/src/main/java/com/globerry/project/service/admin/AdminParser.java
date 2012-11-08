@@ -431,12 +431,13 @@ public class AdminParser implements IAdminParser
             j++;
         }
 	
-	if ((coordsStr.indexOf('N') != 0) || (coordsStr.indexOf('E') != 0))
+	if ((coordsStr.indexOf('N') == -1) && (coordsStr.indexOf('E') == -1))
         {
-	    return splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600;
+            return -(splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600);	    
 	}
 	else
-	    return -(splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600);
+            return splitFloat[0] + splitFloat[1]/60 + splitFloat[2]/3600;
+	   
     }
 
   

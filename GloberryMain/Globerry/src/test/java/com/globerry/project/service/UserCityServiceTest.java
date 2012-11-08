@@ -130,10 +130,10 @@ public class UserCityServiceTest
     {
 	System.out.println("getCityList");
 
-	List<City> result = service.getCityList(appContext);
+	List<CityShort> result = service.getCityList(appContext);
 	verify(cityDao).getByQuery(anyString());
 
-	for (City city : result)
+	for (CityShort city : result)
 	    assertTrue(city.getWeight() != 0);
     }
 

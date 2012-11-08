@@ -14,8 +14,10 @@
 		<security:intercept-url pattern="/admin/cityadminpage" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/admin/eventadminpage" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/admin/companyadminpage" access="hasRole('ROLE_ADMIN')"/>
-                <security:intercept-url pattern="/admin/upload" access="hasRole('ROLE_ADMIN')"/>
-		<!-- <security:intercept-url pattern="/main/common" access="hasRole('ROLE_USER')"/> -->
+		<security:intercept-url pattern="/admin/upload" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/admin/initCurves" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/main/admin" access="hasRole('ROLE_ADMIN')"/>
 		
 		<security:form-login
 			login-page="/auth/login"

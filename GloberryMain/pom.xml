@@ -196,10 +196,7 @@
         </profiles>
         
         <name>GloberryMain</name>
-        <modules>
-			<module>JNICurveCalculate</module>
-			<module>JNIHell</module>
-			<module>Globerry</module>
-    <module>JNIWhatAHell</module>
+        <modules>						
+			<module>Globerry</module>   
   </modules>
 </project>

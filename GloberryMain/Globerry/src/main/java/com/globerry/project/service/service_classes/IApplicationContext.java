@@ -39,5 +39,6 @@ public interface IApplicationContext {
     
     IGuiComponent getObjectById(int id) throws IllegalArgumentException;   
    
-    
+    public String getHash();
+	
 }

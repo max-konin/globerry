@@ -1,13 +1,17 @@
 html {
     overflow-y: hidden;
     overflow-x: visible;
+	width: 100%;
+	height: 100%;
 }
 body {
     margin: 0 auto;
     overflow-y: hidden;
+	width: 100%;
+	height: 100%;
 }
 #div_container {
-	width:100%;
+	width: 100%;
 	height : 100%; 
 	position : absolute;
 	min-width : 900px;
@@ -1168,19 +1172,23 @@ a{
     background: url(../img/OneHadlerSliderHandler.png);
 }
 /**********************************************************************/
-/*РЎС‚РёР»Рё РґР»СЏ РїР°РЅРµР»Рё РІРЅРёР·Сѓ*/
-#bottomContainer
-{
-    /*РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЃРєСЂС‹С‚*/
+
+#bottomContainer {
     display: block;
     position: absolute;
     bottom: 0px;
-    height: 2px;
     overflow: visible;
-    width: 100%;
-    min-width: 1000px;
-/*	left:0px;*/
-    left: 0px;
+    width: 920px;
+    left: 0;
+	right: 0;
+	margin: 0 auto;
+	z-index: 2;
+}
+.bottomAsshole {
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	bottom: 0px;
 }
 #invisibleBottom
 {
@@ -1196,25 +1204,26 @@ a{
 {
     z-index : 2; /*map has 0*/
     position: relative;
-    float:left;
-    bottom: 0px;
-    height : 0px;
+    /*float:left;*/
+    /*bottom: 0px;*/
+    /*height : 0px;*/
     /*margin-bottom: 10px;
     /right : 5%;*/
     width : 900px;
+	margin: 0 auto;
     border-top-right-radius:4px;
     min-width : 900px;
     /*box-shadow: 0px 0px 10px #888;
     /-moz-box-shadow: 0px 0px 10px #888;
     /-webkit-box-shadow: 0px 0px 10px #888;*/
-    display : none;
+    /*display : none;*/
 }
 
 .bottomButton
 {
     /*z-index : 1;*/ /*map has 0*/
-    position: relative;
-    float : left;
+    /*position: relative;
+    float : left;*/
     /*bottom: 10px;*/
     height : 30px;
     /*left : 5%;*/
@@ -1222,9 +1231,8 @@ a{
     overflow: visible;
     border-top-right-radius:4px;
     border-top-left-radius:4px;
-    margin-top : -29px;
+    /*margin-top : -29px;*/
     background-color:rgb(37, 46, 64);
-    cursor : pointer;
 }
 
 .bottomHeadText{
@@ -1237,9 +1245,14 @@ a{
 }
 #bottomButtons
 {
-    position: relative;
-    float : left;
+    /*position: relative;
+    float : left;*/
     /*width : 480px;*/
+	background: transparent;
+	width: 365px;
+	float: left;
+	position: absolute;
+	bottom: 0;
 }
 
 #whiteBottom
@@ -1247,7 +1260,7 @@ a{
     z-index : 1; /*map has 0*/
     position: relative;
     float: left;
-    margin-bottom: 2px;
+    /*margin-bottom: 2px;*/
     /*bottom: 0px;
     /height : 0px;
     /right : 5%;*/
@@ -1266,7 +1279,6 @@ a{
     float: left;
     bottom: 0px;
     /*height : 147px;*/
-    float: left;
     /*right : 5%;*/
     width : 900px;
     border-top-right-radius:4px;
@@ -1275,21 +1287,22 @@ a{
 }
 .roundBorder
 {	
-    background: rgb(255, 122, 2); 
+    /*background: rgb(255, 122, 2); 
     background: -moz-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
     background: -webkit-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0));
     background: -o-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
     background: -ms-linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
-    background: linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0)); 
+    background: linear-gradient(left, rgb(255, 122, 2), rgb(252, 63, 0));*/
 }
 #gradLine
 {
     width: 900px;
-    position: absolute;
+    /*position: absolute;*/
     /*bottom: -1px;*/
     height: 7px;
-    margin-top: -5px;
+    /*margin-top: -5px;*/
     background: url(../img/BottomGradLine.png) no-repeat;
+	cursor: n-resize;
 }
 .hidden {
     display : none;
@@ -1319,14 +1332,34 @@ font-family: Helvetica; margin:0 150px 0 100px;}
 
 #modal {
     position: absolute;
-    z-index: 20;
-    top: 40%;
-    left: 40%;
-    width: 20%;
-    height: 20%;
-    line-height: 200px;
+    z-index: 1;
+    top: 45%;
+    left: 50%;
+    /*width: 100%;
+    height: 100%;
+    line-height: 200px;*/
     text-align: center;
 }
+
+#modal img {
+	margin: 14% auto;
+}
+
+#modalBlack {
+	position: absolute;
+    z-index: 1;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)"; /* IE 8 */
+	filter: alpha(opacity=40); /* IE 5-7 */
+	-moz-opacity: 0.4; /* Netscape */
+	-khtml-opacity: 0.4; /* Safari 1.x */
+	opacity: 0.4; /* Good browsers */
+	background: black;
+	display: none;
+} 
 
 input {
 	font-family: 'pf_dindisplay_pro';

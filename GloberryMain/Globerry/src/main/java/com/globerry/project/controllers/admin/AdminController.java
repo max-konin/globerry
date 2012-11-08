@@ -41,6 +41,11 @@ import com.globerry.project.service.admin.AbstractTypeFactory;
 import com.globerry.project.service.admin.IEntityCreator;
 import com.globerry.project.service.CityService;
 import com.globerry.project.service.DefaultDatabaseCreator;
+import com.globerry.project.service.gui.ISlider;
+import com.globerry.project.service.interfaces.ICurveService;
+import com.globerry.project.service.service_classes.ApplicationContextFactory;
+import com.globerry.project.service.service_classes.IApplicationContext;
+import org.springframework.context.annotation.Scope;
 
 
 
@@ -58,6 +63,7 @@ import com.globerry.project.service.DefaultDatabaseCreator;
  */
 @Controller
 @RequestMapping("/admin")
+@Scope("session")
 public class AdminController
 {
     /**
@@ -76,6 +82,14 @@ public class AdminController
     @Autowired
     private ICompanyService companyService;
     
+	@Autowired
+    ApplicationContextFactory factory;
+    
+    @Autowired
+    ICurveService curveService;
+
+    IApplicationContext appContext;
+	
     /* не забыть удалить*/
     @Autowired
     private IDao<Tag> tagDao;
@@ -209,6 +223,26 @@ public class AdminController
 	cityService.addCity(city);
 	return "redirect:/admin/update";
     }
+	
+	@RequestMapping(value="/initCurves")
+	public String initCurves() {
+		appContext = factory.createAppContext();
+		curveService.dropDb();
+		for(Integer optionWho : appContext.getWhoTag().getOptionAvaliable()) {
+			appContext.getWhoTag().setValue(optionWho);
+			for(Integer optionWhen : appContext.getWhenTag().getOptionAvaliable()) {
+				appContext.getWhenTag().setValue(optionWhen);
+				for(Integer optionWhat : appContext.getWhatTag().getOptionAvaliable()) {
+					appContext.getWhatTag().setValue(optionWhat);
+					for(Integer optionZoom : appContext.getMapZoom().getOptionAvaliable()) {
+						appContext.getMapZoom().setValue(optionZoom);
+						curveService.getCurves(appContext);
+					}
+				}
+			}
+		}		
+		return "redirect:/admin";
+	}
 /*    @RequestMapping(value="/initProperties")
     public String initProperties()
     {

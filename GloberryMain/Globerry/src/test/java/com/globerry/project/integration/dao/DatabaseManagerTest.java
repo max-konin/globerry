@@ -68,7 +68,7 @@ public class DatabaseManagerTest
     {
 		databaseManager.cleanDatabase();
     }
-   // @Ignore
+    @Ignore
     @Test
     public void testTours()
     {

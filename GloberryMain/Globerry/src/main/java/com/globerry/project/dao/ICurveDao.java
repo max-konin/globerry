@@ -4,7 +4,9 @@
  */
 package com.globerry.project.dao;
 
+import com.globerry.project.domain.Curve;
 import com.globerry.project.domain.LatLng;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,11 +15,11 @@ import java.util.List;
  */
 public interface ICurveDao {
 	
-	public void addCurve(String key, List<LatLng> curves);
+	public void addCurves(String key, Collection<Curve> curves);
 	
-	public void deleteCurve(String key);
+	public void deleteCurves(String key);
 	
-	public List<LatLng> getCurve(String paramsHash);
+	public Collection<Curve> getCurves(String paramsHash);
 	
 	public void dropDB();
 }

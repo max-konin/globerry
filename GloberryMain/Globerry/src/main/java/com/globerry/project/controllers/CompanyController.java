@@ -45,7 +45,7 @@ public class CompanyController
 	return "admin";
     }*/
     
-    @RequestMapping("/")
+    @RequestMapping("/testcompanycontroller")
     public String home(HttpServletRequest request, Map<String,Object> map, Locale locale){
 		
 	Company company = new Company();
@@ -78,7 +78,7 @@ public class CompanyController
 	}
 	catch(MySqlException e)
 	{
-	    //���� �� ������� ��� ������ ���� ������������ ��� ������������� ������
+		
 	}
         return "redirect:/";
     }

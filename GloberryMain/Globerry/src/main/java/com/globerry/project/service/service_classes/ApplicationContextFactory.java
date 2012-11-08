@@ -20,13 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import java.util.Calendar;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 /**
  * Фабрика для создания контекстов приложения
  * @author max
  */
 @Component
-@Scope("singleton")
+@Scope(value="singleton")
 public class ApplicationContextFactory
 {
     static public final int whoTagId = 1;

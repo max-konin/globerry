@@ -62,6 +62,7 @@ public class HomeControllerIntegrationTest
     }
    
     @Test 
+    @Ignore
     public void Scenario_1() 
     {
        HomeController instance = (HomeController) applicationContext.getBean("homeController");
