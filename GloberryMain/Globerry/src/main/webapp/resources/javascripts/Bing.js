@@ -28,9 +28,9 @@ L.BingLayer = L.TileLayer.extend({
 
 	getTileUrl: function(p, z) {
 		var subdomains = this.options.subdomains,
-			s = this.options.subdomains[(p.x + p.y) % subdomains.length];
-		return this._url.replace('{subdomain}', s)
-				.replace('{quadkey}', this.tile2quad(p.x, p.y, z))
+			s = this.options.subdomains[Math.abs((p.x + p.y) % subdomains.length)];
+                return this._url.replace('{subdomain}', s)
+				.replace('{quadkey}', this.tile2quad(p.x, p.y, this._getZoomForUrl()))
 				.replace('{culture}', '');
 	},
 

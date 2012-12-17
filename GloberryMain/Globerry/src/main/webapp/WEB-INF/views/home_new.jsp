@@ -15,35 +15,39 @@
 	</TITLE>
 	<link rel="stylesheet" href="resources/styles/fonts.css" type="text/css" />
         
-	<link rel="stylesheet" href="resources/lib/leaflet-v0.3.1/dist/leaflet.css" />
+<!--	<link rel="stylesheet" href="resources/lib/leaflet-v0.3.1/dist/leaflet.css" />-->
         
 	<link href="resources/javascripts/kendoui/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
 	<link href="resources/javascripts/kendoui/styles/globerry.min.css"     rel="stylesheet" type="text/css" />
 	<link href="resources/styles/globerry.css"                             rel="stylesheet"  type="text/css" />
 	
-	
-	<script	src="resources/javascripts/jquery-1.7.2.min.js"></script>
-	<script	src="resources/javascripts/Bottom.js"></script>
-	<script	src="resources/javascripts/jquery-ui-1.8.23.custom.min.js"></script>
-        
-	<script src="resources/lib/leaflet-v0.3.1/debug/leaflet-include.js"></script>
-    <script type="text/javascript" src="resources/javascripts/Bing.js"></script>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css" />
 
-	<script type="text/javascript" src="resources/javascripts/ui-static-init.js"></script>
-	<script type="text/javascript" src="resources/javascripts/AjaxRequestController.js"></script>
-    <script type="text/javascript" src="resources/javascripts/bindings.js"></script>
-      
+
+<script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js"></script>
+<script	src="resources/javascripts/jquery-1.7.2.min.js"></script>
+
+	<script type="text/javascript" src="resources/javascripts/jquery.tinyscrollbar.min.js"></script>
+	
+	<script src="resources/javascripts/jquery.ui.touch-punch.min.js"></script>
+	<script src="resources/javascripts/touch-scroll.min.js"></script>
 	<script type="text/javascript" src="resources/javascripts/kendoui/js/kendo.web.min.js"></script>
-
 	<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
-	
 	<script type="text/javascript" src="resources/javascripts/jquery.ui-slider.js"></script>
 	<script type="text/javascript" src="resources/javascripts/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="resources/javascripts/jquery.mousewheel.js"></script>
 	<script type="text/javascript" src="resources/javascripts/jhints.js"></script>
+<script type="text/javascript" src="resources/javascripts/AjaxRequestController.js"></script>
+<script	src="resources/javascripts/jquery-ui-1.8.23.custom.min.js"></script>
+        
+<!--	<script src="resources/lib/leaflet-v0.3.1/debug/leaflet-include.js"></script>-->
+	<script type="text/javascript" src="resources/javascripts/Bing.js"></script>
+	<script src="resources/javascripts/bottomTabs.js"></script>
+	<script	src="resources/javascripts/Bottom.js"></script>
+	<script type="text/javascript" src="resources/javascripts/ui-static-init.js"></script>
+	<script type="text/javascript" src="resources/javascripts/bindings.js"></script>
 	<script type="text/javascript" src="resources/javascripts/ExPolygon.js"></script>
 	<script type="text/javascript" src="resources/javascripts/curves.js"></script>
-	<script type="text/javascript" src="resources/javascripts/jquery.tinyscrollbar.min.js"></script>
 </head>
 <body>
 <div id="modal"><img src="resources/img/pac-man.gif"/></div>
@@ -340,7 +344,6 @@
 				<div id="gradLine"></div>
 				<div id="tourB" class="bottomB">
 					<div id="tourScrollBar" class="scrollbarY">
-
 						<div class="scrollbar">
 							<div class="track">
 								<div class="thumb">
@@ -348,53 +351,32 @@
 								</div>
 							</div>
 						</div>
-
 						<div class="viewport">
-
-							<div class="overview"> 
-							</div>
-
-						</div>
-
-					</div>
-
-				</div>
-
-
-				<div id="aviaB" class="bottomB">
-
-					<div id="aviaScrollBar" class="scrollbarY">
-
-						<div class="scrollbar">
-							<div class="track">
-								<div class="thumb">
-									<div class="end"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="viewport">
-
 							<div class="overview"></div>
-
 						</div>
-
+					</div>
+				</div>
+				<div id="aviaB" class="bottomB">
+					<div id="aviaScrollBar" class="scrollbarY">
+						<div class="scrollbar">
+							<div class="track">
+								<div class="thumb">
+									<div class="end"></div>
+								</div>
+							</div>
+						</div>
+						<div class="viewport">
+							<div class="overview"></div>
+						</div>
 					</div>
 				</div>
 				<div id="hotelB" class="bottomB">
-					<div id="hotelScrollBar" class="scrollbarY">
-						<div class="scrollbar">
-							<div class="track">
-								<div class="thumb">
-									<div class="end"></div>
-								</div>
-							</div>
-						</div>
-						<div class="viewport">
-							<div class="overview"></div>
-						</div>
-					</div>
+                    <div id="hotelBView" style="height: 100%">
+					  <iframe src="http://booking.com/searchresults.html?aid=355103&ss=" name="Pegas" width="99.5%" height="100%" id="bookingFrame">
+   						</iframe>
+                    </div>
 				</div>
+				<div class="column"></div>
 			</div>
 		</div>
 	</div>
@@ -464,7 +446,6 @@
 			curves = Curves(cities, map);
 			curves.appendDefs();
 		});
-    
 </script>
 
 <script type="text/javascript">

@@ -16,9 +16,8 @@ var AjaxRequestController = new function()
 	{
 		if (!instance)
 			instance = this;
-		else
-			return instance;
-		_cities = cities;
+		return instance;
+		//_cities = cities;
 		// Публичные свойства
 	}
 
@@ -94,25 +93,25 @@ var AjaxRequestController = new function()
 			            contentType : "application/json",
 			            success : function(response)
 			            {
+                                            setTimeout(function()
+				            {
+					            $('#modal').hide();
+				            }, 200);
 				            if (response == null)
 				            {
 					            curvesEntity = undefined;
 					            zoomCash[currentZoom] = undefined
-					            _cities = undefined;
+					            _cities = [];
+                                curves.redrawCurvesNew(curvesEntity);
 					            return;
 				            }
 				            curvesEntity = response;
 				            zoomCash[currentZoom] = curvesEntity;
-
 				            curves.redrawCurvesNew(curvesEntity);
 
 				            for ( var i = 0; i < curvesEntity.length; ++i)
-					            _cities = _cities
-					                    .concat(curvesEntity[i].cityList);
-				            setTimeout(function()
-				            {
-					            $('#modal').hide();
-				            }, 200);
+					            _cities = _cities.concat(curvesEntity[i].cityList);
+				            
 			            },
 			            error : function(response)
 			            {
@@ -140,20 +139,22 @@ var AjaxRequestController = new function()
 			            contentType : "application/json",
 			            success : function(response)
 			            {
+                                            setTimeout(function()
+				            {
+					            $('#modal').hide();
+				            }, 200);
 				            if (response == null)
 				            {
 					            curvesEntity = undefined;
 					            zoomCash[currentZoom] = undefined
-					            _cities = undefined;
+					            _cities = [];
+                                                    curves.redrawMarkers(curvesEntity);
 					            return;
 				            }
 				            _cities = response;
 				            zoomCash[currentZoom] = _cities;
 				            curves.redrawMarkers(response);
-				            setTimeout(function()
-				            {
-					            $('#modal').hide();
-				            }, 200);
+				            
 			            },
 			            error : function(response)
 			            {
@@ -172,12 +173,28 @@ var AjaxRequestController = new function()
 
 		}
 		buffer = [];
+		(new Bottom).updateStaff(_cities);
 	};
+	
 	//Копирует массив, но не копирует элементы
 	AjaxRequestController.prototype.getCitiesArrayCopy = function getCitiesArrayCopy()
 	{
 		return [].concat(_cities);
 	};
+        
+        AjaxRequestController.prototype.getICSResorts = function getICSResorts()
+	{
+            $.ajax(
+			        {
+			            url : 'http://api.icstrvl.ru/tour-api/getResorts.xml',
+			            dataType : 'xml',
+			            type : 'POST',
+			            success : function(response)
+			            {
+                                        
+                        }
+					});
+	}
 
 	return AjaxRequestController;
 }

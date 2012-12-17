@@ -10,6 +10,7 @@ import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
 import com.globerry.project.service.gui.Slider;
 import java.util.HashMap;
+import org.geotools.util.DateRange;
 
 /**
  *
@@ -40,5 +41,6 @@ public interface IApplicationContext {
     IGuiComponent getObjectById(int id) throws IllegalArgumentException;   
    
     public String getHash();
+	
 	
 }

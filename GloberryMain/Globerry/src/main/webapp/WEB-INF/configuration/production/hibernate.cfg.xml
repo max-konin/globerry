@@ -16,7 +16,8 @@
                 <mapping class="com.globerry.project.domain.Mood"/>
                 <mapping class="com.globerry.project.domain.LivingCost"/>
                 <mapping class="com.globerry.project.domain.Tag"/>
-                <mapping class="com.globerry.project.domain.City"/>	
+                <mapping class="com.globerry.project.domain.City"/>
+                <mapping class="com.globerry.project.domain.Country"/>	
                 <mapping class="com.globerry.project.domain.PropertyType"/>
 	</session-factory>
 </hibernate-configuration>

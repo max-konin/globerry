@@ -46,8 +46,8 @@ public class CurveService implements ICurveService
         Up, Right, Down, Left, NoDirection
     }
 
-    private static float stepLat = 0.1f;
-    private static float stepLng = 0.1f;
+    private static float stepLat = 0.2f;
+    private static float stepLng = 0.2f;
     private float epsilon;
 	
 	@Override
@@ -171,7 +171,6 @@ public class CurveService implements ICurveService
 
     protected Collection<Curve> groupCities(float zLevel, ICityPredicate predicate)
     {
-        // List<City> cityListCopy = new ArrayList<City>(cityList);
         Map<CityShort, Integer> idToColor = new HashMap();
         int color = 0;
         int lastColor = -1;

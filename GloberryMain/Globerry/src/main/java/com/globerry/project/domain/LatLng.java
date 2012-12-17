@@ -14,7 +14,13 @@ public class LatLng implements Cachable<LatLng> {
 	}
 	@Override
 	public String toJSON() {
-		return "{\"lat\":" + lat + ",\"lng\":" + lng + "}";
+            StringBuilder str = new StringBuilder(40);
+            str.append("{\"lat\":");
+            str.append(lat);
+            str.append(",\"lng\":");
+            str.append(lng);
+            str.append("}");
+            return str.toString();
 	}
 
 	@Override

@@ -44,6 +44,7 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 	}, 
 		redrawCurvesNew = function redrawCurvesNew(curvesEntity)
 		{
+                    if(curvesEntity != undefined)
 			for(var i = 0; i < curvesEntity.length; ++i)
 			{
 				var tPolygon = new L.ExPolygon(curvesEntity[i].points, polygonOptions,curvesEntity[i].cityList);
@@ -53,6 +54,7 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 	    },
 	    redrawMarkers = function redrawMarkers(cities)
 	    {
+                if(cities != undefined)
 	    	cities.forEach(function(o) {
         		canvas.putPolygon(new L.ExMarker(new L.LatLng(o.latitude, o.longitude),o));
             });
@@ -64,7 +66,7 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 	        return document.createElementNS(NS,name);
 	    }
 	    
-		var svg = createElement('svg');
+            var svg = createElement('svg');
 	    var defs = createElement('defs');
 	    var pattern = createElement('pattern');
 	    defs.appendChild(pattern);
@@ -98,6 +100,43 @@ function Curves(/* L.LatLng[] */centers,/* L.Map */lmap) {
 		svg.appendChild(defs);
 		
 	    $("div.leaflet-overlay-pane").prepend(svg);
+            
+            var svg = createElement('svg');
+	    var defs = createElement('defs');
+	    var pattern = createElement('pattern');
+	    defs.appendChild(pattern);
+	    pattern.setAttribute('id', 'linesOnClick');
+	            
+	    pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+	    pattern.setAttribute('x', '0');
+	    pattern.setAttribute('y', '0');
+		//Размер паттерна
+	    pattern.setAttribute('width', '8');
+	    pattern.setAttribute('height', '8');
+	    
+		//Содержимое паттерна(svg-объекты)
+		//Закраска всего паттерна цветом заливки
+	    var children = createElement('rect');
+	    children.setAttribute('width', '8');
+	    children.setAttribute('height', '8');
+		children.setAttribute('fill', '#004d00');
+	    pattern.appendChild(children);
+	    
+		//Прямые линии
+	    children = createElement('path');
+	    children.setAttribute('d', 'M -1 5 L 5 -1');
+	    children.setAttribute('style', 'stroke: #ffffff; stroke-width: 2; opacity: 1');
+	    pattern.appendChild(children);
+	    children = createElement('path');
+	    children.setAttribute('d', 'M 9 3 L 3 9');
+	    children.setAttribute('style', 'stroke: #ffffff; stroke-width: 2; opacity: 1');
+	    pattern.appendChild(children);
+		
+		svg.appendChild(defs);
+		
+	    $("div.leaflet-overlay-pane").prepend(svg);
+            
+            
 	};
 	canvas.removeAll();
 	var me = {

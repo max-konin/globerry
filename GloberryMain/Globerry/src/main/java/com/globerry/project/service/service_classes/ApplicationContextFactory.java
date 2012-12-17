@@ -33,9 +33,9 @@ public class ApplicationContextFactory
     static public final int whoTagId = 1;
     static public final int whatTagId = 2;
     static public final int whenTagId = 3;
-    static public final int mapZoomId = 15;
     static public final int visaId = 13;
     static public final int rusLanguageId = 14;
+    static public final int mapZoomId = 15;
     @Autowired
     IDao<Tag> tagDao;
     @Autowired
@@ -64,32 +64,7 @@ public class ApplicationContextFactory
         
         HashMap<Integer, IGuiComponent> componentsMap = new HashMap<Integer, IGuiComponent>();
         HashMap<String, ISlider> sliders = new HashMap<String, ISlider>();
-        
-        List<Tag> tags;
-        try
-        {           
-            tags = tagDao.getAll(Tag.class);
-        }
-        catch(RuntimeException e)
-        {
-            prototype = null;
-            throw e;
-        }
-        SelectBox whoTag = new SelectBox(whoTagId);
-        SelectBox whatTag = new SelectBox(whatTagId);
-        for (Tag tag : tags) {
-            if (tag.getTagsType() == TagsType.WHO) {
-                whoTag.addValue(tag.getId());
-            } else {
-                whatTag.addValue(tag.getId());
-            }
-        }
-        
-        componentsMap.put(whoTagId, whoTag);
-        GuiMap.componentAddHandler(whoTag);
-        
-        componentsMap.put(whatTagId, whatTag);
-        GuiMap.componentAddHandler(whatTag);
+        createWhoWhereTags(componentsMap);
 
         SelectBox whenTag = new SelectBox(whenTagId);        
         for(Month month : Month.values()) 
@@ -143,13 +118,41 @@ public class ApplicationContextFactory
         GuiMap.componentAddHandler(rusLanguage);
         
         prototype.setComponentsMap(componentsMap);
-        prototype.setWhatTag(whatTag);
-        prototype.setWhoTag(whoTag);
         prototype.setWhenTag(whenTag);
         prototype.setMapZoom(mapZoom);
         prototype.setVisa(visa);
         prototype.setRusLanguage(rusLanguage);
         prototype.setSliders(sliders);
+    }
+
+    private void createWhoWhereTags(HashMap<Integer, IGuiComponent> componentsMap) throws IllegalArgumentException, RuntimeException {
+        List<Tag> tags;
+        try
+        {           
+            tags = tagDao.getAll(Tag.class);
+        }
+        catch(RuntimeException e)
+        {
+            prototype = null;
+            throw e;
+        }
+        SelectBox whoTag = new SelectBox(whoTagId);
+        SelectBox whatTag = new SelectBox(whatTagId);
+        for (Tag tag : tags) {
+            if (tag.getTagsType() == TagsType.WHO) {
+                whoTag.addValue(tag.getId());
+            } else {
+                whatTag.addValue(tag.getId());
+            }
+        }
+        componentsMap.put(whoTagId, whoTag);
+        GuiMap.componentAddHandler(whoTag);
+        
+        componentsMap.put(whatTagId, whatTag);
+        GuiMap.componentAddHandler(whatTag);
+        
+        prototype.setWhatTag(whatTag);
+        prototype.setWhoTag(whoTag);
     }
     
    

@@ -107,24 +107,23 @@ $(document).ready(function() {
 
 	$("#aviaScrollBar").tinyscrollbar();
 	$("#tourScrollBar").tinyscrollbar();
-	$("#hotelScrollBar").tinyscrollbar();
 
 	$(".bottomButton").click(function()
 	{
-		(new Bottom).bottomButtonClick(this);
+		(new Bottom).bottomButtonClick(this.id);
 	});
 
 	$("#bottomContainer").draggable({
 		axis : "y",
 		scroll : false,
-		handle : "#gradLine, .bottomButton, #whiteBottom",
+		handle : "#gradLine, .bottomButton, #whiteBottom, #invisibleBottom",
 		cursorAt: { top : 2 },
-		delay : 200,
+		delay : 0,
 		start : (new Bottom).draggableHandlerStart,
 		drag : (new Bottom).draggableHandlerDrag,
 		stop : (new Bottom).draggableHandlerStop
 	});
-
+        $("#tourScrollBar").touchScroll();
 	var resize;
 	
 	$(window).resize(function() {
@@ -133,3 +132,34 @@ $(document).ready(function() {
 	});
 
 });
+window.onload = function () {
+
+    var iframes = document.getElementsByTagName('iframe');
+
+   
+
+        var iframe = iframes[0],
+
+            d = document.createElement('div');
+
+        d.style.width = iframe.offsetWidth + 'px';
+
+        d.style.height = iframe.offsetHeight + 'px';
+
+        d.style.top = iframe.offsetTop + 'px';
+
+        d.style.left = iframe.offsetLeft + 'px';
+
+        d.style.position = 'absolute';
+
+        d.style.opacity = '0';
+
+        d.style.filter = 'alpha(opacity=0)';
+
+        d.style.background = 'black';
+
+        iframe.offsetParent;
+
+    
+
+};

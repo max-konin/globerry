@@ -27,6 +27,7 @@ import com.globerry.project.MySqlException;
 import com.globerry.project.dao.Dao;
 import com.globerry.project.dao.IDao;
 import com.globerry.project.domain.City;
+import com.globerry.project.domain.Country;
 
 import com.globerry.project.domain.Interval;
 import com.globerry.project.domain.LivingCost;
@@ -36,6 +37,7 @@ import com.globerry.project.domain.PropertyType;
 import com.globerry.project.domain.Tag;
 import com.globerry.project.domain.Temperature;
 import com.globerry.project.service.DefaultDatabaseCreator;
+import org.geotools.data.DataSourceException;
 
 /**
  * @author Artem
@@ -51,6 +53,8 @@ public class AdminParser implements IAdminParser
     @Autowired 
     private IDao<Tag> tagDao;
     @Autowired
+    private IDao<Country> countryDao;
+    @Autowired
     private IDao<PropertyType> propertyTypeDao;
     @Autowired
     private DefaultDatabaseCreator defaultDatabaseCreator;
@@ -61,9 +65,9 @@ public class AdminParser implements IAdminParser
     
     private Excel exc;
     
-    final int livingCostStartPosition = 17;
+    final int livingCostStartPosition = 18;
     
-    final int moodStartPosition = 31;
+    final int moodStartPosition = 32;
     
     final int tempStartPosition = 5;
   
@@ -121,6 +125,12 @@ public class AdminParser implements IAdminParser
 		break;
 	    }
 	    logger.info(cityWiki.getLatitude());
+            
+            
+            if(cityWiki.getLatitude() == null)
+                cityWiki.setLatitude("");
+            if(cityWiki.getLongitude() == null)
+                cityWiki.setLongitude("");
             
             if((city.getLongitude() == 0) && (city.getLatitude() == 0))
             {
@@ -248,8 +258,9 @@ public class AdminParser implements IAdminParser
 		    new BufferedOutputStream(
 			    new FileOutputStream(bugReportFile)));
 	int i = 2;
-        logger.info(exc.getLenght(0));
-	while (i < exc.getLenght(0))
+        int lenght = exc.getLenght(0);
+        logger.info(lenght);
+	while (i < lenght)
 	{
 	    try
 	    {
@@ -257,12 +268,29 @@ public class AdminParser implements IAdminParser
         	    City city = new City();
         	    city.setName(exc.getStringField(sheetNumber, i, 2));
         	    city.setRu_name(exc.getStringField(sheetNumber, i, 3));
-        	    city.setFoodCost(getIntervalFromCell(i, 29, true));
-        	    city.setAlcoCost(getIntervalFromCell(i,30, true));
-        	    city.setRussian(cellToBool(i, 43));
-        	    city.setVisa(cellToBool(i, 44));
-        	    city.setSex((int)exc.getFloatField(sheetNumber, i, 45));
-        	    city.setSecurity((int)exc.getFloatField(sheetNumber, i, 46));
+        	    city.setFoodCost(getIntervalFromCell(i, 30, true));
+        	    city.setAlcoCost(getIntervalFromCell(i,31, true));
+        	    city.setRussian(cellToBool(i, 44));
+        	    city.setVisa(cellToBool(i, 45));
+        	    city.setSex((int)exc.getFloatField(sheetNumber, i, 46));
+        	    city.setSecurity((int)exc.getFloatField(sheetNumber, i, 47));
+                    String countryName = exc.getStringField(sheetNumber, i, 1);
+                    List<Country> list = countryDao.getByQuery("FROM Country c WHERE c.name='" + countryName + "'");
+                    Country country = null;
+                    if(list.isEmpty())
+                    {
+                        country = new Country();
+                        country.setName(countryName);
+                        countryDao.add(country);
+                    }
+                    else
+                    {
+                        if(list.size() == 1)
+                           country = list.get(0);
+                        else
+                            throw new IllegalStateException("There too ore more countries with the same name");
+                    }
+                    city.setCountry(country);
         	    logger.info(i);                    
                     Temperature temp = new Temperature();                    
                     try{

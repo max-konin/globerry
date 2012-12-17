@@ -76,12 +76,16 @@ public class City implements Serializable
     @ManyToMany(fetch = FetchType.EAGER, cascade =
     {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, targetEntity = Tag.class)
     private Set<Tag> tagList = new HashSet<Tag>();
+    @ManyToOne(cascade= CascadeType.ALL)
+    private Country country;
 
     @Transient
     private double potential = 0;
 
     public City()
     {
+        this.cityShort = new CityShort();
+        this.country = new Country();
     }
 
     /**
@@ -107,11 +111,12 @@ public class City implements Serializable
 	    Collection<Tag> tagList)
     {
         this.cityShort = new CityShort();
+        this.country = new Country();
 	this.cityShort.setName(name);
+        this.cityShort.setLatitude(latitude);
+	this.cityShort.setLongitude(longitude);
 	this.alcoCost = alcoCost;
 	this.area = area;
-	this.cityShort.setLatitude(latitude);
-	this.cityShort.setLongitude(longitude);
 	this.population = population;
 	this.foodCost = foodCost;
 	this.security = security;
@@ -125,6 +130,7 @@ public class City implements Serializable
     }
     public CityShort getCityShort()
     {
+        cityShort.setCountryName(this.country.getName());
         cityShort.setId(id);
         return cityShort;
     }
@@ -466,5 +472,21 @@ public class City implements Serializable
     public Point2d getCoord()
     {
 	return new Point2d(cityShort.getLatitude(), cityShort.getLongitude());
+    }
+
+    /**
+     * @return the country
+     */
+    public Country getCountry()
+    {
+        return country;
+    }
+
+    /**
+     * @param country the country to set
+     */
+    public void setCountry(Country country)
+    {
+        this.country = country;
     }
 }

@@ -23,7 +23,6 @@ import javax.persistence.CascadeType;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-@Entity
 @Table(name = "Company")
 public class Company {
 

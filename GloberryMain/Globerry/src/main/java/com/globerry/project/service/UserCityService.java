@@ -24,6 +24,7 @@ import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.service_classes.IApplicationContext;
 import com.globerry.project.utils.ExecuteQueryTimer;
 import java.util.*;
+import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 
 /**
@@ -39,10 +40,6 @@ public class UserCityService implements IUserCityService
     @Autowired
     private IDao<City> cityDao;
     @Autowired
-    private IDao<PropertyType> propertyTypeDao;
-    @Autowired
-    private IDao<Tag> tagDao;
-    @Autowired
     private QueryFactory queryFactory;
     private boolean tagChanged = true;
     /*
@@ -56,10 +53,6 @@ public class UserCityService implements IUserCityService
      */
     private HashMap<Integer, Tag> tags;
 
-    // init
-    private void init()
-    {
-    }
 
     @Override
     public void clickOnActiveCity()
@@ -117,12 +110,6 @@ public class UserCityService implements IUserCityService
 	ISlider temperatureSlider = appContext.getSlidersByName(StringManager.temperaturePropertyTypeName);
 	ISlider livingCostSlider = appContext.getSlidersByName(StringManager.livingCostPropertyTypeName);
 	ISlider moodSlider = appContext.getSlidersByName(StringManager.moodPropertyTypeName);
-	// ISlider securitySlider =
-	// appContext.getSlidersByName(StringManager.securityPropertyTypeName);
-	// не влияют на вес
-	// ISlider sexSlider =
-	// appContext.getSlidersByName(StringManager.sexPropertyTypeName);
-
 	int delta;
 	float normDelta;
         List <CityShort> cityShortList = new ArrayList<CityShort>(); 

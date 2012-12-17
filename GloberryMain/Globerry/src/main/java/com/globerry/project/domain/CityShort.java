@@ -22,23 +22,27 @@ import javax.persistence.*;
 public class CityShort implements Cachable<CityShort> {
 
         @Transient
-	protected int id;
+	private int id;
 //	@Column(name = "name")
-	protected String name;
+	private String name;
 //	@Column(name = "ru_name")
-	protected String ru_name;
+	private String ru_name;
 //	@Column(name = "latitude")
-	protected float latitude;
+	private float latitude;
 //	@Column(name = "longitude")
-	protected float longitude;
+	private float longitude;
 //	@Transient
-	protected float weight;
+	private float weight;
+        @Transient
+        private String countryName;
+       
 	
 	public CityShort() {
 		
 	}
 	
-	public CityShort(String name, String ru_name, float latitude, float longitude, float weight, int id) {
+	public CityShort(String name, String ru_name, float latitude, float longitude, float weight, int id, String countryName) {
+                this.countryName = countryName;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.weight = weight;
@@ -55,16 +59,32 @@ public class CityShort implements Cachable<CityShort> {
 		this.ru_name = feilds[3];
 		this.name = feilds[4];
 		this.weight = Float.parseFloat(feilds[5]);
+                this.countryName = feilds[6];
 		return this;
 	}
 
 	@Override
 	public String toJSON() {
-		return "{\"latitude\":" + this.latitude + ","
-				+ "\"longitude\":" + this.longitude + ","
-				+ "\"ru_name\":" + this.ru_name + ","
-				+ "\"name\":" + this.name + ","
-				+ "\"weight\":" + this.weight + "}";
+           
+            StringBuilder str = new StringBuilder();
+            str.append("{\"latitude\":");
+            str.append(this.latitude);
+            //str.append(",");
+            str.append(",\"longitude\":");
+            str.append(this.longitude);
+            //str.append(",");
+            str.append(",\"ru_name\":");
+            str.append(this.ru_name);
+            //str.append(",");
+            str.append(",\"name\":");
+            str.append(this.name);
+            //str.append(",");
+            str.append(",\"weight\":");
+            str.append(this.weight);
+            str.append(",\"countryName\":");
+            str.append(this.countryName);
+            str.append("}");
+            return  str.toString();
 	}
 
 	public float getLatitude() {
@@ -114,7 +134,20 @@ public class CityShort implements Cachable<CityShort> {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
-	
+
+    /**
+     * @return the countryName
+     */
+    public String getCountryName()
+    {
+        return countryName;
+    }
+
+    /**
+     * @param countryName the countryName to set
+     */
+    public void setCountryName(String countryName)
+    {
+        this.countryName = countryName;
+    }
 }

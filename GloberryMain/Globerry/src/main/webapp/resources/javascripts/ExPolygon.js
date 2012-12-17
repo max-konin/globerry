@@ -1,6 +1,7 @@
 /* 
  * Представление гладкого полигона
  */
+var clickedPoligon = undefined;
 L.ExPolygon = L.Polygon.extend({
 	
 	initialize: function (latlngs, options, cityList) {
@@ -18,12 +19,16 @@ L.ExPolygon = L.Polygon.extend({
 		$(this._path).attr('hint', hintText);
 		$(this._path).Hint({trigger : "mouseover"}, -1, -1);
 		var cityList = this._cityList;
+                var _thisPoligon = this;
 		$(this._path).bind("click",function(event){ 
-            var _bottom = new Bottom;
-            _bottom.updateStaff(cityList);
-            event.stopPropagation();
-
-        });
+                            var _bottom = new Bottom;
+                              _bottom.updateStaff(cityList);
+                            $(_thisPoligon._path).attr('fill', 'url(#linesOnClick)');
+                            if(clickedPoligon != undefined && clickedPoligon != _thisPoligon)
+                                   $(clickedPoligon._path).attr('fill', 'url(#lines)');
+                            clickedPoligon = _thisPoligon;
+                            event.stopPropagation();
+                                                          });
 	},
 	pointInPolygon : function (/*L.LatLng*/point) {
 		var rate = function (x, y) {
@@ -60,7 +65,10 @@ L.ExPolygon = L.Polygon.extend({
 	},
 	
 	getPathString: function () {
-		$(this._path).attr('fill', 'url(#lines)');
+                if(this != clickedPoligon)
+                    $(this._path).attr('fill', 'url(#lines)');
+                else
+                     $(this._path).attr('fill', 'url(#linesOnClick)');
 		var t = 2;
 		if(this._latlngs.length < 8) {
 			t = 1;

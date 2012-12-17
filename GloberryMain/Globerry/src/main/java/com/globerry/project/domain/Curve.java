@@ -64,21 +64,22 @@ public class Curve implements Cachable<Curve>
 
 	@Override
 	public String toJSON() {
-		String ret = "";
-		ret = "{\"cityList\":[";
+		StringBuilder ret = new StringBuilder("{\"cityList\":[");
 		for(CityShort city : cityList) {
-			ret += city.toJSON() + ",";
+			ret.append(city.toJSON());
+                        ret.append(",");
 		}
 		if(!cityList.isEmpty())
-			ret = ret.substring(0, ret.length() - 1);
-		ret += "],\"points\":[";
+			ret.deleteCharAt(ret.length() - 1);
+		ret.append("],\"points\":[");
 		for(LatLng latlng : points) {
-			ret += latlng.toJSON() + ",";
+			ret.append(latlng.toJSON());
+                        ret.append(",");
 		}
 		if(!points.isEmpty())
-			ret = ret.substring(0, ret.length() - 1);
-		ret += "]}";
-		return ret;
+			ret.deleteCharAt(ret.length() - 1);
+		ret.append("]}");
+		return ret.toString();
 	}
 	
 }

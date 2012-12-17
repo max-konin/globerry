@@ -61,18 +61,12 @@ public class ParserTest
     public void test() throws IOException
     {
 	Excel exc = new Excel("C:\\таблица для аналитика 18.09.12.xlsx");
-	    adminParser.updateCities(exc);
-            adminParser.updateWikiContent();
+	adminParser.updateCities(exc);
+        adminParser.updateWikiContent();
             
 	    /*City city = new;
 	    verify(dao).add(city );*/
 	
-    }
-    @Test
-    @Ignore
-    public void testWiki() throws IOException
-    {
-	adminParser.updateWikiContent();
     }
 
 }

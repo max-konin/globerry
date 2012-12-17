@@ -69,6 +69,19 @@
         <mapping class="com.globerry.project.domain.PropertyType"/> -->
 	</bean>
 	
+        <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+            <constructor-arg name="mongo" ref="mongo"/>
+            <constructor-arg name="databaseName" value="globerry"/>
+        </bean>
+ 
+        <!-- Factory bean that creates the Mongo instance -->
+        <bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+            <property name="host" value="localhost"/>
+        </bean>
+ 
+        <!-- Use this post processor to translate any MongoExceptions thrown in @Repository annotated classes -->
+        <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+        
 	<bean id="transactionManager" 
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
