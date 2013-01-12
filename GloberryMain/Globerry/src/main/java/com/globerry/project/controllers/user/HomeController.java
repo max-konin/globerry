@@ -9,6 +9,7 @@ import com.globerry.project.domain.Ticket;
 import com.globerry.project.domain.Tour;
 import com.globerry.project.service.CurveService;
 import com.globerry.project.service.DefaultDatabaseCreator;
+import com.globerry.project.service.ICSHellGateService;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.interfaces.ICurveService;
@@ -56,6 +57,9 @@ public class HomeController
     
     @Autowired
     ICurveService curveService;
+	
+	@Autowired
+	ICSHellGateService icsService;
 
     IApplicationContext appContext;
 
@@ -198,6 +202,14 @@ public class HomeController
 	logger.debug(appContext.toString());
 	return curves;
     }
+	
+	@RequestMapping(value = "/getTours", method = RequestMethod.POST)
+	@ResponseBody
+	public String getTours(@RequestBody Integer[] request) {
+		logger.debug(request);
+		String retTours = icsService.getTours(request, appContext);
+		return retTours;
+	}
 	
     @RequestMapping(value = "/initPropertyType")
     public String initPropertyType()

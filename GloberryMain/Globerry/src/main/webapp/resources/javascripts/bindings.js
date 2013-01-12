@@ -118,7 +118,7 @@ $(document).ready(function() {
 		scroll : false,
 		handle : "#gradLine, .bottomButton, #whiteBottom, #invisibleBottom",
 		cursorAt: { top : 2 },
-		delay : 0,
+		delay : 300,
 		start : (new Bottom).draggableHandlerStart,
 		drag : (new Bottom).draggableHandlerDrag,
 		stop : (new Bottom).draggableHandlerStop

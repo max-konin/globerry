@@ -21,7 +21,7 @@ public interface ICurveService {
 	
 	public void dropDb();
 	
-	public Collection<Curve> calcCurves(int mapZoom);
+	public Curve getRawCurve();
 	
 	public Collection<Curve> getCurves(IApplicationContext appContext);
 	

@@ -22,12 +22,16 @@ import nl.cloudfarming.client.lib.geotools.GeometryTools;
 import com.globerry.project.domain.LatLng;
 import com.globerry.project.service.interfaces.IUserCityService;
 import com.globerry.project.service.service_classes.IApplicationContext;
+import com.mongodb.MongoException;
+import java.io.IOException;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import java.lang.IllegalArgumentException;
+import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
  *
@@ -35,10 +39,18 @@ import java.lang.IllegalArgumentException;
  */
 @Service
 @Scope("session")
-public class CurveService implements ICurveService
+public class CurveService// implements ICurveService
 {
 
     private static final int zRadiusConst = 1000000;
+    
+    protected static final Logger logger = Logger.getLogger(CurveService.class);
+
+	//@Override
+	public Curve getRawCurve()
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
     enum Direction
     {
@@ -50,22 +62,22 @@ public class CurveService implements ICurveService
     private static float stepLng = 0.2f;
     private float epsilon;
 	
-	@Override
+	//@Override
 	public void setStepLat(float stepLat) {
 		CurveService.stepLat = stepLat;
 	}
 
-	@Override
+	//@Override
 	public void setStepLng(float stepLng) {
 		CurveService.stepLng = stepLng;
 	}
 	
-	@Override
+	//@Override
 	public float getStepLat() {
 		return CurveService.stepLat;
 	}
 
-	@Override
+	//@Override
 	public float getStepLng() {
 		return CurveService.stepLng;
 	}
@@ -79,10 +91,10 @@ public class CurveService implements ICurveService
     @Autowired
     private IUserCityService userCityService;
 
-    @Override
+
     public void dropDb()
     {
-        // curveDao.dropDB();
+        //curveDao.dropDB();
     }
     private void init()
     {
@@ -582,8 +594,17 @@ public class CurveService implements ICurveService
 
     public Collection<Curve> getCurves(IApplicationContext appContext)
     {
-        Collection<Curve> results = curveMongoDao.getCurves(appContext.getHash());
-
+        Collection<Curve> results;
+        try
+        {
+             results= curveMongoDao.getCurves(appContext.getHash());
+        }
+        catch (DataAccessResourceFailureException e)
+        {
+            results = null;
+            logger.info("Couldn't connect to MongoDB");
+                        
+        }
         if (results != null)
         {
             return results;
@@ -591,8 +612,14 @@ public class CurveService implements ICurveService
 
         this.cityList = userCityService.getCityList(appContext);
         results = calcCurves(appContext.getMapZoom().getValue());
-
-        curveMongoDao.addCurves(appContext.getHash(), results);
+        try
+        {
+            curveMongoDao.addCurves(appContext.getHash(), results);
+        }
+        catch (DataAccessResourceFailureException e)
+        {            
+            logger.info("Couldn't connect to MongoDB");                        
+        }
 
         return results;
     }

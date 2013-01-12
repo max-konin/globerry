@@ -57,6 +57,6 @@ public class GuiMap {
 
     public static final void clear()
     {
-        componentMap = new HashMap();
+        componentMap = new HashMap<Integer, String>();
     }
 }

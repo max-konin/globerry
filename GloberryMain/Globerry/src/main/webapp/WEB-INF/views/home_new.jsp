@@ -372,7 +372,7 @@
 				</div>
 				<div id="hotelB" class="bottomB">
                     <div id="hotelBView" style="height: 100%">
-					  <iframe src="http://booking.com/searchresults.html?aid=355103&ss=" name="Pegas" width="99.5%" height="100%" id="bookingFrame">
+					  <iframe src="http://booking.com/searchresults.html?aid=355103&ss=" name="Pegas" width="100%" height="100%" id="bookingFrame">
    						</iframe>
                     </div>
 				</div>
@@ -445,6 +445,7 @@
 			ajaxRequestController.sendRequest(globalMap.guiId , {value : globalMap.getZoom()});
 			curves = Curves(cities, map);
 			curves.appendDefs();
+			
 		});
 </script>
 

@@ -5,6 +5,7 @@
 package com.globerry.project.service.service_classes;
 
 import com.globerry.project.service.gui.CheckBox;
+import com.globerry.project.service.gui.ICheckBox;
 import com.globerry.project.service.gui.IGuiComponent;
 import com.globerry.project.service.gui.ISlider;
 import com.globerry.project.service.gui.SelectBox;
@@ -28,9 +29,9 @@ public interface IApplicationContext {
     
     SelectBox getMapZoom();
     
-    public CheckBox getVisa();
+    public ICheckBox getVisa();
     
-    public CheckBox getRusLanguage();
+    public ICheckBox getRusLanguage();
     
     ISlider getSlidersByName(String name);
     

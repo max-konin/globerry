@@ -15,14 +15,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -40,14 +37,28 @@ import org.xml.sax.SAXException;
 @Service
 public class ICSHellGateService
 {
-
+	DocumentBuilderFactory dbFactory;
+	DocumentBuilder dBuilder;
+	{
+		dbFactory = DocumentBuilderFactory.newInstance();
+		try
+		{
+			dBuilder = dbFactory.newDocumentBuilder();
+		}
+		catch (ParserConfigurationException ex)
+		{
+			Logger.getLogger(ICSHellGateService.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+	
 	@Autowired
 	IDao<City> cityDao;
+	
 	protected static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(ICSHellGateService.class);
-	private final String resortsURI = "http://api.icstrvl.ru/tour-api/getResorts.xml";
-	private final String toursURI = "http://api.icstrvl.ru/tour-api/getTours.xml?ad=";
+	public final String resortsURI = "http://api.icstrvl.ru/tour-api/getResorts.xml";
+	public final String toursURI = "http://api.icstrvl.ru/tour-api/getTours.xml?ad=";
 
-	public String getTours(int[] cityIdArray, IApplicationContext appContext)
+	public String getTours(Integer[] cityIdArray, IApplicationContext appContext)
 	{
 		List<City> requestCities = getCities(cityIdArray);
 		Node tours = null;
@@ -55,7 +66,7 @@ public class ICSHellGateService
 		{
 			HashMultimap<Integer, Element> resortsGrouppedByCountry = getRequestedResortsAndGroupByCountry(requestCities);
 			StringBuilder requestURIBase = generateURIBaseForToursRequest(appContext);
-			tours = doTourRequestsAndGetTours(resortsGrouppedByCountry, requestURIBase);
+			tours = buildTourRequestsAndGetTours(resortsGrouppedByCountry, requestURIBase);
 		}
 		catch (SAXException ex)
 		{
@@ -72,15 +83,24 @@ public class ICSHellGateService
 
 	private boolean isContainsCityName(City city, String string)
 	{
-		boolean isRuNameContains = false;
-		if (city.getRu_name() != null)
-		{
-			isRuNameContains = string.contains(city.getRu_name().subSequence(0, city.getRu_name().length() - 1));
-		}
+		if(string == null)
+			return false;
+		if(city == null)
+			throw new IllegalArgumentException("Parameter city can't be null");
+		
+		string = string.toLowerCase();
 		boolean isNameContains = false;
-		if (city.getName() != null)
+		if(city.getName() != null)
 		{
-			isNameContains = string.contains(city.getName().subSequence(0, city.getName().length() - 1));
+			String cityName = city.getName().toLowerCase();
+			isNameContains = string.contains(cityName);
+		}
+		
+		boolean isRuNameContains = false;
+		if(city.getRu_name() != null)
+		{
+			String cityRuName = city.getRu_name().toLowerCase();
+			isRuNameContains = string.contains(cityRuName);
 		}
 		return isRuNameContains || isNameContains;
 	}
@@ -94,7 +114,7 @@ public class ICSHellGateService
 		return nValue.getNodeValue();
 	}
 
-	private List<City> getCities(int[] cityIds)
+	private List<City> getCities(Integer[] cityIds)
 	{
 		List<City> cityList = new ArrayList<City>();
 		for (int i = 0, iterations = cityIds.length; i < iterations; ++i)
@@ -104,10 +124,8 @@ public class ICSHellGateService
 		return cityList;
 	}
 
-	private Document getDocument(String URI) throws ParserConfigurationException, SAXException, IOException
+	public Document getXMLDocument(String URI) throws ParserConfigurationException, SAXException, IOException
 	{
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document document = dBuilder.parse(URI);
 		document.getDocumentElement().normalize();
 		return document;
@@ -115,7 +133,7 @@ public class ICSHellGateService
 
 	private HashMultimap<Integer, Element> getRequestedResortsAndGroupByCountry(List<City> requestCities) throws ParserConfigurationException, SAXException, IOException
 	{
-		Document resortsXML = getDocument(resortsURI);
+		Document resortsXML = getXMLDocument(resortsURI);
 		NodeList resorts = resortsXML.getElementsByTagName("resort");
 		HashMultimap<Integer, Element> resortsGroups = HashMultimap.create(); // group resorts by country
 		for (int i = 0, j = resorts.getLength(); i < j; i++)
@@ -167,18 +185,18 @@ public class ICSHellGateService
 
 	private String getFormattedDate(int requestedMonth)
 	{
-		Calendar cal = Calendar.getInstance();
-		if (cal.get(Calendar.MONTH) > requestedMonth);
+		Calendar calendar = Calendar.getInstance();
+		if (calendar.get(Calendar.MONTH) > requestedMonth);
 		{
-			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1);
+			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
 		}
-		cal.set(Calendar.MONTH, requestedMonth);
-		cal.set(Calendar.DATE, 1);
+		calendar.set(Calendar.MONTH, requestedMonth);
+		calendar.set(Calendar.DATE, 1);
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		return format.format(cal.getTime());
+		return format.format(calendar.getTime());
 	}
 
-	private Node doTourRequestsAndGetTours(HashMultimap<Integer, Element> resortsGrouppedByCountry, StringBuilder requestURIBase) throws ParserConfigurationException, SAXException, IOException
+	private Node buildTourRequestsAndGetTours(HashMultimap<Integer, Element> resortsGrouppedByCountry, StringBuilder requestURIBase) throws ParserConfigurationException, SAXException, IOException
 	{
 		Set<Integer> countriesIds = resortsGrouppedByCountry.keySet();
 		Node allTours = null;
@@ -186,7 +204,7 @@ public class ICSHellGateService
 		{
 			Set<Element> currentCountryResorts = resortsGrouppedByCountry.get(countryId);
 			String tourURI = buildTourRequest(requestURIBase, countryId, currentCountryResorts);
-			Document toursXML = getDocument(tourURI);
+			Document toursXML = getXMLDocument(tourURI);
 			if (allTours == null)
 			{
 				allTours = toursXML.getElementsByTagName("result").item(0);
@@ -216,9 +234,10 @@ public class ICSHellGateService
 
 	private String serializeNode(Node node)
 	{
+		if(null == node)
+			return "";
 		Document document = node.getOwnerDocument();
-		DOMImplementationLS domImplLS = (DOMImplementationLS) document
-				.getImplementation();
+		DOMImplementationLS domImplLS = (DOMImplementationLS) document.getImplementation();
 		LSSerializer serializer = domImplLS.createLSSerializer();
 		return serializer.writeToString(node);
 	}

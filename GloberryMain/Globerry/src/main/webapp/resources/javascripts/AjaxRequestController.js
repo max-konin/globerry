@@ -76,7 +76,7 @@ var AjaxRequestController = new function()
 			{
 				zoomCash = [];
 				request.push({id : globalMap.guiId, 
-							  value : { value : globalMap.getZoom() }});
+							  value : {value : globalMap.getZoom()}});
 			}
 		}
 
@@ -173,7 +173,6 @@ var AjaxRequestController = new function()
 
 		}
 		buffer = [];
-		(new Bottom).updateStaff(_cities);
 	};
 	
 	//Копирует массив, но не копирует элементы
@@ -194,6 +193,27 @@ var AjaxRequestController = new function()
                                         
                         }
 					});
+	}
+	
+	AjaxRequestController.prototype.getICSTours = function getICSTours() {
+		var request = [];
+		request.push(88);
+		$.ajax({
+			url: path + "/getTours",
+			dataType : 'xml',
+			type : 'POST',
+	        data : JSON.stringify(request),
+			contentType : "application/json",
+			success: function(response) {
+				alert("Success");
+				console.log(response);
+			},
+			error: function(msg) {
+				alert("Error");
+				console.log(msg);
+			}
+			
+		})
 	}
 
 	return AjaxRequestController;

@@ -1259,6 +1259,7 @@ a{
     z-index : 1; /*map has 0*/
     position: relative;
     float: left;
+	overflow: hidden;
     /*margin-bottom: 2px;*/
     /*bottom: 0px;
     /height : 0px;

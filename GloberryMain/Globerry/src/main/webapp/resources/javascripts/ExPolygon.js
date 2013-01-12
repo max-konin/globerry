@@ -11,7 +11,7 @@ L.ExPolygon = L.Polygon.extend({
 		
 	onAdd : function (map){
 		var __onAdd = L.Polygon.prototype.onAdd.call(this, map);
-		hintText = '';
+		var hintText = '';
 		this._cityList.forEach(function(city)
 		{
 			hintText += city.ru_name + "<br/>"; 
@@ -19,16 +19,19 @@ L.ExPolygon = L.Polygon.extend({
 		$(this._path).attr('hint', hintText);
 		$(this._path).Hint({trigger : "mouseover"}, -1, -1);
 		var cityList = this._cityList;
-                var _thisPoligon = this;
-		$(this._path).bind("click",function(event){ 
+        var _thisPoligon = this;
+		$(this._path).bind("click",function(event) {
                             var _bottom = new Bottom;
-                              _bottom.updateStaff(cityList);
+                            _bottom.updateStaff(cityList);
                             $(_thisPoligon._path).attr('fill', 'url(#linesOnClick)');
-                            if(clickedPoligon != undefined && clickedPoligon != _thisPoligon)
-                                   $(clickedPoligon._path).attr('fill', 'url(#lines)');
+							$(_thisPoligon._path).attr('stroke', '#1e2a41');
+                            if(clickedPoligon != undefined && clickedPoligon != _thisPoligon) {
+								$(clickedPoligon._path).attr('fill', 'url(#lines)');
+								$(clickedPoligon._path).attr('stroke', '#ff4d29');
+							}
                             clickedPoligon = _thisPoligon;
                             event.stopPropagation();
-                                                          });
+						});
 	},
 	pointInPolygon : function (/*L.LatLng*/point) {
 		var rate = function (x, y) {

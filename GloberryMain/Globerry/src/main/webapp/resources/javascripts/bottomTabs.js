@@ -7,12 +7,15 @@ var BottomTab = {
 	_magicConstant: 0,
 	// indicator of activity for tab
 	_active: false,
+	// revert state
+	RevertOpen: function() {alert("Need implemetation!")},
 	// open tab
 	Open: function(height, callbackFunction) {alert("Need implemetation!")},
 	// close tab
 	Close: function(callbackFunction) {alert("Need implementation!")},
 	// recreate content by cities
 	RecreateContent: function(cities) {alert("Need implementation!")},
+	//Handlers for ui-draggable
 	DraggableHandlerDrag: function(event, ui) {alert("Need implementation!")},
 	DraggableHandlerStop: function(event, ui) {alert("Need implementation!")}
 };
@@ -31,7 +34,12 @@ Object.defineProperties(BottomTab, {
 		if (mod >= 2 && mod <= 4)
 			return " ночи";
 		return " ночь";
-	}, writable: false, configurable : true}
+	}, writable: false, configurable : true},
+	// logger
+	logger: {value: function(string) {
+		var d = new Date();
+		console.log("[" + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "." + d.getMilliseconds() + "] " + string);
+	}, writable: false, configurable: true}
 })
 
 var TourBottom = Object.create(BottomTab);
@@ -41,8 +49,18 @@ TourBottom._magicConstant = 37;
 $(document).ready(function() { 
 	TourBottom._button = document.getElementById(TourBottom._id);
 });
-	
+
+TourBottom.RevertOpen = function() {
+	$(document).stop(true);
+	this.logger("TourBottom reverting open.");
+	$("#" + this._id + "B .viewport").css("height", 170 - TourBottom._magicConstant);
+	this._button.style.background = 'rgb(37, 46, 64)';
+	this._button.style.width = "120px";
+	$("#" + this._id + "B").slideUp(200, function() {TourBottom._active = false;BottomTab.logger("TourBottom close now.");});
+}
+
 TourBottom.RecreateContent = function(cities) {
+	BottomTab.logger("TourBottom recreating content.");
 	$("#" + this._id + "ScrollBar .viewport .overview").empty();
 	var numberOfEntitys = Math.floor(Math.random() * 7 + 16);
 	for(var i = 0; i < numberOfEntitys; i++) {
@@ -55,6 +73,7 @@ TourBottom.RecreateContent = function(cities) {
 		var nightText = " на ";
 		var nightWord = this.getNight(numberOfNights);
 		var city = cities[Math.floor(Math.random() * cities.length)];
+
 
 		$("#" + this._id + "ScrollBar .viewport .overview").append(
 			'<div class="Line" id="tour'
@@ -74,34 +93,37 @@ TourBottom.RecreateContent = function(cities) {
 			+ '</tr></table></div></div>');
 	}
 	$("#" + this._id + "ScrollBar").tinyscrollbar_update();
+	BottomTab.logger("TourBottom recreate content.");
 }
 	
 TourBottom.Open = function(height, callBackFunction) {
 	if(this._active)
 		return;
+	BottomTab.logger("TourBottom start opening.");
 	if(typeof callBackFunction == 'undefined')
 		callBackFunction = function() {
-			$("#" + TourBottom._id + "B").show(null, function() {
+			$("#" + TourBottom._id + "B").slideDown(200, function() {
+				$("#" + TourBottom._id + "ScrollBar").tinyscrollbar_update();
 				$("#" + TourBottom._id + "B .scrollbar").show();
+				TourBottom._active = true;
+				BottomTab.logger("TourBottom open now.");
 			});
 		}
 	$("#" + this._id + "B .scrollbar").hide();
-	$("#" + this._id + "B .viewport").animate({
-		height : height <= 170 ? 170 - TourBottom._magicConstant : height - TourBottom._magicConstant
-	}, null, callBackFunction);
+	$("#" + this._id + "B .viewport").height(height <= 170 ? 170 - TourBottom._magicConstant : height - TourBottom._magicConstant);
+	callBackFunction();
 	this._button.style.background = 'rgb(255, 122, 2)';
 	this._button.style.width = "124px";
-	this._active = true;
 }
 	
-TourBottom.Close = function(callBackFunction) {
+TourBottom.Close = function(callBackFunction) {	
 	if(!this._active)
 		return;
+	this.logger("TourBottom start closing.");
 	$("#" + this._id + "B .viewport").css("height", 170 - TourBottom._magicConstant);
 	this._button.style.background = 'rgb(37, 46, 64)';
 	this._button.style.width = "120px";
-	$("#" + this._id + "B").hide();
-	this._active = false;
+	$("#" + this._id + "B").slideUp(200, function() {TourBottom._active = false;BottomTab.logger("TourBottom close now.");});
 }
 	
 TourBottom.draggableHandlerDrag = function(event, ui) {
@@ -112,6 +134,7 @@ TourBottom.draggableHandlerDrag = function(event, ui) {
 }
 	
 TourBottom.draggableHandlerStop = function(event, ui) {
+	var ret = {isLock: false, height: 0};
 	var jCal = $("#calendar:visible");
 	var minTop = Math.max((jCal.length != 0 ? jCal.position().top : 0) + jCal.height(),
 						$("#headBottom").position().top + $("#headBottom").height()) + 30;		
@@ -122,15 +145,16 @@ TourBottom.draggableHandlerStop = function(event, ui) {
 		$("#" + this._id + "B .viewport").animate({ 
 				height :  $(document).height() - minTop - TourBottom._magicConstant
 		}, "normal", function() {
-			$("#" + TourBottom._id + "ScrollBar").tinyscrollbar_update();				
 			$("#modalBlack").fadeIn(2000);
+			$("#" + TourBottom._id + "ScrollBar").tinyscrollbar_update();
 			$("#" + TourBottom._id + "ScrollBar .scrollbar").show();
-		});
-		return true;
+		});	
+		ret.isLock = true;
+		ret.height = $(document).height() - minTop - TourBottom._magicConstant;
 	} else if(ui.position.top > maxTop) {
 		this.Close();
 		$("#modalBlack").fadeOut(500);
-		return false;
+		ret.height = 0;
 	} else if(ui.position.top > middleTop) {
 		$("#" + this._id + "ScrollBar .scrollbar").hide();
 		$("#" + this._id + "B .viewport").animate({
@@ -140,9 +164,10 @@ TourBottom.draggableHandlerStop = function(event, ui) {
 			$("#" + TourBottom._id + "ScrollBar").tinyscrollbar_update();
 			$("#" + TourBottom._id + "ScrollBar .scrollbar").show();
 		});
-		return false;
+		ret.height = 170 - TourBottom._magicConstant;
 	}
-	return false;
+	BottomTab.logger("TourBottom stop dragging.");
+	return ret;
 }
 
 var AviaBottom = Object.create(BottomTab);
@@ -152,8 +177,18 @@ AviaBottom._magicConstant = 37;
 $(document).ready(function() { 
 	AviaBottom._button = document.getElementById(AviaBottom._id);
 });
-	
+
+AviaBottom.RevertOpen = function() {
+	$(document).stop(true);
+	this.logger("AviaBottom reverting open.");
+	$("#" + this._id + "B .viewport").css("height", 170 - AviaBottom._magicConstant);
+	this._button.style.background = 'rgb(37, 46, 64)';
+	this._button.style.width = "120px";
+	$("#" + this._id + "B").slideUp(200, function() {AviaBottom._active = false;BottomTab.logger("AviaBottom close now.");});
+}
+
 AviaBottom.RecreateContent = function(cities) {
+	BottomTab.logger("AviaBottom recreating content.");
 	$("#" + this._id + "ScrollBar .viewport .overview").empty();
 	var numberOfEntitys = Math.floor(Math.random() * 7 + 16);
 	for(var i = 0; i < numberOfEntitys; i++) {
@@ -175,15 +210,20 @@ AviaBottom.RecreateContent = function(cities) {
 			+ '</tr></table></div></div>');
 	}
 	$("#" + this._id + "ScrollBar").tinyscrollbar_update();
+	BottomTab.logger("AviaBottom recreate content.");
 }
 	
 AviaBottom.Open = function(height, callBackFunction) {
 	if(this._active)
 		return;
+	BottomTab.logger("AviaBottom start opening.");
 	if(typeof callBackFunction == 'undefined')
 		callBackFunction = function() {
-			$("#" + AviaBottom._id + "B").show(null, function() {
+			$("#" + AviaBottom._id + "B").slideDown(200, function() {
+				$("#" + AviaBottom._id + "ScrollBar").tinyscrollbar_update();
 				$("#" + AviaBottom._id + "B .scrollbar").show();
+				AviaBottom._active = true;
+				BottomTab.logger("AviaBottom open now.");
 			});
 		}
 	$("#" + this._id + "B .scrollbar").hide();
@@ -192,26 +232,26 @@ AviaBottom.Open = function(height, callBackFunction) {
 	}, null, callBackFunction);
 	this._button.style.background = 'rgb(255, 122, 2)';
 	this._button.style.width = "124px";
-	this._active = true;
 }
 	
 AviaBottom.Close = function(callBackFunction) {
 	if(!this._active)
 		return;
+	BottomTab.logger("AviaBottom start closing.");
 	$("#" + this._id + "B .viewport").css("height", 170 - AviaBottom._magicConstant);
 	this._button.style.background = 'rgb(37, 46, 64)';
 	this._button.style.width = "120px";
-	$("#" + this._id + "B").hide();
-	this._active = false;
+	$("#" + this._id + "B").slideUp(200, function() {AviaBottom._active = false;BottomTab.logger("AviaBottom close now.");});
 }
 	
 AviaBottom.draggableHandlerDrag = function(event, ui) {
 	var height = $(document).height() - ui.position.top;
-	
+	$("#" + this._id + "ScrollBar .scrollbar").hide();
 	$("#" + this._id + "B .viewport").css("height", height - AviaBottom._magicConstant);
 }
 	
 AviaBottom.draggableHandlerStop = function(event, ui) {
+	var ret = {isLock: false, height: 0};
 	var jCal = $("#calendar:visible");
 	var minTop = Math.max((jCal.length != 0 ? jCal.position().top : 0) + jCal.height(),
 						$("#headBottom").position().top + $("#headBottom").height()) + 30;		
@@ -219,18 +259,19 @@ AviaBottom.draggableHandlerStop = function(event, ui) {
 	var maxTop = $(document).height() - 100;
 	if(ui.position.top <  minTop || ui.position.top < middleTop) {
 		$("#" + this._id + "ScrollBar .scrollbar").hide();
-		$("#" + this._id + "B .viewport").animate({ 
-				height :  $(document).height() - minTop - AviaBottom._magicConstant
+		$("#" + this._id + "B .viewport").animate({
+			height : $(document).height() - minTop - AviaBottom._magicConstant
 		}, "normal", function() {
-			$("#" + AviaBottom._id + "ScrollBar").tinyscrollbar_update();				
 			$("#modalBlack").fadeIn(2000);
+			$("#" + AviaBottom._id + "ScrollBar").tinyscrollbar_update();
 			$("#" + AviaBottom._id + "ScrollBar .scrollbar").show();
 		});
-		return true;
+		ret.isLock = true;
+		ret.height = $(document).height() - minTop - AviaBottom._magicConstant;
 	} else if(ui.position.top > maxTop) {
 		this.Close();
 		$("#modalBlack").fadeOut(500);
-		return false;
+		ret.height = 0;
 	} else if(ui.position.top > middleTop) {
 		$("#" + this._id + "ScrollBar .scrollbar").hide();
 		$("#" + this._id + "B .viewport").animate({
@@ -240,9 +281,10 @@ AviaBottom.draggableHandlerStop = function(event, ui) {
 			$("#" + AviaBottom._id + "ScrollBar").tinyscrollbar_update();
 			$("#" + AviaBottom._id + "ScrollBar .scrollbar").show();
 		});
-		return false;
+		ret.height = 170 - AviaBottom._magicConstant;
 	}
-	return false;
+	BottomTab.logger("AviaBottom stop dragging.");
+	return ret;
 }
 
 var HotelBottom = Object.create(BottomTab);
@@ -253,7 +295,17 @@ $(document).ready(function() {
 	HotelBottom._button = document.getElementById(HotelBottom._id);
 });
 	
+HotelBottom.RevertOpen = function() {
+	$(document).stop(true);
+	this.logger("HotelBottom reverting open.");
+	$("#" + this._id + "B .viewport").css("height", 170 - HotelBottom._magicConstant);
+	this._button.style.background = 'rgb(37, 46, 64)';
+	this._button.style.width = "120px";
+	$("#" + this._id + "B").slideUp(200, function() {HotelBottom._active = false;BottomTab.logger("HotelBottom close now.");});
+}
+	
 HotelBottom.RecreateContent = function(cities) {
+	BottomTab.logger("HotelBottom recreating content.");
 	var cityStr = "";
 	for(var i = 0, j = cities.length; i < j; ++i) {
 		cityStr += cities[i].name + ", ";
@@ -263,21 +315,25 @@ HotelBottom.RecreateContent = function(cities) {
 		$("#bookingFrame").attr("src",  "http://www.booking.com/searchresults.html?aid=355103&ss=" + cityStr + "&si=ci");
 	else
 		$("#bookingFrame").attr("cityBuffer", cityStr);
+	BottomTab.logger("HotelBottom recreate content.");
 }
 	
 HotelBottom.Open = function(height, callBackFunction) {
 	if(this._active)
 		return;
+	BottomTab.logger("HotelBottom start opening.");
 	if(typeof callBackFunction == 'undefined')
 		callBackFunction = function() {
-			$("#" + HotelBottom._id + "B").show(null);
+			$("#" + HotelBottom._id + "B").slideDown(200, function() {
+				HotelBottom._active = true;
+				BottomTab.logger("HotelBottom open now.");
+			});
 		}
 	$("#" + this._id + "B").animate({
 		height : height <= 170 ? 170 - HotelBottom._magicConstant : height - HotelBottom._magicConstant
 	}, null, callBackFunction);
 	this._button.style.background = 'rgb(255, 122, 2)';
 	this._button.style.width = "124px";
-	this._active = true;
 	var cityStr = $("#bookingFrame").attr("cityBuffer");
 	if(typeof cityStr == 'string')
 		$("#bookingFrame").attr("src",  "http://www.booking.com/searchresults.html?aid=355103&ss=" + cityStr + "&si=ci");
@@ -287,11 +343,11 @@ HotelBottom.Open = function(height, callBackFunction) {
 HotelBottom.Close = function(callBackFunction) {
 	if(!this._active)
 		return;
+	BottomTab.logger("HotelBottom start closing");
 	$("#" + this._id + "B").css("height", 170 - HotelBottom._magicConstant);
 	this._button.style.background = 'rgb(37, 46, 64)';
 	this._button.style.width = "120px";
-	$("#" + this._id + "B").hide();
-	this._active = false;
+	$("#" + this._id + "B").slideUp(200, function() {HotelBottom._active = false;BottomTab.logger("HotelBottom close now.");});
 }
 	
 HotelBottom.draggableHandlerDrag = function(event, ui) {
@@ -301,6 +357,7 @@ HotelBottom.draggableHandlerDrag = function(event, ui) {
 }
 	
 HotelBottom.draggableHandlerStop = function(event, ui) {
+	var ret = {isLock : false, height : 0};
 	var jCal = $("#calendar:visible");
 	var minTop = Math.max((jCal.length != 0 ? jCal.position().top : 0) + jCal.height(),
 							$("#headBottom").position().top + $("#headBottom").height()) + 30;
@@ -308,22 +365,32 @@ HotelBottom.draggableHandlerStop = function(event, ui) {
 	var maxTop = $(document).height() - 100;
 	if(ui.position.top <  minTop || ui.position.top < middleTop) {
 		$("#" + this._id + "B").animate({
-			height :  $(document).height() - minTop - HotelBottom._magicConstant
-		}, "normal", function() {
+			height : $(document).height() - minTop - HotelBottom._magicConstant
+		}, 200, function() {
 			$("#modalBlack").fadeIn(2000);
 		});
-		return true;
+		ret.isLock = true;
+		ret.height = $(document).height() - minTop - HotelBottom._magicConstant;
 	} else if(ui.position.top > maxTop) {
 		this.Close();
 		$("#modalBlack").fadeOut(500);
-		return false;
+		ret.height = 0;
 	} else if(ui.position.top > middleTop) {
 		$("#" + this._id + "B").animate({
-			height :  170 - HotelBottom._magicConstant
-		}, function() {
+			height : 170 - HotelBottom._magicConstant
+		}, 200, function() {
 			$("#modalBlack").fadeOut(500);
 		});
-		return false;
+		ret.height = 170 - HotelBottom._magicConstant;
 	}
-	return false;
+	BottomTab.logger("HotelBottom stop dragging.");
+	return ret;
 }
+
+$(document).ajaxComplete(function(event, request, settings) {
+	var cities = (new AjaxRequestController).getCitiesArrayCopy();
+	var bTabs = (new Bottom)._bottomTabs;
+	for(var key in bTabs) {		
+		bTabs[key].RecreateContent(cities);
+	}
+});

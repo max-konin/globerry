@@ -9,7 +9,8 @@ var Bottom = new function() {
 	var _isLock;
 	//нажатая вкладка
 	var activeTab;
-	var magicConstant = 37;
+	// Some magic
+	var magicWork = false;
 	//Открытая/закрытая нижняя панель
 	var _bottomActive = false;
 	
@@ -27,11 +28,8 @@ var Bottom = new function() {
 	function Bottom() {
 		if (!instance) {
 			instance = this;
-
-		} else
-			return instance;
-
-		// Публичные свойства
+		}
+		
 		return instance;
 	}
 
@@ -50,12 +48,15 @@ var Bottom = new function() {
 		return _isLock;
 	}
 	
+	Bottom.prototype._bottomTabs = bottomTabs;
+	
 	Bottom.prototype.draggableHandlerStart = function(event, ui) {
+		BottomTab.logger("Bottom start dragging.");
 		$("#invisibleBottom").css("z-index", 10);
+		$(".column").height(0).hide();
 		if(_bottomActive == false) {
-			bottomTabs["tour"].Open();
-			activeTab = bottomTabs["tour"];
-			_bottomActive = true;
+			instance.bottomButtonClick("tour");
+			$(".column").show();
 		}
 	}
 	
@@ -69,45 +70,69 @@ var Bottom = new function() {
 		$("#invisibleBottom").css("z-index", 1);
 		if(!_bottomActive)
 			return;
-		var isLock = activeTab.draggableHandlerStop(event, ui);
-		_isLock = isLock;
-		(new AjaxRequestController()).setLock(isLock);
+		var state = activeTab.draggableHandlerStop(event, ui);
+		_isLock = state.isLock;
+		(new AjaxRequestController).setLock(_isLock);
+		$(".column").height(state.height);
+		$(".column").show();
 		$("#bottomContainer").css("top", "");
+		BottomTab.logger("Bottom stop dragging.");
+		if(state.height == 0) {
+			instance.close();
+		}
 	}
 
 	Bottom.prototype.bottomButtonClick = function(buttonId, callBackFunction) {
+		BottomTab.logger("Bottom get clicked on " + buttonId + " tab. Executing.");
 		var height = $(document).height() - $("#bottomContainer").position().top;
+		if(magicWork) {
+			BottomTab.logger("Magic at work. Sorry.");
+			return;
+		}
+		magicWork = true;
+		BottomTab.logger("Magic is about to happend.");
 		if (_bottomActive == false) {
-			bottomTabs[buttonId].Open(height, callBackFunction);
-			_bottomActive = true;
 			activeTab = bottomTabs[buttonId];
+			_bottomActive = true;
+			setTimeout(function() {$(".column").height(163); }, 700);
+			$(".column").show();
+			bottomTabs[buttonId].Open(height, callBackFunction);
 		} else {
 			if (activeTab == bottomTabs[buttonId]) {
 				if(_isLock)
-					return;				
+					return;
+				$(".column").hide();
+				$(".column").animate({height : 0}, 400);
 				activeTab.Close();
 				_bottomActive = false;
 				activeTab = undefined;
 			} else {
+				$(".column").height(height - 7);
+				$(".column").show();
 				activeTab.Close();
-				bottomTabs[buttonId].Open(height, callBackFunction);
 				activeTab = bottomTabs[buttonId];
+				bottomTabs[buttonId].Open(height, callBackFunction);
 			}
 		}
+		setTimeout(function() { magicWork = false; BottomTab.logger("Magic no more exist."); }, 800);
 	}
 	
 	Bottom.prototype.close = function() {
-		if (activeTab == undefined)
+		BottomTab.logger("Bottom closing.");
+		if(activeTab == undefined && !_bottomActive) {
+			BottomTab.logger("Bottom already close.")
 			return;
-		if (!_bottomActive)
-			return;
-		activeTab.Close();
+		}
+		$(".column").hide();
+		$(".column").height(0);
+		activeTab.RevertOpen();
 		_bottomActive = false;
 		activeTab = undefined;
 		_isLock = false;
+		BottomTab.logger("Bottom closed.");
 	};
 	
-	Bottom.prototype.updateStaff = function(cities) {
+	Bottom.prototype.updateStaff = function updateStaff(cities) {
 		if(!isArray(cities))
 			return;
 		if(cities.length == 0)
@@ -120,23 +145,25 @@ var Bottom = new function() {
 		if (typeof activeTab == "undefined")
 			activeTab = bottomTabs["tour"];
 		var height = $(document).height() - $("#bottomContainer").position().top;
-		
-		var updateStaffCallback = function() {
-			_bottomActive = true;
-			$(("#" + activeTab._id + "B")).show(null, function()
-			{
-				if(needUpdate)
-				{
-					for(var key in bottomTabs) {
-						bottomTabs[key].RecreateContent(cities);
-					}
+		var recreateContent = function() {
+			$("#" + activeTab._id + "B").slideDown("normal", function() {	
+				_bottomActive = true;
+				for(var key in bottomTabs) {
+					bottomTabs[key].RecreateContent(cities);
 				}
+				$("#" + activeTab._id + "B .scrollbar").show();
 			});
 		};
-		if(activeTab._active)
-			updateStaffCallback();
-		else
-			activeTab.Open(height, updateStaffCallback);
+		
+		$(".column").height(163);
+		if(!activeTab._active)
+			activeTab.Open(height, recreateContent);
+		else {
+			_bottomActive = true;
+			for(var key in bottomTabs) {
+				bottomTabs[key].RecreateContent(cities);
+			}
+		}
 	};
 	
 	return Bottom;
